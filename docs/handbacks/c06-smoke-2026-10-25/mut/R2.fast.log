@@ -1,0 +1,40 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/report.test.ts (17 tests | 1 failed) 37ms
+   ❯ the report’s verdicts (one planted fault per clause) (16)
+     × s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/report.test.ts > the report’s verdicts (one planted fault per clause) > s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared
+AssertionError: expected [] to deeply equal [ 's8s9' ]
+
+- Expected
++ Received
+
+- [
+-   "s8s9",
+- ]
++ []
+
+ ❯ test/fusion/report.test.ts:123:116
+    121|     expect(drifts.runs[0].s8s9).toMatchObject({ drifted: 2, driftMaxCm…
+    122|     expect(failing([...both(1), ...both(2, { hausdorff: { ...within.ha…
+    123|     expect(failing([...both(1), ...both(2, { hausdorff: { ...h, driftB…
+       |                                                                                                                    ^
+    124|     expect(failing([...both(1), ...both(2, { hausdorff: { ...h, s9Refu…
+    125|     const none = { hausdorff: { ...h, compared: 0, zero: 0 } };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 8 passed (17)
+   Start at  20:44:02
+   Duration  6.61s (transform 83%, import 16%, tests 1%)
+
+  Transform  |bench| transforming modules took 5.35s · 83% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

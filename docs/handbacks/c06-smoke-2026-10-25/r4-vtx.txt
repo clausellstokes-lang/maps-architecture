@@ -1,0 +1,21 @@
+vertex at 1754 -24734
+locate L1 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":2682}
+locate L2 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":2682}
+half-edge 3063 level 1 to (572, -24757) district_bound:seam:3znm1n6fe4hs9@L1 setback:enceinte:2@L1
+half-edge 5552 level 1 to (6256, -24644) district_bound:seam:3znm1n6fe4hs9@L1 setback:enceinte:2@L1
+half-edge 5555 level 1 to (1857, -22997) way:way:9twc6zj39jrr5@L1
+vertex roles junction:junction:7jfrd33whs3d6
+vertex at 2868 -22744
+locate L1 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":864}
+locate L2 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":864}
+half-edge 1761 level 1 to (2738, -22823) district_bound:seam:cxn4x6tr4sza3@L1 setback:enceinte:1@L1
+half-edge 1762 level 1 to (2988, -22662) district_bound:seam:cxn4x6tr4sza3@L1 setback:enceinte:1@L1
+half-edge 6069 level 1 to (2021, -21506) way:way:6se1sq8avf2xh@L1
+vertex roles junction:junction:86faaw2q1310w
+vertex at 13908 -18344
+locate L1 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":3273}
+locate L2 {"key":{"layer":"ground","part":0},"version":22,"on":"vertex","vertex":3273}
+half-edge 1137 level 1 to (16277, -18557) district_bound:seam:fm5dky8ddt9z8@L1 setback:enceinte:1@L1
+half-edge 6924 level 1 to (12299, -18199) district_bound:seam:fm5dky8ddt9z8@L1 setback:enceinte:1@L1
+half-edge 6926 level 1 to (14194, -15167) way:way:3dp6cgg39cxpr@L1
+vertex roles junction:junction:72n2nqjzh6t48

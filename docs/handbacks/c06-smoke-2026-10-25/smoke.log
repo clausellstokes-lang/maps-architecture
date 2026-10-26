@@ -1,0 +1,59 @@
+
+> plat-workspace@0.0.0 bench /home/user/maps-scratch/waves/smoke-build-M0-c-06/plat
+> tsx --conditions=plat-source scripts/bench.mjs -- fusion --seeds 50 --workers 3 --summary
+
+fusion: seeds 1 – 50, runs fusion, integrated (CITY); 3 worker(s)
+fusion: 10 / 100 runs
+fusion: 20 / 100 runs
+fusion: 30 / 100 runs
+fusion: 40 / 100 runs
+fusion: 50 / 100 runs
+fusion: 60 / 100 runs
+fusion: 70 / 100 runs
+fusion: 80 / 100 runs
+fusion: 90 / 100 runs
+fusion: 100 / 100 runs
+fusion: [fusion] 50 seeds: restarts 0 (S5 sequence violations 0), bugs 0, ladder uses 88017
+fusion: [fusion] faces per seed: districts p50 32.00 (≈ 25), cuts p50 1182.50 (≈ 1500), blocks p50 1028.00, S8 refusals 0
+fusion: [fusion] junctions: per seed p5 ≥ 84.26°, median 91.04 – 91.36°, 4-way ≤ 5.36 %; pooled p5 85.28°, median 91.21°, 4-way 4.37 % of 99718
+fusion: [fusion] turns: 543562 steps of 10 m, 2.47 % above 15°, cliff on 0 seeds, pooled no cliff; drift 1 windows p50 19.64° p90 19.64°, 0 above 90° (median descriptive below 20 windows)
+fusion: [fusion] roads leaving the walled stages: 0 of 100 off N; lanes in a wall strip 0 of 58962
+fusion: [fusion] S8 ≡ S9: 431 of 60533 beyond 73.54 cm (max 9327.49 cm); exact 59067 (97.58 %), within 1 cm 59693, distance quantiles of the misses {"n":1466,"p50":2.3297561737542845,"p99":640.4688174381105,"p999":2884.7710841887365,"max":9327.486263726149}; stop kerb drifted on 38006 (one-sided max 1195.26 cm, sliver max 776.31 cm, 4 beyond; Hausdorff max 1803.71 cm with a needle of 3454.85 cm);…
+fusion: [fusion] refusals: {"s8":0,"s9":7,"kerbReads":0,"corpusRoof":3,"corpusSpine":3,"kernelDowngrades":0,"kernelWorkLimitHits":0,"unplaced":0,"degraded":0} on 9 seed(s)
+fusion: [fusion] skeleton corpus on 1597 district faces: roof 0.19 % downgrades, 0.00 % work-limit hits; spine 0.19 %, 0.00 %
+fusion: [integrated] 50 seeds: restarts 0 (S5 sequence violations 0), bugs 0, ladder uses 112743
+fusion: [integrated] faces per seed: districts p50 33.00 (≈ 25), cuts p50 1369.00 (≈ 1500), blocks p50 1308.50, S8 refusals 0
+fusion: [integrated] junctions: per seed p5 ≥ 85.35°, median 91.15 – 91.38°, 4-way ≤ 4.86 %; pooled p5 86.01°, median 91.25°, 4-way 3.57 % of 108667
+fusion: [integrated] turns: 599858 steps of 10 m, 2.88 % above 15°, cliff on 0 seeds, pooled no cliff; drift 1 windows p50 19.62° p90 19.62°, 0 above 90° (median descriptive below 20 windows)
+fusion: [integrated] roads leaving the walled stages: 0 of 100 off N; lanes in a wall strip 0 of 68635
+fusion: [integrated] S8 ≡ S9: 522 of 70999 beyond 73.54 cm (max n/a cm); exact 69188 (97.45 %), within 1 cm 70044, distance quantiles of the misses {"n":1811,"p50":1.4694826602083173,"p99":778.5970132477427,"p999":4248.092144630085,"max":null}; stop kerb drifted on 38271 (one-sided max n/a cm, sliver max n/a cm, 1 beyond; Hausdorff max n/a cm with a needle of n/a cm); S9 blocks left at L1 509; S9…
+fusion: [integrated] refusals: {"s8":0,"s9":11,"kerbReads":1,"corpusRoof":3,"corpusSpine":3,"kernelDowngrades":0,"kernelWorkLimitHits":0,"unplaced":0,"degraded":0} on 10 seed(s)
+fusion: [integrated] skeleton corpus on 2419 district faces: roof 0.12 % downgrades, 0.00 % work-limit hits; spine 0.12 %, 0.00 %
+fusion:   fusion seed 1: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 170.93 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 4: S8 ≡ S9 62 block(s) beyond 73.54 cm (max 3815.15 cm), drift beyond 0, S9 refused 1
+fusion:   fusion seed 5: S8 ≡ S9 92 block(s) beyond 73.54 cm (max 9327.49 cm), drift beyond 0, S9 refused 1
+fusion:   fusion seed 15: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 80.72 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 19: S8 ≡ S9 69 block(s) beyond 73.54 cm (max 1020.73 cm), drift beyond 0, S9 refused 1
+fusion:   fusion seed 21: S8 ≡ S9 0 block(s) beyond 73.54 cm (max 25.69 cm), drift beyond 1, S9 refused 0
+fusion:   fusion seed 24: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 87.32 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 25: S8 ≡ S9 0 block(s) beyond 73.54 cm (max 26.25 cm), drift beyond 2, S9 refused 0
+fusion:   fusion seed 27: S8 ≡ S9 61 block(s) beyond 73.54 cm (max 688.49 cm), drift beyond 0, S9 refused 2
+fusion:   fusion seed 33: S8 ≡ S9 75 block(s) beyond 73.54 cm (max 1814.33 cm), drift beyond 0, S9 refused 1
+fusion:   fusion seed 35: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 95.27 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 36: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 800.54 cm), drift beyond 1, S9 refused 0
+fusion:   fusion seed 38: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 79.08 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 44: S8 ≡ S9 63 block(s) beyond 73.54 cm (max 1038.83 cm), drift beyond 0, S9 refused 1
+fusion:   fusion seed 46: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 76.61 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 48: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 150.86 cm), drift beyond 0, S9 refused 0
+fusion:   fusion seed 49: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 93.80 cm), drift beyond 0, S9 refused 0
+fusion:   integrated seed 1: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 137.59 cm), drift beyond 0, S9 refused 0
+fusion:   integrated seed 4: S8 ≡ S9 92 block(s) beyond 73.54 cm (max Infinity cm), drift beyond 1, S9 refused 1
+fusion:   integrated seed 7: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 86.01 cm), drift beyond 0, S9 refused 0
+fusion:   integrated seed 10: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 176.39 cm), drift beyond 0, S9 refused 0
+fusion:   integrated seed 12: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 86.95 cm), drift beyond 0, S9 refused 0
+fusion:   integrated seed 15: S8 ≡ S9 28 block(s) beyond 73.54 cm (max 1500.53 cm), drift beyond 0, S9 refused 1
+fusion:   integrated seed 20: S8 ≡ S9 2 block(s) beyond 73.54 cm (max 164.76 cm), drift beyond 0, S9 refused 0
+fusion: summary docs/build/summaries/M0-c-06.json
+fusion: S4 + S5 + S8 per fusion seed p50 167186.06 ms (contended, never judged here)
+fusion: bars FAIL {"restarts":true,"bugs":true,"cliff":true,"junction":true,"drift":true,"roads":true,"strips":true,"s8s9":false,"corpus":true,"sharedS5":true}; full report /home/user/maps-scratch/waves/smoke-build-M0-c-06/out/fusion/report.json (10893 s)
+ ELIFECYCLE  Command failed with exit code 1.

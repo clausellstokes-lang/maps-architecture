@@ -1,0 +1,34 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/report.test.ts (17 tests | 1 failed) 44ms
+   ❯ the report’s verdicts (one planted fault per clause) (16)
+     × s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/report.test.ts > the report’s verdicts (one planted fault per clause) > s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ test/fusion/report.test.ts:130:31
+    128|     // A seed whose only failure is the stop kerb's drift is counted a…
+    129|     const drift = foldReport(SIZES, [...both(1), ...both(2, { hausdorf…
+    130|     expect(drift.seedsBeyond).toBe(1);
+       |                               ^
+    131|     expect(drift.first).toHaveLength(1);
+    132|     expect(drift.first[0]).toMatch(/^seed 2: 0 of \d+ beyond the bound…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 36 passed (45)
+   Start at  20:37:34
+   Duration  386.75s (tests 98%, transform 2%, import 1%)
+

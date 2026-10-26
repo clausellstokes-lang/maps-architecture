@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 221ms
+   ❯ the drift clause on the smoke’s drifted blocks (N-57 (4)) (6)
+     × fusion 30 block:6eppwwjg267pw — a through alley’s split: each child against the parent’s kerb less the spine’s band, within; the parent whole is beyond 77ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke’s drifted blocks (N-57 (4)) > fusion 30 block:6eppwwjg267pw — a through alley’s split: each child against the parent’s kerb less the spine’s band, within; the parent whole is beyond
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/fusion/drift.test.ts:119:47
+    117|     // Without the spine's band the parent's kerb crosses the alley 10…
+    118|     const bare = blockDrift(f.stop, f.working, []);
+    119|     expect(bare.rows.every((r) => !r.within)).toBe(true);
+       |                                               ^
+    120|     expect(bare.rows[0].oneSidedCm).toBeGreaterThan(R);
+    121|     // And each child against the parent's kerb read whole would never…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 2 passed (17)
+   Start at  20:08:00
+   Duration  6.93s (transform 82%, import 14%, tests 3%)
+
+  Transform  |bench| transforming modules took 5.56s · 82% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

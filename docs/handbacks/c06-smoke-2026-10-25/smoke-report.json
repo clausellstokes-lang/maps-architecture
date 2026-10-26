@@ -1,0 +1,5011 @@
+{
+  "item": "M0-c-06",
+  "sizes": {
+    "from": 1,
+    "seeds": 50,
+    "runs": [
+      "fusion",
+      "integrated"
+    ],
+    "frameHa": null,
+    "walledHa": null
+  },
+  "runs": [
+    {
+      "run": "fusion",
+      "seeds": 50,
+      "bugs": {
+        "seeds": 0,
+        "entries": 0,
+        "first": []
+      },
+      "restarts": {
+        "total": 0,
+        "seeds": 0,
+        "s5Violations": 0
+      },
+      "ladder": {
+        "S5/S5c/re_propose": 6,
+        "S5/S5c/reject": 6,
+        "S8/F-CUT/a": 50489,
+        "S8/F-CUT/antenna": 6755,
+        "S8/F-CUT/b": 312,
+        "S8/F-CUT/c": 786,
+        "S8/F-CUT/d": 90,
+        "S8/F-CUT/deep": 20222,
+        "S8/F-CUT/pre": 9342,
+        "S8/F-CUT/unresolved": 9
+      },
+      "ladderUses": 88017,
+      "faces": {
+        "districts": {
+          "n": 50,
+          "p10": 28,
+          "p50": 32,
+          "p90": 36.1,
+          "mean": 31.94
+        },
+        "cuts": {
+          "n": 50,
+          "p10": 1141.8,
+          "p50": 1182.5,
+          "p90": 1207,
+          "mean": 1179.24
+        },
+        "blocks": {
+          "n": 50,
+          "p10": 1003.9,
+          "p50": 1028,
+          "p90": 1048.1,
+          "mean": 1028.16
+        },
+        "s8Refused": 0,
+        "figures": {
+          "cuts": 1500,
+          "districts": 25
+        }
+      },
+      "junction": {
+        "perSeed": {
+          "p5Min": 84.2564973223334,
+          "medianMin": 91.04280950949736,
+          "medianMax": 91.36451841120805,
+          "share4Max": 0.053607214428857713,
+          "seedsBelowP5": 0,
+          "seedsOverShare4": 0
+        },
+        "pooled": {
+          "p5": 85.27674168556624,
+          "median": 91.20840019679471,
+          "share4": 0.04365310174692633,
+          "nodes": 99718,
+          "nodes4": 4353
+        }
+      },
+      "turns": {
+        "steps": 543562,
+        "cliffSeeds": 0,
+        "pooledCliff": false,
+        "over15Share": 0.02471843138409234
+      },
+      "drift": {
+        "windows": 1,
+        "p50": 19.639292762006143,
+        "p90": 19.639292762006143,
+        "over90": 0,
+        "over90Share": 0,
+        "medianJudged": false
+      },
+      "bands": {
+        "comfortable": {
+          "blockAreaM2": {
+            "n": 29310,
+            "p10": 807.787115,
+            "p50": 1457.138325,
+            "p90": 2491.685935000001,
+            "mean": 1576.9351309263018
+          },
+          "cutLengthM": {
+            "n": 31063,
+            "p10": 36.61029323349235,
+            "p50": 55.97607379526622,
+            "p90": 108.39357453124511,
+            "mean": 66.09689407229695
+          }
+        },
+        "modest": {
+          "blockAreaM2": {
+            "n": 16802,
+            "p10": 825.45278,
+            "p50": 1571.4371,
+            "p90": 2652.177985,
+            "mean": 1683.8331218723995
+          },
+          "cutLengthM": {
+            "n": 21461,
+            "p10": 34.44126382642136,
+            "p50": 55.42223102006169,
+            "p90": 118.83434115083922,
+            "mean": 64.5928719195488
+          }
+        },
+        "poor": {
+          "blockAreaM2": {
+            "n": 1782,
+            "p10": 913.177675,
+            "p50": 1648.5382749999999,
+            "p90": 2758.1527300000002,
+            "mean": 1843.180149158251
+          },
+          "cutLengthM": {
+            "n": 2469,
+            "p10": 33.0420628860348,
+            "p50": 55.30316668883674,
+            "p90": 120.63498396387043,
+            "mean": 64.51732839660218
+          }
+        },
+        "prosperous": {
+          "blockAreaM2": {
+            "n": 2290,
+            "p10": 1090.46902,
+            "p50": 1983.406025,
+            "p90": 3251.883679999999,
+            "mean": 2110.8867193668098
+          },
+          "cutLengthM": {
+            "n": 2286,
+            "p10": 42.852460036087365,
+            "p50": 64.53186042160834,
+            "p90": 115.52970440389056,
+            "mean": 73.31365847450263
+          }
+        },
+        "rich": {
+          "blockAreaM2": {
+            "n": 1,
+            "p10": 323.7878,
+            "p50": 323.7878,
+            "p90": 323.7878,
+            "mean": 323.7878
+          },
+          "cutLengthM": {
+            "n": 0,
+            "p10": 0,
+            "p50": 0,
+            "p90": 0,
+            "mean": 0
+          }
+        },
+        "squalid": {
+          "blockAreaM2": {
+            "n": 1223,
+            "p10": 877.9474799999999,
+            "p50": 1586.0299,
+            "p90": 2637.5914199999997,
+            "mean": 1705.59033413737
+          },
+          "cutLengthM": {
+            "n": 1683,
+            "p10": 32.672355768120866,
+            "p50": 54.63535548813758,
+            "p90": 101.76376806785566,
+            "mean": 61.376352189964706
+          }
+        }
+      },
+      "roads": {
+        "stages": 100,
+        "mismatches": 0,
+        "first": []
+      },
+      "strips": {
+        "faces": 1500,
+        "lanes": 58962,
+        "crossings": 0
+      },
+      "s8s9": {
+        "blocks": 51408,
+        "compared": 60533,
+        "zero": 59067,
+        "within1cm": 59693,
+        "beyond": 431,
+        "maxCm": 9327.486263726149,
+        "split": 9151,
+        "s9OwnL1": 421,
+        "drifted": 38006,
+        "driftMaxCm": 1803.7075705335385,
+        "driftNeedleCm": 3454.8525493269753,
+        "driftOneSidedMaxCm": 1195.2573272169118,
+        "driftSliverMaxCm": 776.3077477484973,
+        "driftBeyond": 4,
+        "driftSeedless": 13,
+        "commit": 1466,
+        "s9Refused": 7,
+        "kerbReads": 0,
+        "seedsAllZero": 0,
+        "seedsBeyond": 17,
+        "boundCm": 73.53910524340094,
+        "exactShare": 0.9757818049658864,
+        "missCm": {
+          "n": 1466,
+          "p50": 2.3297561737542845,
+          "p99": 640.4688174381105,
+          "p999": 2884.7710841887365,
+          "max": 9327.486263726149
+        },
+        "first": [
+          "seed 1: 1 of 1240 beyond the bound (max 170.93 cm; stop-kerb drift beyond 0; S9 refused 0); block:3fhrnvq8q9jy0: working → S9 170.93 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-26324, 55157)",
+          "seed 4: 62 of 1213 beyond the bound (max 3815.15 cm; stop-kerb drift beyond 0; S9 refused 1); district:cb5t8yvkp46x0: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)",
+          "seed 5: 92 of 1181 beyond the bound (max 9327.49 cm; stop-kerb drift beyond 0; S9 refused 1); district:eew8m6z8ykfep: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)",
+          "seed 15: 1 of 1231 beyond the bound (max 80.72 cm; stop-kerb drift beyond 0; S9 refused 0); block:cj5s6nh139z5v: working → S9 80.72 cm; stop → working sliver 25.78 cm, one-sided 14.44 cm, Hausdorff 160.97 cm (needle 11181 cm), spine way:c9b9mtf3n9j53; loops working 1, S9 1; seed (-51043, -23365)",
+          "seed 19: 69 of 1183 beyond the bound (max 1020.73 cm; stop-kerb drift beyond 0; S9 refused 1); district:0x810g14d7hdt: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)",
+          "seed 21: 0 of 1232 beyond the bound (max 25.69 cm; stop-kerb drift beyond 1; S9 refused 0); block:b3xpcp1x3fad2: working → S9 0.00 cm; stop → working sliver 75.13 cm, one-sided 74.94 cm, Hausdorff 75.60 cm (needle 37 cm); loops working 1, S9 1; seed (29227, 20779)",
+          "seed 24: 1 of 1188 beyond the bound (max 87.32 cm; stop-kerb drift beyond 0; S9 refused 0); block:b7953g1r08tnm: working → S9 87.32 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-59322, 30818)",
+          "seed 25: 0 of 1179 beyond the bound (max 26.25 cm; stop-kerb drift beyond 2; S9 refused 0); block:ebxh7bh5a96d2: working → S9 0.00 cm; stop → working sliver 776.31 cm, one-sided 1195.26 cm, Hausdorff 1195.26 cm (needle 17808 cm), spine way:0qckcgm6tysp0; loops working 1, S9 1; seed (-89910, 19803)"
+        ]
+      },
+      "refusals": {
+        "total": {
+          "s8": 0,
+          "s9": 7,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "kernelDowngrades": 0,
+          "kernelWorkLimitHits": 0,
+          "unplaced": 0,
+          "degraded": 0
+        },
+        "seeds": 9,
+        "first": [
+          "seed 4: s9 1",
+          "seed 5: s9 1",
+          "seed 19: s9 1",
+          "seed 27: s9 2",
+          "seed 28: corpusRoof 1, corpusSpine 1",
+          "seed 33: s9 1",
+          "seed 38: corpusRoof 1, corpusSpine 1",
+          "seed 44: s9 1",
+          "seed 47: corpusRoof 1, corpusSpine 1"
+        ]
+      },
+      "perSeed": [
+        {
+          "seed": 1,
+          "districts": 36,
+          "cuts": 1204,
+          "blocks": 1051,
+          "compared": 1240,
+          "exact": 1220,
+          "beyond": 1,
+          "maxCm": 170.9267396239465,
+          "driftMaxCm": 237.507894605632,
+          "driftOneSidedMaxCm": 237.507894605632,
+          "driftSliverMaxCm": 37.46147037675035,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 36,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.67030005065185,
+            91.2562281830227,
+            0.04606240713224369
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 2,
+          "districts": 30,
+          "cuts": 1190,
+          "blocks": 1023,
+          "compared": 1220,
+          "exact": 1204,
+          "beyond": 0,
+          "maxCm": 37.013511046643494,
+          "driftMaxCm": 118.75310582107635,
+          "driftOneSidedMaxCm": 118.75310582107635,
+          "driftSliverMaxCm": 37.6444336038522,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 30,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.2564973223334,
+            91.17968382330054,
+            0.05115346038114343
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 3,
+          "districts": 32,
+          "cuts": 1187,
+          "blocks": 1049,
+          "compared": 1219,
+          "exact": 1198,
+          "beyond": 0,
+          "maxCm": 23.600847442411894,
+          "driftMaxCm": 346.5977495599185,
+          "driftOneSidedMaxCm": 346.5977495599185,
+          "driftSliverMaxCm": 37.31714933455621,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.75194504595063,
+            91.17442728608896,
+            0.04919678714859438
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 4,
+          "districts": 36,
+          "cuts": 1178,
+          "blocks": 1048,
+          "compared": 1213,
+          "exact": 1135,
+          "beyond": 62,
+          "maxCm": 3815.1544007043085,
+          "driftMaxCm": 90.50033807260927,
+          "driftOneSidedMaxCm": 90.50033807260927,
+          "driftSliverMaxCm": 37.03144546872652,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 36,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.28405959596918,
+            91.18287062020485,
+            0.05143721633888049
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 5,
+          "districts": 29,
+          "cuts": 1153,
+          "blocks": 1030,
+          "compared": 1181,
+          "exact": 1067,
+          "beyond": 92,
+          "maxCm": 9327.486263726149,
+          "driftMaxCm": 199.54571060152722,
+          "driftOneSidedMaxCm": 46.197508747805806,
+          "driftSliverMaxCm": 42.95553684846212,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 29,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.97567376117838,
+            91.04280950949736,
+            0.04872991187143598
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 6,
+          "districts": 40,
+          "cuts": 1161,
+          "blocks": 1031,
+          "compared": 1200,
+          "exact": 1179,
+          "beyond": 0,
+          "maxCm": 60.74537019394976,
+          "driftMaxCm": 35.98674383992182,
+          "driftOneSidedMaxCm": 35.98674383992182,
+          "driftSliverMaxCm": 35.44243526957089,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 40,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.07946480824462,
+            91.21129743793058,
+            0.045454545454545456
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 7,
+          "districts": 26,
+          "cuts": 1214,
+          "blocks": 1038,
+          "compared": 1240,
+          "exact": 1224,
+          "beyond": 0,
+          "maxCm": 26.419689627245813,
+          "driftMaxCm": 155.1717185169199,
+          "driftOneSidedMaxCm": 37.538753177896865,
+          "driftSliverMaxCm": 36.750922523194276,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 26,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.67966494682877,
+            91.3595654533286,
+            0.042584434654919234
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 8,
+          "districts": 29,
+          "cuts": 1209,
+          "blocks": 1044,
+          "compared": 1238,
+          "exact": 1216,
+          "beyond": 0,
+          "maxCm": 19.511333992641536,
+          "driftMaxCm": 73.33547231113717,
+          "driftOneSidedMaxCm": 73.33547231113717,
+          "driftSliverMaxCm": 41.95235555992626,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 29,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.14084422576508,
+            91.22533478715319,
+            0.04256360078277886
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 9,
+          "districts": 30,
+          "cuts": 1198,
+          "blocks": 1040,
+          "compared": 1228,
+          "exact": 1195,
+          "beyond": 0,
+          "maxCm": 31.575306807693888,
+          "driftMaxCm": 67.23094525588644,
+          "driftOneSidedMaxCm": 67.23094525588644,
+          "driftSliverMaxCm": 49.814860209358315,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 30,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.16965076291497,
+            91.24131274873534,
+            0.042490118577075096
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 10,
+          "districts": 28,
+          "cuts": 1172,
+          "blocks": 1050,
+          "compared": 1200,
+          "exact": 1178,
+          "beyond": 0,
+          "maxCm": 26.248809496813376,
+          "driftMaxCm": 143.94100123346945,
+          "driftOneSidedMaxCm": 42.20189569201838,
+          "driftSliverMaxCm": 40.092407036967735,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.51817693548922,
+            91.21023083499482,
+            0.04665314401622718
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 11,
+          "districts": 34,
+          "cuts": 1186,
+          "blocks": 1027,
+          "compared": 1220,
+          "exact": 1206,
+          "beyond": 0,
+          "maxCm": 26.476404589747453,
+          "driftMaxCm": 147.52626884728022,
+          "driftOneSidedMaxCm": 147.52626884728022,
+          "driftSliverMaxCm": 48.74038287895828,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 34,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.52399391016458,
+            91.1413494418428,
+            0.04341317365269461
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 12,
+          "districts": 34,
+          "cuts": 1182,
+          "blocks": 1026,
+          "compared": 1214,
+          "exact": 1189,
+          "beyond": 0,
+          "maxCm": 61.26989472816156,
+          "driftMaxCm": 155.25540572536286,
+          "driftOneSidedMaxCm": 42.50721993587953,
+          "driftSliverMaxCm": 43.32025777747081,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 34,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.29790092341737,
+            91.24413887889712,
+            0.040694789081885854
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 13,
+          "districts": 31,
+          "cuts": 1209,
+          "blocks": 1044,
+          "compared": 1240,
+          "exact": 1227,
+          "beyond": 0,
+          "maxCm": 23.12547036587539,
+          "driftMaxCm": 124.242145069864,
+          "driftOneSidedMaxCm": 35.2378848794362,
+          "driftSliverMaxCm": 34.91095025129316,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 31,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.82518825854761,
+            91.2318416683764,
+            0.045655375552282766
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 14,
+          "districts": 34,
+          "cuts": 1182,
+          "blocks": 1028,
+          "compared": 1215,
+          "exact": 1187,
+          "beyond": 0,
+          "maxCm": 25.586403986420116,
+          "driftMaxCm": 54.644304369257,
+          "driftOneSidedMaxCm": 37.02527326395761,
+          "driftSliverMaxCm": 36.883236797485736,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 34,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.31990235149536,
+            91.06091975204696,
+            0.04006009013520281
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 15,
+          "districts": 35,
+          "cuts": 1196,
+          "blocks": 1028,
+          "compared": 1231,
+          "exact": 1209,
+          "beyond": 1,
+          "maxCm": 80.72174428244226,
+          "driftMaxCm": 160.96551724138206,
+          "driftOneSidedMaxCm": 41.60501646783804,
+          "driftSliverMaxCm": 40.536026088679286,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 35,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.11965749493994,
+            91.14385672860601,
+            0.04669647292598112
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 16,
+          "districts": 32,
+          "cuts": 1192,
+          "blocks": 1039,
+          "compared": 1224,
+          "exact": 1200,
+          "beyond": 0,
+          "maxCm": 19,
+          "driftMaxCm": 467.3339277219235,
+          "driftOneSidedMaxCm": 467.3339277219235,
+          "driftSliverMaxCm": 47.672532662178945,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.3947283270187,
+            91.25947956954658,
+            0.04667328699106256
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 17,
+          "districts": 33,
+          "cuts": 1134,
+          "blocks": 1004,
+          "compared": 1167,
+          "exact": 1147,
+          "beyond": 0,
+          "maxCm": 25.72243739983357,
+          "driftMaxCm": 45.361822725811194,
+          "driftOneSidedMaxCm": 45.361822725811194,
+          "driftSliverMaxCm": 39.09756802544202,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 33,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.48594946414245,
+            91.16289603771328,
+            0.03910323253388947
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 18,
+          "districts": 28,
+          "cuts": 1191,
+          "blocks": 1028,
+          "compared": 1219,
+          "exact": 1202,
+          "beyond": 0,
+          "maxCm": 60.03332407921454,
+          "driftMaxCm": 61.61455170131608,
+          "driftOneSidedMaxCm": 61.61455170131608,
+          "driftSliverMaxCm": 42.68238772473181,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.93189936243334,
+            91.19477106784198,
+            0.053607214428857713
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 19,
+          "districts": 32,
+          "cuts": 1151,
+          "blocks": 1012,
+          "compared": 1183,
+          "exact": 1097,
+          "beyond": 69,
+          "maxCm": 1020.7311105281351,
+          "driftMaxCm": 249.33147206371908,
+          "driftOneSidedMaxCm": 44.089096658748744,
+          "driftSliverMaxCm": 50.538483101070184,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.46409785750556,
+            91.27554886062198,
+            0.043279022403258656
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 20,
+          "districts": 28,
+          "cuts": 1185,
+          "blocks": 1028,
+          "compared": 1213,
+          "exact": 1191,
+          "beyond": 0,
+          "maxCm": 26.627053911388696,
+          "driftMaxCm": 176.52494731696842,
+          "driftOneSidedMaxCm": 29.723185464050374,
+          "driftSliverMaxCm": 29.40626569154174,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.0057280545362,
+            91.23113954639474,
+            0.04838709677419355
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 21,
+          "districts": 35,
+          "cuts": 1197,
+          "blocks": 1049,
+          "compared": 1232,
+          "exact": 1207,
+          "beyond": 0,
+          "maxCm": 25.690644008216967,
+          "driftMaxCm": 150.73983933835808,
+          "driftOneSidedMaxCm": 77.04600934638384,
+          "driftSliverMaxCm": 75.13069127817683,
+          "driftBeyond": 1,
+          "driftSeedless": 1,
+          "corpusFaces": 35,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.70159399195617,
+            91.20413274326881,
+            0.046442687747035576
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 22,
+          "districts": 29,
+          "cuts": 1201,
+          "blocks": 1048,
+          "compared": 1230,
+          "exact": 1212,
+          "beyond": 0,
+          "maxCm": 26.419689627245813,
+          "driftMaxCm": 153.29727473132218,
+          "driftOneSidedMaxCm": 35.864913201250936,
+          "driftSliverMaxCm": 34.08064492081673,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 29,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.18094174348369,
+            91.14620872527807,
+            0.03842364532019704
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 23,
+          "districts": 32,
+          "cuts": 1179,
+          "blocks": 1023,
+          "compared": 1211,
+          "exact": 1189,
+          "beyond": 0,
+          "maxCm": 32,
+          "driftMaxCm": 195.56301380969214,
+          "driftOneSidedMaxCm": 195.56301380969214,
+          "driftSliverMaxCm": 30.99486264469098,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.21955195103105,
+            91.19565016997213,
+            0.04332669322709164
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 24,
+          "districts": 33,
+          "cuts": 1157,
+          "blocks": 1006,
+          "compared": 1188,
+          "exact": 1162,
+          "beyond": 1,
+          "maxCm": 87.32124598286491,
+          "driftMaxCm": 346.98786326429916,
+          "driftOneSidedMaxCm": 46.04668143089874,
+          "driftSliverMaxCm": 39.54833193824209,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 33,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.04189154352133,
+            91.13148718036784,
+            0.05056179775280899
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 25,
+          "districts": 40,
+          "cuts": 1139,
+          "blocks": 1013,
+          "compared": 1179,
+          "exact": 1159,
+          "beyond": 0,
+          "maxCm": 26.248809496813376,
+          "driftMaxCm": 1195.2573272169118,
+          "driftOneSidedMaxCm": 1195.2573272169118,
+          "driftSliverMaxCm": 776.3077477484973,
+          "driftBeyond": 2,
+          "driftSeedless": 1,
+          "corpusFaces": 40,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.96551224565027,
+            91.29245041357645,
+            0.03863987635239567
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 26,
+          "districts": 37,
+          "cuts": 1205,
+          "blocks": 1032,
+          "compared": 1242,
+          "exact": 1221,
+          "beyond": 0,
+          "maxCm": 26.476404589747453,
+          "driftMaxCm": 254.73965754531034,
+          "driftOneSidedMaxCm": 58.35794717628247,
+          "driftSliverMaxCm": 46.404076435508685,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 37,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.74531000040513,
+            91.07416334466285,
+            0.05121951219512195
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 27,
+          "districts": 37,
+          "cuts": 1119,
+          "blocks": 966,
+          "compared": 1154,
+          "exact": 1070,
+          "beyond": 61,
+          "maxCm": 688.4881988821595,
+          "driftMaxCm": 38.01011181135393,
+          "driftOneSidedMaxCm": 38.01011181135393,
+          "driftSliverMaxCm": 36.37691724228122,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 37,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.66155662658774,
+            91.16648697594277,
+            0.03495044340114763
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 2,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 28,
+          "districts": 27,
+          "cuts": 1186,
+          "blocks": 997,
+          "compared": 1213,
+          "exact": 1191,
+          "beyond": 0,
+          "maxCm": 26.019223662515376,
+          "driftMaxCm": 87.33625255592962,
+          "driftOneSidedMaxCm": 87.33625255592962,
+          "driftSliverMaxCm": 33.34323758962255,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 27,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.91327572908116,
+            91.27827528021388,
+            0.03698150924537731
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 29,
+          "districts": 32,
+          "cuts": 1196,
+          "blocks": 1040,
+          "compared": 1228,
+          "exact": 1207,
+          "beyond": 0,
+          "maxCm": 20.808652046684813,
+          "driftMaxCm": 48.32188037351221,
+          "driftOneSidedMaxCm": 48.32188037351221,
+          "driftSliverMaxCm": 46.66849084428455,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.53854202187438,
+            91.1085863648854,
+            0.04455445544554455
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 30,
+          "districts": 28,
+          "cuts": 1173,
+          "blocks": 1031,
+          "compared": 1201,
+          "exact": 1180,
+          "beyond": 0,
+          "maxCm": 67,
+          "driftMaxCm": 39.80802626453772,
+          "driftOneSidedMaxCm": 39.80802626453772,
+          "driftSliverMaxCm": 39.785640344605746,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.49554032664045,
+            91.18589619957902,
+            0.039354187689202826
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 31,
+          "districts": 32,
+          "cuts": 1177,
+          "blocks": 1028,
+          "compared": 1207,
+          "exact": 1181,
+          "beyond": 0,
+          "maxCm": 28,
+          "driftMaxCm": 169.60530045711505,
+          "driftOneSidedMaxCm": 106.15888985791891,
+          "driftSliverMaxCm": 40.32212486547848,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.98102240380162,
+            91.20633225932745,
+            0.046546546546546545
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 32,
+          "districts": 31,
+          "cuts": 1171,
+          "blocks": 1027,
+          "compared": 1201,
+          "exact": 1184,
+          "beyond": 0,
+          "maxCm": 26.1725046566048,
+          "driftMaxCm": 150.1584238356962,
+          "driftOneSidedMaxCm": 58.215118311311535,
+          "driftSliverMaxCm": 48.69227510389017,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 31,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.2969902738563,
+            91.18005351769301,
+            0.05078720162519045
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 33,
+          "districts": 36,
+          "cuts": 1177,
+          "blocks": 1028,
+          "compared": 1210,
+          "exact": 1115,
+          "beyond": 75,
+          "maxCm": 1814.3300641113285,
+          "driftMaxCm": 269.3065300318581,
+          "driftOneSidedMaxCm": 37.25334519583513,
+          "driftSliverMaxCm": 37.34380608222418,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 36,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.80638583939557,
+            91.34528076684413,
+            0.03723932472691162
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 34,
+          "districts": 28,
+          "cuts": 1200,
+          "blocks": 1028,
+          "compared": 1228,
+          "exact": 1211,
+          "beyond": 0,
+          "maxCm": 26.419689627245813,
+          "driftMaxCm": 75.49278405194555,
+          "driftOneSidedMaxCm": 75.49278405194555,
+          "driftSliverMaxCm": 37.194424521714545,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.1716659497468,
+            91.24843688352867,
+            0.04849084611578427
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 35,
+          "districts": 32,
+          "cuts": 1222,
+          "blocks": 1064,
+          "compared": 1254,
+          "exact": 1230,
+          "beyond": 1,
+          "maxCm": 95.2732911156112,
+          "driftMaxCm": 260.8808745071683,
+          "driftOneSidedMaxCm": 43.961678234944564,
+          "driftSliverMaxCm": 43.83983663275222,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 32,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.11238794373443,
+            91.36048821168225,
+            0.04391891891891892
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 36,
+          "districts": 26,
+          "cuts": 1142,
+          "blocks": 999,
+          "compared": 1165,
+          "exact": 1148,
+          "beyond": 1,
+          "maxCm": 800.540442451223,
+          "driftMaxCm": 427.7930322366841,
+          "driftOneSidedMaxCm": 41.72826700361783,
+          "driftSliverMaxCm": 75.45929247058643,
+          "driftBeyond": 1,
+          "driftSeedless": 0,
+          "corpusFaces": 26,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.04786089733336,
+            91.13847925501952,
+            0.0446985446985447
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 37,
+          "districts": 28,
+          "cuts": 1148,
+          "blocks": 1006,
+          "compared": 1175,
+          "exact": 1160,
+          "beyond": 0,
+          "maxCm": 20.965570721555384,
+          "driftMaxCm": 278.65972763512553,
+          "driftOneSidedMaxCm": 69.09145681457261,
+          "driftSliverMaxCm": 37.29298797544913,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.72284854310595,
+            91.18282246416209,
+            0.036560247167868175
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 38,
+          "districts": 35,
+          "cuts": 1207,
+          "blocks": 1046,
+          "compared": 1242,
+          "exact": 1222,
+          "beyond": 1,
+          "maxCm": 79.07591289387686,
+          "driftMaxCm": 201.56095200196268,
+          "driftOneSidedMaxCm": 36.66485595520067,
+          "driftSliverMaxCm": 38.744948486228154,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 35,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.75000399590212,
+            91.18345758473939,
+            0.0481335952848723
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 39,
+          "districts": 33,
+          "cuts": 1179,
+          "blocks": 1034,
+          "compared": 1212,
+          "exact": 1197,
+          "beyond": 0,
+          "maxCm": 26.68332812825267,
+          "driftMaxCm": 133.12293670181452,
+          "driftOneSidedMaxCm": 133.12293670181452,
+          "driftSliverMaxCm": 42.4400011083717,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 33,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.00970515938,
+            91.31843427512801,
+            0.04195804195804196
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 40,
+          "districts": 31,
+          "cuts": 1184,
+          "blocks": 1028,
+          "compared": 1215,
+          "exact": 1193,
+          "beyond": 0,
+          "maxCm": 26.019223662515376,
+          "driftMaxCm": 40.9142254732438,
+          "driftOneSidedMaxCm": 40.9142254732438,
+          "driftSliverMaxCm": 35.8776773691113,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 31,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.80788200240016,
+            91.18891946449997,
+            0.04160401002506266
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 41,
+          "districts": 28,
+          "cuts": 1159,
+          "blocks": 1016,
+          "compared": 1187,
+          "exact": 1160,
+          "beyond": 0,
+          "maxCm": 26.92582403567252,
+          "driftMaxCm": 45.85027310421302,
+          "driftOneSidedMaxCm": 45.85027310421302,
+          "driftSliverMaxCm": 44.31366704296634,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.24899495369536,
+            91.19032475173535,
+            0.04938271604938271
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 42,
+          "districts": 35,
+          "cuts": 1140,
+          "blocks": 1012,
+          "compared": 1175,
+          "exact": 1152,
+          "beyond": 0,
+          "maxCm": 27.018512172212592,
+          "driftMaxCm": 166.39954550038516,
+          "driftOneSidedMaxCm": 50.725441322044546,
+          "driftSliverMaxCm": 40.05424561237846,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 35,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 1,
+          "junction": [
+            85.63358159620883,
+            91.17018684209123,
+            0.03881987577639751
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 43,
+          "districts": 31,
+          "cuts": 1138,
+          "blocks": 994,
+          "compared": 1169,
+          "exact": 1145,
+          "beyond": 0,
+          "maxCm": 30.886890422961002,
+          "driftMaxCm": 154.50990028529418,
+          "driftOneSidedMaxCm": 45.65785648869148,
+          "driftSliverMaxCm": 41.444493803969834,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 31,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.81547748668693,
+            91.27342196350999,
+            0.041429311237700675
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 44,
+          "districts": 27,
+          "cuts": 1166,
+          "blocks": 1021,
+          "compared": 1192,
+          "exact": 1111,
+          "beyond": 63,
+          "maxCm": 1038.826742050858,
+          "driftMaxCm": 153.97708395893736,
+          "driftOneSidedMaxCm": 92.59049627256569,
+          "driftSliverMaxCm": 38.61019785185291,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 27,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.55095071015559,
+            91.09101242753333,
+            0.03553299492385787
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 45,
+          "districts": 40,
+          "cuts": 1181,
+          "blocks": 1032,
+          "compared": 1219,
+          "exact": 1196,
+          "beyond": 0,
+          "maxCm": 18.867962264113206,
+          "driftMaxCm": 329.6266577909127,
+          "driftOneSidedMaxCm": 329.6266577909127,
+          "driftSliverMaxCm": 47.388476133477404,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 40,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.22492236178454,
+            91.26608605047056,
+            0.04183266932270916
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 46,
+          "districts": 34,
+          "cuts": 1184,
+          "blocks": 1030,
+          "compared": 1215,
+          "exact": 1197,
+          "beyond": 1,
+          "maxCm": 76.60939890117922,
+          "driftMaxCm": 178.28392326797368,
+          "driftOneSidedMaxCm": 66.16202417879119,
+          "driftSliverMaxCm": 63.569012648281046,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 34,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.14038819056486,
+            91.36451841120805,
+            0.036779324055666
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 47,
+          "districts": 36,
+          "cuts": 1195,
+          "blocks": 1048,
+          "compared": 1231,
+          "exact": 1212,
+          "beyond": 0,
+          "maxCm": 41.03448275861718,
+          "driftMaxCm": 151.69603729940434,
+          "driftOneSidedMaxCm": 151.69603729940434,
+          "driftSliverMaxCm": 45.5437294036774,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 36,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            84.9993371959381,
+            91.19871236252044,
+            0.05189620758483034
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 48,
+          "districts": 29,
+          "cuts": 1183,
+          "blocks": 1046,
+          "compared": 1212,
+          "exact": 1194,
+          "beyond": 1,
+          "maxCm": 150.86417732516887,
+          "driftMaxCm": 147.59742545180114,
+          "driftOneSidedMaxCm": 69.05070600652827,
+          "driftSliverMaxCm": 42.862591287566765,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 29,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.97599736467143,
+            91.33181170948836,
+            0.03395669291338583
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 49,
+          "districts": 30,
+          "cuts": 1207,
+          "blocks": 1045,
+          "compared": 1237,
+          "exact": 1205,
+          "beyond": 1,
+          "maxCm": 93.79734218662131,
+          "driftMaxCm": 1803.7075705335385,
+          "driftOneSidedMaxCm": 214.7311718219177,
+          "driftSliverMaxCm": 35.97327500071504,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 30,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.38314656008508,
+            91.23300480656685,
+            0.03685741998060136
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 50,
+          "districts": 28,
+          "cuts": 1176,
+          "blocks": 1003,
+          "compared": 1204,
+          "exact": 1185,
+          "beyond": 0,
+          "maxCm": 19.849433241279208,
+          "driftMaxCm": 144.46324764717008,
+          "driftOneSidedMaxCm": 114.97464778931861,
+          "driftSliverMaxCm": 35.127317061093436,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 28,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.40661013370135,
+            91.1889902354695,
+            0.03755633450175263
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        }
+      ],
+      "corpus": {
+        "roof": {
+          "faces": 1597,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.001878522229179712,
+          "workLimitShare": 0,
+          "pass": true
+        },
+        "spine": {
+          "faces": 1597,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.001878522229179712,
+          "workLimitShare": 0,
+          "pass": true
+        }
+      },
+      "work": {
+        "cut.candidates": {
+          "stage": "S8",
+          "batches": 1597,
+          "units": {
+            "n": 1597,
+            "p50": 30,
+            "p99": 99,
+            "p999": 121.42399999999998,
+            "max": 144
+          },
+          "unitsTotal": 55429,
+          "perUnit": {
+            "n": 1597,
+            "p50": 1.5,
+            "p99": 2.2012682926829257,
+            "p999": 4.385740890688252,
+            "max": 5.862745098039215
+          },
+          "limitHits": 0
+        },
+        "cut.kernelCalls": {
+          "stage": "S8",
+          "batches": 1597,
+          "units": {
+            "n": 1597,
+            "p50": 30,
+            "p99": 99,
+            "p999": 121.42399999999998,
+            "max": 144
+          },
+          "unitsTotal": 55429,
+          "perUnit": {
+            "n": 1597,
+            "p50": 1,
+            "p99": 1.5277777777777777,
+            "p999": 1.6253369963369964,
+            "max": 1.6486486486486487
+          },
+          "limitHits": 0
+        },
+        "cut.recursionDepth": {
+          "stage": "S8",
+          "batches": 1597,
+          "units": {
+            "n": 1597,
+            "p50": 5,
+            "p99": 7,
+            "p999": 7,
+            "max": 8
+          },
+          "unitsTotal": 8218,
+          "perUnit": {
+            "n": 1597,
+            "p50": 1.25,
+            "p99": 1.7157142857142844,
+            "p999": 2,
+            "max": 2.1666666666666665
+          },
+          "limitHits": 0
+        },
+        "growth.candidates": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.6296622717496114,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        },
+        "growth.proposals": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.626098156702015,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        }
+      }
+    },
+    {
+      "run": "integrated",
+      "seeds": 50,
+      "bugs": {
+        "seeds": 0,
+        "entries": 0,
+        "first": []
+      },
+      "restarts": {
+        "total": 0,
+        "seeds": 0,
+        "s5Violations": 0
+      },
+      "ladder": {
+        "S5/S5c/re_propose": 6,
+        "S5/S5c/reject": 6,
+        "S8/F-CUT/a": 69410,
+        "S8/F-CUT/antenna": 6828,
+        "S8/F-CUT/b": 1039,
+        "S8/F-CUT/c": 3353,
+        "S8/F-CUT/d": 258,
+        "S8/F-CUT/deep": 22152,
+        "S8/F-CUT/pre": 9679,
+        "S8/F-CUT/unresolved": 12
+      },
+      "ladderUses": 112743,
+      "faces": {
+        "districts": {
+          "n": 50,
+          "p10": 31,
+          "p50": 33,
+          "p90": 37.1,
+          "mean": 33.58
+        },
+        "cuts": {
+          "n": 50,
+          "p10": 1342.4,
+          "p50": 1369,
+          "p90": 1409.1,
+          "mean": 1372.7
+        },
+        "blocks": {
+          "n": 50,
+          "p10": 1281.5,
+          "p50": 1308.5,
+          "p90": 1345.1,
+          "mean": 1310.58
+        },
+        "s8Refused": 0,
+        "figures": {
+          "cuts": 1500,
+          "districts": 25
+        }
+      },
+      "junction": {
+        "perSeed": {
+          "p5Min": 85.34849152319374,
+          "medianMin": 91.146115749889,
+          "medianMax": 91.38004699269067,
+          "share4Max": 0.04861111111111111,
+          "seedsBelowP5": 0,
+          "seedsOverShare4": 0
+        },
+        "pooled": {
+          "p5": 86.00840992471194,
+          "median": 91.25052775257087,
+          "share4": 0.03572381679810798,
+          "nodes": 108667,
+          "nodes4": 3882
+        }
+      },
+      "turns": {
+        "steps": 599858,
+        "cliffSeeds": 0,
+        "pooledCliff": false,
+        "over15Share": 0.028771809328207675
+      },
+      "drift": {
+        "windows": 1,
+        "p50": 19.623154082963897,
+        "p90": 19.623154082963897,
+        "over90": 0,
+        "over90Share": 0,
+        "medianJudged": false
+      },
+      "bands": {
+        "comfortable": {
+          "blockAreaM2": {
+            "n": 23380,
+            "p10": 822.7214349999999,
+            "p50": 1517.3689749999999,
+            "p90": 2608.0186400000007,
+            "mean": 1647.5420784131716
+          },
+          "cutLengthM": {
+            "n": 24684,
+            "p10": 37.484399207830045,
+            "p50": 57.70837662145169,
+            "p90": 108.88296211754432,
+            "mean": 65.97080177724956
+          }
+        },
+        "modest": {
+          "blockAreaM2": {
+            "n": 14068,
+            "p10": 732.12393,
+            "p50": 1387.5549,
+            "p90": 2486.520135,
+            "mean": 1534.7933729065953
+          },
+          "cutLengthM": {
+            "n": 14829,
+            "p10": 35.18546567086672,
+            "p50": 55.62704338289308,
+            "p90": 96.45896716186296,
+            "mean": 63.03690610977143
+          }
+        },
+        "poor": {
+          "blockAreaM2": {
+            "n": 31,
+            "p10": 547.64925,
+            "p50": 1149.9393,
+            "p90": 1678.78325,
+            "mean": 1212.6918709677418
+          },
+          "cutLengthM": {
+            "n": 32,
+            "p10": 31.532286188042523,
+            "p50": 51.0242157345257,
+            "p90": 80.42668504539654,
+            "mean": 62.89746943951875
+          }
+        },
+        "prosperous": {
+          "blockAreaM2": {
+            "n": 27374,
+            "p10": 877.05381,
+            "p50": 1575.646775,
+            "p90": 2660.91289,
+            "mean": 1701.4393336560183
+          },
+          "cutLengthM": {
+            "n": 28406,
+            "p10": 38.133816981174924,
+            "p50": 58.13580908375851,
+            "p90": 112.3505975426203,
+            "mean": 68.38716791204503
+          }
+        },
+        "rich": {
+          "blockAreaM2": {
+            "n": 676,
+            "p10": 984.449975,
+            "p50": 1829.656225,
+            "p90": 3072.4112999999998,
+            "mean": 1952.3658340236677
+          },
+          "cutLengthM": {
+            "n": 684,
+            "p10": 41.05787633613595,
+            "p50": 63.211260125335244,
+            "p90": 119.62202556788343,
+            "mean": 72.3610231236992
+          }
+        }
+      },
+      "roads": {
+        "stages": 100,
+        "mismatches": 0,
+        "first": []
+      },
+      "strips": {
+        "faces": 1500,
+        "lanes": 68635,
+        "crossings": 0
+      },
+      "s8s9": {
+        "blocks": 65529,
+        "compared": 70999,
+        "zero": 69188,
+        "within1cm": 70044,
+        "beyond": 522,
+        "maxCm": null,
+        "split": 5525,
+        "s9OwnL1": 509,
+        "drifted": 38271,
+        "driftMaxCm": null,
+        "driftNeedleCm": null,
+        "driftOneSidedMaxCm": null,
+        "driftSliverMaxCm": null,
+        "driftBeyond": 1,
+        "driftSeedless": 6,
+        "commit": 1811,
+        "s9Refused": 11,
+        "kerbReads": 1,
+        "seedsAllZero": 0,
+        "seedsBeyond": 17,
+        "boundCm": 73.53910524340094,
+        "exactShare": 0.9744925984873026,
+        "missCm": {
+          "n": 1811,
+          "p50": 1.4694826602083173,
+          "p99": 778.5970132477427,
+          "p999": 4248.092144630085,
+          "max": null
+        },
+        "first": [
+          "seed 1: 1 of 1441 beyond the bound (max 137.59 cm; stop-kerb drift beyond 0; S9 refused 0); block:7yrsw2b159pw7: working → S9 137.59 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (37903, -53627)",
+          "seed 4: 92 of 1412 beyond the bound (max Infinity cm; stop-kerb drift beyond 1; S9 refused 1); district:fw3g616078gbw: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)",
+          "seed 7: 1 of 1377 beyond the bound (max 86.01 cm; stop-kerb drift beyond 0; S9 refused 0); block:9f07j8sp2wjw8: working → S9 86.01 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (37225, 23787)",
+          "seed 10: 1 of 1405 beyond the bound (max 176.39 cm; stop-kerb drift beyond 0; S9 refused 0); block:71kx740v1n6nh: working → S9 176.39 cm; stop → working sliver 17.44 cm, one-sided 18.15 cm, Hausdorff 18.15 cm (needle 0 cm), spine way:45kr1xhjhasqs; loops working 1, S9 1; seed (44699, -76650)",
+          "seed 12: 1 of 1459 beyond the bound (max 86.95 cm; stop-kerb drift beyond 0; S9 refused 0); block:cvy6s8zatn3wb: working → S9 86.95 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-32205, -82220)",
+          "seed 15: 28 of 1425 beyond the bound (max 1500.53 cm; stop-kerb drift beyond 0; S9 refused 1); district:44fa02qrhetph: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)",
+          "seed 20: 2 of 1425 beyond the bound (max 164.76 cm; stop-kerb drift beyond 0; S9 refused 0); block:drtghemmstvk1: working → S9 88.64 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-53688, -64974)",
+          "seed 22: 31 of 1397 beyond the bound (max 735.43 cm; stop-kerb drift beyond 0; S9 refused 1); district:2rmt9e4ztth24: corridorUnion refused: E_INVARIANT arr: a kept face of the dry-run holds a point of a part deeper than an insertion moves a boundary point (N-45)"
+        ]
+      },
+      "refusals": {
+        "total": {
+          "s8": 0,
+          "s9": 11,
+          "kerbReads": 1,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "kernelDowngrades": 0,
+          "kernelWorkLimitHits": 0,
+          "unplaced": 0,
+          "degraded": 0
+        },
+        "seeds": 10,
+        "first": [
+          "seed 4: s9 1, kerbReads 1",
+          "seed 15: s9 1",
+          "seed 22: s9 1",
+          "seed 26: s9 3",
+          "seed 27: s9 2",
+          "seed 28: s9 1, corpusRoof 1, corpusSpine 1",
+          "seed 29: s9 1",
+          "seed 38: corpusRoof 1, corpusSpine 1",
+          "seed 40: s9 1",
+          "seed 47: corpusRoof 1, corpusSpine 1"
+        ]
+      },
+      "perSeed": [
+        {
+          "seed": 1,
+          "districts": 31,
+          "cuts": 1391,
+          "blocks": 1316,
+          "compared": 1441,
+          "exact": 1416,
+          "beyond": 1,
+          "maxCm": 137.59076826660538,
+          "driftMaxCm": 34.513664461437294,
+          "driftOneSidedMaxCm": 34.513664461437294,
+          "driftSliverMaxCm": 32.36209307865046,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.22064605144786,
+            91.20251978326164,
+            0.03486238532110092
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 2,
+          "districts": 31,
+          "cuts": 1435,
+          "blocks": 1346,
+          "compared": 1480,
+          "exact": 1454,
+          "beyond": 0,
+          "maxCm": 29.614185789921695,
+          "driftMaxCm": 140.86890433941053,
+          "driftOneSidedMaxCm": 140.86890433941053,
+          "driftSliverMaxCm": 37.985635534466084,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 45,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.63751330714132,
+            91.38004699269067,
+            0.035448577680525166
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 3,
+          "districts": 33,
+          "cuts": 1319,
+          "blocks": 1269,
+          "compared": 1367,
+          "exact": 1347,
+          "beyond": 0,
+          "maxCm": 24.49979464398571,
+          "driftMaxCm": 35.69917756090511,
+          "driftOneSidedMaxCm": 35.69917756090511,
+          "driftSliverMaxCm": 35.15811467698956,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 48,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.2830429108809,
+            91.27541791732061,
+            0.040213178294573645
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 4,
+          "districts": 30,
+          "cuts": 1362,
+          "blocks": 1300,
+          "compared": 1412,
+          "exact": 1299,
+          "beyond": 92,
+          "maxCm": null,
+          "driftMaxCm": null,
+          "driftOneSidedMaxCm": null,
+          "driftSliverMaxCm": null,
+          "driftBeyond": 1,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.64135930805509,
+            91.27232194892065,
+            0.04203643157403083
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 1,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 5,
+          "districts": 34,
+          "cuts": 1417,
+          "blocks": 1361,
+          "compared": 1462,
+          "exact": 1435,
+          "beyond": 0,
+          "maxCm": 27.293450357778045,
+          "driftMaxCm": 35.765248711625425,
+          "driftOneSidedMaxCm": 35.765248711625425,
+          "driftSliverMaxCm": 35.21180880288897,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.2971780276802,
+            91.23518851050267,
+            0.028037383177570093
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 6,
+          "districts": 32,
+          "cuts": 1376,
+          "blocks": 1315,
+          "compared": 1432,
+          "exact": 1403,
+          "beyond": 0,
+          "maxCm": 26.92582403567252,
+          "driftMaxCm": 38.637127093894456,
+          "driftOneSidedMaxCm": 38.637127093894456,
+          "driftSliverMaxCm": 33.168910386526484,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 57,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.71650228565964,
+            91.21435675459382,
+            0.033738191632928474
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 7,
+          "districts": 30,
+          "cuts": 1336,
+          "blocks": 1270,
+          "compared": 1377,
+          "exact": 1354,
+          "beyond": 1,
+          "maxCm": 86.01292652509717,
+          "driftMaxCm": 51.55810862640334,
+          "driftOneSidedMaxCm": 46.66941843135927,
+          "driftSliverMaxCm": 46.847298264981355,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 41,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.34849152319374,
+            91.31571463882318,
+            0.037968675842429994
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 8,
+          "districts": 34,
+          "cuts": 1354,
+          "blocks": 1305,
+          "compared": 1399,
+          "exact": 1364,
+          "beyond": 0,
+          "maxCm": 37.57658845611187,
+          "driftMaxCm": 293.09648569762123,
+          "driftOneSidedMaxCm": 293.09648569762123,
+          "driftSliverMaxCm": 39.72201561682215,
+          "driftBeyond": 0,
+          "driftSeedless": 2,
+          "corpusFaces": 45,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.15448520660297,
+            91.25263004520315,
+            0.037903603182030884
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 9,
+          "districts": 32,
+          "cuts": 1337,
+          "blocks": 1287,
+          "compared": 1381,
+          "exact": 1356,
+          "beyond": 0,
+          "maxCm": 26.1725046566048,
+          "driftMaxCm": 56.93769246250324,
+          "driftOneSidedMaxCm": 56.93769246250324,
+          "driftSliverMaxCm": 39.79039708155726,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 44,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.36318839080114,
+            91.26564696897044,
+            0.03273244781783681
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 10,
+          "districts": 36,
+          "cuts": 1360,
+          "blocks": 1283,
+          "compared": 1405,
+          "exact": 1385,
+          "beyond": 1,
+          "maxCm": 176.38895206131318,
+          "driftMaxCm": 353.2910790522572,
+          "driftOneSidedMaxCm": 42.31652195767936,
+          "driftSliverMaxCm": 38.74610068610158,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 47,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.86247885274321,
+            91.25525801765014,
+            0.035830618892508145
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 11,
+          "districts": 31,
+          "cuts": 1337,
+          "blocks": 1296,
+          "compared": 1386,
+          "exact": 1363,
+          "beyond": 0,
+          "maxCm": 8.715433738456815,
+          "driftMaxCm": 137.88763541376724,
+          "driftOneSidedMaxCm": 137.88763541376724,
+          "driftSliverMaxCm": 34.53399838797829,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 49,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.2830323726049,
+            91.27916685590307,
+            0.031205673758865248
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 12,
+          "districts": 40,
+          "cuts": 1410,
+          "blocks": 1339,
+          "compared": 1459,
+          "exact": 1426,
+          "beyond": 1,
+          "maxCm": 86.95401083331349,
+          "driftMaxCm": 37.9008188695151,
+          "driftOneSidedMaxCm": 37.86319164247293,
+          "driftSliverMaxCm": 37.84642135601926,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 54,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.92209993367797,
+            91.23487828185864,
+            0.03231518370960602
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 13,
+          "districts": 34,
+          "cuts": 1376,
+          "blocks": 1308,
+          "compared": 1422,
+          "exact": 1396,
+          "beyond": 0,
+          "maxCm": 25.577819746483346,
+          "driftMaxCm": 98.26635597304838,
+          "driftOneSidedMaxCm": 45.3639855552227,
+          "driftSliverMaxCm": 46.29097373931599,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 47,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.27749726242122,
+            91.1857947343637,
+            0.04309545875810936
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 14,
+          "districts": 33,
+          "cuts": 1409,
+          "blocks": 1345,
+          "compared": 1458,
+          "exact": 1437,
+          "beyond": 0,
+          "maxCm": 61.032778078668514,
+          "driftMaxCm": 40.3446137446006,
+          "driftOneSidedMaxCm": 39.03171326457122,
+          "driftSliverMaxCm": 39.108608271901694,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.10947387523701,
+            91.2556667131622,
+            0.03871829105473965
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 15,
+          "districts": 34,
+          "cuts": 1375,
+          "blocks": 1309,
+          "compared": 1425,
+          "exact": 1372,
+          "beyond": 28,
+          "maxCm": 1500.5326170115466,
+          "driftMaxCm": 46.487235574208825,
+          "driftOneSidedMaxCm": 46.22622922561892,
+          "driftSliverMaxCm": 45.92495104185562,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 51,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.41267929731274,
+            91.185658619297,
+            0.03511171910624715
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 16,
+          "districts": 34,
+          "cuts": 1365,
+          "blocks": 1315,
+          "compared": 1414,
+          "exact": 1390,
+          "beyond": 0,
+          "maxCm": 40.496913462633174,
+          "driftMaxCm": 35.33596312578613,
+          "driftOneSidedMaxCm": 35.33596312578613,
+          "driftSliverMaxCm": 29.208267906046764,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 49,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.0497174616084,
+            91.26255390145094,
+            0.033843300880853036
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 17,
+          "districts": 31,
+          "cuts": 1343,
+          "blocks": 1284,
+          "compared": 1390,
+          "exact": 1358,
+          "beyond": 0,
+          "maxCm": 22.105881797163086,
+          "driftMaxCm": 43.56604182158393,
+          "driftOneSidedMaxCm": 39.6262993454781,
+          "driftSliverMaxCm": 38.03066964840048,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 47,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.29400421230433,
+            91.24375586113226,
+            0.03175355450236967
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 18,
+          "districts": 35,
+          "cuts": 1394,
+          "blocks": 1304,
+          "compared": 1439,
+          "exact": 1408,
+          "beyond": 0,
+          "maxCm": 30.528675044947494,
+          "driftMaxCm": 120.70211265756701,
+          "driftOneSidedMaxCm": 120.70211265756701,
+          "driftSliverMaxCm": 46.1414786826279,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.51483465085548,
+            91.32853019787305,
+            0.04264099037138927
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 19,
+          "districts": 32,
+          "cuts": 1364,
+          "blocks": 1302,
+          "compared": 1410,
+          "exact": 1388,
+          "beyond": 0,
+          "maxCm": 25.649747700595643,
+          "driftMaxCm": 45.68655736043943,
+          "driftOneSidedMaxCm": 39.393209170486855,
+          "driftSliverMaxCm": 39.711838400959195,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.98665144172311,
+            91.24202991615726,
+            0.03449862005519779
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 20,
+          "districts": 34,
+          "cuts": 1380,
+          "blocks": 1304,
+          "compared": 1425,
+          "exact": 1395,
+          "beyond": 2,
+          "maxCm": 164.75728613427643,
+          "driftMaxCm": 163.33389950534598,
+          "driftOneSidedMaxCm": 37.0088938228403,
+          "driftSliverMaxCm": 35.99730863694121,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.95142737869176,
+            91.34098051593475,
+            0.03530490600641907
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 21,
+          "districts": 32,
+          "cuts": 1373,
+          "blocks": 1303,
+          "compared": 1424,
+          "exact": 1395,
+          "beyond": 0,
+          "maxCm": 25.731561952004167,
+          "driftMaxCm": 203.19741268206624,
+          "driftOneSidedMaxCm": 203.19741268206624,
+          "driftSliverMaxCm": 41.1391286381809,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 51,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.97532104246696,
+            91.28423714669152,
+            0.040352504638218926
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 22,
+          "districts": 35,
+          "cuts": 1352,
+          "blocks": 1282,
+          "compared": 1397,
+          "exact": 1347,
+          "beyond": 31,
+          "maxCm": 735.4250471666028,
+          "driftMaxCm": 67.1863081289633,
+          "driftOneSidedMaxCm": 45.24180440819176,
+          "driftSliverMaxCm": 41.89172829847877,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.62486371104154,
+            91.22105865217816,
+            0.03715898400752587
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 23,
+          "districts": 35,
+          "cuts": 1388,
+          "blocks": 1325,
+          "compared": 1436,
+          "exact": 1406,
+          "beyond": 0,
+          "maxCm": 25.926262263041014,
+          "driftMaxCm": 37.16268535479911,
+          "driftOneSidedMaxCm": 37.16268535479911,
+          "driftSliverMaxCm": 36.078241469813705,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 49,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.15170341887415,
+            91.31737253112212,
+            0.03365165984538426
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 24,
+          "districts": 34,
+          "cuts": 1388,
+          "blocks": 1332,
+          "compared": 1434,
+          "exact": 1404,
+          "beyond": 1,
+          "maxCm": 92.76313923105448,
+          "driftMaxCm": 42.86531536069938,
+          "driftOneSidedMaxCm": 42.677947595589785,
+          "driftSliverMaxCm": 42.69854294497415,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 48,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.25907012104614,
+            91.20606846126735,
+            0.03509571558796718
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 25,
+          "districts": 38,
+          "cuts": 1366,
+          "blocks": 1329,
+          "compared": 1425,
+          "exact": 1402,
+          "beyond": 1,
+          "maxCm": 97.86214794290998,
+          "driftMaxCm": 46.16367636945056,
+          "driftOneSidedMaxCm": 39.25321691098977,
+          "driftSliverMaxCm": 40.28130993553276,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 62,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.15206818710631,
+            91.21481069151179,
+            0.040892193308550186
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 26,
+          "districts": 31,
+          "cuts": 1373,
+          "blocks": 1336,
+          "compared": 1424,
+          "exact": 1247,
+          "beyond": 158,
+          "maxCm": 1722.948122872317,
+          "driftMaxCm": 151.47393433702982,
+          "driftOneSidedMaxCm": 43.84536799882392,
+          "driftSliverMaxCm": 43.312600209350414,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 53,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.96968501753193,
+            91.29339894442677,
+            0.035600182565038795
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 3,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 27,
+          "districts": 32,
+          "cuts": 1359,
+          "blocks": 1296,
+          "compared": 1410,
+          "exact": 1259,
+          "beyond": 123,
+          "maxCm": 6631.886081651282,
+          "driftMaxCm": 45.580790229668445,
+          "driftOneSidedMaxCm": 38.20504002745655,
+          "driftSliverMaxCm": 39.74618490113641,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 52,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.02529445008173,
+            91.1714796387507,
+            0.03104726598702502
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 2,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 28,
+          "districts": 30,
+          "cuts": 1394,
+          "blocks": 1321,
+          "compared": 1434,
+          "exact": 1384,
+          "beyond": 30,
+          "maxCm": 1540.1298646542764,
+          "driftMaxCm": 195.7391154318541,
+          "driftOneSidedMaxCm": 195.7391154318541,
+          "driftSliverMaxCm": 43.02702896903375,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 41,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.00008815896099,
+            91.22976774242747,
+            0.03376857271499325
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 29,
+          "districts": 33,
+          "cuts": 1369,
+          "blocks": 1310,
+          "compared": 1416,
+          "exact": 1369,
+          "beyond": 28,
+          "maxCm": 1499.6607112647177,
+          "driftMaxCm": 191.49632599257396,
+          "driftOneSidedMaxCm": 35.74105599973825,
+          "driftSliverMaxCm": 35.59406367572413,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 47,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.20691000890676,
+            91.196441952363,
+            0.04861111111111111
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 30,
+          "districts": 33,
+          "cuts": 1367,
+          "blocks": 1308,
+          "compared": 1414,
+          "exact": 1381,
+          "beyond": 0,
+          "maxCm": 39.293765408777,
+          "driftMaxCm": 40.09021949651773,
+          "driftOneSidedMaxCm": 38.45089637020435,
+          "driftSliverMaxCm": 37.858128752180384,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 48,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.08821636797522,
+            91.22536140313636,
+            0.0354348826507133
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 31,
+          "districts": 35,
+          "cuts": 1362,
+          "blocks": 1305,
+          "compared": 1410,
+          "exact": 1382,
+          "beyond": 1,
+          "maxCm": 84.62860036654276,
+          "driftMaxCm": 164.76660269421245,
+          "driftOneSidedMaxCm": 43.166884199765995,
+          "driftSliverMaxCm": 42.543516813262855,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.41990059460666,
+            91.22872278491434,
+            0.032764190124596214
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 32,
+          "districts": 37,
+          "cuts": 1358,
+          "blocks": 1301,
+          "compared": 1406,
+          "exact": 1383,
+          "beyond": 0,
+          "maxCm": 32.38826948140329,
+          "driftMaxCm": 183.30939557114192,
+          "driftOneSidedMaxCm": 33.74341570188502,
+          "driftSliverMaxCm": 31.52480683349303,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.01694060788594,
+            91.34406984592852,
+            0.03473830477072719
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 33,
+          "districts": 36,
+          "cuts": 1397,
+          "blocks": 1356,
+          "compared": 1447,
+          "exact": 1419,
+          "beyond": 0,
+          "maxCm": 33.734255586866,
+          "driftMaxCm": 49.9799959983992,
+          "driftOneSidedMaxCm": 49.9799959983992,
+          "driftSliverMaxCm": 45.356790376086295,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 53,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.970346689386,
+            91.3290545849783,
+            0.03693813974187806
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 34,
+          "districts": 34,
+          "cuts": 1354,
+          "blocks": 1296,
+          "compared": 1397,
+          "exact": 1374,
+          "beyond": 0,
+          "maxCm": 25.378559802883736,
+          "driftMaxCm": 150.20346477699113,
+          "driftOneSidedMaxCm": 40.22643896875596,
+          "driftSliverMaxCm": 38.38994907748305,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 45,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.52528171203794,
+            91.24343334014702,
+            0.03418013856812933
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 35,
+          "districts": 33,
+          "cuts": 1421,
+          "blocks": 1353,
+          "compared": 1471,
+          "exact": 1441,
+          "beyond": 0,
+          "maxCm": 31.11269837220809,
+          "driftMaxCm": 49.8196748283246,
+          "driftOneSidedMaxCm": 49.8196748283246,
+          "driftSliverMaxCm": 34.22341183214544,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.79065108690281,
+            91.28225289178084,
+            0.04202056325435852
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 36,
+          "districts": 38,
+          "cuts": 1373,
+          "blocks": 1314,
+          "compared": 1413,
+          "exact": 1377,
+          "beyond": 0,
+          "maxCm": 22.641896474163058,
+          "driftMaxCm": 41.31029469756022,
+          "driftOneSidedMaxCm": 41.31029469756022,
+          "driftSliverMaxCm": 34.466737111270376,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 44,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.97664142068052,
+            91.21994066995799,
+            0.033890436397400185
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 37,
+          "districts": 37,
+          "cuts": 1381,
+          "blocks": 1314,
+          "compared": 1424,
+          "exact": 1400,
+          "beyond": 0,
+          "maxCm": 21.470910553583888,
+          "driftMaxCm": 38.65990275318335,
+          "driftOneSidedMaxCm": 38.65990275318335,
+          "driftSliverMaxCm": 37.546277118856985,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.9049752850795,
+            91.22865270427174,
+            0.032420091324200914
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 38,
+          "districts": 33,
+          "cuts": 1390,
+          "blocks": 1319,
+          "compared": 1441,
+          "exact": 1406,
+          "beyond": 2,
+          "maxCm": 83.95236744726142,
+          "driftMaxCm": 321.5445978904075,
+          "driftOneSidedMaxCm": 321.5445978904075,
+          "driftSliverMaxCm": 35.13174701582015,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 51,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.76169785015499,
+            91.21801811024801,
+            0.03847915712322492
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 39,
+          "districts": 34,
+          "cuts": 1369,
+          "blocks": 1318,
+          "compared": 1418,
+          "exact": 1404,
+          "beyond": 0,
+          "maxCm": 20.9931745049701,
+          "driftMaxCm": 39.022470455568794,
+          "driftOneSidedMaxCm": 39.022470455568794,
+          "driftSliverMaxCm": 38.50182070068006,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 49,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.25396088374555,
+            91.30054640593714,
+            0.03146374829001368
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 40,
+          "districts": 32,
+          "cuts": 1288,
+          "blocks": 1231,
+          "compared": 1333,
+          "exact": 1284,
+          "beyond": 21,
+          "maxCm": 1562.2960666915858,
+          "driftMaxCm": 179.6735587322305,
+          "driftOneSidedMaxCm": 40.16542961481967,
+          "driftSliverMaxCm": 40.62102042949122,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.91417763590077,
+            91.2196867977549,
+            0.03482099068170672
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 1,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 41,
+          "districts": 30,
+          "cuts": 1404,
+          "blocks": 1328,
+          "compared": 1446,
+          "exact": 1417,
+          "beyond": 0,
+          "maxCm": 24.297575535431978,
+          "driftMaxCm": 428.981351576033,
+          "driftOneSidedMaxCm": 428.981351576033,
+          "driftSliverMaxCm": 53.133509379798156,
+          "driftBeyond": 0,
+          "driftSeedless": 1,
+          "corpusFaces": 42,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.70619949331494,
+            91.25585536707032,
+            0.033647375504710635
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 42,
+          "districts": 31,
+          "cuts": 1369,
+          "blocks": 1305,
+          "compared": 1418,
+          "exact": 1390,
+          "beyond": 0,
+          "maxCm": 27.459060435491963,
+          "driftMaxCm": 40.14657844612209,
+          "driftOneSidedMaxCm": 39.744081203101736,
+          "driftSliverMaxCm": 39.684751595416806,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 49,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 1,
+          "junction": [
+            85.79690021772512,
+            91.28586925553327,
+            0.03441945846718678
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 43,
+          "districts": 33,
+          "cuts": 1344,
+          "blocks": 1273,
+          "compared": 1391,
+          "exact": 1364,
+          "beyond": 0,
+          "maxCm": 26.58721497261393,
+          "driftMaxCm": 40.85083844626736,
+          "driftOneSidedMaxCm": 40.6849709810663,
+          "driftSliverMaxCm": 40.60621461837465,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 47,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.80938128880987,
+            91.20425065878986,
+            0.03142589118198874
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 44,
+          "districts": 31,
+          "cuts": 1445,
+          "blocks": 1367,
+          "compared": 1486,
+          "exact": 1459,
+          "beyond": 0,
+          "maxCm": 31.016124838541646,
+          "driftMaxCm": 37.74072273211081,
+          "driftOneSidedMaxCm": 37.74072273211081,
+          "driftSliverMaxCm": 36.7078130524414,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 41,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.75768857025196,
+            91.24373518901808,
+            0.03467954345917471
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 45,
+          "districts": 35,
+          "cuts": 1355,
+          "blocks": 1307,
+          "compared": 1408,
+          "exact": 1384,
+          "beyond": 0,
+          "maxCm": 26.248809496813376,
+          "driftMaxCm": 402.86226933493225,
+          "driftOneSidedMaxCm": 402.86226933493225,
+          "driftSliverMaxCm": 37.88266111963305,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 56,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.13298213778556,
+            91.31834759348487,
+            0.030303030303030304
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 46,
+          "districts": 39,
+          "cuts": 1353,
+          "blocks": 1310,
+          "compared": 1402,
+          "exact": 1377,
+          "beyond": 0,
+          "maxCm": 36.40054944640259,
+          "driftMaxCm": 92.67807991994194,
+          "driftOneSidedMaxCm": 92.67807991994194,
+          "driftSliverMaxCm": 43.45892462826279,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 54,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.0765420609198,
+            91.146115749889,
+            0.03722661703117729
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 47,
+          "districts": 32,
+          "cuts": 1356,
+          "blocks": 1300,
+          "compared": 1407,
+          "exact": 1381,
+          "beyond": 0,
+          "maxCm": 57.77542730261716,
+          "driftMaxCm": 46.42172356445595,
+          "driftOneSidedMaxCm": 38.37121138044085,
+          "driftSliverMaxCm": 41.20483258928334,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 51,
+          "corpusDowngrades": [
+            1,
+            1
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.36488376307881,
+            91.29739287822808,
+            0.03275620028076743
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 1,
+            "corpusSpine": 1,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 48,
+          "districts": 38,
+          "cuts": 1404,
+          "blocks": 1332,
+          "compared": 1451,
+          "exact": 1420,
+          "beyond": 0,
+          "maxCm": 26.476404589747453,
+          "driftMaxCm": 136.02593468229003,
+          "driftOneSidedMaxCm": 39.73940938895747,
+          "driftSliverMaxCm": 36.261628886664475,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 50,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.88832162783166,
+            91.30488504222252,
+            0.03553756185335133
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 49,
+          "districts": 34,
+          "cuts": 1395,
+          "blocks": 1323,
+          "compared": 1440,
+          "exact": 1417,
+          "beyond": 0,
+          "maxCm": 15.649875015352587,
+          "driftMaxCm": 39.34888669666517,
+          "driftOneSidedMaxCm": 39.34888669666517,
+          "driftSliverMaxCm": 38.8793184064856,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 46,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            85.81992565125957,
+            91.16738049239557,
+            0.04149377593360996
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        },
+        {
+          "seed": 50,
+          "districts": 33,
+          "cuts": 1348,
+          "blocks": 1277,
+          "compared": 1392,
+          "exact": 1369,
+          "beyond": 0,
+          "maxCm": 18.699716605761914,
+          "driftMaxCm": 61.998742963056756,
+          "driftOneSidedMaxCm": 58.88683711348485,
+          "driftSliverMaxCm": 59.17894030098007,
+          "driftBeyond": 0,
+          "driftSeedless": 0,
+          "corpusFaces": 44,
+          "corpusDowngrades": [
+            0,
+            0
+          ],
+          "driftWindows": 0,
+          "junction": [
+            86.055950784757,
+            91.15801738330623,
+            0.034482758620689655
+          ],
+          "cliff": false,
+          "restarts": 0,
+          "bugs": 0,
+          "roadsOff": 0,
+          "stripCrossings": 0,
+          "refusals": {
+            "s8": 0,
+            "s9": 0,
+            "kerbReads": 0,
+            "corpusRoof": 0,
+            "corpusSpine": 0,
+            "kernelDowngrades": 0,
+            "kernelWorkLimitHits": 0,
+            "unplaced": 0,
+            "degraded": 0
+          }
+        }
+      ],
+      "corpus": {
+        "roof": {
+          "faces": 2419,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0012401818933443572,
+          "workLimitShare": 0,
+          "pass": true
+        },
+        "spine": {
+          "faces": 2419,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0012401818933443572,
+          "workLimitShare": 0,
+          "pass": true
+        }
+      },
+      "work": {
+        "cut.candidates": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 35,
+            "p99": 127.22000000000003,
+            "p999": 155.28799999999956,
+            "max": 161
+          },
+          "unitsTotal": 70482,
+          "perUnit": {
+            "n": 1679,
+            "p50": 1.5,
+            "p99": 3.620238095238097,
+            "p999": 7.415239999999954,
+            "max": 8.06060606060606
+          },
+          "limitHits": 0
+        },
+        "cut.kernelCalls": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 35,
+            "p99": 127.22000000000003,
+            "p999": 155.28799999999956,
+            "max": 161
+          },
+          "unitsTotal": 70482,
+          "perUnit": {
+            "n": 1679,
+            "p50": 0.9607843137254902,
+            "p99": 1.2328000000000003,
+            "p999": 1.2839860139860102,
+            "max": 1.3333333333333333
+          },
+          "limitHits": 0
+        },
+        "cut.recursionDepth": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 6,
+            "p99": 7,
+            "p999": 8,
+            "max": 8
+          },
+          "unitsTotal": 9099,
+          "perUnit": {
+            "n": 1679,
+            "p50": 1.2857142857142858,
+            "p99": 1.8,
+            "p999": 2.0459999999999843,
+            "max": 2.2857142857142856
+          },
+          "limitHits": 0
+        },
+        "growth.candidates": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.6296622717496114,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        },
+        "growth.proposals": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.626098156702015,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        }
+      }
+    }
+  ],
+  "sharedS5": {
+    "compared": 50,
+    "equal": 50
+  },
+  "verdicts": {
+    "restarts": true,
+    "bugs": true,
+    "cliff": true,
+    "junction": true,
+    "drift": true,
+    "roads": true,
+    "strips": true,
+    "s8s9": false,
+    "corpus": true,
+    "sharedS5": true
+  },
+  "pass": false,
+  "notes": [
+    "fusion seed 1: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 170.93 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 4: S8 ≡ S9 62 block(s) beyond 73.54 cm (max 3815.15 cm), drift beyond 0, S9 refused 1",
+    "fusion seed 5: S8 ≡ S9 92 block(s) beyond 73.54 cm (max 9327.49 cm), drift beyond 0, S9 refused 1",
+    "fusion seed 15: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 80.72 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 19: S8 ≡ S9 69 block(s) beyond 73.54 cm (max 1020.73 cm), drift beyond 0, S9 refused 1",
+    "fusion seed 21: S8 ≡ S9 0 block(s) beyond 73.54 cm (max 25.69 cm), drift beyond 1, S9 refused 0",
+    "fusion seed 24: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 87.32 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 25: S8 ≡ S9 0 block(s) beyond 73.54 cm (max 26.25 cm), drift beyond 2, S9 refused 0",
+    "fusion seed 27: S8 ≡ S9 61 block(s) beyond 73.54 cm (max 688.49 cm), drift beyond 0, S9 refused 2",
+    "fusion seed 33: S8 ≡ S9 75 block(s) beyond 73.54 cm (max 1814.33 cm), drift beyond 0, S9 refused 1",
+    "fusion seed 35: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 95.27 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 36: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 800.54 cm), drift beyond 1, S9 refused 0",
+    "fusion seed 38: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 79.08 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 44: S8 ≡ S9 63 block(s) beyond 73.54 cm (max 1038.83 cm), drift beyond 0, S9 refused 1",
+    "fusion seed 46: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 76.61 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 48: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 150.86 cm), drift beyond 0, S9 refused 0",
+    "fusion seed 49: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 93.80 cm), drift beyond 0, S9 refused 0",
+    "integrated seed 1: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 137.59 cm), drift beyond 0, S9 refused 0",
+    "integrated seed 4: S8 ≡ S9 92 block(s) beyond 73.54 cm (max Infinity cm), drift beyond 1, S9 refused 1",
+    "integrated seed 7: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 86.01 cm), drift beyond 0, S9 refused 0",
+    "integrated seed 10: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 176.39 cm), drift beyond 0, S9 refused 0",
+    "integrated seed 12: S8 ≡ S9 1 block(s) beyond 73.54 cm (max 86.95 cm), drift beyond 0, S9 refused 0",
+    "integrated seed 15: S8 ≡ S9 28 block(s) beyond 73.54 cm (max 1500.53 cm), drift beyond 0, S9 refused 1",
+    "integrated seed 20: S8 ≡ S9 2 block(s) beyond 73.54 cm (max 164.76 cm), drift beyond 0, S9 refused 0"
+  ]
+}
