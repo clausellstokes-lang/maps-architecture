@@ -7,7 +7,7 @@ import fc from 'fast-check';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { loadOracles } from '../../../src/oracles/index.js';
 import { dedupe, ringProblems } from '../../../src/oracles/rings.js';
-import { corridorCaseArb, deadEndCaseArb, judgeCorridor, newHarness, oracleBands, oursCorridor, RUNS, TIMEOUT, verdict, type CorridorCase } from './support.js';
+import { corridorCaseArb, deadEndCaseArb, judgeCorridor, loopsOf, newHarness, oracleBands, oursCorridor, RUNS, TIMEOUT, verdict, widenedCaseArb, type CorridorCase } from './support.js';
 
 beforeAll(async () => {
   await loadOracles();
@@ -120,6 +120,36 @@ describe('corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-
     }
   });
 
+  it('the polygon+chord cases whose kerb bridged two of its own vertices across a face: the bridge removed, no edge dangling, the blocks and the bands agree (round S14, notes rows 1 and 79)', () => {
+    // the agreement's corridor family at seed 20261011 (10⁴ draws), draws 1567 and 1756: the commit left an edge of the
+    // kerb alone with the one face on both sides and both its ends reached — a bridge bounding no block (counted as
+    // 'dangling-attracted', 4 per 10⁴ before round S14); bandUnion.ts `dropSpurs` now strips it with the spurs
+    const P = (x: number, y: number): CorridorCase['ring'][number] => ({ x, y }) as CorridorCase['ring'][number];
+    const cases: CorridorCase[] = [
+      { ring: [P(-46558, 11807), P(-47068, 12118), P(-45810, 10259)], chord: [P(-47959, 11096), P(-44919, 11281)], hw: 77, role: 'way', key: { layer: 'ground', part: 0 }, source: 'polygon+chord' },
+      { ring: [P(13805, -22696), P(10945, -22769), P(13506, -22916)], chord: [P(13013, -24526), P(11737, -21086)], hw: 50, role: 'way', key: { layer: 'ground', part: 0 }, source: 'polygon+chord' },
+    ];
+    for (const c of cases) {
+      const ours = oursCorridor(c);
+      expect(ours !== null && !('refused' in ours)).toBe(true);
+      if (ours === null || 'refused' in ours) return;
+      const bandRings = new Set(ours.bands);
+      const loose: string[] = [];
+      for (const r of [...ours.blocks, ...ours.bands]) {
+        for (const loop of loopsOf(dedupe(r))) {
+          if (loop.length >= 3) continue;
+          const key = `${String(loop[0].x)},${String(loop[0].y)}-${String(loop[1]?.x)},${String(loop[1]?.y)}`;
+          if (!(bandRings.has(r) && ours.splitEdges.has(key))) loose.push(key);
+        }
+      }
+      expect(loose).toEqual([]);
+      const h = newHarness();
+      judgeCorridor(h, c);
+      expect(h.failures).toEqual([]);
+      expect(h.notes['dangling-attracted']).toBeUndefined();
+    }
+  });
+
   it('a faceSet-concave+chord case whose wedge split the insertion laid along a kerb spur: that split left out, no split between two blocks, the blocks and the bands agree (round S13, C-0422)', () => {
     // round S13's second NEAR at the PR size (unseeded, 2026-10-21): the chord crosses the concave ring way near its
     // corner (188364, -216690); face 0's kerb has a spur at the junction, K (188175, -216383) – (188246, -216458) –
@@ -179,6 +209,35 @@ describe('corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-
     }
     expect(h.failures).toEqual([]);
     // N-44 (3): the item's own refusals at most 1 per 10⁴ cases
+    expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
+  });
+
+  it('the generators widened (hardening round S14, notes row 13): dead-end lanes with square ends, ways across with a half-width profile', { timeout: TIMEOUT }, () => {
+    // a tenth of the run's size, as the dead-end property; most cases are attracted (a cap's corner or a profile strip's
+    // crossing places a vertex within attractCm of the ring), so every judged case is held and at least half are drawn
+    const runs = Math.max(100, Math.ceil(RUNS / 10));
+    const h = newHarness();
+    let cases = 0;
+    fc.assert(
+      fc.property(widenedCaseArb, (c) => {
+        if (c === null) return;
+        cases += 1;
+        judgeCorridor(h, c, 'widened');
+      }),
+      { numRuns: runs },
+    );
+    for (const op of ['widened', 'widened-bands']) {
+      const line = h.report.line(op);
+      console.info(`arr-bands/${op}: ${String(cases)} of ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}; attracted ${String(line.attracted)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)}; unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; notes ${JSON.stringify(h.notes)}; sources ${JSON.stringify(h.sources)}`);
+      expect(line.failures).toEqual({});
+      expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
+      expect(line.unjudged).toBeLessThanOrEqual(Math.ceil(0.01 * runs));
+      expect(line.draws).toBeGreaterThanOrEqual(Math.ceil(cases / 2));
+    }
+    // both widenings reached
+    expect(h.sources['dead-end-square'] ?? 0).toBeGreaterThan(0);
+    expect(h.sources['polygon+profile'] ?? 0).toBeGreaterThan(0);
+    expect(h.failures).toEqual([]);
     expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
   });
 });

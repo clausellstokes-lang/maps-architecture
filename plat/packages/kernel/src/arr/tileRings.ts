@@ -13,11 +13,13 @@
 // "A piece left with a hole — earlier rings lying inside a later one without reaching its sides — is refused (detail
 // `overlap`, naming a vertex of the hole)": `TileOverlap` names the ring (its index) and the hole's lowest-leftmost
 // vertex, and carries the overlay's warnings. No rings → []. A ring whose pieces the overlay left with no area has none. The warnings are the overlay's
-// (§13.1's split). Readings: C-0212.
+// (§13.1's split). The trace cuts its walks into simple loops and drops their straight-through vertices by winding.ts's
+// own `simpleLoops` and `dropStraight` (the scratch overlay's trace, one copy of each; N-c1-1, J270 (b)), with this
+// file's `keep` (a vertex where the overlay has a third edge). Readings: C-0212.
 import { isHalfEdgeLive, type FaceId, type Plat, type VertexId } from '../arena/index.js';
-import { area2, err, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
+import { area2, err, ok, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
-import { buildOverlay, canonicalRing, compareRings, windingLabels, type Ring } from './winding.js';
+import { buildOverlay, canonicalRing, compareRings, dropStraight, simpleLoops, windingLabels, type Ring } from './winding.js';
 
 /** tileRings' refusal of a piece with a hole: E_DEGENERATE `overlap`, the ring and a vertex of the hole (§3.4). */
 export type TileOverlap = Extract<KernelResult<Ring[][]>, { ok: false }> & {
@@ -29,46 +31,6 @@ export type TileOverlap = Extract<KernelResult<Ring[][]>, { ok: false }> & {
   /** The overlay's warnings (§3.7's split reads a refusal's case by them, as an empty boolean's, C-0196 (4)). */
   readonly warnings: Warning[];
 };
-
-/** A closed vertex walk cut into simple loops at every vertex it visits twice (each loop in walk order). */
-function simpleLoops(cycle: readonly VertexId[]): VertexId[][] {
-  const loops: VertexId[][] = [];
-  const stack: VertexId[] = [];
-  const at = new Map<VertexId, number>();
-  for (const v of cycle) {
-    const i = at.get(v);
-    if (i !== undefined) {
-      const loop = stack.splice(i);
-      for (const u of loop) at.delete(u);
-      loops.push(loop);
-    }
-    at.set(v, stack.length);
-    stack.push(v);
-  }
-  if (stack.length > 0) loops.push(stack);
-  return loops;
-}
-
-/** The loop without its straight-through vertices, cyclically — but never a vertex `keep` names. */
-function dropStraight(loop: LatticePoint[], keep: (q: LatticePoint) => boolean): LatticePoint[] {
-  let pts = loop;
-  let changed = true;
-  while (changed && pts.length >= 3) {
-    changed = false;
-    const out: LatticePoint[] = [];
-    const n = pts.length;
-    for (let i = 0; i < n; i += 1) {
-      const a = out.length > 0 ? out[out.length - 1] : pts[n - 1];
-      const v = pts[i];
-      const b = pts[i + 1 === n ? 0 : i + 1];
-      const straight = !keep(v) && orient2d(a.x, a.y, v.x, v.y, b.x, b.y) === 0 && (v.x - a.x) * (b.x - v.x) + (v.y - a.y) * (b.y - v.y) > 0;
-      if (straight) changed = true;
-      else out.push(v);
-    }
-    pts = out;
-  }
-  return pts;
-}
 
 /** The outgoing live half-edges' count at each vertex of the overlay. */
 function degrees(p: Plat): Map<VertexId, number> {

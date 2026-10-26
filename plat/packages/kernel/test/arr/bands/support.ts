@@ -610,3 +610,104 @@ export function shifted(rings: readonly (readonly (readonly [number, number])[])
     return to === undefined ? [[q[0], q[1]]] : to === null ? [] : [[to[0], to[1]]];
   }));
 }
+
+// ---- hardening round S14 (lane build/M0-a-09-fix-s14): spurs, ring nesting, the widened networks --------------------
+
+/**
+ * Every SPUR a band op wrote into the level-n faces inside the L1 faces (KI-1: C-0212 (8)'s dangling antenna): an edge
+ * whose rows are all the op's own (the outline roles and `corridor_split`, at level n) with one face on both sides and an
+ * end no other edge reaches, as "roles x,y-x,y" — written here from the definition (an input way's dead end is no op's).
+ */
+export function spursOf(p: Plat, n: Level, l1: readonly FaceId[], roles: readonly string[] = ['kerb', 'band', 'corridor_split']): string[] {
+  const out: string[] = [];
+  const O = p.halfEdges.origin;
+  const deg = new Map<number, number>();
+  for (let h = 0; h < 2 * p.slots.pair.top; h += 1) if (O[h] >= 0 && O[h ^ 1] >= 0) deg.set(O[h], (deg.get(O[h]) ?? 0) + 1);
+  for (const f of l1) {
+    for (const c of childrenOf(p, n, f)) {
+      const mine = new Set<number>();
+      for (const ring of faceWalk(p, n, c)) for (const h of ring) mine.add(h);
+      for (const h of mine) {
+        if ((h & 1) === 1 || !mine.has(h ^ 1)) continue;
+        if ((deg.get(O[h]) ?? 0) !== 1 && (deg.get(O[h ^ 1]) ?? 0) !== 1) continue;
+        const rows = rowsOn(p, 'edge', h);
+        if (rows.length === 0 || !rows.every((r) => p.roles.level[r] === n && roles.includes(roleInfo(p.roles.kind[r]).name))) continue;
+        const names = rows.map((r) => roleInfo(p.roles.kind[r]).name).sort().join('+');
+        out.push(`${names} ${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+      }
+    }
+  }
+  return out.sort();
+}
+
+/** Is q strictly inside the ring (non-zero winding; exact on lattice points, BigInt cross products)? */
+function windsAround(ring: readonly LatticePoint[], q: { x: number; y: number }): boolean {
+  let w = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const side = (b.x - a.x) * (q.y - a.y) - (b.y - a.y) * (q.x - a.x);
+    if (a.y <= q.y) {
+      if (b.y > q.y && side > 0) w += 1;
+    } else if (b.y <= q.y && side < 0) w -= 1;
+  }
+  return w !== 0;
+}
+
+/**
+ * The faults of a ring set's nesting (§3.4's ring convention, notes row 13): every hole (clockwise, negative area) lies
+ * inside an outer ring (counter-clockwise), and no outer ring lies inside another — read at each ring's edge midpoints
+ * (a simple ring set's rings meet at vertices at most). Empty where the set is well nested.
+ */
+export function nestingProblems(rings: readonly (readonly LatticePoint[])[]): string[] {
+  const outer = rings.filter((r) => area2(r) > 0n);
+  const out: string[] = [];
+  const mids = (r: readonly LatticePoint[]): { x: number; y: number }[] => r.map((a, i) => ({ x: (a.x + r[(i + 1) % r.length].x) / 2, y: (a.y + r[(i + 1) % r.length].y) / 2 }));
+  rings.forEach((r, i) => {
+    const a = area2(r);
+    if (a < 0n) {
+      if (!outer.some((o) => mids(r).every((m) => windsAround(o, m)))) out.push(`hole ${String(i)} inside no outer ring`);
+    } else if (outer.some((o) => o !== r && mids(r).every((m) => windsAround(o, m)))) out.push(`outer ring ${String(i)} inside another outer ring`);
+  });
+  return out;
+}
+
+/**
+ * A way of the widened B-FUZZ family (notes row 13): a bent chord (frame → an interior bend → frame), a dead end
+ * (frame → an interior point: an antenna into a face), or a closed ring way (a rectangle well inside the frame: an island,
+ * a face with a hole) — each a scalar half-width or (open ways) a two-knot profile on its ends, round or square ends.
+ */
+export interface WideWay {
+  readonly kind: 'bent' | 'dead' | 'ring';
+  readonly a: number;
+  readonly b: number;
+  readonly x: number;
+  readonly y: number;
+  readonly w: number;
+  readonly h: number;
+  readonly hw: number;
+  readonly knots: readonly [number, number] | null;
+  readonly ends: 'round' | 'square';
+}
+
+/** The widened family's network (a fresh arena each call), as `network` builds B-FUZZ's: L1 ways, the faces owned by district:1. */
+export function wideNetwork(ways: readonly WideWay[]): { p: Plat; faces: FaceId[]; table: Record<string, ChordWidth> } {
+  const p = framed();
+  const table: Record<string, ChordWidth> = {};
+  ways.forEach((c, i) => {
+    let pts: [number, number][];
+    if (c.kind === 'ring') pts = [[c.x, c.y], [c.x + c.w, c.y], [c.x + c.w, c.y + c.h], [c.x, c.y + c.h]];
+    else if (c.kind === 'dead') pts = [onFrame(c.a), [c.x, c.y]];
+    else pts = [onFrame(c.a), [c.x, c.y], onFrame(c.b)];
+    if (Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]) < 300) return;
+    const profiled = c.knots !== null && c.kind !== 'ring';
+    const knots = profiled ? { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: pts.length - 1, role: 'width_knot', ordinal: 1 }] } : {};
+    const r = tx(p, spec(1), (o) => insertChain(o, pts.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', { ...knots, ...(c.kind === 'ring' ? { closed: true } : {}) }));
+    if (!r.ok) return;
+    table[`way:${String(i)}`] = profiled ? profile([(c.knots as [number, number])[0], (c.knots as [number, number])[1]]) : { halfWidthCm: c.hw, ends: c.ends };
+  });
+  const faces: FaceId[] = [];
+  for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) faces.push(f);
+  commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
+  return { p, faces, table };
+}

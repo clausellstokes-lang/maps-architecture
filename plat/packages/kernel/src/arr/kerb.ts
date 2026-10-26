@@ -1198,7 +1198,7 @@ export const KEPT_DEEP = 'arr: a kept face of the dry-run holds a point of a par
  * Where the face (a record of level n) holds a part's region, as given (clipped), deeper than an insertion's move: the
  * part's index and the sample, or null where it stands clear. Sampled at the midpoint
  * of every interval its outline cuts from each horizontal line halfway between two consecutive distinct vertex heights
- * (`interiorPoint`'s lines, every interval): a sample inside a part farther than `DRY_MOVE_CM` from the part's outline
+ * (`labelPoint`'s lines, every interval): a sample inside a part farther than `DRY_MOVE_CM` from the part's outline
  * is no insertion's move — the face holds part of the band. A sample within it is an attracted case's sliver (a part
  * thinner there than an insertion's move, or its edge moved onto F's boundary): accepted.
  */
@@ -1397,14 +1397,18 @@ export function interiorPoint(p: Plat, level: Level, c: FaceId): XY | null {
 }
 
 /**
- * The point a face of the dry-run is labelled at: of `interiorPoint`'s candidates — the midpoint of every interval on
- * each horizontal line halfway between two consecutive distinct vertex heights — the one farthest from the face's
- * boundary (the least distance to its edges, a tie by the earlier line and interval). A part's cycle joins its points on
- * a window line by straight chords (`cycleOf`), while the arena holds F's edge there through lattice vertices up to a
- * hot pixel off that chord; a label within that of the face's boundary can fall on the wrong side of the chord (a
- * band face read as kerb: N-45 (a); the agreement run's unattracted case, notes row 55), one deeper inside cannot.
+ * The point a face (a record of level n) is labelled at: of its candidates — the midpoint of every interval its rings
+ * cut (outer ring and holes, even-odd) from each horizontal line halfway between two consecutive distinct vertex heights
+ * (never through a vertex) — the one farthest from the face's boundary (the least distance to its edges, a tie by the
+ * earlier line and interval); null where the face has no interval (never for a face of positive area). A label within a
+ * few centimetres of the face's boundary can fall on the wrong side of an outline the arena holds otherwise than it was
+ * given, one deeper inside cannot: the dry-run's labels (a part's cycle joins its points on a window line by straight
+ * chords, `cycleOf`, while the arena holds F's edge there through lattice vertices up to a hot pixel off that chord — a
+ * band face read as kerb, N-45 (a), notes row 55). (bandUnion.ts's read-back classes a committed face by the share of its
+ * area inside kerb(F) as read, hardening round S14: a face straddling the outline the commit moved off the read has no
+ * point that speaks for it.)
  */
-function labelPoint(p: Plat, level: Level, c: FaceId): XY | null {
+export function labelPoint(p: Plat, level: Level, c: FaceId): XY | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const O = p.halfEdges.origin;
@@ -1771,7 +1775,9 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * A corridor_split lies in the band (§3.7): a candidate chain that would enter kerb(F)'s interior — a block — is not
  * drawn, the kerb point spliced in for it is taken out again, and the next target is tried (C-0212 (5) as refined by
  * N-52 (2) and C-0281): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
- * its strips by the straight-through split where that one fits.
+ * its strips by the straight-through split where that one fits. Where the guard dropped a candidate and no later target
+ * drew a split (the residue of notes row 23), (iv) the one edge from J to J's nearest kerb point within reach (hardening
+ * round S14).
  */
 function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
   const X = p.vertices.x;
@@ -1791,6 +1797,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
   const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
   if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
   // A candidate snapped and guarded: kept where it stays in the band, else its splice taken out (null: try the next).
+  let guarded = false;
   const fit = (chain: readonly XY[], spliced: Reached['spliced']): KernelResult<LatticePoint[] | null> => {
     const pts: LatticePoint[] = [];
     for (const q of chain) {
@@ -1800,6 +1807,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
       if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
     }
     if (pts.length >= 2 && !entersRegion(kerbRings, pts)) return ok(pts);
+    if (pts.length >= 2) guarded = true;
     if (spliced !== null) {
       const at = spliced.ring.indexOf(spliced.v);
       if (at >= 0) spliced.ring.splice(at, 1);
@@ -1820,8 +1828,15 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
       }
     }
   }
-  const K = spliceAt(kerbRings, aim, J, jn.reach);
-  return K === null ? ok(null) : fit([J, K.v], K.spliced);
+  const splice = (q: XY): Reached | null => spliceAt(kerbRings, q, J, jn.reach);
+  const K = splice(aim);
+  const r = K === null ? ok<LatticePoint[] | null>(null) : fit([J, K.v], K.spliced);
+  if (!r.ok || r.value !== null || !guarded) return r;
+  // (iv) every target the guard dropped (notes rows 22 / 23; hardening round S14): the one edge from J to its NEAREST
+  // kerb point (§3.7's T-junction clause read literally — the foot of J's perpendicular where the kerb runs straight
+  // there), within reach; a segment from a point outside the region to its nearest point of it enters no block
+  const N = splice(J);
+  return N === null || (K !== null && N.v.x === K.v.x && N.v.y === K.v.y) ? ok(null) : fit([J, N.v], N.spliced);
 }
 
 /** A corner's chain: from the kerb corner K to the foot of its perpendicular on each spine edge at J (C-0212 (4)). */
