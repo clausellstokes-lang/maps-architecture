@@ -2,8 +2,7 @@
 // names, order and types as §2.5 declares them. `District` carries the fields M0's S6 writes (M0-e-04) and the
 // optional fields whose types §2.5 and §2.8 state; its other required fields, and `Block.frontages` (S9's, M1), are
 // staged (schema/staged.ts, C-0142 (2)). `Plot` and `Allocation` are declared whole: no M0 stage writes them, and the
-// digest's schema-shaped workload reads their shape (C-0015). §9.1's `QuarterNode`, which a District's `quarter`
-// names, is declared here with §9.1's fields (C-0245 (14)). Types only.
+// digest's schema-shaped workload reads their shape (C-0015). Types only.
 import type {
   AssignmentRef,
   BuildingClass,
@@ -26,7 +25,6 @@ import type {
   VertexRef,
 } from '../types/index.js';
 import type { WayClass } from './network.js';
-import type { Polyline } from './site.js';
 
 /** A district (§2.5): feature-named, data-defined, never a social class — the fields M0 writes (C-0142 (2)). */
 export interface District {
@@ -296,21 +294,4 @@ export interface FieldBands {
   middle: string;
   source: 'roster-shares' | 'table' | 'edit';
   epoch: number;
-}
-
-/**
- * A node of the quarter merge tree (§9.1; §14 places it in @plat/model): its district members, its two children (null
- * for a leaf), its name and its label spine — S13a's, '' and [] until S13a runs — and whether it is one of §4.5's city
- * cut (the city band's area labels). S6 builds the tree on the ground (§4.5); a District's `quarter` names a node.
- * It is no M0 record kind (schema/kinds.ts), so schemaOrder gives it no field order.
- */
-export interface QuarterNode {
-  id: Id;
-  /** Its districts. */
-  members: Id[];
-  children: [Id, Id] | null;
-  name: NameRef;
-  /** A label spine in world cm (§9.1's label geometry, no arena vertex). */
-  spine: Polyline;
-  cityCut: boolean;
 }

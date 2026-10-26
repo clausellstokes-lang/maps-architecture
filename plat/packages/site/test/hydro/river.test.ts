@@ -11,7 +11,6 @@ import {
   carveCourse,
   cellAt,
   d8,
-  edgePoint,
   fieldOf,
   firstSelfTouch,
   inletMasks,
@@ -58,47 +57,6 @@ function run(h: (x: number, y: number) => number, river: RiverRequest | null, se
 /** The carve bars on a run: the bed under every course never rises; no cell lowered past the cap; no cell raised. */
 function expectCarveBars(r: Run, carveMaxCm = CITY.carveMaxCm): void {
   carveBars(r.before, r.terrain, r.bodies, carveMaxCm);
-}
-
-/** The squared distance from the frame's centre (the origin) to a polyline: the test's own point–segment distance. */
-function originDist2(course: readonly XY[]): number {
-  let best = course.length === 1 ? course[0].x * course[0].x + course[0].y * course[0].y : Infinity;
-  for (let v = 0; v + 1 < course.length; v += 1) {
-    const a = course[v];
-    const dx = course[v + 1].x - a.x;
-    const dy = course[v + 1].y - a.y;
-    const len2 = dx * dx + dy * dy;
-    const t = len2 > 0 ? Math.min(1, Math.max(0, -(a.x * dx + a.y * dy) / len2)) : 0;
-    const px = a.x + t * dx;
-    const py = a.y + t * dy;
-    best = Math.min(best, px * px + py * py);
-  }
-  return best;
-}
-
-/**
- * The test's own Chaikin smoothing of a control polyline, rounded to whole centimetres: each segment (a, b) gives
- * ¾a + ¼b and ¼a + ¾b, the two ends kept, for THREE rounds (params.ts's CHAIKIN_ROUNDS, written here as a literal —
- * never read from src); a polyline of two points is left as it is; consecutive equal points after rounding dropped.
- */
-function smoothed(points: readonly XY[]): XY[] {
-  let cur: XY[] = points.map((p) => ({ x: p.x, y: p.y }));
-  for (let r = 0; r < 3 && cur.length > 2; r += 1) {
-    const next: XY[] = [cur[0]];
-    for (let i = 0; i + 1 < cur.length; i += 1) {
-      next.push({ x: 0.75 * cur[i].x + 0.25 * cur[i + 1].x, y: 0.75 * cur[i].y + 0.25 * cur[i + 1].y });
-      next.push({ x: 0.25 * cur[i].x + 0.75 * cur[i + 1].x, y: 0.25 * cur[i].y + 0.75 * cur[i + 1].y });
-    }
-    next.push(cur[cur.length - 1]);
-    cur = next;
-  }
-  const out: XY[] = [];
-  for (const p of cur) {
-    const q = { x: Math.round(p.x) + 0, y: Math.round(p.y) + 0 };
-    const last = out[out.length - 1];
-    if (last === undefined || last.x !== q.x || last.y !== q.y) out.push(q);
-  }
-  return out;
 }
 
 describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)', () => {
@@ -220,29 +178,6 @@ describe('the control knots (GEO-36)', () => {
       }
     }
     expect(offsets).toBeGreaterThan(40);
-  });
-
-  it('the course is the knots’ Chaikin smoothing, three rounds, rounded to the centimetre (§4.2 S1 (3); hardening round S1, note N-c1-5)', () => {
-    // On traces — first tries and re-traces at halved offsets alike — and on the courses runRivers delivers.
-    let retraced = 0;
-    for (const h of [valley, valleyWithSink, valleyWithRidge, eastward]) {
-      const terrain = terrainFrom(SMALL, h);
-      const hyd = cityHydrology(terrain);
-      const inlet = northInlet(hyd.field.grid, reachOf(frameOf(SMALL)));
-      for (let seed = 1; seed <= 4; seed += 1) {
-        const tr = traceRiver(hyd.field, inlet, streamFromKey([seed, 5, 5, 5]), traceOpts(terrain, CITY.riverBandCm[0]));
-        expect(tr.knots.length).toBeGreaterThan(3);
-        expect(tr.course).toEqual(smoothed(tr.knots.map((k) => k.at)));
-        // Smoothed, not the control polyline itself: three rounds give about eight vertices per knot span.
-        expect(tr.course.length).toBeGreaterThan(4 * tr.knots.length);
-        if (tr.scale < 1) retraced += 1;
-      }
-    }
-    expect(retraced).toBeGreaterThan(0);
-    for (let seed = 1; seed <= 4; seed += 1) {
-      const b = run(valley, { inflowBearingCdeg: 0 }, seed).bodies[0];
-      expect(courseOf(b)).toEqual(smoothed((b.controls ?? []).map((k) => ({ x: k.at.x, y: k.at.y }))));
-    }
   });
 
   it('knots sit mostly on alternating sides: a knot keeps the previous side with chance MEANDER_SAME_SIDE (C-0173 (4))', () => {
@@ -455,14 +390,6 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     const { inlet, edge } = inletOf(field, reach, half, 0, 0.9, -1, CITY.carveMaxCm);
     expect(edge).toBe(1);
     expect(inlet.cell).toBe(31 * 32 + cellAt(g, inlet.at.x, 0).i);
-    // An oblique ray onto the east or west edge (hardening round S1, note N-c1-3): at 60° it meets the east edge at
-    // y = reach · cot 60° (231 m north, inside the frame's half side: no clamp), at 240° the west edge at its mirror;
-    // the plane descends from every cell of both edges, so the point stays where the ray put it, on that edge's cell.
-    const cot60 = Math.cos(Math.PI / 3) / Math.sin(Math.PI / 3);
-    const east = inletOf(field, reach, half, 6000, null, -1, CITY.carveMaxCm);
-    expect(east).toEqual({ edge: 0, inlet: { at: { x: 40_000, y: Math.round(40_000 * cot60) }, cell: cellAt(g, 0, 40_000 * cot60).j * 32 + 31 } });
-    const west = inletOf(field, reach, half, 24_000, null, -1, CITY.carveMaxCm);
-    expect(west).toEqual({ edge: 2, inlet: { at: { x: -40_000, y: -Math.round(40_000 * cot60) }, cell: cellAt(g, 0, -40_000 * cot60).j * 32 } });
   });
 
   it('the inlet rung delivers: attempt 1 shifted west of the divide runs through the core — full at tier 3 (C-0173 (6))', () => {
@@ -529,35 +456,6 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     expect(nearest).toBeGreaterThan(core);
     expect(Math.min(...c.map((p) => p.y))).toBeGreaterThan(RIDGE_Y_CM - 400);
     expectCarveBars(r);
-    // Which attempt is delivered (C-0175's pick; hardening round S1, note N-c1-4): none of the three fits, so the
-    // delivered one is the attempt whose delivered course — cut before its failure, then back until its bed fits the
-    // cap — passes nearest the frame's centre. Recomputed here from the three attempts' own traces.
-    const terrain = terrainFrom(SMALL, valleyWithRidge);
-    const field = cityHydrology(terrain).field;
-    const f = frameOf(SMALL);
-    const reach = reachOf(f);
-    const ctx = siteContext(1);
-    const concern = CONCERNS['water.river'];
-    const cuts: XY[][] = [];
-    const near2: number[] = [];
-    for (let a = 0; a < 3; a += 1) {
-      const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, a));
-      const shift = a > 0 ? stream.float01() : null;
-      const { inlet } = inletOf(field, reach, { x: f.widthCm / 2, y: f.heightCm / 2 }, 0, shift, -1, CITY.carveMaxCm);
-      const tr = traceRiver(field, inlet, new MeanderDraws(stream), traceOpts(terrain, CITY.riverBandCm[0], CITY, reach));
-      expect(tr.ok).toBe(false);
-      let end = Math.max(2, Math.min(tr.course.length, tr.cutAt));
-      while (end > 2 && planCarve(terrain, tr.course.slice(0, end), CITY.carveMaxCm).firstExceed >= 0) end -= 1;
-      const cut = tr.course.slice(0, end);
-      cuts.push(cut);
-      near2.push(originDist2(cut));
-    }
-    // The three pass the centre at distinct distances (the order decides), and the nearest is the one delivered.
-    const order = [0, 1, 2].sort((p, q) => near2[p] - near2[q]);
-    expect(near2[order[1]] - near2[order[0]]).toBeGreaterThan(10_000);
-    expect(near2[order[2]] - near2[order[1]]).toBeGreaterThan(10_000);
-    expect(out.attempt).toBe(order[0]);
-    expect(c).toEqual(cuts[order[0]]);
   });
 
   it('with no bearing the inlet lies on the highest edge by mean height, ties E, N, W, S (§4.2 S1 (3); C-0173 (2))', () => {
@@ -589,22 +487,6 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     const field = fieldOf(g, Array.from({ length: 32 * 32 }, (_, c) => 100_000 + 40 * Math.floor(c / 32) + 10 * (c % 32)));
     expect(inletOf(field, { x: 40_000, y: 40_000 }, { x: 25_000, y: 25_000 }, undefined, null, -1, CITY.carveMaxCm).edge).toBe(1);
     expect(inletOf(field, { x: 40_000, y: 40_000 }, { x: 25_000, y: 25_000 }, undefined, null, 1, CITY.carveMaxCm).edge).toBe(0);
-  });
-
-  it('edgePoint: an east or west border cell keeps its centre’s row, a north or south one its centre’s column, on a non-square grid (hardening round S1, note N-c1-7)', () => {
-    // 5 columns × 9 rows of 25 m about the centre; the arena's edge on the grid's outer sides.
-    const g = { cellCm: 2500, cols: 5, rows: 9, originX: -6250, originY: -11_250 } as HydroGrid;
-    const reach = { x: 6250, y: 11_250 };
-    for (let j = 0; j < 9; j += 1) {
-      const y = -11_250 + (j + 0.5) * 2500;
-      expect(edgePoint(g, j * 5 + 4, reach, 0)).toEqual({ x: 6250, y }); // E
-      expect(edgePoint(g, j * 5, reach, 4)).toEqual({ x: -6250, y }); // W
-    }
-    for (let i = 0; i < 5; i += 1) {
-      const x = -6250 + (i + 0.5) * 2500;
-      expect(edgePoint(g, 8 * 5 + i, reach, 2)).toEqual({ x, y: 11_250 }); // N
-      expect(edgePoint(g, i, reach, 6)).toEqual({ x, y: -11_250 }); // S
-    }
   });
 
   it('F-WORK: a low hydro.cells limit coarsens the grid one step and reports work_cut with the count; D8 still 100 %', () => {

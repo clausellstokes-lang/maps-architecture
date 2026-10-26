@@ -10,7 +10,6 @@
 // impassable, so the route still runs through the pick; with no such path the route is `unserved` (C-0249).
 import { astar, dijkstraTree, dmath } from '@plat/kernel';
 import { bearingCdeg, PI, type XY } from './geom.js';
-import { meetsWater } from './lattice.js';
 import type { GatePick, GateRoute, Lattice, PlazaTree, UnservedRoute } from './types.js';
 
 /** The plaza-rooted Dijkstra tree over the lattice from every attach node of the plaza (§4.2 S3 (5)). */
@@ -225,26 +224,4 @@ export function rerouteOutside(
     route: { ...route, nodes, pickAt: Math.min(route.pickAt, gateIndex), bearingCdeg: bearingCdeg(end.x - gateAt.x, end.y - gateAt.y), cost, charged: route.charged + search.count },
     charged: search.count,
   };
-}
-
-/**
- * §4.2 S3 (7)'s deck rule: a route whose first point at T = t₁ falls on a deck edge with the gate's point in the
- * water (`s3Slice` reads `inWater`) is re-solved whole as (5) solves it — the plaza-rooted Dijkstra tree to its pick, heap A*
- * beyond it — with every deck edge whose ends straddle the stage-1 boundary (one end in `selected`, one not) excluded,
- * so its first exit is a ground edge and its gate stands on land. The tree is the blocked graph's own (its settled
- * nodes charged with the A*'s, route.nodes, C-0201 (6)); a pick the re-solve cannot serve is `unserved` (F-ROUTE,
- * §5.2), or `work_cut` at `limit`. C-0397.
- */
-export function resolveOffDecks(lattice: Lattice, pick: GatePick, selected: Uint8Array, limit = Infinity): { routes: GateRoute[]; unserved: UnservedRoute[]; charged: number } {
-  const g = lattice.graph;
-  const weights = Float64Array.from(g.weights);
-  for (let u = 0; u < g.n; u += 1) {
-    for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
-      const v = g.targets[e];
-      if (selected[u] !== selected[v] && weights[e] < Infinity && meetsWater(lattice, lattice.points[u], lattice.points[v])) weights[e] = Infinity;
-    }
-  }
-  const tree = plazaTree({ ...lattice, graph: { ...g, weights } });
-  const solved = gateRoutes(tree, [pick], { nodeLimit: limit });
-  return { routes: solved.routes, unserved: solved.unserved, charged: tree.settled + solved.charged };
 }

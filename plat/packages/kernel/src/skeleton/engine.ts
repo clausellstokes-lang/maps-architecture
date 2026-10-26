@@ -26,16 +26,6 @@
 // area, collapses at once. §3.8's 1 cm coalescing is applied to the finished graph (coalesce.ts). C-0168 (2), (4)
 // record the construction. The queue is charged one event per resolution and stops at its law (§3.8's
 // 4 · (n + r) + 64, or a larger table law) with E_WORK_LIMIT (F-WORK): a count, never a time.
-//
-// Two readings (this round's choices row; census D-02, Q73). `strict`, the default, is the construction above and every
-// output before the round. `tolerant` is the second reading `skeleton()` takes only when the strict one gives no
-// validated graph, at the same coordinates and under what is left of the same law: it reads §3.8's 1 cm coalescing at
-// the event itself — a wavefront vertex next to an event's vertices that stands within 1 cm of the event's point at its
-// moment joins the event (two near-collinear lines a millimetre apart otherwise leave a face narrower than the
-// validator's millimetre, corpus footprints 1144 and 1840) — and reads the angular order of edges within 1° of one
-// direction as undetermined at the coordinates' precision: when the order at a node does not alternate, the adjacent
-// swap of such a pair (the most nearly parallel first) that makes it alternate is taken (a constant-width river's
-// banks meeting all along its centre line, the relief fixtures' water faces).
 import { ratio } from '../num/index.js';
 import { halfPlaneOf } from '../num/exact.js';
 
@@ -52,9 +42,6 @@ const NEAR_CM = 0.1;
 const NEAR_RAD = 0.001;
 /** sin 1°, to the double nearest it. */
 const SIN_1_DEG = 0.01745240643728351;
-
-/** The tolerant reading's join radius: §3.8's 1 cm in position. */
-const JOIN_CM = 1;
 
 /** How far a new vertex's own lines may meet from its node before the node is its start instead (an ill-conditioned near-fold). */
 const ANCHOR_CM = 1e-3;
@@ -175,13 +162,6 @@ interface Spoke {
   order: number;
 }
 
-/** Does the angular order alternate — every outgoing edge followed by an incoming one? */
-function alternates(spokes: readonly Spoke[]): boolean {
-  const m = spokes.length;
-  for (let i = 0; i < m; i += 1) if (spokes[i].kind === 0 && spokes[(i + 1) % m].kind !== 1) return false;
-  return true;
-}
-
 /** The input edges' lines (relative coordinates): what the engine moves and the coalescing pass fits nodes to. */
 export function buildLines(inp: EngineInput): Lines {
   const n = inp.xs.length;
@@ -228,18 +208,10 @@ function turnK(L: Lines, a: number, b: number): number {
 }
 
 /**
- * The engine's two readings of near-coincident structure (the header above): `strict` resolves only events coincident
- * to the coordinates' rounding scale; `tolerant`, taken by `skeleton()` only after a strict run gives no validated
- * graph, joins a neighbouring vertex within 1 cm of an event and reads an order within 1° by alternation.
- */
-export type EngineReading = 'strict' | 'tolerant';
-
-/**
  * Runs the wavefront to its end. `limit` is the event law (the caller passes §3.8's 4 · (n + r) + 64, or a larger
- * table law, less what an earlier reading of the same rings spent); the result is complete only with status `ok`.
+ * table law); the result is complete only with status `ok`.
  */
-export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = {}, reading: EngineReading = 'strict'): EngineResult {
-  const tolerant = reading === 'tolerant';
+export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = {}): EngineResult {
   const L = buildLines(inp);
   const n = inp.xs.length;
   let extent = 0;
@@ -425,18 +397,6 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
       const s = L.dx[g] * px + L.dy[g] * py;
       if (s > along(u, g, tc) && s < along(u.next, g, tc)) splits.push(u);
     }
-    if (tolerant) {
-      // §3.8's 1 cm: a vertex next to the event's vertices standing within 1 cm of its point joins it (never an end of
-      // an edge the event splits), repeatedly, so a sub-centimetre wavefront edge leaves no face narrower than the
-      // validator's millimetre
-      const near = (w: WV): boolean =>
-        w.alive && !inC.has(w) && !splits.some((u) => u === w || u.next === w) && (posX(w, tc) - px) * (posX(w, tc) - px) + (posY(w, tc) - py) * (posY(w, tc) - py) <= JOIN_CM * JOIN_CM;
-      for (let k = 0; k < C.length; k += 1) {
-        const v = C[k];
-        if (near(v.prev)) add(v.prev);
-        if (near(v.next)) add(v.next);
-      }
-    }
     const N = nodeFor(px, py, tc);
     const nx = nodes[N].x;
     const ny = nodes[N].y;
@@ -495,32 +455,6 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
         }
       }
       if (!swapped) break;
-    }
-    if (tolerant && !alternates(spokes)) {
-      // edges within 1° of one direction: their order is below the coordinates' precision, so the adjacent swap of an
-      // outgoing and an incoming such edge that makes the order alternate is taken, the most nearly parallel pair first
-      const cand: { sin: number; i: number }[] = [];
-      for (let i = 0; i < m; i += 1) {
-        const p = spokes[i];
-        const q = spokes[(i + 1) % m];
-        if (p.kind === q.kind) continue;
-        const cr = p.vx * q.vy - p.vy * q.vx;
-        const lp = Math.sqrt(p.vx * p.vx + p.vy * p.vy) * Math.sqrt(q.vx * q.vx + q.vy * q.vy);
-        if (p.vx * q.vx + p.vy * q.vy > 0 && Math.abs(cr) <= SIN_1_DEG * lp) {
-          const sn = ratio(Math.abs(cr), lp, 'area');
-          cand.push({ sin: sn.ok ? sn.value : 0, i });
-        }
-      }
-      cand.sort((p, q) => p.sin - q.sin || p.i - q.i);
-      for (const { i } of cand) {
-        const j = (i + 1) % m;
-        const p = spokes[i];
-        spokes[i] = spokes[j];
-        spokes[j] = p;
-        if (alternates(spokes)) break;
-        spokes[j] = spokes[i];
-        spokes[i] = p;
-      }
     }
     const pairs: [Spoke, Spoke][] = [];
     for (let i = 0; i < m; i += 1) {

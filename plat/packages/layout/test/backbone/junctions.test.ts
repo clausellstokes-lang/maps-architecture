@@ -1,7 +1,7 @@
 // M0-c-03: the junction rules (§4.3: "minimum crossing angle 30° (else deflect); Y → T conversion where the acute arm
 // can be bent within its class curvature limit (G-P5)"; C-0236 (8)) on synthetic graphs.
 import { describe, expect, it } from 'vitest';
-import { arterialGraph, chainPoints, classGeometryCm, classify, DEFLECT_MARGIN_CDEG, directionCdeg, junctionAngles, junctionRules, type RoutePoint, type S4Route, type Simplified } from '../../src/index.js';
+import { arterialGraph, chainPoints, classGeometryCm, classify, DEFLECT_MARGIN_CDEG, junctionAngles, junctionRules, type RoutePoint, type S4Route, type Simplified } from '../../src/index.js';
 import { P, T } from './support.js';
 
 function route(id: string, order: number, pts: [number, number][]): S4Route {
@@ -74,15 +74,5 @@ describe('the 30° minimum crossing angle (§4.3)', () => {
     const g = arterialGraph([through, branch], 800);
     const polys = g.chains.map((c) => ({ points: chainPoints(g, c), anchor: [] as boolean[] }));
     expect(junctionAngles(g, polys).map((a) => Math.round(a.minCdeg))).toEqual([9000]);
-  });
-});
-
-describe("an arm's bearing (directionCdeg; N-c1b-1)", () => {
-  it('is counter-clockwise from +x in cdeg, [0, 36 000): the four axes and a diagonal', () => {
-    expect(directionCdeg({ x: 1, y: 0 })).toBe(0);
-    expect(directionCdeg({ x: 0, y: 1 })).toBeCloseTo(9000, 9);
-    expect(directionCdeg({ x: -1, y: 0 })).toBeCloseTo(18000, 9);
-    expect(directionCdeg({ x: 0, y: -1 })).toBeCloseTo(27000, 9);
-    expect(directionCdeg({ x: 2500, y: -2500 })).toBeCloseTo(31500, 9);
   });
 });

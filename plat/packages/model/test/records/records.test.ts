@@ -2,9 +2,8 @@
 // no record type holds a vertex position but §2.2 rule 5's exceptions (a type test over every field path of every
 // record); every entity record embeds its identity's `id` and its `Lifecycle` (§2.4, §2.8); the minimal records hold
 // the fields their rows state — Enceinte C-0033's with its id and lifecycle (C-0142 (2)(a)), Gate C-0087's water-gate
-// fields, Seam C-0046's two districts, boundary chains and portals with its amendments staged to M1 (C-0145); §9.1's
-// QuarterNode with its fields (C-0245 (14)). Type assertions are checked by `corepack pnpm build` (tsc -b compiles
-// this file); the file runs under vitest.
+// fields, Seam C-0046's two districts, boundary chains and portals with its amendments staged to M1 (C-0145). Type
+// assertions are checked by `corepack pnpm build` (tsc -b compiles this file); the file runs under vitest.
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import type {
   Allocation,
@@ -24,13 +23,11 @@ import type {
   Junction,
   LatticePoint,
   Lifecycle,
-  NameRef,
   NodeRef,
   Outfall,
   Plot,
   PlotBound,
   Portal,
-  QuarterNode,
   RecordOf,
   Reservation,
   Seam,
@@ -170,23 +167,4 @@ describe('the M0 records (§2.3, §2.4, §2.5, §2.7, II.1)', () => {
     expectTypeOf<Bridge['state']>().toEqualTypeOf<'site' | 'built'>();
     expectTypeOf<Bridge['deck']>().toEqualTypeOf<[VertexRef, VertexRef]>();
   });
-
-  it('§9.1\'s QuarterNode, which a District\'s quarter names: its members, children, name, label spine and city-cut flag; its one position path the label spine', () => {
-    expectTypeOf<QuarterNode>().toEqualTypeOf<{
-      id: Id;
-      members: Id[];
-      children: [Id, Id] | null;
-      name: NameRef;
-      spine: Mdl.Polyline;
-      cityCut: boolean;
-    }>();
-    expectTypeOf<Mdl.Polyline>().toEqualTypeOf<LatticePoint[]>();
-    expectTypeOf<District['quarter']>().toEqualTypeOf<QuarterNode['id']>();
-    // a label spine is §9.1's label geometry in world cm, no arena vertex
-    expectTypeOf<PositionPaths<QuarterNode>>().toEqualTypeOf<'spine[]'>();
-    expectTypeOf<'quarterNode' | 'quarter'>().not.toMatchTypeOf<keyof RecordOf>();
-    const leaf: QuarterNode = { id: 'quarter:a', members: ['district:a'], children: null, name: '', spine: [], cityCut: false };
-    expect(leaf.children).toBeNull();
-  });
 });
-

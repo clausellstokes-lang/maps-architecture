@@ -71,31 +71,41 @@ type Attempt =
   | { readonly ok: false; readonly reason: string; readonly work?: boolean };
 
 /**
- * The placement rule's test (i) on the route A–B (§3.6, J-K17): the lattice point Q lies strictly between the route's
- * ends (by its projection) and within the hot pixel of the route's line, 0.71 cm (placement.ts's `HOT_PIXEL_SQ`).
- * Exact on lattice points; false on a route of no length.
+ * The placement rule for a slide or a re-seat (§3.6, J-K17): the lattice point nearest `P` among the points that lie
+ * within 0.71 cm of the route A–B, strictly between its ends, within `attractCm` of `P`, and keep the vertex's own
+ * checks (minEdge to its neighbours, one vertex per lattice point, clearance, no crossing — validate.ts's
+ * `vertexProblem`) at the view's other points; ties y then x. The candidates come in the placement rule's order — the
+ * nearest of the four lattice points around `P` first, then the lattice points of the route's hot-pixel band within
+ * `attractCm` of `P`, nearest first, ties y then x — and each is charged to `insert.placementCandidates` before it is
+ * tested, (i) included. placement.ts's `placementCandidates` filters (i) out of the band before its caller charges, and
+ * the band's rounded edges can hold a point (i) refuses, so the warp keeps this loop and its work counts (C-0334).
+ * Null when none qualifies; 'work' when the batch's limit is reached.
  */
-export function onRoutePixel(ax: number, ay: number, bx: number, by: number, qx: number, qy: number): boolean {
+function placeOnRoute(t: OpenTx, view: StepView, v: VertexId, ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number; nearest: boolean } | null | 'work' {
   const ux = bx - ax;
   const uy = by - ay;
   const len2 = ux * ux + uy * uy;
-  const tq = (qx - ax) * ux + (qy - ay) * uy;
-  if (tq <= 0 || tq >= len2) return false;
-  const o = orient2d(ax, ay, bx, by, qx, qy);
-  return o * o <= HOT_PIXEL_SQ * len2;
-}
-
-/**
- * The placement rule's candidates after the nearest (§3.6, J-K17): the lattice points of the hot-pixel band around the
- * route A–B (of length > 0) within `attractCm` of P, `near` left out, nearest P first, ties y then x. The band is the
- * column (or row) of points within `HOT_PIXEL_CM` of the line along the route's shallower axis, from the rounded
- * `mid ± half`, so its edges can hold a point test (i) refuses (`onRoutePixel`; N-r10-1). Null when the band's slope or
- * width leaves the double range.
- */
-export function hotPixelCandidates(ax: number, ay: number, bx: number, by: number, px: number, py: number, near: { readonly x: number; readonly y: number }): { x: number; y: number }[] | null {
-  const ux = bx - ax;
-  const uy = by - ay;
-  const len = Math.sqrt(ux * ux + uy * uy);
+  if (len2 === 0) return null;
+  const len = Math.sqrt(len2);
+  const near = nearestLattice(px, py);
+  const qualifies = (qx: number, qy: number): boolean => {
+    const tq = (qx - ax) * ux + (qy - ay) * uy;
+    if (tq <= 0 || tq >= len2) return false;
+    const o = orient2d(ax, ay, bx, by, qx, qy);
+    if (o * o > HOT_PIXEL_SQ * len2) return false;
+    view.set(v, qx, qy);
+    return vertexProblem(view, v) === null;
+  };
+  const tried = new Set<string>();
+  const tryOne = (qx: number, qy: number): boolean | 'work' => {
+    tried.add(`${qx},${qy}`);
+    if (!chargeTx(t, INSERT_PLACEMENT_CANDIDATES, 1)) return 'work';
+    return qualifies(qx, qy);
+  };
+  const first = tryOne(near.x, near.y);
+  if (first === 'work') return 'work';
+  if (first) return { x: near.x, y: near.y, nearest: true };
+  // Outward from P within attractCm: the lattice points of the hot-pixel band around A–B, nearest first (ties y then x).
   const shallow = Math.abs(ux) >= Math.abs(uy);
   const along = shallow ? ux : uy;
   const across = shallow ? uy : ux;
@@ -112,42 +122,12 @@ export function hotPixelCandidates(ax: number, ay: number, bx: number, by: numbe
       const qx = (shallow ? i : j) + 0;
       const qy = (shallow ? j : i) + 0;
       const d = (qx - px) * (qx - px) + (qy - py) * (qy - py);
-      if (d > ATTRACT_SQ || (qx === near.x && qy === near.y)) continue;
+      if (d > ATTRACT_SQ || tried.has(`${qx},${qy}`)) continue;
       cands.push({ x: qx, y: qy, d });
     }
   }
   cands.sort((a, b) => a.d - b.d || a.y - b.y || a.x - b.x);
-  return cands.map((c) => ({ x: c.x, y: c.y }));
-}
-
-/**
- * The placement rule for a slide or a re-seat (§3.6, J-K17): the lattice point nearest `P` among the points that lie
- * within 0.71 cm of the route A–B, strictly between its ends, within `attractCm` of `P`, and keep the vertex's own
- * checks (minEdge to its neighbours, one vertex per lattice point, clearance, no crossing — validate.ts's
- * `vertexProblem`) at the view's other points; ties y then x. The candidates come in the placement rule's order — the
- * nearest of the four lattice points around `P` first, then `hotPixelCandidates`'s points — and each is charged to
- * `insert.placementCandidates` before it is tested, (i) (`onRoutePixel`) included. placement.ts's `placementCandidates`
- * filters (i) out of the band before its caller charges, and the band's rounded edges can hold a point (i) refuses, so
- * the warp keeps this loop and its work counts (C-0338 (4)). Null when none qualifies; 'work' when the batch's limit is
- * reached.
- */
-function placeOnRoute(t: OpenTx, view: StepView, v: VertexId, ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number; nearest: boolean } | null | 'work' {
-  const ux = bx - ax;
-  const uy = by - ay;
-  if (ux * ux + uy * uy === 0) return null;
-  const tryOne = (qx: number, qy: number): boolean | 'work' => {
-    if (!chargeTx(t, INSERT_PLACEMENT_CANDIDATES, 1)) return 'work';
-    if (!onRoutePixel(ax, ay, bx, by, qx, qy)) return false;
-    view.set(v, qx, qy);
-    return vertexProblem(view, v) === null;
-  };
-  const near = nearestLattice(px, py);
-  const first = tryOne(near.x, near.y);
-  if (first === 'work') return 'work';
-  if (first) return { x: near.x, y: near.y, nearest: true };
-  const rest = hotPixelCandidates(ax, ay, bx, by, px, py, near);
-  if (rest === null) return null;
-  for (const c of rest) {
+  for (const c of cands) {
     const r = tryOne(c.x, c.y);
     if (r === 'work') return 'work';
     if (r) return { x: c.x, y: c.y, nearest: false };

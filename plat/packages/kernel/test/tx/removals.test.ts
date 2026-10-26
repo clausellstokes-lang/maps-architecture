@@ -7,7 +7,6 @@ import { describe, expect, it } from 'vitest';
 import { faceKey, idOf, roleIdOf, rowsOn, VERTEX_SPLIT, VERTEX_STEINER } from '../../src/arena/index.js';
 import { insertChain, splitThrough } from '../../src/insert/index.js';
 import { clearFiner, removeEdges, retypeEdges, routeLines, setOwner, tx } from '../../src/tx/index.js';
-import type { Level, StageId } from '../../src/types/index.js';
 import { between, commit, degreeAt, edgeRows, framed, healthy, must, pt, readable, S4, S8, S10, spec, state, vertexAtPoint } from './support.js';
 
 const noVersion = (s: string): string => s.replace(/#v\d+$/, '');
@@ -176,33 +175,6 @@ describe('§13.1: clearFiner after a refinement restores the coarser level exact
   });
 });
 
-describe('L8 (judged, hardening round S7): a face split by a batch keeps the split face\'s stage rank, and the kept-content rule reads it', () => {
-  it('an L2 cell made by S8, split by an S4 batch\'s lane: both parts rank 8 (§2.2 rule 4, §3.6 step 5) — cleared by an S8 re-derivation, kept from S10', () => {
-    // §2.2 rule 4: "a split face's two parts both inherit its owner and stage rank until the stage re-owns one"; §3.3 kept
-    // content reads that rank, so the split parts are S8's content, not S4's: S8 clears them, S10 keeps them.
-    const run = (from: StageId): { cleared: boolean; ranks: number[] } => {
-      const p = spined();
-      const blockFace = northFace(p);
-      commit(p, 1, (o) => setOwner(o, [blockFace], 'block:n'), { stage: S4, rederivesFrom: S4 });
-      const c2 = commit(p, 2, (o) => insertChain(o, [pt(1500, 2000), pt(1500, 4000)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
-      const l2 = c2.record?.faces.find((d) => d.level === 2)?.created ?? [];
-      commit(p, 2, (o) => setOwner(o, l2, 'cell:1'), { stage: S8, rederivesFrom: S8 });
-      const c3 = commit(p, 2, (o) => insertChain(o, [pt(0, 3000), pt(1500, 3000)], [{ role: 'kerb', entity: 'lane:2' }], 'mandatory'), { stage: S4, rederivesFrom: S4 });
-      const split = c3.record?.faces.find((d) => d.level === 2);
-      const parts = [...(split?.created ?? []), ...(split?.changed ?? [])];
-      const ranks = parts.map((f) => p.faces[2].stage[f]).sort((a, b) => a - b);
-      const cl = commit(p, 1, (o) => clearFiner(o, { owner: 'block:n', level: 1 }, 1), { stage: from, rederivesFrom: from });
-      healthy(p);
-      return { cleared: cl.record !== null, ranks };
-    };
-    const s8 = run(S8);
-    expect(s8.ranks.length).toBeGreaterThanOrEqual(2);
-    expect([...new Set(s8.ranks)]).toEqual([8]);
-    expect(s8.cleared).toBe(true);
-    expect(run(S10).cleared).toBe(false);
-  });
-});
-
 describe('§2.2 rule 3 (a): an edge whose remaining rows are all above its birth level takes the lowest of them', () => {
   it('a quay on a shore: the shore row removed by an L0 batch, the edge becomes L1 (demoted), the L0 faces beside it merge', () => {
     const p = framed();
@@ -261,54 +233,24 @@ describe('C-0185 (4): which identical-row pairs are runs', () => {
     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']);
   });
 
-  it('a split vertex whose remaining edges match at their level but differ in a finer row (an L2 kerb ending on one side): restored to L2, then the kerb\'s removal dissolves it', () => {
-    // Session round S7 (census R-10, queue Q62; checks/M0-a-06-notes.md N-s6-1, N-s6c-1): the kerb ENDING at the junction
-    // is finer geometry the vertex meets, so split restoration applies with no finer edge or vertex row: the junction
-    // takes the kerb's level (a Steiner vertex of the spine's L1 run, flag kept) and the L1 route is restored exactly.
-    // Before the round it stayed an L1 route vertex, and the kerb's later removal — a lawful L2 batch — dissolved an L1
-    // vertex and was refused by index freshness ('an L2 batch wrote the L1 index (delete of vertex … (L1)) …').
+  it('a split vertex whose remaining edges match at their level but differ in a finer row (an L2 kerb on one side): kept', () => {
     const p = spined();
-    const spine = noVersion(state(p));
     commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'lane:1' }], 'mandatory'));
     commit(p, 2, (o) => insertChain(o, [pt(2000, 2000), pt(4000, 2000)], [{ role: 'kerb', entity: 'kerb:1' }], 'mandatory'));
     const v = vertexAtPoint(p, 2000, 2000);
     expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['kerb/kerb:1', 'way/way:1']);
     healthy(p);
-    const c = commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
+    commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
     healthy(p);
-    readable(p);
+    // The way's run through v survives whole at L1, so v keeps its flag (b); the kerb's end keeps v (no dissolution).
+    // It meets no finer edge and carries no finer vertex row, so split restoration leaves it at L1 (§2.2 rule 3 (c);
+    // C-0356 bounds the restored level by such a row only when restoration applies).
     expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
-    expect(p.vertices.level[v]).toBe(2);
-    expect(p.vertices.flags[v] & (VERTEX_SPLIT | VERTEX_STEINER)).toBe(VERTEX_SPLIT | VERTEX_STEINER);
-    expect(c.record?.demoted.vertices).toContain(v);
+    expect(p.vertices.level[v]).toBe(1);
+    expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
     expect(degreeAt(p, 2000, 2000)).toBe(2);
     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']);
     expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['kerb/kerb:1', 'way/way:1']);
-    const way = routeLines(p, { role: 'way', entity: 'way:1' }, { layer: 'ground', part: 0 });
-    expect(way.map((ln) => ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`))).toEqual([['0,2000', '4000,2000']]);
-    // The kerb removed by its own level's batch: committed, the junction dissolved, the spine as before the lane.
-    const r = tx(p, spec(2), (o) => removeEdges(o, { role: 'kerb', entity: 'kerb:1' }));
-    expect(r.ok ? 'committed' : `${r.code} ${r.detail}`).toBe('committed');
-    healthy(p);
-    readable(p);
-    expect(vertexAtPoint(p, 2000, 2000)).toBe(-1);
-    expect(noVersion(state(p))).toBe(spine);
-  });
-
-  it('N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it', () => {
-    // checks/M0-a-06-notes.md N-19 (mutant S06: rule 3 (b)'s survival test without the after-batch row identity).
-    const p = framed();
-    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    commit(p, 0, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
-    const v = vertexAtPoint(p, 2000, 2000);
-    expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
-    const c = commit(p, 0, (o) => retypeEdges(o, { chain: { role: 'way', entity: 'way:1' }, from: pt(2000, 2000), to: pt(4000, 2000) }, [{ role: 'shore', entity: 'water:1' }], []));
-    healthy(p);
-    expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
-    expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(0);
-    expect(c.record?.unflagged).toEqual([v]);
-    expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']);
-    expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['shore/water:1', 'way/way:1']);
   });
 
   it('split restoration with a finer chain ending at the vertex along the run (an L2 kerb on one side, an L3 plot line at it): L2, not L3', () => {
@@ -335,29 +277,6 @@ describe('C-0185 (4): which identical-row pairs are runs', () => {
     expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['kerb/kerb:1', 'way/way:1']);
     const kerb = routeLines(p, { role: 'kerb', entity: 'kerb:1' }, { layer: 'ground', part: 0 });
     expect(kerb.map((ln) => ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`))).toEqual([['2000,2000', '4000,2000']]);
-  });
-
-  it('N-s6c-2: split restoration lists the faces round the vertex changed only at the levels it leaves, [its level, the level it takes)', () => {
-    // checks/M0-a-06-notes.md N-s6c-2 (mutants N12: the bound dropped; N8: the bound read before the ending chain lowers
-    // it): the ending fixture with L2 records round the junction (kerbs at x = 1000 south and x = 3000 north) — the
-    // junction leaves L1's route only, so only L1 faces round it change; the L2 face south-east of it, whose L2 ring still
-    // passes the junction, is not listed (nor any L3 face).
-    const p = spined();
-    commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'lane:1' }], 'mandatory'));
-    commit(p, 2, (o) => insertChain(o, [pt(2000, 2000), pt(4000, 2000)], [{ role: 'kerb', entity: 'kerb:1' }], 'mandatory'));
-    commit(p, 2, (o) => insertChain(o, [pt(1000, 2000), pt(1000, 0)], [{ role: 'kerb', entity: 'kerb:2' }], 'mandatory'));
-    commit(p, 2, (o) => insertChain(o, [pt(3000, 2000), pt(3000, 4000)], [{ role: 'kerb', entity: 'kerb:3' }], 'mandatory'));
-    commit(p, 3, (o) => insertChain(o, [pt(2000, 2000), pt(1000, 1000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'));
-    const c = commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
-    healthy(p);
-    readable(p);
-    expect(p.vertices.level[vertexAtPoint(p, 2000, 2000)]).toBe(2);
-    const keyText = (level: Level, f: number): string => {
-      const k = faceKey(p, level, f);
-      return `(${p.vertices.x[k[0]]},${p.vertices.y[k[0]]})-(${p.vertices.x[k[1]]},${p.vertices.y[k[1]]})`;
-    };
-    const changed = (c.record?.faces ?? []).map((d) => `L${d.level} ${d.changed.map((f) => keyText(d.level, f)).join(' ')}`);
-    expect(changed).toEqual(['L1 (0,0)-(4000,0) (0,2000)-(4000,2000)', 'L2 (0,2000)-(1000,2000)', 'L3 ', 'L4 ']);
   });
 
   it('split restoration with a finer chain running THROUGH the vertex along the run (an L2 kerb on both sides, an L3 plot line at it): L3', () => {

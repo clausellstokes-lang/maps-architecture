@@ -9,11 +9,9 @@
 // provenance `architecture 2026-10-03` and `calibratable: false`, and the coefficient rewrite skips it (C-0301, C-0309).
 // The unit and the log2 form are the list's (M0.md §2.2) and not calibratable.
 // The loader refuses a missing counter, a counter whose unit or log2 form departs from the list, a malformed law, and —
-// read from the file's text — a duplicate counter (C-0174 (4)). Every refusal names the table and, where the fault lies
-// in one, the row and the cell (a text that is not JSON and a key twice that is neither a counter nor a cell name the
-// table only, the key's path in the reason; a missing counter, a counter the list names twice and `law('…')` name the
-// table and the row), through the package's one issue builder `issueAt`; the census is the package's one census loop
-// `tableCensus` (both imported by path, outside the package's API; C-0323).
+// read from the file's text — a duplicate counter (C-0174 (4)); every refusal names the table, the row and the cell
+// through the package's one issue builder `issueAt`, and the census is the package's one census loop `tableCensus`
+// (both imported by path, outside the package's API; C-0323).
 import type { WorkLimitLaw } from '@plat/model';
 import { issueAt } from '../cell/cell.js';
 import type { TableIssue } from '../cell/index.js';

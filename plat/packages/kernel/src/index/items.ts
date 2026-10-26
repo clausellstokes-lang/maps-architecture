@@ -231,8 +231,8 @@ export function faceRouteRings(p: Plat, level: Level, f: FaceId, n: Level): Vert
 
 /**
  * Twice the face's area (cm²) over its own-level route rings, outer counter-clockwise and holes clockwise: exact (`area2`
- * sums each ring exactly, §3.2 (6)). The package exports this body under the suite's name (invariants/batch.ts,
- * C-0357).
+ * sums each ring exactly, §3.2 (6)). Exported from this file only: the package's `faceArea2` is the invariant suite's,
+ * an equal reading pinned equal to this one (C-0345).
  */
 export function faceArea2(p: Plat, level: Level, f: FaceId): number {
   let s = 0;

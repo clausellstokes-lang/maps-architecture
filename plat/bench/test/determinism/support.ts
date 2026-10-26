@@ -9,9 +9,6 @@ export const TEST_SIZE: SpikeSize = Object.freeze({ areaHa: 400, walledHa: 12 })
 /** The planted scratch table (plat/-relative) and its stages. */
 export const PLANTED_ENTRY = 'bench/test/determinism/fixtures/planted-stages.ts';
 export const PLANTED_STAGES = ['scratch.clean', 'scratch.planted', 'scratch.after'];
-/** The clock-reading scratch table (plat/-relative) and its stages (the dilation test, hardening S1). */
-export const CLOCK_ENTRY = 'bench/test/determinism/fixtures/clock-stages.ts';
-export const CLOCK_STAGES = ['scratch.clean', 'scratch.clocked', 'scratch.after'];
 
 /** plat/ */
 export const PLAT = CROSSHOST_PLAT_ROOT;

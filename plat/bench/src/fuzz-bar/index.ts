@@ -2,7 +2,7 @@
 // C-0107, C-0110). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-k-04.
 //
 // `corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N]
-//  [--s11-timing] [--no-sweeps] [--no-summary] [--no-ladders] [--no-s11]` runs every kernel primitive's B-FUZZ at N inputs (PLAT_FUZZ_RUNS, 10⁴ when unset —
+//  [--s11-timing] [--no-sweeps] [--no-summary]` runs every kernel primitive's B-FUZZ at N inputs (PLAT_FUZZ_RUNS, 10⁴ when unset —
 // the PR size; the nightly sets 10⁶), the whole constructive set against the kernel (every M0 case at its draws, the
 // sweeps whole; every deferred case counted by its milestone), the kernel ladders' coverage table and the S11
 // workload's call-list check, folds them into the counts report, writes the full report to
@@ -11,10 +11,6 @@
 // case green, every built kernel rung reached, bugs empty), 1 when it does not, 64 on a bad argument. `--primitive`
 // runs one primitive alone (the nightly size's reach check, a partition with `--first`). `--s11-timing` times the S11
 // workload through M0-f-01's harness (stamped; CONTENDED outside the timing phase, never judged — M0-t-01 measures it).
-// `--no-ladders` and `--no-s11` leave the kernel ladders' coverage and the S11 workload out of a `--primitive` run — a
-// partition unit of the tier, whose whole-set unit runs both once (M0-f-02a's N-5: each per-primitive unit repeated that
-// per-process work, overstating the batched sum); a whole run refuses them (exit 64), since its bar reads both. The
-// oracles load only where a primitive of the run is oracle-compared or the constructive set is judged.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -52,7 +48,7 @@ export const CONSTRUCTIVE_SEEDS_NIGHTLY = 100;
 /** S11 plots checked per run (the call list's; the timing phase's own size is M0-t-01's). */
 export const S11_PLOTS = 50;
 
-const USAGE = 'usage: corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N] [--s11-timing] [--no-sweeps] [--no-summary] [--no-ladders] [--no-s11] (--no-ladders and --no-s11 with --primitive only)';
+const USAGE = 'usage: corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N] [--s11-timing] [--no-sweeps] [--no-summary]';
 
 /** The dispatcher's context, with the summary path a test may redirect. */
 export interface FuzzBarContext {
@@ -60,8 +56,6 @@ export interface FuzzBarContext {
   summary?: string;
   /** Replaces `runFuzz` (the entry's own tests plant a primitive report: the bar's decision and exit read it). */
   runFuzz?: typeof runFuzz;
-  /** Replaces `s11Workload` (the entry's own tests plant a call list, or count the calls: the exit reads its check). */
-  s11Workload?: typeof s11Workload;
 }
 
 function intArg(args: readonly string[], name: string, lo: number, hi: number): number | undefined | null {
@@ -85,8 +79,8 @@ export function s11Problems(plots: readonly S11Plot[]): string[] {
 
 /** The dispatcher's entry. */
 export async function run(args: string[], ctx: FuzzBarContext): Promise<number> {
-  const known = new Set(['--runs', '--first', '--primitive', '--constructive-seeds', '--s11', '--s11-timing', '--no-sweeps', '--no-summary', '--no-ladders', '--no-s11']);
-  const flags = new Set(['--s11-timing', '--no-sweeps', '--no-summary', '--no-ladders', '--no-s11']);
+  const known = new Set(['--runs', '--first', '--primitive', '--constructive-seeds', '--s11', '--s11-timing', '--no-sweeps', '--no-summary']);
+  const flags = new Set(['--s11-timing', '--no-sweeps', '--no-summary']);
   for (let i = 0; i < args.length; i++) {
     if (!known.has(args[i])) {
       say(`fuzz-bar: unknown argument ${JSON.stringify(args[i])}; ${USAGE}`);
@@ -111,15 +105,9 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
     say(`fuzz-bar: bad argument (primitives: ${FUZZ_PRIMITIVES.map((p) => p.name).join(', ')}); ${USAGE}`);
     return 64;
   }
-  const noLadders = args.includes('--no-ladders');
-  const noS11 = args.includes('--no-s11');
-  if (only === undefined && (noLadders || noS11)) {
-    say(`fuzz-bar: --no-ladders and --no-s11 leave a partition unit's per-process work out; a whole run's bar reads the ladders and the S11 call lists, so it refuses them; ${USAGE}`);
-    return 64;
-  }
   const dir = join(outDir(ctx.out), 'fuzz-bar');
   mkdirSync(dir, { recursive: true });
-  if (only === undefined || FUZZ_PRIMITIVES.some((p) => p.name === only && p.oracles === true)) await loadOracles();
+  await loadOracles();
   const t0 = performance.now();
   const reports: FuzzReport[] = [];
   for (const p of FUZZ_PRIMITIVES) {
@@ -127,7 +115,7 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
     const t = performance.now();
     const r = (ctx.runFuzz ?? runFuzz)(p.name, runs, { first: first ?? 0 });
     reports.push(r);
-    say(`fuzz-bar: ${p.name.padEnd(14)} ${String(r.runs)} inputs: ${String(r.crashes)} crashes, ${String(r.hangs)} hangs, ${String(r.invalid)} invalid; refused ${JSON.stringify(r.refused)}; notes ${JSON.stringify(r.notes)}${Object.keys(r.judged).length === 0 ? '' : `; judged ${JSON.stringify(r.judged)}`}; ${String(r.downgrades)} downgrades; ${String(r.workLimitHits)} work-limit hits${r.oracle === null ? '' : `; oracle split ${JSON.stringify({ unattracted: r.oracle.unattracted, attracted: r.oracle.attracted, refused: r.oracle.refused })}; §13.1's ≥ ${String(r.oracle.guard.min)} unattracted: ${r.oracle.guard.met ? 'met' : 'not met'} (${String(r.oracle.guard.projectedNightly)} projected at 10⁶, reported, not gated)`} (${((performance.now() - t) / 1000).toFixed(1)} s CONTENDED)`);
+    say(`fuzz-bar: ${p.name.padEnd(14)} ${String(r.runs)} inputs: ${String(r.crashes)} crashes, ${String(r.hangs)} hangs, ${String(r.invalid)} invalid; refused ${JSON.stringify(r.refused)}; notes ${JSON.stringify(r.notes)}; ${String(r.downgrades)} downgrades; ${String(r.workLimitHits)} work-limit hits${r.oracle === null ? '' : `; oracle split ${JSON.stringify(r.oracle)}`} (${((performance.now() - t) / 1000).toFixed(1)} s CONTENDED)`);
     for (const f of r.failures.slice(0, 5)) say(`fuzz-bar:   ${f.kind} #${String(f.index)}: ${f.reason}`);
   }
   // The summary is a whole run's: every primitive from its first input (it records the draws and whether the sweeps ran whole).
@@ -137,20 +125,18 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
   const cons = only === undefined ? runConstructiveOnKernel(CONSTRUCTIVE_SET, perCase, { sweeps: !args.includes('--no-sweeps') }) : runConstructiveOnKernel(CONSTRUCTIVE_SET.filter((c) => c.milestone !== 'M0'), 1);
   say(`fuzz-bar: constructive set ${String(cons.cases)} cases (${String(casesAt('M0').length)} M0): ${String(cons.judged)} judged over ${String(cons.draws)} draws, ${String(cons.green)} green, ${String(cons.failedCases)} failing, ${String(cons.known.length)} known findings (${cons.known.map((k) => k.id).join(', ')}), ${String(cons.staleKnown.length)} stale, ${String(cons.pending.length)} pending; deferred ${JSON.stringify(cons.deferred)} (${((performance.now() - t1) / 1000).toFixed(1)} s)`);
   for (const f of cons.failures.slice(0, 12)) say(`fuzz-bar:   ${f.id} #${String(f.seed)}: ${f.reason}`);
-  // a partition unit's --no-ladders: an empty table, never covered (only a --primitive run gets here, whose bar never reads it)
-  const ladders = noLadders ? { ladders: [], rows: [], degenerate: [], covered: false } : ladderCoverage();
-  say(noLadders ? 'fuzz-bar: kernel ladders not run (--no-ladders: the whole-set unit runs them)' : `fuzz-bar: kernel ladders ${String(ladders.rows.length)} rows, covered ${String(ladders.covered)}`);
-  const s11 = noS11 ? null : await (ctx.s11Workload ?? s11Workload)(1, plots ?? S11_PLOTS, args.includes('--s11-timing') ? {} : { timing: false });
-  const s11Bad = s11 === null ? [] : s11Problems(s11.calls);
-  if (s11 === null) say('fuzz-bar: S11 workload not run (--no-s11: the whole-set unit runs it)');
-  else say(`fuzz-bar: S11 workload ${String(s11.calls.length)} plots, call lists ${s11Bad.length === 0 ? 'as listed' : `off on ${String(s11Bad.length)} plots`}${s11.timings === null ? '' : `; ${s11.timings.value.toFixed(1)} ${s11.timings.unit} per plot median, ${s11.timings.authority}`}`);
+  const ladders = ladderCoverage();
+  say(`fuzz-bar: kernel ladders ${String(ladders.rows.length)} rows, covered ${String(ladders.covered)}`);
+  const s11 = await s11Workload(1, plots ?? S11_PLOTS, args.includes('--s11-timing') ? {} : { timing: false });
+  const s11Bad = s11Problems(s11.calls);
+  say(`fuzz-bar: S11 workload ${String(s11.calls.length)} plots, call lists ${s11Bad.length === 0 ? 'as listed' : `off on ${String(s11Bad.length)} plots`}${s11.timings === null ? '' : `; ${s11.timings.value.toFixed(1)} ${s11.timings.unit} per plot median, ${s11.timings.authority}`}`);
   const report: CountsReport = countsReport(runs, reports, constructiveRun(cons), ladders);
   const pass = (only === undefined ? report.pass : fuzzCountsPass(report.totals, report.bugs)) && s11Bad.length === 0;
-  const full = writeJson(dir, 'report.json', { ...report, s11: s11 === null ? null : { plots: s11.calls.length, problems: s11Bad, timing: s11.timings }, seconds: (performance.now() - t0) / 1000 });
+  const full = writeJson(dir, 'report.json', { ...report, s11: { plots: s11.calls.length, problems: s11Bad, timing: s11.timings }, seconds: (performance.now() - t0) / 1000 });
   if (whole && !args.includes('--no-summary')) {
     const path = ctx.summary ?? SUMMARY_PATH;
     mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(path, `${JSON.stringify({ ...countsSummary(report), constructiveDraws: { perCase: perCase, sweepsWhole: !args.includes('--no-sweeps') }, s11: { plots: s11 === null ? 0 : s11.calls.length, callListsAsListed: s11Bad.length === 0 } }, null, 2)}\n`);
+    writeFileSync(path, `${JSON.stringify({ ...countsSummary(report), constructiveDraws: { perCase: perCase, sweepsWhole: !args.includes('--no-sweeps') }, s11: { plots: s11.calls.length, callListsAsListed: s11Bad.length === 0 } }, null, 2)}\n`);
     say(`fuzz-bar: summary ${relative(PLAT_ROOT, path)}`);
   }
   say(`fuzz-bar: bar ${pass ? 'HOLDS' : 'FAILS'} — ${String(report.totals.crashes)} crashes, ${String(report.totals.hangs)} hangs, ${String(report.totals.invalid)} invalid outputs, ${String(report.bugs.length)} bugs; full report ${full.path}`);

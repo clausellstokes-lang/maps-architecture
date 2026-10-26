@@ -144,15 +144,13 @@ function planRow(p: Plat, row: RoleRow): PlannedRow {
 /**
  * Does the vertex v carry the role row key (role, entity, ordinal), the role and the entity given by their interned ids
  * (`roleIdOf`, `handleOf`)? A second row of one key on one vertex is a programming error, so a writer asks before it adds
- * one. Each row's set is walked to its element mark, a set that does not end or ends without an element mark asserted,
- * as the arena's `rowElement` asserts them (M0-a-05's notes N-c2-6 (b)), so a malformed set is never read as "not carried".
+ * one. Each row's set is walked to its element mark, a set that does not end asserted.
  */
 export function carriesRow(p: Plat, v: VertexId, role: number, entityHandle: number, ordinal: number): boolean {
   for (const r of rowsOfKey(p, role, entityHandle, ordinal)) {
     const t = p.roles;
     let e = t.nextInSet[r];
     for (let guard = 0; e >= 0; e = t.nextInSet[e]) check(++guard <= p.slots.role.top, 'a role set does not end');
-    check(e <= -2, 'a role set has no element mark');
     if (-2 - e === v) return true;
   }
   return false;

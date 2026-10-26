@@ -50,12 +50,7 @@ export interface DeterminismSpikeReport {
     readonly reference: string;
     readonly comparedWith: string | null;
     readonly cellsPerRun: number;
-    /**
-     * Each run asked for. `hostKind` is the host the leg measured itself on (M0-d-06's `host.kind`: `native-arm64`,
-     * `rosetta` or `native-x64`): the leg id `node-x64-rosetta` names the x86-64 leg, which on a native x86-64 host runs
-     * natively (C-0228 (1) keeps the id; check note 7).
-     */
-    readonly runs: readonly { readonly run: string; readonly status: string; readonly reason?: string; readonly engine?: string; readonly hostKind?: string; readonly agrees?: boolean; readonly firstDifference?: string }[];
+    readonly runs: readonly { readonly run: string; readonly status: string; readonly reason?: string; readonly engine?: string; readonly agrees?: boolean; readonly firstDifference?: string }[];
     readonly differences: number;
   };
   readonly inProcess: { readonly seeds: number; readonly comparedWith: string | null; readonly agrees: boolean | null; readonly firstDifference: FirstDifference | null };
@@ -87,11 +82,6 @@ export interface DeterminismSpikeReport {
     readonly perPair: readonly { readonly seed: number; readonly spike: string; readonly redrawn: readonly string[]; readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number; readonly duplicateIds: number; readonly suffixed: number; readonly silentRebinds: number }[];
     readonly pass: boolean;
   };
-  /**
-   * The refused stages (§5.1 (8)) of the in-process seeds' runs (`runs`: two spikes per in-process seed). The seeds run on
-   * the cross-host legs only are not counted here: a refusal there is compared through its `<spike>.report` cell's
-   * digest, never counted (check note 8; the summary's `refusedScope` says so).
-   */
   readonly bugs: { readonly runs: number; readonly refused: number; readonly list: readonly string[] };
   readonly firstDifference: FirstDifference | null;
   readonly failures: readonly string[];
@@ -133,7 +123,7 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
     run: runName(r),
     status: r.status,
     ...(r.reason === undefined ? {} : { reason: r.reason }),
-    ...(r.host === undefined ? {} : { engine: `${r.host.engine.name} ${r.host.engine.version} ${r.host.arch} (${r.host.kind})`, hostKind: r.host.kind }),
+    ...(r.host === undefined ? {} : { engine: `${r.host.engine.name} ${r.host.engine.version} ${r.host.arch} (${r.host.kind})` }),
     ...(r.agrees === undefined ? {} : { agrees: r.agrees }),
     ...(r.firstDifference === undefined ? {} : { firstDifference: `${r.firstDifference.stage} at seed ${String(r.firstDifference.seed)} (${r.firstDifference.field})` }),
   }));
@@ -271,8 +261,7 @@ export function summaryOf(r: DeterminismSpikeReport): Record<string, unknown> {
       ran: r.crosshost.runs.filter((x) => x.status === 'ran').length,
       blocked: r.crosshost.runs.filter((x) => x.status === 'blocked').length,
       failed: r.crosshost.runs.filter((x) => x.status === 'failed').length,
-      // the host each ran run measured (`hostKind`): `node-x64-rosetta` reads `native-x64` on a native x86-64 host
-      runs: r.crosshost.runs.map((x) => ({ run: x.run, status: x.status, ...(x.hostKind === undefined ? {} : { hostKind: x.hostKind }), ...(x.agrees === undefined ? {} : { agrees: x.agrees }) })),
+      runs: r.crosshost.runs.map((x) => ({ run: x.run, status: x.status, ...(x.agrees === undefined ? {} : { agrees: x.agrees }) })),
       differences: r.crosshost.differences,
     },
     inProcess: { seeds: r.inProcess.seeds, agrees: r.inProcess.agrees },
@@ -292,8 +281,6 @@ export function summaryOf(r: DeterminismSpikeReport): Record<string, unknown> {
       pass: r.matching.pass,
     },
     refused: r.bugs.refused,
-    // `refused` counts the in-process seeds' runs only; the cross-host-only seeds' refusals are compared, not counted
-    refusedScope: { inProcessSeeds: r.inProcess.seeds, crossHostOnlySeeds: r.fixture.seeds.length - r.inProcess.seeds },
     firstDifference: r.firstDifference === null ? null : { seed: r.firstDifference.seed, stage: r.firstDifference.stage },
     timings: { stamps: r.timings.stamps.length, contended: r.timings.contended, authoritative: r.timings.authoritative },
   };
@@ -303,12 +290,12 @@ export function summaryOf(r: DeterminismSpikeReport): Record<string, unknown> {
 export function reportLines(r: DeterminismSpikeReport): string[] {
   const lines = [
     `determinism ${r.fixture.id}: ${String(r.fixture.seeds.length)} seeds (${r.fixture.size}), ${String(r.fixture.stages.length)} stages; verdict ${r.verdict}`,
-    `cross-host ${r.crosshost.verdict}: ${r.crosshost.runs.map((x) => `${x.run} ${x.status}${x.hostKind === undefined ? '' : ` on ${x.hostKind}`}${x.agrees === false ? ' DIFFERS' : ''}`).join(', ')}`,
+    `cross-host ${r.crosshost.verdict}: ${r.crosshost.runs.map((x) => `${x.run} ${x.status}${x.agrees === false ? ' DIFFERS' : ''}`).join(', ')}`,
     `in-process (${String(r.inProcess.seeds)} seeds) vs ${String(r.inProcess.comparedWith)}: ${r.inProcess.agrees === null ? 'not compared' : r.inProcess.agrees ? 'agrees' : 'DIFFERS'}`,
     `distinctness: ${String(r.distinctness.streams.distinct)} stream keys, ${String(r.distinctness.lineages.distinct)} lineage hashes, collisions ${String(r.distinctness.streams.collisions)} / ${String(r.distinctness.lineages.collisions)}, entity lineages shared ${String(r.distinctness.entityLineages.duplicates)}`,
     `oracle: ${String(r.oracle.batches)} batches, ${String(r.oracle.mismatches)} mismatches; dilation ${String(r.dilation.runs)} runs, ${String(r.dilation.differing)} differ (${String(r.dilation.reads)} clock reads); op order ${String(r.opOrder.runs)} runs, ${String(r.opOrder.differing)} differ (${String(r.opOrder.permutedBatches)} batches permuted)`,
     `matching: ${String(r.matching.pairs)} pairs, survive ${String(r.matching.totals.survive)} succeed ${String(r.matching.totals.succeed)} tombstone ${String(r.matching.totals.tombstone)} fresh ${String(r.matching.totals.fresh)}; duplicate ids ${String(r.matching.duplicateIds)} (after the mint; ${String(r.matching.suffixed)} suffixed ~k), silent re-binds ${String(r.matching.silentRebinds)}`,
-    `refused stages: ${String(r.bugs.refused)} (the ${String(r.inProcess.seeds)} in-process seeds only; ${String(r.fixture.seeds.length - r.inProcess.seeds)} cross-host-only seeds compared, not counted); timings: ${String(r.timings.stamps.length)} stamped (${String(r.timings.contended)} contended — reported, never a result)`,
+    `refused stages: ${String(r.bugs.refused)}; timings: ${String(r.timings.stamps.length)} stamped (${String(r.timings.contended)} contended — reported, never a result)`,
   ];
   if (r.firstDifference !== null) lines.push(`first difference: seed ${String(r.firstDifference.seed)}, stage ${r.firstDifference.stage} (${r.firstDifference.check})`);
   for (const f of r.failures) lines.push(`FAIL ${f}`);

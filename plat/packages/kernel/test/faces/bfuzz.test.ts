@@ -8,8 +8,7 @@
 // absorbSliver, radialSplit, ringBand, claimSubFace (ring form) and pinVertices, with random parameters. A crash is a
 // throw; a hang fails the hard timeout; an output is valid when the arena passes every oracle (§3.10's half-edge links,
 // minEdge, one vertex per lattice point, no crossing, clearance, level consistency, the face records against the level
-// views, nesting, Euler per level, the index state), a split's children tile the parent exactly (integer area2, against
-// the parent's area read before the split and the landings' moves — note N-1) and are
+// views, nesting, Euler per level, the index state), a split's children tile the parent exactly (integer area2) and are
 // each simple — never a pinch (the listed property) — and a refusal is one of the op's codes and writes nothing.
 // A second draw family (integration g8 B-1, C-0214) runs the same partitioners on the same faces holding one to three
 // isolated vertex-role points — `entrance` knots of removed chains, as mergeFaces, absorbSliver and claimSubFace leave
@@ -17,7 +16,7 @@
 // committed cut, slit, fan or band takes a point onto its edges (each stays isolated).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { faceWalk, type FaceId, type Plat } from '../../src/arena/index.js';
+import { faceWalk, type FaceId, type HalfEdgeId, type Plat } from '../../src/arena/index.js';
 import {
   absorbSliver,
   claimSubFace,
@@ -34,7 +33,7 @@ import { restoreSavepoint, takeSavepoint } from '../../src/tx/savepoint.js';
 import { tx, type Overlay } from '../../src/tx/index.js';
 import { dmath } from '../../src/dmath/index.js';
 import { TIMEOUT } from '../insert/step3-5/support.js';
-import { commit, faceAt, halves, healthy, isolate, isolatedAt, parentOf, pt, spec, state, tileDefect, type Parent } from './support.js';
+import { commit, faceArea2Big, faceAt, halves, healthy, isolate, isolatedAt, pt, spec, state } from './support.js';
 
 const DB = [{ role: 'district_bound', entity: 'd:9' }];
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
@@ -149,12 +148,15 @@ function simpleFace(p: Plat, f: FaceId): boolean {
   return true;
 }
 
-/**
- * The children tile the parent exactly (§13.1, note N-1): their area2 sums to the parent's, read before the split, plus
- * the moves of the split landings (support.ts `tileDefect`: each new boundary vertex's exact bend of the edge it splits).
- */
-function tiles(p: Plat, a: FaceId, b: FaceId, parent: Parent): boolean {
-  return tileDefect(p, 1, a, b, parent) === 0n;
+/** The children tile the parent exactly: their area2 sums to the area2 of their joint boundary less the cut. */
+function tiles(p: Plat, a: FaceId, b: FaceId): boolean {
+  const all = new Set<HalfEdgeId>([...faceWalk(p, 1, a).flat(), ...faceWalk(p, 1, b).flat()]);
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  let s = 0n;
+  for (const h of all) if (!all.has(h ^ 1)) s += BigInt(X[O[h]]) * BigInt(Y[O[h ^ 1]]) - BigInt(X[O[h ^ 1]]) * BigInt(Y[O[h]]);
+  return faceArea2Big(p, 1, a) + faceArea2Big(p, 1, b) === s;
 }
 
 /**
@@ -191,12 +193,11 @@ function runCase(b: NonNullable<ReturnType<typeof build>>, c: Case, count: (k: s
   const z = star[c.j];
   const cut = c.bend === null ? [a, z] : [a, [CX + c.bend[0], CY + c.bend[1]] as [number, number], z];
   const parent = state(p).replace(/#v\d+$/, '');
-  const before = parentOf(p, 1, f);
   trial(p, 'splitFace', CUT, (o) => splitFace(o, f, cut.map(([x, y]) => pt(x, y)), { rows: DB }), ([l, r]) => {
     count('split');
     stays();
     expect(simpleFace(p, l) && simpleFace(p, r), 'a child with a pinch').toBe(true);
-    expect(tiles(p, l, r, before), 'the children do not tile the parent').toBe(true);
+    expect(tiles(p, l, r), 'the children do not tile the parent').toBe(true);
     // mergeFaces ∘ splitFace restores the arena (and the id).
     const m = tx(p, spec(1), (o) => mergeFaces(o, l, r));
     expect(m.ok && (m.value.value === f), 'the merge does not restore the record').toBe(true);

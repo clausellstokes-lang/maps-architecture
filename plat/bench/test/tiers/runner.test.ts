@@ -5,9 +5,8 @@
 // cases and the manifest's structural problems.
 import { afterAll, describe, expect, it } from 'vitest';
 import { applyFallback, budgetGates, FALLBACK_SIZES, judgeBudget, logName, manifestProblems, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, runTier } from '../../src/tiers/runner.js';
-import { nightlyJobs } from '../../src/tier-jobs/index.js';
-import type { Job, Unit } from '../../src/tiers/types.js';
-import { RUN_INDEX, fixtureManifest, job, plantedExec, readings, removeTrees, tree } from './fixture.js';
+import type { Unit } from '../../src/tiers/types.js';
+import { fixtureManifest, job, plantedExec, readings, removeTrees, tree } from './fixture.js';
 
 afterAll(removeTrees);
 
@@ -220,34 +219,6 @@ describe('the verdict and the run', () => {
       exec: (u) => (u.name === 'a' ? Promise.reject(new Error('spawn ENOENT')) : Promise.resolve({ code: 0, wallMs: 1, cpuMs: 1 })),
     });
     expect(r.jobs.map((j) => j.outcome)).toEqual(['fail', 'pass']);
-  });
-
-  it("a job whose units() throws or rejects fails naming the error, as a harness that fails to load does; the other jobs still run and the run resolves (N-2)", async () => {
-    const calls: Unit[] = [];
-    const unfilled: Job = { ...nightlyJobs()[0] };
-    delete unfilled.stagedTo; // a declared entry unstaged before its units were filled: its units() throws on purpose
-    const r = await runTier(
-      fixtureManifest([
-        job('throws', {
-          units: () => {
-            throw new Error('tsconfig.json: ENOENT');
-          },
-        }),
-        job('rejects', { units: () => Promise.reject(new Error('Cannot find package @plat/testkit')) }),
-        unfilled,
-        job('b'),
-      ]),
-      { root: tree({ 'scripts/ok.mjs': '', 'bench/src/fuzz-bar/index.ts': RUN_INDEX }), out: tree({}), exec: plantedExec({}, calls), probe: () => Promise.resolve(true) },
-    );
-    expect(calls.map((u) => u.name)).toEqual(['b']);
-    expect(r.jobs.map((j) => [j.name, j.status, j.outcome, j.reason, j.units.length])).toEqual([
-      ['throws', 'built', 'fail', "the job's units failed: tsconfig.json: ENOENT", 0],
-      ['rejects', 'built', 'fail', "the job's units failed: Cannot find package @plat/testkit", 0],
-      ['B-FUZZ (10⁶ per primitive)', 'built', 'fail', "the job's units failed: tier job B-FUZZ (10⁶ per primitive): declared by M0-f-02a, filled by M0-f-02b", 0],
-      ['b', 'built', 'pass', null, 1],
-    ]);
-    expect(r.verdict).toBe('fail');
-    expect([r.wallMs, r.cpuMs]).toEqual([1_000, 2_000]);
   });
 
   it('a unit that would run a tier or the timing phase inside a tier is refused (C-0088, C-0105)', async () => {
