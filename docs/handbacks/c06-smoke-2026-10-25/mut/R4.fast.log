@@ -1,0 +1,42 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/report.test.ts (18 tests | 1 failed) 56ms
+   ❯ the long run’s status (N-52 (6): no seed cut) (1)
+     × is complete only for the 1 000 seeds from seed 1, both runs, at CITY; the smoke of 50 and a run of 999 stay PENDING-LONG-RUN 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/report.test.ts > the long run’s status (N-52 (6): no seed cut) > is complete only for the 1 000 seeds from seed 1, both runs, at CITY; the smoke of 50 and a run of 999 stay PENDING-LONG-RUN
+AssertionError: expected { seedsAsked: 1000, …(2) } to deeply equal { seedsAsked: 1000, …(2) }
+
+- Expected
++ Received
+
+  {
+    "seedsAsked": 1000,
+    "seedsRun": 999,
+-   "status": "PENDING-LONG-RUN",
++   "status": "complete",
+  }
+
+ ❯ test/fusion/report.test.ts:240:34
+    238|     expect(BAR_SEEDS).toBe(1_000);
+    239|     expect(longRunOf(city(1_000))).toEqual({ seedsAsked: 1_000, seedsR…
+    240|     expect(longRunOf(city(999))).toEqual({ seedsAsked: 1_000, seedsRun…
+       |                                  ^
+    241|     expect(longRunOf(city(50)).status).toBe('PENDING-LONG-RUN');
+    242|     expect(longRunOf(city(1_000, { from: 2 })).status).toBe('PENDING-L…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 passed (18)
+   Start at  21:28:29
+   Duration  6.76s (transform 83%, import 15%, tests 1%)
+
+  Transform  |bench| transforming modules took 5.46s · 83% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

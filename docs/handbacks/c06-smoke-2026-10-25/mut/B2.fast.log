@@ -1,0 +1,31 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 183ms
+   ❯ the drift clause on the smoke’s drifted blocks (N-57 (4)) (6)
+     × fusion 30 block:8ern91wcr4p11 and fusion 49 block:dnzm4ncd3tdyf — the needle is the STOP kerb’s (its tip 199.6 / 74.0 cm past the working ring): the slivers within, the one-sided distance stop → working beyond (reported, C-0423 (1)) 44ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke’s drifted blocks (N-57 (4)) > fusion 30 block:8ern91wcr4p11 and fusion 49 block:dnzm4ncd3tdyf — the needle is the STOP kerb’s (its tip 199.6 / 74.0 cm past the working ring): the slivers within, the one-sided distance stop → working beyond (reported, C-0423 (1))
+AssertionError: fusion 49 block:dnzm4ncd3tdyf: expected 0 to be greater than 1
+ ❯ test/fusion/drift.test.ts:98:33
+     96|       expect(row.oneSidedCm, key).toBeCloseTo(haus, 1);
+     97|       expect(row.oneSidedCm, key).toBeGreaterThan(R);
+     98|       expect(row.sliverCm, key).toBeGreaterThan(1);
+       |                                 ^
+     99|       expect(row.sliverCm, key).toBeLessThanOrEqual(R);
+    100|       expect(row.hausdorffCm, key).toBeCloseTo(haus, 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 1 passed (17)
+   Start at  20:08:08
+   Duration  7.58s (transform 82%, import 15%, tests 2%)
+
+  Transform  |bench| transforming modules took 6.08s · 82% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

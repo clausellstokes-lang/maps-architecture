@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 677ms
+   ❯ the drift clause on synthetic blocks (8)
+     × a planted 1 m parallel shift of a whole edge fails, outward and inward (a 1 m wide sliver; the one-sided distance 1 m) 24ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on synthetic blocks > a planted 1 m parallel shift of a whole edge fails, outward and inward (a 1 m wide sliver; the one-sided distance 1 m)
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ test/fusion/drift.test.ts:232:25
+    230|     expect(blockDrift(stop, [rect(0, 0, 4_073, 2_000)], []).rows[0].wi…
+    231|     const past = blockDrift(stop, [rect(0, 0, 4_075, 2_000)], []).rows…
+    232|     expect(past.within).toBe(false);
+       |                         ^
+    233|     expect(directed(ringEdges(stop), ringEdges(rect(0, 0, 4_075, 2_000…
+    234|     expect(sliver(ringRegion(rect(0, 0, 4_075, 2_000)), ringRegion(sto…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 7 passed (17)
+   Start at  20:10:19
+   Duration  7.32s (transform 77%, import 13%, tests 9%)
+
+  Transform  |bench| transforming modules took 5.48s · 77% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

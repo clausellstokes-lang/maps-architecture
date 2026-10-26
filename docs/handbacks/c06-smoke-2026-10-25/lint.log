@@ -1,0 +1,32 @@
+
+> plat-workspace@0.0.0 lint /home/user/maps-architecture/plat
+> node scripts/lint.mjs
+
+lint: eslint 1189 files, 0 errors, 0 warnings
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:6 Math.pow ← plat/math-allowlist
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:7 Math.random ← plat/math-allowlist, plat/no-nondeterminism
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:8 Math.sin ← plat/math-allowlist
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:9 Date.now ← plat/no-nondeterminism
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:10 performance.now ← plat/no-nondeterminism
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:11 ** ← plat/no-exponent-operator
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:12 Object.keys().sort() ← plat/no-object-key-iteration, plat/sort-with-comparator
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:13 [3, 1].sort() ← plat/sort-with-comparator
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:14 localeCompare ← plat/no-nondeterminism
+lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:16 for…in ← plat/no-object-key-iteration
+lint: probe-red ok
+lint vendor-scan: delaunator@5.1.0: pass — Math abs×18 ceil×3 floor×3 max×3 sqrt×3; 3 code files; exceptions patch vendor/patches/delaunator@5.1.0.json
+lint vendor-scan: flatbush@4.6.2: pass — Math ceil×2 floor×4 max×14 min×12; 2 code files; exceptions patch vendor/patches/flatbush@4.6.2.json
+lint vendor-scan: flatqueue@3.1.0: pass — Math none; 1 code files; exceptions none
+lint vendor-scan: robust-predicates@3.0.3: pass — Math abs×185; 16 code files; exceptions none
+lint vendor-scan: simplex-noise@4.0.3: pass — Math floor×3 sqrt×6; 3 code files; exceptions patch vendor/patches/simplex-noise@4.0.3.json
+lint: vendor-scan ok
+lint: repository-path ok
+lint: inline-directives ok
+lint: model-coverage ok
+lint: no-bare-pnpm ok
+lint licences: production closure: delaunator@5.1.0 ISC, flatbush@4.6.2 ISC, flatqueue@3.1.0 ISC, robust-predicates@3.0.3 Unlicense, simplex-noise@4.0.3 MIT
+lint licences: dev exceptions: lightningcss@1.33.0 MPL-2.0, lightningcss-linux-x64-gnu@1.33.0 MPL-2.0, minimatch@10.2.6 BlueOak-1.0.0
+lint: licences ok
+lint: kernel-boundary ok
+lint: bench-boundary ok
+lint: 9 whole-tree checks
