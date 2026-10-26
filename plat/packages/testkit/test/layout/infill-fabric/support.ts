@@ -23,7 +23,7 @@ import {
   type PlatKey,
   type PolygonCm,
 } from '@plat/kernel';
-import { granularityBands, spineWidthsOf, type S8District, type S8Input } from '@plat/layout';
+import { granularityBands, localThickness, spineWidthsOf, type S8District, type S8Input } from '@plat/layout';
 import { mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
 import { rungProfile } from '@plat/tables';
 
@@ -102,16 +102,16 @@ export function faceCase(polygon: PolygonCm, seed: number): FaceCase {
   const sk = seedKey(seed);
   const live: LiveEntry[] = [];
   const d = districtOf(sk, 0, live);
-  const sameRing = (a: readonly LatticePoint[], b: readonly LatticePoint[]): boolean => a.length === b.length && b.every((q) => a.some((p) => p.x === q.x && p.y === q.y));
-  let face: FaceId = -1;
-  const holeFaces: FaceId[] = [];
-  for (let f = 0; f < plat.slots.face[1].top; f += 1) {
-    if (!isFaceLive(plat, 1, f)) continue;
-    const rings = faceRings(plat, 1, f);
-    if (sameRing(rings[0], outer)) face = f;
-    else if (holes.some((h) => sameRing(rings[0], h))) holeFaces.push(f);
-  }
-  if (face < 0) throw new Error('faceCase: the district face was not found');
+  // Each face found by a point deep inside it (the pole of the drawn polygon, holes counted as boundary; the pole of
+  // each hole), never by ring equality: the insertion's snapping can move a ring's vertices off the drawn polygon's
+  // (the check's note N-14: round-joined at check-m0b03/s/round-joined, i = 2).
+  const inside = (rings: readonly (readonly LatticePoint[])[]): FaceId => {
+    const c = localThickness(rings).centre;
+    return faceAt(plat, P(Math.round(c.x), Math.round(c.y)));
+  };
+  const face = inside([outer, ...holes]);
+  const holeFaces = holes.map((h) => inside([h]));
+  if (face < 0 || holeFaces.some((h) => h < 0 || h === face)) throw new Error('faceCase: the district face was not found');
   const r2 = k.tx(spec(1, STAGES.S6), (o) => {
     for (let i = 0; i < holeFaces.length; i += 1) {
       const r = k.geom.setOwner(o, [holeFaces[i]], `reservation:h${String(i)}`);

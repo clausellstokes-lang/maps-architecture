@@ -42,6 +42,19 @@ describe('the seam portal invariant on two districts sharing an arterial', () =>
     }
   });
 
+  it('a portal’s bearing points out of the arterial into its own district: 270° for the west district’s, 90° for the east’s (notes N-7)', { timeout: 120_000 }, () => {
+    const west = f.districts[0].district.id;
+    const east = f.districts[1].district.id;
+    const portals = seam?.portals ?? [];
+    expect(portals.some((p) => p.by === west)).toBe(true);
+    expect(portals.some((p) => p.by === east)).toBe(true);
+    for (const p of portals) {
+      const b = p.bearing as number;
+      // The compass bearing (cdeg) of the lane leaving the arterial: west (x < 20 000) or east, within 6°.
+      expect(Math.abs(b - (p.by === west ? 27_000 : 9_000))).toBeLessThanOrEqual(600);
+    }
+  });
+
   it('no two lanes meet the arterial at one vertex (no crossroads on a district boundary)', { timeout: 120_000 }, () => {
     const at = (seam?.portals ?? []).map((p) => vertexPoints(f.plat, GROUND, p.at)[0]).map((q) => `${q.x},${q.y}`);
     expect(new Set(at).size).toBe(at.length);

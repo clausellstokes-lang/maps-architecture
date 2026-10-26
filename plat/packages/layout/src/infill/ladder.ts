@@ -79,8 +79,8 @@ export interface Candidate {
 // ---- step 7 for a straight candidate -------------------------------------------------------------------------------
 //
 // The arrival band's bound (`arrivalDot2`), its test (`arrivesSquare`), the touch tolerance and radians per centidegree
-// are the planner's, imported by path. `spineHit`, `endOf` and `slideEnd` are the ladder's own: the ladder's
-// `spineHit` admits denominators the planner's refuses (2²⁰-scaled `div`); both stay by design.
+// are the planner's, imported by path. `spineHit`, `endOf` and `slideEnd` are the ladder's own; its `spineHit` reads
+// the planner's reach rule and floor (C-0222 (9); queue row L28, ruled J424).
 
 /** cos of an angle in centidegrees, by dmath (§6.5 (3)). */
 function cosCdeg(c: number): number {
@@ -88,10 +88,10 @@ function cosCdeg(c: number): number {
 }
 
 /**
- * The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. Its two
- * quotients go through `div` (both operands scaled by 2²⁰), so a denominator in [2⁻²⁰, 1) — a ray nearly parallel to
- * a spine edge — still finds its hit, where the planner's `spineHit` (plain `ratio`) finds none; where both find one the
- * quotients are bit-equal.
+ * The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. The reach
+ * rule's floor is the planner's, ratio()'s on the denominator (J424, queue row L28): a spine segment e with
+ * |cross(dir, e)| < 1 — a ray running near-parallel to it — is no hit, so the end reaches no spine there and stays a
+ * kerb end; the two quotients are plain `ratio(…, 'length')`, the planner's, bit for bit.
  */
 function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number; point: XY } | null {
   let best: { spine: number; t: number; point: XY } | null = null;
@@ -102,9 +102,12 @@ function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number
       const e = sub(pts[i + 1], pts[i]);
       const den = cross(dir, e);
       const w = sub(pts[i], from);
-      const t = div(cross(w, e), den);
-      const u = div(cross(w, dir), den);
-      if (t === null || u === null || !(u >= 0 && u <= 1) || !(t >= 0 && t <= reach)) continue;
+      const tr = ratio(cross(w, e), den, 'length');
+      const ur = ratio(cross(w, dir), den, 'length');
+      if (!tr.ok || !ur.ok) continue;
+      const t = tr.value;
+      const u = ur.value;
+      if (!(u >= 0 && u <= 1) || !(t >= 0 && t <= reach)) continue;
       if (best === null || t < best.t) best = { spine: si, t, point: along(from, dir, t) };
     }
   });
@@ -294,6 +297,61 @@ export function slideFeet(sides: FaceSides, maxFeet: number): SlideFoot[] {
   return out;
 }
 
+/**
+ * Rung (c)'s squared ends (queue row Q65; refusal census R-27): a straight candidate's end that stays on a boundary with
+ * no spine (a `kerb` end: a setback line, a reservation's edge, a district bound) must arrive square (§4.6 step 7: it
+ * "stays there, square to the line"; C-0237 (10)), and on a concave face the perpendicular from the longest run may
+ * meet no side square — every foot of the slide refused 'kerb-arrival'. The same cut then ends square instead: at each
+ * kerb end that is not square, the cut stops at K, `legCm` short of the end along the cut (at most a third of the cut),
+ * and a stub leaves K square to the boundary — to K's nearest point on the face's L1 rings, the foot of K's
+ * perpendicular on the edge it lies on (a nearest point at a ring vertex is no square foot: null). The cut's corners at K
+ * stay at least 90°, its kerb ends square. Null when no end needed it or a stub cannot be placed; the judgement then
+ * reads the candidate as any other (landing, crossing, contact, the floor). Draws nothing.
+ */
+export function squaredFarEnd(cand: Candidate, l1Rings: readonly (readonly LatticePoint[])[], cells: CutCells, legCm: number): Candidate | null {
+  const [s, f] = cand.ends;
+  const masked = (e: EndPlan): EndPlan => ({ ...e, kind: 'spine' });
+  const squareAt = (i: 0 | 1): boolean => kerbEndsSquare(l1Rings, cand.chain, i === 0 ? [s, masked(f)] : [masked(s), f], cells);
+  const need: [boolean, boolean] = [s.kind === 'kerb' && !squareAt(0), f.kind === 'kerb' && !squareAt(1)];
+  if (!need[0] && !need[1]) return null;
+  const A = s.kerbPoint;
+  const B = f.kerbPoint;
+  const L = len(sub(B, A));
+  const n = unit(sub(B, A));
+  if (n === null || !(L > 0)) return null;
+  const h = Math.min(legCm, L / 3);
+  const stub = (K: XY): XY | null => {
+    const loc = locateOnRings(l1Rings, K);
+    if (loc.ring < 0) return null;
+    const ring = l1Rings[loc.ring];
+    const e0 = ring[loc.edge];
+    const e1 = ring[(loc.edge + 1) % ring.length];
+    // The nearest point must be the perpendicular's foot inside the edge, not one of its ends.
+    const t = nearestOnSegment(K, e0, e1).t;
+    return t > 0 && t < 1 ? loc.foot : null;
+  };
+  const pts: XY[] = [];
+  const ends: [EndPlan, EndPlan] = [s, f];
+  if (need[0]) {
+    const K = along(A, n, h);
+    const F = stub(K);
+    if (F === null) return null;
+    pts.push(F, K);
+    ends[0] = { kind: 'kerb', kerbPoint: F, point: F, arrival: unit(sub(F, K)) ?? s.arrival, index: -1, slidCm: 0 };
+  } else pts.push(s.point, s.kerbPoint);
+  if (need[1]) {
+    const K = along(B, n, -h);
+    const F = stub(K);
+    if (F === null) return null;
+    pts.push(K, F);
+    ends[1] = { kind: 'kerb', kerbPoint: F, point: F, arrival: unit(sub(F, K)) ?? f.arrival, index: -1, slidCm: 0 };
+  } else pts.push(f.kerbPoint, f.point);
+  const chain = snapChain(pts);
+  if (chain === null || chain.length < 3) return null;
+  const kerbPoints = [ends[0].kerbPoint, ...(need[0] ? [pts[1]] : []), ...(need[1] ? [pts[pts.length - 2]] : []), ends[1].kerbPoint];
+  return { rung: 'c', chain, kerbPoints, ends, slide: cand.slide };
+}
+
 /** The ring a run of the sides lies on. */
 export function runRing(sides: FaceSides, r: number): number {
   return sides.runs[r].ring;
@@ -479,6 +537,19 @@ function cornerBelow(a: XY, b: XY, c: XY, floorCos: number): boolean {
   return cross(v, u) >= 0 && dot(u, v) > floorCos;
 }
 
+/** The spike's base when a ring vertex at `p` is an antenna's tip (its two neighbours one point), else null. */
+function spikeBase(ring: readonly LatticePoint[], p: XY): LatticePoint | null {
+  const m = ring.length;
+  for (let i = 0; i < m; i += 1) {
+    const v = ring[i];
+    if (v.x !== p.x || v.y !== p.y) continue;
+    const a = ring[(i + m - 1) % m];
+    const b = ring[(i + 1) % m];
+    if (a.x === b.x && a.y === b.y) return a;
+  }
+  return null;
+}
+
 /** The judgement's verdict on a candidate. */
 export type Judgement =
   | { readonly ok: true; readonly kind: 'split'; readonly widths: readonly [number, number] }
@@ -560,13 +631,117 @@ export function judge(rings: readonly (readonly LatticePoint[])[], chain: readon
   const floorCos = cosCdeg(floor.minAngleCdeg);
   const edgeDir = (e: { edge: number }): XY => unit(sub(outer[(e.edge + 1) % m], outer[e.edge])) ?? { x: 1, y: 0 };
   const corners: [XY, XY, XY][] = [];
-  const da = edgeDir(a);
-  const db = edgeDir(b);
-  corners.push([along(chain[0], da, -100), chain[0], chain[1]], [chain[1], chain[0], along(chain[0], da, 100)]);
-  corners.push([chain[n - 2], chain[n - 1], along(chain[n - 1], db, 100)], [along(chain[n - 1], db, -100), chain[n - 1], chain[n - 2]]);
+  // At a landing on an antenna's tip (a spike of the ring: reached and left along one edge) the ring does not go on
+  // through the vertex, so both children's corners there are the cut against the antenna's edge — a cut continuing the
+  // antenna straight makes two straight corners, never a 0° one (the census's R-26; queue row L25).
+  const landing = (end: LatticePoint, inner: LatticePoint, d: XY): [XY, XY, XY][] => {
+    const base = spikeBase(outer, end);
+    if (base !== null) return [[base, end, inner], [inner, end, base]];
+    return [[along(end, d, -100), end, inner], [inner, end, along(end, d, 100)]];
+  };
+  corners.push(...landing(chain[0], chain[1], edgeDir(a)));
+  corners.push(...landing(chain[n - 1], chain[n - 2], edgeDir(b)));
   for (let i = 1; i + 1 < n; i += 1) corners.push([chain[i - 1], chain[i], chain[i + 1]], [chain[i + 1], chain[i], chain[i - 1]]);
   for (const [p, q, r] of corners) if (cornerBelow(p, q, r, floorCos)) return { ok: false, why: 'angle' };
   return { ok: true, kind: 'split', widths: [widths[0], widths[1]] };
+}
+
+// ---- the needle rule (queue row L20) --------------------------------------------------------------------------------
+
+/**
+ * The needle tips of a child's kerb that a cut made (§4.6 step 8's min-angle floor read on the kerb; queue row L20): a
+ * convex corner of an outer ring of `kerbRings` (a counter-clockwise ring of area) whose two sides, each read at the
+ * point `armCm` along the ring from the corner (the plot's minimum width), meet below `minAngleCdeg` — the kerb tapering
+ * to a sliver no plot row can use over a plot's width, where the cut's band and another spine's run nearly parallel —
+ * and that lies within `nearCm` of the cut's chain (the corner is the cut's band's, not the face's own). The kerb's
+ * ordinary corners — a square landing, a street corner the cut does not touch — are never needles, nor is a short spur
+ * of the kerb at a junction's wedge, whose sides part within the arm.
+ */
+export function needleTips(kerbRings: readonly (readonly LatticePoint[])[], chain: readonly XY[], nearCm: number, minAngleCdeg: number, armCm: number): XY[] {
+  const floorCos = cosCdeg(minAngleCdeg);
+  const out: XY[] = [];
+  for (const ring of kerbRings) {
+    const m = ring.length;
+    if (m < 3) continue;
+    let a2 = 0;
+    for (let i = 0; i < m; i += 1) a2 += ring[i].x * ring[(i + 1) % m].y - ring[(i + 1) % m].x * ring[i].y;
+    if (!(a2 > 0)) continue;
+    // The point `armCm` along the ring from vertex i, walking backward (−1) or forward (+1): the side read over the
+    // arm's length, so a short edge that turns a corner within the arm reads the corner, not the side beyond it.
+    const armPoint = (i: number, dir: 1 | -1): XY | null => {
+      let left = armCm;
+      let p: XY = ring[i];
+      for (let k = 1; k < m; k += 1) {
+        const q = ring[(i + dir * k + m * k) % m];
+        const d = len(sub(q, p));
+        if (d >= left) return along(p, unit(sub(q, p)) ?? { x: 0, y: 0 }, left);
+        left -= d;
+        p = q;
+      }
+      return null;
+    };
+    for (let i = 0; i < m; i += 1) {
+      const v = ring[i];
+      const a = armPoint(i, -1);
+      const b = armPoint(i, 1);
+      if (a === null || b === null) continue;
+      if (!(orient2d(a.x, a.y, v.x, v.y, b.x, b.y) > 0)) continue;
+      const u = unit(sub(a, v));
+      const w = unit(sub(b, v));
+      if (u === null || w === null || !(dot(u, w) > floorCos)) continue;
+      let near = false;
+      for (let j = 0; j + 1 < chain.length && !near; j += 1) if (nearestOnSegment(v, chain[j], chain[j + 1]).d2 <= nearCm * nearCm) near = true;
+      if (near) out.push(v);
+    }
+  }
+  return out;
+}
+
+/** sin of the needle's pre-test angle (15°, past the 12° floor): two segments nearer parallel than this may make one. */
+const NEEDLE_SUSPECT_SIN = dmath.sin(1500 * RAD_PER_CDEG);
+
+/** Do segments ab and pq cross or touch (exact orientation)? */
+function segmentsMeet(a: XY, b: XY, p: XY, q: XY): boolean {
+  const d1 = orient2d(a.x, a.y, b.x, b.y, p.x, p.y);
+  const d2 = orient2d(a.x, a.y, b.x, b.y, q.x, q.y);
+  const d3 = orient2d(p.x, p.y, q.x, q.y, a.x, a.y);
+  const d4 = orient2d(p.x, p.y, q.x, q.y, b.x, b.y);
+  return ((d1 >= 0 && d2 <= 0) || (d1 <= 0 && d2 >= 0)) && ((d3 >= 0 && d4 <= 0) || (d3 <= 0 && d4 >= 0));
+}
+
+/**
+ * The needle rule's cheap pre-test (queue row L20): a needle tip of a child's kerb on the cut's band is where the cut's
+ * band edge meets another spine's band edge below 12°, so some edge of the child's L1 rings — not one of the cut's own
+ * — runs within 15° of parallel to a segment of the cut and nearer it than the two bands' half-widths (`reachCm`: the
+ * cut's half-width, the widest spine's and the margin). False rules a needle out without reading the child's kerb;
+ * true sends the child to `needleTips` on its kerb, the rule itself.
+ */
+export function needleSuspect(rings: readonly (readonly LatticePoint[])[], chain: readonly XY[], reachCm: number): boolean {
+  const onChain = (v: XY): boolean => {
+    for (let j = 0; j + 1 < chain.length; j += 1) if (nearestOnSegment(v, chain[j], chain[j + 1]).d2 <= 4) return true;
+    return false;
+  };
+  for (const ring of rings) {
+    const m = ring.length;
+    for (let i = 0; i < m; i += 1) {
+      const a = ring[i];
+      const b = ring[(i + 1) % m];
+      if (onChain(a) && onChain(b)) continue;
+      const e = unit(sub(b, a));
+      if (e === null) continue;
+      for (let j = 0; j + 1 < chain.length; j += 1) {
+        const p = chain[j];
+        const q = chain[j + 1];
+        const c = unit(sub(q, p));
+        if (c === null) continue;
+        const sn = cross(e, c);
+        if (!(sn * sn < NEEDLE_SUSPECT_SIN * NEEDLE_SUSPECT_SIN)) continue;
+        const r2 = reachCm * reachCm;
+        if (segmentsMeet(a, b, p, q) || nearestOnSegment(a, p, q).d2 < r2 || nearestOnSegment(b, p, q).d2 < r2 || nearestOnSegment(p, a, b).d2 < r2 || nearestOnSegment(q, a, b).d2 < r2) return true;
+      }
+    }
+  }
+  return false;
 }
 
 /**

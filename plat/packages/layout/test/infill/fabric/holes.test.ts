@@ -1,9 +1,12 @@
 // Holes (§4.6 *Holes*, §3.4 connectHole): a reservation inside a district's face is a hole of it; a cut that would
 // cross the hole is a slit committed by connectHole, the annulus becomes simply connected and the same ladder cuts it
 // (step 2's holed law, step 4's halved offset). The hole's own face is never cut; the face count never decreases.
-import { faceRings, isFaceLive, pointLocate, STAGES, type KernelTx } from '@plat/kernel';
+import { area2, faceRings, isFaceLive, pointLocate, STAGES, type KernelTx } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { arenaWays, fixture, GROUND, ownerOf, P, runFixture, type Fixture } from './support.js';
+import { kerbSeed } from '../../../src/index.js';
+import { arenaWays, fixture, GROUND, kerbNow, ownerOf, P, runFixture, waySegments, type Fixture } from './support.js';
+
+const waySegmentsOf = (f: Fixture, id: string) => waySegments(f.plat, id);
 
 function holedDistrict(): ReturnType<typeof fixture> {
   const W = 24_000;
@@ -94,12 +97,12 @@ describe('a district face with a reservation hole', () => {
 // refused 'slit') and no lane stays in the arena. Before the fix the slit lane stayed inserted (a Way, its junction
 // rows) while the block was recorded a court with its pre-slit kerb.
 
-/** A one-district W × H land inside a ring road (secondary, 6 m), a reservation hole hw × 10 m at its centre. */
-function deepHoled(W: number, H: number, hw: number, seed: number): Fixture {
+/** A one-district W × H land inside a ring road (secondary, 6 m), a reservation hole hw × hh (default 10 m) at its centre. */
+function deepHoled(W: number, H: number, hw: number, seed: number, hh = 1_000): Fixture {
   const x0 = W / 2 - hw / 2;
   const x1 = W / 2 + hw / 2;
-  const y0 = H / 2 - 500;
-  const y1 = H / 2 + 500;
+  const y0 = H / 2 - hh / 2;
+  const y1 = H / 2 + hh / 2;
   const hole = [P(x0, y0), P(x0, y1), P(x1, y1), P(x1, y0)];
   return fixture(
     Math.max(W, H) + 10_000,
@@ -151,6 +154,81 @@ function expectWaysAgree(f: Fixture, out: ReturnType<typeof runFixture>): void {
   }
 }
 
+/** The distance from p to a ring's edges (cm). */
+function ringDist(ring: readonly { x: number; y: number }[], p: { x: number; y: number }): number {
+  let best = Infinity;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const l2 = dx * dx + dy * dy;
+    const t = l2 > 0 ? Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / l2)) : 0;
+    best = Math.min(best, Math.hypot(a.x + t * dx - p.x, a.y + t * dy - p.y));
+  }
+  return best;
+}
+
+/** Even–odd inside a ring. */
+function inRing(ring: readonly { x: number; y: number }[], p: { x: number; y: number }): boolean {
+  let c = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
+    const a = ring[i];
+    const b = ring[j];
+    if (a.y > p.y !== b.y > p.y && p.x < ((b.x - a.x) * (p.y - a.y)) / (b.y - a.y) + a.x) c = !c;
+  }
+  return c;
+}
+
+/**
+ * The seed's clearance against its kerb component's best (notes N-23 (f), N-26 C12): a block's seed is the pole of its
+ * L1 face's kerb component, its holes counted as boundary — so its distance to the component's rings (the holes among
+ * them) is the component's inscribed radius, which a 60 × 60 grid over the component bounds from below to within one
+ * cell's half-diagonal. A pole of the outer ring alone (the holes ignored) lies nearer a hole than that. Returns how many
+ * seeds sat in a component with a hole (the cases the property reads).
+ */
+function expectPolesClearHoles(f: Fixture, out: ReturnType<typeof runFixture>): number {
+  let holed = 0;
+  for (const bf of out.infill.blockFaces) {
+    for (const s of bf.seeds) {
+      const at = pointLocate(f.plat, GROUND, 1, s);
+      expect(at.on).toBe('face');
+      if (at.on !== 'face') continue;
+      const rings = kerbNow(f.k, at.face);
+      const outer = rings.filter((r) => area2(r) > 0 && inRing(r, s));
+      expect(outer).toHaveLength(1);
+      const holes = rings.filter((r) => area2(r) < 0 && inRing(outer[0], r[0]));
+      if (holes.length === 0) continue;
+      holed += 1;
+      const comp = [outer[0], ...holes];
+      const clear = (p: { x: number; y: number }): number => Math.min(...comp.map((r) => ringDist(r, p)));
+      let x0 = Infinity;
+      let y0 = Infinity;
+      let x1 = -Infinity;
+      let y1 = -Infinity;
+      for (const q of outer[0]) {
+        x0 = Math.min(x0, q.x);
+        y0 = Math.min(y0, q.y);
+        x1 = Math.max(x1, q.x);
+        y1 = Math.max(y1, q.y);
+      }
+      let best = 0;
+      const n = 60;
+      for (let i = 0; i <= n; i += 1) {
+        for (let j = 0; j <= n; j += 1) {
+          const p = { x: x0 + ((x1 - x0) * i) / n, y: y0 + ((y1 - y0) * j) / n };
+          if (!inRing(outer[0], p) || holes.some((h) => inRing(h, p))) continue;
+          best = Math.max(best, clear(p));
+        }
+      }
+      const cell = Math.hypot(x1 - x0, y1 - y0) / n;
+      expect(holes.some((h) => inRing(h, s))).toBe(false);
+      expect(clear(s), `${bf.block}: the seed's clearance against the component's best`).toBeGreaterThanOrEqual(best - cell / 2 - 10);
+    }
+  }
+  return holed;
+}
+
 describe('a deep block holding a hole: its spine never slits (N-52 (4), C-0288)', () => {
   it('the 120 × 45 m land with a 6 × 10 m hole at seed 1: the spine runs onto the hole, is refused, no lane stays', { timeout: 120_000 }, () => {
     const f = deepHoled(12_000, 4_500, 600, 1);
@@ -185,6 +263,7 @@ describe('a deep block holding a hole: its spine never slits (N-52 (4), C-0288)'
 
   it('over holed lands that stop as one deep block (two lengths, two depths, two holes, four seeds): ways agree with the blocks', { timeout: 300_000 }, () => {
     let slitRefused = 0;
+    let holedSeeds = 0;
     for (const W of [12_000, 20_000]) {
       for (const H of [4_500, 5_000]) {
         for (const hw of [600, 2_000]) {
@@ -193,12 +272,85 @@ describe('a deep block holding a hole: its spine never slits (N-52 (4), C-0288)'
             const out = runFixture(f);
             expect(out.infill.report.refused).toEqual([]);
             expectWaysAgree(f, out);
+            holedSeeds += expectPolesClearHoles(f, out);
             slitRefused += out.infill.report.districts[0].rungs.filter((r) => r.rung === 'deep' && r.why === 'slit').length;
           }
         }
       }
     }
-    // The sample reaches the refusal (not only the fixture above).
+    // The sample reaches the refusal (not only the fixture above), and seeds in components with a hole.
     expect(slitRefused).toBeGreaterThanOrEqual(2);
+    expect(holedSeeds).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('a deep block whose spine runs onto a hole tries the spine offset clear of it before the court (notes N-21; C-0426)', () => {
+  // A 120 × 48 m land with a 6 × 2 m hole at its centre (prosperity 0.3, seed 1): the block's back lane through its
+  // centre runs onto the hole (refused 'slit' before this round, the block kept a court); offset 4 m clear of the hole it
+  // halves the block with both children above the floor.
+  it('the 120 × 48 m land with a 6 × 2 m hole: the offset back lane cuts, two faces with a seed each, the hole in one, no slit, no court', { timeout: 120_000 }, () => {
+    const f = deepHoled(12_000, 4_800, 600, 1, 200);
+    const out = runFixture(f);
+    const rep = out.infill.report.districts[0];
+    expect(out.infill.report.refused).toEqual([]);
+    const spined = out.blocks.filter((b) => b.interior === 'back_lane' || b.interior === 'through_alley');
+    expect(spined).toHaveLength(1);
+    expect(rep.rungs.filter((r) => r.rung === 'deep' && r.outcome === 'refused')).toEqual([]);
+    expect(rep.warnings.W_DEEP_SPINE_REFUSED ?? 0).toBe(0);
+    expect(out.lanes).toHaveLength(rep.rungs.filter((r) => r.outcome === 'cut' || r.outcome === 'slit').length);
+    // The spine passes the hole, clear of it by its half-width: no point of its chain within the hole's box widened so.
+    const kerb = out.infill.blockFaces.find((x) => x.block === spined[0].id)?.kerb ?? [];
+    const lane = out.lanes.find((l) => waySegmentsOf(f, l.id).some(([a, b]) => inRing(kerb, { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 })));
+    expect(lane).toBeDefined();
+    if (lane === undefined) return;
+    const hw = (lane.width as number) / 2;
+    for (const [a, b] of waySegmentsOf(f, lane.id)) {
+      for (let t = 0; t <= 1; t += 0.05) {
+        const x = a.x + t * (b.x - a.x);
+        const y = a.y + t * (b.y - a.y);
+        expect(x > 5_700 - hw && x < 6_300 + hw && y > 2_300 - hw && y < 2_500 + hw).toBe(false);
+      }
+    }
+    expectWaysAgree(f, out);
+    // The child on the hole's side holds it: its seed is the pole of a kerb component with a hole (N-26 C12).
+    expect(expectPolesClearHoles(f, out)).toBeGreaterThanOrEqual(1);
+  });
+});
+
+
+describe('kerbSeed’s unsplit pole counts the kerb’s holes (notes N-23 (f), K20)', () => {
+  it('a land holding a reservation hole, before S8: kerbSeed of its face lies in no hole and has the component’s best clearance, holes counted', { timeout: 120_000 }, () => {
+    const f = deepHoled(12_000, 4_500, 2_000, 1);
+    const d = f.districts[0].district.id;
+    let face = -1;
+    for (let g = 0; g < f.plat.slots.face[1].top; g += 1) if (isFaceLive(f.plat, 1, g) && ownerOf(f.plat, g) === d) face = g;
+    expect(face).toBeGreaterThanOrEqual(0);
+    const rings = kerbNow(f.k, face);
+    const outer = rings.filter((r) => area2(r) > 0);
+    const holes = rings.filter((r) => area2(r) < 0);
+    expect(outer).toHaveLength(1);
+    expect(holes).toHaveLength(1);
+    let seed: { x: number; y: number } | null = null;
+    const READ: KernelTx = { key: GROUND, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S8 }, stage: STAGES.S8, rederivesFrom: STAGES.S8, workLimit: 100_000_000 };
+    const r = f.k.tx(READ, (o) => {
+      seed = kerbSeed(o, face, f.widths);
+      return { ok: true as const, value: undefined, warnings: [] };
+    });
+    expect(r.ok).toBe(true);
+    expect(seed).not.toBeNull();
+    if (seed === null) return;
+    const s: { x: number; y: number } = seed;
+    expect(inRing(holes[0], s)).toBe(false);
+    const comp = [outer[0], holes[0]];
+    const clear = (p: { x: number; y: number }): number => Math.min(...comp.map((q) => ringDist(q, p)));
+    let best = 0;
+    for (let i = 0; i <= 80; i += 1) {
+      for (let j = 0; j <= 80; j += 1) {
+        const p = { x: (12_000 * i) / 80, y: (4_500 * j) / 80 };
+        if (!inRing(outer[0], p) || inRing(holes[0], p)) continue;
+        best = Math.max(best, clear(p));
+      }
+    }
+    expect(clear(s)).toBeGreaterThanOrEqual(best - Math.hypot(12_000, 4_500) / 160 - 10);
   });
 });
