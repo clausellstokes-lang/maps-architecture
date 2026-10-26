@@ -168,3 +168,58 @@ describe('step 10: continuation across an existing junction (J-P11, GEO-42)', ()
     expect(continuationVerdict({ ...base, leaving: [{ x: Math.sin(0.12), y: Math.cos(0.12) }, { x: 1, y: 0 }] })).toBe('continuation-angle');
   });
 });
+
+describe('the ladder’s reach rule reads the planner’s floor (C-0222 (9); queue row L28, ruled J424)', () => {
+  // A spine segment e = (400, 1) cm and a ray nearly parallel to it: |cross(dir, e)| ≈ 0.8 < 1, and the crossing lies
+  // 375 cm out, inside the reach 2 × 200 + attractCm. The old ladder floor (the 2²⁰-scaled `div`) admitted it; the
+  // planner's (ratio's own floor on the denominator) does not — the end reaches no spine there and stays a kerb end.
+  const spine = { points: [P(100, 0), P(500, 1)], halfWidthCm: 200, bounding: false };
+  const face: KerbFace = { rings: [], spines: [spine] };
+  const len = Math.hypot(1, 0.0005);
+  const dir = { x: 1 / len, y: 0.0005 / len };
+  const a = { x: 0, y: 0.5 };
+  const b = { x: a.x - 1000 * dir.x, y: a.y - 1000 * dir.y };
+
+  it('the case is the one the floors split: |cross| < 1, the crossing inside the segment and the reach', () => {
+    const e = { x: 400, y: 1 };
+    const den = dir.x * e.y - dir.y * e.x;
+    expect(Math.abs(den)).toBeLessThan(1);
+    expect(Math.abs(den)).toBeGreaterThan(2 ** -20);
+    const w = { x: 100 - a.x, y: 0 - a.y };
+    const t = (w.x * e.y - w.y * e.x) / den;
+    const u = (w.x * dir.y - w.y * dir.x) / den;
+    expect(u).toBeGreaterThanOrEqual(0);
+    expect(u).toBeLessThanOrEqual(1);
+    expect(t).toBeGreaterThan(0);
+    expect(t).toBeLessThanOrEqual(2 * spine.halfWidthCm + LATTICE.attractCm);
+  });
+
+  it('a near-parallel end is no spine hit: it stays a kerb end on its kerb point', () => {
+    const c = straightCandidate(face, [], a, b, [0, 0], CELLS, 500, 'c');
+    expect(c).not.toBeNull();
+    expect(c?.ends[0].kind).toBe('kerb');
+    expect(c?.ends[0].index).toBe(-1);
+  });
+
+  it('a ray crossing the spine with |cross| ≥ 1 still reaches it (the reach rule unchanged there)', () => {
+    const down = { x: 300, y: 300 };
+    const c = straightCandidate(face, [], down, { x: 300, y: 1_300 }, [0, 0], CELLS, 500, 'c');
+    expect(c?.ends[0]).toMatchObject({ kind: 'spine', index: 0 });
+  });
+});
+
+describe('the judgement at an antenna’s tip: a cut continuing the antenna is two straight corners, never a 0° one (census R-26; queue row L25)', () => {
+  // A 200 m × 100 m face whose ring visits an antenna from the south side at x = 100 m up to its tip (100 m, 40 m).
+  const ring = [P(0, 0), P(10_000, 0), P(10_000, 4_000), P(10_000, 0), P(20_000, 0), P(20_000, 10_000), P(0, 10_000)];
+  it('the tip is a spike of the ring', () => {
+    expect(antennaTips(ring).map((t) => t.tip)).toEqual([P(10_000, 4_000)]);
+  });
+  it('a cut from the tip straight on to the north side (exactly collinear with the antenna) is a split, not an angle refusal', () => {
+    const j = judge([ring], [P(10_000, 4_000), P(10_000, 7_000), P(10_000, 10_000)], FLOOR);
+    expect(j).toMatchObject({ ok: true, kind: 'split' });
+  });
+  it('a cut leaving the tip 2° off the antenna’s line is a split too; one folding back along it is refused', () => {
+    expect(judge([ring], [P(10_000, 4_000), P(10_210, 10_000)], FLOOR)).toMatchObject({ ok: true, kind: 'split' });
+    expect(judge([ring], [P(10_000, 4_000), P(10_500, 600), P(10_500, 0)], FLOOR).ok).toBe(false);
+  });
+});

@@ -277,6 +277,31 @@ describe('the row’s check across seams on planted records (portalInvariant thr
     expect(whats(seams)).toEqual(['two-portals']);
   });
 
+  it('an extra baseLane portal whose vertex role names no vertex, beside its lane end’s real portal: unresolved (notes N-22 (a))', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    expect(whats(out.infill.seams)).toEqual([]);
+    const seams = copy(out.infill.seams);
+    const [a] = artSeams(seams);
+    const real = a.portals.find((x) => x.from === 'baseLane');
+    expect(real).toBeDefined();
+    if (real === undefined) return;
+    a.portals.push({ ...real, id: 'portal:planted-nowhere', at: { role: 'portal', entity: 'portal:planted-nowhere' } });
+    expect(whats(seams)).toEqual(['unresolved']);
+  });
+
+  it('a second portal with its own id at a lane end’s vertex (its vertex role the real one’s): two-portals and gap (notes N-22 (b))', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    const seams = copy(out.infill.seams);
+    const [a] = artSeams(seams);
+    const real = a.portals.find((x) => x.from === 'baseLane');
+    expect(real).toBeDefined();
+    if (real === undefined) return;
+    a.portals.push({ ...real, id: 'portal:planted-twin' });
+    expect(whats(seams)).toEqual(['gap', 'two-portals']);
+  });
+
   it('the gap is judged along the spine over the portals of every seam holding it, not seam by seam', { timeout: 300_000 }, () => {
     expect(out).not.toBeNull();
     if (out === null) return;

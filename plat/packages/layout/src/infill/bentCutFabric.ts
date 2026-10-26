@@ -78,7 +78,7 @@ import {
   type Stream,
   type VertexId,
 } from '@plat/kernel';
-import { addressOf, lineageHash, mint, type Block, type District, type Id, type Junction, type LiveEntry, type Portal, type Seam, type Way } from '@plat/model';
+import { addressOf, generatedLifecycle, lineageHash, mint, type Block, type District, type Id, type Junction, type LineageKey, type LiveEntry, type Portal, type Seam, type Way } from '@plat/model';
 import { loadTable, loadWorkLimits, workLimitOf, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
 import { bandPlotDepth, blockDepthRange, minFrontage, type GranularityBands } from './granularityBands.js';
 import { deepInterior, interiorRow, interiorSpine, localThickness, type DeepInterior, type InteriorRow } from './deepInterior.js';
@@ -91,9 +91,12 @@ import {
   judge,
   kerbEndsSquare,
   meanNormalCut,
+  needleSuspect,
+  needleTips,
   reflexPreCut,
   slideFeet,
   snapChain,
+  squaredFarEnd,
   straightCandidate,
   type BlockFloor,
   type Candidate,
@@ -149,6 +152,31 @@ export interface DistrictContext {
   readonly tables?: { readonly cut?: Table; readonly ways?: Table; readonly interior?: Table; readonly faces?: Table; readonly workLimits?: WorkLimitsTable };
   /** The deep factor (default the design's 0.6, deepInterior.ts). */
   readonly deepFactor?: number;
+  /** Test-side fault injection (`FabricFaults`); no stage sets it. */
+  readonly faults?: FabricFaults;
+}
+
+/**
+ * Test-side fault injection for the paths no honest input reaches (the hardening pins of C-0423): each switch forces one
+ * detect-and-refuse or re-read path of the run, so a test can hold it. No stage, runner or bench sets it; absent (or
+ * every switch off) the run is exactly the one without it.
+ */
+export interface FabricFaults {
+  /** `takeOut` reports a failure after doing its work: C-0243 (3)'s 'floor-undo' / 'end-rows-undo' abandonment. */
+  readonly takeOutFails?: boolean;
+  /** `faceAgain` finds nothing after a touched refusal: C-0243 (3)'s 'not found as it was' abandonment. */
+  readonly faceLost?: boolean;
+  /** The end rows of the n-th candidate (1-based, over the run) that reaches them fail: an 'end-rows' refusal (C-0243 (1)). */
+  readonly endRowsFailAt?: number;
+  /** The planner and the ladder read no portal on any spine, so only the insertion read sees them (C-0329 (2)(e)). */
+  readonly portalsUnread?: boolean;
+  /** A split child's seed is read against a parent part that holds none of its kerb (the child records no seed). */
+  readonly noParentPart?: boolean;
+  /**
+   * Every mint reads the whole live list (the reading before queue row Q70) instead of the live index's subset — not a
+   * fault: the run is the same either way (Q70's NO-SHIFT), which a test holds on a run that takes a lane out again.
+   */
+  readonly wholeLiveMint?: boolean;
 }
 
 /** §14's FabricStrategy (C-0237 (1): `seam` is C-0046's minimal Seam records, `sc` a StageContext's report sink). */
@@ -366,11 +394,95 @@ interface Pending {
   readonly seed: LatticePoint | null;
 }
 
+/** A lineage hash as a map key. */
+function lineageText(h: Readonly<LineageHash>): string {
+  return `${String(h[0])},${String(h[1])}`;
+}
+
+/**
+ * The live entities the run's mint reads (§6.3's collision rule), kept incrementally (queue row Q70): the list itself
+ * (the run pushes what it mints and pops what it takes out again) and two indexes over it — by address and by lineage —
+ * so each mint is handed exactly the live entries its one record can collide with: those on the record's `dup` chain
+ * (every lineage the mint's smallest-free-dup loop tests) and those on its address's `~k` chain. The mint reads only the
+ * set's contents (its taken lineages and taken addresses), so that subset gives the result the whole list gives; the
+ * whole list is checked once, when the run starts (the mint's own check of every live entry and the seed key).
+ */
+class LiveIndex {
+  readonly entries: LiveEntry[];
+  private readonly byId = new Map<Id, LiveEntry[]>();
+  private readonly byLineage = new Map<string, LiveEntry[]>();
+
+  constructor(start: readonly LiveEntry[]) {
+    this.entries = [];
+    for (const e of start) this.push(e);
+  }
+
+  push(e: LiveEntry): void {
+    this.entries.push(e);
+    const a = this.byId.get(e.id);
+    if (a === undefined) this.byId.set(e.id, [e]);
+    else a.push(e);
+    const k = lineageText(e.lineage);
+    const b = this.byLineage.get(k);
+    if (b === undefined) this.byLineage.set(k, [e]);
+    else b.push(e);
+  }
+
+  /** Removes the last entry pushed (the run's own mint, taken out again). */
+  pop(): void {
+    const e = this.entries.pop();
+    if (e === undefined) return;
+    const a = this.byId.get(e.id);
+    if (a !== undefined) {
+      a.pop();
+      if (a.length === 0) this.byId.delete(e.id);
+    }
+    const k = lineageText(e.lineage);
+    const b = this.byLineage.get(k);
+    if (b !== undefined) {
+      b.pop();
+      if (b.length === 0) this.byLineage.delete(k);
+    }
+  }
+
+  get length(): number {
+    return this.entries.length;
+  }
+
+  /**
+   * The live entries one fresh record of `kind` under `key` can collide with: every entry whose lineage the mint's dup
+   * loop tests (the key's hash, then dup 1, 2, … while a live non-retired entry holds it), then every entry whose
+   * address the suffix loop tests (the natural address of the lineage reached, then `~1`, `~2`, … while one is taken).
+   */
+  relevant(kind: string, key: LineageKey): LiveEntry[] {
+    const out: LiveEntry[] = [];
+    let dup = 0;
+    let h = lineageHash(key);
+    for (;;) {
+      const at = this.byLineage.get(lineageText(h));
+      if (at === undefined) break;
+      out.push(...at);
+      if (!at.some((e) => e.retired !== true)) break;
+      dup += 1;
+      h = lineageHash({ ...key, dup });
+    }
+    const natural = addressOf(kind, h, key.arena);
+    let id = natural;
+    for (let suffix = 1; ; suffix += 1) {
+      const at = this.byId.get(id);
+      if (at === undefined) break;
+      out.push(...at);
+      id = `${natural}~${String(suffix)}`;
+    }
+    return out;
+  }
+}
+
 /** The mutable state of one district's run (inside the transaction). */
 class Run {
   readonly p: Plat;
   readonly rng: Rng;
-  readonly live: LiveEntry[];
+  readonly live: LiveIndex;
   readonly minted: LiveEntry[] = [];
   readonly cells: CutCells;
   readonly wcells: WidthCells;
@@ -413,6 +525,16 @@ class Run {
   readonly cellHashes: LineageHash[] = [];
   portalIndex = 0;
   kernelCallsThisFace = 0;
+  /** Step 10's tolerance as a cosine (cut.settings.continuationCdeg) and the residue's soft share (cut.ladder). */
+  readonly continuationCos: number;
+  readonly softShare: number;
+  /** How far along each side a needle's corner is read (cm): the plot's minimum width (faces.plot.minPlotWidthM). */
+  readonly needleArmCm: number;
+  /** The widest half-width a spine of the district can have (cm): its ways' and the widest class S8 cuts (the needle pre-test). */
+  readonly widestHalfCm: number;
+  /** The test-side faults (none in a stage's run) and the candidates that reached their end rows (endRowsFailAt). */
+  readonly faults: FabricFaults;
+  endRowsReached = 0;
 
   constructor(
     readonly o: Overlay,
@@ -422,7 +544,10 @@ class Run {
   ) {
     this.p = o.plat;
     this.rng = createRng();
-    this.live = ctx.live.slice();
+    // The mint's own check of every live entry and of the seed key, once for the run (an empty batch mints nothing).
+    mint([], ctx.live, [], ctx.seedKey);
+    this.live = new LiveIndex(ctx.live);
+    this.faults = ctx.faults ?? {};
     this.seams = seams.map((s) => ({ ...s, portals: s.portals.slice() }));
     const cutT = ctx.tables?.cut ?? loadTable('cut');
     this.cells = cutCells(cutT, ctx.preset);
@@ -435,11 +560,24 @@ class Run {
     const angle = faces.cell('plot', 'minInteriorAnglePlotCdeg').value;
     if (typeof angle !== 'number') stopError('faces/plot/minInteriorAnglePlotCdeg is not a number');
     this.floor = { minWidthCm: ctx.bands.depthM[0] * M_TO_CM, minAngleCdeg: angle };
+    const plotWidth = faces.cell('plot', 'minPlotWidthM').value;
+    if (typeof plotWidth !== 'number') stopError('faces/plot/minPlotWidthM is not a number');
+    this.needleArmCm = plotWidth * M_TO_CM;
     this.planBase = { depthRangeM: [eLoM, eHiM], minFrontageM: minFrontage(ctx.bands), cutKind: 'way', table: cutT, ...(ctx.preset === undefined ? {} : { preset: ctx.preset }) };
     this.interior = interiorRow(ctx.prosperity, ctx.density, ctx.rung, this.plotDepthCm, { ...(ctx.tables?.interior === undefined ? {} : { table: ctx.tables.interior }), ...(ctx.deepFactor === undefined ? {} : { deepFactor: ctx.deepFactor }) });
     const factor = cutT.cell('ladder', 'substitutionAreaFactor').value;
     if (typeof factor !== 'number') stopError('cut/ladder/substitutionAreaFactor is not a number');
     this.substitutionMaxCm2 = factor * this.eHi * this.eHi;
+    // Every cut cell S8 reads is refused when unreadable, as the others are (notes N-12): no stand-in constant.
+    const cont = cutT.cell('settings', 'continuationCdeg').value;
+    if (typeof cont !== 'number') stopError('cut/settings/continuationCdeg is not a number');
+    this.continuationCos = dmath.cos(cont * RAD_PER_CDEG);
+    const soft = cutT.cell('ladder', 'substitutionSoftShare').value;
+    if (typeof soft !== 'number') stopError('cut/ladder/substitutionSoftShare is not a number');
+    this.softShare = soft;
+    let widest = this.wcells.bands.secondary[1];
+    for (const w of ctx.widths.values()) if (w > widest) widest = w;
+    this.widestHalfCm = widest / 2;
     this.limits = { kernelCalls: 0, recursionDepth: 0, candidates: 0 };
   }
 
@@ -452,7 +590,10 @@ class Run {
 
   /** Mints one entity of `kind` under a unit's creation index (§6.3; the collision rule over everything live). */
   mintOne(kind: string, unit: LineageHash, index: number): { id: Id; key: Readonly<Hash128>; hash: LineageHash } {
-    const m = mint([{ kind, key: { arena: this.ctx.key, unit, stage: S8, epoch: this.ctx.epoch, index, reroll: this.ctx.reroll } }], this.live, [], this.ctx.seedKey)[0];
+    const key: LineageKey = { arena: this.ctx.key, unit, stage: S8, epoch: this.ctx.epoch, index, reroll: this.ctx.reroll };
+    // The mint reads the live entries this one record can collide with (`LiveIndex.relevant`): the result of the whole list
+    // (`wholeLiveMint`, a test seam, reads the whole list itself so a test can hold the two equal).
+    const m = mint([{ kind, key }], this.faults.wholeLiveMint === true ? this.live.entries : this.live.relevant(kind, key), [], this.ctx.seedKey)[0];
     const entry = { id: m.identity.id, lineage: m.identity.lineage };
     this.live.push(entry);
     this.minted.push(entry);
@@ -532,7 +673,7 @@ class Run {
           points: run,
           halfWidthCm: w / 2,
           bounding: sp.bounding,
-          ...(sp.bounding ? { portals: sp.portals } : {}),
+          ...(sp.bounding ? { portals: this.faults.portalsUnread === true ? [] : sp.portals } : {}),
         });
       }
     }
@@ -647,7 +788,7 @@ function takeOut(run: Run, laneId: Id, rows: readonly { role: 'junction' | 'port
     run.minted.pop();
     run.live.pop();
   }
-  return fine;
+  return fine && run.faults.takeOutFails !== true;
 }
 
 /**
@@ -730,6 +871,8 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
   const armed: { j: Junction; before: Junction['kind'] }[] = [];
   let failed = false;
   let failWhy = 'end-rows';
+  run.endRowsReached += 1;
+  if (run.faults.endRowsFailAt === run.endRowsReached) failed = true;
   for (let e = 0; e < 2 && !failed; e += 1) {
     const end = cand.ends[e];
     const v = ends[e];
@@ -771,6 +914,20 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
       newPortals.push(pt);
     }
   }
+  // The min-angle floor on the children's kerbs (queue row L20), read once the insertion stands whole (its junction
+  // and portal rows written): a cut whose band and another spine's run nearly parallel leaves a child's kerb tapering
+  // to a needle — its two sides within the plot's minimum corner over the plot's minimum width — that no later stage can
+  // use; the cut is refused like a child below the floor ('needle', the lane taken out again) and the ladder goes on.
+  if (!failed && !slit) {
+    for (const c of children) {
+      if (!needleSuspect(canonicalRings(faceRings(run.p, 1, c)), cand.chain, width / 2 + run.widestHalfCm + 2 * LATTICE.attractCm)) continue;
+      const kc = kerb(run.o, c, spineWidthsOf(run.ctx.widths));
+      if (!kc.ok || needleTips(kc.value, cand.chain, width / 2 + 2 * LATTICE.attractCm, run.floor.minAngleCdeg, run.needleArmCm).length === 0) continue;
+      failed = true;
+      failWhy = 'needle';
+      break;
+    }
+  }
   if (failed) {
     for (const a of armed) {
       a.j.arms.pop();
@@ -779,7 +936,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
     run.kernelCallsThisFace += 1;
     const fine = takeOut(run, lane.id, added, mintedBefore);
     run.counters[cell] = countBefore;
-    if (!fine) run.abandon(`a lane whose end rows failed could not be taken out again (face ${faceAddr})`);
+    if (!fine) run.abandon(failWhy === 'needle' ? `a lane refused by the needle rule could not be taken out again (face ${faceAddr})` : `a lane whose end rows failed could not be taken out again (face ${faceAddr})`);
     return { ok: false, why: fine ? failWhy : `${failWhy}-undo`, touched: true };
   }
   for (const j2 of newJunctions) run.junctions.push(j2);
@@ -800,7 +957,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
     growthStage: 0,
     epoch: run.ctx.epoch,
     provisional: false,
-    lifecycle: generated(run.ctx.epoch),
+    lifecycle: generatedLifecycle(run.ctx.epoch),
   });
   run.rungs.push({ ...extra, face: faceAddr, rung: cand.rung, attempt, outcome: slit ? 'slit' : 'cut', ...(cand.slide > 0 ? { slide: cand.slide } : {}) });
   return { ok: true, children, slit };
@@ -864,7 +1021,7 @@ function junctionAt(run: Run, v: VertexId, laneId: Id, spineWay: Id | null, cell
   run.counters[cell] += 1;
   if (!addVertexRow(run, v, 'junction', m.id)) return null;
   const arms = spineWay === null ? [laneId] : [spineWay, laneId];
-  return { id: m.id, fresh: { id: m.id, vertex: { role: 'junction', entity: m.id }, arms, kind: spineWay === null ? 'end' : 'T', lifecycle: generated(run.ctx.epoch) }, armed: null };
+  return { id: m.id, fresh: { id: m.id, vertex: { role: 'junction', entity: m.id }, arms, kind: spineWay === null ? 'end' : 'T', lifecycle: generatedLifecycle(run.ctx.epoch) }, armed: null };
 }
 
 /**
@@ -958,7 +1115,7 @@ function continuationRefused(run: Run, fv: FaceView, cand: Candidate, cls: CutCl
       cutClass: cls,
       arrival: end.arrival,
       leaving,
-      cosTol: dmath.cos(continuationCdeg(run) * RAD_PER_CDEG),
+      cosTol: run.continuationCos,
     });
     if (why !== null) return why;
   }
@@ -972,12 +1129,6 @@ function continuationRefused(run: Run, fv: FaceView, cand: Candidate, cls: CutCl
  */
 export function continuationBounds(p: Plat, seams: readonly Seam[], district: Id, spineWay: Id | null, v: VertexId): boolean {
   return (spineWay !== null && seamOfSpine(seams, spineWay) !== undefined) || boundsDistrictAt(p, seams, v, district);
-}
-
-function continuationCdeg(run: Run): number {
-  const t = run.ctx.tables?.cut ?? loadTable('cut');
-  const v = t.cell('settings', 'continuationCdeg').value;
-  return typeof v === 'number' ? v : 600;
 }
 
 /** An existing junction vertex (degree ≥ 3, or a junction row) within attractCm of p, or null. */
@@ -998,11 +1149,6 @@ function nearestJunction(run: Run, p: LatticePoint): VertexId | null {
   return null;
 }
 
-/** The generated lifecycle (§2.8). */
-function generated(epoch: number): Block['lifecycle'] {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 // The ladder on one face
 // ---------------------------------------------------------------------------------------------------------------------
@@ -1013,6 +1159,16 @@ function startFar(plan: CutPlan | null): { start: StartPlan | null; far: FarPlan
   if (plan.kind === 'failed') return { start: plan.start, far: null };
   return { start: plan.start, far: plan.far };
 }
+
+/** A parent part far from every face (the `noParentPart` fault): a 1 m square at the lattice's far corner. */
+const FAR_PART: readonly (readonly LatticePoint[])[] = Object.freeze([
+  Object.freeze([
+    { x: -16_000_000, y: -16_000_000 },
+    { x: -15_999_900, y: -16_000_000 },
+    { x: -15_999_900, y: -15_999_900 },
+    { x: -16_000_000, y: -15_999_900 },
+  ] as LatticePoint[]),
+]);
 
 /** Makes a block of a face that stops (or stands): the deep-interior rule, its record, its residue accounting. */
 function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces['how'], stop: StopUse | null): void {
@@ -1040,13 +1196,30 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
   if ((interior === 'back_lane' || interior === 'through_alley') && fv !== null) {
     const treatment = interior;
     const sp = interiorSpine(kerbRings[0], d.centre, treatment);
-    const cand = sp === null || run.stopped !== null ? null : spineCandidate(run, fv, sp, treatment);
     let cut = false;
-    let why = cand === null ? 'none' : '';
-    if (cand !== null) {
-      const t = tryCandidate(run, fv, cand, item.cell, run.faceAddress(item.hash), 0, treatment === 'back_lane' ? 'lane' : 'alley', {}, false);
-      if (!t.ok) why = t.why;
-      if (t.ok && !t.slit) {
+    let why = 'none';
+    // The spine through the block's centre first; when the judge reads it as a slit (it runs onto a hole of the block),
+    // the same spine offset clear of the hole, one try each side, the nearer first (notes N-21; C-0423) — so a hole a
+    // parallel spine can pass no longer leaves the block a court. Each line draws nothing.
+    const lines: { origin: XY; dir: XY }[] = sp === null ? [] : [sp];
+    let view: FaceView = fv;
+    for (let i = 0; i < lines.length && !cut && run.stopped === null && run.abandoned === null; i += 1) {
+      const cand = spineCandidate(run, view, lines[i], treatment);
+      if (cand === null) continue;
+      const t = tryCandidate(run, view, cand, item.cell, run.faceAddress(item.hash), 0, treatment === 'back_lane' ? 'lane' : 'alley', {}, false);
+      if (!t.ok) {
+        if (i === 0) why = t.why;
+        if (i === 0 && t.why === 'slit') lines.push(...offsetSpines(kerbRings, lines[0], spineWidth(run, treatment) / 2 + 2 * LATTICE.attractCm));
+        // A refusal that re-walked the face: its slot again before another line reaches the kernel (C-0243); a face not
+        // found as it was takes no further line (the block keeps its court: no kernel call on a face the run cannot see).
+        if (t.touched === true && i + 1 < lines.length) {
+          const again = faceAgain(run, item, view);
+          if (again === null) break;
+          view = again;
+        }
+        continue;
+      }
+      if (!t.slit) {
         cut = true;
         // Each child's seed: the pole of the component of kerb(child) that lies inside the parent's kerb at the cut
         // (`kerbRings`, the component the ladder read) — the parent's part on the child's side of the spine, less the
@@ -1055,7 +1228,7 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
         // as the stop kerb reads it. A child with no such component records none — never a wrong seed (N-45 (a)).
         seeds.length = 0;
         for (const c of t.children) {
-          const s = kerbSeed(run.o, c, run.ctx.widths, kerbRings);
+          const s = kerbSeed(run.o, c, run.ctx.widths, run.faults.noParentPart === true ? FAR_PART : kerbRings);
           if (s !== null) seeds.push(s);
         }
       }
@@ -1075,10 +1248,58 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
     interior,
     reach,
     content: 'ordinary',
-    lifecycle: generated(run.ctx.epoch),
+    lifecycle: generatedLifecycle(run.ctx.epoch),
   });
   run.blockFaces.push({ block: m.id, seeds, kerb: kerbRings[0] ?? [], how, stop });
   if (item.depth > run.work.recursionDepth) run.work.recursionDepth = item.depth;
+}
+
+/** The width a deep block's spine is planned at: the band's top of its class (a back lane's lane, a through alley's alley). */
+function spineWidth(run: Run, treatment: 'back_lane' | 'through_alley'): number {
+  return treatment === 'back_lane' ? run.wcells.bands.lane[1] : run.wcells.bands.alley[1];
+}
+
+/**
+ * The spine line offset clear of the block's holes (notes N-21): the band of offsets, across the line, at which the
+ * line passes within `clearanceCm` of a hole of the kerb component (every hole whose band meets the line's, merged),
+ * and the two lines just outside it — the nearer first (ties: the left side) — each kept only while its origin lies
+ * inside the component. Empty when no hole's band holds the line.
+ */
+function offsetSpines(rings: readonly (readonly LatticePoint[])[], sp: { origin: XY; dir: XY }, clearanceCm: number): { origin: XY; dir: XY }[] {
+  const n = { x: -sp.dir.y, y: sp.dir.x };
+  const spans: [number, number][] = [];
+  for (let i = 1; i < rings.length; i += 1) {
+    let lo = Infinity;
+    let hi = -Infinity;
+    for (const q of rings[i]) {
+      const s = (q.x - sp.origin.x) * n.x + (q.y - sp.origin.y) * n.y;
+      if (s < lo) lo = s;
+      if (s > hi) hi = s;
+    }
+    if (lo <= hi) spans.push([lo - clearanceCm, hi + clearanceCm]);
+  }
+  let lo = 0;
+  let hi = 0;
+  let found = false;
+  for (let grown = true; grown; ) {
+    grown = false;
+    for (const [a, b] of spans) {
+      if (a <= hi && b >= lo && (a < lo || b > hi || !found)) {
+        if (a < lo) lo = a;
+        if (b > hi) hi = b;
+        found = true;
+        grown = true;
+      }
+    }
+  }
+  if (!found) return [];
+  const offsets = Math.abs(hi) <= Math.abs(lo) ? [hi, lo] : [lo, hi];
+  const out: { origin: XY; dir: XY }[] = [];
+  for (const o of offsets) {
+    const origin = { x: sp.origin.x + n.x * o, y: sp.origin.y + n.y * o };
+    if (insidePart(rings, origin)) out.push({ origin, dir: sp.dir });
+  }
+  return out;
 }
 
 /** A back lane's or through alley's straight spine through the block, clipped to its kerb (both ways from the centre). */
@@ -1087,7 +1308,7 @@ function spineCandidate(run: Run, fv: FaceView, sp: { origin: XY; dir: XY }, tre
   const fwd = rayHit(sides.rings, sp.origin, sp.dir, 0.5);
   const back = rayHit(sides.rings, sp.origin, { x: -sp.dir.x, y: -sp.dir.y }, 0.5);
   if (fwd === null || back === null) return null;
-  const width = treatment === 'back_lane' ? run.wcells.bands.lane[1] : run.wcells.bands.alley[1];
+  const width = spineWidth(run, treatment);
   return straightCandidate(fv.kf, sides.rings, back.point, fwd.point, [back.ring, fwd.ring], run.cells, width, 'deep');
 }
 
@@ -1113,6 +1334,7 @@ function sameRings(a: readonly (readonly LatticePoint[])[], b: readonly (readonl
  * found or did not come back as it was (the run is then abandoned: detect-and-refuse, N-45).
  */
 function faceAgain(run: Run, item: Pending, fv: FaceView): FaceView | null {
+  if (run.faults.faceLost === true) return null;
   const face = run.locate({ ...item, face: fv.face });
   if (face === null || !isFaceLive(run.p, 1, face)) return null;
   const h = run.p.faces[1].owner[face];
@@ -1275,6 +1497,7 @@ function ladderOn(run: Run, item: Pending): Pending[] {
   const area = areaOf(kf.rings[0]);
   const feet = run.stopped === null ? slideFeet(sides, Math.max(1, run.limits.candidates - run.work.candidates)) : [];
   let first = true;
+  const squarable: { cand: Candidate; k: number }[] = [];
   for (const foot of feet) {
     if (run.stopped !== null) break;
     const cand = foot.clear && foot.hit !== null ? straightCandidate(kf, sides.rings, foot.foot, foot.hit, [0, foot.hitRing], run.cells, newLane, 'c', foot.k) : null;
@@ -1289,8 +1512,26 @@ function ladderOn(run: Run, item: Pending): Pending[] {
     }
     run.rungs.push({ face: faceAddr, rung: 'c', attempt: 0, outcome: 'refused', why: t.why, slide: foot.k });
     if (run.abandoned !== null) return abandoned();
+    if (t.why === 'kerb-arrival') squarable.push({ cand, k: foot.k });
     if (first && area <= run.substitutionMaxCm2) break;
     first = false;
+  }
+  // The slide's squared ends (queue row Q65): on a face above the substitution bound whose every straight foot was
+  // refused, each foot refused only for a kerb end that is not square is tried again ending square, in the slide's
+  // order — so a face (c) left uncut stands cut, and every face the straight slide cuts or a court takes is as before.
+  if (run.stopped === null && area > run.substitutionMaxCm2) {
+    for (const { cand, k } of squarable) {
+      if (run.stopped !== null) break;
+      const sq = squaredFarEnd(cand, fv.rings1, run.cells, run.eLo / 2);
+      if (sq === null) continue;
+      const t2 = tryOn(sq, 0);
+      if (t2.ok) {
+        if (k > 0) run.warn('W_CUT_SLID', k);
+        return children(t2);
+      }
+      run.rungs.push({ face: faceAddr, rung: 'c', attempt: 0, outcome: 'refused', why: `squared-${t2.why}`, slide: k });
+      if (run.abandoned !== null) return abandoned();
+    }
   }
   if (run.stopped !== null) {
     run.rungs.push({ face: faceAddr, rung: 'work', attempt: 0, outcome: 'block', why: run.stopped });
@@ -1399,7 +1640,7 @@ export function districtBatch(p: Plat, district: District, seams: readonly Seam[
       residueAreaCm2: run.residueArea,
       builtAreaCm2: run.builtArea,
       residueShare: run.builtArea > 0 ? (div(run.residueArea, run.builtArea) ?? 0) : 0,
-      residueSoftExceeded: run.builtArea > 0 && run.residueArea > softShare(ctx) * run.builtArea,
+      residueSoftExceeded: run.builtArea > 0 && run.residueArea > run.softShare * run.builtArea,
       work: { ...run.work },
       limits: { ...run.limits },
       workCut: run.workCut.slice(),
@@ -1421,12 +1662,6 @@ function sortedCounts(m: ReadonlyMap<string, number>): Readonly<Record<string, n
   return Object.freeze(out);
 }
 
-function softShare(ctx: DistrictContext): number {
-  const t = ctx.tables?.cut ?? loadTable('cut');
-  const v = t.cell('ladder', 'substitutionSoftShare').value;
-  return typeof v === 'number' ? v : 0.05;
-}
-
 /**
  * §4.6's `partition(district, seam, ctx)` for `bent-cut`: the district's batch through the façade's tx (one callback
  * L1 transaction); on a commit the minted entities join `ctx.live` and the stage's warnings go to the report sink.
@@ -1434,8 +1669,14 @@ function softShare(ctx: DistrictContext): number {
 function partition(district: District, seam: readonly Seam[], ctx: DistrictContext, sc: FabricStageContext, k: Kernel): KernelResult<PartitionResult> {
   if (district.fabric !== 'bent-cut') stopError(`district ${district.id} asks for fabric '${district.fabric}', not bent-cut`);
   const b = districtBatch(k.plat(ctx.key), district, seam, ctx);
+  // The shared width map as it stood (notes N-19): a refused batch leaves the arena as it was, and the map with it.
+  const widthsBefore = [...ctx.widths];
   const r = k.tx(b.spec, b.fn);
-  if (!r.ok) return err(r.code, r.detail);
+  if (!r.ok) {
+    ctx.widths.clear();
+    for (const [id, w] of widthsBefore) ctx.widths.set(id, w);
+    return err(r.code, r.detail);
+  }
   const value = r.value.value as PartitionResult;
   ctx.live.push(...value.minted);
   const sink = sc.report as { warning?: (code: string, count?: number) => void } | undefined;

@@ -13,7 +13,7 @@ import { compareKeys, STAGES, err, ok, type Hash128, type Invariant, type Kernel
 import { compareLineage, type Block, type District, type Id, type Junction, type LiveEntry, type Rung, type Scope, type Seam, type Stage, type StageContext, type Way, type WorkLimitLaw } from '@plat/model';
 import { GROUND_KEY } from '@plat/site';
 import { loadTable, loadWorkLimits, rungProfile, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
-import { BLOCK_FLOOR_ROW, BentCutFabric, BENT_CUT, S8_COUNTERS, type BlockFaces, type DistrictContext, type DistrictReport, type FabricStrategy, type PartitionResult } from './bentCutFabric.js';
+import { BLOCK_FLOOR_ROW, BentCutFabric, BENT_CUT, S8_COUNTERS, type BlockFaces, type DistrictContext, type FabricFaults, type DistrictReport, type FabricStrategy, type PartitionResult } from './bentCutFabric.js';
 import { granularityBands, type GranularityBands } from './granularityBands.js';
 import { cutCells } from './planner.js';
 import { portalInvariant, type PortalProblem } from './portals.js';
@@ -55,6 +55,8 @@ export interface S8Input {
   readonly fabrics?: ReadonlyMap<string, FabricStrategy>;
   readonly tables?: { readonly cut?: Table; readonly ways?: Table; readonly interior?: Table; readonly faces?: Table; readonly workLimits?: WorkLimitsTable };
   readonly deepFactor?: number;
+  /** Test-side fault injection (bentCutFabric.ts's `FabricFaults`); no runner sets it. */
+  readonly faults?: FabricFaults;
 }
 
 /** S8's report: each district's, and the districts refused (their code). */
@@ -118,6 +120,7 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
       live,
       ...(input.tables === undefined ? {} : { tables: input.tables }),
       ...(input.deepFactor === undefined ? {} : { deepFactor: input.deepFactor }),
+      ...(input.faults === undefined ? {} : { faults: input.faults }),
     };
     const r = fabric.partition(d.district, seams, dctx, ctx, input.kernel);
     if (!r.ok) {

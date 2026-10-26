@@ -265,6 +265,32 @@ export function twoDistricts(opts: { seed?: number; prosperity?: number } = {}):
   );
 }
 
+/**
+ * The needle wedge (queue row L20; needle.test.ts, and mint.test.ts's take-out run for Q70): one district in a 400 m ×
+ * 200 m ring road (secondary, 6 m) with an interior lane S running from the ring's north side 3 m east of x = 200 m down
+ * to its south side, 10° off north, and an antenna (a dead-end lane) from the south side at x = 200 m north for 50 m.
+ * The antenna split continues the antenna straight to the north side: the cut and S converge at 10° to 3 m apart at the
+ * north band, so the child between them has a kerb tapering to a 10° tip under the cut's band (the smoke's figure at a
+ * wider angle, so the child's OBB clears the floor). S8 refuses that split 'needle' — its lane taken out again — and a
+ * later rung cuts the face, minting at the same creation index.
+ */
+export function needleWedge(): Fixture {
+  const W = 40_000;
+  const H = 20_000;
+  const qx = 20_300;
+  const deg = Math.PI / 180;
+  const rx = Math.round(qx + H * Math.tan(10 * deg));
+  return fixture(
+    60_000,
+    [
+      { id: 'way:ring', cls: 'secondary', widthCm: 600, points: [P(0, 0), P(W, 0), P(W, H), P(0, H)], closed: true },
+      { id: 'way:s', cls: 'lane', widthCm: 400, points: [P(qx, H), P(rx, 0)] },
+      { id: 'way:ant', cls: 'lane', widthCm: 400, points: [P(20_000, 0), P(20_000, 5_000)] },
+    ],
+    [{ seeds: [P(5_000, 10_000), P(35_000, 10_000)], prosperity: 0.1, density: 0.5 }],
+  );
+}
+
 /** Runs S8 on a fixture's input; throws on a refusal of the stage itself. */
 export function runFixture(f: Fixture, patch: Partial<S8Input> = {}): import('../../../src/index.js').S8Output {
   const r = runS8({ ...f.input, ...patch }, NO_CTX as never);
