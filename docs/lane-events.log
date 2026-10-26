@@ -11460,3 +11460,4 @@
 2026-10-26T15:49:00Z session/queue Q65, Q70, L20, L25 DONE; L28's ladder half and Q87's b-03 part DONE; Q107 (a-09: T-junction kerb wedge tips), Q108 (b-02: the clipped portal's full gap), Q109 (b-03: the seedless recount) (J519)
 2026-10-26T15:49:00Z session/launch-list FOR ACCOUNT 2: rows 4 (M4 = b-05 S1 then b-04 S3), 5 (x-04 S1), 6 (x-05 S1) OPEN on 0b734e7c (J519)
 2026-10-26T15:50:00Z session/merge PR #41 MERGED as 18648fd3 (the b-03 S7–S8 landing 0b734e7c, Q107–Q109, rows 4–6 opened, J516–J519); draft PR #42 next; AZ archived (J520)
+2026-10-26T15:51:00Z session/pr draft PR #42 opened from the design branch (head 5e8199c2) and subscribed; PR #41 unsubscribed (J520)
