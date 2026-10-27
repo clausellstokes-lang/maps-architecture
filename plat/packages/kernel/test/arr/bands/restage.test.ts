@@ -102,8 +102,10 @@ describe('the restaged read: a lawful read the census refused succeeds within th
     const f2 = r.reads.get(2) as Read;
     // the census refused (one savepoint) and the restaged read was accepted (a second); the census's place cleared
     expect(f2.kerb).toEqual(['449,0 712,0 2390,92 2425,85 2455,65 2475,35 2482,0 4000,0 4000,2553 447,72']);
-    expect(f2.saves).toBe(2);
-    expect(f2.census).toEqual({ face: 2, reaching: ['way:way:1'], refusedAt: null });
+    // round S16 (C-0430): its region holds a vertex deeper than attractCm, so the face is read once more, faithfully (a
+    // third savepoint); that read is not shallower, so the restaged read stands
+    expect(f2.saves).toBe(3);
+    expect(f2.census).toEqual({ face: 2, reaching: ['way:way:1'], refusedAt: null, faithful: 'tried' });
     expect(f2.clear).toBe(true);
     // the pre-round tip, 84 cm into way:1's end, is no vertex of the read
     expect((f2.kerb as string[]).join(' ')).not.toContain('366,12');
@@ -126,9 +128,12 @@ describe('the restaged read: a lawful read the census refused succeeds within th
     ]);
     expect(r.faces).toEqual([0, 1, 2]);
     const f0 = r.reads.get(0) as Read;
-    expect(f0.kerb).toEqual(['0,0 4000,0 4000,71 3972,71 3972,99 3976,3321 3915,3341 3878,3374 3854,3416 3843,3464 3452,3971 3453,4000 0,4000']);
-    expect(f0.saves).toBe(2);
-    expect(f0.census).toEqual({ face: 0, reaching: ['way:way:2'], refusedAt: null });
+    // round S15 (the held cycle along each segment's own edges, `rowPath`): the census read is accepted alone (one
+    // savepoint) — the corner where way:1's strip edge (x = 3948 at y = 3321) meets way:2's start cap stands on that edge,
+    // where the restaged read of round S11 left it on way:1's CENTRELINE (3976, 3321), 28 cm deep in its band
+    expect(f0.kerb).toEqual(['0,0 4000,0 4000,71 3972,71 3972,99 3948,3321 3915,3341 3878,3374 3854,3416 3843,3464 3452,3971 3453,4000 0,4000']);
+    expect(f0.saves).toBe(1);
+    expect(f0.census).toEqual({ face: 0, reaching: ['way:way:2'], refusedAt: null, faithful: 'none' });
     expect(f0.clear).toBe(true);
     expect((f0.kerb as string[]).join(' ')).not.toContain('3943,4000');
     for (const f of [1, 2]) {
@@ -159,6 +164,7 @@ describe('the restaged read: a lawful read the census refused succeeds within th
     });
     expect(got.k).toBe(`E_INVARIANT ${CENSUS_DEEP}`);
     expect(got.saves).toBe(2);
-    expect(got.census).toEqual({ face: 2, reaching: ['way:way:0'], refusedAt: { part: 3, x: 0, y: 441 } });
+    // (round S16: a refused read is never read faithfully — the faithful read follows a read that is ok, C-0430)
+    expect(got.census).toEqual({ face: 2, reaching: ['way:way:0'], refusedAt: { part: 3, x: 0, y: 441 }, faithful: 'none' });
   });
 });

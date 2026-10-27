@@ -7,7 +7,7 @@ import fc from 'fast-check';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { loadOracles } from '../../../src/oracles/index.js';
 import { dedupe, ringProblems } from '../../../src/oracles/rings.js';
-import { corridorCaseArb, deadEndCaseArb, judgeCorridor, newHarness, oracleBands, oursCorridor, RUNS, TIMEOUT, verdict, type CorridorCase } from './support.js';
+import { corridorCaseArb, deadEndCaseArb, judgeCorridor, loopsOf, newHarness, oracleBands, oursCorridor, RUNS, TIMEOUT, verdict, widenedCaseArb, type CorridorCase } from './support.js';
 
 beforeAll(async () => {
   await loadOracles();
@@ -69,6 +69,26 @@ describe('corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-
     expect(h.settled).toEqual({});
   });
 
+  it('a faceSet-curved chord case whose ring way’s join collapsed onto a line its closing segment retraces: corridorUnion succeeds and agrees (round S15, notes row 116)', () => {
+    // round S15's NEAR (the PR size, unseeded, 2026-10-26): the curved face's ring way (hw 503) laid a part whose six
+    // points held as one line of vertices, its closing segment's only edges through the run's other vertices; the
+    // round's avoiding `rowPath` found no path and `cycleOf` closed the part by a chord 35 cm off its held edges, a
+    // kept face read deep in the part (KEPT_DEEP, own) — round S14's engine committed it; `rowPath` now falls back to
+    // the path through them where it stays within attractCm of the segment (kerb.ts)
+    const P = (x: number, y: number): CorridorCase['ring'][number] => ({ x, y }) as CorridorCase['ring'][number];
+    const c: CorridorCase = { ring: [P(-242197, -244831), P(-242241, -244592), P(-242275, -244352), P(-242298, -244110), P(-242312, -243867), P(-242317, -243623), P(-242315, -243377), P(-242308, -243131), P(-242298, -242885), P(-243088, -242892), P(-243851, -242813), P(-244573, -242595), P(-245253, -242238), P(-245907, -241795), P(-246411, -242012), P(-246919, -242216), P(-247435, -242399), P(-247959, -242559), P(-248487, -242707), P(-248358, -243247), P(-248224, -243785), P(-248079, -244319), P(-247920, -244850), P(-247747, -245375), P(-247560, -245897), P(-247362, -246415), P(-247159, -246931), P(-246799, -246949), P(-246444, -246981), P(-246097, -247037), P(-245759, -247126), P(-245433, -247249), P(-245117, -247404), P(-244809, -247584), P(-244505, -247777), P(-244361, -247584), P(-244214, -247394), P(-244063, -247210), P(-243906, -247036), P(-243741, -246874), P(-243567, -246725), P(-243383, -246591), P(-243189, -246473), P(-242985, -246369), P(-242772, -246278), P(-242551, -246200), P(-242324, -246131), P(-242092, -246068), P(-241858, -246009), P(-241935, -245775), P(-242010, -245540), P(-242080, -245305), P(-242143, -245069)], chord: [P(-240749, -246811), P(-249596, -242761)], hw: 503, role: 'way', key: { layer: 'ground', part: 0 }, source: 'faceSet-curved+chord' };
+    const h = newHarness();
+    judgeCorridor(h, c);
+    expect(h.failures).toEqual([]);
+    for (const op of ['corridorUnion', 'corridorUnion-bands']) {
+      const line = h.report.line(op);
+      expect(line.failures).toEqual({});
+      expect(line.draws).toBe(1);
+      expect(line.unattractedPass + line.attractedPass).toBe(1);
+    }
+    expect(h.settled).toEqual({});
+  });
+
   it('an unattracted needle-tip polygon whose band polygon-clipping returns crossing itself: that oracle refuses the case, clipper2 judges it (round S9, notes row 56)', () => {
     // a PR-size run of round S9 (unseeded, 2026-10-19): a ring way (hw 412) with a 9° tip at (11768, 34568); before
     // round S9 the scratch overlay's attraction near the tip made the case attracted, and the dry-run lays nothing there
@@ -117,6 +137,36 @@ describe('corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-
       const line = h.report.line(op);
       expect(line.failures).toEqual({});
       expect(line.unattractedPass).toBe(1);
+    }
+  });
+
+  it('the polygon+chord cases whose kerb bridged two of its own vertices across a face: the bridge removed, no edge dangling, the blocks and the bands agree (round S14, notes rows 1 and 79)', () => {
+    // the agreement's corridor family at seed 20261011 (10⁴ draws), draws 1567 and 1756: the commit left an edge of the
+    // kerb alone with the one face on both sides and both its ends reached — a bridge bounding no block (counted as
+    // 'dangling-attracted', 4 per 10⁴ before round S14); bandUnion.ts `dropSpurs` now strips it with the spurs
+    const P = (x: number, y: number): CorridorCase['ring'][number] => ({ x, y }) as CorridorCase['ring'][number];
+    const cases: CorridorCase[] = [
+      { ring: [P(-46558, 11807), P(-47068, 12118), P(-45810, 10259)], chord: [P(-47959, 11096), P(-44919, 11281)], hw: 77, role: 'way', key: { layer: 'ground', part: 0 }, source: 'polygon+chord' },
+      { ring: [P(13805, -22696), P(10945, -22769), P(13506, -22916)], chord: [P(13013, -24526), P(11737, -21086)], hw: 50, role: 'way', key: { layer: 'ground', part: 0 }, source: 'polygon+chord' },
+    ];
+    for (const c of cases) {
+      const ours = oursCorridor(c);
+      expect(ours !== null && !('refused' in ours)).toBe(true);
+      if (ours === null || 'refused' in ours) return;
+      const bandRings = new Set(ours.bands);
+      const loose: string[] = [];
+      for (const r of [...ours.blocks, ...ours.bands]) {
+        for (const loop of loopsOf(dedupe(r))) {
+          if (loop.length >= 3) continue;
+          const key = `${String(loop[0].x)},${String(loop[0].y)}-${String(loop[1]?.x)},${String(loop[1]?.y)}`;
+          if (!(bandRings.has(r) && ours.splitEdges.has(key))) loose.push(key);
+        }
+      }
+      expect(loose).toEqual([]);
+      const h = newHarness();
+      judgeCorridor(h, c);
+      expect(h.failures).toEqual([]);
+      expect(h.notes['dangling-attracted']).toBeUndefined();
     }
   });
 
@@ -179,6 +229,35 @@ describe('corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-
     }
     expect(h.failures).toEqual([]);
     // N-44 (3): the item's own refusals at most 1 per 10⁴ cases
+    expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
+  });
+
+  it('the generators widened (hardening round S14, notes row 13): dead-end lanes with square ends, ways across with a half-width profile', { timeout: TIMEOUT }, () => {
+    // a tenth of the run's size, as the dead-end property; most cases are attracted (a cap's corner or a profile strip's
+    // crossing places a vertex within attractCm of the ring), so every judged case is held and at least half are drawn
+    const runs = Math.max(100, Math.ceil(RUNS / 10));
+    const h = newHarness();
+    let cases = 0;
+    fc.assert(
+      fc.property(widenedCaseArb, (c) => {
+        if (c === null) return;
+        cases += 1;
+        judgeCorridor(h, c, 'widened');
+      }),
+      { numRuns: runs },
+    );
+    for (const op of ['widened', 'widened-bands']) {
+      const line = h.report.line(op);
+      console.info(`arr-bands/${op}: ${String(cases)} of ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}; attracted ${String(line.attracted)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)}; unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; notes ${JSON.stringify(h.notes)}; sources ${JSON.stringify(h.sources)}`);
+      expect(line.failures).toEqual({});
+      expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
+      expect(line.unjudged).toBeLessThanOrEqual(Math.ceil(0.01 * runs));
+      expect(line.draws).toBeGreaterThanOrEqual(Math.ceil(cases / 2));
+    }
+    // both widenings reached
+    expect(h.sources['dead-end-square'] ?? 0).toBeGreaterThan(0);
+    expect(h.sources['polygon+profile'] ?? 0).toBeGreaterThan(0);
+    expect(h.failures).toEqual([]);
     expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
   });
 });

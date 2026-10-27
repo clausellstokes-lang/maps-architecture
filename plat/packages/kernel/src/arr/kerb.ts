@@ -64,6 +64,43 @@
 // DRY_MOVE_CM; refused too, the census's refusal and its place stand (ZERO REFUSALS, J264: the lawful reads the census
 // refused made to succeed by a second routing, never by a wider bound).
 //
+// Session fix round S15 (the fusion smoke's classes; the choices row of the round): (1) a part's held cycle runs along
+// each segment's OWN held edges — the path between two placed vertices passes through none of the run's other placed
+// vertices (`rowPath`), so a segment held as more sub-edges than the way back round the part (or as many, the lattice
+// order breaking the tie the wrong way) is never read as that way back (a zero-area cycle, the band read as kerb:
+// KEPT_DEEP, or a needle thinner than the bound kept silently); (2) a spine's end on another chain's line — a T-junction,
+// the line passing through the end's route vertex — takes no cap (`junctionEnd`), and every reader of ends follows it
+// (`spineParts`, `deepIn`): a cap there reached across the line it meets (a zero-width seam or setback line, a narrower
+// band) into a block whose stop test had passed; (3) a part's corner within minEdge of a corner an earlier part of the
+// same spine run was held off is laid at that vertex (`coincident`): two corners a centimetre apart straddling the
+// attraction radius no longer hold the band apart and leave a needle of it reaching F's vertex on the centreline.
+//
+// Fix round S16 (B-SIMPLE, the S15 closing check's blocker; the choices row of the round): a read whose region holds a
+// vertex deeper in one of its spines' buffers than attractCm, or a ring that is not simple, is read once more on a fresh
+// dry-run — the FAITHFUL READ (`readKerb`, `readOn`): the parts are those of each run with its straight-through vertices
+// dropped (`straightRun`: a crossing on a straight spine bends nothing and changes no sample, §2.2 rule 5, so the
+// buffer is the same region), each part's edges laid through points at most 2 · attractCm apart that stand clear of the
+// content round F but within 3 · attractCm of it (`stepped`, `steppedAt`); that read is taken where every ring of it is
+// simple and — the first read's rings simple — no vertex of it lies deeper than the first's deepest and the sum of its
+// vertices' depths beyond attractCm is less (`readQuality`), else the first read stands. Why: a strip ending at a
+// crossing on a straight spine has its end corners within attractCm of the crossing line wherever hw · cos θ < attractCm,
+// so the insertion holds them on that line (§3.6), and a long side from a corner a thin end collapsed onto the route runs
+// within attractCm of the crossing vertex — the side is routed through it, the strip's held cycle encloses (almost)
+// nothing and the band is read as kerb (row 127's widened-family lane: 34 → 11 cm of half-band read as kerb over 22.6 m,
+// its ring crossing itself, and corridorUnion committing it); the faithful read lays one strip past the crossing and
+// holds each side where the band is wider than attractCm. Last (N-45 (a)): a ring that still crosses itself is never
+// returned — `RING_CROSSES`, a typed refusal (the read and corridorUnion / bandUnion with it), never a self-crossing block
+// committed (a ring that only touches itself at a vertex, F's own walk round a cut vertex, is no crossing and is
+// returned as before).
+//
+// Fix round S17 (B-GUARD, the S16 closing check's blocker; the choices row of the round): the guard is `splitsOn`'s last
+// step (the read's region and a recorded one alike), and F's own walk OUT AND BACK along a dangling chain or a bridge of
+// any length — two ring edges running along one another in opposite directions on a route edge F's walk traverses both
+// ways (`bridgesOf`) — is no crossing, as a pinch is none: a spine-less face holding a dangling chain of two or more
+// edges reads kerb(F) = F again, and corridorUnion / bandUnion commit it whole as round S15 did. A run along one another
+// anywhere else (the same direction, or off F's bridges) and a proper crossing stay crossings; bandUnion's engine refuses
+// an outline that crosses itself before it writes it (`outlineCrosses`, bandUnion.ts `writeOutlines`).
+//
 // Readings (C-0212): (1) the kernel holds no entity record (§14), so the half-width a spine's linear entity declares
 // reaches `kerb` through the caller's `SpineWidths` — the spine's half-width (a way's width profile halved, a tunnel's
 // `widthCm ÷ 2 + wallCm`, J-A12.31) and its declared ends — and `kerb(tx, face, widths)` takes the open transaction first
@@ -135,8 +172,13 @@ export interface Spine {
   readonly key: string;
   readonly chain: ChainRef;
   readonly ends: SpineEnd;
-  /** Per run of the chain's own-level route: its points, the half-width at each and whether the run is a ring. */
-  readonly lines: readonly { readonly points: LatticePoint[]; readonly hw: number[]; readonly closed: boolean }[];
+  /**
+   * Per run of the chain's own-level route: its points, the half-width at each, whether the run is a ring, and (an open
+   * run) whether its start and its end are JUNCTION ends — another chain's line passes through the end's route vertex
+   * (`junctionEnd`), so the corridor ends by meeting that line and takes no cap there (round S15's start-cap rule, the
+   * choices row of the round; §3.7's ends read: an end at a T-junction is no free end).
+   */
+  readonly lines: readonly { readonly points: LatticePoint[]; readonly hw: number[]; readonly closed: boolean; readonly junction: readonly [boolean, boolean] }[];
   /** The half-width at each route vertex of the chain. */
   readonly hwAt: ReadonlyMap<VertexId, number>;
 }
@@ -237,9 +279,48 @@ function readSpine(p: Plat, key: string, chain: ChainRef, w: SpineWidth): Spine 
   const hwAt = new Map<VertexId, number>();
   const out = lines.map((ln, run) => {
     ln.vertices.forEach((v, i) => hwAt.set(v, per[run][i]));
-    return { points: ln.vertices.map((v) => ({ x: X[v] as Cm, y: Y[v] as Cm })), hw: per[run], closed: ln.closed };
+    const last = ln.vertices[ln.vertices.length - 1];
+    const junction: [boolean, boolean] = ln.closed ? [false, false] : [junctionEnd(p, key, ln.vertices[0]), junctionEnd(p, key, last)];
+    return { points: ln.vertices.map((v) => ({ x: X[v] as Cm, y: Y[v] as Cm })), hw: per[run], closed: ln.closed, junction };
   });
   return { key, chain, ends, lines: out, hwAt };
+}
+
+/**
+ * Is a chain's route end at `v` a JUNCTION end — does another chain's line of F's level pass through v (two of v's edges
+ * of level ≤ 1 carry one other chain's level-1 row, ordinal 0, as `readFace` reads a chain), while no other chain of the
+ * spine's own role ends there? The corridor then ends by meeting that line at a T: it takes no cap there (§3.7's ends,
+ * round S15's start-cap rule): a cap would reach across the line it meets — across a zero-width seam, setback or district
+ * boundary into the block on its far side, or past the band of a narrower spine (the fusion smoke's Q60 class and fusion
+ * 21) — and so change a block's kerb through a vertex contact made after the block's stop test (§4.6). An end where
+ * another chain of its role ends too is a CONTINUATION — a way going on as another (a width change at a vertex a seam
+ * crosses): its caps are the union's round join there, and without them the wedge between the two strips' flat ends would
+ * be kept as kerb, a needle to the vertex on the centreline (integrated 27 block:5d9dbjqsaknm9, 401 cm); an end where
+ * other chains only END too (a corner of two chains' ends, a dead end's tip) keeps its declared cap likewise, and a later
+ * chain ending at the vertex changes no end. An end on the level-0 content (the frame, a shore) keeps it too: no block
+ * lies across that line.
+ */
+function junctionEnd(p: Plat, own: string, v: VertexId): boolean {
+  const T = p.halfEdges;
+  const R = p.roles;
+  const role = own.slice(0, own.indexOf(':') + 1);
+  const count = new Map<string, number>();
+  for (const g of outgoing(p, v)) {
+    if (T.level[g >> 1] > 1) continue;
+    const here = new Set<string>();
+    for (const row of rowsOn(p, 'edge', g)) {
+      if (R.level[row] !== 1 || R.ordinal[row] !== 0) continue;
+      const key = spineKey(p, R.kind[row], R.entity[row]);
+      if (key !== own) here.add(key);
+    }
+    for (const key of here) count.set(key, (count.get(key) ?? 0) + 1);
+  }
+  let passes = false;
+  for (const [key, k] of count) {
+    if (k >= 2) passes = true;
+    else if (key.startsWith(role)) return false;
+  }
+  return passes;
 }
 
 /**
@@ -410,12 +491,67 @@ function boxOf(rings: readonly (readonly LatticePoint[])[]): { x0: number; y0: n
 }
 
 /**
+ * A run with its STRAIGHT-THROUGH vertices dropped (round S16, the faithful read): a vertex within the hot pixel of the
+ * straight line between the kept vertices round it, between them, whose half-width is the line's own there (within the
+ * hot pixel of the linear sample between theirs) — a crossing of another chain on a straight spine, which bends nothing
+ * and changes no sample (§2.2 rule 5: a vertex that carries no knot changes no sample) — so the run's strips are one per
+ * straight piece: §3.7's buffer is the same region (to the hot pixel), and no strip ends at the crossing, its end
+ * corners standing within attractCm of the crossing line (the module comment, round S16). An open run keeps its two ends; a ring keeps
+ * every vertex that turns, from the first that does; a run whose every vertex is straight is returned as it is.
+ */
+export function straightRun(line: Spine['lines'][number]): Spine['lines'][number] {
+  const n = line.points.length;
+  if (n < 3) return line;
+  const straight = (a: number, i: number, b: number): boolean => {
+    const P = line.points[a];
+    const Q = line.points[i];
+    const R = line.points[b];
+    const dx = R.x - P.x;
+    const dy = R.y - P.y;
+    const l2 = dx * dx + dy * dy;
+    if (!(l2 > 0)) return false;
+    const o = orient2d(P.x, P.y, R.x, R.y, Q.x, Q.y);
+    if (o * o > HOT_PIXEL_CM * HOT_PIXEL_CM * l2) return false;
+    const t = div((Q.x - P.x) * dx + (Q.y - P.y) * dy, l2);
+    if (t === null || !(t > 0 && t < 1)) return false;
+    return Math.abs(line.hw[a] + t * (line.hw[b] - line.hw[a]) - line.hw[i]) <= HOT_PIXEL_CM;
+  };
+  // the order the run is walked in: an open run from its start; a ring from its first vertex that turns
+  let order: number[];
+  if (line.closed) {
+    const turn = line.points.findIndex((_, i) => !straight((i + n - 1) % n, i, (i + 1) % n));
+    if (turn < 0) return line;
+    order = Array.from({ length: n }, (_, k) => (turn + k) % n);
+  } else order = Array.from({ length: n }, (_, k) => k);
+  // greedy from each kept vertex: the farthest next vertex such that every vertex between is straight on the line to it
+  const kept: number[] = [order[0]];
+  let i = 0;
+  const last = line.closed ? n : n - 1;
+  while (i < last) {
+    let j = i + 1;
+    for (let k = i + 2; k <= last; k += 1) {
+      const b = order[k % n];
+      let ok2 = true;
+      for (let m = i + 1; m < k && ok2; m += 1) ok2 = straight(order[i], order[m], b);
+      if (!ok2) break;
+      j = k;
+    }
+    if (j < n) kept.push(order[j]);
+    i = j;
+  }
+  if (kept.length === n || (line.closed && kept.length < 3)) return line;
+  return { points: kept.map((k) => line.points[k]), hw: kept.map((k) => line.hw[k]), closed: line.closed, junction: line.junction };
+}
+
+/**
  * Every part of a spine's buffer that can reach the box (C-0212 (2)): the segments of each run whose box lies within
  * reach of it, in maximal runs of consecutive segments, each run buffered with round joins and the spine's ends.
  */
-function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: number }): KernelResult<Ring[]> {
+function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: number }, faithful = false): KernelResult<Ring[]> {
   const out: Ring[] = [];
-  for (const line of s.lines) {
+  for (const [li, given] of s.lines.entries()) {
+    // the faithful read (round S16, the module comment): a run's straight-through vertices dropped, one strip per straight
+    const line = faithful ? straightRun(given) : given;
     const n = line.points.length;
     const segs = line.closed ? n : n - 1;
     if (segs < 1) continue;
@@ -451,14 +587,57 @@ function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: num
       }
       if (cur !== null) runs.push(cur);
     }
-    for (const idx of runs) {
+    for (const [ri, idx] of runs.entries()) {
       const pts = idx.map((i) => line.points[i]);
       const ws = idx.map((i) => line.hw[i]);
-      const parts = bufferParts([pts], ws, 'round', whole ? 'flat' : line.closed ? 'round' : s.ends);
+      // an open line's own end at a junction takes no cap (`junctionEnd`); a run's end cut by the reach filter keeps the
+      // declared cap (it lies beyond reach of F)
+      const flatStart = !line.closed && idx[0] === 0 && line.junction[0];
+      const flatEnd = !line.closed && idx[idx.length - 1] === n - 1 && line.junction[1];
+      const parts = whole || line.closed ? bufferParts([pts], ws, 'round', whole ? 'flat' : 'round') : capped(pts, ws, s.ends, flatStart, flatEnd);
       if (!parts.ok) return parts;
-      for (const q of parts.value) out.push(q);
+      const group = `${s.key}|${String(li)}|${String(ri)}`;
+      for (const q of parts.value) {
+        PART_GROUP.set(q, group);
+        out.push(q);
+      }
     }
   }
+  return ok(out);
+}
+
+/**
+ * The run each buffer part `kerbParts` gives belongs to — its spine's key, the line and the run of it — kept beside the
+ * part (never in it): the strips and joins of one run share their corners by construction (a strip's far corner, its
+ * join's arc end and the next strip's corner, offsets of one route vertex), so the dry-run holds a corner coincident with
+ * one of its run's earlier parts at that part's vertex (`coincident`, round S15).
+ */
+const PART_GROUP = new WeakMap<Ring, string>();
+
+/** The run a buffer part of `kerbParts` belongs to (`PART_GROUP`), or null (a ring `kerbParts` did not give). */
+export function partGroup(part: Ring): string | null {
+  return PART_GROUP.get(part) ?? null;
+}
+
+/**
+ * An open run's buffer parts with its declared ends, less the cap of an end flagged flat (a junction end): `bufferParts`
+ * gives the start's cap first and the end's last, the strips and joins between alike for every end kind, so the parts
+ * with flat ends plus the declared caps of the free ends are the run's buffer with those ends.
+ */
+function capped(pts: readonly LatticePoint[], ws: readonly number[], ends: SpineEnd, flatStart: boolean, flatEnd: boolean): KernelResult<Ring[]> {
+  const declared = bufferParts([pts], ws, 'round', ends);
+  if (!declared.ok || (!flatStart && !flatEnd)) return declared;
+  const flat = bufferParts([pts], ws, 'round', 'flat');
+  if (!flat.ok || (flatStart && flatEnd)) return flat;
+  const d = declared.value;
+  const f = flat.value;
+  const same = (a: Ring | undefined, b: Ring | undefined): boolean => a !== undefined && b !== undefined && a.length === b.length && a.every((q, i) => q.x === b[i].x && q.y === b[i].y);
+  // the declared parts are [start cap?, …flat, end cap?]
+  const startCap = d.length > f.length && !same(d[0], f[0]) ? d[0] : null;
+  const endCap = d.length - f.length - (startCap === null ? 0 : 1) > 0 ? d[d.length - 1] : null;
+  const out = f.slice();
+  if (!flatStart && startCap !== null) out.unshift(startCap);
+  if (!flatEnd && endCap !== null) out.push(endCap);
   return ok(out);
 }
 
@@ -466,12 +645,12 @@ function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: num
  * The second operand of kerb(F)'s overlay: every part of the face's spines' buffers that can reach it, spine by spine in
  * key order (the first operand is F's route rings). Empty where no spine reaches F.
  */
-export function kerbParts(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
+export function kerbParts(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>, faithful = false): KernelResult<Ring[]> {
   const box = boxOf(rings);
   const parts: Ring[] = [];
   const keys = [...spines.keys()].sort(byText);
   for (const k of keys) {
-    const r = spineParts(spines.get(k) as Spine, box);
+    const r = spineParts(spines.get(k) as Spine, box, faithful);
     if (!r.ok) return r;
     for (const q of r.value) parts.push(q);
   }
@@ -515,6 +694,23 @@ function deepIn(rings: readonly (readonly LatticePoint[])[], s: Spine, moveCm: n
   for (const line of s.lines) {
     const n = line.points.length;
     const segs = line.closed ? n : n - 1;
+    // a junction end takes no cap (`junctionEnd`): the band ends on the line through the end square to its last segment,
+    // so a point within moveCm of that line or beyond it, in the end's reach, is no deeper there than the move (round
+    // S15's start-cap rule carried to every reader of ends; the joins' discs near the end read it so too)
+    const cut: { e: LatticePoint; ux: number; uy: number; r: number }[] = [];
+    if (!line.closed && segs >= 1) {
+      for (const [at, from] of [[0, 1], [n - 1, n - 2]] as const) {
+        if (!line.junction[at === 0 ? 0 : 1]) continue;
+        const e = line.points[at];
+        const o = line.points[from];
+        const l = Math.sqrt((e.x - o.x) * (e.x - o.x) + (e.y - o.y) * (e.y - o.y));
+        const ux = div(e.x - o.x, l);
+        const uy = div(e.y - o.y, l);
+        if (ux !== null && uy !== null) cut.push({ e, ux, uy, r: line.hw[at] + moveCm });
+      }
+    }
+    const pastEnd = (q: LatticePoint): boolean =>
+      cut.some((c) => (q.x - c.e.x) * (q.x - c.e.x) + (q.y - c.e.y) * (q.y - c.e.y) <= c.r * c.r && (q.x - c.e.x) * c.ux + (q.y - c.e.y) * c.uy >= -moveCm);
     for (let k = 0; k < segs; k += 1) {
       const a = line.points[k];
       const b = line.points[(k + 1) % n];
@@ -524,7 +720,7 @@ function deepIn(rings: readonly (readonly LatticePoint[])[], s: Spine, moveCm: n
         for (const q of r) {
           const c = nearestOn(q, a, b);
           const reach = ha + c.t * (hb - ha) - moveCm;
-          if (reach > 0 && c.d2 < reach * reach) return q;
+          if (reach > 0 && c.d2 < reach * reach && !pastEnd(q)) return q;
         }
       }
     }
@@ -639,7 +835,18 @@ interface Dry {
    * Every segment a part laid so far, by its two input points (`segKey`, either way round): the vertices its ends became
    * and the part's row entity — a later part's identical segment is laid along the same edges (`sharedPath`).
    */
-  readonly segs: Map<string, { readonly a: VertexId; readonly b: VertexId; readonly entity: number; readonly ax: number; readonly ay: number }>;
+  readonly segs: Map<string, { readonly a: VertexId; readonly b: VertexId; readonly entity: number; readonly ax: number; readonly ay: number; readonly run: ReadonlySet<VertexId> }>;
+  /**
+   * Every input point an earlier part's run was held OFF by an attraction (its vertex elsewhere, within attractCm:
+   * `noteMoved`), by its minEdge cell (`movedKey`): the point, the vertex it became and its part's spine run
+   * (`partGroup`) — a later part of that run lays a point within minEdge of it at that vertex (`coincident`, round S15).
+   */
+  readonly moved: Map<string, { readonly x: number; readonly y: number; readonly v: VertexId; readonly group: string }[]>;
+  /**
+   * The faithful read (round S16, the module comment): the parts of straightened runs (`straightRun`), each edge laid
+   * through points at most `FAITHFUL_STEP_CM` apart (`stepped`).
+   */
+  readonly faithful: boolean;
 }
 
 /**
@@ -651,8 +858,8 @@ function dryLevel(level: Level): Level {
   return level < 2 ? 2 : level;
 }
 
-function dryRun(t: OpenTx, face: FaceId, rings: readonly LatticePoint[][], seeds: readonly HalfEdgeId[]): Dry {
-  return { t, face, rings, seeds, level: dryLevel(t.level), clip: clipWindow(t.plat, face, rings), sh: null, save: null, laid: [], clipped: [], unlaid: [], refusedAt: null, warnings: [], parts: 0, segs: new Map() };
+function dryRun(t: OpenTx, face: FaceId, rings: readonly LatticePoint[][], seeds: readonly HalfEdgeId[], faithful = false): Dry {
+  return { t, face, rings, seeds, level: dryLevel(t.level), clip: clipWindow(t.plat, face, rings), sh: null, save: null, laid: [], clipped: [], unlaid: [], refusedAt: null, warnings: [], parts: 0, segs: new Map(), moved: new Map(), faithful };
 }
 
 /** The dry-run put back (`rollback`): the arena, its index, the batch's journals, log and warnings as the read found them. */
@@ -785,6 +992,106 @@ function clipToWindow(ring: readonly LatticePoint[], window: readonly HalfPlane[
   return { points: res.map((t) => t.q), onWindow: res.map((t, i) => [...t.on].some((x) => res[(i + 1) % n].on.has(x))) };
 }
 
+/** The faithful read's step (round S16): the farthest apart two consecutive points of a part's edge are laid (`stepped`). */
+export const FAITHFUL_STEP_CM = 2 * LATTICE.attractCm;
+
+/**
+ * A clipped part with every edge off the window longer than `FAITHFUL_STEP_CM` laid through points at most that far
+ * apart (round S16, the faithful read): the edge cut into ⌈length ÷ step⌉ equal pieces, each point snapped, the points
+ * read from the edge's lower end (y, then x) whichever way round the part walks it — so a strip's end edge and its join's
+ * or cap's radius, one segment of two parts, take the same points and are laid along one held path (`sharedPath`). A
+ * point of a long edge is then held where it is given wherever no content stands within attractCm of it, and the edge
+ * between two such points passes no vertex an edge from a moved corner would be routed through (the module comment, round S16).
+ */
+function stepped(c: Clipped, clearAlong: (a: LatticePoint, b: LatticePoint) => (q: LatticePoint) => boolean): Clipped {
+  const n = c.points.length;
+  const points: LatticePoint[] = [];
+  const onWindow: boolean[] = [];
+  for (let i = 0; i < n; i += 1) {
+    const a = c.points[i];
+    const b = c.points[(i + 1) % n];
+    points.push(a);
+    onWindow.push(c.onWindow[i]);
+    if (c.onWindow[i]) continue;
+    const l = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    const k = Math.ceil(div(l, FAITHFUL_STEP_CM) ?? 1);
+    if (!(k > 1)) continue;
+    const up = comparePoints(a, b) <= 0;
+    const [u, w] = up ? [a, b] : [b, a];
+    const inner: LatticePoint[] = [];
+    for (let j = 1; j < k; j += 1) {
+      const t = div(j, k) ?? 0;
+      const sn = snap(u.x + t * (w.x - u.x), u.y + t * (w.y - u.y));
+      if (sn.ok) inner.push(sn.value);
+    }
+    if (!up) inner.reverse();
+    const clear = clearAlong(a, b);
+    for (const q of inner) {
+      const prev = points[points.length - 1];
+      if (prev.x === q.x && prev.y === q.y) continue;
+      if ((q.x === b.x && q.y === b.y) || !clear(q)) continue;
+      points.push(q);
+      onWindow.push(false);
+    }
+  }
+  return { points, onWindow };
+}
+
+/**
+ * For one edge of a part, which of its points `stepped` lays (round S16): a point farther than attractCm from every vertex
+ * and edge the dry-run did not lay — the content the open transaction holds round F, onto which a point within attractCm
+ * would be attracted and through whose vertex an edge from it would be routed — and within 3 · attractCm of some of it:
+ * an edge farther than that from all content is routed onto none, so a point there holds nothing, a long edge in open
+ * ground stays one segment and the read's cost stays with the content it meets (M0-k-02's kilometre-long ways). The
+ * content within 3 · attractCm of the edge is read once, on the index at the dry-run's level; the read's own vertices and
+ * the edges bearing only its own rows are not content (so a part's points are the same whichever part lays a shared
+ * segment first).
+ */
+function steppedAt(d: Dry, e0: LatticePoint, e1: LatticePoint): (q: LatticePoint) => boolean {
+  const p = d.t.plat;
+  const a = LATTICE.attractCm;
+  const r = 3 * a;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const R = p.roles;
+  const role = roleIdOf(DRY_ROLE);
+  const mine = new Set(d.laid.map((l) => l.entity));
+  const created = new Set<VertexId>(d.sh === null ? [] : d.sh.journal.vertices);
+  // the content within 3 · attractCm of the edge, read once for all of its points
+  const box = { minX: Math.floor(Math.min(e0.x, e1.x) - r), minY: Math.floor(Math.min(e0.y, e1.y) - r), maxX: Math.ceil(Math.max(e0.x, e1.x) + r), maxY: Math.ceil(Math.max(e0.y, e1.y) + r) };
+  const res = query(p, d.t.key, d.level, box, { vertices: true, edges: true });
+  const pts: XY[] = [];
+  const segs: [XY, XY][] = [];
+  for (const v of res.vertices) {
+    if (created.has(v)) continue;
+    const q = { x: X[v], y: Y[v] };
+    if (nearestOn(q, e0, e1).d2 <= r * r) pts.push(q);
+  }
+  for (const h of res.edges) {
+    const rows = rowsOn(p, 'edge', h);
+    if (rows.length > 0 && rows.every((row) => R.kind[row] === role && mine.has(R.entity[row]))) continue;
+    const s0 = { x: X[O[h]], y: Y[O[h]] };
+    const s1 = { x: X[O[h ^ 1]], y: Y[O[h ^ 1]] };
+    const near = segmentsMeet(e0, e1, s0 as LatticePoint, s1 as LatticePoint) || Math.min(nearestOn(s0, e0, e1).d2, nearestOn(s1, e0, e1).d2, nearestOn(e0, s0, s1).d2, nearestOn(e1, s0, s1).d2) <= r * r;
+    if (near) segs.push([s0, s1]);
+  }
+  return (q) => {
+    let near = false;
+    for (const v of pts) {
+      const d2 = (v.x - q.x) * (v.x - q.x) + (v.y - q.y) * (v.y - q.y);
+      if (d2 <= a * a) return false;
+      if (d2 <= r * r) near = true;
+    }
+    for (const [s0, s1] of segs) {
+      const d2 = nearestOn(q, s0, s1).d2;
+      if (d2 <= a * a) return false;
+      if (d2 <= r * r) near = true;
+    }
+    return near;
+  };
+}
+
 /**
  * The pieces a clipped part is laid as, in its order: the whole ring, closed, where no edge runs along a window line;
  * else every maximal stretch between two such edges, open, and every point between two such edges on its own: an edge
@@ -812,9 +1119,20 @@ function runsOf(c: Clipped): Piece[] {
 
 /**
  * The vertices of a path from a to b along the edges carrying the part's row, a to b — a breadth-first search, each
- * vertex's edges taken in their far ends' lattice order (no slot order); null where no such path joins them.
+ * vertex's edges taken in their far ends' lattice order (no slot order); null where no such path joins them. The path
+ * passes through none of `avoid` but b (round S15, the fusion smoke's KEPT_DEEP class): the held path of a run's
+ * segment k runs along THAT segment's own held edges, never through another vertex the run's points became — where the
+ * segment's own side is held as more sub-edges than the way back round the run's other sides (or as many, the lattice
+ * order breaking the tie the wrong way), the fewest-hop path is that way back, the held cycle encloses no area and the
+ * part's interior is read as kerb (a strip of the band kept, refused by `keptDeep` or, thinner, kept silently).
+ * Where no such path exists — the segment's only edges pass through another of the run's vertices — the fewest-hop
+ * path through them, if every vertex of it lies within attractCm of the segment (§3.6: insertion moves a segment onto
+ * edges by attraction, so that path is the segment's own, a part collapsed onto a line its closing segment retraces —
+ * round S15's NEAR: a faceSet-curved chord case refused `KEPT_DEEP` on the chord, 35 cm off its held edges); else null,
+ * and `cycleOf` joins the two by the chord (a path farther off is the way round the part's other sides: restage N2's
+ * thin triangle, 28.9 cm).
  */
-function rowPath(p: Plat, role: number, entity: number, a: VertexId, b: VertexId): VertexId[] | null {
+function rowPath(p: Plat, role: number, entity: number, a: VertexId, b: VertexId, avoid: ReadonlySet<VertexId> = NO_VERTICES): VertexId[] | null {
   if (a === b) return [a];
   const O = p.halfEdges.origin;
   const X = p.vertices.x;
@@ -830,12 +1148,17 @@ function rowPath(p: Plat, role: number, entity: number, a: VertexId, b: VertexId
       .map((h) => O[h ^ 1])
       .sort((u, w) => Y[u] - Y[w] || X[u] - X[w]);
     for (const w of far) {
-      if (via.has(w)) continue;
+      if (via.has(w) || (w !== b && avoid.has(w))) continue;
       via.set(w, v);
       queue.push(w);
     }
   }
-  if (!via.has(b)) return null;
+  if (!via.has(b)) {
+    const plain = avoid.size > 0 ? rowPath(p, role, entity, a, b) : null;
+    const ab = { a: { x: X[a], y: Y[a] }, b: { x: X[b], y: Y[b] } };
+    const near = (v: VertexId): boolean => nearestOn({ x: X[v], y: Y[v] }, ab.a, ab.b).d2 <= LATTICE.attractCm * LATTICE.attractCm;
+    return plain !== null && plain.every(near) ? plain : null;
+  }
   const path: VertexId[] = [b];
   let v = b;
   while (v !== a) {
@@ -844,6 +1167,9 @@ function rowPath(p: Plat, role: number, entity: number, a: VertexId, b: VertexId
   }
   return path.reverse();
 }
+
+/** No vertex to avoid (`rowPath`'s default). */
+const NO_VERTICES: ReadonlySet<VertexId> = new Set<VertexId>();
 
 /**
  * Is the part laid where it was given — every input point's vertex at that point, and every vertex of the edges
@@ -864,11 +1190,12 @@ function laidExactly(p: Plat, pieces: readonly Piece[], l: Laid, role: number): 
     const n = pts.length;
     for (let k = 0; k < n; k += 1) if (X[placed[k]] !== pts[k].x || Y[placed[k]] !== pts[k].y) return false;
     const segs = given.closed ? n : n - 1;
+    const run = new Set(placed);
     for (let k = 0; k < segs; k += 1) {
       const a = placed[k];
       const b = placed[(k + 1) % n];
       if (a === b) return false;
-      const path = rowPath(p, role, l.entity, a, b);
+      const path = rowPath(p, role, l.entity, a, b, run);
       if (path === null) return false;
       for (let i2 = 1; i2 + 1 < path.length; i2 += 1) if (nearestOn({ x: X[path[i2]], y: Y[path[i2]] }, pts[k], pts[(k + 1) % n]).d2 > hot) return false;
     }
@@ -892,11 +1219,13 @@ function cycleOf(p: Plat, l: Laid, role: number): XY[] {
     }
     const n = piece.placed.length;
     const segs = piece.closed ? n : n - 1;
+    // segment k's held path along its own edges: through none of the run's other placed vertices (`rowPath`)
+    const run = new Set(piece.placed);
     for (let k = 0; k < segs; k += 1) {
       const a = piece.placed[k];
       const b = piece.placed[(k + 1) % n];
       if (a === b) continue;
-      const path = rowPath(p, role, l.entity, a, b);
+      const path = rowPath(p, role, l.entity, a, b, run);
       // a defence: insertion leaves a part's edges joining its consecutive vertices; where they do not, the chord
       if (path === null) cyc.push(at(a));
       else for (let i = 0; i + 1 < path.length; i += 1) cyc.push(at(path[i]));
@@ -953,7 +1282,7 @@ function sharedPath(d: Dry, points: readonly LatticePoint[], closed: boolean, ro
     const a = points[k];
     const b = points[(k + 1) % n];
     const held = d.segs.get(segKey(a, b));
-    const path = held === undefined ? null : rowPath(p, role, held.entity, held.a, held.b);
+    const path = held === undefined ? null : rowPath(p, role, held.entity, held.a, held.b, held.run);
     if (held === undefined || path === null) {
       push(a);
       if (!closed && k === segs - 1) push(b);
@@ -967,6 +1296,100 @@ function sharedPath(d: Dry, points: readonly LatticePoint[], closed: boolean, ro
   if (!any) return null;
   if (closed && out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
   return out;
+}
+
+/** The minEdge cell of a point (`Dry.moved`'s key). */
+function movedKey(cx: number, cy: number): string {
+  return `${String(cx)},${String(cy)}`;
+}
+
+/**
+ * The vertex a run's input point is laid at where it stands within minEdge of a point an earlier part of the same spine
+ * run (`partGroup`) was held off (`Dry.moved`; the nearest such point, a tie by y then x), or null — round S15, the
+ * attraction-radius straddle: two parts' corners given (all but) coincident, a strip's far corner and its round join's
+ * arc end, are held at ONE vertex.
+ * Laid apart, one may be attracted onto a vertex within attractCm and the other, a centimetre farther, stay where given
+ * (the smoke's integrated 10 block:71kx740v1n6nh: 24.8 and 26.2 cm from the attractor); the wedge between the two held
+ * strips then lies in no part as the arena holds it and is kept — a needle of the band reaching F's own vertex on the
+ * spine's centreline (N-45 (a)). An earlier part's held corner is where the arena holds the band's boundary there, so a
+ * coincident corner is laid on it (as `sharedPath` lays a shared segment along the earlier part's edges).
+ */
+function coincident(d: Dry, q: LatticePoint, group: string): VertexId | null {
+  const m = LATTICE.minEdgeCm;
+  const cx = Math.floor(q.x / m);
+  const cy = Math.floor(q.y / m);
+  let best: { x: number; y: number; v: VertexId; group: string; d2: number } | null = null;
+  for (let i = -1; i <= 1; i += 1) {
+    for (let j = -1; j <= 1; j += 1) {
+      for (const g of d.moved.get(movedKey(cx + i, cy + j)) ?? []) {
+        if (g.group !== group) continue;
+        const d2 = (g.x - q.x) * (g.x - q.x) + (g.y - q.y) * (g.y - q.y);
+        if (d2 >= m * m) continue;
+        if (best === null || d2 < best.d2 || (d2 === best.d2 && (g.y < best.y || (g.y === best.y && g.x < best.x)))) best = { ...g, d2 };
+      }
+    }
+  }
+  return best === null ? null : best.v;
+}
+
+/**
+ * Records a run's input points held off where given (`Dry.moved`): input point k became vertex `placed[at[k]]`. A point
+ * merged into another point of its own run held where given (a join's arc collapsing under minEdge onto its own end) is
+ * no hold of the band's boundary elsewhere, nor is one placed farther than attractCm (§3.6's fallback onto a route
+ * piece's end), and neither is recorded: only a point attracted onto content beside its run is.
+ */
+function noteMoved(d: Dry, points: readonly LatticePoint[], placed: readonly VertexId[], at: readonly number[], group: string): void {
+  const X = d.t.plat.vertices.x;
+  const Y = d.t.plat.vertices.y;
+  const m = LATTICE.minEdgeCm;
+  const exact = new Set<VertexId>();
+  points.forEach((q, k) => {
+    const v = placed[at[k]];
+    if (v !== undefined && X[v] === q.x && Y[v] === q.y) exact.add(v);
+  });
+  points.forEach((q, k) => {
+    const v = placed[at[k]];
+    if (v === undefined || (X[v] === q.x && Y[v] === q.y) || exact.has(v)) return;
+    // an attraction holds a point within attractCm of where it was given; a farther hold is §3.6's placement falling
+    // back (onto a route piece's end), no place of the band's boundary to lay a coincident corner at
+    if ((X[v] - q.x) * (X[v] - q.x) + (Y[v] - q.y) * (Y[v] - q.y) > LATTICE.attractCm * LATTICE.attractCm) return;
+    const key = movedKey(Math.floor(q.x / m), Math.floor(q.y / m));
+    const list = d.moved.get(key) ?? [];
+    if (!list.some((g) => g.x === q.x && g.y === q.y && g.group === group)) list.push({ x: q.x, y: q.y, v, group });
+    d.moved.set(key, list);
+  });
+}
+
+/**
+ * A run's points with every point coincident with an earlier part's held-off point laid at that point's vertex
+ * (`coincident`), consecutive repeats dropped (a closed run's last against its first too), and for each input point the
+ * index of the point it became; null where nothing moved.
+ */
+function laidAtCoincident(d: Dry, points: readonly LatticePoint[], closed: boolean, group: string | null): { points: LatticePoint[]; at: number[] } | null {
+  if (d.moved.size === 0 || group === null) return null;
+  const X = d.t.plat.vertices.x;
+  const Y = d.t.plat.vertices.y;
+  let any = false;
+  const out: LatticePoint[] = [];
+  const at: number[] = [];
+  for (const q of points) {
+    const v = coincident(d, q, group);
+    const r = v === null ? q : { x: X[v] as Cm, y: Y[v] as Cm };
+    if (r.x !== q.x || r.y !== q.y) any = true;
+    const last = out[out.length - 1];
+    if (last !== undefined && last.x === r.x && last.y === r.y) {
+      at.push(out.length - 1);
+      continue;
+    }
+    out.push(r);
+    at.push(out.length - 1);
+  }
+  if (!any) return null;
+  if (closed && out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) {
+    out.pop();
+    for (let k = 0; k < at.length; k += 1) if (at[k] === out.length) at[k] = 0;
+  }
+  return { points: out, at };
 }
 
 /**
@@ -986,7 +1409,8 @@ function dryInsert(d: Dry, parts: readonly Ring[]): KernelResult<null> {
   const window = d.clip;
   const role = roleIdOf(DRY_ROLE);
   for (const part of parts) {
-    const c = clipToWindow(part, window);
+    const group = partGroup(part);
+    const c = d.faithful ? stepped(clipToWindow(part, window), (a, b) => steppedAt(d, a, b)) : clipToWindow(part, window);
     // a part beyond the window, or touching it along a line only, lays nothing
     if (c.points.length < 3 || area2(c.points) === 0) continue;
     const pieces = runsOf(c);
@@ -1001,10 +1425,13 @@ function dryInsert(d: Dry, parts: readonly Ring[]): KernelResult<null> {
         layPieces.push(piece);
         continue;
       }
-      // a segment an earlier part laid is laid along its edges (`sharedPath`); the run is then given as held there
+      // a segment an earlier part laid is laid along its edges (`sharedPath`); the run is then given as held there; a
+      // point coincident with an earlier part's held-off point is laid at its vertex (`laidAtCoincident`, round S15)
       const shared = sharedPath(d, piece.points, piece.closed, role);
-      const given = shared ?? piece.points;
-      const r = insertChain(sh, given, [{ role: DRY_ROLE, entity }], 'mandatory', { closed: piece.closed, pinned: given.map((_, k) => k) });
+      const co = laidAtCoincident(d, shared ?? piece.points, piece.closed, group);
+      const given = co?.points ?? shared ?? piece.points;
+      const degenerate = given.length < (piece.closed ? 3 : 2);
+      const r = degenerate ? err<never>('E_DEGENERATE', 'empty') : insertChain(sh, given, [{ role: DRY_ROLE, entity }], 'mandatory', { closed: piece.closed, pinned: given.map((_, k) => k) });
       if (!r.ok) {
         // A run collapsing to one point (shorter than minEdge: as the scratch's two-point segment collapsed), or one no
         // route lays within §3.10's clearance (a short or shallow stretch hugging an edge it may not move — F's own, the
@@ -1026,14 +1453,22 @@ function dryInsert(d: Dry, parts: readonly Ring[]): KernelResult<null> {
       held.push({ kind: 'run', placed: r.value.placed.slice(), closed: piece.closed });
       layPieces.push({ kind: 'run', points: given, closed: piece.closed });
       for (const w of r.warnings) ws.push(w);
-      // its segments by their input points, for a later part's identical one (the first part's stand)
+      // its segments by their input points, for a later part's identical one (the first part's stand); its input points
+      // held off where given, for a later part's coincident one
       if (shared === null) {
         const pl = r.value.placed;
+        const run = new Set(pl);
         const m = piece.points.length;
+        const at = co?.at ?? piece.points.map((_, k) => k);
         for (let k = 0; k < (piece.closed ? m : m - 1); k += 1) {
+          const a = pl[at[k]];
+          const b = pl[at[(k + 1) % m]];
+          // (a segment whose two points were laid at one coincident vertex is no segment to share)
+          if (a === b && co !== null) continue;
           const key = segKey(piece.points[k], piece.points[(k + 1) % m]);
-          if (!d.segs.has(key)) d.segs.set(key, { a: pl[k], b: pl[(k + 1) % m], entity: handleOf(p, entity), ax: piece.points[k].x, ay: piece.points[k].y });
+          if (!d.segs.has(key)) d.segs.set(key, { a, b, entity: handleOf(p, entity), ax: piece.points[k].x, ay: piece.points[k].y, run });
         }
+        if (group !== null) noteMoved(d, piece.points, pl, at, group);
       }
     }
     const l: Laid = { pieces: held, entity: handleOf(p, entity) };
@@ -1198,7 +1633,7 @@ export const KEPT_DEEP = 'arr: a kept face of the dry-run holds a point of a par
  * Where the face (a record of level n) holds a part's region, as given (clipped), deeper than an insertion's move: the
  * part's index and the sample, or null where it stands clear. Sampled at the midpoint
  * of every interval its outline cuts from each horizontal line halfway between two consecutive distinct vertex heights
- * (`interiorPoint`'s lines, every interval): a sample inside a part farther than `DRY_MOVE_CM` from the part's outline
+ * (`labelPoint`'s lines, every interval): a sample inside a part farther than `DRY_MOVE_CM` from the part's outline
  * is no insertion's move — the face holds part of the band. A sample within it is an attracted case's sliver (a part
  * thinner there than an insertion's move, or its edge moved onto F's boundary): accepted.
  */
@@ -1288,7 +1723,7 @@ interface Staged {
 
 /** The read on one dry-run: the edge spines' parts, the census's base and reach, the reaching spines' parts (module comment). */
 function censusRead(d: Dry, f: ReturnType<typeof readFace>): { k: KernelResult<Ring[]>; spines: Map<string, Spine>; census?: SpineCensus; staged?: Staged } {
-  const e = f.spines.size === 0 ? ok<Ring[]>([]) : kerbParts(f.rings, f.spines);
+  const e = f.spines.size === 0 ? ok<Ring[]>([]) : kerbParts(f.rings, f.spines, d.faithful);
   if (!e.ok) return { k: e, spines: f.spines };
   // F within one part (a strip, a join or an end, every part a simple ring): kerb(F) is empty, read from the geometry
   // alone — nothing is laid (a sliver face along a spine, whose strip covers it, routes no part edge beside F's own)
@@ -1302,7 +1737,7 @@ function censusRead(d: Dry, f: ReturnType<typeof readFace>): { k: KernelResult<R
   if (reaching.length === 0) return { k: base, spines: f.spines, census };
   const spines = new Map(f.spines);
   for (const s of reaching) spines.set(s.key, s);
-  const v = kerbParts(f.rings, new Map(reaching.map((s) => [s.key, s])));
+  const v = kerbParts(f.rings, new Map(reaching.map((s) => [s.key, s])), d.faithful);
   if (!v.ok) return { k: v, spines, census };
   if (coveredBy(v.value, f.rings[0])) return { k: ok([]), spines, census };
   // (F − E) − V on the one arrangement: the reaching spines' parts laid on the arena that holds the edge spines' (C-0381)
@@ -1397,14 +1832,18 @@ export function interiorPoint(p: Plat, level: Level, c: FaceId): XY | null {
 }
 
 /**
- * The point a face of the dry-run is labelled at: of `interiorPoint`'s candidates — the midpoint of every interval on
- * each horizontal line halfway between two consecutive distinct vertex heights — the one farthest from the face's
- * boundary (the least distance to its edges, a tie by the earlier line and interval). A part's cycle joins its points on
- * a window line by straight chords (`cycleOf`), while the arena holds F's edge there through lattice vertices up to a
- * hot pixel off that chord; a label within that of the face's boundary can fall on the wrong side of the chord (a
- * band face read as kerb: N-45 (a); the agreement run's unattracted case, notes row 55), one deeper inside cannot.
+ * The point a face (a record of level n) is labelled at: of its candidates — the midpoint of every interval its rings
+ * cut (outer ring and holes, even-odd) from each horizontal line halfway between two consecutive distinct vertex heights
+ * (never through a vertex) — the one farthest from the face's boundary (the least distance to its edges, a tie by the
+ * earlier line and interval); null where the face has no interval (never for a face of positive area). A label within a
+ * few centimetres of the face's boundary can fall on the wrong side of an outline the arena holds otherwise than it was
+ * given, one deeper inside cannot: the dry-run's labels (a part's cycle joins its points on a window line by straight
+ * chords, `cycleOf`, while the arena holds F's edge there through lattice vertices up to a hot pixel off that chord — a
+ * band face read as kerb, N-45 (a), notes row 55). (bandUnion.ts's read-back classes a committed face by the share of its
+ * area inside kerb(F) as read, hardening round S14: a face straddling the outline the commit moved off the read has no
+ * point that speaks for it.)
  */
-function labelPoint(p: Plat, level: Level, c: FaceId): XY | null {
+export function labelPoint(p: Plat, level: Level, c: FaceId): XY | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const O = p.halfEdges.origin;
@@ -1452,6 +1891,11 @@ export interface LastRead {
   readonly face: FaceId;
   readonly reaching: readonly string[];
   readonly refusedAt: RefusedAt | null;
+  /**
+   * Round S16's faithful read (the module comment): 'none' where the first read stood unread again, 'tried' where it was
+   * read once more and the first read stood, 'taken' where the faithful read is the result (each a second dry-run).
+   */
+  readonly faithful: 'none' | 'tried' | 'taken';
 }
 
 /** The census of the last read on each arena (kept beside the arena, never on it; a diagnostic, as bandClosings). */
@@ -1466,27 +1910,22 @@ export function kerbCensus(p: Plat): LastRead | null {
 }
 
 /**
- * The face read and its kerb (`corridorUnion` and `bandUnion` read the same function, §3.7), on the open transaction's
- * arena by the dry-run (the module comment); `vertexContacts` as `readFace` takes it (corridorUnion's and `kerb`'s true,
- * bandUnion's false). The overlay must be open (`openTx`: a shell or a closed transaction is a programming error). Reads
- * only: the arena, its index and the batch's work, warnings and journals are as the read found them.
+ * One read of F on fresh dry-runs of the open transaction (`censusRead`; where the census's post-condition refuses, the
+ * region read once more, restaged, C-0420: accepted only where it meets the post-condition on every spine, else the
+ * first read's refusal stands with its place, which J433's replay reads), the parts as given or, `faithful`, as the
+ * faithful read lays them (the module comment, round S16). Every dry-run is put back.
  */
-export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
-  const t = openTx(o);
-  const p = t.plat;
-  const f = readFace(p, face, widths, cache, vertexContacts);
-  const d = dryRun(t, face, f.rings, f.seeds);
+function readOn(t: OpenTx, face: FaceId, f: ReturnType<typeof readFace>, faithful: boolean): { read: ReturnType<typeof censusRead>; refusedAt: RefusedAt | null } {
+  const d = dryRun(t, face, f.rings, f.seeds, faithful);
   let read: ReturnType<typeof censusRead>;
   try {
     read = censusRead(d, f);
   } finally {
     dryClose(d);
   }
-  // where the census's post-condition refuses, the region is read once more, restaged (C-0420): accepted only where it
-  // meets the post-condition on every spine; else the first read's refusal stands, with its place (J433's replay reads it)
   let refusedAt = d.refusedAt;
   if (read.staged !== undefined) {
-    const d2 = dryRun(t, face, f.rings, f.seeds);
+    const d2 = dryRun(t, face, f.rings, f.seeds, faithful);
     let again: KernelResult<Ring[]>;
     try {
       again = restagedRead(d2, f, read.staged);
@@ -1498,12 +1937,255 @@ export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: 
       refusedAt = null;
     }
   }
-  CENSUS.set(p, { face, reaching: read.census?.reaching ?? [], refusedAt });
+  return { read, refusedAt };
+}
+
+/**
+ * The refusal of a read whose ring crosses itself (round S16; N-45 (a): never a self-crossing ring returned or committed,
+ * its region read wrongly — row 127's ring ran along a band's centreline and back across it). A ring that only TOUCHES
+ * itself at a vertex (a pinch: F's own walk round a cut vertex) is no crossing, and neither (round S17, B-GUARD) is F's
+ * own walk OUT AND BACK along a dangling chain or a bridge of any length — the two sides of one route edge with F on
+ * both, traversed in opposite directions (`bridgesOf`): F's route ring is returned so where no band reaches it, as
+ * every round before read it (kerb(F) = F for a spine-less face holding a dangling chain).
+ */
+export const RING_CROSSES = 'arr: a ring of the read region crosses itself (N-45)';
+
+/** A segment of the lattice (two points). */
+export type Seg = readonly [LatticePoint, LatticePoint];
+
+/**
+ * F's BRIDGES (round S17, B-GUARD): the route edges F's walk traverses both ways — F on both sides of them (a dangling
+ * chain's edges, a bridge between two of F's route rings) — as their two route points (`RouteEdge` a, b; a set: its
+ * order is never read).
+ */
+export function bridgesOf(p: Plat, edges: readonly (readonly RouteEdge[])[]): Seg[] {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const walked = new Set<string>();
+  for (const es of edges) for (const e of es) walked.add(`${String(e.a)},${String(e.b)}`);
+  const out: Seg[] = [];
+  for (const es of edges) {
+    for (const e of es) {
+      if (walked.has(`${String(e.b)},${String(e.a)}`)) out.push([{ x: X[e.a] as Cm, y: Y[e.a] as Cm }, { x: X[e.b] as Cm, y: Y[e.b] as Cm }]);
+    }
+  }
+  return out;
+}
+
+/**
+ * Do the chain's edges cross one another — two of them, not neighbours, crossing properly (each one's ends strictly
+ * either side of the other's line) or running along one another over a length (exact)? A touch at a vertex is no
+ * crossing; nor is a run along one another in OPPOSITE directions whose common stretch lies on one of `along` (F's
+ * bridges, `bridgesOf`: its walk out and back along a dangling chain). `closed`: the last point joins the first.
+ */
+export function chainCrosses(r: readonly LatticePoint[], closed: boolean, along: readonly Seg[] = []): boolean {
+  const n = r.length;
+  const m = closed ? n : n - 1;
+  for (let i = 0; i < m; i += 1) {
+    const a = r[i];
+    const b = r[(i + 1) % n];
+    for (let j = i + 2; j < m; j += 1) {
+      if (closed && i === 0 && j === n - 1) continue;
+      const c = r[j];
+      const e = r[(j + 1) % n];
+      if (Math.max(c.x, e.x) < Math.min(a.x, b.x) || Math.min(c.x, e.x) > Math.max(a.x, b.x) || Math.max(c.y, e.y) < Math.min(a.y, b.y) || Math.min(c.y, e.y) > Math.max(a.y, b.y)) continue;
+      const o1 = orient2d(a.x, a.y, b.x, b.y, c.x, c.y);
+      const o2 = orient2d(a.x, a.y, b.x, b.y, e.x, e.y);
+      const o3 = orient2d(c.x, c.y, e.x, e.y, a.x, a.y);
+      const o4 = orient2d(c.x, c.y, e.x, e.y, b.x, b.y);
+      if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
+      if (o1 === 0 && o2 === 0) {
+        // collinear: the two segments' extents along their line overlap over a positive length
+        const ux = b.x - a.x;
+        const uy = b.y - a.y;
+        const t0 = (c.x - a.x) * ux + (c.y - a.y) * uy;
+        const t1 = (e.x - a.x) * ux + (e.y - a.y) * uy;
+        const l2 = ux * ux + uy * uy;
+        const lo = Math.max(Math.min(t0, t1), 0);
+        const hi = Math.min(Math.max(t0, t1), l2);
+        if (hi - lo > 0 && !(t1 < t0 && onBridge(a, b, lo, hi, along))) return true;
+      }
+    }
+  }
+  return false;
+}
+
+/** Does the stretch [lo, hi] of the line a → b (in units of (b − a) · (q − a)) lie on one bridge collinear with it (exact)? */
+function onBridge(a: LatticePoint, b: LatticePoint, lo: number, hi: number, along: readonly Seg[]): boolean {
+  const ux = b.x - a.x;
+  const uy = b.y - a.y;
+  for (const [u, v] of along) {
+    if (orient2d(a.x, a.y, b.x, b.y, u.x, u.y) !== 0 || orient2d(a.x, a.y, b.x, b.y, v.x, v.y) !== 0) continue;
+    const tu = (u.x - a.x) * ux + (u.y - a.y) * uy;
+    const tv = (v.x - a.x) * ux + (v.y - a.y) * uy;
+    if (Math.min(tu, tv) <= lo && Math.max(tu, tv) >= hi) return true;
+  }
+  return false;
+}
+
+/** Do the segments a – b and c – e cross properly — each one's ends strictly either side of the other's line (exact)? */
+function crossProperly(a: LatticePoint, b: LatticePoint, c: LatticePoint, e: LatticePoint): boolean {
+  if (Math.max(c.x, e.x) < Math.min(a.x, b.x) || Math.min(c.x, e.x) > Math.max(a.x, b.x) || Math.max(c.y, e.y) < Math.min(a.y, b.y) || Math.min(c.y, e.y) > Math.max(a.y, b.y)) return false;
+  const o1 = orient2d(a.x, a.y, b.x, b.y, c.x, c.y);
+  const o2 = orient2d(a.x, a.y, b.x, b.y, e.x, e.y);
+  const o3 = orient2d(c.x, c.y, e.x, e.y, a.x, a.y);
+  const o4 = orient2d(c.x, c.y, e.x, e.y, b.x, b.y);
+  return ((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0));
+}
+
+/**
+ * Does an outline the engine is to write cross itself (round S17; N-45 (a) on the write, bandUnion.ts `writeOutlines`):
+ * a piece that crosses itself (`chainCrosses`, `along` F's bridges), or two pieces crossing properly — pieces of one
+ * ring meet only at its contacts on F's boundary, and a kerb's rings are disjoint but for touches (exact)?
+ */
+export function outlineCrosses(pieces: readonly { readonly points: readonly LatticePoint[]; readonly closed: boolean }[], along: readonly Seg[] = []): boolean {
+  for (const q of pieces) if (chainCrosses(q.points, q.closed, along)) return true;
+  const segs = (q: { readonly points: readonly LatticePoint[]; readonly closed: boolean }): Seg[] => {
+    const out: Seg[] = [];
+    const n = q.points.length;
+    for (let i = 0; i < (q.closed ? n : n - 1); i += 1) out.push([q.points[i], q.points[(i + 1) % n]]);
+    return out;
+  };
+  const all = pieces.map(segs);
+  for (let i = 0; i < all.length; i += 1) {
+    for (let j = i + 1; j < all.length; j += 1) {
+      for (const [a, b] of all[i]) for (const [c, e] of all[j]) if (crossProperly(a, b, c, e)) return true;
+    }
+  }
+  return false;
+}
+
+/** Does the lattice ring cross itself (`chainCrosses` of the closed ring; `along` F's bridges, `bridgesOf`)? */
+export function ringCrosses(r: readonly LatticePoint[], along: readonly Seg[] = []): boolean {
+  return chainCrosses(r, true, along);
+}
+
+/** Is the lattice ring simple — at least three distinct vertices, no two of its edges meeting but neighbours at their shared end (exact)? */
+export function ringSimple(r: readonly LatticePoint[]): boolean {
+  const n = r.length;
+  if (n < 3) return false;
+  const seen = new Set<string>();
+  for (const q of r) {
+    const k = `${String(q.x)},${String(q.y)}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+  }
+  for (let i = 0; i < n; i += 1) {
+    const a = r[i];
+    const b = r[(i + 1) % n];
+    const bx = { x0: Math.min(a.x, b.x), y0: Math.min(a.y, b.y), x1: Math.max(a.x, b.x), y1: Math.max(a.y, b.y) };
+    for (let j = i + 2; j < n; j += 1) {
+      if (i === 0 && j === n - 1) continue;
+      const c = r[j];
+      const e = r[(j + 1) % n];
+      if (Math.max(c.x, e.x) < bx.x0 || Math.min(c.x, e.x) > bx.x1 || Math.max(c.y, e.y) < bx.y0 || Math.min(c.y, e.y) > bx.y1) continue;
+      if (segmentsMeet(a, b, c, e)) return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * The deepest a vertex of the rings lies in a spine's buffer — its half-width there (along the segment by the foot of
+ * the perpendicular; at a segment's end, its join's or end's radius) less its distance from the route — skipping, at a
+ * junction end, a vertex within attractCm of the end's line or beyond it in the end's reach (`deepIn`'s reading of ends
+ * with attractCm for its move); −∞ where none is read.
+ */
+function spineDepthOf(rings: readonly (readonly LatticePoint[])[], s: Spine): number {
+  const A = LATTICE.attractCm;
+  let worst = -Infinity;
+  for (const line of s.lines) {
+    const n = line.points.length;
+    const segs = line.closed ? n : n - 1;
+    const cut: { e: LatticePoint; ux: number; uy: number; r: number }[] = [];
+    if (!line.closed && segs >= 1) {
+      for (const [at, from] of [[0, 1], [n - 1, n - 2]] as const) {
+        if (!line.junction[at === 0 ? 0 : 1]) continue;
+        const e = line.points[at];
+        const o = line.points[from];
+        const l = Math.sqrt((e.x - o.x) * (e.x - o.x) + (e.y - o.y) * (e.y - o.y));
+        const ux = div(e.x - o.x, l);
+        const uy = div(e.y - o.y, l);
+        if (ux !== null && uy !== null) cut.push({ e, ux, uy, r: line.hw[at] + A });
+      }
+    }
+    for (const r of rings) {
+      for (const q of r) {
+        if (cut.some((c) => (q.x - c.e.x) * (q.x - c.e.x) + (q.y - c.e.y) * (q.y - c.e.y) <= c.r * c.r && (q.x - c.e.x) * c.ux + (q.y - c.e.y) * c.uy >= -A)) continue;
+        for (let k = 0; k < segs; k += 1) {
+          const a = line.points[k];
+          const b = line.points[(k + 1) % n];
+          const c = nearestOn(q, a, b);
+          const depth = line.hw[k] + c.t * (line.hw[(k + 1) % n] - line.hw[k]) - Math.sqrt(c.d2);
+          if (depth > worst) worst = depth;
+        }
+      }
+    }
+  }
+  return worst;
+}
+
+/**
+ * A read's quality (round S16, the faithful read): whether every ring of its kerb is simple; its deepest vertex in any of
+ * the read's spines' buffers (`spineDepthOf`); and its EXCESS — the sum over its vertices of how much deeper than
+ * attractCm each lies (0 for a read whose every vertex lies within attractCm of its bands' edges: the attracted cases).
+ */
+function readQuality(rings: readonly Ring[], spines: ReadonlyMap<string, Spine>): { simple: boolean; depth: number; excess: number } {
+  let depth = -Infinity;
+  let excess = 0;
+  for (const r of rings) {
+    for (const q of r) {
+      let d = -Infinity;
+      for (const s of spines.values()) d = Math.max(d, spineDepthOf([[q]], s));
+      if (d > depth) depth = d;
+      if (d > LATTICE.attractCm) excess += d - LATTICE.attractCm;
+    }
+  }
+  return { simple: rings.every(ringSimple), depth, excess };
+}
+
+/**
+ * The face read and its kerb (`corridorUnion` and `bandUnion` read the same function, §3.7), on the open transaction's
+ * arena by the dry-run (the module comment); `vertexContacts` as `readFace` takes it (corridorUnion's and `kerb`'s true,
+ * bandUnion's false). The overlay must be open (`openTx`: a shell or a closed transaction is a programming error). Reads
+ * only: the arena, its index and the batch's work, warnings and journals are as the read found them.
+ */
+export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
+  const t = openTx(o);
+  const p = t.plat;
+  const f = readFace(p, face, widths, cache, vertexContacts);
+  let { read, refusedAt } = readOn(t, face, f, false);
+  let faithful: LastRead['faithful'] = 'none';
+  let sp = read.k.ok ? splitsOn(p, f.edges, read.spines, read.k.value.map((r) => r.slice())) : null;
+  // round S16 (the faithful read; the module comment): a kerb with a ring that is not simple, or a vertex deeper in a
+  // spine's buffer than attractCm (`readQuality`), is read once more on fresh dry-runs, the parts of straightened runs
+  // laid through stepped points — taken where every ring of it is simple and, the first read's rings simple, no vertex of
+  // it lies deeper than the first's deepest and its excess depth is less
+  // (a first read whose ring crosses itself — `splitsOn`'s RING_CROSSES — is a read not simple: read once more)
+  if (sp !== null && (sp.ok || sp.detail === RING_CROSSES)) {
+    const was = sp.ok ? readQuality(sp.value.rings, read.spines) : null;
+    if (was === null || !was.simple || was.excess > 0) {
+      const alt = readOn(t, face, f, true);
+      faithful = 'tried';
+      const asp = alt.read.k.ok ? splitsOn(p, f.edges, alt.read.spines, alt.read.k.value.map((r) => r.slice())) : null;
+      if (asp !== null && asp.ok) {
+        const now = readQuality(asp.value.rings, alt.read.spines);
+        if (now.simple && (was === null || !was.simple || (now.depth <= was.depth && now.excess < was.excess))) {
+          ({ read, refusedAt } = alt);
+          sp = asp;
+          faithful = 'taken';
+        }
+      }
+    }
+  }
+  CENSUS.set(p, { face, reaching: read.census?.reaching ?? [], refusedAt, faithful });
   const k = read.k;
   if (!k.ok) return err(k.code, k.detail);
   const spines = read.spines;
   const region = k.value.map((r) => r.slice());
-  const sp = splitsOn(p, f.edges, spines, region);
+  // (the splits are read with every read that is ok, so `sp` is null only with a refusal returned above)
+  if (sp === null) return err('E_INVARIANT', 'arr: a read without its splits');
+  // (N-45 (a): a ring that crosses itself is never returned, nor committed — `splitsOn`'s RING_CROSSES, a typed refusal)
   if (!sp.ok) return err(sp.code, sp.detail);
   const value: KerbRead = { face, rings: f.rings, edges: f.edges, spines, kerb: sp.value.rings, splits: sp.value.splits, warnings: k.warnings.map((w) => ({ ...w })), region, ...(read.census === undefined ? {} : { census: read.census }) };
   return ok(value, k.warnings);
@@ -1513,7 +2195,8 @@ export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: 
  * The junctions' corridor_split chains on a region read for F (`KerbRead.region`), each split end spliced into it: the
  * kerb's rings and the splits (C-0212 (5)) — `readKerb`'s last step, on the region its dry-run traced. Given another region
  * of the same face (a recorded one), the same junction rules on it: the splits are a function of F's route, its spines
- * and the region alone.
+ * and the region alone. Last, N-45 (a)'s guard (rounds S16 / S17): a kerb ring that crosses itself is refused
+ * E_INVARIANT `RING_CROSSES` — F's own walk out and back along its bridges excepted (`ringCrosses`, `bridgesOf`).
  */
 export function splitsOn(p: Plat, edges: readonly RouteEdge[][], spines: ReadonlyMap<string, Spine>, region: readonly (readonly LatticePoint[])[]): KernelResult<{ rings: Ring[]; splits: LatticePoint[][] }> {
   const rings = region.map((r) => r.slice());
@@ -1527,7 +2210,12 @@ export function splitsOn(p: Plat, edges: readonly RouteEdge[][], spines: Readonl
     }
   }
   // a splice on a kerb edge collinear with its neighbour can fold the ring back on itself: spikes dropped again
-  const kerbRings = rings.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0).sort(compareRings);
+  const kept = rings.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0);
+  // N-45 (a), rounds S16 / S17: a ring that crosses itself is never returned (nor committed) — a typed refusal; F's own
+  // walk out and back along its bridges (a dangling chain) is no crossing (`RING_CROSSES`, `bridgesOf`)
+  const along = bridgesOf(p, edges);
+  if (kept.some((r) => ringCrosses(r, along))) return err('E_INVARIANT', RING_CROSSES);
+  const kerbRings = kept.sort(compareRings);
   return ok({ rings: kerbRings, splits });
 }
 
@@ -1771,7 +2459,9 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * A corridor_split lies in the band (§3.7): a candidate chain that would enter kerb(F)'s interior — a block — is not
  * drawn, the kerb point spliced in for it is taken out again, and the next target is tried (C-0212 (5) as refined by
  * N-52 (2) and C-0281): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
- * its strips by the straight-through split where that one fits.
+ * its strips by the straight-through split where that one fits. Where the guard dropped a candidate and no later target
+ * drew a split (the residue of notes row 23), (iv) the one edge from J to J's nearest kerb point within reach (hardening
+ * round S14).
  */
 function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
   const X = p.vertices.x;
@@ -1791,6 +2481,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
   const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
   if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
   // A candidate snapped and guarded: kept where it stays in the band, else its splice taken out (null: try the next).
+  let guarded = false;
   const fit = (chain: readonly XY[], spliced: Reached['spliced']): KernelResult<LatticePoint[] | null> => {
     const pts: LatticePoint[] = [];
     for (const q of chain) {
@@ -1800,6 +2491,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
       if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
     }
     if (pts.length >= 2 && !entersRegion(kerbRings, pts)) return ok(pts);
+    if (pts.length >= 2) guarded = true;
     if (spliced !== null) {
       const at = spliced.ring.indexOf(spliced.v);
       if (at >= 0) spliced.ring.splice(at, 1);
@@ -1820,8 +2512,15 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelR
       }
     }
   }
-  const K = spliceAt(kerbRings, aim, J, jn.reach);
-  return K === null ? ok(null) : fit([J, K.v], K.spliced);
+  const splice = (q: XY): Reached | null => spliceAt(kerbRings, q, J, jn.reach);
+  const K = splice(aim);
+  const r = K === null ? ok<LatticePoint[] | null>(null) : fit([J, K.v], K.spliced);
+  if (!r.ok || r.value !== null || !guarded) return r;
+  // (iv) every target the guard dropped (notes rows 22 / 23; hardening round S14): the one edge from J to its NEAREST
+  // kerb point (§3.7's T-junction clause read literally — the foot of J's perpendicular where the kerb runs straight
+  // there), within reach; a segment from a point outside the region to its nearest point of it enters no block
+  const N = splice(J);
+  return N === null || (K !== null && N.v.x === K.v.x && N.v.y === K.v.y) ? ok(null) : fit([J, N.v], N.spliced);
 }
 
 /** A corner's chain: from the kerb corner K to the foot of its perpendicular on each spine edge at J (C-0212 (4)). */

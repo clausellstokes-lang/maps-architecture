@@ -30,6 +30,7 @@ import {
   type LatticePoint,
   type Plat,
   type PlatKey,
+  type SpineWidth,
   type SpineWidths,
   type StageId,
   type TileOverlap,
@@ -56,6 +57,14 @@ export const RUNS = fuzzRuns();
 
 /** A run's hard timeout (0 hangs): an hour, or 300 ms a case where the run is longer. */
 export const TIMEOUT = Math.max(3_600_000, RUNS * 300);
+
+/**
+ * The largest share of a run settled `input-refused` (the arena refused the case's own construction) or `not-united`
+ * (the engine's boolean could not unite our faces), each (hardening round S14, notes row 7; measured with the chord
+ * clamped: see the choices row).
+ */
+export const INPUT_REFUSED_SHARE = 0.005;
+export const NOT_UNITED_SHARE = 0.001;
 
 /** The unattracted share every operation must keep (C-0196 (7)'s rule, N-14). */
 export const MIN_UNATTRACTED_SHARE = 0.1;
@@ -138,6 +147,11 @@ export function verdict(h: Harness, op: string, runs: number = RUNS): void {
   // not here; any other refusal is the item's own, at most 1 per 10⁴ cases (PR size: 1; nightly 10⁶: 100) — never
   // raised without the owner
   expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
+  // the cases judged by no draw (hardening round S14, notes row 7): an input the arena refused before the operation ran
+  // (the judge's own case construction) and a result the engine's own boolean could not unite — each a small share of
+  // the run, never what the comparison loses silently
+  expect(h.settled['input-refused'] ?? 0).toBeLessThanOrEqual(Math.ceil(INPUT_REFUSED_SHARE * runs));
+  expect(h.settled['not-united'] ?? 0).toBeLessThanOrEqual(Math.ceil(NOT_UNITED_SHARE * runs));
   // an attracted case's dangling kerb or split edge is a valid result short of ideal (N-45: a KI note, counted, no bar)
   expect(line.unattracted).toBeGreaterThanOrEqual(guard);
   expect(h.report.meetsDrawCount(op, guard)).toBe(true);
@@ -165,6 +179,13 @@ export interface CorridorCase {
    * and the chord — the one spine, way:1 — ends on it at both ends, its round end caps meeting it.
    */
   readonly deadEnd?: true;
+  /** The way across (way:1) declares square ends (§3.7: "square ends where declared"; hardening round S14, notes row 13). */
+  readonly chordEnds?: 'square';
+  /**
+   * The way across (way:1) carries a two-knot half-width profile on its two input points, linear by arc length (§2.2
+   * rule 5), in place of the scalar `hw` (hardening round S14, notes row 13).
+   */
+  readonly chordProfile?: readonly [number, number];
 }
 
 const seedArb = fc.integer({ min: 0, max: 0x7fff_ffff });
@@ -280,6 +301,25 @@ export const deadEndCaseArb: fc.Arbitrary<CorridorCase | null> = fc
   .record({ ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 7] }), turn: fc.integer({ min: 0, max: 35_999 }), tenths: fc.integer({ min: 0, max: 1000 }) })
   .map(({ ring, turn, tenths }) => deadEndOf(ccwRing(ring.slice()), turn, tenths));
 
+/**
+ * The generators' reach widened (hardening round S14, notes row 13): the dead-end lane with square ends (§3.7: "square
+ * ends where declared"; the cap's corners meet the spine-less ring), and the way across a simple polygon carrying a
+ * two-knot half-width profile (§2.2 rule 5: the strips trapezoids, sampled at every route vertex — the crossings with
+ * the ring way among them — by arc length), each knot 0.5 m to an eighth of the ring's smaller extent (≤ 6 m).
+ */
+export const widenedCaseArb: fc.Arbitrary<CorridorCase | null> = fc.oneof(
+  deadEndCaseArb.map((c) => (c === null ? null : { ...c, chordEnds: 'square' as const, source: 'dead-end-square' })),
+  fc
+    .record({ ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 7] }), turn: fc.integer({ min: 0, max: 35_999 }), k0: fc.integer({ min: 0, max: 1000 }), k1: fc.integer({ min: 0, max: 1000 }) })
+    .map(({ ring, turn, k0, k1 }) => {
+      const base = corridorOf(ccwRing(ring.slice()), true, turn, 0, 'polygon+profile');
+      const b = boxOf(base.ring);
+      const cap = Math.max(50, Math.min(600, Math.min(b.x1 - b.x0, b.y1 - b.y0) / 8));
+      const at = (t: number): number => 50 + Math.floor(((cap - 50) * t) / 1000);
+      return { ...base, chordProfile: [at(k0), at(k1)] as const, source: 'polygon+profile' };
+    }),
+);
+
 /** The dead-end case on a ring (see `deadEndCaseArb`), or null where the lane's line meets the ring in fewer than two points. */
 function deadEndOf(ring: LatticePoint[], turn: number, tenths: number): CorridorCase | null {
   const b = boxOf(ring);
@@ -338,7 +378,11 @@ function corridorOf(ring: LatticePoint[], across: boolean, turn: number, tenths:
   const t = (turn * Math.PI) / 18_000;
   const cx = (b.x0 + b.x1) / 2;
   const cy = (b.y0 + b.y1) / 2;
-  const reach = Math.hypot(b.x1 - b.x0, b.y1 - b.y0) + 400;
+  // the chord runs through the box centre and 400 cm past the box on either side: half the box's diagonal and 400 cm
+  // (hardening round S14, notes row 7: the whole diagonal and 400 cm left oursCorridor's frame, 20 000 cm round the box,
+  // on large polygons, and insertChain refused the judge's own chord E_LEVEL — about one chord case in eight, 4 % of the
+  // draws settled `input-refused`); half a diagonal of at most 30 000 · √2 cm and 400 cm stays inside the frame
+  const reach = Math.hypot(b.x1 - b.x0, b.y1 - b.y0) / 2 + 400;
   const chord = across ? [lp(cx - reach * Math.cos(t), cy - reach * Math.sin(t)), lp(cx + reach * Math.cos(t), cy + reach * Math.sin(t))] : null;
   return { ring, chord, hw, role: 'way', key: GROUND, source: `${source}${across ? '+chord' : ''}` };
 }
@@ -364,6 +408,9 @@ function widthStepOf(ring: LatticePoint[], hundredths: number, out: boolean, ten
   if (hw === base.hw) hw += 37;
   return { ...base, ring: [a, J, ...ring.slice(1)], step: { at: 1, hw } };
 }
+
+/** The margin of oursCorridor's frame round the case's box (cm). */
+export const FRAME_MARGIN_CM = 20_000;
 
 /** A transaction spec at `level` on `key`. */
 function spec(level: 0 | 1 | 2, key: PlatKey): KernelTx {
@@ -394,6 +441,13 @@ export interface CorridorOurs {
   readonly spines: LatticePoint[][];
   /** Each spine's half-width (way:0's the case's; a width step's way:1 its own). */
   readonly spineHw: number[];
+  /** Each spine's half-width at each of its points (a profile sampled by arc length; else its `spineHw`). */
+  readonly spineWidths: number[][];
+  /**
+   * Each spine's ends as the kerb reads them: the declared kind, or `flat` where the spine's route ends on the ring's
+   * (round S15's start-cap rule: an end on another chain's line, which passes through it, takes no cap; §3.7's ends).
+   */
+  readonly spineEnds: ('round' | 'square' | 'flat')[];
   /** The committed corridor_split edges with a built block on both sides (N-52 (2): a split never cuts a block). */
   readonly splitsInBlocks: string[];
   /** Every committed corridor_split edge of L2, as "x,y-x,y" either way round (a band face's split antenna, notes row 57). */
@@ -429,7 +483,7 @@ function refused(h: Harness, op: string, code: string, detail: string, input: un
  */
 export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const b = boxOf(c.ring);
-  const m = 20_000;
+  const m = FRAME_MARGIN_CM;
   const p = createPlat(c.key, { widthCm: (1 << 24) as Cm, heightCm: (1 << 24) as Cm, aspect: 1, marginShare: 0 });
   attachIndex(p, { gridCellCm: 1_024 });
   const frame = [lp(b.x0 - m, b.y0 - m), lp(b.x1 + m, b.y0 - m), lp(b.x1 + m, b.y1 + m), lp(b.x0 - m, b.y1 + m)];
@@ -448,7 +502,8 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
     if (!w1.ok) return null;
   }
   if (c.chord !== null) {
-    const r = tx(p, spec(1, c.key), (o) => insertChain(o, c.chord as LatticePoint[], [{ role: c.role, entity: 'way:1' }], 'mandatory'));
+    const knots = c.chordProfile === undefined ? {} : { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }] };
+    const r = tx(p, spec(1, c.key), (o) => insertChain(o, c.chord as LatticePoint[], [{ role: c.role, entity: 'way:1' }], 'mandatory', knots));
     if (!r.ok) return null;
   }
   // the faces inside the ring: every L1 face but the one holding the frame's corner on its outer ring
@@ -465,7 +520,11 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const own = tx(p, spec(1, c.key), (o) => setOwner(o, faces, 'district:1'));
   if (!own.ok) return null;
   const hwOf = (entity: string): number => (entity === 'way:1' && c.step !== undefined ? c.step.hw : c.hw);
-  const widths: SpineWidths = (ch) => (ch.role === c.role && (ch.entity === 'way:0' || ch.entity === 'way:1') ? { halfWidthCm: hwOf(ch.entity) } : null);
+  const chordWidth = (): SpineWidth => ({
+    halfWidthCm: c.chordProfile === undefined ? hwOf('way:1') : { knotRole: 'width_knot', values: [c.chordProfile[0], c.chordProfile[1]], interp: 'linear' },
+    ends: c.chordEnds ?? 'round',
+  });
+  const widths: SpineWidths = (ch) => (ch.role !== c.role ? null : ch.entity === 'way:0' ? { halfWidthCm: hwOf('way:0') } : ch.entity === 'way:1' && c.step === undefined ? chordWidth() : ch.entity === 'way:1' ? { halfWidthCm: hwOf('way:1') } : null);
   const warnings: Warning[] = [];
   const read = tx(p, spec(1, c.key), (o) => {
     for (const f of faces) {
@@ -491,8 +550,14 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const Y = p.vertices.y;
   const spines: LatticePoint[][] = [];
   const spineHw: number[] = [];
+  const spineWidths: number[][] = [];
+  const spineEnds: ('round' | 'square' | 'flat')[] = [];
   let face: Ring = c.ring.slice();
   const open: Record<string, LatticePoint[]> = {};
+  // the ring way's committed route vertices (way:0's, or a dead end's spine-less way:edge's): a way across ending at one
+  // ends on the ring's line, which passes through it — a junction end, no cap (written from the rule's definition)
+  const onRing = new Set<string>();
+  for (const entity of ['way:0', 'way:edge']) for (const ln of routeLines(p, { role: c.role, entity }, c.key)) if (ln.closed) for (const v of ln.vertices) onRing.add(`${String(X[v])},${String(Y[v])}`);
   for (const entity of ['way:0', 'way:1']) {
     for (const ln of routeLines(p, { role: c.role, entity }, c.key)) {
       const pts = ln.vertices.map((v) => lp(X[v], Y[v]));
@@ -500,8 +565,32 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
         if (entity === 'way:0') face = pts.slice();
         pts.push(pts[0]);
       } else if (c.step !== undefined) open[entity] = pts.slice();
+      const across = entity === 'way:1' && c.step === undefined;
+      const declared = across ? (c.chordEnds ?? 'round') : 'round';
+      const at = (q: LatticePoint): boolean => onRing.has(`${String(q.x)},${String(q.y)}`);
+      const junction = !ln.closed && [at(pts[0]), at(pts[pts.length - 1])];
+      // the agreement's ways across end on the ring at both ends or at neither (a mixed pair has no one end kind here)
+      if (junction !== false && junction[0] !== junction[1]) throw new Error('support: a way across with one end on the ring');
+      const flat = junction !== false && junction[0];
+      if (flat) {
+        // the oracle's flat end carried 2 cm past the ring (snapped): where the end edge lies ON the ring's edge (a way
+        // across square to it) the engines' difference would keep a zero-width bridge along F's boundary between the
+        // two strip corners and count the two blocks as one ring; 2 cm outside F the band covers that boundary, inside
+        // F it adds at most a 2 cm sliver along an oblique end (within the unattracted bound, perimeter × 1 cm)
+        const push = (e: LatticePoint, o: LatticePoint): LatticePoint => {
+          const l = Math.hypot(e.x - o.x, e.y - o.y);
+          return l > 0 ? lp(e.x + ((e.x - o.x) * 2) / l, e.y + ((e.y - o.y) * 2) / l) : e;
+        };
+        const n = pts.length;
+        const first = push(pts[0], pts[1]);
+        const last = push(pts[n - 1], pts[n - 2]);
+        pts[0] = first;
+        pts[n - 1] = last;
+      }
       spines.push(pts);
       spineHw.push(hwOf(entity));
+      spineEnds.push(flat ? 'flat' : declared);
+      spineWidths.push(across && c.chordProfile !== undefined && c.chord !== null ? profileAt(pts, c.chord[0], c.chordProfile) : pts.map(() => hwOf(entity)));
     }
   }
   // a width step's F: way:1's route (ring[0] – J) and way:0's (J – ring[0]) joined end to end, as the arena committed
@@ -517,7 +606,21 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
     else if (same(a[0], b[b.length - 1])) [a, b] = [b, a];
     face = ccwRing([...a.slice(0, -1), ...b.slice(0, -1)]);
   }
-  return { blocks, bands, warnings, face, spines, spineHw, splitsInBlocks: splitsInBlocks(p, v.blocks), splitEdges: splitEdgesOf(p) };
+  return { blocks, bands, warnings, face, spines, spineHw, spineWidths, spineEnds, splitsInBlocks: splitsInBlocks(p, v.blocks), splitEdges: splitEdgesOf(p) };
+}
+
+/**
+ * A two-knot profile's half-width at each point of a committed route (§2.2 rule 5: linear by arc length from the knot
+ * on `start`'s end of the route to the other's), written here from the definition.
+ */
+function profileAt(route: readonly LatticePoint[], start: LatticePoint, values: readonly [number, number]): number[] {
+  const near = (q: LatticePoint): number => Math.hypot(q.x - start.x, q.y - start.y);
+  const pts = near(route[0]) <= near(route[route.length - 1]) ? route.slice() : route.slice().reverse();
+  const at: number[] = [0];
+  for (let i = 1; i < pts.length; i += 1) at.push(at[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+  const len = at[at.length - 1];
+  const ws = at.map((s) => (len === 0 ? values[0] : values[0] + ((values[1] - values[0]) * s) / len));
+  return near(route[0]) <= near(route[route.length - 1]) ? ws : ws.reverse();
 }
 
 /** Every corridor_split edge on an L2 face's ring, as "x,y-x,y" both ways round. */
@@ -595,11 +698,25 @@ function windingAt(ring: readonly LatticePoint[], x: number, y: number): number 
 
 /**
  * The oracle's buffer of the spines (each a way's committed route; a ring closed on itself), round joins and ends —
- * §3.7's kerb definition; each spine at its own half-width (a width step's two ways differ), else at `hw`.
+ * §3.7's kerb definition; each spine at its own half-width (a width step's two ways differ), else at `hw`; a way's ends
+ * as the kerb reads them (`spineEnds`: no cap where it ends on the ring's line, round S15).
  */
 function oracleWays(o: CorridorOurs, hw: number, e: OracleEngine): OracleResult {
-  if (o.spineHw.every((w) => w === hw)) return oracleBuffer(o.spines, hw, 'round', 'round', e);
-  return oracleBuffer(o.spines, o.spines.flatMap((s, i) => s.map(() => o.spineHw[i])), 'round', 'round', e);
+  if (o.spineEnds.every((x) => x === 'round') && o.spineWidths.every((ws) => ws.every((w) => w === hw))) return oracleBuffer(o.spines, hw, 'round', 'round', e);
+  // per end kind, the spines' buffer at their own half-widths per point; the kinds' buffers united by the engine
+  const out: OracleResult[] = [];
+  for (const end of ['round', 'square', 'flat'] as const) {
+    const idx = o.spines.map((_, i) => i).filter((i) => o.spineEnds[i] === end);
+    if (idx.length === 0) continue;
+    out.push(oracleBuffer(idx.map((i) => o.spines[i]), idx.flatMap((i) => o.spineWidths[i]), 'round', end, e));
+  }
+  let acc = out[0];
+  for (const b of out.slice(1)) {
+    if (!acc.ok) return acc;
+    if (!b.ok) return b;
+    acc = oracleBoolean('union', acc.rings, b.rings, 'nonzero', e);
+  }
+  return acc;
 }
 
 /** The oracle's kerb: F less the spines' buffer (§3.7: F − ⋃ buffer(spineᵢ, half-widthᵢ)). */
@@ -776,13 +893,62 @@ export function oracleTile(rings: readonly LatticePoint[][], i: number, e: Oracl
   return oracleBoolean('difference', [rings[i]], rings.slice(0, i), 'nonzero', e);
 }
 
+/** attractCm (§3.2 (2)): how close two boundary parts of a result may lie for attraction to join them (§13.1, §3.7). */
+const ATTRACT_CM = 26;
+
+/** The least distance between the segments a–b and c–d (doubles; 0 where they meet). */
+function segDist(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): number {
+  const cross = (o: LatticePoint, p: LatticePoint, q: LatticePoint): number => (p.x - o.x) * (q.y - o.y) - (p.y - o.y) * (q.x - o.x);
+  const d1 = cross(c, d, a);
+  const d2 = cross(c, d, b);
+  const d3 = cross(a, b, c);
+  const d4 = cross(a, b, d);
+  if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) return 0;
+  const to = (q: LatticePoint, s: LatticePoint, e: LatticePoint): number => {
+    const l2 = (e.x - s.x) ** 2 + (e.y - s.y) ** 2;
+    const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - s.x) * (e.x - s.x) + (q.y - s.y) * (e.y - s.y)) / l2));
+    return Math.hypot(q.x - s.x - t * (e.x - s.x), q.y - s.y - t * (e.y - s.y));
+  };
+  return Math.min(to(a, c, d), to(b, c, d), to(c, a, b), to(d, a, b));
+}
+
+/**
+ * Do two boundary parts of the result lie within attractCm of each other (§13.1: "two of its boundary parts lie within
+ * attractCm of each other, which attraction may join")? Two edges of different rings, or two edges of one ring that
+ * share no vertex (a neck, a spike), within `ATTRACT_CM`.
+ */
+export function partsWithinAttract(rings: readonly Ring[]): boolean {
+  const edges: { a: LatticePoint; b: LatticePoint; ring: number; i: number; n: number }[] = [];
+  rings.forEach((r, ri) => {
+    for (let i = 0; i < r.length; i += 1) edges.push({ a: r[i], b: r[(i + 1) % r.length], ring: ri, i, n: r.length });
+  });
+  for (let u = 0; u < edges.length; u += 1) {
+    for (let w = u + 1; w < edges.length; w += 1) {
+      const e = edges[u];
+      const f = edges[w];
+      // two edges of one ring that share a vertex are one boundary part there
+      if (e.ring === f.ring && (Math.abs(e.i - f.i) <= 1 || Math.abs(e.i - f.i) === e.n - 1)) continue;
+      if (segDist(e.a, e.b, f.a, f.b) <= ATTRACT_CM) return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Judges one seed clip case: each ring's pieces against the oracle's ring less every earlier ring (one draw each); a
  * refusal (detail `overlap`) only where the oracle's result for that ring has a hole — on an unattracted case exactly
  * there, and an unattracted success never where the oracle's result has one (§13.1).
  */
 export function judgeTile(h: Harness, c: TileCase): void {
-  const ours: KernelResult<Ring[][]> = tileRings(c.rings);
+  judgeTileResult(h, c, tileRings(c.rings));
+}
+
+/**
+ * `judgeTile` on a result of ours (a test plants one): a refusal (detail `overlap`) on an attracted case only where the
+ * oracle's result for that ring has a hole or two of its boundary parts lie within attractCm (§13.1; hardening round
+ * S14, notes row 6: an attracted overlap refusal was settled with neither condition read).
+ */
+export function judgeTileResult(h: Harness, c: TileCase, ours: KernelResult<Ring[][]>): void {
   if (!ours.ok) {
     if (!(ours.code === 'E_DEGENERATE' && ours.detail === 'overlap')) {
       // a typed refusal other than the design's overlap answer (N-44 (1)): counted by its class, logged for the register
@@ -796,6 +962,14 @@ export function judgeTile(h: Harness, c: TileCase): void {
     });
     const split = splitOf(o.warnings);
     if (holed.every((x) => x === false) && split === 'unattracted') keep(h, `tileRings ${c.source}: overlap refused at ring ${String(o.ring)} with no hole in either oracle's result INPUT ${JSON.stringify(c.rings)}`);
+    if (split === 'attracted') {
+      // §13.1 on any other case: a refusal only where that result has a hole or two of its boundary parts within attractCm
+      const allowed = ORACLE_ENGINES.map((e) => {
+        const r = oracleTile(c.rings, o.ring, e);
+        return r.ok ? hasHole(r.rings) || partsWithinAttract(r.rings) : null;
+      });
+      if (allowed.every((x) => x === false)) keep(h, `tileRings ${c.source}: overlap refused at ring ${String(o.ring)} on an attracted case with neither a hole nor two boundary parts within attractCm in either oracle's result INPUT ${JSON.stringify(c.rings)}`);
+    }
     settle(h, `overlap-${split}`);
     return;
   }

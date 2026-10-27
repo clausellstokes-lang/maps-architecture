@@ -14,6 +14,7 @@ import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
 import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion, opCorridorUnion } from '../../../src/arr/corridorUnion.js';
 import { outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
+import { booleans } from '../../../src/arr/booleans.js';
 import { CELLS } from '../../insert/step1-2/support.js';
 import { lin } from '../../tx/support.js';
 import {
@@ -376,9 +377,11 @@ describe('corridorUnion (§3.4, §3.7)', () => {
           } else {
             const g = have.map(parseRing);
             const e = want.map(parseRing);
-            // §3.7's attracted bound: perimeter × √2 · attractCm, the perimeter the operands' (F's) and both results'
+            // §3.7's attracted bound: perimeter × √2 · attractCm, the perimeter the operands' (F's) and both results' —
+            // on the SYMMETRIC difference (hardening round S14, notes row 11: |area(g) − area(e)| let a block moved off
+            // kerb(F) by any distance pass at equal area)
             const per = ringsOf(p, 1, f).reduce((t, q) => t + perimeter(q), 0) + e.reduce((t, q) => t + perimeter(q), 0) + g.reduce((t, q) => t + perimeter(q), 0);
-            expect(Math.abs(Number(area2Of(g) - area2Of(e))) / 2).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
+            expect(withinAttractedBound(g, e, per)).toBe(true);
           }
         }
         healthy(p);
@@ -621,6 +624,17 @@ function parseRing(s: string): ReturnType<typeof pt>[] {
   });
 }
 
+/**
+ * §3.7's attracted bound on two ring sets (non-zero): |g Δ e| ≤ perimeter × √2 · attractCm, the symmetric difference by
+ * the kernel's own boolean (`xor`, M0-a-08; an empty xor is 0).
+ */
+function withinAttractedBound(g: readonly ReturnType<typeof pt>[][], e: readonly ReturnType<typeof pt>[][], per: number): boolean {
+  if (g.length === 0 && e.length === 0) return true;
+  const x = g.length === 0 ? ok(e.map((r) => r.slice())) : e.length === 0 ? ok(g.map((r) => r.slice())) : booleans('xor', g, e, 'nonzero');
+  const area = x.ok ? Math.abs(Number(area2Of(x.value))) / 2 : x.code === 'E_DEGENERATE' && x.detail === 'empty' ? 0 : Infinity;
+  return area <= per * Math.SQRT2 * LATTICE.attractCm;
+}
+
 /** A ring's boundary length. */
 function perimeter(r: readonly { x: number; y: number }[]): number {
   let s = 0;
@@ -733,3 +747,15 @@ function residualOf(p: Plat, draw: number, face: FaceId, got: readonly string[],
   return { seed: SHARE_SEED, draw, face, read: readOnly, commit: commitOnly, attractors, hausdorffCm: hausdorff, classB };
 }
 
+describe('the random-network property’s attracted bound reads the symmetric difference (hardening round S14, notes row 11)', () => {
+  it('a block of kerb(F)’s area moved 40 cm off it fails the bound; kerb(F) itself and a block within the attraction envelope pass', () => {
+    const sq = (x: number, y: number, w: number): ReturnType<typeof pt>[] => [pt(x, y), pt(x + w, y), pt(x + w, y + w), pt(x, y + w)];
+    const e = [sq(0, 0, 1000)];
+    const per = 3 * 4000;
+    expect(withinAttractedBound([sq(0, 0, 1000)], e, per)).toBe(true);
+    // equal areas: |Δ area| = 0 — the old reading passed it; the symmetric difference is 2 × 1000 × 400 cm²
+    expect(withinAttractedBound([sq(400, 0, 1000)], e, per)).toBe(false);
+    // a block 10 cm inside kerb(F) along one side: |Δ| = 10 000 cm² ≤ 12 000 × √2 × 26
+    expect(withinAttractedBound([[pt(0, 0), pt(990, 0), pt(990, 1000), pt(0, 1000)]], e, per)).toBe(true);
+  });
+});

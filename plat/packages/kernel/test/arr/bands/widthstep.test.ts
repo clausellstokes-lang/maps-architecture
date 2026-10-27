@@ -304,9 +304,12 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
     // (3979, 286) stands 21 cm from the L0 frame (x = 4000) and its inner edge passes 17 cm from F's vertex (4000, 314):
     // both attract it, and the edge runs along F's L1 edge from (3372, 778) (35 cm off, within N-43's bound; the KI note
     // of round S9) — the kerb vertex (1802, 1894) now stands at the meeting point, so the junction is a corner wedge
+    // round S16's declared shift (the faithful read, C-0430): that read's edge (4000, 314) → (3372, 778) ran 35 cm inside
+    // way:1's band; read faithfully, its inner edge is laid through stepped points from (3937, 317), the kerb corner at
+    // (1804, 1892) and the junction still a corner wedge
     const r = chordFace(chords, [3500, 100]);
-    expect(r.kerb).toEqual(['2616,0 4000,0 4000,314 3372,778 1802,1894']);
-    expect(r.splits).toEqual(['1823,1922 1802,1894 1785,1886']);
+    expect(r.kerb).toEqual(['2616,0 4000,0 4000,314 3937,317 3896,348 3854,378 3812,409 3771,440 3729,471 3687,501 3646,532 3562,594 3521,625 3479,655 3437,686 3396,717 3354,748 3312,778 3271,809 3187,871 3146,901 3062,963 3021,994 2979,1025 2937,1055 2896,1086 2854,1117 2813,1148 2771,1178 2729,1209 2688,1240 2604,1302 2563,1332 2479,1394 2438,1425 2396,1455 2354,1486 2313,1517 2271,1548 2229,1578 2188,1609 2104,1671 2063,1702 2021,1732 1979,1763 1938,1794 1896,1825 1854,1855 1804,1892']);
+    expect(r.splits).toEqual(['1825,1920 1804,1892 1786,1884']);
   });
 
   it('a left turn whose inner edges meet far beyond reach, a kerb vertex near that point: no split to it (the corner path has a reach)', () => {
