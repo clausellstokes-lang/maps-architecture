@@ -2,8 +2,12 @@
 // re-propose and reject on a planted precision refusal; F-WORK's queue on a low growth.proposals floor; F-BUDGET-STAGE's
 // top-up and accepted shortfall on a raised demand) and S6's (F-WORK's leftover rule on a low grower.turns floor; the
 // fields one step coarser on a low field.cells floor), each through the base chain on the small flat town (400 ha,
-// 60 ha walled, seed 1) — and the same chain with nothing forced leaving none of them (§5.2; C-0085, C-0269).
+// 60 ha walled, seed 1) — and the same chain with nothing forced leaving none of them (§5.2; C-0085, C-0269). Hardening
+// round S1: the accepted shortfall forced after the top-up, in §5.2's ladder order (notes row 3; the walled skip kept as
+// a second case); route.nodes' law read by S3 from the workLimits table (notes row 7).
+import { STAGES } from '@plat/kernel';
 import { capacityCheck, type S3Slice, type S5cRecord, type S5dRecord, type S6Output } from '@plat/layout';
+import { loadWorkLimits, workLimitOf } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { LADDER_CONTROLS, LADDER_FIXTURES, ladderChain, ladderLowFloor, ladderSmallFlat, type ChainOverrides, type ChainSpec } from '@plat/testkit';
 import { plantedInsert, plantedPicks } from '../../src/ladders/fixtures.js';
@@ -35,6 +39,10 @@ describe('the plain chain', () => {
     expect(s5.growth[0].streets.length).toBeGreaterThan(0);
     expect((d.get('s6') as S6Output).report.workCut).toBeNull();
     expect((d.get('fields') as { report: { workCut: unknown } }).report.workCut).toBeNull();
+    // F-WORK's entry law (§5.1 (5); notes row 7): with no option S3's route.nodes limit is the workLimits table's law over
+    // its lattice's nodes — the table's path the low-floor fixture (work/route-s3) enters through S3's option instead.
+    expect(slice.report.routeNodesLimit).toBe(workLimitOf(loadWorkLimits().law('route.nodes'), { kind: 'stage', stage: STAGES.S3 }, { latticeNodes: slice.lattice.points.length }));
+    expect(slice.report.routeNodesLimit).toBeGreaterThan(1);
   });
 });
 
@@ -110,8 +118,21 @@ describe('F-NUM, F-WORK and F-BUDGET-STAGE on S5’s Stage objects', () => {
     expect(s5.capacity.slice(0, 2).flatMap((c) => c.rungs)).toEqual([]);
   });
 
-  it('budget/accept — stage 1 (walled) short by 50 %: its top-up is M1’s, the shortfall accepted and reported', { timeout: 300_000 }, () => {
-    expect(fixture('budget/accept').run()).toEqual({ 'S5d F-BUDGET-STAGE accept_shortfall': 1 });
+  it('budget/accept — stage 3 (unwalled) short by 75 %: one top-up, then the shortfall left accepted and reported (§5.2’s order; notes row 3)', { timeout: 300_000 }, () => {
+    expect(fixture('budget/accept').run()).toEqual({ 'S5d F-BUDGET-STAGE accept_shortfall': 1, 'S5d F-BUDGET-STAGE top_up': 1 });
+    const s5 = town('S5', { S5: { demand: (k, state) => (k === 3 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 4) } : undefined) } }).get('s5') as { capacity: S5dRecord[] };
+    const d = s5.capacity[2];
+    expect(d.topUp).toBe('grown');
+    expect(d.rungs.map((r) => [r.rung, r.why])).toEqual([
+      ['top_up', undefined],
+      ['accept_shortfall', 'remainder'],
+    ]);
+    expect(d.rungs[0]).toEqual({ cause: 'F-BUDGET-STAGE', rung: 'top_up', shortfallCm2: d.check.shortfallCm2 });
+    expect(d.rungs[1].shortfallCm2).toBeGreaterThan(0);
+    expect(s5.capacity.slice(0, 2).flatMap((c) => c.rungs)).toEqual([]);
+  });
+
+  it('budget/accept, the walled form — stage 1 (walled) short by 50 %: its top-up is M1’s, the shortfall accepted and reported', { timeout: 300_000 }, () => {
     const s5 = town('S5', { S5: { demand: (k, state) => (k === 1 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.5) } : undefined) } }).get('s5') as { capacity: S5dRecord[] };
     const d = s5.capacity[0];
     expect(d.topUp).toBe('skipped_walled');
