@@ -328,3 +328,140 @@ C2, F3 = the builder's F1, H2 – H4 survive here too, before and after). K04 an
 | N-c1-9 | **The fixed band's width is unpinned between √2 and 2 cm.** Mutant F5 (`ringsDist2(…) <= FIXED_BAND_CM * FIXED_BAND_CM` → `<= FIXED_BAND_CM`) survives (56/56), and on the pre-round sources (`<= 4` → `<= 2` at both predicates), and leaves the probe identical: no probed vertex lies between √2 and 2 cm off an earlier ring. With the builder's N-c1-5 (F2, F1) and note 12 (K04). | N-c1-5's `provedRings` case with a vertex 2 cm (not 1) off an earlier ring kept. | hardening (M4) |
 | N-c1-10 | **The right offset line's refusal precedence (W-8) is equivalent on every reachable input.** Mutant H1 (`offsetRing` returns the left line's refusal first) survives and leaves the probe identical (12 000 offset and mouth rings). The two lines can only refuse with different texts if one of them exhausts `eraseLoops`' 10 000-erasure guard (`too many loops`; the only other line refusal is `a pocket inside a pocket`, and `a repeated point` is decided before either line), so the order can only show on a line with ≥ 10 000 loops. The code keeps the old last-write order (right after left) regardless. Equivalence reasoned (PLAUSIBLE). | No test needed; if the guard is ever lowered, pin the precedence with a hand chain. | none |
 | N-c1-11 | **Three comment sentences claim a little more than the code.** (a) `offset.ts` `ON_CM`: "it pads a box test here, a squared distance there". In fact `onRings` also compares `segDist2` with `ON_CM · ON_CM`, and `fixedVertices` also box-tests the cut points with `FIXED_BAND_CM`, so the two constants do both. The plan's W-6 wording. (b) `geometry.ts` `footOn`: "a −0 parameter (q at a)", and the builder's note "only when … q = a and b strictly south-west of a, or a signed-zero coordinate pair". A −0 parameter also arises on integer inputs with q ≠ a, for example q.x = a.x, b due west of a and q south of a: (+0)·dx + (q.y − a.y)·(+0) = −0. "The zero's sign among them" also fails for a −0 coordinate of a shared by b (−0 + (+0)·t = +0), a signed-zero input that no lattice point carries. The kept clamp maps every −0 parameter to +0, so `footOn` stays bit-identical: probe B.footOn, 60 000 cases, 437 with a −0 coordinate, identical before and after. (c) `water/index.ts`'s file-level helper line omits `geometry.ts` `quot` and `polygons.ts` `SIMPLIFY_CM`, which polygons.ts's own header names. None of the three misstates a behaviour the code has. | Reword at the next comment pass: (a) "kept as its own constant (W-6); a later round may tie them"; (b) "(q at a, or q square to a along an axis b does not move on)"; (c) add the two names. | next comment pass (M4 at the latest) |
+
+## Hardening round S3 (lane `build/M0-e-03-fix-s3`, 2026-10-27; J237 (2), J264 / N-58, J290, J263 Q1 / Q6, N-45; the hardening inventory's FIX-NOW rows of M0-e-03; queue rows L26, L27 (c), (d), Q45; choices C-0434) — the builder's row-by-row outcome
+
+Inside the item's owns only (`site/src/water/`, `site/test/water/`). Sources changed: `stage.ts`, `polygons.ts` (behaviour);
+`offset.ts`, `geometry.ts`, `index.ts` (comments only; `index.ts`'s export list byte-identical — API frozen, J263 Q1;
+the one new file-level export `PART_DROPPED` in `polygons.ts` sits beside `KERNEL_RING`, outside every index). Tests:
+a new `rings.test.ts` (12 tests) and new or tightened cases in every other test file but `one-door.test.ts`; the folder
+runs 81 tests (56 before), every earlier `describe`/`it` title kept verbatim. Mirror: `waves/selfcheck-build-M0-e-03-fix-s3`
+(isolation proven: no link to the tree, `@plat/kernel` resolving inside the mirror); probes in `waves/e03s3-probes/`.
+
+### Row-by-row outcome
+
+| row | outcome | what changed | the pin (test) | mutant (red on it) |
+|---|---|---|---|---|
+| :6 note 1 (bank outfalls off the committed shore) | **FIXED** | `stage.ts` `onCommittedShores`: after `outfalls`, each bank outfall's `at` becomes the nearest point of its body's committed shore edges (`resolve(('shore', body))`), rounded to the centimetre, `cell` re-found; frame outfalls kept. §2.3: `at` "on the receiving body's shore chain" | `exit-bar.test.ts` "100 seeds …" and "three full CITY frames …": every bank outfall within √½ cm (the rounding) of a committed shore edge of its body, measured by the test's own `pointSegGap` | N1 (snap removed): 19 bank outfalls off-shore on the bar seeds, red |
+| :14 note 2 (detect-and-refuse guards) | **PINNED** | none (the guards stand) | `references-row.test.ts` "notes 2 and 6: an input Bridge whose deck_end vertices resolve to nothing …" (E_INVARIANT, `references-resolve: ` first, `{"role":"deck_end","entity":"bridge:0","ordinal":0} finds no geometry`); `faces.test.ts` "detect and refuse (note 2): a body whose seed lies in a face its own rings do not bound …" (`S1 water: an L0 face of water:river:0 has no edge of its shore`, version unchanged) | M15 (stage-end refusal off), M19 (decks out of the refs), M36 (the shore-edge refusal off): each red |
+| :21 note 3 (L0 rebuild at stage end) | **PINNED** | none | `stage.test.ts` "§3.3 (note 3): … the ground arena's L0 dynamic grid holds nothing after S1" | M16 (the rebuild skipped): red |
+| :26 note 4 (a seedless part dropped silently) | **FIXED** (make-it-succeed, then report) | `polygons.ts` `partsWithSeeds`: a part with no course point SEED_DEPTH_CM inside is seeded from `interiorSeed` (from each outer segment's midpoint along its inward normal at 101, 202, 404, 808 cm: the first point inside and 100 cm from every ring); a part with no such point (narrower than 2 m throughout) is dropped and reported in `fallbacks` as `a part with no point 100 cm inside, dropped: <area> m²` (`PART_DROPPED`). The stage's `fast` flag counts reaches (below, note 14), so such an entry never reads as a fast-ring refusal. The estuary pair's fall-back resets `fallbacks` with `reaches` | `faces.test.ts` "note 4: a part holding no course point deep inside it is seeded from an interior point; a part with no point 1 m inside is dropped and reported, never silent" (a tributary across two rivers: three parts, the middle seeded ≥ 1 m deep; rivers 1.5 m apart: two parts and the 9 m² entry) | N4a (no interior seed), N4b (no report): each red |
+| :32 note 5 (span ≤ 3 widths) | **PINNED** | none | `crossings.test.ts` "note 5: a deck longer than three widths is no crossing — a 300 m stretch where the polygon widens to 80 m on a 20 m width profile has no site". The note's "bend" reading: no bend of square corners gives a perpendicular ray longer than 3 widths over a whole window (the rays meet the inner corner), so the fixture is a basin — a polygon wider than its width profile, the filter's own subject | M22 (the filter off): red |
+| :35 note 6 (bridge ids after the input's) | **PINNED** | none | the notes 2 and 6 test above: the committed arena holds no `deck_end` of `bridge:0` and both of `bridge:1`'s | M33 (ids from 0): red (the stage then commits, two bridges named `bridge:0`) |
+| :60 note 10 (a site's deck lagging the committed deck) | **FIXED** | `stage.ts` `committedDecks`: after the commit, each site whose two `deck_end` vertices resolve (one each) where its deck's ends do not lie takes them as its deck and their distance, rounded, as its span — and its Bridge that span | `stage.test.ts` "note 10: a deck end the insertion moves is the site's deck …" (the façade moves each deck end 5 cm before inserting it: the sites read the moved ends); `exit-bar.test.ts`: every site's deck equals its resolved ends on all 103 runs, the span within 2 cm (the two ends' rounding and the span's own; an unmoved site keeps the ray span `siteCrossings` measured) | N10 (re-read off): survived the first sweep (no lag left on the family after Q45's shift), red on the added stage pin |
+| :68 note 11 (F03/F04 only on CITY frames) | **PINNED** | none | `crossings.test.ts` "note 11: the flow is averaged over one width, not over half a width nor the adjacent vertices — at a kink 10 m long and 10 m high …" (the kink's site at (7 m, 7 m): adjacent chord 45°, half-width 32°, one-width 16°) | F03, F04: red (the sweep's `--bail` stopped first at the CITY frames; the kink case is red on both too, run alone) |
+| :310 N-c1-1 (A8) | **PINNED** | none | `outfalls.test.ts` "N-c1-1: the water cells are the polygon's by each cell's own centre …": row-dependent accumulation, so the south bank's picks name the feeding row (odd columns from row 2). The fix shape's "assert `cell`" cannot see A8: `Outfall.cell` is the cell holding `at` (§2.3), which A8 does not move; the test asserts it too, and the columns kill A8 | A8: red |
+| :311 N-c1-2 (A9) | **PINNED** | none | `stage.test.ts` "sites: …" matches `lifecycle: GENERATED_AT_0` | A9: red |
+| :312 N-c1-3 (A10, C2) | **PINNED** | none | `rings.test.ts` "a round cap is a half-turn …", "a step under a centimetre, or a repeated point, is refused `a repeated point` …" | A10, C2: red |
+| :313 N-c1-4 (E6, E7, K14) | **PINNED** | none | `rings.test.ts` "a fold within RING_CLEAR_CM of itself …" (`near-touch`), "a keyhole loop keeps its pocket as a hole …" (an earlier body across the hole's side: `meets an earlier body`), "a hole the clean keeps stays a ring of the result …" | E6, E7, K14: red |
+| :314 N-c1-5 (F1, F2; with N-c1-9 F5, note 12 K04) | **PINNED** | none | `rings.test.ts` "the fixed band is 2 cm: a vertex 2 cm off … kept; one 3 cm off is dropped", "the estuary cut's two bank points stay through the clean …" (a 63° estuary: the cut's corner a needle under 30°) | F1, F2, F5, K04: red |
+| :315 N-c1-6 (H2 – H4) | **PINNED** | none | `rings.test.ts` "a meander whose pocket holds a pocket: `offset: a pocket inside a pocket` …", "a joined tributary whose offset lines cross no earlier ring: `mouth: no mouth`"; `exit-bar.test.ts` "three full CITY frames …" pins each frame's `fallbacks` texts (4: the river's, 10: the river's and the tributary's `offset: a pocket inside a pocket`, 3: none). H1 stays equivalent (N-c1-10) | H2, H3, H4: red |
+| :326 N-c1-7 (I1) | **PINNED** | none | `crossings.test.ts` "N-c1-7: each end keeps the clearance — the other body on the south bank …" | I1: red |
+| :327 N-c1-8 (checker's E6, E7) | **PINNED** | none | `rings.test.ts` "a ring both not simple and near-touch is refused `not clear (not simple)` …", "the same U with a bank 30 cm off the arena's edge is refused `near the edge` …" | E6c (clearRing first), E7c (proofs before the edge test): red |
+| :330 N-c1-11 (three comment sentences) | **FIXED** (comment-only; the text is the deliverable) | (a) `offset.ts` `ON_CM`: "kept as its own constant (W-6); a later round may tie them. Each pads a box test and bounds a squared distance (here `onRings`; there the cut points' box and `fixedVertices`' distance to the rings)"; (b) `geometry.ts` `footOn`: "reads a −0 parameter (q at a, or q square to a along an axis b does not move on) as +0, so the point … is the one the clamp `Math.min(1, Math.max(0, t))` gave before R3, bit for bit" (the C1 probes' 60 000 cases); (c) `water/index.ts`'s file-level line adds `geometry.ts` `quot`, `polygons.ts` `PART_DROPPED`, `SIMPLIFY_CM` | — | — |
+| L26 (queue; the stage's reader of a-05's structured refusal) | **REPORTED** | none: the gate's condition fails — `kernel/src/num/result.ts`'s refusal arm is still `{ ok: false; code; detail; partial? }` after a-05's S9 – S11 (S9 reported L26 as a `KernelResult` change, the session's ruling; S10 and S11 did not add it). The regex `/\(shore, ([^)]+)\)/` at `stage.ts` stays. The field's proposed shape (a-05 notes, S9 PROPOSED (4)): `rows?: readonly { role: string; entity: string }[]` on the refusal arm, set by `tx/tx.ts`'s role-consistency refusal and `invariants/batch.ts`'s, read by `stage.ts` in place of the regex; the message texts unchanged (J263 Q6) | — | — |
+| L27 (c) (exit-bar's oracle independence) | **FIXED** | `support.ts` `segGap` / `pointSegGap` (floating point, the test's own); `exit-bar.test.ts` measures the 40 m spacing with `segGap`, no longer with `src`'s `segSeg2` | — | — |
+| L27 (d) notes 12, 13, 14, 16 | **PINNED** | note 14's subject changed (below) | 12: the 2 cm band case (K04 red) and the bar's refused bound tightened to 0 (Q45); 13: `slow-rings.test.ts` the loop river's fallback and the stage's refusal name its fast ring's own cause `hole outside`; 14: `slow-rings.test.ts` "note 14: a body refused on both polygons does not stop the slow-only retry …" (a looped tributary refused on both, the river's first insertion refused by a planted façade refusal: retried, the river committed); 16: `references-row.test.ts` "note 16: a planted breach (margin | land | river) …", each refused row-first naming its reference | K04, K13, K18, K09, K10, K11: red |
+| Q45 (census; bar seed 62's tributary) | **FIXED — MAKE-IT-SUCCEED** | `polygons.ts` `prolonged`: a chain ending on the arena's edge is prolonged by its width plus a metre, doubled (at most six times) until both offset points of the prolonged end lie outside the arena. The diagnosis differs from note 7's: seed 62's tributary is refused at its INLET, not its mouth — its course enters the south edge 17° off it, the 400 cm prolongation leaves the flat end's left corner 27 cm inside the arena, and the fast ring is refused `near the edge`; its kernel ring then fails `meets an earlier body`. Neither offered alternative (the mouth cut, the course extended to the river) is the fault; the design's text decides for the prolongation: §4.1's S1 row ("a sea or river reaching the arena's edge shares that ring") and the file's own rule (C-0229 (2): "the clip, not a cap, shapes that end") | `exit-bar.test.ts`: refused `toBe(0)` (was `≤ 3`); `rings.test.ts` "a 20 m river entering 5.7° off the west edge: its fast ring stands, and every vertex off the edge keeps the half-width from it" | Q45 (the doublings off): red on the bar (refused 1) and on the hand case |
+
+### The declared shift (J237 (3); C-0434)
+
+Measured by the mirror's family probe (`zz-family.test.ts`: per run the bodies, dropped, retried, fallbacks, sites,
+bridges, land, versions, stage-end rows, warnings, outfalls and a hash of the arena's print), before (the pre-round sources)
+and after (the round's), the exit bar's 100 seeds at 100 ha and the full CITY frames 4, 10, 3:
+
+* **Q45's prolongation** moves the arena on 42 of 103 runs (seeds 3, 6, 11 – 13, 18, 19, 21, 29 – 31, 33, 36, 37, 44, 46,
+  48, 56, 58, 59, 62, 64, 67, 68, 70, 72, 74 – 76, 78 – 81, 83, 84, 86, 87, 90, 92, 96, 98 at 100 ha and frame 3): S1 (3)'s
+  inlets commonly enter at a grazing angle (seed 11's river 9° off the south edge: the old end's corner 3.3 m inside the
+  arena, a cut across the water with land between it and the edge). Ten bodies' fast rings now stand that were refused
+  `near the edge` (seeds 21, 62, 64, 67, 70, 78, 79, 83, 86, 92); the fallbacks fall from 18 to 8; sites 961 → 964.
+* **Note 1** moves bank outfalls by at most 1.4 cm on the 61 runs whose arena is unchanged (122 of 4 426; no `cell`
+  changes there), and by up to the old 22 cm where the arena moved.
+* **Note 10** changes no site on the unchanged runs (no deck lag there); where the arena moved the sites are the
+  committed decks.
+* The seven SMALL_RIVER class-A seeds of `slow-rings.test.ts` (Q20, N-56 (1)) now stand on the fast ring, unplanted;
+  the test keeps its title and its subject (the kernel's proved ring committing through the registered composition) by
+  refusing each fast ring's first insertion on the façade (a planted kernel refusal), so the stage's slow-only retry
+  takes the proved ring: `fallbacks` `slow only`, `retried` true (both expectations re-pinned there).
+* No golden or digest of this item records S1's arena; the RELATED run reports any other item's test that does.
+
+### The refusal census (J264 (4), N-58) and verdicts (J290)
+
+The registered family (the exit bar's 100 seeds at 100 ha plus the CITY frames 4, 10, 3), before → after: refused
+bodies **1 → 0** (seed 62's tributary), stage refusals 0 → 0, `retried` 0 → 0. The one refusal was OUR OWN
+INTERMEDIATE (the tributary's polygon, built by this stage from S1 (3)'s lawful course) — verdict MAKE-IT-SUCCEED, done
+(the census lowers, Q45). No refusal remains in the family.
+
+### The round's mutant table (J169, J183)
+
+37 targeted mutants in the mirror, each `vitest run --maxWorkers=1 --bail=1 packages/site/test/water/` (the whole
+folder, B-FUZZ-free), the mutated file restored from the tree and `cmp`-equal after each: **36 red**, one equivalent
+survivor. First red titles abbreviated; full in `waves/e03s3-probes/mutants.log`.
+
+| id | aimed at | first red |
+|---|---|---|
+| N1 | note 1, the snap | exit bar "100 seeds …" (19 off-shore) |
+| M15 / M19 / M36 | note 2's guards | references-row "a planted breach (dangling) …" ×2; faces "detect and refuse (note 2) …" |
+| M16 | note 3 | stage "§3.3 (note 3) …" |
+| N4a / N4b | note 4 | faces "note 4: …" ×2 |
+| M22 | note 5 | crossings "note 5: …" |
+| M33 | note 6 | references-row "notes 2 and 6: …" |
+| N10 | note 10 | stage "note 10: …" (survived the first sweep before that pin was added) |
+| F03 / F04 | note 11 | exit bar "three full CITY frames …" (the kink case red on both, run alone) |
+| A8 / A9 / A10 / C2 | N-c1-1 – 3 | outfalls "N-c1-1 …"; stage "sites: …"; rings "a round cap …"; rings "a step under a centimetre …" |
+| E6 / E7 / K14 | N-c1-4 | rings "a fold …", "a keyhole loop …", "a hole the clean keeps …" |
+| F1 / F2 / F5 / K04 | N-c1-5, N-c1-9, note 12 | rings "the estuary cut's …", "the fixed band is 2 cm …" ×3 |
+| H2 / H3 / H4 | N-c1-6 | rings "a meander …" ×2, "a joined tributary …" |
+| I1 | N-c1-7 | crossings "N-c1-7: …" |
+| E6c / E7c | N-c1-8 | rings "a ring both not simple and near-touch …", "the same U …" |
+| K13 / K18 | notes 13, 14 | slow-rings "S1: the river so refused …", "note 14: …" |
+| K09 / K10 / K11 | note 16 | references-row "note 16: a planted breach (margin / land / river) …" |
+| Q45 | Q45 | exit bar "100 seeds …" (refused 1); rings "a 20 m river entering 5.7° …" (run alone) |
+| PD | the `fast` flag's `PART_DROPPED` filter | **survives — equivalent**: a `PART_DROPPED` entry arises only from the kernel's rings (a fast ring is one part), so its body always carries a fast-ring refusal entry too and is slow either way |
+
+### Notes (not failing lines)
+
+| id | note | handling |
+|---|---|---|
+| S3-1 | The fast flag now counts reaches (`reaches.some(r => no fast-ring refusal of r.body)`): beside note 14's case it also no longer counts an `estuary not split` entry (an estuary that is no reach), which under the old count could read "no fast ring" with the river's fast ring standing and skip the slow-only retry. No probed seed has a refused batch in that shape. | stated in C-0434 |
+| S3-2 | `stage.test.ts`'s seed-2 span check stays `≤ 1` cm; the exit bar's is 2 cm: an unmoved site keeps `siteCrossings`' ray span, which two lattice roundings can put up to ≈ 1.4 cm off the ends' distance (seeds 4 and 10 of the full frames: 1.3 cm, 1.0 cm). | — |
+| S3-3 | Q45's prolongation makes a course that runs nearly along the edge reach up to 64 times its first length outside (clipped away); a course parallel to the edge inside the arena is still capped by the clip's own geometry, a rare-case shape no probed seed shows. | hardening (M4) if ever seen |
+
+### Gates and RELATED (J193; W = 1)
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1 185 files, 0 errors, 0 warnings; `lint: probe-red ok`; 9 whole-tree
+checks); `build` 0; NEAR `vitest run packages/site/test/water/` 9 files, 81 / 81, exit 0; RELATED@1000 over `stage.ts`,
+`polygons.ts`, `offset.ts`, `geometry.ts`, `index.ts` (6 161 s): 233 files, 2 888 passed, **3 failed**, exit 1:
+
+* `testkit/test/edge/repins.test.ts:77` "EP-01/S5a/coincident at seed 1658509524 …" (`absorbed`) — **foreign**: red on
+  the pre-round water sources too (replayed in the mirror), M0-a-05 S9's declared shift, as `checks/M0-a-05-s10.md`
+  recorded it; not this round's.
+* `testkit/test/edge/repins.test.ts:77` "EP-01/S1/self-touching at seed 2651453823 …" (`laddered`, not `refused-safe`)
+  and `testkit/test/edge/ep01-s1-s3-s4.test.ts:20` "EP-01/S1/self-touching" — **this round's declared shift** (Q45), in
+  M0-x-06's pins: the planted bow-tie fires on the first shore insertion; before, on these seeds the fast ring was refused
+  `near the edge`, so the plant hit the kernel's ring and no rung was left; now the fast ring stands, the plant hits it,
+  and the stage's slow-only retry commits (laddered). A mirror probe of the fixture's 1 000-seed family
+  (`edgeSeeds('EP-01/S1/self-touching', 1000)`): laddered 996, refused-safe 4 (was 33 of 1 000): 3167842014, 2971082141,
+  382546462 (in the pin's list) and 2893352673 (new — its retry's kernel ring refused under the plant). Green on the
+  pre-round sources (replayed).
+
+### PROPOSED for M0-x-06's round (not edited; another item's files)
+
+1. `packages/testkit/src/edge/ep01.ts` S1 `'self-touching'`: `share: '4 of 1 000'`, `seeds: [3167842014, 2971082141,
+   382546462, 2893352673]` (in the family's order), the cause's tail "the other 996 seeds are laddered on S1's retry".
+2. `packages/testkit/test/edge/repins.test.ts`'s `REFUSED` row `['EP-01/S1/self-touching', 2651453823, …]`: the seed
+   becomes the family's first refused seed of the new list (by `edgeSeeds` order), its words unchanged ("the river's ring
+   was refused on the kernel's polygons"); seed 2651453823 can join the laddered pins.
+
+### The closing check's notes (lane `check/M0-e-03-close-s3`, 2026-10-27; verdict `checks/M0-e-03-s3.md`)
+
+None of these is a blocker (N-45; the brief's blocker rule). The probes and mutants ran in this seat's own mirrors
+`waves/check-M0-e-03/m1` (the tree's code), `m2` (the pre-round water sources, = the consolidate-1 record 20/20, read
+from main's index blobs by Python, no git) and `m3` (mutants), never in `plat/`.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 | **The snap's `cell` re-finding is unpinned (mutant R1c survives).** R1c keeps the stale `cell` when `onCommittedShores` moves a bank outfall's `at` (`return { ...o, at }`). It passes `stage.test.ts` and `exit-bar.test.ts`, and it is equivalent on every input met: 0 of 10 439 bank outfalls over 260 runs (the exit bar's 100 seeds, the CITY frames 4/10/3, 157 SMALL_RIVER seeds) change cell under it, because after Q45 the snap moves a point by about a centimetre and never across a 25 m hydro cell edge there. The tree's code holds the rule (0 mismatches of `cell` against the cell holding `at` on the same runs). It is not provably equivalent, since a snap of up to `attractCm` across a grid line is reachable in principle. **CONFIRMED** (probe `zz-chk-s3.test.ts`, field `cellMismatch`). | A hand-built case: a planted façade that moves a shore vertex so that a bank point's foot crosses a hydro cell edge, then assert `cell === cellIndexAt(hydro, at)`. Or assert that rule over the bar seeds beside the distance check (this cannot kill R1c today). | hardening (M4) |
+| N-s3c-2 | **Q45's prolongation can create a `near the edge` fast-ring refusal where none was before.** The net effect is fewer: the exit bar's family goes from 15 to 5, SMALL_RIVER (157 seeds, unplanted) from 8 to 1. But SMALL_RIVER seeds 1890815356 and 2893352673 gain one each: their fast rings stood before the round and are now refused, and their kernel rings commit. Diagnosis on 2893352673: the river runs within metres of the north edge and leaves it at 1.6°. The doubling prolongs the chain about 35 m along the edge outside. Douglas–Peucker over the longer chain then keeps a clipped vertex 20 cm inside the edge, 150 m upstream. 1890815356's vertex is 46 cm inside. Unplanted, both commit (lawful census `[]`). Under EP-01/S1/self-touching's plant, 2893352673 moves from laddered to refused-safe (N-s3c-3). This fails safe, and it is the builder's S3-3 shape seen on seeds. **CONFIRMED** (probes `zz-chk-s3`, `zz-diag`). | Prolong only as far as the clip needs (or simplify the course before prolonging), so that the DP chord does not reach back along the edge. Re-measure the near-the-edge count on SMALL_RIVER and the EP-01 family. | hardening (M4) |
+| N-s3c-3 | **For the session (routing): RELATED's two item-attributed reds are the declared shift in M0-x-06's pins.** The first is `testkit/test/edge/repins.test.ts` "EP-01/S1/self-touching at seed 2651453823 …": the seed is now laddered. The second is `ep01-s1-s3-s4.test.ts` "EP-01/S1/self-touching": seed 2893352673 is refused but the pin does not name it (N-s3c-2). Both are green on the pre-round water sources (mirror `m2`) and red on the round's (`m1`). This seat replayed the pin's 33 seeds plus the family's first 40: before, all 33 pinned seeds were refused-safe and 2 of the first 40 were refused; after, 3 of the 33 are refused-safe (3167842014, 2971082141, 382546462), the other 30 are laddered, and 1 of the first 40 is refused (2893352673). Every run had `problems` `[]` and a lawful census of `[]`. The builder's 1 000-seed count, 33 → 4, matches. C-0434's declared shift names the root (the class-A seeds' fast rings stand) but not these pins or the new refused seed. The notes' "PROPOSED for M0-x-06's round" does, and its re-pin text is right on this seat's replay. The files are another item's, which rule (1) forbids this round to touch. | The session routes the PROPOSED re-pin (ep01.ts's S1 `self-touching` share and seeds; repins.test.ts's REFUSED seed) to M0-x-06's next round after this item commits. When C-0434 is next touched, state the testkit pins' shift in its declared-shift sentence. | session / M0-x-06 |
+| N-s3c-4 | **For the session: the round's author disclosed a read-only `git log` in its ledger row L-0673** ("one read-only `git log` slipped into a shell line early (its output discarded, nothing used)"). The working rules say no git command of any kind. Nothing read lies under a clean-room path, and the row discloses it, so this is no clean-room breach. | The session's ruling, if any. | session |
