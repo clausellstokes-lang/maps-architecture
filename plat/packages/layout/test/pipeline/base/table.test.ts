@@ -241,6 +241,19 @@ describe("S8's per-district values and widths (C-0264 (6))", () => {
     expect(districtValue(field([{ owner: 'd', cells: 0, value: 1 }, { owner: 'd', cells: 2, value: 0.5 }]), 'd')).toBeCloseTo(0.5, 12);
   });
 
+  it('a district that owns no face of the field has no value: a RangeError naming it, never the field’s value at the origin (C-0432 (3))', () => {
+    const f = {
+      ...field([
+        { owner: 'd:1', cells: 3, value: 0.2 },
+        { owner: null, cells: 7, value: 0.0 },
+      ]),
+      field: 'density',
+    } as unknown as ScalarField;
+    expect(() => districtValue(f, 'd:2')).toThrow(RangeError);
+    expect(() => districtValue(f, 'd:2')).toThrow(/^districtValue: the district d:2 owns no face of the density field \(C-0432 \(3\)\)$/);
+    expect(districtValue(f, 'd:1')).toBeCloseTo(0.2, 12);
+  });
+
   it("a way's width: its scalar, or its widest width-knot run's", () => {
     expect(wayWidthCm({ width: 600 as never })).toBe(600);
     expect(wayWidthCm({ width: { knotRole: 'width_knot', values: [800, 1200, 1200, 1000], interp: 'linear' } as never })).toBe(1200);
@@ -273,6 +286,45 @@ describe('base.ts is the one file that names every M0 stage (C-0077; the checker
       return factories.every((n) => new RegExp(`\\b${n}\\b`).test(text));
     });
     expect(naming.map((f) => relative(root, f))).toEqual(['layout/src/pipeline/base.ts']);
+  });
+
+  it('no other source file of the shipped packages imports more than one stage factory (x-04 note 7; C-0432 (6))', () => {
+    // The shipped packages (§14: kernel ← model ← tables ← site ← layout): testkit is no such package — it imports every
+    // package and nothing shipped imports it, and its harnesses compose stages by design (M0-x-05's ladder chain,
+    // M0-x-06's edge chain) — so the stricter rule reads the shipped sources; the test above reads every package.
+    const root = fileURLToPath(new URL('../../../../', import.meta.url));
+    const factories = new Set(['s1Stage', 's4Stage', 's5aStage', 's5bStage', 's5cStage', 's5dStage', 's6Stage', 's8Stage', 's3Slice', 'commitS3Slice']);
+    const files: string[] = [];
+    const walk = (dir: string): void => {
+      for (const name of readdirSync(dir)) {
+        const p = join(dir, name);
+        if (statSync(p).isDirectory()) walk(p);
+        else if (name.endsWith('.ts')) files.push(p);
+      }
+    };
+    const shipped = ['kernel', 'model', 'tables', 'site', 'layout'];
+    for (const pkg of shipped) walk(join(root, pkg, 'src'));
+    expect(files.length).toBeGreaterThan(100);
+    // every value import `import { a, b as c } from '…'` (type-only imports and names name nothing that runs)
+    const imports = /import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"][^'"]+['"]/g;
+    const count = new Map<string, string[]>();
+    for (const f of files) {
+      const text = readFileSync(f, 'utf8');
+      const names = new Set<string>();
+      for (const m of text.matchAll(imports)) {
+        if (m[1] !== undefined) continue;
+        for (const part of m[2].split(',')) {
+          const item = part.trim();
+          if (item.startsWith('type ')) continue;
+          const name = item.split(/\s+as\s+/)[0].trim();
+          if (factories.has(name)) names.add(name);
+        }
+      }
+      if (names.size > 0) count.set(relative(root, f), [...names].sort());
+    }
+    expect(count.get('layout/src/pipeline/base.ts')).toEqual([...factories].sort());
+    const others = [...count].filter(([f, names]) => f !== 'layout/src/pipeline/base.ts' && names.length > 1);
+    expect(others).toEqual([]);
   });
 });
 
@@ -343,6 +395,22 @@ describe("S8's input from S5's and S6's records and the fields (C-0264 (6))", ()
       ['way:a', 600],
       ['way:b', 1200],
     ]);
+  });
+
+  it("the base's S8 refuses E_INVARIANT, before it reads a value, a district that owns no face of pass 1's prosperity or density field (C-0432 (3))", () => {
+    const s8 = byName('S8');
+    const named = (name: string, pairs: [string, number, number][]): ScalarField => ({ ...field(pairs), field: name }) as unknown as ScalarField;
+    const fields = { prosperity: named('prosperity', [['district:1', 2, 0.2], ['district:2', 1, 0.9], ['district:3', 0, 0.5]]), density: named('density', [['district:1', 1, 0.7], ['district:2', 3, 0.1], ['district:3', 1, 0.3]]) };
+    // density without district:2
+    const noDensity = { ...input, fields: { ...fields, density: named('density', [['district:1', 1, 0.7], ['district:3', 1, 0.3]]) } };
+    expect(s8.run(noDensity as never, ctx as never)).toEqual({ ok: false, code: 'E_INVARIANT', detail: "S8: the district district:2 owns no face of pass 1's density field — no value to cut it by (C-0264 (6), C-0432 (3))" });
+    // prosperity is read first: without district:3 there (and district:2 still without density), prosperity's is named
+    const noProsperity = { ...noDensity, fields: { ...noDensity.fields, prosperity: named('prosperity', [['district:1', 2, 0.2], ['district:2', 1, 0.9]]) } };
+    expect(s8.run(noProsperity as never, ctx as never)).toEqual({ ok: false, code: 'E_INVARIANT', detail: "S8: the district district:3 owns no face of pass 1's prosperity field — no value to cut it by (C-0264 (6), C-0432 (3))" });
+    // every district covered: the check passes and the stage goes on to its item (here refused for want of a façade)
+    const covered = s8.run({ ...input, fields } as never, ctx as never) as { ok: boolean; detail?: string };
+    expect(covered.ok).toBe(false);
+    expect(covered.detail).toMatch(/^S8: its record lacks the façade/);
   });
 
   it('a district S6 gave no lineage is a programming error', () => {
