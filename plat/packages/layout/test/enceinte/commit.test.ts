@@ -3,8 +3,9 @@
 // `border` chain crossing no L0 edge; the plaza as a barrier face carrying `reserved`, C-0032 (12)).
 import { describe, expect, it } from 'vitest';
 import { arenaReach } from '@plat/site';
-import { commitOuterRing, commitS3Batch, outerRing, PLAZA_ID } from '../../src/index.js';
-import { area2, closedChain, edgesOf, edgesWith, GROUND, handBuildWater, insideRing, kernelFor, P, riverRing, smallCommitted, smallSite, verticesWith } from './support.js';
+import { commitOuterRing, commitS3Batch, commitS3Slice, flatFixture, outerRing, PLAZA_ID } from '../../src/index.js';
+import { STAGES, type StageId } from '@plat/kernel';
+import { area2, closedChain, edgesOf, edgesWith, GROUND, handBuildWater, insideRing, kernelFor, P, ringDist, riverRing, smallCommitted, smallSite, verticesWith, WALL } from './support.js';
 import { s3Slice } from '../../src/index.js';
 
 const key = (q: { x: number; y: number }): string => `${String(q.x)},${String(q.y)}`;
@@ -127,4 +128,37 @@ describe('S3\'s L1 batch (§4.1 S3: the map border, then the plaza as a barrier 
     expect(commitS3Batch(slice, k).ok).toBe(true);
     expect(k.plat(GROUND).version).toBe(v + 1);
   });
+});
+
+describe('the slice\'s trace keeps out of the plaza (N-39, A08: `traceWithStrips` hands the S3 batch\'s plaza to the strategy)', () => {
+  it('a 3 ha town (its plaza 26.8 m inside the outline) under a field pulling the line toward the plaza: the trace is held on its ring, never inside', () => {
+    const site = flatFixture(1, { frameAreaHa: 400, walledHa: 3 });
+    const slice = s3Slice(site);
+    const ring = slice.plaza.ring;
+    const c = { x: ring.reduce((t, q) => t + q.x, 0) / ring.length, y: ring.reduce((t, q) => t + q.y, 0) / ring.length };
+    const { plat, k } = kernelFor(site);
+    const r = commitS3Slice(slice, k, { costField: (p) => Math.hypot(p.x - c.x, p.y - c.y) / 100 });
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    const wall = closedChain(plat, WALL);
+    expect(wall.filter((q) => insideRing(ring, q))).toEqual([]);
+    // The pull reaches the plaza: some wall vertex stands on its ring.
+    expect(wall.some((q) => ringDist(q, ring) < 1)).toBe(true);
+  }, 120_000);
+});
+
+describe('the slice\'s commits report the trace\'s warnings, then the strips\' (N-39, A07; C-0336)', () => {
+  it('a way\'s vertex 10 cm off the boundary draws the trace onto it: commitS3Slice\'s warnings begin with the trace\'s W_ATTRACTED there', () => {
+    const site = smallSite(3);
+    const slice = s3Slice(site);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    // A stub on L1 from 10 cm outside the middle of the outline's sixth side, 3 m out (S4 lays ways at L1).
+    const spec = { key: GROUND, level: 1 as const, ops: [], expect: [], onFail: 'reject' as const, batch: { kind: 'stage' as const, stage: STAGES.S4 as StageId }, stage: STAGES.S4 as StageId, rederivesFrom: STAGES.S4 as StageId, workLimit: 1_000_000 };
+    const X = P(-8274, -22959);
+    expect(k.tx(spec, (o) => k.geom.insertChain(o, [X, P(-8266, -23259)], [{ role: 'way', entity: 'way:x' }], 'mandatory', {})).ok).toBe(true);
+    const r = commitS3Slice(slice, k, { outerRing: 'present' });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.warnings[0]).toEqual({ code: 'W_ATTRACTED', count: 1, at: X });
+  }, 60_000);
 });

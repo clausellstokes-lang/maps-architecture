@@ -19,7 +19,8 @@
 // C-0226 (4)); the band less the attraction distance, as the pull's. A side the pass changed that is not proved to keep
 // the band (`sideHolds`: a run of guarded vertices can still bow a side out of it), or that lies over a barred ring
 // (N-54 (1)), has its moved ends put back for that pass (C-0232 (1)). The band is measured from the boundary as given.
-// The result is rounded to the lattice.
+// The result is rounded to the lattice and its rounded sides proved again (N-9, N-11): a side the rounding carried out of
+// the band or over a barred ring has its moved ends put back where the passes found them.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
@@ -267,5 +268,27 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
     }
     cur = next;
   }
-  return cur.map((p, i) => (pinned[i] === 1 ? { x: line[i].x, y: line[i].y } as LatticePoint : lat(p)));
+  // The rounded points proved (N-9, N-11): the passes prove their sides on doubles, and the lattice's rounding can carry a
+  // side up to √½ cm further (past the band's limit, or deeper than the water's tolerance). A side of the rounded result
+  // that is not proved has its moved ends put back where the passes found them (rounded), until every side whose ends
+  // moved is proved; a side neither of whose ends moved is the input's, and is left to it.
+  const out = cur.map((p, i) => (pinned[i] === 1 ? { x: line[i].x, y: line[i].y } as LatticePoint : lat(p)));
+  const home = line.map((p, i) => (pinned[i] === 1 ? { x: p.x, y: p.y } as LatticePoint : lat(p)));
+  const away = (v: number): boolean => out[v].x !== home[v].x || out[v].y !== home[v].y;
+  for (let guard = 0; guard <= n; guard += 1) {
+    let reverted = false;
+    for (let i = 0; i < n; i += 1) {
+      const j = i + 1 === n ? 0 : i + 1;
+      if (!away(i) && !away(j)) continue;
+      if (sideHolds(out[i], out[j], ring0, limit) && !wet.over(out[i], out[j])) continue;
+      for (const v of [i, j]) {
+        if (away(v)) {
+          out[v] = home[v];
+          reverted = true;
+        }
+      }
+    }
+    if (!reverted) break;
+  }
+  return out;
 }

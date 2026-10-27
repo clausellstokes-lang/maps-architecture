@@ -4,9 +4,12 @@
 // records, the smoothing and the simplify's bounds read from walls.json, barrier closure as the identity, the policy's
 // staged branches, and the run's determinism.
 import { describe, expect, it } from 'vitest';
-import { STAGES, type Kernel } from '@plat/kernel';
+import { STAGES, type Kernel, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { baseEnceinte, commitOuterRing, commitS3Slice, ENCEINTE_STRATEGY_ID, flatFixture, s3Slice, siteContext, traceBase } from '../../src/index.js';
+import { ccw, departure, DEPARTURE_TOL_CM, lat, openRing } from '../../src/enceinte/plane.js';
+
+const PINNED_OUTWARD = { moved: 165, line: 78, departureCm: 3943.41539784994 };
 import { cityCommitted, closedChain, commitSite, densify, edgesOf, edgesWith, GROUND, handBuildWater, kernelFor, maxDeparture, P, ringDist, smallCommitted, smallSite, verticesWith, WALL, wallsWith } from './support.js';
 
 const SEEDS = [1, 7];
@@ -25,7 +28,11 @@ describe('§4.2 S3 (9)\'s test on the CITY flat fixture', () => {
       // Measured here from the arena, every 50 cm along the committed wall, against the slice's boundary outline.
       const dep = maxDeparture(wall, c.slice.levelSet.outline);
       expect(dep).toBeLessThanOrEqual(4000);
-      expect(Math.abs(dep - c.commit.traced.report.departureCm)).toBeLessThan(150);
+      // The report's figure is the exact largest distance to within its stated tolerance below it (N-7); the 50 cm samples
+      // here read at most 25 cm below the exact one.
+      const rep = c.commit.traced.report.departureCm;
+      expect(dep).toBeLessThanOrEqual(rep + DEPARTURE_TOL_CM);
+      expect(rep - dep).toBeLessThanOrEqual(25);
     }, 60_000);
   }
 });
@@ -70,6 +77,105 @@ describe('§4.2 S3 (9)\'s band held on every side, measured from the arena (C-02
     // Refused before the batch, by the proof on the line (not left to the batch's own check after the insertion).
     expect(r.detail).toMatch(/^band: the trace departs from its boundary by more than 4000 cm on \d+ side\(s\)/);
     expect(edgesWith(plat, 'wall')).toEqual([]);
+  }, 60_000);
+});
+
+describe('the departure measure (N-7): the exact largest distance, to a stated tolerance', () => {
+  it('reads a side\'s farthest point between metre samples: never above the exact value, never more than DEPARTURE_TOL_CM below it', () => {
+    // A side from (0, −50.5) m to (0, 50) m inside a 200 m square: its distance from the ring is 100 m − |y|, largest at
+    // y = 0, which metre samples along the 100.5 m side miss by 24.75 cm.
+    const ring = [P(-10000, -10000), P(10000, -10000), P(10000, 10000), P(-10000, 10000)];
+    const d = departure([P(0, -5050), P(0, 5000), P(-3000, 0)], ring);
+    expect(DEPARTURE_TOL_CM).toBe(0.5);
+    expect(d).toBeLessThanOrEqual(10000);
+    expect(d).toBeGreaterThanOrEqual(10000 - DEPARTURE_TOL_CM);
+  });
+});
+
+describe('the band proved again inside the batch, on the wall as committed (C-0232 (2); N-8)', () => {
+  // A 300 m round town (a vertex every 2°) with a 60 m bay bowed into its east side, under a field asking for more than
+  // the band: the pulled line stands 39.74 m out, and the simplify's chord across the bay's bottom, from (280.78, 8.24) m to
+  // (284.84, 21.22) m, runs 39.93 m from the boundary at its farthest (the simplify holds sides to the band less 1 cm).
+  const BAY: LatticePoint[] = [];
+  for (let i = 0; i < 360; i += 2) {
+    const d = ((i + 180) % 360) - 180;
+    const r = 30000 - (Math.abs(d) < 30 ? 6000 * Math.cos((d / 30) * (Math.PI / 2)) ** 2 : 0);
+    BAY.push(P(Math.round(r * Math.cos((i * Math.PI) / 180)), Math.round(r * Math.sin((i * Math.PI) / 180))));
+  }
+  const GATE: GateSite[] = [{ ordinal: 0, at: BAY[90], bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false }];
+  const outward = (p: { x: number; y: number }): number => -Math.hypot(p.x, p.y) / 100;
+  const L1: KernelTx = { key: GROUND, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S4 as StageId }, stage: STAGES.S4 as StageId, rederivesFrom: STAGES.S4 as StageId, workLimit: 1_000_000 };
+
+  it('a way\'s vertex 25 cm beyond that chord\'s farthest point, 40.18 m from the boundary: the insertion routes the wall through it (§3.6 step 3) and the batch is refused E_INVARIANT `band`, nothing written', () => {
+    const site = smallSite(2);
+    const { plat, k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    expect(k.tx(L1, (o) => k.geom.insertChain(o, [P(28282, 1392), P(29282, 1392)], [{ role: 'way', entity: 'way:stub' }], 'mandatory', {})).ok).toBe(true);
+    const r = traceBase(BAY, GATE, [], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k, { costField: outward });
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.code).toBe('E_INVARIANT');
+    expect(r.detail).toMatch(/^band: the inserted trace departs from its boundary by more than 4000 cm from /);
+    expect(edgesWith(plat, 'wall')).toEqual([]);
+  }, 60_000);
+
+  it('without the way the same trace commits, its chord across the bay 39.93 m out at most (the line the batch was given keeps the band)', () => {
+    const site = smallSite(2);
+    const { plat, k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const r = traceBase(BAY, GATE, [], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k, { costField: outward });
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    if (!r.ok) return;
+    const wall = closedChain(plat, WALL);
+    expect(wall.some((q) => q.x === 28078 && q.y === 824)).toBe(true);
+    expect(wall.some((q) => q.x === 28484 && q.y === 2122)).toBe(true);
+    const dep = maxDeparture(wall, BAY, 10);
+    expect(dep).toBeGreaterThan(3990);
+    expect(dep).toBeLessThanOrEqual(3999);
+  }, 60_000);
+});
+
+describe('the band measured from the boundary as given, never the ring after the water splice (C-0232 (3); N-9)', () => {
+  // A 300 m round town (a vertex every 2°) crossed by a 40 m river (x 200–240 m). Where the boundary crosses it in the
+  // north its course in the water leaves the circle 10 cm inside each shore and bows 24 m out (north) between: the
+  // crossing's chord between the two banks lies on the spliced ring, and its middle 16 m and more from the boundary as
+  // given.
+  const onCircle = (x: number): LatticePoint => P(x, Math.round(Math.sqrt(30000 ** 2 - x ** 2)));
+  const ROUND: LatticePoint[] = [];
+  for (let i = 0; i < 360; i += 2) {
+    const x = Math.round(30000 * Math.cos((i * Math.PI) / 180));
+    const y = Math.round(30000 * Math.sin((i * Math.PI) / 180));
+    if (x > 20000 && x < 24000 && y > 0) {
+      if (x > 23000) ROUND.push(onCircle(23990), P(23990, onCircle(23990).y + 2400), P(20010, onCircle(20010).y + 2400), onCircle(20010));
+      continue;
+    }
+    ROUND.push(P(x, y));
+  }
+  const RIVER40 = [P(20000, -90000), P(24000, -90000), P(24000, 90000), P(20000, 90000)];
+  const GATE: GateSite[] = [{ ordinal: 0, at: ROUND[90], bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false }];
+  const run = (costField?: (p: { x: number; y: number }) => number): ReturnType<typeof traceBase> => {
+    const site = smallSite(2);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const water = handBuildWater(k, RIVER40, 'river:1', P(22000, 0));
+    return traceBase(ROUND, GATE, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k, costField === undefined ? {} : { costField });
+  };
+
+  it('on flat ground the trace keeps the chord and the report reads its departure from the boundary as given: 16 m and more', () => {
+    const r = run();
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    if (!r.ok) return;
+    expect(r.value.traced.waterGates).toHaveLength(2);
+    expect(r.value.traced.report.departureCm).toBeGreaterThanOrEqual(1500);
+    expect(r.value.traced.report.departureCm).toBeLessThanOrEqual(departure(r.value.traced.line, ccw(openRing(ROUND.map(lat)))) + DEPARTURE_TOL_CM);
+  }, 60_000);
+
+  it('under an outward field the smoothing holds the band of the boundary as given: the line and its departure pinned', () => {
+    const r = run((p) => -Math.hypot(p.x, p.y) / 100);
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    if (!r.ok) return;
+    const t = r.value.traced;
+    expect({ moved: t.report.pull.moved, line: t.line.length, departureCm: t.report.departureCm }).toEqual(PINNED_OUTWARD);
   }, 60_000);
 });
 

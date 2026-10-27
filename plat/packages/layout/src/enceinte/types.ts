@@ -94,7 +94,7 @@ export interface TraceReport {
   readonly simplify: { readonly before: number; readonly after: number; readonly skipped: boolean };
   /** F-WALL's trace rungs (C-0085), in the order they ran. */
   readonly rungs: readonly WallRung[];
-  /** The largest distance of the committed trace from the boundary as given (cm), sampled at 1 m: ≤ the band (C-0232). */
+  /** The largest distance of the committed trace from the boundary as given (cm), within `DEPARTURE_TOL_CM` below the exact value (N-7): ≤ the band (C-0232). */
   readonly departureCm: number;
   /** The water gates written (not counted in N, C-0087). */
   readonly waterGates: number;

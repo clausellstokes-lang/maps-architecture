@@ -26,7 +26,7 @@
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
-import { bandBreaches, bandLimit, ccw, departure, distToRing, footOn, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
+import { bandBreaches, bandLimit, ccw, departure, distToRing, footOn, lat, openRing, sideDeparture, sideHolds, TOUCH_CM } from './plane.js';
 import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
 import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
@@ -35,6 +35,12 @@ import { wetSides } from './wet.js';
 
 /** The registered name of the base's strategy (§4.12). */
 export const ENCEINTE_STRATEGY_ID = 'base';
+
+/**
+ * The stable tag of the refusal of a water gate whose committed wall_gate run is not its one chord (`looseGate`; C-0300
+ * (3)): the refusal's detail ends with it in brackets, so a reader matches the tag, never the coordinates (N-19).
+ */
+export const LOOSE_GATE_TAG = 'water: loose-gate';
 
 /** walls.json's trace row and era row as the strategy reads them (cm, count, cdeg). */
 export interface WallCells {
@@ -258,11 +264,15 @@ export function traceBase(
   const committed = k.tx(l1Spec(arena, opts.batchStage ?? STAGES.S5), (o) => {
     const ins = k.geom.insertChain(o, line, [chain], 'mandatory', { closed: true, pinned, knots });
     if (!ins.ok) return err(ins.code, ins.detail);
-    // The band once more on the line as the insertion placed it (its attraction moves a vertex by up to 26 cm): a side
-    // it carried out of the band refuses the batch, everything undone (C-0232 (2)).
+    // The band once more on the wall as the batch holds it — every vertex of its committed run, the existing vertices the
+    // insertion routed it through among them (§3.6 steps 2 and 3 move it by up to 26 cm; N-8): a side farther than the
+    // band from the boundary as given at any point (`sideDeparture`, to its tolerance below the exact value) refuses the
+    // batch, everything undone (C-0232 (2)).
     const pl = k.plat(arena);
-    const placed = ins.value.placed.map((v) => ({ x: pl.vertices.x[v], y: pl.vertices.y[v] }));
-    const outAt = placed.findIndex((q, i) => !sideHolds(q, placed[i + 1 === placed.length ? 0 : i + 1], ring0, band));
+    const wallRun = k.resolve(chain, arena);
+    const placed = wallRun.view === 'edges' && wallRun.runs.length === 1 ? wallRun.runs[0].map((h) => ({ x: pl.vertices.x[pl.halfEdges.origin[h]], y: pl.vertices.y[pl.halfEdges.origin[h]] })) : [];
+    if (placed.length < 3) return err('E_INVARIANT', `band: the inserted trace is not one closed run (§4.2 S3 (9); C-0232)`);
+    const outAt = placed.findIndex((q, i) => sideDeparture(q, placed[i + 1 === placed.length ? 0 : i + 1], ring0) > band);
     if (outAt >= 0) return err('E_INVARIANT', `band: the inserted trace departs from its boundary by more than ${String(band)} cm from ${key(placed[outAt])} (§4.2 S3 (9); C-0232)`);
     for (const w of wgs) {
       const banks = w.banks as [VertexRef, VertexRef];
@@ -272,7 +282,7 @@ export function traceBase(
     // Each water gate's wet side is exactly its chord: one wall_gate edge joining its two gate_end vertices, never a
     // shore edge between a pin and the chord (N-54 (1), strict; C-0300).
     const loose = looseGate(k, arena, wgs);
-    if (loose !== null) return err('E_INVARIANT', `water: ${loose} (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)`);
+    if (loose !== null) return err('E_INVARIANT', `water: ${loose} (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300) [${LOOSE_GATE_TAG}]`);
     // The water once more on the wall's edges as committed (the insertion's attraction and its Steiner vertices
     // included): an edge over water carries its water gate's `wall_gate`, or the batch is refused (N-54 (1)).
     const wetEdge = committedWetEdge(k, arena, chain, wgs.map((w) => w.id), barred, waters.length);
@@ -281,7 +291,10 @@ export function traceBase(
   });
   if (!committed.ok) return err(committed.code, committed.detail);
 
-  // Every gate on the committed trace exactly (lattice equality; §4.2 S3 (9)'s test), each bank vertex where it was put.
+  // Every main gate on the committed trace exactly (lattice equality; §4.2 S3 (9)'s test). A water gate's banks are proved
+  // inside the batch (`looseGate`: each gate_end resolving to one vertex, the one wall_gate edge joining them); a bank may
+  // land on a shore vertex within the attraction distance of its point (C-0300 (2)), so its vertex is not read back
+  // against `bankAt` here (N-5).
   const p = k.plat(arena);
   for (let j = 0; j < mains.length; j += 1) {
     const r = k.resolve({ role: 'gate', entity: mains[j].id }, arena);
