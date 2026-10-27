@@ -5,11 +5,11 @@
 // meets the input that reaches it; the model is arr-booleans-buffers/harness.test.ts's N1 pin. No behaviour of
 // support.ts changes here (its judge applies own() on every case); the pin is red under the mutant "own() on attracted
 // cases only".
-import type { Cm, LatticePoint, Warning } from '@plat/kernel';
+import type { Cm, KernelResult, LatticePoint, TileOverlap, Warning } from '@plat/kernel';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { compareSplit, loadOracles, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
-import { judge, newHarness, verdict } from './support.js';
+import { judge, judgeTileResult, newHarness, partsWithinAttract, verdict, type TileCase } from './support.js';
 
 const pt = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
 const SQUARE = [pt(0, 0), pt(1000, 0), pt(1000, 1000), pt(0, 1000)];
@@ -60,5 +60,52 @@ describe('arr-bands judge: ours held to the hard ring checks on every case (Q84;
     expect(() => {
       verdict(h, 'op', 1);
     }).not.toThrow();
+  });
+});
+
+describe('arr-bands tileRings judge: an attracted overlap refusal only where §13.1 allows it (hardening round S14, notes row 6)', () => {
+  /** Ours planted: the overlap refusal at ring 1, on an attracted case (W_ATTRACTED). */
+  const refusal = (ring: number): KernelResult<LatticePoint[][][]> => {
+    const r: TileOverlap = { ok: false, code: 'E_DEGENERATE', detail: 'overlap', ring, at: pt(0, 0), warnings: ATTRACTED.map((w) => ({ ...w })) };
+    return r;
+  };
+  const BIG = [pt(0, 0), pt(4000, 0), pt(4000, 4000), pt(0, 4000)];
+
+  it('refused where the oracle’s piece has neither a hole nor two boundary parts within attractCm: a failure', () => {
+    // ring 1 lies apart from ring 0: its piece is ring 1 itself, a plain square
+    const c: TileCase = { rings: [SQUARE.slice(), [pt(3000, 3000), pt(5000, 3000), pt(5000, 5000), pt(3000, 5000)]], source: 'planted' };
+    const h = newHarness();
+    judgeTileResult(h, c, refusal(1));
+    expect(h.failures).toHaveLength(1);
+    expect(h.failures[0]).toMatch(/^tileRings planted: overlap refused at ring 1 on an attracted case with neither a hole nor two boundary parts within attractCm/);
+    expect(h.settled).toEqual({ 'overlap-attracted': 1 });
+  });
+
+  it('refused where the oracle’s piece has a hole (an earlier ring inside the later one): settled, no failure', () => {
+    const c: TileCase = { rings: [[pt(1000, 1000), pt(2000, 1000), pt(2000, 2000), pt(1000, 2000)], BIG.slice()], source: 'planted' };
+    const h = newHarness();
+    judgeTileResult(h, c, refusal(1));
+    expect(h.failures).toEqual([]);
+    expect(h.settled).toEqual({ 'overlap-attracted': 1 });
+  });
+
+  it('refused where two boundary parts of the oracle’s piece lie within attractCm (a neck 20 cm wide): settled, no failure', () => {
+    // ring 0 cuts a notch into ring 1 from its upper side down to 20 cm above its lower side: ring 1 less ring 0 is one
+    // ring with no hole whose neck under the notch is 20 cm wide — attraction may join its two parts (§13.1), so a refusal
+    // there is the design's answer
+    const c: TileCase = { rings: [[pt(1000, 20), pt(2000, 20), pt(2000, 5000), pt(1000, 5000)], BIG.slice()], source: 'planted' };
+    expect(partsWithinAttract([[pt(0, 0), pt(4000, 0), pt(4000, 4000), pt(2000, 4000), pt(2000, 20), pt(1000, 20), pt(1000, 4000), pt(0, 4000)]])).toBe(true);
+    const h = newHarness();
+    judgeTileResult(h, c, refusal(1));
+    expect(h.failures).toEqual([]);
+    expect(h.settled).toEqual({ 'overlap-attracted': 1 });
+  });
+
+  it('partsWithinAttract: two edges of one ring meeting at a vertex are one part; a neck or another ring within attractCm are two', () => {
+    expect(partsWithinAttract([SQUARE.slice()])).toBe(false);
+    expect(partsWithinAttract([SQUARE.slice(), [pt(1026, 0), pt(2000, 0), pt(2000, 1000), pt(1026, 1000)]])).toBe(true);
+    expect(partsWithinAttract([SQUARE.slice(), [pt(1027, 0), pt(2000, 0), pt(2000, 1000), pt(1027, 1000)]])).toBe(false);
+    // a 10 cm neck in one ring
+    expect(partsWithinAttract([[pt(0, 0), pt(1000, 0), pt(1000, 495), pt(2000, 495), pt(2000, 0), pt(3000, 0), pt(3000, 1000), pt(2000, 1000), pt(2000, 505), pt(1000, 505), pt(1000, 1000), pt(0, 1000)]])).toBe(true);
   });
 });

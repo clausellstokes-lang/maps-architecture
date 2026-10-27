@@ -21,13 +21,14 @@ import { describe, expect, it } from 'vitest';
 import { faceWalk, idOf, roleIdOf, roleInfo, rowsOn, type FaceId, type Plat } from '../../../src/arena/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import { tx } from '../../../src/tx/index.js';
-import { KEPT_DEEP, readKerb, type KerbRead } from '../../../src/arr/kerb.js';
+import { KEPT_DEEP, kerbCensus, readKerb, type KerbRead } from '../../../src/arr/kerb.js';
+import { LATTICE } from '../../../src/num/index.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandClosings, bandCore, bandUnion, outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { emptyArena, ins, tx as shell } from '../../insert/step3-5/support.js';
 import { classify, replayKerb } from './replay.js';
-import { AT_S9, closingsBeyond, commit, firstBand, framed, hausdorffCm, healthy, network, normals, own, pt, ringsOf, shifted, spec, state, tilesExactly, TIMEOUT, widthsOf, readIn, type Chord } from './support.js';
+import { AT_S9, closingsBeyond, commit, firstBand, framed, hausdorffCm, healthy, network, normals, own, pt, ringsOf, shifted, spec, spineDepth, state, tilesExactly, TIMEOUT, widthsOf, readIn, type Chord } from './support.js';
 
 interface Fixture {
   seed: number;
@@ -105,8 +106,25 @@ const pairs = (r: readonly LatticePoint[]): [number, number][] => r.map((q) => [
 
 /** Round S9's declared shift of the fixtures' kerb(F) (C-0417; the choices row): per face, each vertex moved. */
 const S9_SHIFT: Record<number, [[number, number], [number, number] | null][]> = {
-  871: [[[50557, -47030], [50556, -47032]]],
+  // round S9: (50557, -47030) → (50556, -47032), placed on F's L1 edge; round S15 (coincident corners at one vertex,
+  // kerb.ts `coincident`): the lane's end parts share the corner (50556, -47033), which the cap part's run holds at
+  // (50580, -47042), 25.6 cm off (attracted); the next part of the run lays it there too, so the piece runs on from
+  // (50580, -47042) along the strip's side to F's route vertex (50618, -46881) and ends there — before, the two parts held
+  // the corner apart and the piece closed on the edge by a 25.94 cm chord
+  871: [[[50557, -47030], [50618, -46881]]],
 };
+
+/** Round S15: the faces whose piece now ends at F's route vertex (the coincident corner laid at one vertex: no closing chord). */
+const NO_CHORD: ReadonlySet<number> = new Set([871]);
+
+/**
+ * Round S16 (the faithful read, kerb.ts's module comment; C-0430): the faces read faithfully. Face 871's round S15 read
+ * ran its piece to F's route vertex (50618, −46881) on the spine-less edge, 163.9 cm inside the lane way:1bzfw948gxbkz's
+ * band (its end there no junction: the band ends with its cap); its first read holding a vertex deeper than attractCm, it
+ * is read once more, faithfully — every vertex of it within 15 cm of its bands' edges, its one piece ending on F's
+ * boundary at (50556, −47032), where no closing is needed — and corridorUnion commits it (S8 ≡ S9 by normal forms).
+ */
+const FAITHFUL: ReadonlySet<number> = new Set([871]);
 
 /**
  * RULING J433 (the session; N-44 (3)'s 'a refusal caused in the item's own code'), the DECLARED SHIFT of a B-FUZZ case
@@ -147,19 +165,45 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
       // declared shift (C-0417): the vertex where the lane's strip meets F's own L1 edge (50618, -46881)–(49823, -48814)
       // (the attractor, level 1, 0.1 cm) is placed by the insertion on that edge, 2 cm from the scratch's crossing
       expect(pairs(read.rings[0])).toEqual(fx.ring);
+      if (FAITHFUL.has(fx.face)) {
+        // round S16: the faithful read (no vertex deeper than attractCm in any band); its piece ends on F's boundary
+        expect(kerbCensus(p)?.faithful).toBe('taken');
+        for (const s of read.spines.values()) expect(spineDepth(read.kerb, s).depth, s.key).toBeLessThanOrEqual(LATTICE.attractCm);
+        const pieces = outlinePieces(read);
+        expect(pieces.map((q) => q.closed)).toEqual([false]);
+        const end = pieces[0].points[pieces[0].points.length - 1];
+        expect([end.x, end.y]).toEqual([50556, -47032]);
+        const before = normals(read.kerb);
+        const r = commit(p, 2, (o) => corridorUnion(o, [face], widths), AT_S9);
+        healthy(p);
+        const v = r.value as BandResult;
+        expect(danglingKerb(p)).toEqual([]);
+        expect(bandClosings(p)).toEqual([]);
+        expect(v.blocks.flatMap((b) => normals(ringsOf(p, 2, b))).sort()).toEqual(before);
+        expect(v.blocks.length).toBe(fx.kerb.length);
+        expect(tilesExactly(p, 2, [face])).toEqual([]);
+        return;
+      }
       expect(read.kerb.map(pairs)).toEqual(shifted(fx.kerb, S9_SHIFT[fx.face] ?? []));
-      // the precondition: the lane's piece closes on the spine-less edge by a chord within attractCm
+      // the precondition: the lane's piece closes on the spine-less edge by a chord within attractCm — or (face 871,
+      // round S15) the piece ends at F's route vertex on it
       const open = outlinePieces(read).filter((q) => !q.closed);
       expect(open.length).toBe(1);
       const q = open[0].points;
       const chord = Math.hypot(q[q.length - 1].x - q[q.length - 2].x, q[q.length - 1].y - q[q.length - 2].y);
-      expect(chord).toBeGreaterThan(25);
-      expect(chord).toBeLessThanOrEqual(26);
+      if (NO_CHORD.has(fx.face)) {
+        expect(fx.ring.some(([x, y]) => x === q[q.length - 1].x && y === q[q.length - 1].y)).toBe(true);
+      } else {
+        expect(chord).toBeGreaterThan(25);
+        expect(chord).toBeLessThanOrEqual(26);
+      }
       const before = normals(read.kerb);
       const r = commit(p, 2, (o) => corridorUnion(o, [face], widths), AT_S9);
       healthy(p);
       const v = r.value as BandResult;
       expect(danglingKerb(p)).toEqual([]);
+      // no closing where the piece ends on F's vertex (face 871, round S15)
+      if (NO_CHORD.has(fx.face)) expect(bandClosings(p)).toEqual([]);
       // S8 ≡ S9 (§13.2): the committed blocks are kerb(F), by normal forms (one point set: Hausdorff 0)
       expect(v.blocks.flatMap((b) => normals(ringsOf(p, 2, b))).sort()).toEqual(before);
       expect(v.blocks.length).toBe(fx.kerb.length);
@@ -185,6 +229,9 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
   }
 
   it('the lost chord planted (the pre-round behaviour) is refused E_INVARIANT with the piece named, the arena put back', () => {
+    // (round S15: face 871's piece ends at F's vertex (50618, -46881); without that end it ends on the dangling tip
+    // (50580, -47042), as the lost chord left it before; round S16, the faithful read: the piece ends at (50556, −47032)
+    // on F's boundary, and without that end on the dangling tip (50601, −47051))
     const fx = FIXTURES[0];
     const { p, face, widths } = build(fx);
     const b0 = state(p);
@@ -199,7 +246,7 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
     // the post-condition: the piece named, ending on the dangling tip the insertion attracted the contact onto
-    expect(r.detail).toContain(`piece 0 of the face ${String(face)} ends on a dangling tip at (50580, -47042)`);
+    expect(r.detail).toContain(`piece 0 of the face ${String(face)} ends on a dangling tip at (50601, -47051)`);
     expect(state(p)).toBe(b0);
     // the op is atomic inside a batch that goes on: its refusal leaves the batch as the op found it, so the batch
     // commits nothing (M0-a-07's op savepoint)
@@ -212,11 +259,12 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     expect(state(p)).toBe(b0);
   });
 
-  it('the fallback, pinned first (N-57 (2)\'s own mechanism): face 871\'s contact placed before its piece, the vertex beside it dropped — the block within attractCm of kerb(F)', () => {
+  it('the fallback, pinned first (N-57 (2)\'s own mechanism): face 822\'s contact placed before its piece, the vertex beside it dropped — the block within attractCm of kerb(F)', () => {
     // reached through bandCore's `pinFirst` seam (on the families no end needs it: the closing at the contact or along
-    // the kerb's run serves them): the contact pinned on F's boundary first, the piece's vertex 25.94 cm from it dropped,
-    // the piece inserted onto the pin — the error at most attractCm, the dropped vertex's (C-0327 (2): 1.84 cm)
-    const fx = FIXTURES[0];
+    // the kerb's run serves them): the contact pinned on F's boundary first, the piece's vertex 25.71 cm from it dropped,
+    // the piece inserted onto the pin — the error at most attractCm, the dropped vertex's (C-0327 (2)). Round S15: face
+    // 871 (this pin's face before) closes by no chord now (its coincident corner laid at one vertex), so face 822's is pinned
+    const fx = FIXTURES.find((f) => f.face === 822) as Fixture;
     const { p, face, widths } = build(fx);
     const rk = readIn(p, 1, (o) => readKerb(o, face, widths));
     expect(rk.ok).toBe(true);
@@ -242,9 +290,11 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
 
   it('a synthetic dead-end lane meeting a spine-less edge at 10–20°, its round cap’s last chord swept 20–40 cm: every case closes', { timeout: TIMEOUT }, () => {
     // the frame [0, 4000]²; a spine-less edge from (300, 1000) to (3700, 1000 + 3400·tan γ) (γ 7° or 16°) and a lane
-    // ending on it at x = 2000 + δ (δ 0 or 13 cm), arriving from the upper left at α = 10°–20° to the edge: on the obtuse
+    // toward it at x = 2000 + δ (δ 0 or 13 cm), arriving from the upper left at α = 10°–20° to the edge: on the obtuse
     // side the round cap meets the edge, its last chord clipped; mirrored (y → 4000 − y) or not. Judged: every case
-    // whose contact on the edge closes a chord of 20–40 cm
+    // whose contact on the edge closes a chord of 20–40 cm. Round S15 (the start-cap rule): a lane ENDING ON the edge
+    // ends on its line — a junction end, no cap, no chord to close — so the lane is a dead end that stops SHORT of the
+    // edge (40 cm off it, a free end: `GAP_CM`), its round cap meeting the edge as the class's caps do
     const tally = { cases: 0, judged: 0, near: 0, nearLast: 0, exact: 0 };
     const misses: string[] = [];
     for (const gamma of [7, 16]) {
@@ -260,11 +310,13 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
               const E: [number, number] = [ex, Math.round(1000 + (ex - 300) * Math.tan(g))];
               const ang = Math.PI - g - (alpha * Math.PI) / 180;
               const L: [number, number] = [Math.round(E[0] + Math.cos(ang) * 1500), Math.round(E[1] + Math.sin(ang) * 1500)];
+              const back = GAP_CM / Math.sin((alpha * Math.PI) / 180);
+              const S: [number, number] = [Math.round(E[0] + Math.cos(ang) * back), Math.round(E[1] + Math.sin(ang) * back)];
               const T = (q: [number, number]): LatticePoint => pt(q[0], mirror ? 4000 - q[1] : q[1]);
               const p = framed();
               commit(p, 1, (o) => insertChain(o, [T([0, A[1]]), T(A), T(E), T(B), T([4000, B[1]])], [{ role: 'way', entity: 'way:edge' }], 'mandatory'));
-              commit(p, 1, (o) => insertChain(o, [T([L[0], 4000]), T(L), T(E)], [{ role: 'way', entity: 'way:lane' }], 'mandatory'));
-              const faces = own(p, 'district:1', [[3900, 3900], [100, 3900]].map(([x, y]) => [x, mirror ? 4000 - y : y] as [number, number]));
+              commit(p, 1, (o) => insertChain(o, [T([L[0], 4000]), T(L), T(S)], [{ role: 'way', entity: 'way:lane' }], 'mandatory'));
+              const faces = [...new Set(own(p, 'district:1', [[3900, 3900], [100, 3900]].map(([x, y]) => [x, mirror ? 4000 - y : y] as [number, number])))];
               const ws = widthsOf({ 'way:lane': hw });
               tally.cases += 1;
               const off = (q: LatticePoint): number => {
@@ -326,16 +378,18 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     // attracted onto it (the piece closes at the lane's end by the strip's end edge; the cap's sector beside it, ≤
     // attractCm wide along F's edge, stays in the block: the KI row of round S9). Before the round: nearLast ≥ 1
     expect(tally.nearLast).toBe(0);
-    // the exact share, a ratchet on round S9's measure (548 of 556 judged; the rest within N-43's bound, above)
-    expect(tally.exact).toBeGreaterThanOrEqual(548);
+    // the exact share, a ratchet on the measure (round S9: 548 of 556 judged with the lane ending ON the edge; round S15,
+    // the lane 40 cm off it: 136 of 148 judged; the rest within N-43's bound, above)
+    expect(tally.exact).toBeGreaterThanOrEqual(136);
   });
 
   it('a synthetic dead-end lane whose round cap meets a spine-less edge slanted 10–20°, the last chord swept 20–40 cm: every case closes', { timeout: TIMEOUT }, () => {
     // the frame [0, 4000]²; a spine-less edge from (1500, 0) up at β off the vertical, a lane from the frame's west side
-    // ending on it at y = 2000 or 2017, near perpendicular to it (turned by φ); the arena mirrored (y → 4000 − y) or not, so the
+    // toward it at y = 2000 or 2017, near perpendicular to it (turned by φ); the arena mirrored (y → 4000 − y) or not, so the
     // contact is a piece's last point (the case the insertion lost) or its first. Judged: every case whose contact on
-    // the slanted edge closes a chord of 20–40 cm
-    const tally = { cases: 0, judged: 0, near: 0, nearLast: 0 };
+    // the slanted edge closes a chord of 20–40 cm. Round S15 (the start-cap rule): the lane stops 40 cm off the edge
+    // (a free end, its round cap meeting the edge: `GAP_CM`), as the sweep above
+    const tally = { cases: 0, judged: 0, near: 0, nearLast: 0, exact: 0 };
     const misses: string[] = [];
     for (let beta = 10; beta <= 20; beta += 1) {
       for (const hw of [157.5, 163.8]) {
@@ -347,11 +401,13 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
             const E: [number, number] = [Math.round(1500 + ey * Math.tan(b)), ey];
             const ang = Math.PI + b + (phi * Math.PI) / 180;
             const L: [number, number] = [Math.round(E[0] + Math.cos(ang) * 1400), Math.round(E[1] - Math.sin(ang) * 1400)];
+            const back = GAP_CM / Math.cos((phi * Math.PI) / 180);
+            const S: [number, number] = [Math.round(E[0] + Math.cos(ang) * back), Math.round(E[1] - Math.sin(ang) * back)];
             const T = (q: [number, number]): LatticePoint => pt(q[0], mirror ? 4000 - q[1] : q[1]);
             const p = framed();
             commit(p, 1, (o) => insertChain(o, [T(A), T(E), T(B)], [{ role: 'way', entity: 'way:edge' }], 'mandatory'));
-            commit(p, 1, (o) => insertChain(o, [T([0, L[1]]), T(L), T(E)], [{ role: 'way', entity: 'way:lane' }], 'mandatory'));
-            const faces = own(p, 'district:1', [[200, 200], [200, 3800]]);
+            commit(p, 1, (o) => insertChain(o, [T([0, L[1]]), T(L), T(S)], [{ role: 'way', entity: 'way:lane' }], 'mandatory'));
+            const faces = [...new Set(own(p, 'district:1', [[200, 200], [200, 3800]]))];
             const ws = widthsOf({ 'way:lane': hw });
             tally.cases += 1;
             const off = (q: LatticePoint): number => {
@@ -396,9 +452,12 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
             if (d.length > 0) misses.push(`${at}: kerb edges with one face on both sides at ${d.join(' ')}`);
             // where the contact is a piece's last point the commit is kerb(F), vertex for vertex up to the placement's
             // hot pixel on the slanted edge (the chord kept: a lost chord drops a vertex)
-            // round S9: on every judged case, the read's dry-run meeting the arena the commit meets
+            // round S9: on every judged case, the read's dry-run meeting the arena the commit meets; round S15 (the lane
+            // 40 cm off the edge): 4 of 376 judged cases commit the cap's last two arc vertices as one, 6.3 cm off the
+            // read — within N-43's bound (N-52 (1)'s hard bar), the exact ones counted (a ratchet below)
             const v = r.value.value as BandResult;
-            expect(sameUpTo(v.blocks.flatMap((c) => normals(ringsOf(p, 2, c))), want, 2), at).toBe(true);
+            if (sameUpTo(v.blocks.flatMap((c) => normals(ringsOf(p, 2, c))), want, 2)) tally.exact += 1;
+            else expect(hausdorffCm(v.blocks.flatMap((c) => ringsOf(p, 2, c)), want.map(parseNormal)), at).toBeLessThanOrEqual(2 * Math.SQRT2 * 26);
           }
         }
       }
@@ -407,11 +466,21 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     expect(misses).toEqual([]);
     // not vacuous: the sweep meets closing chords within attractCm, as a piece's last point (the lost case) among them
     expect(tally.judged).toBeGreaterThanOrEqual(200);
+    // the exact share, a ratchet on round S15's measure (372 of 376 judged)
+    expect(tally.exact).toBeGreaterThanOrEqual(372);
     // round S9 (C-0417), the declared shift: no last chord within attractCm is left (see the sweep above); before the
     // round: nearLast ≥ 8
     expect(tally.nearLast).toBe(0);
   });
 });
+
+/**
+ * How far from the spine-less edge the synthetic sweeps' dead-end lane stops (cm, perpendicular; round S15): a lane ending
+ * ON the edge ends on its line, a junction end that takes no cap (kerb.ts `junctionEnd`), so the class's round cap meeting
+ * the edge is a free end's — the lane's end back along it where it stands 40 cm off the edge, beyond the attraction that
+ * would put it on the edge, its cap (radius ≥ 157 cm) still meeting the edge.
+ */
+const GAP_CM = 40;
 
 /** The band outline edges (`band` rows at L3) with one L3 face on both sides. */
 function danglingBand(p: Plat): string[] {

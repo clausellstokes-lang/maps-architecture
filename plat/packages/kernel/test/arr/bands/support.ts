@@ -610,3 +610,231 @@ export function shifted(rings: readonly (readonly (readonly [number, number])[])
     return to === undefined ? [[q[0], q[1]]] : to === null ? [] : [[to[0], to[1]]];
   }));
 }
+
+// ---- session fix round S15 (lane build/M0-a-09-fix-s15): the fusion smoke's faces (s15-faces.json) -----------------
+
+/**
+ * An L1 face of M0-c-06's CITY derivation (the c-06 harness, round S14's engine), read after S8 before S9 — written by
+ * the round's probe (`checks/M0-a-09-notes.md` 'Hardening round S15'): F's L1 route ring, every L1 chain with an edge
+ * within 30 m of F's box (role, entity, its declared half-width — the harness's way width halved — or null, its route
+ * there cut into runs by that box), a point inside F (its label point), the district owning it.
+ */
+export interface SmokeFace {
+  readonly name: string;
+  readonly kind: string;
+  readonly seed: number;
+  readonly river: boolean;
+  readonly face: number;
+  readonly owner: string;
+  readonly at: [number, number];
+  readonly ring: [number, number][];
+  readonly chains: { readonly role: string; readonly entity: string; readonly hw: number | null; readonly points: [number, number][] }[];
+}
+
+/** The round's smoke faces, by name. */
+export function smokeFaces(): Map<string, SmokeFace> {
+  const all = (JSON.parse(readFileSync(new URL('./s15-faces.json', import.meta.url), 'utf8')) as { faces: SmokeFace[] }).faces;
+  return new Map(all.map((f) => [f.name, f]));
+}
+
+/**
+ * A smoke face's arena, as `buildContact` builds the fusion fixture's: a margin ring 30 m round it at L0, then its chains'
+ * runs at L1 (the arterials first, then key order; a chain's k-th further run its own entity `<entity>-<k>`), F the L1
+ * face holding `at`, owned by the face's district; the widths every way run's half-width.
+ */
+export function buildSmoke(fx: SmokeFace): { p: Plat; face: FaceId; widths: SpineWidths; ways: { entity: string; hw: number; points: LatticePoint[] }[] } {
+  const p = marginRound([...fx.ring, ...fx.chains.flatMap((c) => c.points)]);
+  const rank = (c: SmokeFace['chains'][number]): number => (c.role !== 'way' ? 0 : c.entity.length <= 7 ? 1 : 2);
+  const ordered = fx.chains.slice().sort((a, b) => rank(a) - rank(b) || (a.entity < b.entity ? -1 : a.entity > b.entity ? 1 : 0));
+  const table: Record<string, number> = {};
+  const seen = new Map<string, number>();
+  const ways: { entity: string; hw: number; points: LatticePoint[] }[] = [];
+  for (const c of ordered) {
+    const k = seen.get(`${c.role}:${c.entity}`) ?? 0;
+    seen.set(`${c.role}:${c.entity}`, k + 1);
+    const entity = k === 0 ? c.entity : `${c.entity}-${String(k)}`;
+    commit(p, 1, (o) => insertChain(o, c.points.map((q) => pt(q[0], q[1])), [{ role: c.role, entity }], 'mandatory'));
+    if (c.role === 'way' && c.hw !== null) {
+      table[entity] = c.hw;
+      ways.push({ entity, hw: c.hw, points: c.points.map((q) => pt(q[0], q[1])) });
+    }
+  }
+  const [face] = own(p, fx.owner, [fx.at]);
+  return { p, face, widths: widthsOf(table), ways };
+}
+
+/**
+ * The deepest a ring vertex lies inside a way's band (its half-width less the distance to its route; cm, the largest over
+ * the ways) — written here from the definition (§3.7: the band of a route is every point within its half-width; a vertex
+ * of kerb(F) more than an insertion's move inside one is no kerb), with the way and the vertex.
+ */
+export function deepestInWays(rings: readonly (readonly LatticePoint[])[], ways: readonly { entity: string; hw: number; points: readonly LatticePoint[] }[]): { way: string; at: string; depth: number } {
+  let worst = { way: '', at: '', depth: -Infinity };
+  for (const w of ways) {
+    for (const r of rings) {
+      for (const q of r) {
+        let d2 = Infinity;
+        for (let i = 0; i + 1 < w.points.length; i += 1) {
+          const a = w.points[i];
+          const b = w.points[i + 1];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const l2 = dx * dx + dy * dy;
+          const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / l2));
+          const ex = a.x + t * dx - q.x;
+          const ey = a.y + t * dy - q.y;
+          d2 = Math.min(d2, ex * ex + ey * ey);
+        }
+        const depth = w.hw - Math.sqrt(d2);
+        if (depth > worst.depth) worst = { way: w.entity, at: `${String(q.x)},${String(q.y)}`, depth };
+      }
+    }
+  }
+  return worst;
+}
+
+/**
+ * How deep the rings reach into a spine's buffer at their vertices (cm, the deepest; ≤ 0 clear of it): its half-width
+ * there, interpolated along each segment, less the distance — and at a JUNCTION end (round S15's start-cap rule: an end
+ * on another chain's line takes no cap, the band stops on the line through the end square to its last segment) no deeper
+ * than the vertex stands behind that line, in the end's reach. Written here from the definition (§3.7 with the rule), with
+ * the vertex it is read at.
+ */
+export function spineDepth(rings: readonly (readonly LatticePoint[])[], s: Spine): { depth: number; at: string } {
+  let worst = { depth: -Infinity, at: '' };
+  for (const line of s.lines) {
+    const n = line.points.length;
+    const segs = line.closed ? n : n - 1;
+    const ends: { e: LatticePoint; ux: number; uy: number; r: number }[] = [];
+    if (!line.closed && n >= 2) {
+      for (const [at, from, j] of [[0, 1, 0], [n - 1, n - 2, 1]] as const) {
+        if (!line.junction[j]) continue;
+        const e = line.points[at];
+        const o = line.points[from];
+        const l = Math.hypot(e.x - o.x, e.y - o.y);
+        if (l > 0) ends.push({ e, ux: (e.x - o.x) / l, uy: (e.y - o.y) / l, r: 1.5 * line.hw[at] });
+      }
+    }
+    for (const r of rings) {
+      for (const q of r) {
+        let depth = -Infinity;
+        for (let k = 0; k < segs; k += 1) {
+          const a = line.points[k];
+          const b = line.points[(k + 1) % n];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const l2 = dx * dx + dy * dy;
+          const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / l2));
+          const hw = line.hw[k] + t * (line.hw[(k + 1) % n] - line.hw[k]);
+          depth = Math.max(depth, hw - Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy));
+        }
+        for (const c of ends) if (Math.hypot(q.x - c.e.x, q.y - c.e.y) <= c.r) depth = Math.min(depth, -((q.x - c.e.x) * c.ux + (q.y - c.e.y) * c.uy));
+        if (depth > worst.depth) worst = { depth, at: `${String(q.x)},${String(q.y)}` };
+      }
+    }
+  }
+  return worst;
+}
+
+// ---- hardening round S14 (lane build/M0-a-09-fix-s14): spurs, ring nesting, the widened networks --------------------
+
+/**
+ * Every SPUR a band op wrote into the level-n faces inside the L1 faces (KI-1: C-0212 (8)'s dangling antenna): an edge
+ * whose rows are all the op's own (the outline roles and `corridor_split`, at level n) with one face on both sides and an
+ * end no other edge reaches, as "roles x,y-x,y" — written here from the definition (an input way's dead end is no op's).
+ */
+export function spursOf(p: Plat, n: Level, l1: readonly FaceId[], roles: readonly string[] = ['kerb', 'band', 'corridor_split']): string[] {
+  const out: string[] = [];
+  const O = p.halfEdges.origin;
+  const deg = new Map<number, number>();
+  for (let h = 0; h < 2 * p.slots.pair.top; h += 1) if (O[h] >= 0 && O[h ^ 1] >= 0) deg.set(O[h], (deg.get(O[h]) ?? 0) + 1);
+  for (const f of l1) {
+    for (const c of childrenOf(p, n, f)) {
+      const mine = new Set<number>();
+      for (const ring of faceWalk(p, n, c)) for (const h of ring) mine.add(h);
+      for (const h of mine) {
+        if ((h & 1) === 1 || !mine.has(h ^ 1)) continue;
+        if ((deg.get(O[h]) ?? 0) !== 1 && (deg.get(O[h ^ 1]) ?? 0) !== 1) continue;
+        const rows = rowsOn(p, 'edge', h);
+        if (rows.length === 0 || !rows.every((r) => p.roles.level[r] === n && roles.includes(roleInfo(p.roles.kind[r]).name))) continue;
+        const names = rows.map((r) => roleInfo(p.roles.kind[r]).name).sort().join('+');
+        out.push(`${names} ${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+      }
+    }
+  }
+  return out.sort();
+}
+
+/** Is q strictly inside the ring (non-zero winding; exact on lattice points, BigInt cross products)? */
+function windsAround(ring: readonly LatticePoint[], q: { x: number; y: number }): boolean {
+  let w = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const side = (b.x - a.x) * (q.y - a.y) - (b.y - a.y) * (q.x - a.x);
+    if (a.y <= q.y) {
+      if (b.y > q.y && side > 0) w += 1;
+    } else if (b.y <= q.y && side < 0) w -= 1;
+  }
+  return w !== 0;
+}
+
+/**
+ * The faults of a ring set's nesting (§3.4's ring convention, notes row 13; round S15's B-NEST): each ring's DEPTH — the
+ * number of the set's other rings it lies inside, read at its edge midpoints (a simple ring set's rings meet at vertices
+ * at most) — has the parity of its orientation: an outer ring (counter-clockwise, positive area) at an even depth, a hole
+ * (clockwise) at an odd one. So a kerb island inside a hole of kerb(F) — outer ⊃ hole ⊃ outer, the non-zero winding
+ * 1 / 0 / 1 (the S14 closing check's network 561) — is well nested, and an outer ring inside another outer ring with no
+ * hole between them, or a hole inside no outer ring, is a fault. Empty where the set is well nested.
+ */
+export function nestingProblems(rings: readonly (readonly LatticePoint[])[]): string[] {
+  const out: string[] = [];
+  const mids = (r: readonly LatticePoint[]): { x: number; y: number }[] => r.map((a, i) => ({ x: (a.x + r[(i + 1) % r.length].x) / 2, y: (a.y + r[(i + 1) % r.length].y) / 2 }));
+  rings.forEach((r, i) => {
+    const a = area2(r);
+    const depth = rings.filter((o, j) => j !== i && mids(r).every((m) => windsAround(o, m))).length;
+    if (a < 0n && depth % 2 === 0) out.push(depth === 0 ? `hole ${String(i)} inside no outer ring` : `hole ${String(i)} inside a hole (depth ${String(depth)})`);
+    else if (a > 0n && depth % 2 === 1) out.push(`outer ring ${String(i)} inside another outer ring`);
+  });
+  return out;
+}
+
+/**
+ * A way of the widened B-FUZZ family (notes row 13): a bent chord (frame → an interior bend → frame), a dead end
+ * (frame → an interior point: an antenna into a face), or a closed ring way (a rectangle well inside the frame: an island,
+ * a face with a hole) — each a scalar half-width or (open ways) a two-knot profile on its ends, round or square ends.
+ */
+export interface WideWay {
+  readonly kind: 'bent' | 'dead' | 'ring';
+  readonly a: number;
+  readonly b: number;
+  readonly x: number;
+  readonly y: number;
+  readonly w: number;
+  readonly h: number;
+  readonly hw: number;
+  readonly knots: readonly [number, number] | null;
+  readonly ends: 'round' | 'square';
+}
+
+/** The widened family's network (a fresh arena each call), as `network` builds B-FUZZ's: L1 ways, the faces owned by district:1. */
+export function wideNetwork(ways: readonly WideWay[]): { p: Plat; faces: FaceId[]; table: Record<string, ChordWidth> } {
+  const p = framed();
+  const table: Record<string, ChordWidth> = {};
+  ways.forEach((c, i) => {
+    let pts: [number, number][];
+    if (c.kind === 'ring') pts = [[c.x, c.y], [c.x + c.w, c.y], [c.x + c.w, c.y + c.h], [c.x, c.y + c.h]];
+    else if (c.kind === 'dead') pts = [onFrame(c.a), [c.x, c.y]];
+    else pts = [onFrame(c.a), [c.x, c.y], onFrame(c.b)];
+    if (Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]) < 300) return;
+    const profiled = c.knots !== null && c.kind !== 'ring';
+    const knots = profiled ? { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: pts.length - 1, role: 'width_knot', ordinal: 1 }] } : {};
+    const r = tx(p, spec(1), (o) => insertChain(o, pts.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', { ...knots, ...(c.kind === 'ring' ? { closed: true } : {}) }));
+    if (!r.ok) return;
+    table[`way:${String(i)}`] = profiled ? profile([(c.knots as [number, number])[0], (c.knots as [number, number])[1]]) : { halfWidthCm: c.hw, ends: c.ends };
+  });
+  const faces: FaceId[] = [];
+  for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) faces.push(f);
+  commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
+  return { p, faces, table };
+}

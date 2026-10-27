@@ -30,7 +30,7 @@ import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandClosings, bandUnion, type Closing, type BandResult } from '../../../src/arr/bandUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
-import { area2, closingsBeyond, commit, firstBand, healthy, network, P, readIn, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
+import { area2, closingsBeyond, commit, firstBand, healthy, nestingProblems, network, P, readIn, ringsOf, simpleRing, spec, splitsBeyondReach, spursOf, state, tilesExactly, wideNetwork, widthsOf, AT_S9, type Chord, type WideWay } from './support.js';
 import { tx } from '../../../src/tx/index.js';
 import { causeOf, classify, replayCommit, replayKerb, replayTile, type RefusalClass, type Replay } from './replay.js';
 import { TIMEOUT } from '../../insert/step3-5/support.js';
@@ -64,137 +64,207 @@ function registerLine(op: string, cls: RefusalClass, code: string, detail: strin
 
 /** The cause tally of insertChain's refusals per operation (J433 (4)): the replay's reading, or 'replays' (the same refusal met). */
 const causes: Record<string, Record<string, number>> = {};
-function tallyCause(op: string, cls: RefusalClass, replay: Replay | null): void {
+function tallyCause(into: Record<string, Record<string, number>>, op: string, cls: RefusalClass, replay: Replay | null): void {
   const k = cls === 'own' ? 'own' : replay?.held === undefined ? 'replays' : replay.held.reading;
-  causes[op] ??= {};
-  causes[op][k] = (causes[op][k] ?? 0) + 1;
+  into[op] ??= {};
+  into[op][k] = (into[op][k] ?? 0) + 1;
 }
 
-describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
-  it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
-    let committed = 0;
-    const refusals = { kerb: tally(), corridorUnion: tally(), bandUnion: tally() };
-    const closings = { chord: 0, along: 0, pinned: 0, folded: 0, longestChordCm: 0 };
-    const count = (cs: readonly Closing[]): void => {
+
+/** What one run of the network property accumulates. */
+interface Acc {
+  committed: number;
+  readonly refusals: { kerb: Tally; corridorUnion: Tally; bandUnion: Tally };
+  readonly causes: Record<string, Record<string, number>>;
+  readonly count: (cs: readonly Closing[]) => void;
+}
+
+/**
+ * One network of the property (B-FUZZ's chords, or the widened family's ways): `build` makes it on a fresh arena each
+ * call (the replays build it again), `input` is what a refusal's register line carries.
+ */
+function checkNetwork(build: () => ReturnType<typeof network>, input: unknown, acc: Acc): void {
+  const { p, faces, table } = build();
+  const ws = widthsOf(table);
+  // kerb on every face, read on the open overlay: typed, and every ring simple with the kerb on its left
+  const read: { cls: RefusalClass | null; replay: Replay | null } = { cls: null, replay: null };
+  const b0 = state(p);
+  commit(p, 1, (o) => {
+    for (const f of faces) {
+      // the read-only service writes nothing — the arena, and the batch's work, warnings and journals (C-0417:
+      // the dry-run lays its parts on a shell of the batch's arena and puts them back)
+      const before = { work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) };
+      const k = kerb(o, f, ws);
+      expect({ work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) }).toEqual(before);
+      if (!k.ok) {
+        // a typed refusal, never a crash (N-44 (1)); classed by replay on its dry-run, counted once per case
+        const rp = replayKerb(o, f, ws);
+        const cls = classify(k, rp);
+        if (read.cls === null) {
+          registerLine('kerb', cls, k.code, k.detail, input, rp);
+          read.replay = rp;
+        }
+        if (read.cls !== 'own') read.cls = cls;
+        continue;
+      }
+      for (const r of k.value) expect(simpleRing(r)).toBe(true);
+      // holes clockwise inside an outer ring, no outer ring inside another (notes row 13)
+      expect(nestingProblems(k.value)).toEqual([]);
+      const outer = k.value.filter((r) => area2(r) > 0n);
+      expect(outer.length > 0 || k.value.length === 0).toBe(true);
+      // N-52 (2), C-0277 (1): every split chain the kerb reading draws lies within its junction's reach
+      const rk = readKerb(o, f, ws);
+      if (rk.ok) expect(splitsBeyondReach(o.plat, rk.value)).toEqual([]);
+    }
+    return { ok: true, value: null, warnings: [] };
+  });
+  // the read-only service writes nothing
+  expect(state(p)).toBe(b0);
+  if (read.cls !== null) {
+    acc.refusals.kerb[read.cls] += 1;
+    tallyCause(acc.causes, 'kerb', read.cls, read.replay);
+  }
+  const before = state(p);
+  const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
+  if (!r.ok) {
+    expect(state(p)).toBe(before);
+    const rp = replayCommit({ build, level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) });
+    const cls = classify(r, rp);
+    acc.refusals.corridorUnion[cls] += 1;
+    tallyCause(acc.causes, 'corridorUnion', cls, rp);
+    registerLine('corridorUnion', cls, r.code, r.detail, input, rp);
+    return;
+  }
+  acc.committed += 1;
+  healthy(p);
+  expect(tilesExactly(p, 2, faces)).toEqual([]);
+  // KI-1 (notes row 1): no spur of the commit's own in any face — the count pinned at 0
+  expect(spursOf(p, 2, faces), JSON.stringify(input)).toEqual([]);
+  // N-57 (2): every closing by kerb(F) — no chord to a far vertex
+  // bandUnion's kerb reads the chain's edge spines only (C-0380); corridorUnion's its vertex contacts too
+  // read after the commit in an L1 batch, as S8 reads it (the dry-run lays its parts at L2, kerb.ts `dryLevel`, so
+  // it meets the committed kerb: an along closing is committed only where this read holds its run vertex, C-0421)
+  const kerbOf = (w: typeof ws, vertexContacts = true) => (f: number) => {
+    const k = readIn(p, 1, (o) => readKerb(o, f, w, undefined, vertexContacts));
+    return k.ok ? k.value.kerb : null;
+  };
+  expect(closingsBeyond(bandClosings(p), kerbOf(ws)), JSON.stringify(input)).toEqual([]);
+  acc.count(bandClosings(p));
+  const v = r.value.value as BandResult;
+  expect(new Set([...v.band, ...v.blocks]).size).toBe(v.band.length + v.blocks.length);
+  // a wall band along the first chain at L3, inside every L1 face
+  const chain = firstBand(table);
+  if (chain.length === 0) return;
+  const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
+  // bandUnion's closings are judged against its own reading: kerb(F) read in an L3 batch before it commits, beside
+  // S9's committed kerb (the dry-run's attractors are the content an L3 insertion meets; notes row 42)
+  const bandKerb = new Map<number, ReturnType<ReturnType<typeof kerbOf>>>();
+  readIn(p, 3, (o) => {
+    for (const f of faces) {
+      const k = readKerb(o, f, bw, undefined, false);
+      bandKerb.set(f, k.ok ? k.value.kerb : null);
+    }
+    return null;
+  });
+  const b1 = state(p);
+  const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
+  if (!b.ok) {
+    expect(state(p)).toBe(b1);
+    const rp = replayCommit({
+      build: () => {
+        const n = build();
+        commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
+        return n;
+      },
+      level: 3,
+      over: AT_S9,
+      widths: bw,
+      edgeRole: 'band',
+      vertexContacts: false,
+      entityOf: () => 'band:1',
+    });
+    const cls = classify(b, rp);
+    acc.refusals.bandUnion[cls] += 1;
+    tallyCause(acc.causes, 'bandUnion', cls, rp);
+    registerLine('bandUnion', cls, b.code, b.detail, input, rp);
+    return;
+  }
+  healthy(p);
+  expect(tilesExactly(p, 3, faces)).toEqual([]);
+  expect(spursOf(p, 3, faces), JSON.stringify(input)).toEqual([]);
+  expect(closingsBeyond(bandClosings(p), (f: number) => bandKerb.get(f) ?? null), JSON.stringify(input)).toEqual([]);
+  acc.count(bandClosings(p));
+}
+
+/** A fresh accumulator and its closing tally. */
+function newAcc(into: Record<string, Record<string, number>>): { acc: Acc; closings: { chord: number; along: number; pinned: number; folded: number; longestChordCm: number } } {
+  const closings = { chord: 0, along: 0, pinned: 0, folded: 0, longestChordCm: 0 };
+  const acc: Acc = {
+    committed: 0,
+    refusals: { kerb: tally(), corridorUnion: tally(), bandUnion: tally() },
+    causes: into,
+    count: (cs) => {
       for (const c of cs) {
         closings[c.kind] += 1;
         if (c.kind === 'chord') closings.longestChordCm = Math.max(closings.longestChordCm, Math.round(c.chordCm * 100) / 100);
       }
-    };
+    },
+  };
+  return { acc, closings };
+}
+
+describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
+  it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
+    const { acc, closings } = newAcc(causes);
+    const refusals = acc.refusals;
     fc.assert(
       fc.property(fc.array(chordArb, { minLength: 1, maxLength: 3 }), (chords) => {
-        const { p, faces, table } = network(chords);
-        const ws = widthsOf(table);
-        // kerb on every face, read on the open overlay: typed, and every ring simple with the kerb on its left
-        const read: { cls: RefusalClass | null; replay: Replay | null } = { cls: null, replay: null };
-        const b0 = state(p);
-        commit(p, 1, (o) => {
-          for (const f of faces) {
-            // the read-only service writes nothing — the arena, and the batch's work, warnings and journals (C-0417:
-            // the dry-run lays its parts on a shell of the batch's arena and puts them back)
-            const before = { work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) };
-            const k = kerb(o, f, ws);
-            expect({ work: o.work.total, warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) }).toEqual(before);
-            if (!k.ok) {
-              // a typed refusal, never a crash (N-44 (1)); classed by replay on its dry-run, counted once per case
-              const rp = replayKerb(o, f, ws);
-              const cls = classify(k, rp);
-              if (read.cls === null) {
-                registerLine('kerb', cls, k.code, k.detail, chords, rp);
-                read.replay = rp;
-              }
-              if (read.cls !== 'own') read.cls = cls;
-              continue;
-            }
-            for (const r of k.value) expect(simpleRing(r)).toBe(true);
-            const outer = k.value.filter((r) => area2(r) > 0n);
-            expect(outer.length > 0 || k.value.length === 0).toBe(true);
-            // N-52 (2), C-0277 (1): every split chain the kerb reading draws lies within its junction's reach
-            const rk = readKerb(o, f, ws);
-            if (rk.ok) expect(splitsBeyondReach(o.plat, rk.value)).toEqual([]);
-          }
-          return { ok: true, value: null, warnings: [] };
-        });
-        // the read-only service writes nothing
-        expect(state(p)).toBe(b0);
-        if (read.cls !== null) {
-          refusals.kerb[read.cls] += 1;
-          tallyCause('kerb', read.cls, read.replay);
-        }
-        const before = state(p);
-        const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
-        if (!r.ok) {
-          expect(state(p)).toBe(before);
-          const rp = replayCommit({ build: () => network(chords), level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) });
-          const cls = classify(r, rp);
-          refusals.corridorUnion[cls] += 1;
-          tallyCause('corridorUnion', cls, rp);
-          registerLine('corridorUnion', cls, r.code, r.detail, chords, rp);
-          return;
-        }
-        committed += 1;
-        healthy(p);
-        expect(tilesExactly(p, 2, faces)).toEqual([]);
-        // N-57 (2): every closing by kerb(F) — no chord to a far vertex
-        // bandUnion's kerb reads the chain's edge spines only (C-0380); corridorUnion's its vertex contacts too
-        // read after the commit in an L1 batch, as S8 reads it (the dry-run lays its parts at L2, kerb.ts `dryLevel`, so
-        // it meets the committed kerb: an along closing is committed only where this read holds its run vertex, C-0421)
-        const kerbOf = (w: typeof ws, vertexContacts = true) => (f: number) => {
-          const k = readIn(p, 1, (o) => readKerb(o, f, w, undefined, vertexContacts));
-          return k.ok ? k.value.kerb : null;
-        };
-        expect(closingsBeyond(bandClosings(p), kerbOf(ws)), JSON.stringify(chords)).toEqual([]);
-        count(bandClosings(p));
-        const v = r.value.value as BandResult;
-        expect(new Set([...v.band, ...v.blocks]).size).toBe(v.band.length + v.blocks.length);
-        // a wall band along the first chain at L3, inside every L1 face
-        const chain = firstBand(table);
-        if (chain.length === 0) return;
-        const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
-        // bandUnion's closings are judged against its own reading: kerb(F) read in an L3 batch before it commits, beside
-        // S9's committed kerb (the dry-run's attractors are the content an L3 insertion meets; notes row 42)
-        const bandKerb = new Map<number, ReturnType<ReturnType<typeof kerbOf>>>();
-        readIn(p, 3, (o) => {
-          for (const f of faces) {
-            const k = readKerb(o, f, bw, undefined, false);
-            bandKerb.set(f, k.ok ? k.value.kerb : null);
-          }
-          return null;
-        });
-        const b1 = state(p);
-        const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
-        if (!b.ok) {
-          expect(state(p)).toBe(b1);
-          const rp = replayCommit({
-              build: () => {
-                const n = network(chords);
-                commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
-                return n;
-              },
-              level: 3,
-              over: AT_S9,
-              widths: bw,
-              edgeRole: 'band',
-              vertexContacts: false,
-              entityOf: () => 'band:1',
-            });
-          const cls = classify(b, rp);
-          refusals.bandUnion[cls] += 1;
-          tallyCause('bandUnion', cls, rp);
-          registerLine('bandUnion', cls, b.code, b.detail, chords, rp);
-          return;
-        }
-        healthy(p);
-        expect(tilesExactly(p, 3, faces)).toEqual([]);
-        expect(closingsBeyond(bandClosings(p), (f: number) => bandKerb.get(f) ?? null), JSON.stringify(chords)).toEqual([]);
-        count(bandClosings(p));
+        checkNetwork(() => network(chords), chords, acc);
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)}); by cause ${JSON.stringify(causes)}; closings ${JSON.stringify(closings)}`);
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(acc.committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)}); by cause ${JSON.stringify(causes)}; closings ${JSON.stringify(closings)}`);
     expect(refusals.kerb.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.corridorUnion.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.bandUnion.own).toBeLessThanOrEqual(OWN_CAP);
+  });
+
+  it('the widened family (notes row 13): bent chords, dead-end antennae and ring ways (islands: faces with holes) — 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
+    // a fifth of the run's size: each network 1 – 3 ways, each a bent chord (frame → an interior bend → frame: a spine's
+    // own bend, the faces either side turning at it), a dead end (frame → an interior point: an antenna, its round or
+    // square end inside the face), or a closed ring way well inside the frame (an island: the face round it has a hole,
+    // its kerb a ring set with a hole); scalar half-widths or two-knot profiles on the open ways, round or square ends
+    const runs = Math.max(100, Math.ceil(RUNS / 5));
+    const wayArb: fc.Arbitrary<WideWay> = fc.record({
+      kind: fc.constantFrom<'bent' | 'dead' | 'ring'>('bent', 'dead', 'ring'),
+      a: fc.integer({ min: 0, max: 15_999 }),
+      b: fc.integer({ min: 0, max: 15_999 }),
+      x: fc.integer({ min: 400, max: 3600 }),
+      y: fc.integer({ min: 400, max: 3600 }),
+      w: fc.integer({ min: 300, max: 1600 }),
+      h: fc.integer({ min: 300, max: 1600 }),
+      hw: fc.oneof(fc.integer({ min: 1, max: 30 }), fc.integer({ min: 30, max: 300 })),
+      knots: fc.option(fc.tuple(fc.integer({ min: 5, max: 300 }), fc.integer({ min: 5, max: 300 })), { freq: 3 }),
+      ends: fc.constantFrom<'round' | 'square'>('round', 'square'),
+    }).map((c) => (c.kind === 'ring' ? { ...c, x: Math.min(c.x, 3700 - c.w), y: Math.min(c.y, 3700 - c.h) } : c));
+    const into: Record<string, Record<string, number>> = {};
+    const { acc, closings } = newAcc(into);
+    let holes = 0;
+    fc.assert(
+      fc.property(fc.array(wayArb, { minLength: 1, maxLength: 3 }), (ways) => {
+        const n = wideNetwork(ways);
+        for (const f of n.faces) if (ringsOf(n.p, 1, f).length > 1) holes += 1;
+        checkNetwork(() => wideNetwork(ways), ways, acc);
+      }),
+      { numRuns: runs },
+    );
+    console.info(`B-FUZZ bands (widened): ${String(runs)} networks, ${String(acc.committed)} committed, ${String(holes)} faces with a hole; refusals per operation ${JSON.stringify(acc.refusals)} (counted and logged, uncapped: the session's ruling, notes row 13 of round S14); by cause ${JSON.stringify(into)}; closings ${JSON.stringify(closings)}`);
+    // the family reaches what it was widened for: faces with holes
+    expect(holes).toBeGreaterThan(0);
+    // every output valid (checkNetwork), every refusal typed and writing nothing; the item's own refusals of this family
+    // — KEPT_DEEP on faces round crossing ring ways, a dangling tip at a dead end's antenna (REFUSAL lines, seeds in the
+    // round's notes) — are lawful-input refusals routed to the session (ZERO REFUSALS, J264; N-58: MAKE-IT-SUCCEED): N-44
+    // (3)'s cap is the registered family's above, never widened, and this family's count is reported, not gated
   });
 
   it('tileRings on random ring lists: 0 crashes, every piece simple and counter-clockwise, or the overlap refusal', { timeout: HARD }, () => {

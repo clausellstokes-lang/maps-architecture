@@ -9,6 +9,10 @@
 // and B-FUZZ's networks (bfuzz.test.ts's chord arbitrary, a fixed sample). Before round S9 every non-trivial read built
 // at least one arena (fusion 3/33/44: 2 each, with 334/338/548 two-point insertions; dead end: 1, with 198; 200 networks
 // of seed 20261019: 422 reads, 434 arenas, 21 613 insertions, no savepoint — the CHECKPOINT of 2026-10-19 02:58).
+// Round S16 (the faithful read, kerb.ts's module comment; C-0430): a read whose first region holds a vertex deeper than
+// attractCm in one of its bands, or a ring that is not simple, is read once more on fresh dry-runs — its savepoints are
+// the first read's and the faithful read's (`kerbCensus(p).faithful` names whether one was made), each of them a
+// dry-run of one savepoint, two where its census was restaged; still no arena built and nothing left behind.
 import fc from 'fast-check';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -48,6 +52,8 @@ interface ReadCount extends Counts {
    * added vertex-only spines and the read ended ok or with that refusal.
    */
   readonly restageable: boolean;
+  /** Was the face read once more, faithfully (round S16: `kerbCensus(p).faithful` 'tried' or 'taken')? */
+  readonly faithful: boolean;
 }
 
 /** Every face's kerb read in one L1 batch, each counted on its own. */
@@ -65,7 +71,8 @@ function countReads(p: Plat, faces: readonly FaceId[], ws: SpineWidths): ReadCou
       const c = { ...counts };
       const w1 = { work: o.work.total, counts: JSON.stringify([...o.work.counts]), warnings: JSON.stringify(o.warnings), journal: JSON.stringify(o.journal) };
       const restageable = (kerbCensus(p)?.reaching.length ?? 0) > 0 && (k.ok || k.detail === CENSUS_DEEP);
-      out.push({ ...c, ok: k.ok, parts: c.insertChain, untouched: bits(p) === b0 && JSON.stringify(w1) === JSON.stringify(w0), restageable });
+      const faithful = (kerbCensus(p)?.faithful ?? 'none') !== 'none';
+      out.push({ ...c, ok: k.ok, parts: c.insertChain, untouched: bits(p) === b0 && JSON.stringify(w1) === JSON.stringify(w0), restageable, faithful });
     }
     return { ok: true, value: null, warnings: [] };
   });
@@ -75,15 +82,17 @@ function countReads(p: Plat, faces: readonly FaceId[], ws: SpineWidths): ReadCou
 }
 
 /**
- * No scratch arena; one savepoint per read that lays a part, none for one that lays none — a second only where the
- * census refused and the read was restaged (C-0420, round S12); the arena and batch untouched.
+ * No scratch arena; one savepoint per dry-run that lays a part, none for one that lays none — a second only where the
+ * census refused and the read was restaged (C-0420, round S12), and the faithful read's own where the face was read once
+ * more (round S16, C-0430: each of the two reads one or, restaged, two — four at most); the arena and batch untouched.
  */
 function expectDryRun(per: readonly ReadCount[], label: string): void {
   for (const [i, c] of per.entries()) {
     expect(c.createPlat, `${label} read ${String(i)}: arenas built`).toBe(0);
-    expect(c.opSave, `${label} read ${String(i)}: savepoints`).toBeLessThanOrEqual(c.restageable ? 2 : 1);
+    expect(c.opSave, `${label} read ${String(i)}: savepoints`).toBeLessThanOrEqual(c.faithful ? 4 : c.restageable ? 2 : 1);
     if (c.parts > 0) expect(c.opSave, `${label} read ${String(i)}: one savepoint (two restaged)`).toBeGreaterThanOrEqual(1);
-    if (c.parts > 0 && !c.restageable) expect(c.opSave, `${label} read ${String(i)}: one savepoint`).toBe(1);
+    if (c.parts > 0 && !c.restageable && !c.faithful) expect(c.opSave, `${label} read ${String(i)}: one savepoint`).toBe(1);
+    if (c.faithful) expect(c.opSave, `${label} read ${String(i)}: the faithful read's dry-run beside the first`).toBeGreaterThanOrEqual(2);
     expect(c.untouched, `${label} read ${String(i)}: the arena and the batch as the read found them`).toBe(true);
   }
 }
