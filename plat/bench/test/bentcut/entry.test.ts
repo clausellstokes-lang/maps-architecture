@@ -6,8 +6,8 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterAll, describe, expect, it } from 'vitest';
-import { bentcut, DEFAULT_SIZES, parseArgs, PLAT_ROOT, run, runFcut, runFull, runTask, SUMMARY_PATH, t34Task, type BentCutReport, type FaceRecord, type FullRecord, type Task } from '../../src/bentcut/index.js';
+import { afterAll, describe, expect, it, vi } from 'vitest';
+import { bentcut, DEFAULT_SIZES, FCUT_KINDS, parseArgs, PLAT_ROOT, run, runFcut, runFull, runTask, SUMMARY_PATH, t34Task, type BentCutReport, type FaceRecord, type FcutRecord, type FullRecord, type Task } from '../../src/bentcut/index.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'bentcut-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -54,7 +54,7 @@ describe('bench -- bentcut: a toy run', () => {
     expect(await run(TOY, { out: dir, summary, onReport: (r) => (report = r) })).toBe(0);
     expect(existsSync(summary)).toBe(false);
     expect(existsSync(join(dir, 'bentcut', 'report.json'))).toBe(true);
-    expect(report?.verdicts).toEqual({ fcut: true, corner: true, arrival: true, t34: true });
+    expect(report?.verdicts).toEqual({ fcut: true, replay: true, corner: true, arrival: true, t34: true });
     expect(await run([...TOY, '--summary'], { out: dir, summary })).toBe(0);
     const s = JSON.parse(readFileSync(summary, 'utf8')) as Record<string, unknown>;
     expect(Object.keys(s)).toEqual(['item', 'sizes', 'pass', 'verdicts', 'fcut', 'residue', 'signature', 't34', 'work']);
@@ -127,5 +127,86 @@ describe('bench -- bentcut: T34-1 does not depend on the worker count (C-0242 (7
     expect(one.t34?.n).toBe(30);
     expect(one.t34?.faces).toBe(faces);
     expect(one.work?.counters['cut.kernelCalls']?.districts).toBe(faces);
+  });
+});
+
+describe('bench -- bentcut: every bar the run judges reaches its exit code (hardening S3, N-4: the checker’s probe 2 as tests)', () => {
+  // The toy run's records, each face run once (an in-thread runner with a cache); each case plants one fault on them.
+  const SMALL = ['--fcut', '4', '--districts', '2', '--sig', '1', '--t34', '20'];
+  const cache = new Map<string, FaceRecord>();
+  const real = (t: Task): FaceRecord => {
+    const k = JSON.stringify(t);
+    let r = cache.get(k);
+    if (r === undefined) {
+      r = runTask(t);
+      cache.set(k, r);
+    }
+    return r;
+  };
+  const residue = (t: Task): boolean => t.phase === 'full' && t.replay !== true && (FCUT_KINDS as readonly string[]).includes(t.kind);
+  const sig = (t: Task): boolean => t.phase === 'full' && t.replay === true;
+  const t34 = (t: Task): boolean => t.phase === 'full' && t.replay !== true && !(FCUT_KINDS as readonly string[]).includes(t.kind);
+  const at = async (plant: (t: Task, r: FaceRecord) => FaceRecord): Promise<{ code: number; report: BentCutReport; lines: string[] }> => {
+    let report: BentCutReport | undefined;
+    const lines: string[] = [];
+    const spy = vi.spyOn(process.stdout, 'write').mockImplementation((chunk: string | Uint8Array) => {
+      lines.push(String(chunk).replace(/\n$/, ''));
+      return true;
+    });
+    try {
+      const code = await run(SMALL, { out: dir, onReport: (r) => (report = r), runTask: (t) => plant(t, real(t)) });
+      if (report === undefined) throw new Error('no report');
+      return { code, report, lines };
+    } finally {
+      spy.mockRestore();
+    }
+  };
+  const failing = (r: BentCutReport): string[] => Object.entries(r.verdicts).filter(([, v]) => v === false).map(([k]) => k);
+
+  it('the control holds (exit 0); each planted fault fails exactly its own bar (exit 1)', { timeout: 600_000 }, async () => {
+    const control = await at((_, r) => r);
+    expect([control.code, failing(control.report)]).toEqual([0, []]);
+    // K15: a 7-call ladder below depth 0 in a residue district fails F-CUT (its every-depth records are folded).
+    const deep = await at((t, r) => (residue(t) ? { ...(r as FullRecord), ladders: { ...(r as FullRecord).ladders, maxCalls: 7 } } : r));
+    expect([deep.code, failing(deep.report), deep.report.fcut?.allDepths.maxKernelCalls]).toEqual([1, ['fcut'], 7]);
+    // A residue district S8 threw on fails F-CUT.
+    const threw = await at((t, r) => (residue(t) && t.i === 0 && t.kind === 'concave' ? { ...(r as FullRecord), refused: 'threw: planted' } : r));
+    expect([threw.code, failing(threw.report), threw.report.fcut?.allDepths.refused]).toEqual([1, ['fcut'], 1]);
+    // K16: the corner clause, the arrival clause and T34-1 each reach the exit code on their own.
+    const offMid = await at((t, r) => (sig(t) ? { ...(r as FullRecord), cuts: (r as FullRecord).cuts.map((c) => (c.bends === 1 ? { ...c, cornerT: 0.9 } : c)) } : r));
+    expect([offMid.code, failing(offMid.report)]).toEqual([1, ['corner']]);
+    const steep = await at((t, r) => (sig(t) ? { ...(r as FullRecord), cuts: (r as FullRecord).cuts.map((c) => ({ ...c, arrivalCdeg: 8000 })) } : r));
+    expect([steep.code, failing(steep.report)]).toEqual([1, ['arrival']]);
+    const g = await at((t, r) => (t34(t) || sig(t) ? { ...(r as FullRecord), g: (r as FullRecord).g.map(() => 0.5) } : r));
+    expect([g.code, failing(g.report)]).toEqual([1, ['t34']]);
+    // N-3: one planner cut the replay missed fails the replay gate, and so the run.
+    const missed = await at((t, r) => {
+      const f = r as FullRecord;
+      return sig(t) && t.kind === 'curved' && f.counts !== null ? { ...f, counts: { ...f.counts, missed: 1, misses: ['planted'] } } : r;
+    });
+    expect([missed.code, failing(missed.report)]).toEqual([1, ['replay']]);
+    // A signature district whose replay fell back to S8's own run (counts null, its cuts unmeasured) fails it too.
+    const fell = await at((t, r) => (sig(t) && t.kind === 'holed' ? { ...(r as FullRecord), cuts: [], counts: null, arrivals: null } : r));
+    expect([fell.code, failing(fell.report), fell.report.signature?.replay.notReplayed]).toEqual([1, ['replay'], 1]);
+  });
+
+  it('prints the unresolved ladders beside the F-CUT verdict, which they do not fail (N-1; the text verbatim)', { timeout: 600_000 }, async () => {
+    const plant = (t: Task, r: FaceRecord): FaceRecord => {
+      if (t.phase === 'fcut' && t.kind === 'concave' && t.i === 1) return { ...(r as FcutRecord), outcome: 'unresolved', kernelCalls: 0, facesAfterLadder: 1, facesAfter: 1 };
+      if (residue(t) && t.kind === 'concave' && t.i === 0) return { ...(r as FullRecord), ladders: { ...(r as FullRecord).ladders, unresolved: 2 } };
+      return r;
+    };
+    const { code, report, lines } = await at(plant);
+    expect(code).toBe(0);
+    expect(report.fcut?.unresolved).toBe(1);
+    expect(report.fcut?.outcomes['unresolved']).toBe(1);
+    expect(report.fcut?.allDepths.unresolved).toBe(2);
+    const verdict = lines.find((l) => l.startsWith('bentcut: F-CUT ') && l.includes('faces run of'));
+    expect(verdict).toMatch(/^bentcut: F-CUT 4 faces run of 4 \(0 not built, 0 refused by S8\): 1 ladders ended unresolved \(every rung refused, the face left whole: the ladder ended, no pass of rung \(c\); reported, not judged\); the ladder ends in ≤ \d kernel calls, 0 face-count decreases — HOLDS$/);
+    expect(lines.find((l) => l.startsWith('bentcut: F-CUT at every depth'))).toMatch(/, 2 ladders ended unresolved$/);
+    expect(lines.find((l) => l.startsWith('bentcut: F-CUT depth-0 kernel calls '))).toMatch(/; outcomes \{.*"unresolved":1.*\}$/);
+    // The replay gate's and the committed arrival's lines (N-3, N-2).
+    expect(lines.find((l) => l.startsWith('bentcut: replay over '))).toMatch(/^bentcut: replay over 5 signature faces: 0 districts not replayed \(S8's own run stood, its cuts unmeasured\); 0 of \d+ planner cuts missed \(the bound 0\) — HOLDS$/);
+    expect(lines.find((l) => l.startsWith('bentcut: arrival ≥ 85° read from the committed geometry'))).toMatch(/^bentcut: arrival ≥ 85° read from the committed geometry \(reported, not judged\): planner lanes [0-9.]+ % of \d+ ends \(\d+ unmeasured\), all lanes [0-9.]+ % of \d+ ends \(\d+ unmeasured\)$/);
   });
 });

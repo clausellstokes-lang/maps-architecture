@@ -286,6 +286,7 @@ describe('phase b\'s gate (judgeB on planted records)', () => {
     expect([r.pass, r.failing]).toEqual([true, []]);
     expect(r.clauses.filter((c) => c.gating).map((c) => c.id)).toEqual([
       'run',
+      'replay',
       'cut.sigma/plain',
       'cut.sigma/ring',
       'cut.fillet/all',
@@ -361,6 +362,32 @@ describe('phase b\'s gate (judgeB on planted records)', () => {
     expect([r.pass, r.failing, r.clauses[0].note?.startsWith('3 faces: 1 not built')]).toEqual([false, ['run'], true]);
     const s8 = { ...records()[1], faceId: 4, cuts: [], blocks: [], checks: null, replayed: false, refused: 'E_TEST planted' };
     expect(judge({ records: [...records(), s8] }).failing).toEqual(['run']);
+  });
+
+  it('a ring face whose run cuts nothing: cut.sigma/ring reads notApplicable, gating, and fails the run (hardening S1, note 9; C16)', () => {
+    // NG's file holds a plain and a ring face; ours cuts nothing on the ring face (its blocks stand). M0-k-05's registry
+    // emits no ring σ entry, so only judgeB's missingKey loop keeps the ring key in the gate.
+    const recs = records().map((r) => (r.faceId === 2 ? { ...r, cuts: [] } : r));
+    const plainCuts = recs[0].cuts;
+    const fillet = cutFillet({ ways: [], cuts: plainCuts }).get('all') as number;
+    const r = judge({ records: recs, rows: rows({ fillet }) });
+    const ring = r.clauses.filter((c) => c.id === 'cut.sigma/ring');
+    expect(ring.map((c) => [c.verdict, c.gating, c.ours, c.note])).toEqual([['notApplicable', true, null, 'ours: no ring cut under the frame rule']]);
+    expect([r.pass, r.failing]).toEqual([false, ['cut.sigma/ring']]);
+    // The same run with no ring face in NG's file: no ring key is gated, and the run passes.
+    const plainOnly = judgeB({ baselines: baselines(rows({ fillet })), rule: RULE_B, ng: { ...NG, faces: [NG.faces[0]] }, ngFile: NG_FILE, records: [recs[0]], seed: 1, seeds: 1, flatten: MET });
+    expect([plainOnly.pass, plainOnly.clauses.some((c) => c.id === 'cut.sigma/ring')]).toEqual([true, false]);
+  });
+
+  it('the replay clause: a planner cut the replay missed, or a district not replayed, fails the run (hardening S1, note 7)', () => {
+    const ok = judge().clauses.find((c) => c.id === 'replay');
+    expect(ok).toMatchObject({ verdict: 'pass', gating: true, ours: 0, reference: 0, band: { hi: 0 }, note: "2 districts measured: 0 not replayed (S8's own run stood, its cuts unmeasured); 0 of 24 planner cuts missed by the replay (the bound 0)" });
+    const missed = judge({ records: records().map((r) => (r.faceId === 1 ? { ...r, missed: 1 } : r)) });
+    expect([missed.pass, missed.failing]).toEqual([false, ['replay']]);
+    expect(missed.clauses.find((c) => c.id === 'replay')).toMatchObject({ verdict: 'fail', ours: 1 / 25, note: "2 districts measured: 0 not replayed (S8's own run stood, its cuts unmeasured); 1 of 25 planner cuts missed by the replay (the bound 0)" });
+    const s8own = { ...records()[1], faceId: 3, replayed: false, cuts: [], blocks: [] };
+    const nr = judge({ records: [...records(), s8own] });
+    expect([nr.pass, nr.failing, nr.clauses.find((c) => c.id === 'replay')?.note]).toEqual([false, ['replay'], "3 districts measured: 1 not replayed (S8's own run stood, its cuts unmeasured); 0 of 24 planner cuts missed by the replay (the bound 0)"]);
   });
 
   it('a T-bar with no check reads notApplicable and fails the gate; a failed check fails it (F-3)', () => {
