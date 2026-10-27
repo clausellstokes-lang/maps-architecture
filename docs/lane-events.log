@@ -11646,3 +11646,4 @@
 2026-10-27T08:42:00Z session/seed M0-c-06's fourth continuation seeded as wip/seed-c06f0e @ 4795e766 (the design branch after 9f631a41 + wip/child-c06f0d @ 01ba2184's unchecked files; 75 c-06 lane lines); FOR ACCOUNT 2 row 8 OPEN (lane flow, from 0, check Fable) (J533)
 2026-10-27T08:43:00Z session/merge PR #42 MERGED as aa30ef30 (the a-09 S14–S17 landing 9f631a41, N-65, the c-06 seed listing, J520–J533); draft PR #43 next; AY archived; no child on account A (J534)
 2026-10-27T08:43:00Z session/pr draft PR #43 opened from the design branch (head 2fdf7178) and subscribed; PR #42 unsubscribed (J534)
+2026-10-27T08:44:00Z session/launch-list FOR ACCOUNT 2: LAUNCH ORDER 8, 7, 2, 3, 4, 5, 6 (the critical path and the kernel first; four at once) written above the table; check-in 23's prompt updated to the no-child state (J535)
