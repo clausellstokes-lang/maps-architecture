@@ -14,8 +14,9 @@
 // committed A–W, W–V, W–B (W of degree 3, V a dead end, W_STRETCH_SHARED on its own edge V–W) and was refused '(way,
 // way:c1) branches' under a linear key. Now it commits A–W–B, its corner's point on W (30 cm), a simple path. The
 // constructive cases are the three the S9 check's class dump found at the census seed 20261013 (generator seeds below).
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import type { Plat, VertexId } from '../../../src/arena/index.js';
+import { addRole, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { insertChain } from '../../../src/insert/insertChain.js';
 import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
 import { ok } from '../../../src/num/index.js';
@@ -23,7 +24,7 @@ import { tx as txn } from '../../../src/tx/index.js';
 import type { Level } from '../../../src/types/index.js';
 import { spec } from '../../tx/support.js';
 import { genChain } from './gen.js';
-import { allProblems, dissolvableProblems, edgeRows, framed, generator, ins, intIn, liveEdges, pt, tx, vertexAtPoint } from './support.js';
+import { allProblems, dissolvableProblems, edgeRows, framed, generator, indexed, ins, intIn, liveEdges, pt, tx, vertexAtPoint } from './support.js';
 
 /** The degree of every vertex in one row's edge set (`role/entity`), keyed by its lattice position. */
 function rowDegrees(p: Plat, row: string): Map<string, number> {
@@ -171,18 +172,66 @@ describe('RQ1 across segments: the constructive family\'s three cases at seed 20
   }
 });
 
-// notBuilt #3 (M4; C-0423 (1), C-0424 (3) as C-0425 amends it): a retrace of the chain's own path that the cut back does
-// not route. Form (1), the corner beyond the bound: the same arrangement with W 40 cm from the corner — the
-// arms still pass within attractCm of W (25.0 cm), so step 3 routes both through it — but V's input point stands beyond
-// √2 · attractCm (36.8 cm) of W, so its point may not land there, and no other vertex of the path is near: the chain is
-// routed as before, its rows A–W, W–V, W–B (W of degree 3, V a dead end), and under a linear key the transaction refuses
-// it '(way, way:c1) branches'. Keeping the corner on a simple route there (A–W–V–B, the route leaving V with W left out
-// of step 3) is what the class needs; that form, tried for every retrace, raised the census's counted refusals at seed
-// 20261013 from 2 to 16 (the thin faces it leaves refuse later chains), so it waits for M4's hardening pass.
-describe('notBuilt #3 (M4), form (1): a retrace whose corner stands beyond √2 · attractCm of the junction is routed as before', () => {
+/** A chain inserted under a `way` key through M0-a-06's transaction with the invariant suite wired in. */
+function throughTx(p: Plat, level: Level, chain: readonly (readonly [number, number])[], cls: 'mandatory' | 'optional', closed: boolean) {
+  return txn(p, spec(level), (o) => {
+    const k = insertChain(o, chain.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: 'way:c1' }], cls, { closed });
+    if (!k.ok) return k;
+    return ok(null);
+  }, suiteEnv({ report: suiteReport() }));
+}
+
+/** The vertices of degree ≥ 3 in a row set, as [position, degree]. */
+const high = (deg: Map<string, number>): [string, number][] => [...deg].filter(([, d]) => d >= 3);
+
+// notBuilt #3 (M4; C-0423 (1), C-0424 (3) as C-0432 amends it): a retrace of the chain's own path that the cut back does
+// not route. Round S12 (N-64; J515) builds its forms (3) – (5) and form (1) within the corner bound; forms (1′) and (2)
+// stay, with J238 (1)'s proof in C-0432.
+//
+// Form (1), built: the arrangement with W 40 cm from the corner — the arms still pass within attractCm of W (25.0 cm),
+// so step 3 routes both through it, and V's input point stands beyond √2 · attractCm (36.8 cm) of W. Before round S12 it
+// was routed as before (W of degree 3, V a dead end, refused '(way, way:c1) branches' under a linear key). A corner both
+// of whose arms pass within attractCm of a vertex beyond √2 · attractCm is at most 90° wide (each arm within 45° of the
+// line to it), and §3.6 *Existing geometry wins* lets an acute tip move by the corner bound 2 · √2 · attractCm: the cut
+// back takes such a vertex within that bound, and the chain commits A–W–B, the corner's point on W (40 cm).
+describe('notBuilt #3, form (1) built (round S12): a corner beyond √2 · attractCm of the junction, within the corner bound, is cut back onto it', () => {
   const existing: readonly (readonly [number, number])[] = [[2040, 2000], [3500, 2000]];
   const chain: readonly (readonly [number, number])[] = [[2500, 2400], [2000, 2000], [2500, 1600]];
-  it('under `invisible`: committed as before — W (2 040, 2 000) of degree 3, the corner V a dead end', () => {
+  it('under `invisible`: commits A–W–B, the corner (2 000, 2 000) cut back onto W (2 040, 2 000), 40 cm — a simple path', () => {
+    const p = framed(4000);
+    expect(ins(tx(p, 0), existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
+    const r = ins(tx(p, 0), chain, [{ role: 'invisible', entity: 'c1' }]);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.placed.map((v) => at(p, v))).toEqual(['2500,2400', '2040,2000', '2500,1600']);
+    const deg = rowDegrees(p, 'invisible/c1');
+    expect(simpleOpen(deg)).toBe(true);
+    expect(deg.get('2040,2000')).toBe(2);
+    expect(deg.size).toBe(3);
+    expect(vertexAtPoint(p, 2000, 2000)).toBe(-1);
+    expect(r.warnings).toEqual(WARNINGS);
+    expect(allProblems(p)).toEqual([]);
+    expect(dissolvableProblems(p)).toEqual([]);
+  });
+  it('under a `way` key through M0-a-06\'s transaction: the batch commits, the key a simple run', () => {
+    const p = framed(4000);
+    expect(ins(tx(p, 0), existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
+    const r = throughTx(p, 0, chain, 'mandatory', false);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    expect(simpleOpen(rowDegrees(p, 'way/way:c1'))).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+  });
+});
+
+// Form (1′), kept (C-0432): a corner beyond the corner bound of every vertex of the path it re-enters — W 80 cm from the
+// corner of a narrow V (arms at ±14°, both passing 19.4 cm from W). A cut back there would move the corner beyond the
+// fidelity bound; keeping the corner (the segment routed with the path left out of step 3) measured a census rise at
+// 20261013 (random 2 → 13, constructive 1 → 8, C-0432), so it is routed as before: W of degree 3, V a dead end, refused
+// '(way, way:c1) branches' under a linear key.
+describe('notBuilt #3, form (1′) kept: a corner beyond 2 · √2 · attractCm of the junction is routed as before', () => {
+  const existing: readonly (readonly [number, number])[] = [[2080, 2000], [3500, 2000]];
+  const chain: readonly (readonly [number, number])[] = [[2500, 2125], [2000, 2000], [2500, 1875]];
+  it('under `invisible`: committed as before — W (2 080, 2 000) of degree 3, the corner V a dead end', () => {
     const p = framed(4000);
     expect(ins(tx(p, 0), existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
     const r = ins(tx(p, 0), chain, [{ role: 'invisible', entity: 'c1' }]);
@@ -190,31 +239,27 @@ describe('notBuilt #3 (M4), form (1): a retrace whose corner stands beyond √2 
     if (!r.ok) return;
     expect(r.value.placed.map((v) => at(p, v))).toEqual(chain.map(([x, y]) => `${x},${y}`));
     const deg = rowDegrees(p, 'invisible/c1');
-    expect(deg.get('2040,2000')).toBe(3);
+    expect(deg.get('2080,2000')).toBe(3);
     expect(deg.get('2000,2000')).toBe(1);
     expect(allProblems(p)).toEqual([]);
   });
-  it('under a `way` key through M0-a-06\'s transaction: refused \'(way, way:c1) branches\' (the class named, not fixed)', () => {
+  it('under a `way` key through M0-a-06\'s transaction: refused \'(way, way:c1) branches\' (the form named, kept)', () => {
     const p = framed(4000);
     expect(ins(tx(p, 0), existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
-    const r = txn(p, spec(0), (o) => {
-      const k = insertChain(o, chain.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: 'way:c1' }], 'mandatory');
-      if (!k.ok) return k;
-      return ok(null);
-    }, suiteEnv({ report: suiteReport() }));
+    const r = throughTx(p, 0, chain, 'mandatory', false);
     expect(r.ok).toBe(false);
-    if (!r.ok) expect(`${r.code} ${r.detail}`).toContain('E_INVARIANT (way, way:c1) branches');
+    if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_INVARIANT (way, way:c1) branches: a linear role forms simple chains or rings (§3.10 role consistency)');
   });
 });
 
-// notBuilt #3 (M4), form (2): a corner whose first arm is shorter than √2 · attractCm folds the second arm back over
-// it. A (2 031, 2 000) → V (2 000, 2 000) → B (2 433, 2 250): the corner 30°, the arm A–V 31 cm, so the second arm passes
+// Form (2), kept (C-0432): a corner whose first arm is shorter than √2 · attractCm folds the second arm back over it. A
+// (2 031, 2 000) → V (2 000, 2 000) → B (2 433, 2 250): the corner 30°, the arm A–V 31 cm, so the second arm passes
 // 15.5 cm from A and step 3 routes it back through A — the edge V–A retraced. The only vertex of the path near V's input
 // point is A, the segment's own start, which the cut back never takes (its segment would vanish), so the chain is routed
-// as before: the rows V–A, A–B (a simple run, every vertex of degree ≤ 2, but V the run's end and A inside it), the
-// W_STRETCH_SHARED at V naming the retraced edge. The row set commits under a linear key; the drawn order (A an end)
-// needs the corner kept off A, which is the class's M4 work.
-describe('notBuilt #3 (M4), form (2): a short first arm folded back over itself is routed as before', () => {
+// as before: the rows V–A, A–B — a simple run, committed under every key (§3.6's preamble: "a chain that doubles back
+// near itself attracts onto itself as onto any other edge"); V the run's end and A inside it, W_STRETCH_SHARED at V. The
+// drawn order needs the corner kept off A, the census-raising form C-0432 measured.
+describe('notBuilt #3, form (2) kept: a short first arm folded back over itself is routed as before (a simple run)', () => {
   it('A (2 031, 2 000) → V (2 000, 2 000) → B (2 433, 2 250) under `invisible`: committed, the rows V–A and A–B, W_STRETCH_SHARED at V', () => {
     const p = framed(4000);
     const r = ins(tx(p, 0), [[2031, 2000], [2000, 2000], [2433, 2250]], [{ role: 'invisible', entity: 'c1' }]);
@@ -229,185 +274,130 @@ describe('notBuilt #3 (M4), form (2): a short first arm folded back over itself 
     expect(r.warnings).toEqual([{ code: 'W_ATTRACTED', count: 1, at: { x: 2031, y: 2000 } }, { code: 'W_STRETCH_SHARED', count: 1, at: { x: 2000, y: 2000 } }]);
     expect(allProblems(p)).toEqual([]);
   });
+  it('under a `way` key through M0-a-06\'s transaction: the batch commits (a simple run, no refusal)', () => {
+    const p = framed(4000);
+    const r = throughTx(p, 0, [[2031, 2000], [2000, 2000], [2433, 2250]], 'mandatory', false);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    expect(simpleOpen(rowDegrees(p, 'way/way:c1'))).toBe(true);
+  });
 });
 
-// notBuilt #3 (M4) is every retrace of the chain's own path that the cut back does not route (C-0424 (3) as round S11
-// amends it, C-0425; N-s10-3). Its forms (3) – (5) below are the S10 closing check's (N-s10c-1); each is lawful input, the
-// corner within √2 · attractCm of the re-entered vertex, routed as before (`passes(null)`): committed with a vertex of
-// degree 3 in the chain's own rows, refused 'branches' under a linear key. The pins hold that outcome so that the M4 fix
-// (the seam cut back, a re-landing on a vertex the earlier segment placed, the precision rules on the cut back's route)
-// is a declared shift.
-//
-// Form (3), a closed run's seam: the closing segment (insertChain.ts `run`, `if (run.closed && …)`) is routed without the
-// cut back the open loop has. The S9 arrangement closed with the corner V (2 000, 2 000) at the seam: the first segment
-// leaves V through W (30 cm from it, within the bound) and the closing segment comes back to V through W, retracing W–V;
-// the watching and back passes refuse it (the chain re-enters its own path) and it commits as before — W of degree 3, V a
-// spur of degree 1, W_ATTRACTED ×2 and W_STRETCH_SHARED ×1. The same for the ring reversed, for W west of V, and for the
-// corner as the ring's last point (the closing segment then leaves V through W, and the first returns).
-const SEAMS: readonly (Arrangement & { readonly sharedAt: readonly [number, number] })[] = [
-  { name: 'W east of V, V the ring\'s first point', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2000, 2000], [2500, 1600], [2500, 2400]], sharedAt: [2030, 2000] },
-  { name: 'W east of V, the ring reversed', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2000, 2000], [2500, 2400], [2500, 1600]], sharedAt: [2030, 2000] },
-  { name: 'W west of V, V the ring\'s first point', existing: [[500, 2000], [1970, 2000]], w: [1970, 2000], chain: [[2000, 2000], [1500, 1600], [1500, 2400]], sharedAt: [1970, 2000] },
-  { name: 'W east of V, V the ring\'s last point', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2500, 1600], [2500, 2400], [2000, 2000]], sharedAt: [2000, 2000] },
+// Form (3), built (round S12): a closed run's seam. The closing segment had no cut back; now a ring whose back pass
+// retraced its path at the seam is walked again from its last point, then from the point before it (insertChain.ts
+// `walk`, SEAM), so the seam's corner stands second and the cut back reaches it as any other. The S9 arrangement closed
+// with the corner V (2 000, 2 000) at the seam — the first segment leaves V through W (30 cm, within the bound) and the
+// closing segment came back to V through W — commits the ring W–P1–P2, V's point on W (W_ATTRACTED ×1 at V's input
+// point), every vertex of the row set of degree 2; the same reversed, for W west of V, and for the corner as the ring's
+// last point (then walked from the point before it). Before the round each committed with W of degree 3 and V a spur,
+// refused '(way, way:c1) branches' under a linear key.
+const SEAMS: readonly Arrangement[] = [
+  { name: 'W east of V, V the ring\'s first point', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2000, 2000], [2500, 1600], [2500, 2400]] },
+  { name: 'W east of V, the ring reversed', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2000, 2000], [2500, 2400], [2500, 1600]] },
+  { name: 'W west of V, V the ring\'s first point', existing: [[500, 2000], [1970, 2000]], w: [1970, 2000], chain: [[2000, 2000], [1500, 1600], [1500, 2400]] },
+  { name: 'W east of V, V the ring\'s last point', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2500, 1600], [2500, 2400], [2000, 2000]] },
 ];
 
-describe('notBuilt #3 (M4), form (3): a closed run\'s seam is never cut back — the ring routed as before', () => {
-  for (const c of SEAMS) {
-    it(`${c.name} — under \`invisible\`: committed as before, W (${c.w[0]}, ${c.w[1]}) of degree 3, the corner V (2 000, 2 000) a spur`, () => {
+// N-s11c-1 (the S11 closing check): the cut back on a ring's interior corner (not the seam) — right before round S12 and
+// unpinned (mutant SEAMOFF, the watch off for any chain with a closed run, survived the folder). The S9 arrangement with
+// the corner V at an interior index, W east and west, and a four-point ring: each commits a simple ring, V's point on W.
+const INTERIOR: readonly Arrangement[] = [
+  { name: 'W east of V, V the ring\'s second point', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2500, 2400], [2000, 2000], [2500, 1600]] },
+  { name: 'W west of V, V the ring\'s second point', existing: [[500, 2000], [1970, 2000]], w: [1970, 2000], chain: [[1500, 2400], [2000, 2000], [1500, 1600]] },
+  { name: 'W east of V, a four-point ring', existing: [[2030, 2000], [3500, 2000]], w: [2030, 2000], chain: [[2500, 2400], [2000, 2000], [2500, 1600], [3000, 2000]] },
+];
+
+describe('notBuilt #3, form (3) built (round S12), and the ring\'s interior corner (N-s11c-1): the corner beside W is cut back onto W — a simple ring', () => {
+  for (const c of [...SEAMS, ...INTERIOR]) {
+    it(`${c.name} — under \`invisible\`: commits a simple ring, the corner V (2 000, 2 000) on W (${c.w[0]}, ${c.w[1]})`, () => {
       const p = framed(4000);
       expect(ins(tx(p, 0), c.existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
       const r = ins(tx(p, 0), c.chain, [{ role: 'invisible', entity: 'c1' }], 'mandatory', { closed: true });
       expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
       if (!r.ok) return;
-      expect(r.value.placed.map((v) => at(p, v))).toEqual(c.chain.map(([x, y]) => `${x},${y}`));
+      expect(r.value.placed.map((v) => at(p, v))).toEqual(c.chain.map(([x, y]) => (x === 2000 && y === 2000 ? `${c.w[0]},${c.w[1]}` : `${x},${y}`)));
       const deg = rowDegrees(p, 'invisible/c1');
-      expect(deg.get(`${c.w[0]},${c.w[1]}`)).toBe(3);
-      expect(deg.get('2000,2000')).toBe(1);
-      expect(deg.size).toBe(5);
-      expect([...deg.values()].filter((d) => d === 3).length).toBe(1);
-      expect(r.warnings).toEqual([
-        { code: 'W_ATTRACTED', count: 2, at: { x: c.w[0], y: c.w[1] } },
-        { code: 'W_STRETCH_SHARED', count: 1, at: { x: c.sharedAt[0], y: c.sharedAt[1] } },
-      ]);
+      expect([...deg.values()].every((d) => d === 2), JSON.stringify([...deg])).toBe(true);
+      expect(deg.get(`${c.w[0]},${c.w[1]}`)).toBe(2);
+      expect(vertexAtPoint(p, 2000, 2000)).toBe(-1);
+      expect(r.warnings).toEqual(WARNINGS);
       expect(allProblems(p)).toEqual([]);
       expect(dissolvableProblems(p)).toEqual([]);
     });
 
-    it(`${c.name} — under a \`way\` key through M0-a-06's transaction: refused '(way, way:c1) branches' (the form named, not fixed)`, () => {
+    it(`${c.name} — under a \`way\` key through M0-a-06's transaction: the batch commits, the key a simple ring`, () => {
       const p = framed(4000);
       expect(ins(tx(p, 0), c.existing, [{ role: 'way', entity: 'way:ex' }]).ok).toBe(true);
-      const r = txn(p, spec(0), (o) => {
-        const k = insertChain(o, c.chain.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: 'way:c1' }], 'mandatory', { closed: true });
-        if (!k.ok) return k;
-        return ok(null);
-      }, suiteEnv({ report: suiteReport() }));
-      expect(r.ok).toBe(false);
-      if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_INVARIANT (way, way:c1) branches: a linear role forms simple chains or rings (§3.10 role consistency)');
+      const r = throughTx(p, 0, c.chain, 'mandatory', true);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      expect([...rowDegrees(p, 'way/way:c1').values()].every((d) => d === 2)).toBe(true);
+      expect(allProblems(p)).toEqual([]);
     });
   }
 });
 
 // Forms (3) – (5) in the registered constructive family (bfuzz.test.ts's constructive property; the S10 closing check's
-// oracle at the fuzz seeds named), each sequence replayed from its generator seed, the chain at `step` inserted under
-// `way:<step>`: its points, its placed vertices and warnings, and the vertex of degree 3 in its own rows at the
-// re-entered vertex (`branch`) — routed as before. (4) the cut back's one candidate is refused by the optional class's
-// precision rules (E_BELOW_MIN_ANGLE on pprev → x or on x → the next point); (5) the one candidate is a vertex the
-// chain's earlier segment placed (a wedge vertex), which the cut back's undo to prev's landing removes, so it is passed
-// over. `tx` names the refusal through M0-a-06's transaction where the chain's own key is the one refused (in the other
-// replays an earlier chain of the sequence, inserted without role consistency, already branches, and its key is named).
-interface Replay {
+// oracle at the fuzz seeds named), built by round S12. The S11 pins replayed each sequence from its generator seed; on
+// round S12's engine the sequences' earlier chains commit otherwise (generator seed 1 880 377 805's first chain is a
+// ring with a seam retrace of its own), so the arrangements are pinned as round S11's engine left them before the step
+// (register/s12-forms.json: the arena dumped, the step's chain). Each commits with no vertex of degree 3 in its own rows
+// (the S11 branch gone) and, under a `way` key through M0-a-06's transaction, commits — but generator seed 823 490 252's
+// chain, which crosses itself (its vertex of degree 4 at (2 427, 2 893), split into simple runs, §3.6 step 1), and is
+// refused 'branches' under a linear key for that self-crossing, the branch at the wedge vertex gone. (3) the ring walked
+// again from another seam; (4) the cut back's route arriving at x and leaving it along an edge it meets there within
+// minFaceAngle (C-0432's `cutStretch`); (5) the wedge vertex the undo removed landed again at its position.
+interface FormCase {
   readonly form: string;
   readonly fuzzSeed: number;
   readonly seed: number;
   readonly step: number;
+  readonly level: Level;
+  readonly cls: 'mandatory' | 'optional';
+  readonly closed: boolean;
   readonly points: readonly (readonly [number, number])[];
-  readonly placed: readonly string[];
-  readonly warnings: readonly { code: string; count: number; at: { x: number; y: number } }[];
-  readonly branch: readonly [number, number];
-  /** Every vertex of degree ≥ 3 in the chain's own rows (the branch, and a self-crossing's vertex of degree 4). */
-  readonly high: readonly (readonly [string, number])[];
-  readonly tx?: string;
+  readonly arena: { readonly vertices: readonly (readonly [number, number, Level])[]; readonly edges: readonly (readonly [number, number, Level])[] };
+}
+const FORMS = (JSON.parse(readFileSync(new URL('./register/s12-forms.json', import.meta.url), 'utf8')) as { cases: FormCase[] }).cases;
+
+/** The S11 arena of a form case, every edge carrying one row of its own level (the earlier chains', as one key). */
+function formArena(c: FormCase): Plat {
+  const b = indexed(c.arena);
+  c.arena.edges.forEach((e, i) => addRole(b.plat, b.he[i], { role: 'invisible', entity: 's11' }, e[2]));
+  return b.plat;
 }
 
-const REPLAYS: readonly Replay[] = [
-  {
-    form: '(3) a ring\'s seam', fuzzSeed: 8101, seed: 1677770628, step: 3,
-    points: [[1307, 2631], [1177, 2705], [1053, 2539], [1212, 2435]],
-    placed: ['1308,2650', '1177,2705', '1053,2539', '1212,2435'],
-    warnings: [{ code: 'W_ATTRACTED', count: 5, at: { x: 1307, y: 2631 } }, { code: 'W_STRETCH_SHARED', count: 2, at: { x: 1308, y: 2650 } }],
-    branch: [1281, 2651], high: [['1281,2651', 3]],
-    tx: 'E_INVARIANT (way, way:3) branches: a linear role forms simple chains or rings (§3.10 role consistency)',
-  },
-  {
-    form: '(3) a ring\'s seam', fuzzSeed: 8101, seed: 1665516641, step: 5,
-    points: [[2679, 2638], [2041, 2991], [1577, 2245], [2395, 1888]],
-    placed: ['2679,2646', '2041,2991', '1577,2245', '2395,1888'],
-    warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 2679, y: 2638 } }, { code: 'W_STRETCH_SHARED', count: 5, at: { x: 2679, y: 2646 } }],
-    branch: [2652, 2644], high: [['2652,2644', 3]],
-  },
-  {
-    form: '(3) a ring\'s seam', fuzzSeed: -5203, seed: 1720240219, step: 4,
-    points: [[1903, 3970], [1429, 3970], [1118, 3970], [1157, 3706], [1703, 3626]],
-    placed: ['1920,3970', '1429,3970', '1118,3970', '1157,3706', '1703,3626'],
-    warnings: [{ code: 'W_ATTRACTED', count: 5, at: { x: 1903, y: 3970 } }, { code: 'W_STRETCH_SHARED', count: 3, at: { x: 1920, y: 3970 } }],
-    branch: [1910, 3946], high: [['1910,3946', 3]],
-    tx: 'E_INVARIANT (way, way:4) branches: a linear role forms simple chains or rings (§3.10 role consistency)',
-  },
-  {
-    form: '(4) the cut back refused by the precision rules (pprev → x, E_BELOW_MIN_ANGLE)', fuzzSeed: -5203, seed: 1880377805, step: 2,
-    points: [[3747, 806], [2259, 1246], [2358, 3679]],
-    placed: ['3747,806', '2267,1242', '2358,3679'],
-    warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 2259, y: 1246 } }, { code: 'W_STRETCH_SHARED', count: 4, at: { x: 3598, y: 823 } }],
-    branch: [2279, 1267], high: [['2279,1267', 3]],
-  },
-  {
-    form: '(4) the cut back refused by the precision rules (x → the next point, E_BELOW_MIN_ANGLE)', fuzzSeed: 5101, seed: 1300412224, step: 5,
-    points: [[940, 2523], [1850, 1994], [622, 1229]],
-    placed: ['940,2523', '1850,1994', '622,1229'],
-    warnings: [{ code: 'W_ATTRACTED', count: 3, at: { x: 966, y: 2494 } }, { code: 'W_STRETCH_SHARED', count: 4, at: { x: 966, y: 2494 } }],
-    branch: [1820, 2012], high: [['1820,2012', 3]],
-    tx: 'E_INVARIANT (way, way:5) branches: a linear role forms simple chains or rings (§3.10 role consistency)',
-  },
-  {
-    form: '(5) the re-entered vertex placed by the chain\'s own earlier segment (a wedge vertex)', fuzzSeed: 8101, seed: 823490252, step: 4,
-    points: [[1435, 3348], [3723, 2331], [2725, 433], [2452, 591], [793, 2323], [3830, 3382]],
-    placed: ['1435,3348', '3719,2330', '2729,436', '2452,591', '793,2323', '3830,3382'],
-    warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 3723, y: 2331 } }, { code: 'W_WEDGE_ROUTED', count: 1, at: { x: 3691, y: 2339 } }, { code: 'W_STRETCH_SHARED', count: 1, at: { x: 3719, y: 2330 } }],
-    branch: [3691, 2339], high: [['2427,2893', 4], ['3691,2339', 3]],
-  },
-];
+const OUTCOMES: Readonly<Record<number, { readonly placed: readonly string[]; readonly warnings: readonly { code: string; count: number; at: { x: number; y: number } }[]; readonly high: readonly [string, number][]; readonly tx?: string }>> = {
+  1677770628: { placed: ['1281,2651', '1177,2705', '1053,2539', '1212,2435'], warnings: [{ code: 'W_ATTRACTED', count: 3, at: { x: 1307, y: 2631 } }], high: [] },
+  1665516641: { placed: ['2652,2644', '2041,2991', '1577,2245', '2395,1888'], warnings: [{ code: 'W_ATTRACTED', count: 2, at: { x: 2679, y: 2638 } }, { code: 'W_STRETCH_SHARED', count: 2, at: { x: 2497, y: 2269 } }], high: [] },
+  1720240219: { placed: ['1910,3946', '1429,3970', '1118,3970', '1157,3706', '1703,3626'], warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 1903, y: 3970 } }, { code: 'W_STRETCH_SHARED', count: 2, at: { x: 1897, y: 3913 } }], high: [] },
+  1880377805: { placed: ['3747,806', '2279,1267', '2358,3679'], warnings: [{ code: 'W_ATTRACTED', count: 2, at: { x: 2259, y: 1246 } }, { code: 'W_STRETCH_SHARED', count: 1, at: { x: 3478, y: 863 } }], high: [] },
+  1300412224: { placed: ['940,2523', '1820,2012', '622,1229'], warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 1850, y: 1994 } }, { code: 'W_STRETCH_SHARED', count: 3, at: { x: 966, y: 2494 } }], high: [] },
+  823490252: { placed: ['1435,3348', '3691,2339', '2729,436', '2452,591', '793,2323', '3830,3382'], warnings: [{ code: 'W_ATTRACTED', count: 4, at: { x: 3723, y: 2331 } }], high: [['2427,2893', 4]], tx: 'E_INVARIANT (way, way:c1) branches: a linear role forms simple chains or rings (§3.10 role consistency)' },
+};
 
-/** Replays a constructive sequence from its generator seed up to `step`; inserts the step's chain with `insert` and returns its outcome. */
-function replay<T>(c: Replay, insert: (p: Plat, lv: Level, g: ReturnType<typeof genChain>, key: string) => T): T | undefined {
-  const rnd = generator(c.seed);
-  const p = framed(4000);
-  const steps = intIn(rnd, 1, 8);
-  let level = intIn(rnd, 0, 2) as Level;
-  for (let s = 0; s < steps; s++) {
-    if (rnd() < 0.3 && level < 4) level = (level + 1) as Level;
-    const lv = rnd() < 0.1 ? (intIn(rnd, 0, 4) as Level) : level;
-    const g = genChain(p, rnd, 4000, lv);
-    if (s === c.step) {
-      expect(g.points.map(([x, y]) => [Math.round(x), Math.round(y)])).toEqual(c.points);
-      return insert(p, lv, g, `way:${s}`);
-    }
-    ins(tx(p, lv), g.points, [{ role: 'way', entity: `way:${s}` }], g.cls, { closed: g.closed, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) });
-  }
-  return undefined;
-}
-
-describe('notBuilt #3 (M4), forms (3) – (5) in the constructive family: replayed from their generator seeds, routed as before', () => {
-  for (const c of REPLAYS) {
-    it(`form ${c.form}: seed ${c.fuzzSeed}, generator seed ${c.seed}, way:${c.step} — committed with (${c.branch[0]}, ${c.branch[1]}) of degree 3 in its own rows`, () => {
-      const seen = replay(c, (p, lv, g, key) => {
-        const r = ins(tx(p, lv), g.points, [{ role: 'way', entity: key }], g.cls, { closed: g.closed, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) });
-        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
-        if (!r.ok) return true;
-        expect(r.value.placed.map((v) => at(p, v))).toEqual(c.placed);
-        expect(r.warnings).toEqual(c.warnings);
-        const deg = rowDegrees(p, `way/${key}`);
-        expect(deg.get(`${c.branch[0]},${c.branch[1]}`)).toBe(3);
-        expect([...deg].filter(([, d]) => d >= 3)).toEqual(c.high);
-        expect(allProblems(p)).toEqual([]);
-        expect(dissolvableProblems(p)).toEqual([]);
-        return true;
-      });
-      expect(seen).toBe(true);
+describe('notBuilt #3, forms (3) – (5) built (round S12): the constructive family\'s S11 arrangements commit with no branch in their own rows', () => {
+  for (const c of FORMS) {
+    const want = OUTCOMES[c.seed];
+    it(`form ${c.form}: seed ${c.fuzzSeed}, generator seed ${c.seed}, way:${c.step} — committed, no vertex of degree 3 in its own rows`, () => {
+      const p = formArena(c);
+      expect(allProblems(p)).toEqual([]);
+      const r = ins(tx(p, c.level), c.points, [{ role: 'way', entity: 'way:c1' }], c.cls, { closed: c.closed });
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      if (!r.ok) return;
+      expect(r.value.placed.map((v) => at(p, v))).toEqual(want.placed);
+      expect(r.warnings).toEqual(want.warnings);
+      expect(high(rowDegrees(p, 'way/way:c1'))).toEqual(want.high);
+      expect(allProblems(p)).toEqual([]);
     });
-    const refusal = c.tx;
-    if (refusal === undefined) continue;
-    it(`form ${c.form}: generator seed ${c.seed}, way:${c.step} through M0-a-06's transaction under its own key — refused '(way, way:${c.step}) branches'`, () => {
-      const seen = replay(c, (p, lv, g, key) => {
-        const r = txn(p, spec(lv), (o) => {
-          const k = insertChain(o, g.points.map(([x, y]) => pt(x, y)), [{ role: 'way', entity: key }], g.cls, { closed: g.closed, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) });
-          if (!k.ok) return k;
-          return ok(null);
-        }, suiteEnv({ report: suiteReport() }));
-        expect(r.ok).toBe(false);
-        if (!r.ok) expect(`${r.code} ${r.detail}`).toBe(refusal);
-        return true;
-      });
-      expect(seen).toBe(true);
+    it(`form ${c.form}: generator seed ${c.seed} through M0-a-06's transaction under a \`way\` key — ${want.tx === undefined ? 'commits' : 'refused for its self-crossing only'}`, () => {
+      const p = formArena(c);
+      const r = throughTx(p, c.level, c.points, c.cls, c.closed);
+      if (want.tx === undefined) {
+        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+        expect(high(rowDegrees(p, 'way/way:c1'))).toEqual([]);
+        return;
+      }
+      expect(r.ok).toBe(false);
+      if (!r.ok) expect(`${r.code} ${r.detail}`).toBe(want.tx);
     });
   }
 });

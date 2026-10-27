@@ -171,12 +171,14 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
   // geometry (C-0177 (1)) — within attractCm up to about 26.6 cm apart (25.2 cm from it at s = 226), and is routed through
   // it by step 3 (W_ATTRACTED, one crossing vertex both arms share); farther apart the arms make two crossings with a (d)
   // edge between them. The 'through' V retraces its own edge (the crossing – tip edge, both arms' rows on it): item 130
-  // (d) on the chain's path would cut it back, but its tip's input point stands 61 cm from the crossing, beyond √2 ·
-  // attractCm, so no cut back routes and the chain is routed as before — notBuilt #3 (M4, C-0423 (1)): its crossing
-  // work counted by the three passes that route it (watched, cut back refused, as before).
+  // (d) on the chain's path cuts it back. Its tip's input point stands 61 cm from the crossing — beyond √2 · attractCm,
+  // within the corner bound 2 · √2 · attractCm of an acute tip (§3.6 *Existing geometry wins*) — so round S12's cut back
+  // (form (1) of notBuilt #3 built, C-0432) lands the tip on the crossing: the chain A–X–B, one crossing on the street,
+  // W_ATTRACTED at the tip's input point; its crossing work counted by the watching pass and the back pass's cut back.
+  const THROUGH_CROSSINGS = 2;
   for (const [s, kind] of [[220, 'wedge'], [226, 'through'], [265, 'two'], [300, 'two']] as const) {
     const apart = (120 * s) / 1060;
-    const title = kind === 'wedge' ? 'a wedge: its tip moves onto the street' : kind === 'through' ? 'no wedge: its tip free, the second arm routed through the first crossing (step 3)' : 'no wedge: two crossings, its tip free';
+    const title = kind === 'wedge' ? 'a wedge: its tip moves onto the street' : kind === 'through' ? 'no wedge: the second arm routed through the first crossing (step 3), the tip cut back onto it (round S12)' : 'no wedge: two crossings, its tip free';
     it(`a V whose arms cross the street ${apart.toFixed(2)} cm apart (s = ${s}) is ${title}`, () => {
       const p = streetY();
       const t = tx(p, 2);
@@ -186,14 +188,16 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
       if (!r.ok) return;
       const codes = r.warnings.map((w) => w.code);
       expect(codes.includes('W_WEDGE_ROUTED')).toBe(kind === 'wedge');
-      if (kind === 'wedge') expect(Math.abs(p.vertices.y[r.value.placed[1]] - 2000)).toBeLessThanOrEqual(0.71);
+      if (kind === 'wedge' || kind === 'through') expect(Math.abs(p.vertices.y[r.value.placed[1]] - 2000)).toBeLessThanOrEqual(0.71);
       else expect(p.vertices.y[r.value.placed[1]]).toBe(2060);
+      // the 'through' V's tip cut back onto the crossing its first arm placed, its input point 61 cm off (round S12)
+      if (kind === 'through') expect(r.warnings).toEqual([{ code: 'W_ATTRACTED', count: 1, at: { x: 2000, y: 2060 } }]);
       const onStreet = liveVertices(p).filter((v) => Math.abs(p.vertices.y[v] - 2000) <= 0.71 && p.vertices.level[v] === 2);
       expect(onStreet).toHaveLength(kind === 'two' ? 2 : 1);
       if (kind === 'through') expect(codes).toContain('W_ATTRACTED');
       // One crossing resolved: at the corner, or the first arm's (the second routed through its vertex); else one per arm;
-      // the 'through' V's once per pass that routes it (notBuilt #3, above).
-      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' ? 2 : kind === 'through' ? 3 : 1);
+      // the 'through' V's once per route that places it (the watching pass, then the back pass's cut back, above).
+      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' ? 2 : kind === 'through' ? THROUGH_CROSSINGS : 1);
       if (kind === 'two') {
         const [u, w] = onStreet;
         expect(SQ(p.vertices.x[u] - p.vertices.x[w]) + SQ(p.vertices.y[u] - p.vertices.y[w])).toBeGreaterThanOrEqual(625);

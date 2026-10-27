@@ -192,6 +192,28 @@ export interface ChainCtx {
    */
   strip?: { readonly variant: 0 | 1; readonly a: LatticePoint | null; readonly b: LatticePoint | null } | null;
   /**
+   * Set by insertChain while step 2 lands an END of an open chain — its first or last input point (Q104, N-63 (2)): the
+   * third and fourth passes keep such an end on the edge it meets where the placement rule falls back beyond the bound
+   * (insertChain's `stepTwoStrip`, `onEdge`), before any other in-bound landing.
+   */
+  chainEnd?: boolean;
+  /**
+   * Whether the third and fourth passes read the end rules (Q104: `chainEnd`'s landing, insertChain's `endHugs`): false
+   * in insertChain's retry of a pass they led to a refusal, which then runs as before; `endRuled` records that one fired.
+   */
+  endRules?: boolean;
+  endRuled?: boolean;
+  /**
+   * The cut back's two routes (form (4) of notBuilt #3 as round S12 builds it; §3.6 step 3, "a crossing shallower than
+   * `minFaceAngle` — the stretch is shared"): 'end' on the route to the vertex x it cuts back to — a level-n route piece
+   * at the routed segment's own end (`SegmentPath.end`) whose band runs from inside the segment to that end,
+   * near-parallel to it, is a stretch (join placed, leave the end itself); 'start' on the route on from x — a piece at
+   * the segment's own start (`SegmentPath.order[0]`) whose band runs from it into the segment is a stretch (join the
+   * start itself, leave placed). So the cut back's routes arrive at x and leave it along an edge they would otherwise
+   * meet at a corner below `minFaceAngle`. Unset: a piece at the segment's ends is no stretch (C-0177 (2)).
+   */
+  cutStretch?: 'start' | 'end' | null;
+  /**
    * The route of the segment being routed, as far as it has come (§3.6 step 4, item 130 (d)): the vertices it has
    * reached in order, each with the op's mark taken when the route first stood there, and the means to return the op to
    * such a mark. Set by insertChain's `routeOne` for each reading; null outside one (the router then reads no path).
@@ -744,6 +766,15 @@ export function bandInterval(ax: number, ay: number, bx: number, by: number, ux:
 }
 
 /**
+ * Does the parameter interval [lo, hi] beside an edge make a stretch of the segment (`attractStretch`): strictly inside
+ * it (C-0177 (2)), or — for a piece at the routed segment's own start (`fromA`) or end (`toB`) under the cut back's routes
+ * (`ChainCtx.cutStretch`, round S12) — from that end into it?
+ */
+function insideSegment(lo: number, hi: number, fromA: boolean, toB: boolean): boolean {
+  return (fromA ? lo <= 0 : lo > 0) && (toB ? hi >= 1 : hi < 1);
+}
+
+/**
  * Step 3 on the segment a → b (two arena vertices, both of level ≤ n): its first contact by its parameter along the
  * segment — a vertex it passes within `attractCm` (its foot strictly inside the segment; candidate (a), or (b) when
  * finer and on a route of level ≤ n), a shared stretch along a level-n route piece it runs within `attractCm` of at less
@@ -799,7 +830,11 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
   for (const h of query(p, tx.key, n, box, { edges: true }).edges) {
     if (skip.has(h)) continue;
     const pc = pieceOf(p, h, n);
-    if (pc.a === a || pc.a === b || pc.b === a || pc.b === b) continue; // an incident piece: vertex routing or a corner (C-0177 (2))
+    // A piece at the routed segment's own end b, or its own start a, under the cut back's routes (`ctx.cutStretch`, round
+    // S12): a stretch ending at b, or starting at a.
+    const atEnd = ctx.cutStretch === 'end' && b === (ctx.path?.end ?? -1) && (pc.a === b || pc.b === b) && pc.a !== a && pc.b !== a;
+    const atStart = ctx.cutStretch === 'start' && a === (ctx.path?.order[0] ?? -1) && (pc.a === a || pc.b === a) && pc.a !== b && pc.b !== b;
+    if (!atEnd && !atStart && (pc.a === a || pc.a === b || pc.b === a || pc.b === b)) continue; // an incident piece: vertex routing or a corner (C-0177 (2))
     const ux = X[pc.a];
     const uy = Y[pc.a];
     const wx = X[pc.b];
@@ -807,12 +842,14 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     if (!nearParallel(dx, dy, wx - ux, wy - uy)) continue;
     const band = bandInterval(ax, ay, bx, by, ux, uy, wx, wy);
     // A stretch lies inside the segment: one that starts or ends at the segment's own vertex is a vertex standing beside
-    // the edge (clearance keeps it at least minEdge away), not an approach (C-0177 (2)).
-    if (band === null || band.lo <= 0 || band.hi >= 1) continue;
+    // the edge (clearance keeps it at least minEdge away), not an approach (C-0177 (2)) — but for the piece at the end b
+    // (the start a) under the cut back's route, its band runs from inside the segment to b (from a into it), and b is its
+    // leave (a its join).
+    if (band === null || !insideSegment(band.lo, band.hi, atStart, atEnd)) continue;
     const s0 = { x: ax + band.lo * dx, y: ay + band.lo * dy };
     const s1 = { x: ax + band.hi * dx, y: ay + band.hi * dy };
-    const join = footOnSegment(ux, uy, wx, wy, s0.x, s0.y);
-    const leave = footOnSegment(ux, uy, wx, wy, s1.x, s1.y);
+    const join = atStart ? { x: ax, y: ay } : footOnSegment(ux, uy, wx, wy, s0.x, s0.y);
+    const leave = atEnd ? { x: bx, y: by } : footOnSegment(ux, uy, wx, wy, s1.x, s1.y);
     const jl = (leave.x - join.x) * (leave.x - join.x) + (leave.y - join.y) * (leave.y - join.y);
     let o: StretchObstacle;
     if (jl >= MIN_EDGE_SQ) {
