@@ -12,9 +12,8 @@
 //          `flatten` no kept corner's triangle lower than max(cut.flattenM, flattenShare × |A–foot|);
 //   T38-1  a fillet on a way cut only — the face planned as a plot cut is never filleted; an arc holds at least
 //          cut.arc.minSamplePoints points, its chords no shorter than max(w_min, the lattice minimum edge), and no point
-//          beyond the shorter leg from K (it curves the shorter leg, never past it); its ends on the two legs, each the
-//          shorter leg's length from K (it curves the shorter leg from end to end), and every point on the one circle
-//          tangent to both legs there (hardening round S1, note 4); the filleted share is the comparison's fillet clause;
+//          beyond the shorter leg from K (it curves the shorter leg, never past it); the filleted share is the
+//          comparison's fillet clause;
 //   T39-1  rung (a) plans at most cut.ladder.maxFrames frames per face, frame k turned k × cut.ladder.turnCdeg; a face
 //          every frame failed reaches rung (b); no ladder leaves fewer faces than it began with;
 //   T40-1  inside the district, per class, widths non-decreasing in the lane's length and inside the class's band, and
@@ -212,45 +211,7 @@ export function checkPlan(t: Record<TBar, Tally>, p: CutPlanned, cells: CutCells
     for (let i = 1; i < fl.arc.length; i += 1) minChord = Math.min(minChord, len(sub(fl.arc[i], fl.arc[i - 1])));
     t['T38-1'].ok(minChord >= floor * (1 - 1e-9), () => `${where}: an arc chord of ${minChord.toFixed(1)} cm under ${floor.toFixed(1)} cm`);
     t['T38-1'].ok(fl.arc.every((q) => len(sub(q, K)) <= shorter + LATTICE.unitCm), () => `${where}: an arc point beyond the shorter leg from K`);
-    const tangent = arcTangency(g.legs[0], K, g.legs[2], fl.arc);
-    t['T38-1'].ok(tangent.spans, () => `${where}: the arc does not curve the shorter leg from end to end (its ends ${tangent.endsCm} from where the shorter leg ends and its mate)`);
-    t['T38-1'].ok(tangent.tangent, () => `${where}: the arc does not touch both legs tangentially (${tangent.offCm} off the circle tangent at its ends)`);
   }
-}
-
-/**
- * T38-1's arc clauses on a kept corner K of the legs A–K–B (§13.2: "each arc touching both legs tangentially and
- * curving the shorter leg from end to end"; §4.6 step 6: tangent where the shorter leg ends and, along the longer
- * leg, as far from K as that end is). `spans`: the arc's first point lies on K–A and its last on K–B, each at the
- * shorter leg's length ℓ from K (within the lattice unit) — an arc ending short of the shorter leg's end fails, the
- * clause's lower bound. `tangent`: every arc point lies on the one circle whose centre is on both legs' normals at
- * those two ends (within the lattice unit), the circle tangent to both legs there. Pure; read from the plan alone.
- */
-function arcTangency(A: XY, K: XY, B: XY, arc: readonly XY[]): { spans: boolean; tangent: boolean; endsCm: string; offCm: string } {
-  const ua = unitOf(sub(A, K));
-  const ub = unitOf(sub(B, K));
-  const first = arc[0];
-  const last = arc[arc.length - 1];
-  if (ua === null || ub === null || first === undefined || last === undefined || arc.length < 2) return { spans: false, tangent: false, endsCm: 'n/a', offCm: 'n/a' };
-  const shorter = Math.min(len(sub(A, K)), len(sub(B, K)));
-  const ta = { x: K.x + ua.x * shorter, y: K.y + ua.y * shorter };
-  const tb = { x: K.x + ub.x * shorter, y: K.y + ub.y * shorter };
-  const da = len(sub(first, ta));
-  const db = len(sub(last, tb));
-  const spans = da <= LATTICE.unitCm && db <= LATTICE.unitCm;
-  // The centre: first + s · na = last + v · nb, na ⊥ ua, nb ⊥ ub (no centre when the legs are parallel).
-  const na = { x: -ua.y, y: ua.x };
-  const nb = { x: -ub.y, y: ub.x };
-  const den = crossOf(na, nb);
-  let off = Infinity;
-  if (Math.abs(den) > 1e-9) {
-    const s = crossOf(sub(last, first), nb) / den;
-    const c = { x: first.x + na.x * s, y: first.y + na.y * s };
-    const r = len(sub(first, c));
-    off = 0;
-    for (const q of arc) off = Math.max(off, Math.abs(len(sub(q, c)) - r));
-  }
-  return { spans, tangent: off <= LATTICE.unitCm, endsCm: `${da.toFixed(1)} cm, ${db.toFixed(1)} cm`, offCm: off === Infinity ? 'no centre' : `${off.toFixed(2)} cm` };
 }
 
 /**

@@ -1,0 +1,1318 @@
+{
+  "item": "M0-c-06",
+  "longRun": {
+    "seedsAsked": 1000,
+    "seedsRun": 50,
+    "status": "PENDING-LONG-RUN"
+  },
+  "sizes": {
+    "from": 1,
+    "seeds": 50,
+    "runs": [
+      "fusion",
+      "integrated"
+    ],
+    "frameHa": null,
+    "walledHa": null
+  },
+  "pass": false,
+  "verdicts": {
+    "restarts": true,
+    "bugs": true,
+    "cliff": true,
+    "junction": true,
+    "drift": true,
+    "roads": true,
+    "strips": true,
+    "s8s9": false,
+    "corpus": true,
+    "sharedS5": true
+  },
+  "sharedS5": {
+    "compared": 50,
+    "equal": 50
+  },
+  "runs": [
+    {
+      "run": "fusion",
+      "seeds": 50,
+      "bugs": {
+        "seeds": 0,
+        "entries": 0,
+        "first": []
+      },
+      "restarts": {
+        "total": 0,
+        "seeds": 0,
+        "s5Violations": 0
+      },
+      "ladder": {
+        "S5/S5c/re_propose": 7,
+        "S5/S5c/reject": 7,
+        "S8/F-CUT/a": 50265,
+        "S8/F-CUT/antenna": 3637,
+        "S8/F-CUT/b": 305,
+        "S8/F-CUT/c": 920,
+        "S8/F-CUT/d": 86,
+        "S8/F-CUT/deep": 20128,
+        "S8/F-CUT/pre": 7512
+      },
+      "ladderUses": 82867,
+      "faces": {
+        "districts": {
+          "n": 50,
+          "p10": 28,
+          "p50": 32,
+          "p90": 36.1,
+          "mean": 31.92
+        },
+        "cuts": {
+          "n": 50,
+          "p10": 1155,
+          "p50": 1194,
+          "p90": 1213.2,
+          "mean": 1188.38
+        },
+        "blocks": {
+          "n": 50,
+          "p10": 1011.6,
+          "p50": 1035.5,
+          "p90": 1055.2,
+          "mean": 1035.44
+        },
+        "s8Refused": 0,
+        "figures": {
+          "cuts": 1500,
+          "districts": 25
+        }
+      },
+      "junction": {
+        "perSeed": {
+          "p5Min": 83.64714849585013,
+          "medianMin": 91.0906890001073,
+          "medianMax": 91.35984258078304,
+          "share4Max": 0.05864354920958695,
+          "seedsBelowP5": 0,
+          "seedsOverShare4": 0
+        },
+        "pooled": {
+          "p5": 85.03711281281058,
+          "median": 91.2257474737487,
+          "share4": 0.04500385204158204,
+          "nodes": 99947,
+          "nodes4": 4498
+        }
+      },
+      "turns": {
+        "steps": 543154,
+        "cliffSeeds": 0,
+        "pooledCliff": false,
+        "over15Share": 0.024801437529687713
+      },
+      "drift": {
+        "windows": 1,
+        "p50": 19.63929134814553,
+        "p90": 19.63929134814553,
+        "over90": 0,
+        "over90Share": 0,
+        "medianJudged": false
+      },
+      "bands": {
+        "comfortable": {
+          "blockAreaM2": {
+            "n": 29524,
+            "p10": 807.7223200000001,
+            "p50": 1456.33965,
+            "p90": 2472.599475,
+            "mean": 1572.8844282634489
+          },
+          "cutLengthM": {
+            "n": 31324,
+            "p10": 36.804243351446345,
+            "p50": 56.01955213624644,
+            "p90": 106.05279141826236,
+            "mean": 65.3856266661855
+          }
+        },
+        "modest": {
+          "blockAreaM2": {
+            "n": 16832,
+            "p10": 824.1535700000001,
+            "p50": 1569.75155,
+            "p90": 2641.68996,
+            "mean": 1679.0445093452968
+          },
+          "cutLengthM": {
+            "n": 21504,
+            "p10": 34.32049202046133,
+            "p50": 55.42885425088522,
+            "p90": 118.0182365976828,
+            "mean": 64.45287966089711
+          }
+        },
+        "poor": {
+          "blockAreaM2": {
+            "n": 1855,
+            "p10": 914.2367,
+            "p50": 1642.7523,
+            "p90": 2741.3998000000006,
+            "mean": 1762.1728495417801
+          },
+          "cutLengthM": {
+            "n": 2579,
+            "p10": 32.67990625373043,
+            "p50": 55.25339727454761,
+            "p90": 120.85445886749095,
+            "mean": 64.33400589135138
+          }
+        },
+        "prosperous": {
+          "blockAreaM2": {
+            "n": 2331,
+            "p10": 1099.5393,
+            "p50": 1954.2538,
+            "p90": 3250.63915,
+            "mean": 2080.3136090090084
+          },
+          "cutLengthM": {
+            "n": 2317,
+            "p10": 43.05895333801042,
+            "p50": 64.57259607798724,
+            "p90": 111.62267076994819,
+            "mean": 72.12016135441566
+          }
+        },
+        "rich": {
+          "blockAreaM2": {
+            "n": 1,
+            "p10": 335.63925,
+            "p50": 335.63925,
+            "p90": 335.63925,
+            "mean": 335.63925
+          },
+          "cutLengthM": {
+            "n": 0,
+            "p10": 0,
+            "p50": 0,
+            "p90": 0,
+            "mean": 0
+          }
+        },
+        "squalid": {
+          "blockAreaM2": {
+            "n": 1229,
+            "p10": 853.6666600000001,
+            "p50": 1585.3342,
+            "p90": 2636.9521600000003,
+            "mean": 1696.698150813671
+          },
+          "cutLengthM": {
+            "n": 1695,
+            "p10": 32.48998837143573,
+            "p50": 54.29634576181181,
+            "p90": 101.40691043541626,
+            "mean": 61.111106212280035
+          }
+        }
+      },
+      "roads": {
+        "stages": 100,
+        "mismatches": 0,
+        "first": []
+      },
+      "strips": {
+        "faces": 1500,
+        "lanes": 59419,
+        "crossings": 0
+      },
+      "s8s9": {
+        "blocks": 51772,
+        "compared": 60995,
+        "zero": 60181,
+        "within1cm": 60685,
+        "beyond": 1,
+        "maxCm": 87.32124598286491,
+        "split": 9243,
+        "s9OwnL1": 0,
+        "drifted": 38357,
+        "driftMaxCm": 1195.2573272169118,
+        "driftNeedleCm": 17808.471773114998,
+        "driftOneSidedMaxCm": 1195.2573272169118,
+        "driftSliverMaxCm": 776.3077477484973,
+        "driftBeyond": 3,
+        "driftSeedless": 10,
+        "commit": 814,
+        "s9Refused": 0,
+        "kerbReads": 0,
+        "seedsAllZero": 0,
+        "seedsBeyond": 3,
+        "boundCm": 73.53910524340094,
+        "exactShare": 0.9866546438232642,
+        "missCm": {
+          "n": 814,
+          "p50": 1,
+          "p99": 35.33876286960504,
+          "p999": 65.24438532530584,
+          "max": 87.32124598286491
+        },
+        "first": [
+          "seed 23: 0 of 1221 beyond the bound (max 32.25 cm; stop-kerb drift beyond 1; S9 refused 0); block:6j7dap3athxnt: working → S9 0.00 cm; stop → working sliver 80.74 cm, one-sided 70.29 cm, Hausdorff 94.48 cm (needle 13136 cm), spine way:bpg8zreabvv8e; loops working 1, S9 1; seed (4050, 6821)",
+          "seed 24: 1 of 1242 beyond the bound (max 87.32 cm; stop-kerb drift beyond 0; S9 refused 0); block:4f566g8549yp6: working → S9 87.32 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-59006, 30622)",
+          "seed 25: 0 of 1186 beyond the bound (max 20.12 cm; stop-kerb drift beyond 2; S9 refused 0); block:ebxh7bh5a96d2: working → S9 0.00 cm; stop → working sliver 776.31 cm, one-sided 1195.26 cm, Hausdorff 1195.26 cm (needle 17808 cm), spine way:0qckcgm6tysp0; loops working 1, S9 1; seed (-89910, 19803)"
+        ]
+      },
+      "refusals": {
+        "total": {
+          "s8": 0,
+          "s9": 0,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "kernelDowngrades": 0,
+          "kernelWorkLimitHits": 0,
+          "unplaced": 0,
+          "degraded": 0
+        },
+        "seeds": 3,
+        "first": [
+          "seed 28: corpusRoof 1, corpusSpine 1",
+          "seed 38: corpusRoof 1, corpusSpine 1",
+          "seed 47: corpusRoof 1, corpusSpine 1"
+        ]
+      },
+      "corpus": {
+        "roof": {
+          "faces": 1596,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0018796992481203006,
+          "workLimitShare": 0,
+          "pass": true
+        },
+        "spine": {
+          "faces": 1596,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0018796992481203006,
+          "workLimitShare": 0,
+          "pass": true
+        }
+      },
+      "work": {
+        "cut.candidates": {
+          "stage": "S8",
+          "batches": 1596,
+          "units": {
+            "n": 1596,
+            "p50": 30,
+            "p99": 99,
+            "p999": 121.42999999999984,
+            "max": 144
+          },
+          "unitsTotal": 55428,
+          "perUnit": {
+            "n": 1596,
+            "p50": 1.3895663956639566,
+            "p99": 2.068826781326781,
+            "p999": 5.119705882352866,
+            "max": 7.2368421052631575
+          },
+          "limitHits": 0
+        },
+        "cut.kernelCalls": {
+          "stage": "S8",
+          "batches": 1596,
+          "units": {
+            "n": 1596,
+            "p50": 30,
+            "p99": 99,
+            "p999": 121.42999999999984,
+            "max": 144
+          },
+          "unitsTotal": 55428,
+          "perUnit": {
+            "n": 1596,
+            "p50": 1,
+            "p99": 1.5384615384615385,
+            "p999": 1.6878550368550342,
+            "max": 1.7619047619047619
+          },
+          "limitHits": 0
+        },
+        "cut.recursionDepth": {
+          "stage": "S8",
+          "batches": 1596,
+          "units": {
+            "n": 1596,
+            "p50": 5,
+            "p99": 7,
+            "p999": 7,
+            "max": 8
+          },
+          "unitsTotal": 8215,
+          "perUnit": {
+            "n": 1596,
+            "p50": 1.25,
+            "p99": 1.75,
+            "p999": 2,
+            "max": 2
+          },
+          "limitHits": 0
+        },
+        "growth.candidates": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.6296622717496114,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        },
+        "growth.proposals": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.626098156702015,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        }
+      },
+      "seedRows": 50
+    },
+    {
+      "run": "integrated",
+      "seeds": 50,
+      "bugs": {
+        "seeds": 0,
+        "entries": 0,
+        "first": []
+      },
+      "restarts": {
+        "total": 0,
+        "seeds": 0,
+        "s5Violations": 0
+      },
+      "ladder": {
+        "S5/S5c/re_propose": 7,
+        "S5/S5c/reject": 7,
+        "S8/F-CUT/a": 69124,
+        "S8/F-CUT/antenna": 3949,
+        "S8/F-CUT/b": 1115,
+        "S8/F-CUT/c": 3753,
+        "S8/F-CUT/d": 288,
+        "S8/F-CUT/deep": 22324,
+        "S8/F-CUT/pre": 7896
+      },
+      "ladderUses": 108463,
+      "faces": {
+        "districts": {
+          "n": 50,
+          "p10": 31,
+          "p50": 33,
+          "p90": 37.1,
+          "mean": 33.58
+        },
+        "cuts": {
+          "n": 50,
+          "p10": 1355.7,
+          "p50": 1375,
+          "p90": 1408.1,
+          "mean": 1377.86
+        },
+        "blocks": {
+          "n": 50,
+          "p10": 1295.7,
+          "p50": 1315,
+          "p90": 1337.1,
+          "mean": 1314.14
+        },
+        "s8Refused": 0,
+        "figures": {
+          "cuts": 1500,
+          "districts": 25
+        }
+      },
+      "junction": {
+        "perSeed": {
+          "p5Min": 85.24598524538497,
+          "medianMin": 91.13137110193927,
+          "medianMax": 91.38708052436434,
+          "share4Max": 0.044219253800092125,
+          "seedsBelowP5": 0,
+          "seedsOverShare4": 0
+        },
+        "pooled": {
+          "p5": 85.87762213857872,
+          "median": 91.2779792763508,
+          "share4": 0.03580957989069429,
+          "nodes": 108686,
+          "nodes4": 3892
+        }
+      },
+      "turns": {
+        "steps": 598647,
+        "cliffSeeds": 0,
+        "pooledCliff": false,
+        "over15Share": 0.02870974046474801
+      },
+      "drift": {
+        "windows": 1,
+        "p50": 19.62314727703475,
+        "p90": 19.62314727703475,
+        "over90": 0,
+        "over90Share": 0,
+        "medianJudged": false
+      },
+      "bands": {
+        "comfortable": {
+          "blockAreaM2": {
+            "n": 23395,
+            "p10": 826.99348,
+            "p50": 1517.18045,
+            "p90": 2604.2566600000005,
+            "mean": 1647.5055618614988
+          },
+          "cutLengthM": {
+            "n": 24684,
+            "p10": 37.46580655414756,
+            "p50": 57.6863465225944,
+            "p90": 108.54757062833154,
+            "mean": 65.88004336566233
+          }
+        },
+        "modest": {
+          "blockAreaM2": {
+            "n": 14129,
+            "p10": 733.88794,
+            "p50": 1384.12655,
+            "p90": 2478.0668200000005,
+            "mean": 1528.0243682143132
+          },
+          "cutLengthM": {
+            "n": 14909,
+            "p10": 34.94210391328396,
+            "p50": 55.61537483811112,
+            "p90": 95.72325206342813,
+            "mean": 62.86093694693954
+          }
+        },
+        "poor": {
+          "blockAreaM2": {
+            "n": 31,
+            "p10": 547.24195,
+            "p50": 1149.9393,
+            "p90": 1678.7856,
+            "mean": 1212.7318822580646
+          },
+          "cutLengthM": {
+            "n": 32,
+            "p10": 31.532286188042523,
+            "p50": 51.02421533915733,
+            "p90": 80.42668504539654,
+            "mean": 62.8970407423336
+          }
+        },
+        "prosperous": {
+          "blockAreaM2": {
+            "n": 27471,
+            "p10": 887.43895,
+            "p50": 1582.7454,
+            "p90": 2644.59495,
+            "mean": 1700.3349362382148
+          },
+          "cutLengthM": {
+            "n": 28579,
+            "p10": 38.58933482055673,
+            "p50": 58.34597409596965,
+            "p90": 108.54005587063331,
+            "mean": 67.6062788425924
+          }
+        },
+        "rich": {
+          "blockAreaM2": {
+            "n": 681,
+            "p10": 1011.259,
+            "p50": 1818.2943,
+            "p90": 2971.4077,
+            "mean": 1939.6431873715117
+          },
+          "cutLengthM": {
+            "n": 689,
+            "p10": 42.35272439011355,
+            "p50": 62.91162974051467,
+            "p90": 115.13254435173108,
+            "mean": 71.89559692378994
+          }
+        }
+      },
+      "roads": {
+        "stages": 100,
+        "mismatches": 0,
+        "first": []
+      },
+      "strips": {
+        "faces": 1500,
+        "lanes": 68893,
+        "crossings": 0
+      },
+      "s8s9": {
+        "blocks": 65707,
+        "compared": 71262,
+        "zero": 70300,
+        "within1cm": 70961,
+        "beyond": 2,
+        "maxCm": 139.05754204644924,
+        "split": 5604,
+        "s9OwnL1": 0,
+        "drifted": 38456,
+        "driftMaxCm": 2790.5501249753606,
+        "driftNeedleCm": 32941.73576262161,
+        "driftOneSidedMaxCm": 2790.5501249753606,
+        "driftSliverMaxCm": 974.5334010580121,
+        "driftBeyond": 2,
+        "driftSeedless": 5,
+        "commit": 962,
+        "s9Refused": 0,
+        "kerbReads": 0,
+        "seedsAllZero": 0,
+        "seedsBeyond": 3,
+        "boundCm": 73.53910524340094,
+        "exactShare": 0.9865005192107996,
+        "missCm": {
+          "n": 962,
+          "p50": 1,
+          "p99": 26.743574259859383,
+          "p999": 137.3386221245458,
+          "max": 139.05754204644924
+        },
+        "first": [
+          "seed 11: 1 of 1401 beyond the bound (max 139.06 cm; stop-kerb drift beyond 0; S9 refused 0); block:frgdxgv5et5yr: working → S9 139.06 cm; stop → working sliver 0.36 cm, one-sided 0.37 cm, Hausdorff 0.37 cm (needle 0 cm); loops working 1, S9 1; seed (38546, -50498)",
+          "seed 36: 1 of 1419 beyond the bound (max 137.27 cm; stop-kerb drift beyond 0; S9 refused 0); block:9bfqve4sd4pf1: working → S9 137.27 cm; stop → working sliver 0.00 cm, one-sided 0.00 cm, Hausdorff 0.00 cm (needle 0 cm); loops working 1, S9 1; seed (-11482, -37749)",
+          "seed 38: 0 of 1413 beyond the bound (max 21.02 cm; stop-kerb drift beyond 2; S9 refused 0); block:4wrpx01r22ktq: working → S9 0.98 cm; stop → working sliver 974.53 cm, one-sided 2790.55 cm, Hausdorff 2790.55 cm (needle 32942 cm), spine way:dd4g6jvka1p2n; loops working 1, S9 1; seed (59947, -22777)"
+        ]
+      },
+      "refusals": {
+        "total": {
+          "s8": 0,
+          "s9": 0,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "kernelDowngrades": 0,
+          "kernelWorkLimitHits": 0,
+          "unplaced": 0,
+          "degraded": 0
+        },
+        "seeds": 3,
+        "first": [
+          "seed 28: corpusRoof 1, corpusSpine 1",
+          "seed 38: corpusRoof 1, corpusSpine 1",
+          "seed 47: corpusRoof 1, corpusSpine 1"
+        ]
+      },
+      "corpus": {
+        "roof": {
+          "faces": 2418,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0012406947890818859,
+          "workLimitShare": 0,
+          "pass": true
+        },
+        "spine": {
+          "faces": 2418,
+          "downgrades": 3,
+          "workLimitHits": 0,
+          "failures": 0,
+          "downgradeShare": 0.0012406947890818859,
+          "workLimitShare": 0,
+          "pass": true
+        }
+      },
+      "work": {
+        "cut.candidates": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 35,
+            "p99": 127.22000000000003,
+            "p999": 155.28799999999956,
+            "max": 161
+          },
+          "unitsTotal": 70482,
+          "perUnit": {
+            "n": 1679,
+            "p50": 1.4615384615384615,
+            "p99": 3.7033333333333376,
+            "p999": 8.799980606060206,
+            "max": 14.1
+          },
+          "limitHits": 0
+        },
+        "cut.kernelCalls": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 35,
+            "p99": 127.22000000000003,
+            "p999": 155.28799999999956,
+            "max": 161
+          },
+          "unitsTotal": 70482,
+          "perUnit": {
+            "n": 1679,
+            "p50": 0.9642857142857143,
+            "p99": 1.240162962962963,
+            "p999": 1.309634992458521,
+            "max": 1.3333333333333333
+          },
+          "limitHits": 0
+        },
+        "cut.recursionDepth": {
+          "stage": "S8",
+          "batches": 1679,
+          "units": {
+            "n": 1679,
+            "p50": 6,
+            "p99": 7,
+            "p999": 8,
+            "max": 8
+          },
+          "unitsTotal": 9099,
+          "perUnit": {
+            "n": 1679,
+            "p50": 1.25,
+            "p99": 1.75,
+            "p999": 2,
+            "max": 2
+          },
+          "limitHits": 0
+        },
+        "growth.candidates": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.6296622717496114,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        },
+        "growth.proposals": {
+          "stage": "S5",
+          "batches": 150,
+          "units": {
+            "n": 150,
+            "p50": 82.5430462982043,
+            "p99": 137.48153285077964,
+            "p999": 137.48153285077964,
+            "max": 137.48153285077964
+          },
+          "unitsTotal": 12500.535437750974,
+          "perUnit": {
+            "n": 150,
+            "p50": 0.16674376005476557,
+            "p99": 2.626098156702015,
+            "p999": 2.6774941504291827,
+            "max": 2.6839968419650004
+          },
+          "limitHits": 0
+        }
+      },
+      "seedRows": 50
+    }
+  ],
+  "timing": {
+    "authority": "contended",
+    "reasons": [
+      "not the timing phase: a spike run, other seats on the machine (C-0047)"
+    ],
+    "r12_4": {
+      "S3": {
+        "n": 50,
+        "p50": 4115.339629500173,
+        "p99": 8194.386862580359,
+        "p999": 8197.600631558036,
+        "max": 8197.957717
+      },
+      "S4": {
+        "n": 50,
+        "p50": 896.8961189999245,
+        "p99": 1780.5062301900236,
+        "p999": 1806.2161637191289,
+        "max": 1809.0728230001405
+      },
+      "S5": {
+        "n": 50,
+        "p50": 9357.560663999058,
+        "p99": 16567.10582057004,
+        "p999": 17144.88413455695,
+        "max": 17209.081724999938
+      },
+      "S8": {
+        "n": 50,
+        "p50": 243478.846476499,
+        "p99": 543747.9101752295,
+        "p999": 556074.4688756226,
+        "max": 557444.0865089996
+      }
+    },
+    "gateS4S5S8Ms": {
+      "n": 50,
+      "p50": 253827.93842349946,
+      "p99": 560364.0168425397,
+      "p999": 571796.8209000536,
+      "max": 573067.1324619995
+    },
+    "integrated": {
+      "S1": {
+        "n": 50,
+        "p50": 299.66699249949306,
+        "p99": 743.5607953200581,
+        "p999": 768.2996305321204,
+        "max": 771.0483900001273
+      },
+      "S3": {
+        "n": 50,
+        "p50": 4102.073719000444,
+        "p99": 8572.776402719941,
+        "p999": 8574.57421507199,
+        "max": 8574.773971999995
+      },
+      "S4": {
+        "n": 50,
+        "p50": 931.7431335002184,
+        "p99": 1875.706265510004,
+        "p999": 1904.5042274511363,
+        "max": 1907.704001000151
+      },
+      "S5": {
+        "n": 50,
+        "p50": 9267.73111149948,
+        "p99": 16367.700004670303,
+        "p999": 16546.38858166761,
+        "max": 16566.24286800064
+      },
+      "S6": {
+        "n": 50,
+        "p50": 1712.424583000151,
+        "p99": 18090.628747110117,
+        "p999": 18934.671727611392,
+        "max": 19028.45428100042
+      },
+      "S8": {
+        "n": 50,
+        "p50": 279426.62088450044,
+        "p99": 606506.1209282,
+        "p999": 659570.1027624202,
+        "max": 665466.1007440002
+      }
+    }
+  },
+  "findings": {
+    "ruling": "N-60 (b), N-65 (3)-(5), N-58; C-0434; fixtures bench/test/fusion/drift-fixtures.json (the five new blocks named below); probes in a scratch mirror (deleted)",
+    "base": "the design branch after the twenty-third landing (a-09 S14-S17 9f631a41, a-05 S9-S11 dcf05e0c, b-03 S7-S8 0b734e7c) seeded as wip/seed-c06f0e; bench/manifest.json already carried the fusion line (not re-applied)",
+    "before": {
+      "date": "2026-10-25 (the third continuation's smoke)",
+      "fusion": {
+        "beyond": 431,
+        "maxCm": 9327.49,
+        "exactShare": 0.9758,
+        "driftBeyond": 4,
+        "s9Refused": 7,
+        "kerbReads": 0
+      },
+      "integrated": {
+        "beyond": 522,
+        "maxCm": null,
+        "exactShare": 0.9745,
+        "driftBeyond": 1,
+        "s9Refused": 11,
+        "kerbReads": 1
+      }
+    },
+    "after": {
+      "date": "2026-10-27",
+      "fusion": {
+        "beyond": 1,
+        "maxCm": 87.32,
+        "exactShare": 0.9867,
+        "missCm": {
+          "n": 814,
+          "p50": 1,
+          "p99": 35.34,
+          "p999": 65.24,
+          "max": 87.32
+        },
+        "driftBeyond": 3,
+        "driftSeedless": 10,
+        "s9Refused": 0,
+        "kerbReads": 0
+      },
+      "integrated": {
+        "beyond": 2,
+        "maxCm": 139.06,
+        "exactShare": 0.9865,
+        "missCm": {
+          "n": 962,
+          "p50": 1,
+          "p99": 26.74,
+          "p999": 137.34,
+          "max": 139.06
+        },
+        "driftBeyond": 2,
+        "driftSeedless": 5,
+        "s9Refused": 0,
+        "kerbReads": 0
+      }
+    },
+    "s8s9Beyond": [
+      {
+        "run": "fusion",
+        "seed": 24,
+        "block": "block:4f566g8549yp6",
+        "cm": 87.32,
+        "class": "the acute tip (N-65 (3)): S9's block keeps a 16.7 deg tip on F's edge at way:12's band edge that the S8 read folds",
+        "owner": "M0-a-09"
+      },
+      {
+        "run": "integrated",
+        "seed": 11,
+        "block": "block:frgdxgv5et5yr",
+        "cm": 139.06,
+        "class": "N-60 (b) (ii) band: the kerb at the cut and the working read keep a needle 144.6 cm into lane way:c78mb5xyqc0ps's band (hw 185.6; 11.7 deg at its vertex, under attractCm for 125 cm); S9's block holds 5.6 cm",
+        "owner": "M0-a-09"
+      },
+      {
+        "run": "integrated",
+        "seed": 36,
+        "block": "block:9bfqve4sd4pf1",
+        "cm": 137.27,
+        "class": "N-60 (b) (ii) band: the same shape, 137.5 cm into lane way:ak690sgajnsgm's band (hw 183.0; 11.4 deg, 130 cm under attractCm); S9's block holds 9.8 cm",
+        "owner": "M0-a-09"
+      }
+    ],
+    "driftBeyond": [
+      {
+        "run": "fusion",
+        "seed": 23,
+        "block": "block:6j7dap3athxnt",
+        "rows": 1,
+        "sliverCm": 80.74,
+        "oneSidedCm": 70.29,
+        "class": "N-60 (b) (ii) band: a split child's working kerb reaches 96.1 cm into way:4's band (hw 533.5) where the kerb at the cut held 2.1 cm; S9 = working",
+        "owner": "M0-a-09"
+      },
+      {
+        "run": "fusion",
+        "seed": 25,
+        "block": "block:ebxh7bh5a96d2",
+        "rows": 2,
+        "sliverCm": 776.31,
+        "oneSidedCm": 1195.26,
+        "class": "N-60 (b) (i) Q102 unchanged: a split child's seedless 172 m2 kerb part at a 13 cm neck",
+        "owner": "M0-b-03"
+      },
+      {
+        "run": "integrated",
+        "seed": 38,
+        "block": "block:4wrpx01r22ktq",
+        "rows": 2,
+        "sliverCm": 974.53,
+        "oneSidedCm": 2790.55,
+        "class": "N-60 (b) (i) Q102's class: child 0's kerb in two parts (the seed's 959 m2 and a seedless 200 m2, 3.9 m apart across the spine way:dd4g6jvka1p2n's band); with the seedless part read the stop region is covered",
+        "owner": "M0-b-03"
+      }
+    ],
+    "acuteTips": {
+      "measuredOn": "CITY fusion 21 23 24 25 36, integrated 11 20 36 38 (the smoke's seeds re-derived in a mirror); the tip census reads every working block's convex corner whose sides, 2.5 m along the ring, meet below 12 deg (b-03's needleTips reading)",
+      "cases": [
+        {
+          "case": "fusion 24 block:4f566g8549yp6 (row 114's block:b7953g1r08tnm, renamed by the landing)",
+          "angleAtVertexDeg": 16.7,
+          "angleOver250Deg": 23.6,
+          "lengthUnderAttractCm": 90,
+          "widthAtFoldCm": 47.8,
+          "s9": "committed (L2), holds the tip; the S8 read folds 87.32 cm",
+          "driftCm": 0,
+          "owner": "M0-a-09 (the S8 dry-run read and S9's commit snap a tip under attractCm wide differently: S9's arena holds a vertex at the tip another district committed first; above the fabric's 12 deg rule, on an S4/S5 way's band, not an S8 lane's)"
+        },
+        {
+          "case": "fusion 36 block:43hekm4e82pzp (1.85 deg, 800.54 cm)",
+          "status": "NOT MET on the landed engine: fusion 36 beyond 0, max 60.17 cm"
+        },
+        {
+          "case": "integrated 20 block:43bnp4ny5c0va (105.15 cm)",
+          "status": "NOT MET: integrated 20 beyond 0, max 26.17 cm"
+        },
+        {
+          "case": "run-end wedges (the census): fusion 24 2, fusion 36 1, fusion 23 2, integrated 20 1, integrated 11 2, integrated 36 1, integrated 38 2",
+          "angleDeg": [
+            5.3,
+            11.3
+          ],
+          "lengthUnderAttractCm": [
+            132,
+            279
+          ],
+          "widthAt100Cm": [
+            9.3,
+            19.7
+          ],
+          "s9": "committed identically (0 cm)",
+          "driftCm": "within (<= 7.5)",
+          "shape": "the apex is a way's run END on its centreline (no other band holds it); one side the band's flat end (300 cm = hw), the other F's edge meeting it obliquely",
+          "owner": "M0-a-09 (the band's end shape at an oblique arrival, S15's start-cap rule)"
+        },
+        {
+          "case": "integrated 36 block:8pzmf9mmpf9w9",
+          "angleDeg": 9.86,
+          "lengthUnderAttractCm": 151,
+          "widthAt100Cm": 17.1,
+          "s9": "committed identically",
+          "driftCm": 1.06,
+          "shape": "a wedge between way:78's band edge (apex 21.8 cm inside) and F's edge",
+          "owner": "M0-b-03 (the fabric's quality rule: a minimum usable width at the tip, L20's family, here on an S4/S5 way's band)"
+        },
+        {
+          "case": "T-junction wedge fixtures of b-03 S7's census (bentcut holed #95 block:etg099rnfyfq0, holed #304 block:7vrffpcmjtrme)",
+          "status": "not re-derived (b-03's bentcut families, outside this harness's runs); b-03's record (a kerb vertex on a lane's centreline at a junction) is the run-end shape above",
+          "owner": "M0-a-09 (as b-03 reported)"
+        },
+        {
+          "case": "the 2.3 deg bend tip (S16's row 145; a-09 notes row 144 (c))",
+          "status": "measured from its recorded ring (a widened B-FUZZ draw, not a harness run)",
+          "angleAtVertexDeg": 56.7,
+          "sidesCm": [
+            299,
+            180
+          ],
+          "depthCm": 180,
+          "s9": "committed (block 0, 180 cm; a-09's record)",
+          "drift": "n/a (no S8 cut)",
+          "owner": "M0-a-09 (the read keeps band area to the centreline at a near-straight bend)"
+        },
+        {
+          "case": "fusion 23 block:9rjenxqe9yr9y",
+          "status": "not a tip: a zero-width spur along way:73's band edge (F's own bridge), S9 identical"
+        }
+      ]
+    },
+    "q60Fusion21": {
+      "block": "block:b3xpcp1x3fad2",
+      "status": "fixed on the landed engine (S15's start-cap rule): fusion 21 beyond 0 (max 26.08 cm), drift beyond 0; the block's sliver 0.46 cm"
+    },
+    "q102Fusion25": {
+      "block": "block:ebxh7bh5a96d2",
+      "status": "unchanged: drift beyond 2 (776.31 cm), beyond 0; b-03's (N-60 (b) (i))"
+    },
+    "q110": {
+      "a_ringSeamCorner": "not met as such: S9 vertices on a run's interior centreline 0 on 6 of the 7 seeds depth-probed (about 175 000 vertices), 1 on integrated 38 (row c); no closed ring way's seam corner identified",
+      "b_depthOverAttract": "met: S9-committed vertices deeper than attractCm in a run's interior per probed seed: fusion 23 6, fusion 24 2, fusion 36 13, integrated 11 10, integrated 20 7, integrated 36 4, integrated 38 4 (max 366.9 cm, fusion 23 at way:2); read and commit not separated (nearly every block exact)",
+      "c_tipKeptDeep": "met once: integrated 38 holds one S9 vertex on a run's interior centreline (172.2 cm deep, way:eecjk5kg4gxsk); the run-end wedges keep their apex at a centreline end, outside the band",
+      "d_draw268Sliver": "not a smoke observable (a B-FUZZ draw); not measured"
+    },
+    "ki12": {
+      "smoke": {
+        "s8P50Ms": {
+          "fusion": 243478.8,
+          "integrated": 279426.6
+        },
+        "cutsP50": {
+          "fusion": 1194,
+          "integrated": 1375
+        },
+        "msPerCut": {
+          "fusion": 203.9,
+          "integrated": 203.2
+        },
+        "authority": "contended (the smoke's first ~2 h beside NEAR, RELATED, the probes and the mutants)",
+        "before": {
+          "msPerCut": {
+            "fusion": 135.1,
+            "integrated": 138.4
+          }
+        }
+      },
+      "probe": {
+        "fusion 36": {
+          "s8Ms": 298265,
+          "cuts": 1153,
+          "msPerCut": 258.7,
+          "s8Reads": 2673,
+          "s8Tried": 33,
+          "s8Taken": 18,
+          "readShareOfS8": 0.906,
+          "faithfulShareOfS8": 0.0359,
+          "harnessReads": 2355,
+          "harnessTried": 16,
+          "harnessTaken": 14,
+          "depth": {
+            "vertices": 21997,
+            "overAttract": 13,
+            "over2Attract": 2,
+            "onCentre": 0,
+            "atRunEnd": 22,
+            "maxCm": 78.7
+          },
+          "tipsUnder12": 1,
+          "tipsAtRunEnd": 1
+        },
+        "fusion 24": {
+          "s8Ms": 283609,
+          "cuts": 1211,
+          "msPerCut": 234.2,
+          "s8Reads": 2798,
+          "s8Tried": 6,
+          "s8Taken": 11,
+          "readShareOfS8": 0.908,
+          "faithfulShareOfS8": 0.0086,
+          "harnessReads": 2486,
+          "harnessTried": 4,
+          "harnessTaken": 10,
+          "depth": {
+            "vertices": 23051,
+            "overAttract": 2,
+            "over2Attract": 0,
+            "onCentre": 0,
+            "atRunEnd": 29,
+            "maxCm": 31.2
+          },
+          "tipsUnder12": 2,
+          "tipsAtRunEnd": 2
+        },
+        "fusion 21": {
+          "s8Ms": 260824,
+          "cuts": 1215,
+          "msPerCut": 214.7,
+          "s8Reads": 2758,
+          "s8Tried": 5,
+          "s8Taken": 13,
+          "readShareOfS8": 0.906,
+          "faithfulShareOfS8": 0.0186,
+          "harnessReads": 2500,
+          "harnessTried": 2,
+          "harnessTaken": 16
+        },
+        "fusion 25": {
+          "s8Ms": 230069,
+          "cuts": 1146,
+          "msPerCut": 200.8,
+          "s8Reads": 2627,
+          "s8Tried": 21,
+          "s8Taken": 6,
+          "readShareOfS8": 0.898,
+          "faithfulShareOfS8": 0.0236,
+          "harnessReads": 2372,
+          "harnessTried": 10,
+          "harnessTaken": 10
+        },
+        "integrated 20": {
+          "s8Ms": 334802,
+          "cuts": 1396,
+          "msPerCut": 239.8,
+          "s8Reads": 3130,
+          "s8Tried": 31,
+          "s8Taken": 29,
+          "readShareOfS8": 0.88,
+          "faithfulShareOfS8": 0.0811,
+          "harnessReads": 2883,
+          "harnessTried": 10,
+          "harnessTaken": 18,
+          "depth": {
+            "vertices": 26302,
+            "overAttract": 7,
+            "over2Attract": 2,
+            "onCentre": 0,
+            "atRunEnd": 26,
+            "maxCm": 111.2
+          },
+          "tipsUnder12": 1,
+          "tipsAtRunEnd": 1
+        },
+        "integrated 11": {
+          "s8Ms": 254466,
+          "cuts": 1352,
+          "msPerCut": 188.2,
+          "s8Reads": 3067,
+          "s8Tried": 18,
+          "s8Taken": 19,
+          "readShareOfS8": 0.879,
+          "faithfulShareOfS8": 0.0186,
+          "harnessReads": 2802,
+          "harnessTried": 10,
+          "harnessTaken": 20,
+          "depth": {
+            "vertices": 26210,
+            "overAttract": 10,
+            "over2Attract": 4,
+            "onCentre": 0,
+            "atRunEnd": 32,
+            "maxCm": 113.1
+          },
+          "tipsUnder12": 2,
+          "tipsAtRunEnd": 2
+        },
+        "integrated 36": {
+          "s8Ms": 254629,
+          "cuts": 1379,
+          "msPerCut": 184.6,
+          "s8Reads": 3108,
+          "s8Tried": 8,
+          "s8Taken": 17,
+          "readShareOfS8": 0.87,
+          "faithfulShareOfS8": 0.0266,
+          "harnessReads": 2842,
+          "harnessTried": 6,
+          "harnessTaken": 12,
+          "depth": {
+            "vertices": 25948,
+            "overAttract": 4,
+            "over2Attract": 1,
+            "onCentre": 0,
+            "atRunEnd": 20,
+            "maxCm": 102.3
+          },
+          "tipsUnder12": 2,
+          "tipsAtRunEnd": 1
+        },
+        "fusion 23": {
+          "s8Ms": 219094,
+          "cuts": 1189,
+          "msPerCut": 184.3,
+          "s8Reads": 2680,
+          "s8Tried": 19,
+          "s8Taken": 14,
+          "readShareOfS8": 0.906,
+          "faithfulShareOfS8": 0.0187,
+          "harnessReads": 2442,
+          "harnessTried": 8,
+          "harnessTaken": 10,
+          "depth": {
+            "vertices": 21967,
+            "overAttract": 6,
+            "over2Attract": 3,
+            "onCentre": 0,
+            "atRunEnd": 21,
+            "maxCm": 366.9
+          },
+          "tipsUnder12": 5,
+          "tipsAtRunEnd": 2
+        },
+        "integrated 38": {
+          "s8Ms": 248839,
+          "cuts": 1362,
+          "msPerCut": 182.7,
+          "s8Reads": 3118,
+          "s8Tried": 2,
+          "s8Taken": 28,
+          "readShareOfS8": 0.874,
+          "faithfulShareOfS8": 0.0173,
+          "harnessReads": 2826,
+          "harnessTried": 4,
+          "harnessTaken": 18,
+          "depth": {
+            "vertices": 25138,
+            "overAttract": 4,
+            "over2Attract": 3,
+            "onCentre": 1,
+            "atRunEnd": 32,
+            "maxCm": 172.2
+          },
+          "tipsUnder12": 2,
+          "tipsAtRunEnd": 2
+        }
+      },
+      "note": "readShareOfS8 is readKerb's time over S8's stamp; faithfulShareOfS8 the faithful re-read's; tried / taken are LastRead.faithful counts per seed (S8's reads during the derivation, and the harness's L1 reads) counted by a hook in the MIRROR's kerb.ts only (kerbCensus is not a barrel export, J263 Q1; Q111)"
+    },
+    "n16": {
+      "growthDriftWindows": {
+        "fusion": 1,
+        "integrated": 1
+      },
+      "seeds": 50,
+      "note": "the pool stays thin (C-0258 (5); M0-c-05 notes row 62); the report does not place the window by seed"
+    },
+    "refusalCensus": {
+      "before": {
+        "fusion": {
+          "s9": 7,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3
+        },
+        "integrated": {
+          "s9": 11,
+          "kerbReads": 1,
+          "corpusRoof": 3,
+          "corpusSpine": 3
+        }
+      },
+      "after": {
+        "fusion": {
+          "s8": 0,
+          "s9": 0,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "seeds": [
+            28,
+            38,
+            47
+          ]
+        },
+        "integrated": {
+          "s8": 0,
+          "s9": 0,
+          "kerbReads": 0,
+          "corpusRoof": 3,
+          "corpusSpine": 3,
+          "seeds": [
+            28,
+            38,
+            47
+          ]
+        }
+      },
+      "classes": "s9 / kerbReads: 0 left (the OUR OWN INTERMEDIATE class of 2026-10-25, MAKE-IT-SUCCEED, fixed by a-09 S14-S17); corpus: M0-a-12's runner's skeleton downgrades on the exported district faces, a reported quality figure within the bar (0.19 % / 0.12 % <= 0.5 %), the same seeds before and after"
+    }
+  }
+}
