@@ -122,6 +122,8 @@ describe('bench -- bentcut-ng: both phases dispatch', () => {
     // The search met NG's one-bend share (its tolerance wide on nine recorded cuts): cut.json bumped with the value.
     expect(rep?.flatten?.verdict).toBe('met');
     expect(rep?.tables).toEqual([{ table: 'cut', from: 1, to: 2, provenance: 'M-1 2026-10-05', changes: [{ row: 'settings', cell: 'flattenM', before: 0.7, after: 0.7 }], mode: 'applied' }]);
+    // The run's verdict printed beside "applied" (hardening S1, note 8): the run fails, so the line says so.
+    expect(r.lines).toContain(`bentcut-ng: applied cut.json version 1 → 2, 1 cells, provenance M-1 2026-10-05; the run fails (exit 1) — read the verdict before committing the table\n`);
     const cut = JSON.parse(got(mem, 'packages/tables/data/cut.json') ?? '{}') as { version: number; rows: { settings: { flattenM: { value: number; provenance: string } } } };
     expect([cut.version, cut.rows.settings.flattenM.value, cut.rows.settings.flattenM.provenance]).toEqual([2, 0.7, 'M-1 2026-10-05']);
     // A search that misses its row applies nothing (its note says so).
