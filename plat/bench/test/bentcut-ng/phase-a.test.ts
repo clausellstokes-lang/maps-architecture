@@ -150,6 +150,21 @@ describe('phase a on a hand-built face (the listed test)', () => {
     expect(r4.failing).toEqual(['run']);
   });
 
+  it('the replay clause gates phase a: a planner cut the replay missed, or a face not replayed, fails the run (hardening S1, note 7)', () => {
+    const cuts = [straight(0, 0), straight(2_000, 0), straight(0, 0, true), straight(2_000, 0, true)];
+    const ours = sd([0.5, 0.7]);
+    const rows = [row('cut.sigma', 'plain', scalar(ours)), row('cut.sigma', 'ring', scalar(ours))];
+    const ok = judgeA({ baselines: baselines(rows), rule: RECORDED_ALL, faces: [face(cuts)], seed: 1, perKind: 1 });
+    expect([ok.pass, ok.clauses.find((c) => c.id === 'replay')?.verdict]).toEqual([true, 'pass']);
+    const f = face(cuts);
+    const missed: PhaseAFace = { ...f, counts: { ...(f.counts as NonNullable<PhaseAFace['counts']>), missed: 2 } };
+    const m = judgeA({ baselines: baselines(rows), rule: RECORDED_ALL, faces: [missed], seed: 1, perKind: 1 });
+    expect([m.pass, m.failing, m.clauses.find((c) => c.id === 'replay')?.ours]).toEqual([false, ['replay'], 2 / 6]);
+    const notReplayed: PhaseAFace = { ...face([]), counts: null };
+    const n = judgeA({ baselines: baselines(rows), rule: RECORDED_ALL, faces: [face(cuts), notReplayed], seed: 1, perKind: 1 });
+    expect([n.pass, n.failing, n.clauses.find((c) => c.id === 'replay')?.note]).toEqual([false, ['replay'], "2 districts measured: 1 not replayed (S8's own run stood, its cuts unmeasured); 0 of 4 planner cuts missed by the replay (the bound 0)"]);
+  });
+
   it('the corner, arrival and fillet rows are reported beside ours, never gating in phase a', () => {
     const cuts = [straight(0, 0), straight(2_000, 0), straight(0, 0, true), straight(2_000, 0, true)];
     const ours = sd([0.5, 0.7]);
@@ -202,7 +217,7 @@ describe('phase a end to end, in memory', () => {
     expect(rep?.phase).toBe('a');
     expect(rep?.ours.faces).toBe(5);
     expect(rep?.ours.signature.cuts).toBeGreaterThan(0);
-    expect(rep?.clauses.filter((c) => c.gating).map((c) => c.id)).toEqual(['run', 'cut.sigma/plain', 'cut.sigma/ring']);
+    expect(rep?.clauses.filter((c) => c.gating).map((c) => c.id)).toEqual(['run', 'replay', 'cut.sigma/plain', 'cut.sigma/ring']);
     expect(code).toBe(rep?.pass === true ? 0 : 1);
     // Proposed, not applied: the tables in the output folder, plat/'s data untouched.
     expect(rep?.tables?.map((t) => [t.table, t.from, t.to, t.mode])).toEqual([
@@ -216,8 +231,21 @@ describe('phase a end to end, in memory', () => {
     expect(first).toBeDefined();
     expect(await run(args, { out: `${MEM_ROOT}/out2`, platRoot: MEM_ROOT })).toBe(code);
     expect(got(mem, 'out2/bentcut-ng/report-a.json')).toBe(first);
-    // --apply writes the two tables into plat/'s data folder (here the memory's), version 2, the cells' provenance.
-    expect(await run([...args, '--apply'], { out: `${MEM_ROOT}/out3`, platRoot: MEM_ROOT })).toBe(code);
+    // --apply writes the two tables into plat/'s data folder (here the memory's), version 2, the cells' provenance — and
+    // prints the run's verdict beside each applied table (hardening S1, note 8).
+    const spy = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+    let applied: number;
+    let lines: string;
+    try {
+      applied = await run([...args, '--apply'], { out: `${MEM_ROOT}/out3`, platRoot: MEM_ROOT });
+      lines = spy.mock.calls.map((c) => String(c[0])).join('');
+    } finally {
+      spy.mockRestore();
+    }
+    expect(applied).toBe(code);
+    const verdict = rep?.pass === true ? 'the run passes (exit 0)' : 'the run fails (exit 1) — read the verdict before committing the table';
+    expect(lines).toContain(`bentcut-ng: applied granularity.json version 1 → 2, 1 cells, provenance M-1 2026-10-04; ${verdict}\n`);
+    expect(lines).toContain(`bentcut-ng: applied regimes.json version 1 → 2, 1 cells, provenance M-1 2026-10-04; ${verdict}\n`);
     const g = JSON.parse(got(mem, 'packages/tables/data/granularity.json') ?? '{}') as { version: number; rows: Record<string, Record<string, { value: unknown; provenance: string }>> };
     expect(g.version).toBe(2);
     expect(g.rows['modest']['depthM']).toMatchObject({ value: [14, 22], provenance: 'M-1 2026-10-04' });

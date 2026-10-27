@@ -284,6 +284,30 @@ function runClause(faces: number, setupRefused: number, s8Refused: number, cuts:
   };
 }
 
+/**
+ * The replay clause (hardening round S1, note 7; M0-b-04's N-3 the same shape): σ and the shares are read over the
+ * planner cuts the replay measured, so a run passes only when the replay measured every one — no district whose
+ * replay fell back to S8's own run (`notReplayed`, its cuts unmeasured) and no planner cut the replay missed. The bound
+ * is 0 (fail-safe: a measure resting on a subset of the planner's cuts never passes); ours is the missed share of the
+ * planner cuts, the note names both counts.
+ */
+function replayClause(measured: number, notReplayed: number, missed: number, cuts: number): Clause {
+  const planner = cuts + missed;
+  return {
+    id: 'replay',
+    metric: 'replay',
+    key: 'all',
+    verdict: notReplayed === 0 && missed === 0 ? 'pass' : 'fail',
+    gating: true,
+    ours: planner === 0 ? null : missed / planner,
+    reference: 0,
+    band: { hi: 0 },
+    baselineIds: [],
+    role: 'target',
+    note: `${String(measured)} districts measured: ${String(notReplayed)} not replayed (S8's own run stood, its cuts unmeasured); ${String(missed)} of ${String(planner)} planner cuts missed by the replay (the bound 0)`,
+  };
+}
+
 /** A gated σ key ours has no cut for: notApplicable, gating (never a vacuous pass). */
 function missingKey(metric: string, key: string): Clause {
   return { id: `${metric}/${key}`, metric, key, verdict: 'notApplicable', gating: true, ours: null, reference: null, band: {}, baselineIds: [], role: 'target', note: `ours: no ${key} cut under the frame rule` };
@@ -323,7 +347,7 @@ export function judgeA(input: { baselines: BaselinesInput; rule: FrameRule; face
   const ours = oursOf('a', { sigmaDocs: [{ ways: [], cuts: frameCuts(cuts, rule) }], docs: [{ ways: [], cuts }] }, { date: rowsDate(baselines.rows), seedFamily: `bentcut-ng-a/${String(input.seed)}` });
   const parity = judgedReport(baselines.rows, baselines.hash, ours, baselines.info);
   const gated = new Set(['plain', 'ring']);
-  const clauses: Clause[] = [runClause(input.faces.length, setupRefused, s8Refused, cuts.length, false)];
+  const clauses: Clause[] = [runClause(input.faces.length, setupRefused, s8Refused, cuts.length, false), replayClause(ran.length, notReplayed, missed, cuts.length)];
   clauses.push(...reportClauses(parity, ours, baselines.rows, (m, k) => m === 'cut.sigma' && gated.has(k)));
   for (const k of gated) if (!ours.entries.some((e) => e.metric === 'cut.sigma' && e.key === k && e.notApplicable === undefined)) clauses.push(missingKey('cut.sigma', k));
   const sum = oursSummary(input.faces.length, setupRefused, s8Refused, notReplayed, missed, cuts, rule);
@@ -431,11 +455,12 @@ export function judgeB(input: { baselines: BaselinesInput; rule: FrameRule; ng: 
   if (ng.faces.some((f) => f.holesCm.length === 0)) sigmaKeys.add('plain');
   if (ng.faces.some((f) => f.holesCm.length > 0)) sigmaKeys.add('ring');
   const gate = (m: string, k: string): boolean => (m === 'cut.sigma' && sigmaKeys.has(k)) || (m === 'cut.fillet' && k === 'all') || m === 'block.area' || m === 'cut.length';
-  const clauses: Clause[] = [runClause(records.length, setupRefused, s8Refused, all.length, true)];
+  const ran = records.filter((r) => r.setup === null && r.refused === null);
+  const notReplayed = ran.filter((r) => !r.replayed).length;
+  const missed = records.reduce((a, r) => a + r.missed, 0);
+  const clauses: Clause[] = [runClause(records.length, setupRefused, s8Refused, all.length, true), replayClause(ran.length, notReplayed, missed, all.length)];
   clauses.push(...reportClauses(parity, ours, baselines.rows, gate));
   for (const k of sigmaKeys) if (!ours.entries.some((e) => e.metric === 'cut.sigma' && e.key === k && e.notApplicable === undefined)) clauses.push(missingKey('cut.sigma', k));
-  const notReplayed = records.filter((r) => r.setup === null && r.refused === null && !r.replayed).length;
-  const missed = records.reduce((a, r) => a + r.missed, 0);
   const sum = oursSummary(records.length, setupRefused, s8Refused, notReplayed, missed, all, rule);
   const beside = (m: string): Clause | undefined => clauses.find((c) => c.metric === m && c.key === 'all');
   clauses.push(absoluteClause('corner', 'cut.cornerMid', sum.signature.cornerMid, sum.signature.bent, CORNER_MIN, beside('cut.cornerMid')));
@@ -599,7 +624,10 @@ export async function run(args: string[], ctx: NgContext): Promise<number> {
     writeFileSync(w.path, w.text);
   }
   for (const c of r.clauses) say(`bentcut-ng: ${c.gating ? 'gate' : 'beside'} ${c.id}: ${c.verdict}; ours ${c.ours === null ? 'n/a' : String(c.ours)}${c.reference === null ? '' : `, reference ${String(c.reference)}`}${c.note === undefined ? '' : ` — ${c.note}`}`);
-  for (const t of r.tables ?? []) say(`bentcut-ng: ${t.mode} ${t.table}.json version ${String(t.from)} → ${String(t.to)}, ${String(t.changes.length)} cells, provenance ${t.provenance}`);
+  // The run's verdict beside each written table (hardening round S1, note 8): --apply writes a phase's tables whatever
+  // the verdict (phase a's depth rows stand apart from σ), so the operator reads the verdict before committing them.
+  const verdict = r.pass ? 'the run passes (exit 0)' : 'the run fails (exit 1) — read the verdict before committing the table';
+  for (const t of r.tables ?? []) say(`bentcut-ng: ${t.mode} ${t.table}.json version ${String(t.from)} → ${String(t.to)}, ${String(t.changes.length)} cells, provenance ${t.provenance}; ${verdict}`);
   const text = `${parityCanonicalJson(r)}\n`;
   const full = writeTruncated(dir, reportName(a.phase), text);
   if (full.dropped > 0) say(`bentcut-ng: the report was truncated by ${String(full.dropped)} bytes`);
