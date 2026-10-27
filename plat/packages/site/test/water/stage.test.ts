@@ -5,12 +5,12 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkStageEnd, isVertexLive, outgoing, rowKey, rowsOn, STAGES, VERTEX_PINNED, type Kernel, type Plat } from '@plat/kernel';
-import type { Bridge, WaterBody } from '@plat/model';
+import type { Bridge, Cm, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { cellAt } from '../../src/hydro/index.js';
 import { GROUND_KEY } from '../../src/terrain/index.js';
 import { leftFaces, runS1, s1Stage, type S1Input, type S1Output } from '../../src/water/index.js';
-import { flowNear, ground, heldRefs, riverFixture, type RiverFixture } from './support.js';
+import { flowNear, GENERATED_AT_0, ground, heldRefs, riverFixture, type RiverFixture } from './support.js';
 
 /** A 100 ha CITY frame with a river, a tributary and the basic estuary (seed 2: two fords, three bridge sites …). */
 function fixture(seed = 2): RiverFixture {
@@ -104,7 +104,7 @@ describe('§4.1\'s S1 row under a hand-built StageContext (C-0123)', () => {
     const ends: { x: number; y: number }[][] = [];
     out.water.bridges.forEach((b: Bridge, i) => {
       const site = out.sites[i];
-      expect(b).toMatchObject({ id: `bridge:${String(i)}`, state: 'site', way: null, over: 'river' });
+      expect(b).toMatchObject({ id: `bridge:${String(i)}`, state: 'site', way: null, over: 'river', lifecycle: GENERATED_AT_0 });
       expect(b.kind === 'ford').toBe(site.type === 'ford');
       const pts: { x: number; y: number }[] = [];
       for (const e of [0, 1] as const) {
@@ -160,6 +160,45 @@ describe('§4.1\'s S1 row under a hand-built StageContext (C-0123)', () => {
     live.delete('bridge:0');
     const dead = checkStageEnd(plat, { refs, isLive: (id) => live.has(id) });
     expect(dead.find((r) => r.name === 'references-resolve')?.holds).toBe(false);
+  });
+
+  it('note 10: a deck end the insertion moves is the site\'s deck — each site and its Bridge read back from the committed deck_end vertices', () => {
+    // the façade moves every deck end 5 cm east before inserting it (the insertion's attraction, planted): the committed
+    // vertices are not where siteCrossings put the ends, and the sites must say where they are
+    const fx = fixture();
+    const g = ground(fx.frame);
+    const geom = {
+      ...g.kernel.geom,
+      insertChain: ((o, pts, rows, cls, opts) => {
+        const moved = pts.slice();
+        for (const kn of opts?.knots ?? []) if (kn.role === 'deck_end') moved[kn.index] = { x: (moved[kn.index].x + 5) as Cm, y: moved[kn.index].y };
+        return g.kernel.geom.insertChain(o, moved, rows, cls, opts);
+      }) as Kernel['geom']['insertChain'],
+    };
+    const kernel: Kernel = { ...g.kernel, geom };
+    const r = runS1({ terrain: fx.terrain, water: fx.water, kernel, mouth: 'estuary' }, fx.ctx);
+    if (!r.ok) throw new Error(`${r.code} ${r.detail}`);
+    const plain = run(fixture()).out.sites;
+    expect(r.value.sites).toHaveLength(plain.length);
+    r.value.sites.forEach((s, i) => {
+      const b = r.value.water.bridges[i];
+      const ends = b.deck.map((ref) => {
+        const res = g.kernel.resolve(ref, GROUND_KEY);
+        const v = res.view === 'vertices' ? res.vertices[0] : -1;
+        return { x: g.plat.vertices.x[v], y: g.plat.vertices.y[v] };
+      });
+      expect(s.deck).toEqual(ends);
+      expect(s.deck).toEqual(plain[i].deck.map((q) => ({ x: q.x + 5, y: q.y })));
+      expect(Math.abs(s.spanCm - Math.hypot(ends[1].x - ends[0].x, ends[1].y - ends[0].y))).toBeLessThanOrEqual(0.5);
+      expect(b.spanCm).toBe(s.spanCm);
+    });
+  });
+
+  it('§3.3 (note 3): the L0 index partitions are rebuilt at the stage\'s end — the ground arena\'s L0 dynamic grid holds nothing after S1', () => {
+    const { plat } = run(fixture());
+    const idx = plat.index;
+    expect(idx).toBeDefined();
+    expect(idx?.levels[0].dynamic.entries.size).toBe(0);
   });
 
   it('S1 (9): the terrain\'s outfalls written — on its bodies\' banks and the frame edge, each cell containing its point', () => {

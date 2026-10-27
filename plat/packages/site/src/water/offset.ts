@@ -336,7 +336,8 @@ function onRings(rings: readonly (readonly XY[])[], q: XY): boolean {
 
 /**
  * A point within this of an earlier ring lies on it (the lattice rounding of a mouth's ends, cm) — the quantity of
- * polygons.ts's FIXED_BAND_CM, kept as its own constant: it pads a box test here, a squared distance there.
+ * polygons.ts's FIXED_BAND_CM, kept as its own constant (W-6); a later round may tie them. Each pads a box test and
+ * bounds a squared distance (here `onRings`; there the cut points' box and `fixedVertices`' distance to the rings).
  */
 const ON_CM = 2;
 

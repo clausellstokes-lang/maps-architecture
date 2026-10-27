@@ -15,10 +15,14 @@
 // * the five class-A seeds and the x-06 checker's two (SMALL_RIVER, unplanted) commit through the registered S1's
 //   composition — the base TerrainStrategy, the base RiverStrategy and `s1Stage`, under the runner's town key and the
 //   base arena's index cell (C-0264; equal to the registered run on all seven, measured in the round's mirror) — run
-//   here under a hand-built StageContext, never through @plat/layout's runner (§14; C-0123).
+//   here under a hand-built StageContext, never through @plat/layout's runner (§14; C-0123). Since Q45's prolongation
+//   (hardening round S3) their fast rings stand; the test refuses each fast ring's insertion once (a planted kernel
+//   refusal on the façade), so the stage's slow-only retry takes the kernel's proved ring, as it did before;
+// * (notes 13, 14) the loop river's refusal names its fast ring's own cause; and a body refused on both polygons does
+//   not stop the slow-only retry of a river whose fast ring the kernel refuses (the `fast` flag counts reaches).
 import { readFileSync } from 'node:fs';
-import { attachIndex, checkCI, createKernel, createPlat, createRng, rowKey, rowsOn, seedKey, STAGES, type Frame, type Hash128, type LatticePoint, type Ring } from '@plat/kernel';
-import { mintTownRoot, type GeomRef, type StageContext, type Terrain, type WaterBody } from '@plat/model';
+import { attachIndex, checkCI, createKernel, createPlat, createRng, err, rowKey, rowsOn, seedKey, STAGES, type Frame, type Hash128, type Kernel, type LatticePoint, type Ring } from '@plat/kernel';
+import { mintTownRoot, type Cm, type GeomRef, type StageContext, type Terrain, type WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { baseRivers } from '../../src/hydro/index.js';
 import { baseTerrain, GROUND_KEY, TOWN_ROOT, type SiteEnv } from '../../src/terrain/index.js';
@@ -209,7 +213,7 @@ describe('waterPolygons and S1: a body whose kernel ring stays unclear is refuse
     expect(r.value.reaches).toEqual([]);
     expect(r.value.dropped).toEqual([{ id: 'water:river:0', reason: 'refused' }]);
     expect(r.value.fallbacks).toHaveLength(1);
-    expect(r.value.fallbacks[0].why).toMatch(/; the kernel's ring: not clear \(/);
+    expect(r.value.fallbacks[0].why).toMatch(/^hole outside; the kernel's ring: not clear \(/);
   });
 
   it('S1: the river so refused is the stage\'s refusal E_INVARIANT, the fast ring\'s cause and the kernel ring\'s named, no further rung; nothing of the water written', () => {
@@ -219,7 +223,7 @@ describe('waterPolygons and S1: a body whose kernel ring stays unclear is refuse
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toMatch(/^S1 water: the river's ring was refused on the kernel's polygons \(the fast ring: [^)]+\); no further rung — the kernel's ring not clear \(/);
+    expect(r.detail).toMatch(/^S1 water: the river's ring was refused on the kernel's polygons \(the fast ring: hole outside\); no further rung — the kernel's ring not clear \(/);
     // the outer ring's batch alone committed (the runner restores it, C-0295); no shore anywhere
     expect(plat.version).toBe(1);
     for (const h of leftFaces(plat).keys()) expect(rowsOn(plat, 'edge', h).map((q) => rowKey(plat, q).role)).toEqual(['margin']);
@@ -228,6 +232,22 @@ describe('waterPolygons and S1: a body whose kernel ring stays unclear is refuse
 
 /** The registered S1's composition on SMALL_RIVER (EP-01's small river frame: CITY, 30 ha, the river from the west, no mouth). */
 const SMALL_RIVER = { size: { rung: 'CITY', aspect: 1, areaHa: 30 }, site: { relief: 'plain' as const, river: { inflowBearingCdeg: 27_000, mouth: 'none' as const } } };
+
+/** The façade with its first insertion of the river's shore refused (a planted kernel refusal: the batch writes nothing). */
+function refusingFirstRiverShore(kernel: Kernel): Kernel {
+  let refused = false;
+  const geom = {
+    ...kernel.geom,
+    insertChain: ((o, pts, rows, cls, opts) => {
+      if (!refused && rows.some((r) => r.role === 'shore' && r.entity === 'water:river:0')) {
+        refused = true;
+        return err('E_INVARIANT', 'role consistency: (shore, water:river:0) branches (planted)');
+      }
+      return kernel.geom.insertChain(o, pts, rows, cls, opts);
+    }) as Kernel['geom']['insertChain'],
+  };
+  return { ...kernel, geom };
+}
 
 function registeredS1(seed: number): { out: ReturnType<typeof runS1>; plat: ReturnType<typeof createPlat> } {
   // the runner's StageContext for S1 (M0-x-02): the town root's key minted from the seed, one Rng per stage run
@@ -248,7 +268,7 @@ function registeredS1(seed: number): { out: ReturnType<typeof runS1>; plat: Retu
   // the base arena (layout's baseArena): the frame, one index cell of 50 m
   const plat = createPlat(GROUND_KEY, frameOf(SMALL_RIVER.size as never));
   attachIndex(plat, { gridCellCm: 5000 });
-  const kernel = createKernel(new Map([[GROUND_KEY, plat]]));
+  const kernel = refusingFirstRiverShore(createKernel(new Map([[GROUND_KEY, plat]])));
   const stage = s1Stage();
   return { out: stage.run(stage.inputsOf({ terrain: terrain.value, water: water.value, mouth: 'none', kernel } as never, { kind: 'all' }), ctx), plat };
 }
@@ -256,16 +276,65 @@ function registeredS1(seed: number): { out: ReturnType<typeof runS1>; plat: Retu
 describe('Q20 class A: the lawful SMALL_RIVER river commits on the seeds S1 refused (N-56 (1))', () => {
   // seeds 2651453823, 1314904401, 186973829, 1117762784, 4230160953 (the ruling's, EP-01/S1/self-touching's family
   // unplanted) and 676291635, 1595424233 (the x-06 checker's river × frame seeds): on the kernel's ring uncleaned each
-  // is refused E_INVARIANT "(shore, water:river:0) branches"; each takes the slow path (the fast ring 'near the edge')
+  // is refused E_INVARIANT "(shore, water:river:0) branches"; each takes the slow path — before Q45 the fast ring was
+  // refused 'near the edge'; now its insertion is refused once (planted), so the stage retries on the kernel's rings
   it.each([2651453823, 1314904401, 186973829, 1117762784, 4230160953, 676291635, 1595424233])('seed %i: S1 commits the river on the kernel\'s proved ring, every hard row green, its shore clear', (seed) => {
     const { out, plat } = registeredS1(seed);
     if (!out.ok) throw new Error(`${out.code} ${out.detail}`);
     const o: S1Output = out.value;
     expect(o.water.bodies.map((b) => b.id)).toEqual(['water:river:0']);
-    expect(o.report.fallbacks).toEqual([{ id: 'water:river:0', why: 'near the edge' }]);
+    expect(o.report.fallbacks).toEqual([{ id: 'water:river:0', why: 'slow only' }]);
+    expect(o.report.retried).toBe(true);
     expect(o.report.dropped).toEqual([]);
     expect(o.water.bridges.length).toBeGreaterThan(0);
     const { refs, live } = heldRefs(o.terrain.id, o);
     expect(hardFailures(plat, refs, live)).toEqual([]);
+  });
+});
+
+/** A terrain record over the small arena with no drainage (every D8 code 8: no step), so S1 writes no outfall. */
+function dryTerrain(): Terrain {
+  const cols = 40;
+  const rows = 24;
+  return {
+    id: 'terrain:ground',
+    key: { layer: 'ground', part: 0 },
+    cellCm: 2500 as Cm,
+    cols: 1,
+    rows: 1,
+    originX: -50_000 as Cm,
+    originY: -30_000 as Cm,
+    datumCm: 0 as Cm,
+    heightCm: new Int32Array(1),
+    reliefLimitCm: 1_000_000 as Cm,
+    hydro: { cellCm: 2500 as Cm, cols, rows, originX: -50_000 as Cm, originY: -30_000 as Cm },
+    flowDir: new Uint8Array(cols * rows).fill(8),
+    flatRank: new Uint32Array(cols * rows),
+    flowAccum: new Uint32Array(cols * rows),
+    outfalls: [],
+    seaLevelCm: 0 as Cm,
+    wind: { bearingCdeg: 0, strength: 0 },
+    features: [],
+    lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
+  };
+}
+
+describe('note 14: a body refused on both polygons does not stop the slow-only retry (the `fast` flag counts reaches)', () => {
+  it('a river across the arena (its fast ring\'s insertion refused once) and a looped tributary refused on both polygons: the river commits on the retry, the tributary reported `refused`', () => {
+    const { plat, kernel } = ground(FRAME);
+    const loopTrib: [number, number][] = [
+      [-3000, 15_000],
+      [1000, 15_000],
+      [1000, 17_000],
+      [-1000, 17_000],
+      [-1000, 13_000],
+    ];
+    const water = { bodies: [body('water:river:0', 'river', [[-REACH.x, 0], [-20_000, 0], [20_000, 0], [REACH.x, 0]], 2000), body('water:tributary:0', 'tributary', loopTrib, 50)], bridges: [] };
+    const r = runS1({ terrain: dryTerrain(), water, kernel: refusingFirstRiverShore(kernel) }, siteContext(1, 'CITY'));
+    if (!r.ok) throw new Error(`${r.code} ${r.detail}`);
+    expect(r.value.report.retried).toBe(true);
+    expect(r.value.report.dropped).toEqual([{ id: 'water:tributary:0', reason: 'refused' }]);
+    expect(r.value.water.bodies.map((b) => b.id)).toEqual(['water:river:0']);
+    expect(plat.version).toBe(2);
   });
 });

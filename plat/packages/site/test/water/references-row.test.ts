@@ -7,10 +7,10 @@
 // naming an entity no output holds) refuses the stage E_INVARIANT with the row named first, its evaluation counted and
 // failed; the honest twin reports one evaluation, passing, with zero problems. Run under a hand-built StageContext
 // (C-0123), the sink a stand-in for the runner's (its count and pass rule, and its refusal of an undeclared row name).
-import { addRole, checkStageEnd, handleOf, isHalfEdgeLive, removeRoleRow, roleIdOf, rowKey, rowsOfKey, rowsOn, type Kernel, type Plat } from '@plat/kernel';
-import type { StageContext } from '@plat/model';
+import { addRole, checkStageEnd, handleOf, isFaceLive, isHalfEdgeLive, removeRoleRow, roleIdOf, rowKey, rowsOfKey, rowsOn, setFaceOwner, type Kernel, type Plat } from '@plat/kernel';
+import type { Bridge, StageContext } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import type { SiteEnv } from '../../src/terrain/index.js';
+import { GROUND_KEY, type SiteEnv } from '../../src/terrain/index.js';
 import { REFERENCES_ROW, runS1, s1Stage, type S1Input } from '../../src/water/index.js';
 import { ground, heldRefs, riverFixture, type RiverFixture } from './support.js';
 
@@ -19,8 +19,11 @@ function fixture(seed = 2): RiverFixture {
   return riverFixture(seed, { relief: 'rolling' }, { tributaries: [{}], mouth: 'estuary' }, { areaHa: 100 });
 }
 
-/** A planted breach of the committed arena: a bridge's deck_end row removed, or a shore row naming a ghost body. */
-type Breach = 'dangling' | 'dead';
+/**
+ * A planted breach of the committed arena: a bridge's deck_end row removed, or a shore row naming a ghost body; and
+ * (note 16) the terrain's margin rows removed, or a land component's or the river's faces left with no owner.
+ */
+type Breach = 'dangling' | 'dead' | 'margin' | 'land' | 'river';
 
 /** The runner's line for one declared row (§5.4): every evaluation counted, pass while none failed. */
 interface Line {
@@ -55,6 +58,23 @@ function plant(p: Plat, how: Breach): void {
     const rows = rowsOfKey(p, roleIdOf('deck_end'), handleOf(p, 'bridge:0'), 1);
     expect(rows).toHaveLength(1);
     removeRoleRow(p, rows[0]);
+    return;
+  }
+  if (how === 'margin') {
+    const rows = rowsOfKey(p, roleIdOf('margin'), handleOf(p, 'terrain:ground'), 0);
+    expect(rows.length).toBeGreaterThan(3);
+    for (const r of rows) removeRoleRow(p, r);
+    return;
+  }
+  if (how === 'land' || how === 'river') {
+    const owner = handleOf(p, how === 'land' ? 'land:0' : 'water:river:0');
+    let n = 0;
+    for (let f = 0; f < p.slots.face[0].top; f += 1) {
+      if (!isFaceLive(p, 0, f) || p.faces[0].owner[f] !== owner) continue;
+      setFaceOwner(p, 0, f, -1);
+      n += 1;
+    }
+    expect(n).toBeGreaterThan(0);
     return;
   }
   for (let h = 0; h < 2 * p.slots.pair.top; h += 1) {
@@ -122,6 +142,58 @@ describe('Q31: S1 evaluates and reports its declared stage-end row references-re
       expect(fx.terrain.outfalls.length).toBe(outfallsBefore);
     });
   }
+
+  // note 16: the row's other subject classes, each planted alone — the terrain's margin, a land component's face, the
+  // river's face — each refused row-first, naming the reference that finds no geometry
+  for (const [how, ref] of [
+    ['margin', '{"role":"margin","entity":"terrain:ground"}'],
+    ['land', '{"owner":"land:0","level":0}'],
+    ['river', '{"owner":"water:river:0","level":0}'],
+  ] as const) {
+    it(`note 16: a planted breach (${how}): S1 is refused E_INVARIANT naming the row first and the reference ${ref}`, { timeout: 300_000 }, () => {
+      const fx = fixture();
+      const { ctx, lines } = recording(fx);
+      const { r, planted } = runOn(fx, ctx, how);
+      expect(planted).toBe(1);
+      expect(r.ok).toBe(false);
+      if (r.ok) return;
+      expect(r.code).toBe('E_INVARIANT');
+      expect(r.detail.startsWith('references-resolve: ')).toBe(true);
+      expect(r.detail).toContain(`the stored reference ${ref} finds no geometry`);
+      expect(lines).toEqual([{ name: 'references-resolve', pass: false, count: 1 }]);
+    });
+  }
+
+  it('notes 2 and 6: an input Bridge whose deck_end vertices resolve to nothing refuses S1 E_INVARIANT at the stage\'s end, and the stage\'s own sites are numbered after the input\'s bridges (bridge:1 first)', { timeout: 300_000 }, () => {
+    const fx = fixture();
+    const ghost: Bridge = {
+      id: 'bridge:0',
+      state: 'site',
+      way: null,
+      deck: [
+        { role: 'deck_end', entity: 'bridge:0', ordinal: 0 },
+        { role: 'deck_end', entity: 'bridge:0', ordinal: 1 },
+      ],
+      over: 'river',
+      spanCm: 2000 as Bridge['spanCm'],
+      lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
+    };
+    const { ctx, lines } = recording(fx);
+    const g = ground(fx.frame);
+    const r = runS1({ terrain: fx.terrain, water: { bodies: fx.water.bodies, bridges: [ghost] }, kernel: g.kernel, mouth: 'estuary' }, ctx);
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.code).toBe('E_INVARIANT');
+    expect(r.detail.startsWith('references-resolve: ')).toBe(true);
+    expect(r.detail).toContain('the stored reference {"role":"deck_end","entity":"bridge:0","ordinal":0} finds no geometry');
+    expect(lines).toEqual([{ name: 'references-resolve', pass: false, count: 1 }]);
+    // the water batch committed its sites from bridge:1 on: no deck_end of bridge:0 in the arena, bridge:1's two resolving
+    expect(rowsOfKey(g.plat, roleIdOf('deck_end'), handleOf(g.plat, 'bridge:0'), 0)).toEqual([]);
+    for (const e of [0, 1]) {
+      const res = g.kernel.resolve({ role: 'deck_end', entity: 'bridge:1', ordinal: e }, GROUND_KEY);
+      expect(res.view === 'vertices' && res.vertices.length).toBe(1);
+    }
+  });
 
   it('a context with no sink still evaluates the row: the breach is refused all the same, the honest run commits', { timeout: 300_000 }, () => {
     const fx = fixture();
