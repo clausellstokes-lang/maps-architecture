@@ -37,7 +37,7 @@ import { SAGITTA_CM } from '../../../src/arr/buffer.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { ins, tx as shell, emptyArena } from '../../insert/step3-5/support.js';
 import { setOwner, tx as txn } from '../../../src/tx/index.js';
-import { AT_S9, commit, framed, hausdorffCm, healthy, network, normals, own, pt, readIn, ringsOf, spec, state, tilesExactly, way, widthsOf, type Chord, shifted } from './support.js';
+import { AT_S9, commit, framed, hausdorffCm, healthy, network, normals, own, profile, pt, readIn, ringsOf, spec, state, tilesExactly, way, widthsOf, type Chord, shifted } from './support.js';
 
 type XY = { readonly x: number; readonly y: number };
 
@@ -190,38 +190,28 @@ describe('J318: kerb(F) subtracts every spine incident to F, through a route ver
     });
   }
 
-  it('a square end reaching F by its corner only: the reach reads the square cap (√2 half-widths off the end), so the corner is clipped', () => {
+  it('a square end ON F’s spine — a T-junction — takes no cap (round S15’s start-cap rule): its corner no longer reaches F; the census still reads the square cap’s reach (a superset of the band)', () => {
     // S along y = 1000 (half-width 300), F above it; W arrives from below at 45° and ends on S at J = (2000, 1000),
-    // declared square (half-width 250): its cap's far corner stands 250·√2 = 354 cm above J — 54 cm into kerb(F) —
-    // while the cap's middle reaches only 177 cm (within S's band)
+    // declared square (half-width 250). Before round S15 its square cap's far corner stood 250·√2 = 354 cm above J — 54 cm
+    // into kerb(F) — and was clipped; an end on another chain's line (S passes through J) is no free end: the strip stops
+    // on the line through J square to W, its corners (1823, 1177) and (2177, 823) within S's band, so kerb(F) is S's
     const p = framed();
     way(p, 'way:s', [[0, 1000], [2000, 1000], [4000, 1000]]);
     way(p, 'way:w', [[1000, 0], [2000, 1000]]);
     const [f] = own(p, 'district:1', [[2000, 3000]]);
     const ws = widthsOf({ 'way:s': 300, 'way:w': { halfWidthCm: 250, ends: 'square' } });
     const sOnly = widthsOf({ 'way:s': 300 });
+    // the reach test reads the square cap (1.5 half-widths at an open run's end): W is still F's spine by the census
     expect(censusSpines(p, f, ws).has('way:way:w')).toBe(true);
-    const inside = (rings: readonly (readonly XY[])[], q: XY): boolean => {
-      let w = 0;
-      for (const r of rings) {
-        for (let i = 0; i < r.length; i += 1) {
-          const a = r[i];
-          const b = r[(i + 1) % r.length];
-          const side = (b.x - a.x) * (q.y - a.y) - (b.y - a.y) * (q.x - a.x);
-          if (a.y <= q.y) {
-            if (b.y > q.y && side > 0) w += 1;
-          } else if (b.y <= q.y && side < 0) w -= 1;
-        }
-      }
-      return w !== 0;
-    };
-    // (2000, 1340): above S's band, inside W's square cap (240 cm along W past J, 240 cm off its axis)
-    const q = { x: 2000, y: 1340 };
-    expect(inside(kerbIn(p, f, sOnly), q)).toBe(true);
+    const w = censusSpines(p, f, ws).get('way:way:w') as Spine;
+    expect(w.lines.map((l) => l.junction)).toEqual([[false, true]]);
+    // kerb(F) is S's kerb: (2000, 1340), inside the old cap, is kerb; every vertex at least 300 cm above S's centreline
     const after = kerbIn(p, f, ws);
-    expect(inside(after, q)).toBe(false);
-    // the cap's corner clipped, the rest of kerb(F) S's: every vertex at least 300 cm above S's centreline
+    expect(normals(after)).toEqual(normals(kerbIn(p, f, sOnly)));
     expect(after.flat().every((v) => v.y >= 1300)).toBe(true);
+    const r = commit(p, 2, (o) => corridorUnion(o, [f], ws), AT_S9);
+    healthy(p);
+    expect(normals((r.value as BandResult).blocks.flatMap((b) => ringsOf(p, 2, b)))).toEqual(normals(after));
   });
 
   it('bandUnion’s per-side parts read the chain’s edge faces only (C-0380): a face touching the chain at a vertex holds no part of it', () => {
@@ -347,7 +337,11 @@ const S9_SHIFT: Record<number, { before: [[number, number], [number, number] | n
   // the corner where two strips meet beside F's L1 edge (83013, −23567)–(83445, −23070) (6 cm)
   33: { before: [[[83180, -23209], [83184, -23204]]], after: [], depthBeforeCm: 135.98 },
   // (2339, 2855) and (2149, 2885) on F's L1 edge (2503, 2829)–(1986, 2910); after: the strips' corner beside it (1 cm)
-  44: { before: [[[2339, 2855], [2338, 2855]], [[2149, 2885], [2148, 2885]]], after: [[[2165, 3042], [2164, 3042]]], depthBeforeCm: 232.96 },
+  // round S15 (the start-cap rule, `junctionEnd`): (2149, 2885) in the before read and (2165, 3042) in the after read stand
+  // where the record has them, 1 cm from round S9's (a lane starting on F's L1 edge there takes no cap now, so the
+  // strips' corners beside it are attracted no more); way:8 itself ends where another way ends — a continuation, its
+  // round cap kept — so J318's class-B reading of the face stands
+  44: { before: [[[2339, 2855], [2338, 2855]]], after: [], depthBeforeCm: 232.96 },
 };
 
 describe('J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke; class B): a block never overlaps a corridor', () => {
@@ -371,11 +365,14 @@ describe('J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke;
       expect(pairsOf(before)).toEqual(shifted(fx.kerbBefore, sh.before));
       expect(depth(before)).toBeGreaterThan(100);
       expect(Math.abs(depth(before) - sh.depthBeforeCm)).toBeLessThan(0.01);
-      // after: kerb(F) clear of the band of every way that does not bound F, the vertex-only way's among them
+      // after: kerb(F) clear of the band of every way that does not bound F, the vertex-only way's among them (its band
+      // also read by the start-cap rule, round S15: an end on another chain's line takes no cap, `depthInSpine`)
       const after = kerbIn(p, face, widths);
+      const voSpine = censusSpines(p, face, widths).get(vo) as Spine;
       expect(pairsOf(after)).toEqual(shifted(fx.kerbAfter, sh.after));
       expect(depth(after)).toBeLessThanOrEqual(ON_EDGE_CM);
       expect(deepestOffF(runs, bounding, after).depth).toBeLessThanOrEqual(ON_EDGE_CM);
+      expect(depthInSpine(after, voSpine)).toBeLessThanOrEqual(ON_EDGE_CM);
       // S9 commits that kerb (S8 ≡ S9, §13.2), its block clear of every such band
       const r = commit(p, 2, (o) => corridorUnion(o, [face], widths), AT_S9);
       healthy(p);
@@ -384,28 +381,47 @@ describe('J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke;
       const blocks = v.blocks.flatMap((b) => ringsOf(p, 2, b));
       expect(normals(blocks)).toEqual(normals(after));
       expect(deepestOffF(runs, bounding, blocks).depth).toBeLessThanOrEqual(ON_EDGE_CM);
+      expect(depthInSpine(blocks, voSpine)).toBeLessThanOrEqual(ON_EDGE_CM);
     });
   }
 });
 
-/** How deep the rings reach into a spine's buffer at their vertices (cm): its half-width there, interpolated along each segment, less the distance. */
+/**
+ * How deep the rings reach into a spine's buffer at their vertices (cm): its half-width there, interpolated along each
+ * segment, less the distance — and at a JUNCTION end (round S15's start-cap rule: an end on another chain's line takes no
+ * cap, the band stops on the line through the end square to its last segment) no deeper than the vertex stands behind that
+ * line, in the end's reach (written from the rule's definition).
+ */
 function depthInSpine(rings: readonly (readonly XY[])[], s: Spine): number {
   let worst = -Infinity;
   for (const line of s.lines) {
     const n = line.points.length;
     const segs = line.closed ? n : n - 1;
-    for (let k = 0; k < segs; k += 1) {
-      const a = line.points[k];
-      const b = line.points[(k + 1) % n];
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const l2 = dx * dx + dy * dy;
-      for (const r of rings) {
-        for (const q of r) {
+    const ends: { e: XY; ux: number; uy: number; r: number }[] = [];
+    if (!line.closed && n >= 2) {
+      for (const [at, from, j] of [[0, 1, 0], [n - 1, n - 2, 1]] as const) {
+        if (!line.junction[j]) continue;
+        const e = line.points[at];
+        const o = line.points[from];
+        const l = Math.hypot(e.x - o.x, e.y - o.y);
+        if (l > 0) ends.push({ e, ux: (e.x - o.x) / l, uy: (e.y - o.y) / l, r: 1.5 * line.hw[at] });
+      }
+    }
+    for (const r of rings) {
+      for (const q of r) {
+        let depth = -Infinity;
+        for (let k = 0; k < segs; k += 1) {
+          const a = line.points[k];
+          const b = line.points[(k + 1) % n];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const l2 = dx * dx + dy * dy;
           const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / l2));
           const hw = line.hw[k] + t * (line.hw[(k + 1) % n] - line.hw[k]);
-          worst = Math.max(worst, hw - Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy));
+          depth = Math.max(depth, hw - Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy));
         }
+        for (const c of ends) if (Math.hypot(q.x - c.e.x, q.y - c.e.y) <= c.r) depth = Math.min(depth, -((q.x - c.e.x) * c.ux + (q.y - c.e.y) * c.uy));
+        worst = Math.max(worst, depth);
       }
     }
   }
@@ -519,7 +535,7 @@ describe('J264 (C-0381): where the one overlay finds no route, kerb(F) is read i
       key: 'way:way:t',
       chain: { role: 'way', entity: 'way:t' },
       ends: 'round',
-      lines: [{ points: [pt(0, 0), pt(1000, 0)], hw: [hw[0], hw[1]], closed: false }],
+      lines: [{ points: [pt(0, 0), pt(1000, 0)], hw: [hw[0], hw[1]], closed: false, junction: [false, false] }],
       hwAt: new Map(),
     });
     const ring = (x: number, y: number): LatticePoint[][] => [[pt(x, y), pt(x + 400, y + 400), pt(x - 400, y + 400)]];
@@ -534,6 +550,14 @@ describe('J264 (C-0381): where the one overlay finds no route, kerb(F) is read i
     // beyond the end: the round end's radius (100 cm at x = 1000)
     expect(clearOf([[pt(1062, 0), pt(1500, -400), pt(1500, 400)]], spine([100, 100]))).toBe(true);
     expect(clearOf([[pt(1059, 0), pt(1500, -400), pt(1500, 400)]], spine([100, 100]))).toBe(false);
+    // round S15 (the start-cap rule, every reader of ends): at a JUNCTION end the band stops on the line through the end
+    // square to the segment — a vertex beyond it, or within the move behind it, is clear; 40 cm behind it, on the
+    // centreline, is not
+    const junction = (s: Spine): Spine => ({ ...s, lines: s.lines.map((l) => ({ ...l, junction: [false, true] as const })) });
+    expect(clearOf([[pt(1059, 0), pt(1500, -400), pt(1500, 400)]], junction(spine([100, 100])))).toBe(true);
+    expect(clearOf([[pt(1001, 0), pt(1500, -400), pt(1500, 400)]], junction(spine([100, 100])))).toBe(true);
+    expect(clearOf([[pt(962, 0), pt(1500, -400), pt(1500, 400)]], junction(spine([100, 100])))).toBe(true);
+    expect(clearOf([[pt(960, 0), pt(1500, -400), pt(1500, 400)]], junction(spine([100, 100])))).toBe(false);
   });
 });
 
@@ -620,38 +644,40 @@ describe('C-0380 (2): the census’s two promises — a refused edge spines’ k
     expect(state(p)).toBe(before);
   });
 
-  it('B-FUZZ seed 1012 draw 4102 face 0: a profile band (14 → 479 cm) through F’s vertex reaching kerb(F) only by its wider end is subtracted — kerb(F) and corridorUnion’s block clear of it', () => {
-    // way:0 runs up the frame's west side from (0, 0) to (0, 1710), a route vertex of F (its half-width 14 cm at
-    // (0, 0), 479 cm at F's vertex); F's edges are way:1's and way:2's. Read with its smaller end's half-width, the band
-    // stops 173 cm short of the edge spines' kerb; with its larger (C-0380 (2)'s reach test: a superset of the buffer),
-    // it reaches 292 cm into it — so a reach test on the smaller end leaves it out and kerb(F) overlaps the corridor
-    const { p, faces, table } = network([chord(6, 14_290, 9, [14, 479]), chord(14_000, 46, 171, [118, 597], 'square'), chord(6503, 30, 28, [143, 280], 'square')]);
-    const ws = widthsOf(table);
-    const face = 0;
-    expect(faces).toContain(face);
-    const w0 = edgeSpines(p, faces, ws).get('way:way:0') as Spine;
-    expect(w0.lines.map((l) => [l.points.map((q) => [q.x, q.y]), l.hw])).toEqual([[[[0, 0], [0, 1710]], [14, 479]]]);
-    const edgeOnly = readFace(p, face, ws, undefined, false);
-    expect(edgeOnly.spines.has('way:way:0')).toBe(false);
-    expect(edgeOnly.rings[0].some((q) => q.x === 0 && q.y === 1710)).toBe(true);
-    const pre = readIn(p, 1, (o) => readKerb(o, face, ws, undefined, false));
+  it('a profile band (14 → 479 cm) passing through F’s vertex and reaching kerb(F) only by its wider end is subtracted — kerb(F) and corridorUnion’s block clear of it (round S15: B-FUZZ seed 1012 draw 4102’s band reached F by its wider END, a junction end that takes no cap now)', () => {
+    // S along y = 2000 (half-width 100), F above it (its edge spines' kerb from y = 2100); P passes through S's vertex
+    // J = (2000, 2000) — a vertex-only contact of F — from (0, 0) to (4000, 1800), its half-width 14 cm at J widening
+    // linearly to 479 cm at (4000, 1800): read with its segment's SMALLER end half-width (14 cm, at J, 100 cm below the
+    // edge spines' kerb) the band does not reach; with its larger (C-0380 (2)'s reach test) it reaches 179 cm into it
+    const p = framed();
+    way(p, 'way:s', [[0, 2000], [4000, 2000]]);
+    way(p, 'way:p', [[0, 0], [2000, 2000], [4000, 1800]], [0, 1, 2]);
+    const [f] = own(p, 'district:1', [[2000, 3000]]);
+    const ws = widthsOf({ 'way:s': 100, 'way:p': profile([14, 14, 479]) });
+    const pre = readIn(p, 1, (o) => readKerb(o, f, ws, undefined, false));
     expect(pre.ok).toBe(true);
     const preRings = pre.ok ? pre.value.kerb : [];
+    const w0 = (readFace(p, f, ws).through.find((s) => s.key === 'way:way:p') as Spine);
+    expect(w0.lines.map((l) => l.hw)).toEqual([[14, 14, 479]]);
     const narrow: Spine = { ...w0, lines: w0.lines.map((l) => ({ ...l, hw: l.hw.map(() => Math.min(...l.hw)) })) };
-    expect(depthInSpine(preRings, narrow)).toBeLessThan(-150);
-    expect(depthInSpine(preRings, w0)).toBeGreaterThan(250);
+    expect(depthInSpine(preRings, narrow)).toBeLessThan(-50);
+    expect(depthInSpine(preRings, w0)).toBeGreaterThan(150);
     // the census reads it as F's spine; kerb(F) clear of its band (on its edge within the lattice's rounding)
-    expect(stagedRead(p, face, ws).read.spines.has('way:way:0')).toBe(true);
-    const k = kerbIn(p, face, ws);
-    expect(k.length).toBeGreaterThan(0);
-    expect(depthInSpine(k, w0)).toBeLessThanOrEqual(ON_EDGE_CM);
-    // S9 commits that kerb (S8 ≡ S9): F's block clear of way:0's band too
-    const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
+    expect(stagedRead(p, f, ws).read.spines.has('way:way:p')).toBe(true);
+    const k = kerbIn(p, f, ws);
+    expect(normals(k)).toEqual(['0,2100 2738,2100 4000,2271 4000,4000 0,4000']);
+    // P's band edge crosses the edge spines' kerb line at 7.4°: the corner, attracted along it, stands 66 cm east of the
+    // exact meet (2672, 2100) and 8.6 cm inside the band — an attracted case, within an overlay's move (§3.7)
+    expect(depthInSpine(k, w0)).toBeLessThanOrEqual(MOVE_CM);
+    expect(depthInSpine(k, w0)).toBeGreaterThan(0);
+    // S9 commits that kerb (S8 ≡ S9): F's block clear of P's band too
+    const r = commit(p, 2, (o) => corridorUnion(o, [f], ws), AT_S9);
     healthy(p);
-    expect(tilesExactly(p, 2, faces)).toEqual([]);
+    expect(tilesExactly(p, 2, [f])).toEqual([]);
     const v = r.value as BandResult;
-    const mine = v.blocks.filter((b) => p.faces[2].parent[b] === face).flatMap((b) => ringsOf(p, 2, b));
+    const mine = v.blocks.filter((b) => p.faces[2].parent[b] === f).flatMap((b) => ringsOf(p, 2, b));
     expect(mine.length).toBeGreaterThan(0);
-    expect(depthInSpine(mine, w0)).toBeLessThanOrEqual(ON_EDGE_CM);
+    expect(normals(mine)).toEqual(normals(k));
+    expect(depthInSpine(mine, w0)).toBeLessThanOrEqual(MOVE_CM);
   });
 });

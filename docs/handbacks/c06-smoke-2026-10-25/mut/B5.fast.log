@@ -1,0 +1,36 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 80021ms
+   ❯ S8 ≡ S9 on the river fixture (N-59’s routed finding; C-0423 (3), (4)) (1)
+     × base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound — S9’s block read where L2 holds no record (the L1 face itself) and its faces’ pinched holes loop by loop 79322ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > S8 ≡ S9 on the river fixture (N-59’s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound — S9’s block read where L2 holds no record (the L1 face itself) and its faces’ pinched holes loop by loop
+AssertionError: expected { Object (at, beyond, ...) } to deeply equal { Object (at, beyond, ...) }
+
+- Expected
++ Received
+
+  {
+    "at": "river seed 2",
+    "beyond": 0,
+    "driftBeyond": 1,
+-   "firstBeyond": "block:223ebebtrn8m3",
++   "firstBeyond": null,
+    "kerbReads": 0,
+    "s9Refused": 0,
+  }
+
+ ❯ test/fusion/drift.test.ts:497:176
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 16 passed (17)
+   Start at  20:31:11
+   Duration  86.62s (tests 93%, transform 6%, import 1%)
+

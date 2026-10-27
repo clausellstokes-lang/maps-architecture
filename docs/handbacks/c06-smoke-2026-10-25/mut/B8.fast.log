@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/hausdorff.test.ts (11 tests | 1 failed) 161ms
+   ❯ the ring geometry (canonical forms, Hausdorff, the bound) (5)
+     × N-52 (1)’s bound is 2 · √2 · attractCm, judged exactly at the vertices: 5 408 cm² in, 5 409 out 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/hausdorff.test.ts > the ring geometry (canonical forms, Hausdorff, the bound) > N-52 (1)’s bound is 2 · √2 · attractCm, judged exactly at the vertices: 5 408 cm² in, 5 409 out
+AssertionError: expected 5407 to be 5408 // Object.is equality
+
+- Expected
++ Received
+
+- 5408
++ 5407
+
+ ❯ test/fusion/hausdorff.test.ts:123:27
+    121|
+    122|   it('N-52 (1)’s bound is 2 · √2 · attractCm, judged exactly at the ve…
+    123|     expect(S8S9_BOUND_SQ).toBe(5_408);
+       |                           ^
+    124|     expect(S8S9_BOUND_CM).toBeCloseTo(73.539, 3);
+    125|     // A vertex at (−52, −52) from the square's corner stands exactly …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed | 4 passed (11)
+   Start at  20:37:26
+   Duration  6.15s (transform 81%, import 16%, tests 3%)
+
+  Transform  |bench| transforming modules took 4.85s · 81% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

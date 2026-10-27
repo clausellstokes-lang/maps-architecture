@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (17 tests | 1 failed) 121ms
+   ❯ the drift clause on the smoke’s drifted blocks (N-57 (4)) (6)
+     × fusion 49 block:63rwxr8gm4j28 — a 0.8° needle of the working block: Hausdorff 1 593 cm (the old clause’s red), every stop vertex on the working ring; the slivers within the bound 106ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke’s drifted blocks (N-57 (4)) > fusion 49 block:63rwxr8gm4j28 — a 0.8° needle of the working block: Hausdorff 1 593 cm (the old clause’s red), every stop vertex on the working ring; the slivers within the bound
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ test/fusion/drift.test.ts:75:24
+     73|     expect(d.spines).toEqual([]);
+     74|     const row = d.rows[0];
+     75|     expect(row.within).toBe(true);
+       |                        ^
+     76|     // N-57 (4) (i), reported: the stop kerb's tip chord across the ne…
+     77|     expect(row.oneSidedCm).toBeCloseTo(18.38, 1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (3)
+      Tests  1 failed (17)
+   Start at  20:10:36
+   Duration  7.02s (transform 84%, import 14%, tests 2%)
+
+  Transform  |bench| transforming modules took 5.72s · 84% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

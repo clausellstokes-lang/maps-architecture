@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/waves/selfcheck-build-M0-c-06/plat
+
+ ❯ |bench| test/fusion/drift.test.ts (18 tests | 1 failed) 598ms
+   ❯ the drift clause on synthetic blocks (9)
+     × a chamber behind a neck: the widest disc lies far from the working piece the boundaries differ on, near only the stop kerb’s walls — found (3 m), beyond 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/fusion/drift.test.ts > the drift clause on synthetic blocks > a chamber behind a neck: the widest disc lies far from the working piece the boundaries differ on, near only the stop kerb’s walls — found (3 m), beyond
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ test/fusion/drift.test.ts:233:22
+    231|     ];
+    232|     const s = sliver(ringRegion(stop), ringRegion(notched), R);
+    233|     expect(s.within).toBe(false);
+       |                      ^
+    234|     expect(s.cm).toBeGreaterThan(298);
+    235|     expect(s.cm).toBeLessThanOrEqual(300.001);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (18)
+   Start at  21:28:20
+   Duration  7.85s (transform 77%, import 15%, tests 8%)
+
+  Transform  |bench| transforming modules took 5.94s · 77% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

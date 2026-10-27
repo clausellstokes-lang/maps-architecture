@@ -11,12 +11,12 @@ import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import {
   area2Of,
   AT_S9,
+  childrenOf,
   commit,
   edgesWithRole,
   faceAt,
   framed,
   healthy,
-  normal,
   normals,
   own,
   profile,
@@ -201,7 +201,12 @@ describe('kerb(F) (§3.7)', () => {
     // the upper face: way:1 passes straight through the T vertex, its two strips split there
     const up = r.value as { strips: number[] };
     expect(up.strips.length).toBe(2 + 3);
-    expect(normal([pt(0, 2300), pt(4000, 2300), pt(4000, 4000), pt(0, 4000)])).toBe('0,2300 4000,2300 4000,4000 0,4000');
+    // the upper face's committed block: F less way:1's strip, straight through the T vertex (2000, 2000) at way:1's
+    // half-width there (hardening round S14, notes row 12: the line here once normalised a literal ring and read no
+    // output of the code)
+    const upper = v.blocks.filter((c) => childrenOf(p, 2, high).includes(c));
+    expect(upper.length).toBe(1);
+    expect(normals(ringsOf(p, 2, upper[0]))).toEqual(['0,2300 4000,2300 4000,4000 0,4000']);
   });
 
   it('a spine’s own bend is no junction; a way declaring half-width 0 is no spine (no split, no wedge at its crossing)', () => {

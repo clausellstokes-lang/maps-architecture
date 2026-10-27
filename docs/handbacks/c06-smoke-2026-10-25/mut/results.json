@@ -1,0 +1,169 @@
+{
+ "B1": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke\u2019s drifted blocks (N-57 (4)) > fusion 30 block:6eppwwjg267pw \u2014 a through alley\u2019s split: each child against the parent\u2019s kerb less the spine\u2019s band, within; the parent whole is beyond"
+  ],
+  "promise": "the mirror sliver stop\u2216working asserted (Q60 class: a bite)"
+ },
+ "B2": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 9,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke\u2019s drifted blocks (N-57 (4)) > fusion 30 block:8ern91wcr4p11 and fusion 49 block:dnzm4ncd3tdyf \u2014 the needle is the STOP kerb\u2019s (its tip 199.6 / 74.0 cm past the working ring): the slivers within, the one-sided distance stop \u2192 working beyond (reported, C-0423 (1))"
+  ],
+  "promise": "the reported sliver is the larger of both"
+ },
+ "B3": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 105,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > S8 \u2261 S9 on the river fixture (N-59\u2019s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound \u2014 S9\u2019s block read where L2 holds no record (the L1 face itself) and its faces\u2019 pinched holes loop by loop"
+  ],
+  "promise": "only lanes whose centreline ENTERS the stop kerb cut it"
+ },
+ "B9": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke\u2019s drifted blocks (N-57 (4)) > river fusion 2 block:6as10njkpyf8c \u2014 the spine\u2019s band cuts a 10 m crescent off the west child at a neck: the parts holding the seeds within, the seedless part counted, not drift (C-0423 (2))"
+  ],
+  "promise": "a split block read in the parts holding its seeds"
+ },
+ "B12": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke\u2019s drifted blocks (N-57 (4)) > river fusion 2 block:6as10njkpyf8c \u2014 the spine\u2019s band cuts a 10 m crescent off the west child at a neck: the parts holding the seeds within, the seedless part counted, not drift (C-0423 (2))"
+  ],
+  "promise": "the mirror sliver reads the kept parts only (seedless not drift)"
+ },
+ "G1": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on synthetic blocks > a planted 1 m parallel shift of a whole edge fails, outward and inward (a 1 m wide sliver; the one-sided distance 1 m)"
+  ],
+  "promise": "sliver bound: width <= 2\u00b7\u221a2\u00b7attractCm, moved up"
+ },
+ "G2": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on synthetic blocks > a planted 1 m parallel shift of a whole edge fails, outward and inward (a 1 m wide sliver; the one-sided distance 1 m)"
+  ],
+  "promise": "sliver bound moved down"
+ },
+ "G3": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on the smoke\u2019s drifted blocks (N-57 (4)) > fusion 49 block:63rwxr8gm4j28 \u2014 a 0.8\u00b0 needle of the working block: Hausdorff 1 593 cm (the old clause\u2019s red), every stop vertex on the working ring; the slivers within the bound"
+  ],
+  "promise": "sliver of working MINUS stop (the stop region enters)"
+ },
+ "B5": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 88,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > S8 \u2261 S9 on the river fixture (N-59\u2019s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound \u2014 S9\u2019s block read where L2 holds no record (the L1 face itself) and its faces\u2019 pinched holes loop by loop"
+  ],
+  "promise": "a drift-only beyond block is listed as beyond"
+ },
+ "B6": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 85,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > S8 \u2261 S9 on the river fixture (N-59\u2019s routed finding; C-0423 (3), (4)) > base river seeds 2 and 4 (900 ha, 30 ha walled): no block beyond the bound \u2014 S9\u2019s block read where L2 holds no record (the L1 face itself) and its faces\u2019 pinched holes loop by loop"
+  ],
+  "promise": "S9 block = the L1 face where L2 holds no record"
+ },
+ "B7": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 202,
+  "failed": [
+   "FAIL  |bench| test/fusion/hausdorff.test.ts > the ring geometry (canonical forms, Hausdorff, the bound) > N-52 (1)\u2019s bound is 2 \u00b7 \u221a2 \u00b7 attractCm, judged exactly at the vertices: 5 408 cm\u00b2 in, 5 409 out"
+  ],
+  "promise": "the bound up by one"
+ },
+ "B8": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 7,
+  "failed": [
+   "FAIL  |bench| test/fusion/hausdorff.test.ts > the ring geometry (canonical forms, Hausdorff, the bound) > N-52 (1)\u2019s bound is 2 \u00b7 \u221a2 \u00b7 attractCm, judged exactly at the vertices: 5 408 cm\u00b2 in, 5 409 out"
+  ],
+  "promise": "the bound down by one"
+ },
+ "R1": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 388,
+  "failed": [
+   "FAIL  |bench| test/fusion/report.test.ts > the report\u2019s verdicts (one planted fault per clause) > s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared"
+  ],
+  "promise": "a drift-only seed is listed"
+ },
+ "R2": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/report.test.ts > the report\u2019s verdicts (one planted fault per clause) > s8s9 (N-52 (1), N-57 (4)): one block beyond the bound, one stop kerb drifted beyond it, one S9 union refused, or nothing compared"
+  ],
+  "promise": "the s8s9 verdict fails on drift beyond"
+ },
+ "R3": {
+  "verdict": "killed",
+  "stage": "full",
+  "secs": 1278,
+  "failed": [
+   "FAIL  |bench| test/fusion/entry.test.ts > the entry\u2019s run (planted records) > --summary on a smaller CITY run (the builder\u2019s smoke) states its seed count and reads PENDING-LONG-RUN"
+  ],
+  "promise": "a smoke stays PENDING-LONG-RUN"
+ },
+ "G4-first": {
+  "verdict": "survived",
+  "stage": "full",
+  "secs": 1226,
+  "failed": [],
+  "promise": "differing pieces both ways"
+ },
+ "R4-first": {
+  "verdict": "survived",
+  "stage": "full",
+  "secs": 1311,
+  "failed": [],
+  "promise": "no seed cut: complete only at 1 000 seeds"
+ },
+ "G4": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 9,
+  "failed": [
+   "FAIL  |bench| test/fusion/drift.test.ts > the drift clause on synthetic blocks > a chamber behind a neck: the widest disc lies far from the working piece the boundaries differ on, near only the stop kerb\u2019s walls \u2014 found (3 m), beyond"
+  ],
+  "promise": "differing pieces both ways"
+ },
+ "R4": {
+  "verdict": "killed",
+  "stage": "fast",
+  "secs": 8,
+  "failed": [
+   "FAIL  |bench| test/fusion/report.test.ts > the long run\u2019s status (N-52 (6): no seed cut) > is complete only for the 1 000 seeds from seed 1, both runs, at CITY; the smoke of 50 and a run of 999 stay PENDING-LONG-RUN"
+  ],
+  "promise": "no seed cut: complete only at 1 000 seeds"
+ }
+}

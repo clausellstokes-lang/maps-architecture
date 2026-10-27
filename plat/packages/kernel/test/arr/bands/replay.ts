@@ -38,7 +38,7 @@ import { nearestRoutePiece } from '../../../src/insert/attractVertex.js';
 import { area2, LATTICE, orient2d, snap, type KernelResult } from '../../../src/num/index.js';
 import { tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
 import type { Cm, LatticePoint, PlatKey } from '../../../src/types/index.js';
-import { CENSUS_DEEP, div, KEPT_DEEP, kerbCensus, kerbParts, nearestOn, readFace, readKerb, UNLAID_DEEP, type KerbRead, type SpineWidths } from '../../../src/arr/kerb.js';
+import { CENSUS_DEEP, div, KEPT_DEEP, kerbCensus, kerbParts, nearestOn, partGroup, readFace, readKerb, UNLAID_DEEP, type KerbRead, type SpineWidths } from '../../../src/arr/kerb.js';
 import { onOutline, outlinePieces } from '../../../src/arr/bandUnion.js';
 import { spec } from './support.js';
 
@@ -307,8 +307,12 @@ function segKey(a: LatticePoint, b: LatticePoint): string {
   return fw ? `${String(a.x)},${String(a.y)},${String(b.x)},${String(b.y)}` : `${String(b.x)},${String(b.y)},${String(a.x)},${String(a.y)}`;
 }
 
-/** The vertices of a path a → b along the edges carrying the row (role, entity): breadth-first, far ends in lattice order; null where none joins them. */
-function rowPathOf(p: Plat, role: number, entity: number, a: VertexId, b: VertexId): VertexId[] | null {
+/**
+ * The vertices of a path a → b along the edges carrying the row (role, entity): breadth-first, far ends in lattice order,
+ * through none of `avoid` but b (round S15: the held path of a run's segment never passes another vertex the run's
+ * points became); null where none joins them.
+ */
+function rowPathOf(p: Plat, role: number, entity: number, a: VertexId, b: VertexId, avoid: ReadonlySet<VertexId> = new Set()): VertexId[] | null {
   if (a === b) return [a];
   const O = p.halfEdges.origin;
   const carries = (h: number): boolean => rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === role && p.roles.entity[r] === entity);
@@ -320,12 +324,20 @@ function rowPathOf(p: Plat, role: number, entity: number, a: VertexId, b: Vertex
       .map((h) => O[h ^ 1])
       .sort((u, w) => p.vertices.y[u] - p.vertices.y[w] || p.vertices.x[u] - p.vertices.x[w]);
     for (const w of far) {
-      if (via.has(w)) continue;
+      if (via.has(w) || (w !== b && avoid.has(w))) continue;
       via.set(w, queue[i]);
       queue.push(w);
     }
   }
-  if (!via.has(b)) return null;
+  // kerb.ts `rowPath`: no avoiding path — the path through them where every vertex of it lies within attractCm of the
+  // segment (a collapsed part's closing segment retracing it), else none
+  if (!via.has(b)) {
+    const plain = avoid.size > 0 ? rowPathOf(p, role, entity, a, b) : null;
+    const A = { x: p.vertices.x[a], y: p.vertices.y[a] };
+    const B = { x: p.vertices.x[b], y: p.vertices.y[b] };
+    const near = (v: VertexId): boolean => nearestOn({ x: p.vertices.x[v], y: p.vertices.y[v] }, A, B).d2 <= LATTICE.attractCm * LATTICE.attractCm;
+    return plain !== null && plain.every(near) ? plain : null;
+  }
   const path: VertexId[] = [b];
   for (let v = b; v !== a; ) {
     v = via.get(v) as VertexId;
@@ -396,8 +408,28 @@ export function holdOf(p: Plat, part: number, runs: readonly RunHold[], made: Re
   return found.length === 0 ? { reading: 'exact', part, all: [] } : { ...found[0], all: text };
 }
 
-/** The segments a part laid, by their input points (`segKey`): the vertices its ends became, its row's entity, its first end. */
-export type LaidSegs = Map<string, { a: VertexId; b: VertexId; entity: number; ax: number; ay: number }>;
+/** The segments a part laid, by their input points (`segKey`): the vertices its ends became, its row's entity, its first end, the run's vertices. */
+export type LaidSegs = Map<string, { a: VertexId; b: VertexId; entity: number; ax: number; ay: number; run: ReadonlySet<VertexId> }>;
+
+/**
+ * The input points a part's run was held OFF, per spine run (`partGroup`), as the dry-run keeps them (round S15, from
+ * its contract): a later part of the same run lays a point within minEdge of one at the vertex it became.
+ */
+export type HeldOff = { x: number; y: number; v: VertexId; group: string }[];
+
+/** The vertex a point of a part of `group` is laid at (the nearest held-off point of the group within minEdge, a tie by y then x), or null. */
+function heldOffAt(off: HeldOff, q: LatticePoint, group: string | null): VertexId | null {
+  if (group === null) return null;
+  const m = LATTICE.minEdgeCm;
+  let best: { x: number; y: number; v: VertexId; d2: number } | null = null;
+  for (const g of off) {
+    if (g.group !== group) continue;
+    const d2 = (g.x - q.x) * (g.x - q.x) + (g.y - q.y) * (g.y - q.y);
+    if (d2 >= m * m) continue;
+    if (best === null || d2 < best.d2 || (d2 === best.d2 && (g.y < best.y || (g.y === best.y && g.x < best.x)))) best = { x: g.x, y: g.y, v: g.v, d2 };
+  }
+  return best === null ? null : best.v;
+}
 
 /**
  * One run laid as the dry-run lays it (from its contract): a segment an earlier part laid — the same two input points,
@@ -405,7 +437,7 @@ export type LaidSegs = Map<string, { a: VertexId; b: VertexId; entity: number; a
  * `sharedPath`: the two parts hold one boundary there); every index pinned; a collapse or a run no route lays is
  * recorded, any other refusal returned. A run laid with no shared segment records its segments for the later parts.
  */
-export function layRun(sh: InsertTx, segs: LaidSegs, name: string, run: { points: LatticePoint[]; closed: boolean }): RunHold | Replay {
+export function layRun(sh: InsertTx, segs: LaidSegs, name: string, run: { points: LatticePoint[]; closed: boolean }, off: HeldOff = [], group: string | null = null): RunHold | Replay {
   const p = sh.plat;
   const role = roleIdOf('invisible');
   const n = run.points.length;
@@ -420,7 +452,7 @@ export function layRun(sh: InsertTx, segs: LaidSegs, name: string, run: { points
     const a = run.points[k];
     const b = run.points[(k + 1) % n];
     const held = segs.get(segKey(a, b));
-    const path = held === undefined ? null : rowPathOf(p, role, held.entity, held.a, held.b);
+    const path = held === undefined ? null : rowPathOf(p, role, held.entity, held.a, held.b, held.run);
     if (held === undefined || path === null) {
       push(a);
       if (!run.closed && k === nseg - 1) push(b);
@@ -433,8 +465,25 @@ export function layRun(sh: InsertTx, segs: LaidSegs, name: string, run: { points
     });
   }
   if (run.closed && given.length > 1 && given[0].x === given[given.length - 1].x && given[0].y === given[given.length - 1].y) given.pop();
-  const chain = shared ? given : run.points;
-  const r = insertChain(sh, chain, [{ role: 'invisible', entity: name }], 'mandatory', { closed: run.closed, pinned: chain.map((_, k) => k) });
+  const base = shared ? given : run.points;
+  // a point within minEdge of one an earlier part of the same run was held off is laid at that vertex, repeats dropped
+  // (the dry-run's `laidAtCoincident`, round S15); `at[k]`: the chain index input point k became (an unshared run)
+  const chain: LatticePoint[] = [];
+  const at: number[] = [];
+  let coincided = false;
+  for (const q of base) {
+    const v = heldOffAt(off, q, group);
+    const r2 = v === null ? q : pointOf(p, v);
+    if (r2.x !== q.x || r2.y !== q.y) coincided = true;
+    const l = chain[chain.length - 1];
+    if (l === undefined || l.x !== r2.x || l.y !== r2.y) chain.push(r2);
+    at.push(chain.length - 1);
+  }
+  if (run.closed && chain.length > 1 && chain[0].x === chain[chain.length - 1].x && chain[0].y === chain[chain.length - 1].y) {
+    chain.pop();
+    for (let k = 0; k < at.length; k += 1) if (at[k] === chain.length) at[k] = 0;
+  }
+  const r = chain.length < (run.closed ? 3 : 2) ? ({ ok: false, code: 'E_DEGENERATE', detail: 'empty' } as const) : insertChain(sh, chain, [{ role: 'invisible', entity: name }], 'mandatory', { closed: run.closed, pinned: chain.map((_, k) => k) });
   if (!r.ok) {
     const collapsed = r.code === 'E_DEGENERATE' && r.detail === 'empty';
     if (collapsed || (r.code === 'E_INVARIANT' && r.detail.startsWith('insert: no route from'))) return { input: run.points, closed: run.closed, status: collapsed ? 'collapsed' : 'no-route', placed: [], given: chain };
@@ -442,9 +491,27 @@ export function layRun(sh: InsertTx, segs: LaidSegs, name: string, run: { points
   }
   if (!shared) {
     const pl = r.value.placed;
+    const set = new Set(pl);
     for (let k = 0; k < nseg; k += 1) {
+      const u = pl[at[k]];
+      const w = pl[at[(k + 1) % n]];
+      if (u === w && coincided) continue;
       const key = segKey(run.points[k], run.points[(k + 1) % n]);
-      if (!segs.has(key)) segs.set(key, { a: pl[k], b: pl[(k + 1) % n], entity: handleOf(p, name), ax: run.points[k].x, ay: run.points[k].y });
+      if (!segs.has(key)) segs.set(key, { a: u, b: w, entity: handleOf(p, name), ax: run.points[k].x, ay: run.points[k].y, run: set });
+    }
+    if (group !== null) {
+      // a point merged into one of its own run's points held where given, or held farther than attractCm (a placement's
+      // fallback), is not recorded (the dry-run's `noteMoved`)
+      const exact = new Set(run.points.flatMap((q, k) => {
+        const h = pointOf(p, pl[at[k]]);
+        return h.x === q.x && h.y === q.y ? [pl[at[k]]] : [];
+      }));
+      run.points.forEach((q, k) => {
+        const v = pl[at[k]];
+        const h = pointOf(p, v);
+        const near = (h.x - q.x) * (h.x - q.x) + (h.y - q.y) * (h.y - q.y) <= LATTICE.attractCm * LATTICE.attractCm;
+        if ((h.x !== q.x || h.y !== q.y) && near && !exact.has(v) && !off.some((g) => g.x === q.x && g.y === q.y && g.group === group)) off.push({ x: q.x, y: q.y, v, group });
+      });
     }
   }
   return { input: run.points, closed: run.closed, status: 'laid', placed: r.value.placed.slice(), given: chain };
@@ -477,6 +544,7 @@ export function replayKerb(o: Overlay, face: FaceId, ws: SpineWidths, vertexCont
     // at the level the parts are laid at: the batch's, at least L2 (corridorUnion's)
     const sh = insertTx(p, o.level < 2 ? 2 : o.level);
     const segs: LaidSegs = new Map();
+    const off: HeldOff = [];
     const holds: RunHold[][] = [];
     for (const parts of stages) {
       for (const part of parts) {
@@ -486,7 +554,7 @@ export function replayKerb(o: Overlay, face: FaceId, ws: SpineWidths, vertexCont
         const mine: RunHold[] = [];
         holds.push(mine);
         for (const run of runs) {
-          const r = layRun(sh, segs, name, run);
+          const r = layRun(sh, segs, name, run, off, partGroup(part));
           if ('where' in r) return r;
           mine.push(r);
         }

@@ -24,7 +24,7 @@
 // split that would enter kerb(F)'s interior is never drawn, the junction's next target tried instead (kerb.ts, `junctionsOf` / `splitChain` /
 // `entersRegion`) — and one the insertion laid between two faces of F read outside the band is left out on the op's next
 // run (`cutSplits`, round S13, C-0422); (3) the faces of the batch's level inside F are read back: a face whose interior
-// point (the middle of its widest cross-section) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
+// area lies more than half inside kerb(F) as read (round S14: exactly, by strips) is outside the band — corridorUnion's built blocks — and every other is
 // a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the
 // batch's level is its own child there (§2.2 rule 2): one built block when its kerb is not empty — a spine-less face,
 // with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
@@ -44,8 +44,9 @@
 //    the route piece's endpoint — the round S3 defect closed onto that endpoint whichever side it lay, chords of metres,
 //    blocks up to 343 cm beyond kerb(F)), the tip joined to the first vertex kerb(F)'s own run along F's boundary
 //    reaches from the contact (`runVertex`): the chord lies within the tip's distance of that run, so the outline errs
-//    by at most attractCm + 1 cm — kept only where that vertex is one kerb(F) still holds when read on the arena the
-//    run left (`offRead`, round S13, C-0421: an L1 read lays its parts at L2, kerb.ts `dryLevel`, so after an L2 op it
+//    by at most the tip's offset (≤ 2·√2·attractCm, N-43: the insertion's own displacement of the contact, which the
+//    closing keeps and never adds to; notes row 32) — kept only where that vertex is one kerb(F) still holds when read
+//    on the arena the run left (`offRead`, round S13, C-0421: an L1 read lays its parts at L2, kerb.ts `dryLevel`, so after an L2 op it
 //    meets the op's own tip and chord and may read F's outline there otherwise — the run's vertex then off kerb(F) as
 //    every later L1 read reads it, N-57 (2)'s bound broken on a committed result); off it, the end is pinned first;
 //  - PINNED FIRST: where neither goes in, the op is put back and run again with that end pinned before its piece —
@@ -69,12 +70,14 @@ import { nearestRoutePiece } from '../insert/attractVertex.js';
 import { applySplitPlan, planSplitThrough, TX_FACES_WALKED } from '../insert/index.js';
 import { planPoint } from '../insert/splitThrough.js';
 import { HOT_PIXEL_CM } from '../index/index.js';
-import { dist2, err, LATTICE, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
-import { chargeTx, check, type OpenTx } from '../tx/state.js';
+import { dist2, err, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
+import { windingNumber } from '../num/exact.js';
+import { chargeTx, check, noteRow, type OpenTx } from '../tx/state.js';
+import { rewriteRows } from '../tx/relevel.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { interiorPoint, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+import { bridgesOf, div, interiorPoint, nearestOn, outlineCrosses, readKerb, RING_CROSSES, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -117,20 +120,20 @@ function onBoundary(rings: readonly (readonly XY[])[], q: XY): boolean {
   return false;
 }
 
+/**
+ * The non-zero winding of a ring set at q: exact.ts's one crossing rule (`windingNumber`, Sunday's crossings, orient2d
+ * exact) summed over the rings — an open reading with no on-edge test of its own (N-c2-1: no private copy of the rule).
+ */
+function windsRound(rings: readonly (readonly XY[])[], q: XY): boolean {
+  let wind = 0;
+  for (const r of rings) wind += windingNumber(r, q.x, q.y);
+  return wind !== 0;
+}
+
 /** Is the point strictly inside the face's route rings (non-zero winding, orient2d exact) and off their hot pixel? */
 function insideRings(rings: readonly (readonly XY[])[], q: XY): boolean {
   if (onBoundary(rings, q)) return false;
-  let wind = 0;
-  for (const r of rings) {
-    for (let k = 0; k < r.length; k += 1) {
-      const s = r[k];
-      const t = r[(k + 1) % r.length];
-      if (s.y <= q.y) {
-        if (t.y > q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) > 0) wind += 1;
-      } else if (t.y <= q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) < 0) wind -= 1;
-    }
-  }
-  return wind !== 0;
+  return windsRound(rings, q);
 }
 
 /** The kerb's outline pieces off F's boundary: closed rings, or open runs between two boundary contacts. */
@@ -166,24 +169,83 @@ export function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed:
   return out;
 }
 
-/**
- * Is the face (a record of level n) inside the kerb? Read at its interior point (`interiorPoint`) by the non-zero
- * winding of the kerb rings there (orient2d is exact on doubles). Null where the face has no interior point.
- */
-function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]): boolean | null {
-  const q = interiorPoint(p, level, c);
-  if (q === null) return null;
-  let wind = 0;
-  for (const r of kerbRings) {
-    for (let k = 0; k < r.length; k += 1) {
-      const s = r[k];
-      const t = r[(k + 1) % r.length];
-      if (s.y <= q.y) {
-        if (t.y > q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) > 0) wind += 1;
-      } else if (t.y <= q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) < 0) wind -= 1;
+/** The spans of the horizontal line y = qy inside the ring set (non-zero winding; qy through no vertex), in x order. */
+function spansAt(rings: readonly (readonly XY[])[], qy: number): [number, number][] {
+  const xs: { x: number; w: number }[] = [];
+  for (const r of rings) {
+    for (let i = 0; i < r.length; i += 1) {
+      const a = r[i];
+      const b = r[(i + 1) % r.length];
+      if (a.y < qy === b.y < qy) continue;
+      xs.push({ x: a.x + (div((qy - a.y) * (b.x - a.x), b.y - a.y) ?? 0), w: b.y > a.y ? 1 : -1 });
     }
   }
-  return wind !== 0;
+  xs.sort((u, v) => u.x - v.x || u.w - v.w);
+  const out: [number, number][] = [];
+  let wind = 0;
+  for (let i = 0; i < xs.length; i += 1) {
+    const was = wind;
+    wind += xs[i].w;
+    if (was === 0 && wind !== 0) out.push([xs[i].x, xs[i].x]);
+    else if (was !== 0 && wind === 0) out[out.length - 1][1] = xs[i].x;
+  }
+  return out;
+}
+
+/**
+ * The share of a face's area (a record of level n) that lies inside the ring set, exactly up to the doubles: the strips
+ * between consecutive heights at which either has a vertex hold no vertex of either, so in each the length of a
+ * horizontal line inside the face, and inside both, is linear in its height and the strip's midline gives the strip's
+ * area exactly. Null where the face has no area.
+ */
+function shareInside(p: Plat, level: Level, c: FaceId, rings: readonly Ring[]): number | null {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const face = faceWalk(p, level, c).map((r) => r.map((h) => ({ x: X[O[h]], y: Y[O[h]] })));
+  let y0 = Infinity;
+  let y1 = -Infinity;
+  for (const r of face) for (const q of r) {
+    y0 = Math.min(y0, q.y);
+    y1 = Math.max(y1, q.y);
+  }
+  const ys = [...new Set([...face.flat(), ...rings.flat()].map((q) => q.y).filter((y) => y >= y0 && y <= y1))].sort((a, b) => a - b);
+  let all = 0;
+  let inside = 0;
+  for (let k = 0; k + 1 < ys.length; k += 1) {
+    const h = ys[k + 1] - ys[k];
+    const qy = (ys[k] + ys[k + 1]) * 0.5;
+    const fs = spansAt(face, qy);
+    const ks = rings.length === 0 ? [] : spansAt(rings, qy);
+    let j = 0;
+    for (const [a, b] of fs) {
+      all += h * (b - a);
+      while (j < ks.length && ks[j][1] <= a) j += 1;
+      for (let m = j; m < ks.length && ks[m][0] < b; m += 1) inside += h * (Math.min(b, ks[m][1]) - Math.max(a, ks[m][0]));
+    }
+  }
+  return all > 0 ? div(inside, all) : null;
+}
+
+/**
+ * Is the face (a record of level n) inside the kerb? By area (`byArea`, a face of the batch's level): more than half its
+ * area inside kerb(F) as read (`shareInside`, exact) — the choice of faces whose union differs least from kerb(F)
+ * (§13.2's S8 ≡ S9). Hardening round S14 (notes row 28): the commit's outline may stand up to N-43's bound off kerb(F)
+ * as read (attraction, §3.6's placement), so a face may straddle the read's outline — read at one point, the middle of
+ * its widest cross-section, a kerb triangle whose widest stretch lay in that sliver was classed band (a block 147 cm
+ * deep lost, seed 1012 draw 4066) and a junction wedge a block (204 cm deep in the band, draw 8706). Else (an L1 face
+ * with nothing written inside it, its own child at the batch's level) at its interior point (`interiorPoint`) by the
+ * non-zero winding of the kerb rings there (`windsRound`): a kerb sliver the commit folded reads outside. Null where the
+ * face has no area.
+ */
+function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[], byArea = true): boolean | null {
+  const rs = kerbRings;
+  if (!byArea) {
+    const q = interiorPoint(p, level, c);
+    return q === null ? null : windsRound(rs, q);
+  }
+  const s = shareInside(p, level, c, rs);
+  return s === null ? null : s > 0.5;
 }
 
 /** Is there a vertex at the lattice point with an incident edge carrying the outline's role? */
@@ -259,7 +321,7 @@ export function bandClosings(p: Plat): readonly Closing[] {
  * where no route piece of F's boundary holds the contact or the placement lands farther (§3.6's fallback onto the
  * piece's endpoint).
  */
-function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint, reach2: number): KernelResult<VertexId | null> {
+export function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint, reach2: number): KernelResult<VertexId | null> {
   const p = t.plat;
   const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { vertices: true, edges: true });
   for (const v of near.vertices) if (isVertexLive(p, v) && p.vertices.x[v] === c.x && p.vertices.y[v] === c.y) return ok(v);
@@ -279,7 +341,7 @@ function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint
  * with the stretch from the contact to it on the outline too and no other contact of the face's pieces on the way — so
  * kerb(F) follows F's boundary from the contact to it. Null where neither end does.
  */
-function runVertex(t: OpenTx, rings: readonly LatticePoint[][], outline: readonly Ring[], contacts: readonly LatticePoint[], c: LatticePoint): VertexId | null {
+export function runVertex(t: OpenTx, rings: readonly LatticePoint[][], outline: readonly Ring[], contacts: readonly LatticePoint[], c: LatticePoint): VertexId | null {
   const p = t.plat;
   const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { edges: true });
   const piece = nearestRoutePiece(p, near.edges, c, t.level);
@@ -340,7 +402,7 @@ const endKey = (face: FaceId, piece: number, end: 0 | 1): string => `${String(fa
  * more is written: that end is returned in `retry` and the run stops (the op runs again with it pinned first); an end
  * already pinned first is never retried (the post-condition judges it). Returns the piece's ends.
  */
-function closeEnds(
+export function closeEnds(
   t: OpenTx, read: Read, contacts: readonly LatticePoint[], index: number, piece: Piece, placed: readonly VertexId[], rows: readonly RoleRow[],
   pinnedFirst: ReadonlySet<string>, log: Closing[], alongs: Along[],
 ): KernelResult<{ ends: VertexId[]; retry: string[] }> {
@@ -503,6 +565,9 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: EngineSpec):
       for (const k of retry) pinned.add(k);
       continue;
     }
+    // KI-1 (hardening round S14): the op's own spurs — an edge it wrote with one face on both sides and an end no other
+    // edge reaches — taken out in the same batch, before the faces are read back
+    if (!dropSpurs(t, unique, [roleIdOf(spec.edgeRole), splitRoleId()])) return overLimit(t);
     const cut: string[] = [];
     const done = readBack(t, unique, spec, run.value.reads, run.value.alongs, pinned, cut);
     if (cut.length > 0) {
@@ -570,6 +635,10 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
     if (read.spines.size === 0) continue;
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
     const pieces = (spec.pieces ?? outlinePieces)(read);
+    // N-45 (a), round S17: an outline that crosses itself is never written (nor committed) — the read's own guard
+    // (kerb.ts `splitsOn`) on the pieces the engine lays, F's walk out and back along its bridges excepted
+    // (`outlineCrosses`, `bridgesOf`)
+    if (outlineCrosses(pieces, bridgesOf(p, read.edges))) return err('E_INVARIANT', RING_CROSSES);
     const contacts = pieces.filter((q) => !q.closed).flatMap((q) => [q.points[0], q.points[q.points.length - 1]]);
     for (let i = 0; i < pieces.length; i += 1) {
       const piece = pieces[i];
@@ -653,6 +722,56 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
   return ok({ reads, retry: [], alongs }, warnings);
 }
 
+/**
+ * KI-1 (C-0212 (8), C-0218 (5); hardening round S14): the op's own SPURS taken out of the batch — an edge of the batch's
+ * level that bounds one face of an L1 face of the op on both sides and has an end with no other edge, every row on it
+ * the op's own (its outline role or `corridor_split`, at the batch's level), stripped through the removal door's engine
+ * (`rewriteRows`, as `mergeFaces` strips a shared edge), again until none is left (a spur of two edges loses its tip
+ * edge first). Such an edge separates nothing — the faces are the same with or without it — so the region and every
+ * face's class are unchanged; only the dangling edge goes. Two causes on the B-FUZZ families: a kerb piece's spike or
+ * sliver thinner than attractCm whose insertion retraced a stretch (A–P–T–P–B, N-61 (1): the router's retrace, M0-a-05's
+ * hardening round, RQ1), leaving the tip T dangling; and a wedge split's foot on a spine edge that runs within minEdge of
+ * the L0 frame, which §3.6's placement puts minEdge into F, off F's boundary — the split's leg to it dangles, its leg
+ * from J to the kerb corner stays. An edge of the outline alone (`roles[0]`) with one face on both sides whose two ends
+ * both have other edges — a BRIDGE, bounding no block (the agreement's corridor family: 2 per 10⁴) — goes too; a split's
+ * bridge (a single split from F's boundary to an island kerb, notes row 57: it marks the junction) is kept. False where
+ * the batch's work limit is now exceeded.
+ */
+function dropSpurs(t: OpenTx, faces: readonly FaceId[], roles: readonly number[]): boolean {
+  const p = t.plat;
+  const n = t.level;
+  const R = p.roles;
+  const O = p.halfEdges.origin;
+  const mine = new Set(faces);
+  for (;;) {
+    const strip: number[] = [];
+    const seen = new Set<number>();
+    for (let c = 0; c < p.slots.face[n].top; c += 1) {
+      if (!isFaceLive(p, n, c) || !mine.has(ancestorL1(p, n, c))) continue;
+      const walk = new Set<number>();
+      for (const ring of faceWalk(p, n, c)) for (const h of ring) walk.add(h);
+      for (const h of walk) {
+        const e = h >> 1;
+        if (seen.has(e) || !walk.has(h ^ 1)) continue;
+        seen.add(e);
+        const rows = rowsOn(p, 'edge', h);
+        if (rows.length === 0 || !rows.every((r) => roles.includes(R.kind[r]) && R.level[r] === n)) continue;
+        // a spur (an end with no other edge), or a bridge of the outline alone (both ends reached, the one face on both
+        // sides: it bounds no block); a split's bridge is kept (notes row 57: it marks the junction)
+        const spur = degree(p, O[h]) === 1 || degree(p, O[h ^ 1]) === 1;
+        if (!spur && !rows.every((r) => R.kind[r] === roles[0])) continue;
+        strip.push(...rows);
+      }
+    }
+    if (strip.length === 0) return true;
+    for (const r of strip) noteRow(t, R.kind[r], R.entity[r], R.ordinal[r]);
+    if (!rewriteRows(t, { strip, add: [] })) return false;
+  }
+}
+
+/** The role id of the junctions' split edges. */
+const splitRoleId = (): number => roleIdOf('corridor_split');
+
 /** A split of a face's reading to leave out on the op's next run: "face split-index split". */
 const splitKey = (face: FaceId, si: number): string => `${String(face)} ${String(si)} split`;
 
@@ -709,6 +828,11 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
   // distance) on the band side: the face beyond the chord is a band face, whatever its interior point reads (N-57 (2))
   const sideOf = new Map<FaceId, Set<number>>();
   for (const a of alongs) {
+    // an along chord attraction laid back onto the piece's own vertices (each within attractCm of the chord: the
+    // insertion's W_STRETCH_SHARED) leaves the tip a spur, which `dropSpurs` took out: the piece now ends where the
+    // chord left it, and its faces are classed by their area (hardening round S14: seed -1784686652's B-FUZZ network
+    // {15589 → 7960, hw 1, knots 338 / 539}, {7179 → 0, hw 24} at L3 read the dead tip and threw)
+    if (!isVertexLive(p, a.tip) || !isVertexLive(p, a.far)) continue;
     const X = p.vertices.x;
     const Y = p.vertices.y;
     const O = p.halfEdges.origin;
@@ -751,7 +875,7 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
   const wedges: FaceId[] = [];
   const blocks: FaceId[] = [];
   const R = p.roles;
-  const splitRole = roleIdOf('corridor_split');
+  const splitRole = splitRoleId();
   const inner = new Map<FaceId, Read>();
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
@@ -761,7 +885,7 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
       // leaves it all band — and so does a kerb sliver thinner than attractCm that the commit folded onto F's boundary
       // (nothing of it left inside F): F is judged as its children are, at a point strictly inside it (C-0218 (7))
       const outline = read.kerb;
-      const inside = outline.length === 0 ? false : insideKerb(p, 1, read.face, outline);
+      const inside = outline.length === 0 ? false : insideKerb(p, 1, read.face, outline, false);
       if (inside !== false) whole.push(read.face);
       else wholeBand.push(read.face);
       continue;
