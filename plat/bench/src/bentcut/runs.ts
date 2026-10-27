@@ -15,7 +15,7 @@ import { runS8, type DistrictReport } from '@plat/layout';
 import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
 import { districtFaces, faceDistrict, type FaceDistrict } from './district.js';
 import { faceAt, faceSeed, type BentCutFaceKind } from './faces.js';
-import { replayDistrict, type ReplayCounts, type SignatureCut } from './signature.js';
+import { replayDistrict, type CommittedArrivals, type ReplayCounts, type SignatureCut } from './signature.js';
 
 /** A task: a face of the set (kind, seed) and the phase to run on it. */
 export interface Task {
@@ -58,8 +58,11 @@ export interface FullRecord {
   readonly work: { readonly kernelCalls: number; readonly recursionDepth: number; readonly candidates: number };
   /** The `faces` count the district's laws divide by (BentCutFabric's `districtCounts`). */
   readonly units: number;
-  /** Every ladder of the district: how many, the most kernel calls, the fewest faces left, faces left below one. */
-  readonly ladders: { readonly n: number; readonly maxCalls: number; readonly minFacesAfter: number; readonly decreases: number };
+  /**
+   * Every ladder of the district: how many, the most kernel calls, the fewest faces left, faces left below one, and the
+   * ladders that ended `unresolved` (the face stands whole: an ending, not a pass of rung (c); hardening S3, N-1).
+   */
+  readonly ladders: { readonly n: number; readonly maxCalls: number; readonly minFacesAfter: number; readonly decreases: number; readonly unresolved: number };
   readonly facesBefore: number;
   readonly facesAfter: number;
   readonly blocks: number;
@@ -69,6 +72,8 @@ export interface FullRecord {
   /** The measured cuts and the replay's counts (replay only; null otherwise or when the replay was not S8's run). */
   readonly cuts: readonly SignatureCut[];
   readonly counts: ReplayCounts | null;
+  /** The arrivals read from the committed geometry (replay only; null otherwise; hardening S3, N-2). */
+  readonly arrivals: CommittedArrivals | null;
 }
 
 export type FaceRecord = FcutRecord | FullRecord;
@@ -129,14 +134,16 @@ export function runFcut(t: Task): FcutRecord {
   };
 }
 
-function fullOf(t: Task, fd: FaceDistrict, d: DistrictReport, facesAfter: number, cuts: readonly SignatureCut[], counts: ReplayCounts | null): FullRecord {
+function fullOf(t: Task, fd: FaceDistrict, d: DistrictReport, facesAfter: number, cuts: readonly SignatureCut[], counts: ReplayCounts | null, arrivals: CommittedArrivals | null): FullRecord {
   let maxCalls = 0;
   let minFacesAfter = Infinity;
   let decreases = 0;
+  let unresolved = 0;
   for (const f of d.faces) {
     if (f.kernelCalls > maxCalls) maxCalls = f.kernelCalls;
     if (f.facesAfter < minFacesAfter) minFacesAfter = f.facesAfter;
     if (f.facesAfter < 1) decreases += 1;
+    if (f.outcome === 'unresolved') unresolved += 1;
   }
   return {
     phase: 'full',
@@ -148,7 +155,7 @@ function fullOf(t: Task, fd: FaceDistrict, d: DistrictReport, facesAfter: number
     residue: { areaCm2: d.residueAreaCm2, builtCm2: d.builtAreaCm2, share: d.residueShare, soft: d.residueSoftExceeded },
     work: { ...d.work },
     units: fd.units.faces,
-    ladders: { n: d.faces.length, maxCalls, minFacesAfter: d.faces.length === 0 ? 0 : minFacesAfter, decreases },
+    ladders: { n: d.faces.length, maxCalls, minFacesAfter: d.faces.length === 0 ? 0 : minFacesAfter, decreases, unresolved },
     facesBefore: fd.facesBefore,
     facesAfter,
     blocks: d.blocks,
@@ -156,6 +163,7 @@ function fullOf(t: Task, fd: FaceDistrict, d: DistrictReport, facesAfter: number
     workCut: d.workCut.map((w) => w.counter),
     cuts,
     counts,
+    arrivals,
   };
 }
 
@@ -170,7 +178,7 @@ function refusedFull(t: Task, setup: string | null, refused: string | null): Ful
     residue: { areaCm2: 0, builtCm2: 0, share: 0, soft: false },
     work: { kernelCalls: 0, recursionDepth: 0, candidates: 0 },
     units: 0,
-    ladders: { n: 0, maxCalls: 0, minFacesAfter: 0, decreases: 0 },
+    ladders: { n: 0, maxCalls: 0, minFacesAfter: 0, decreases: 0, unresolved: 0 },
     facesBefore: 0,
     facesAfter: 0,
     blocks: 0,
@@ -178,31 +186,46 @@ function refusedFull(t: Task, setup: string | null, refused: string | null): Ful
     workCut: [],
     cuts: [],
     counts: null,
+    arrivals: null,
   };
 }
 
+/**
+ * The stage and the replay a full run calls: S8's own `runS8` and signature.ts's `replayDistrict` unless a test hands
+ * others (the seams a test plants a district report or an over-limit replay through; hardening S3, N-4).
+ */
+export interface FullRunSeams {
+  readonly s8?: typeof runS8;
+  readonly replay?: typeof replayDistrict;
+}
+
 /** S8's own run of a built district (runS8): its report and the district's faces after. */
-function s8Run(t: Task, fd: FaceDistrict): FullRecord {
-  const r = runS8(fd.input, NO_REPORT);
+function s8Run(t: Task, fd: FaceDistrict, s8: typeof runS8): FullRecord {
+  const r = s8(fd.input, NO_REPORT);
   if (!r.ok) return refusedFull(t, null, `${r.code} ${r.detail}`);
   const x = r.value.infill.report.refused[0];
   const d = r.value.infill.report.districts[0];
   if (x !== undefined || d === undefined) return refusedFull(t, null, x === undefined ? 'no district report' : `${x.code} ${x.detail}`);
-  return fullOf(t, fd, d, districtFaces(fd.plat, fd.district), [], null);
+  return fullOf(t, fd, d, districtFaces(fd.plat, fd.district), [], null, null);
 }
 
-/** The full phase on one face (with the signature's replay when `t.replay`). */
-export function runFull(t: Task): FullRecord {
+/**
+ * The full phase on one face (with the signature's replay when `t.replay`). `seams` only from a test; a number — the
+ * index `tasks.map(runFull)` passes — is no seam, so the function stays a map callback as before the seam existed.
+ */
+export function runFull(t: Task, seams: FullRunSeams | number = {}): FullRecord {
+  const sm: FullRunSeams = typeof seams === 'number' ? {} : seams;
+  const s8 = sm.s8 ?? runS8;
   const fd = build(t);
   if (typeof fd === 'string') return refusedFull(t, fd, null);
-  if (t.replay !== true) return s8Run(t, fd);
-  const r = replayDistrict(fd, t.kind);
+  if (t.replay !== true) return s8Run(t, fd, s8);
+  const r = (sm.replay ?? replayDistrict)(fd, t.kind);
   // A batch that failed or passed S8's own limit is not S8's run: S8's own run on a fresh district stands instead.
   if ('error' in r || r.overLimit) {
     const again = build(t);
-    return typeof again === 'string' ? refusedFull(t, again, null) : s8Run(t, again);
+    return typeof again === 'string' ? refusedFull(t, again, null) : s8Run(t, again, s8);
   }
-  return fullOf(t, fd, r.report, r.facesAfter, r.cuts, r.counts);
+  return fullOf(t, fd, r.report, r.facesAfter, r.cuts, r.counts, r.arrivals);
 }
 
 /**

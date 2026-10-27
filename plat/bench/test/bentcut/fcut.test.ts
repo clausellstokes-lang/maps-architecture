@@ -95,11 +95,11 @@ describe('the F-CUT fold judges the bar as §4.6 step 8 states it', () => {
   });
 
   it('every depth of the whole districts is judged with it: a decrease, a ladder over 6 calls or a refused district fails', () => {
-    const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 6, minFacesAfter: 1, decreases: 0 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
+    const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 6, minFacesAfter: 1, decreases: 0, unresolved: 0 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
     expect(foldFcut([rec()], [full, full]).pass).toBe(true);
-    const lost = { ...full, ladders: { n: 2, maxCalls: 1, minFacesAfter: 0, decreases: 1 }, facesAfter: 0 } as FullRecord;
+    const lost = { ...full, ladders: { n: 2, maxCalls: 1, minFacesAfter: 0, decreases: 1, unresolved: 0 }, facesAfter: 0 } as FullRecord;
     const both = foldFcut([rec()], [full, lost]);
-    expect(both.allDepths).toEqual({ districts: 2, ladders: 7, maxKernelCalls: 6, decreases: 2, refused: 0 });
+    expect(both.allDepths).toEqual({ districts: 2, ladders: 7, maxKernelCalls: 6, decreases: 2, refused: 0, unresolved: 0 });
     expect(both.pass).toBe(false);
     expect(foldFcut([rec()], [full, { ...full, ladders: { ...full.ladders, maxCalls: 7 } } as FullRecord]).pass).toBe(false);
     expect(foldFcut([rec()], [full, { ...full, facesAfter: 0 } as FullRecord]).pass).toBe(false);
@@ -108,6 +108,42 @@ describe('the F-CUT fold judges the bar as §4.6 step 8 states it', () => {
     expect(threw.pass).toBe(false);
     // A face the kernel would not build stays outside.
     expect(foldFcut([rec()], [full, { ...full, setup: 'E_X' } as FullRecord]).pass).toBe(true);
+  });
+});
+
+describe('an unresolved ladder (hardening S3, N-1; C-0433 (1))', () => {
+  it('is counted beside the verdict at depth 0 and at every depth, and ends the ladder: the bar still holds', () => {
+    const unres = rec({ outcome: 'unresolved', kernelCalls: 0, facesAfterLadder: 1, facesAfter: 1 });
+    const f = foldFcut([rec(), unres, unres], []);
+    expect([f.unresolved, f.outcomes['unresolved'], f.pass]).toEqual([2, 2, true]);
+    expect(foldFcut([rec()], []).unresolved).toBe(0);
+    const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 2, minFacesAfter: 1, decreases: 0, unresolved: 3 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
+    const g = foldFcut([rec()], [full, { ...full, ladders: { ...full.ladders, unresolved: 1 } } as FullRecord]);
+    expect([g.allDepths.unresolved, g.pass]).toEqual([4, true]);
+    // A refused district's ladders are not read.
+    expect(foldFcut([rec()], [full, { ...full, refused: 'E_X' } as FullRecord]).allDepths.unresolved).toBe(3);
+  });
+
+  it('every ladder of a whole district is read from S8’s report: its unresolved endings and its face-count decreases (K30)', { timeout: 600_000 }, () => {
+    const t = { phase: 'full' as const, kind: 'holed' as const, i: 2, seed: 5 };
+    const own = runFull(t);
+    expect(own.refused).toBeNull();
+    expect(own.ladders.n).toBeGreaterThan(1);
+    expect([own.ladders.decreases, own.ladders.unresolved]).toEqual([0, 0]);
+    // A planted report (the stage seam): one ladder below depth 0 left no face, another ended unresolved.
+    const planted = runFull(t, {
+      s8: (input, ctx) => {
+        const r = runS8(input, ctx);
+        if (!r.ok) return r;
+        const d = r.value.infill.report.districts[0];
+        const faces = d.faces.map((f, ix) => (ix === 1 ? { ...f, facesAfter: 0 } : ix === 2 ? { ...f, outcome: 'unresolved' as const } : f));
+        const report = { ...r.value.infill.report, districts: [{ ...d, faces }] };
+        return { ...r, value: { ...r.value, infill: { ...r.value.infill, report } } };
+      },
+    });
+    expect([planted.ladders.decreases, planted.ladders.minFacesAfter, planted.ladders.unresolved]).toEqual([1, 0, own.ladders.n > 2 ? 1 : 0]);
+    expect(foldFcut([rec()], [own]).pass).toBe(true);
+    expect(foldFcut([rec()], [planted]).pass).toBe(false);
   });
 });
 
