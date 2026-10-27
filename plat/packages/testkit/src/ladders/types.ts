@@ -32,9 +32,10 @@ export interface StageCoverageRow extends LadderRung {
   readonly leaf: string;
   /**
    * A built row's run: its fixture's count of the code (≥ 1 when the rung is reached), the plain controls' count (0:
-   * the code appears nowhere but where its fixture forces it); null for a deferred row.
+   * the code appears nowhere but where its fixture forces it), and the `bugs` entries its fixture's run left (0;
+   * hardening round S1, notes row 2); null for a deferred row.
    */
-  readonly exercised: { readonly fixture: number; readonly control: number } | null;
+  readonly exercised: { readonly fixture: number; readonly control: number; readonly bugs: number } | null;
 }
 
 /** The plain flat fixture's baseline (`runBase(FLAT_BLUEPRINT, seed)`): every stage code it left, by leaf key. */
@@ -61,11 +62,19 @@ export interface StageCoverageReport {
   readonly rows: readonly (CoverageRow | StageCoverageRow)[];
   /** The stage rows alone. */
   readonly stage: readonly StageCoverageRow[];
-  /** The table check's problems (a §5.2 ladder missing, a ladder outside §5.2, a rung twice): empty when whole. */
+  /**
+   * The table check's problems (a §5.2 ladder missing — the kernel's read from `kernel.ladders` —, a ladder outside §5.2,
+   * a rung twice; a stage's declared rung the table does not hold): empty when whole.
+   */
   readonly tableProblems: readonly string[];
   /** The plain flat fixture's baseline, when asked for (`{ plain: seed }`). */
   readonly plain: PlainBaseline | null;
-  /** Every built stage row reached by its fixture and left nowhere on the controls (and the table whole). */
+  /** The `bugs` entries the plain controls' runs left (0; hardening round S1, notes row 2). */
+  readonly controlBugs: number;
+  /**
+   * Every built stage row reached by its fixture and left nowhere on the controls, no fixture or control run leaving a
+   * `bugs` entry, and the table whole (its §5.2 classes, and the stages' own declarations, `declaredRungProblems`).
+   */
   readonly stageCovered: boolean;
   /** `stageCovered` and the kernel report's `covered`. */
   readonly covered: boolean;

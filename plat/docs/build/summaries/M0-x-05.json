@@ -19,147 +19,181 @@
     "V05": 10
   },
   "tableProblems": 0,
+  "fixtureBugs": 0,
+  "controlBugs": 0,
   "stageCovered": true,
   "covered": true,
+  "units": {
+    "default": "rung_uses",
+    "S8 F-CUT W_CUT_SLID": "slide_steps"
+  },
   "rungs": {
     "S8 F-CUT pre": {
       "fixture": 1,
       "control": 0,
-      "plain": 33
+      "bugs": 0,
+      "plain": 29
     },
     "S8 F-CUT antenna": {
       "fixture": 1,
       "control": 0,
-      "plain": 15
+      "bugs": 0,
+      "plain": 24
     },
     "S8 F-CUT a@attempt>=1": {
       "fixture": 1,
       "control": 0,
-      "plain": 105
+      "bugs": 0,
+      "plain": 97
     },
     "S8 F-CUT b": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 5
     },
     "S8 F-CUT W_CUT_SLID": {
       "fixture": 30,
       "control": 0,
-      "plain": 26
+      "bugs": 0,
+      "plain": 95
     },
     "S8 F-CUT d": {
       "fixture": 1,
       "control": 0,
-      "plain": 5
+      "bugs": 0,
+      "plain": 4
     },
     "S4/S5b F-ROUTE another_site": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S4/S5b F-ROUTE slope": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S4/S5b F-ROUTE unserved": {
       "fixture": 2,
       "control": 0,
+      "bugs": 0,
       "plain": 1
     },
     "S5c F-NUM re_propose": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S5c F-NUM reject": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S1 F-RIVER carve": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S1 F-RIVER retrace": {
       "fixture": 9,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S1 F-RIVER inlet": {
       "fixture": 2,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S3 F-WALL redraw": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S3 F-WALL drop": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S3/S5a trace F-WALL reoffset": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S3/S5a trace F-WALL union_simplify": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S5d F-BUDGET-STAGE top_up": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S5d F-BUDGET-STAGE accept_shortfall": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S1 F-WORK work_cut": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S6 fields F-WORK work_cut": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S3 F-WORK work_cut": {
       "fixture": 4,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S4/S5b F-WORK work_cut": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S5c F-WORK work_cut": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S6 F-WORK work_cut": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "S8 F-WORK work_cut": {
       "fixture": 2,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     },
     "kernel F-WORK E_WORK_LIMIT": {
       "fixture": 1,
       "control": 0,
+      "bugs": 0,
       "plain": 0
     }
   },

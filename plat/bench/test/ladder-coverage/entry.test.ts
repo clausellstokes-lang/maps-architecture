@@ -50,18 +50,20 @@ describe('bench -- ladder-coverage', () => {
     expect(run([], { out: dir, summary, coverage: planted([], seen) })).toBe(0);
     expect(seen).toEqual([{ plain: 1 }]);
     const report = JSON.parse(readFileSync(join(dir, 'ladder-coverage', 'report.json'), 'utf8')) as StageCoverageReport;
-    expect(Object.keys(report).sort()).toEqual(['covered', 'kernel', 'ladders', 'plain', 'rows', 'stage', 'stageCovered', 'tableProblems']);
+    expect(Object.keys(report).sort()).toEqual(['controlBugs', 'covered', 'kernel', 'ladders', 'plain', 'rows', 'stage', 'stageCovered', 'tableProblems']);
     expect(report.covered).toBe(true);
     expect(report.stage.length).toBe(STAGE_LADDERS.length);
     expect(report.rows.length).toBe(kernel().rows.length + STAGE_LADDERS.length);
     expect(report.plain?.seed).toBe(1);
     const text = readFileSync(summary, 'utf8');
-    const s = JSON.parse(text) as { item: string; covered: boolean; builtRows: number; rungs: Record<string, { fixture: number; control: number; plain: number }>; plain: { seed: number; reached: number; bugs: number } };
+    const s = JSON.parse(text) as { item: string; covered: boolean; builtRows: number; units: Record<string, string>; fixtureBugs: number; controlBugs: number; rungs: Record<string, { fixture: number; control: number; bugs: number; plain: number }>; plain: { seed: number; reached: number; bugs: number } };
     expect(s.item).toBe('M0-x-05');
     expect(s.covered).toBe(true);
     expect(s.builtRows).toBe(built.length);
-    expect(s.rungs['S8 F-CUT pre']).toEqual({ fixture: 1, control: 0, plain: 2 });
-    expect(s.rungs['S4/S5b F-ROUTE slope']).toEqual({ fixture: 1, control: 0, plain: 0 });
+    expect(s.rungs['S8 F-CUT pre']).toEqual({ fixture: 1, control: 0, bugs: 0, plain: 2 });
+    expect(s.rungs['S4/S5b F-ROUTE slope']).toEqual({ fixture: 1, control: 0, bugs: 0, plain: 0 });
+    expect([s.fixtureBugs, s.controlBugs]).toEqual([0, 0]);
+    expect(s.units['S8 F-CUT W_CUT_SLID']).toBe('slide_steps');
     expect(s.plain).toEqual({ seed: 1, reached: built.filter((x) => x.ladder === 'F-CUT').length, bugs: 0 });
     expect(text).not.toMatch(/"(at|seconds|wallMs|cpuMs|ms)"/);
     expect(run([], { out: dir, summary, coverage: planted() })).toBe(0);
@@ -87,7 +89,7 @@ describe('bench -- ladder-coverage', () => {
     expect(run([], { out: dir, summary, coverage: planted([victim.fixture]) })).toBe(1);
     const report = JSON.parse(readFileSync(join(dir, 'ladder-coverage', 'report.json'), 'utf8')) as StageCoverageReport;
     expect(report.covered).toBe(false);
-    expect(report.stage.find((r) => r.fixture === victim.fixture)?.exercised).toEqual({ fixture: 0, control: 0 });
+    expect(report.stage.find((r) => r.fixture === victim.fixture)?.exercised).toEqual({ fixture: 0, control: 0, bugs: 0 });
     expect(JSON.parse(readFileSync(summary, 'utf8')).builtReached).toBe(built.length - 1);
   });
 
