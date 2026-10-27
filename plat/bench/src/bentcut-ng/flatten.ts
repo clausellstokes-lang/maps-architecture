@@ -126,7 +126,11 @@ export interface FlattenOptions {
 
 /**
  * flattenSearch(faces, row): the one-dimensional search over the cut.flattenM cell (see the module comment), its
- * chosen value and its verdict against the row, with every candidate's measurement.
+ * chosen value and its verdict against the row, with every candidate's measurement. The interface's
+ * `flattenSearch(faces, row): { flattenM, verdict }` is read as asynchronous and wider (hardening round S1, note 6):
+ * the search runs its candidates through the NG task pool, so it returns a Promise of a FlattenResult — a superset
+ * of { flattenM, verdict } (the row, the grid, ours, the tolerance and every candidate) — and takes its options
+ * (the seed, the seeds per face, the grid, the workers, a test's runner) as a third argument.
  */
 export async function flattenSearch(faces: readonly NgFace[], row: BendRow, opts: FlattenOptions): Promise<FlattenResult> {
   const grid = opts.grid ?? DEFAULT_GRID;

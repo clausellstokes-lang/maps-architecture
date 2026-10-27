@@ -79,9 +79,17 @@ function rowById(rows: readonly Baseline[], ids: readonly string[]): Baseline | 
   return ids.length === 1 ? rows.find((r) => r.id === ids[0]) : undefined;
 }
 
-/** The ± band of a scalar target row (σ, the fillet share): pass inside [p50 − tol, p50 + tol]. */
+/** The note a ± band appends when the band rule read no single row (duplicates, or an ⟨M-1⟩ row missing). */
+const NOTE_NO_SINGLE_ROW = 'no single row for the ± band (fail-safe)';
+
+/**
+ * The ± band of a scalar target row (σ, the fillet share): pass inside [p50 − tol, p50 + tol]. When the report row
+ * names no single baseline (M0-k-05's duplicate rows, or an ⟨M-1⟩ cell with no row), the band is not applied: the
+ * verdict stays a fail and M0-k-05's own note is kept, the band's reason appended (hardening round S1, note 2).
+ */
 function tolBand(r: ParityRow, row: Baseline | undefined, tol: number, note: string): ParityRow {
   if (r.verdict !== 'pass' && r.verdict !== 'fail') return r;
+  if (r.baselineIds.length !== 1) return { ...r, verdict: 'fail', note: r.note === undefined ? NOTE_NO_SINGLE_ROW : `${r.note}; ${NOTE_NO_SINGLE_ROW}` };
   const v = row?.values as { p50?: number } | undefined;
   const ref = v?.p50;
   if (ref === undefined || r.ours.p50 === undefined) return { ...r, verdict: 'fail', override: note, note: 'the row carries no p50 for the ± band (fail-safe)' };
