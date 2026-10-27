@@ -18,7 +18,9 @@ describe('the plain flat fixture (runBase(FLAT_BLUEPRINT, 1))', () => {
     expect([...b.reached].sort()).toEqual([...cut, 'S4/S5b F-ROUTE unserved'].sort());
     for (const r of built) if (r.ladder !== 'F-CUT' && ladderLeafOf(r) !== 'S4/S5b F-ROUTE unserved') expect([ladderLeafOf(r), b.leaves[ladderLeafOf(r)]]).toEqual([ladderLeafOf(r), 0]);
     expect(b.leaves['S4/S5b F-ROUTE unserved']).toBe(1);
-    // The baseline count (measured 2026-10-07: pre 33, antenna 15, a ≥ 1 105, b 5, W_CUT_SLID 26, d 5 — C-0269).
+    // The baseline count (measured 2026-10-07: pre 33, antenna 15, a ≥ 1 105, b 5, W_CUT_SLID 26, d 5 — C-0269; re-measured
+    // 2026-10-27 in hardening round S1 on the tree after M0-b-03's S7 – S8 and M0-a-09's S14 – S17: pre 29, antenna 24,
+    // a ≥ 1 97, b 5, W_CUT_SLID 95 slide steps, d 4 — the summary's `plain` counts, C-0435).
     for (const leaf of cut) expect([leaf, b.leaves[leaf] > 0]).toEqual([leaf, true]);
   });
 });

@@ -5,6 +5,7 @@
 import type { S8Output } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
 import { LADDER_SLID_DISTRICT, ladderChain, ladderSmallFlat, ladderSmallRiver, type ChainSpec } from '@plat/testkit';
+import { BUGS_LEAF, readRun } from '../../src/ladders/readers.js';
 
 const roots = (r: ReturnType<typeof ladderChain>): string[] => [...r.model.stageRoots].map(([k, v]) => `${k}:${v.join(',')}`);
 
@@ -48,5 +49,14 @@ describe('the cut and the overrides', () => {
     const infill = r.model.data.get('infill') as S8Output['infill'];
     expect(infill.report.districts.map((d) => d.district)).toEqual([LADDER_SLID_DISTRICT]);
     expect((r.model.data.get('districts') as unknown[]).length).toBeGreaterThan(1);
+  });
+});
+
+describe('a chain run’s bugs (hardening round S1, notes row 2)', () => {
+  it('readRun counts the report’s bugs entries under the reserved leaf beside the records’ leaves; none, no leaf', () => {
+    const model = { data: new Map<string, unknown>() } as never;
+    expect(readRun({ model, report: { bugs: [] } as never })).toEqual({});
+    expect(readRun({ model, report: { bugs: [{}, {}] } as never })).toEqual({ [BUGS_LEAF]: 2 });
+    expect(BUGS_LEAF).toBe('bugs');
   });
 });
