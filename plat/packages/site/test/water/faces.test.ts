@@ -184,5 +184,46 @@ describe('§4.2 S1 (8): water faces with shore and bank edges; land components b
     if (!r2.ok) expect(r2.code).toBe('E_INVARIANT');
     expect(plat.version).toBe(v);
   });
+
+  it('detect and refuse (note 2): a body whose seed lies in a face its own rings do not bound is E_INVARIANT, and the batch writes nothing', () => {
+    const { plat, kernel } = ground(FRAME);
+    expect(outerRingBatch(kernel, 'terrain:ground', REACH, OPTS).ok).toBe(true);
+    const v = plat.version;
+    // two disjoint ponds, each body seeded inside the other's ring: each claims one face, bounded by the other's shore
+    const west = [pt(-20_000, -5000), pt(-10_000, -5000), pt(-10_000, 5000), pt(-20_000, 5000)];
+    const east = [pt(10_000, -5000), pt(20_000, -5000), pt(20_000, 5000), pt(10_000, 5000)];
+    const a: WaterReach = { body: body('water:river:0', 'river', [[-15_000, 0], [-12_000, 0]], 1000), parts: [{ rings: [west], seeds: [pt(15_000, 0)] }] };
+    const b: WaterReach = { body: body('water:tributary:0', 'tributary', [[12_000, 0], [15_000, 0]], 1000), parts: [{ rings: [east], seeds: [pt(-15_000, 0)] }] };
+    const r = waterFaces([a, b], kernel, { ...OPTS, sites: [], bridgeIds: [] });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect([r.code, r.detail]).toEqual(['E_INVARIANT', 'S1 water: an L0 face of water:river:0 has no edge of its shore']);
+    expect(plat.version).toBe(v);
+    expect(kernel.view(GROUND_KEY, 0).faces()).toHaveLength(1);
+  });
+
+  it('note 4: a part holding no course point deep inside it is seeded from an interior point; a part with no point 1 m inside is dropped and reported, never silent', () => {
+    // two rivers across the arena and a tributary crossing both, on the kernel's polygons: the difference cuts the
+    // tributary into three parts, the middle one between the rivers holding no course vertex
+    const r0 = body('water:river:0', 'river', [[-50_000, 0], [50_000, 0]], 2000);
+    const trib = body('water:tributary:0', 'tributary', [[0, 10_000], [0, -10_000]], 600);
+    const r1 = body('water:river:1', 'river', [[-50_000, 4000], [50_000, 4000]], 2000);
+    const p = waterPolygons([r0, r1, trib], REACH, { slowOnly: true });
+    if (!p.ok) throw new Error(p.detail);
+    const t = p.value.reaches.find((r) => r.body.id === 'water:tributary:0');
+    expect(t?.parts.map((q) => q.seeds.length)).toEqual([1, 1, 1]);
+    // the middle part's seed: inside it, 1 m and more from its rings (it lies in y ∈ (1 000, 3 000), x ∈ (−300, 300))
+    const mid = t?.parts.find((q) => q.seeds[0].y > 1000 && q.seeds[0].y < 3000);
+    expect(mid).toBeDefined();
+    const s = mid?.seeds[0] ?? pt(0, 0);
+    expect(Math.min(s.y - 1000, 3000 - s.y, 300 - Math.abs(s.x))).toBeGreaterThanOrEqual(100);
+    expect(p.value.fallbacks.filter((f) => !f.why.startsWith('slow only'))).toEqual([]);
+    // the rivers 1.5 m apart: the middle part (9 m², 1.5 m tall) has no point 1 m inside — dropped and reported
+    const near = body('water:river:1', 'river', [[-50_000, 2150], [50_000, 2150]], 2000);
+    const q = waterPolygons([r0, near, trib], REACH, { slowOnly: true });
+    if (!q.ok) throw new Error(q.detail);
+    expect(q.value.reaches.find((r) => r.body.id === 'water:tributary:0')?.parts).toHaveLength(2);
+    expect(q.value.fallbacks.filter((f) => !f.why.startsWith('slow only'))).toEqual([{ id: 'water:tributary:0', why: 'a part with no point 100 cm inside, dropped: 9 m²' }]);
+    expect(q.value.dropped).toEqual([]);
+  });
 });
 

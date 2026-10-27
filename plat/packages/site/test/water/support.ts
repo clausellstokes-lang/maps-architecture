@@ -2,8 +2,9 @@
 // context over the kernel's façade, never through @plat/layout's runner), an indexed ground arena with its façade,
 // the river fixtures — S1 (1)'s terrain and S1 (3)'s river, built by M0-e-01's and M0-e-02's code, as the L0 batch
 // reads them — and the folder's shared builders and checks: the lifecycle literal, a hand-built water body, the small
-// arena, the stage-end subject list, the CI sweep's failing hard rows and the L0 edge property. Each states its
-// expectation on its own terms (the test's oracle), never by calling the code under test for it.
+// arena, the stage-end subject list, the CI sweep's failing hard rows, the L0 edge property and the segment distances
+// (L27 (c)). Each states its expectation on its own terms (the test's oracle), never by calling the code under test
+// for it.
 import { attachIndex, checkCI, createKernel, createPlat, createRng, entityKey, rowKey, rowsOn, seedKey, STAGES, streamFromKey, type Frame, type Hash128, type Kernel, type LatticePoint, type Plat } from '@plat/kernel';
 import type { Cm, CmArray, GeomRef, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
 import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
@@ -191,4 +192,21 @@ export function offNormalDeg(a: { x: number; y: number }, b: { x: number; y: num
   const dy = b.y - a.y;
   const along = Math.abs(dx * flow.x + dy * flow.y) / Math.hypot(dx, dy);
   return (Math.asin(Math.min(1, along)) * 180) / Math.PI;
+}
+
+/** The distance from p to segment ab, in floating point: the test's own (L27 (c): never the code's `segDist2`). */
+export function pointSegGap(p: { x: number; y: number }, a: { x: number; y: number }, b: { x: number; y: number }): number {
+  const l2 = (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
+  const u = l2 === 0 ? 0 : Math.min(1, Math.max(0, ((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / l2));
+  return Math.hypot(a.x + (b.x - a.x) * u - p.x, a.y + (b.y - a.y) * u - p.y);
+}
+
+/**
+ * The distance between segments ab and cd, in floating point: 0 when they cross (each one's ends strictly either side
+ * of the other's line), else the least of the four end-to-segment distances — the test's own (L27 (c)).
+ */
+export function segGap(a: { x: number; y: number }, b: { x: number; y: number }, c: { x: number; y: number }, d: { x: number; y: number }): number {
+  const side = (p: { x: number; y: number }, q: { x: number; y: number }, r: { x: number; y: number }): number => Math.sign((q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x));
+  if (side(a, b, c) * side(a, b, d) < 0 && side(c, d, a) * side(c, d, b) < 0) return 0;
+  return Math.min(pointSegGap(a, c, d), pointSegGap(b, c, d), pointSegGap(c, a, b), pointSegGap(d, a, b));
 }

@@ -125,6 +125,18 @@ describe('§4.2 S1 (9): one outfall per 50 m bank stretch, at the cell of larges
     expect(out).toHaveLength(20);
   });
 
+  it('N-c1-1: the water cells are the polygon\'s by each cell\'s own centre — row 2 is land and feeds the south bank, row 1 (draining into it) does not', () => {
+    // the 60 m river again (rows 3 and 4 water, row 2's centres at y = −3 750, 7.5 m outside the bank): row 2's odd
+    // columns carry the larger accumulation, row 1's even columns a larger one still — so the bank's picks name the row
+    // that feeds it: odd columns from row 2, even ones had the water cells been read a row off (row 2 water, row 1 land)
+    const acc = (i: number, j: number): number => (j === 2 ? (i % 2 === 1 ? 2 : 1) : j === 1 ? (i % 2 === 0 ? 3 : 1) : 1);
+    const t = terrainOf((i, j) => (j === 3 || j === 4 ? E : j >= 5 ? S : N), acc);
+    const out = outfalls(t, [river(3000)], { reach: REACH, stretchCm: 5000 });
+    const right = out.filter((o) => o.at.y === -3000);
+    expect(right.map((o) => Math.floor((o.at.x + 25_000) / CELL))).toEqual([1, 3, 5, 7, 9, 11, 13, 15, 17, 19]);
+    for (const o of right) expect(o.cell).toBe(2 * COLS + Math.floor((o.at.x + 25_000) / CELL));
+  });
+
   it('the stretch length is read: 100 m stretches give half as many outfalls; water cells and cells draining within land give none', () => {
     const t = terrainOf(narrowDir, accOf);
     expect(outfalls(t, [river(500)], { reach: REACH, stretchCm: 10_000 })).toHaveLength(15);

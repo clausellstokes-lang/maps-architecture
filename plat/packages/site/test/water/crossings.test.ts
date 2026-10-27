@@ -172,6 +172,45 @@ describe('§4.2 S1 (5): siteCrossings', () => {
     }
   });
 
+  it('N-c1-7: each end keeps the clearance — the other body on the south bank (end 1, the right bank looking downstream): no deck end within 10 m of it', () => {
+    const river = straight(2000);
+    const other: WaterReach = { body: body('water:tributary:0', [lp(0, -30_000), lp(0, -1000)], [6000, 6000]), parts: [{ rings: [[lp(-3000, -30_000), lp(3000, -30_000), lp(3000, -1000), lp(-3000, -1000)]], seeds: [lp(0, -10_000)] }] };
+    // the river's narrowest point right over the other body: without the clearance its window's site would stand there
+    const neckRing = [lp(-100_000, -1000), lp(-3500, -1000), lp(0, -800), lp(3500, -1000), lp(100_000, -1000), lp(100_000, 1000), lp(3500, 1000), lp(0, 800), lp(-3500, 1000), lp(-100_000, 1000)];
+    for (const reach of [river, straight(2000, -100_000, 100_000, neckRing)]) {
+      const sites = siteCrossings([reach, other], 300, [], OPTS).filter((q) => q.water === 'water:river:0');
+      expect(sites.length).toBeGreaterThan(0);
+      for (const s of sites) for (const e of s.deck) expect(Math.abs(e.x) >= 3000 + DECK_CLEARANCE_CM || e.y > 0).toBe(true);
+    }
+  });
+
+  it('note 5: a deck longer than three widths is no crossing — a 300 m stretch where the polygon widens to 80 m on a 20 m width profile has no site', () => {
+    // the basin spans x ∈ [−120, 220] m, holding the third window (x ∈ [−100, 200) m) whole
+    const basin = [lp(-100_000, -1000), lp(-12_000, -1000), lp(-12_000, -4000), lp(22_000, -4000), lp(22_000, -1000), lp(100_000, -1000), lp(100_000, 1000), lp(22_000, 1000), lp(22_000, 4000), lp(-12_000, 4000), lp(-12_000, 1000), lp(-100_000, 1000)];
+    const sites = siteCrossings([straight(2000, -100_000, 100_000, basin)], 300, [], OPTS);
+    expect(sites.length).toBeGreaterThanOrEqual(4);
+    expect(sites.filter((s) => Math.floor(s.arcCm / 30_000) === 3)).toEqual([]);
+    for (const s of sites) expect(s.spanCm).toBeLessThanOrEqual(3 * 2000);
+  });
+
+  it('note 11: the flow is averaged over one width, not over half a width nor the adjacent vertices — at a kink 10 m long and 10 m high every deck stays within ±10° of the one-width flow\'s normal', () => {
+    // a 20 m river along y = 0 that steps up 10 m between x = 0 and x = 10 m (course vertices every metre there) and
+    // runs on along y = 10 m; its banks pinched to 16 m at x = 5 m, so the kink wins its window. At the kink's vertex
+    // (7 m, 7 m) the adjacent vertices' chord runs at 45°, the half-width chord at 32°, the one-width chord at 16°.
+    const course: LatticePoint[] = [];
+    for (let x = -60_000; x < -3000; x += 1000) course.push(lp(x, 0));
+    for (let x = -3000; x <= 4000; x += 100) course.push(lp(x, x <= 0 ? 0 : x >= 1000 ? 1000 : x));
+    for (let x = 5000; x <= 60_000; x += 1000) course.push(lp(x, 1000));
+    const top = course.map((q) => lp(q.x, q.y + 1000)).reverse();
+    const bot = course.map((q) => lp(q.x, q.y - 1000));
+    const ring = [...bot.map((q) => (q.x === 500 ? lp(q.x, q.y + 200) : q)), ...top.map((q) => (q.x === 500 ? lp(q.x, q.y - 200) : q))];
+    const reach: WaterReach = { body: body('water:river:0', course, course.map(() => 2000)), parts: [{ rings: [ring], seeds: [lp(-30_000, 0)] }] };
+    const sites = siteCrossings([reach], 300, [], OPTS);
+    const kink = sites.find((s) => s.at.x > 0 && s.at.x < 1000);
+    expect(kink?.at).toEqual(lp(700, 700));
+    for (const s of sites) expect(offFlowDeg(reach, s)).toBeLessThanOrEqual(10);
+  });
+
   it('an island: a ray meeting the hole\'s ring before the bank gives no deck there', () => {
     // a 60 m river with a 20 m island along x ∈ [−50, 50] m
     const river = straight(6000);
