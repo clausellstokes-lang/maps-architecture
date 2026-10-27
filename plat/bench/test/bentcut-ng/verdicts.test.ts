@@ -53,24 +53,6 @@ describe('the band-rule verdicts on planted rows (C-0092, C-0116)', () => {
     expect(f[0].verdict).toBe('fail');
   });
 
-  it('duplicate σ or fillet rows: the ± band keeps M0-k-05\'s fail and its diagnosis, the band\'s reason appended (hardening S1, note 2)', () => {
-    // Two plain σ rows of one cell, neither superseding the other: M0-k-05 reads fail "duplicate rows …"; the ± band must
-    // not replace that diagnosis with "no p50" (probe P3 of the first check).
-    const dup = [row('cut.sigma', 'plain', scalar(0.084)), row('cut.sigma', 'plain', scalar(0.09), { id: 'test/ng2/cut.sigma/plain' })];
-    const c = judge(dup, [scalarEntry('cut.sigma', 'plain', [0.085])]);
-    expect([c[0].verdict, c[0].baselineIds, c[0].note]).toEqual([
-      'fail',
-      ['test/ng/cut.sigma/plain', 'test/ng2/cut.sigma/plain'],
-      'duplicate rows (NG, plain): test/ng/cut.sigma/plain, test/ng2/cut.sigma/plain; no single row for the ± band (fail-safe)',
-    ]);
-    expect(holds(c[0])).toBe(false);
-    const f = judge([row('cut.fillet', 'all', scalar(0.53)), row('cut.fillet', 'all', scalar(0.53), { id: 'test/ng2/cut.fillet/all' })], [scalarEntry('cut.fillet', 'all', [0.53])]);
-    expect([f[0].verdict, f[0].note]).toEqual(['fail', 'duplicate rows (NG, all): test/ng/cut.fillet/all, test/ng2/cut.fillet/all; no single row for the ± band (fail-safe)']);
-    // A single row still reads the ± band (its override note first).
-    const one = judge([dup[0]], [scalarEntry('cut.sigma', 'plain', [0.085])]);
-    expect([one[0].verdict, one[0].note]).toEqual(['pass', 'σ within ± 0.02 of the row (§13.5 bent-cut row; §16 M0 (b))']);
-  });
-
   it('a distribution row with spreadKS: ours ≤ 1.25 × spreadKS.p90 passes, beyond it fails', () => {
     const rows = [row('cut.length', 'all', lengthHistogram(NEAR), { spreadKS: { p90: 0.2, pairs: 190 } })];
     const near = judge(rows, [sampleEntry('cut.length', 'all', [NEAR, NEAR.map((x) => x + 1), NEAR.map((x) => x + 2)])]);

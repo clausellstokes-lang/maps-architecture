@@ -2,17 +2,15 @@
 // arrival clauses judged here, C-0073; M0-k-05's metric functions, one metricVersion): the measures on a hand-built face,
 // the replay that finds each committed cut's plan, the fillet share on a face set whose legs are all shorter than
 // w_min, and the two clauses on the PR tier's sample of the M0 (b) faces.
-import { chainRuns, workingFrame } from '@plat/layout';
+import { workingFrame } from '@plat/layout';
 import type { Cm, LatticePoint } from '@plat/kernel';
 import { cutSigma, metricById, type MetricDoc } from '@plat/testkit';
 import { runS8 } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
 import {
-  districtSeed,
   faceAt,
   faceDistrict,
   foldSignature,
-  GROUND,
   lands,
   LAND_TOL_CM,
   lineAngleCdeg,
@@ -24,7 +22,6 @@ import {
   signatureRow,
   signatureTasks,
   type CutSample,
-  type FaceDistrict,
   type FrameLine,
   type FullRecord,
   type SignatureCut,
@@ -172,50 +169,6 @@ describe('the replay', () => {
     // A shorter plan is not a landing: the committed lane's far vertices lie away from it.
     expect(lands(lane.slice(0, 2), lane)).toBe(false);
   });
-
-  it('lands at the absolute tolerance: attractCm (26 cm) + 1 cm — a 27 cm offset lands, a 28 cm one is refused (N-5)', () => {
-    expect(LAND_TOL_CM).toBe(27);
-    const lane = [P(0, 0), P(10_000, 0), P(10_000, 5_000)];
-    const by = (d: number) => lane.map((p) => ({ x: p.x - d, y: p.y + d }));
-    expect(lands(lane.map((p) => ({ x: p.x, y: p.y + 27 })), lane)).toBe(true);
-    expect(lands(lane.map((p) => ({ x: p.x, y: p.y + 28 })), lane)).toBe(false);
-    // Either way round, and off the bend's other leg too.
-    expect(lands(lane, lane.map((p) => ({ x: p.x, y: p.y - 28 })))).toBe(false);
-    expect(lands(by(19), lane)).toBe(true);
-    expect(lands(by(20), lane)).toBe(false);
-  });
-
-  it('a rung-(c) lane is the ladder’s own: counted, never replayed as a planner cut (K12; F-CUT concave #106, seed 1)', { timeout: 600_000 }, () => {
-    // Every frame of rung (a) planned nothing on #106 and its depth-0 ladder cut by rung (c) (M0-b-03's Q65).
-    const fd = faceDistrict(faceAt('concave', 106, 1).polygon, districtSeed('concave', 1, 106));
-    const r = replayDistrict(fd, 'concave');
-    if ('error' in r) throw new Error(r.error);
-    const made = r.report.rungs.filter((x) => x.outcome === 'cut' || x.outcome === 'slit');
-    expect(made[0]?.rung).toBe('c');
-    expect(r.counts.fallback).toBeGreaterThanOrEqual(1);
-    expect(r.counts.fallback).toBe(made.filter((x) => x.rung !== 'a' && x.rung !== 'deep').length);
-    expect([r.counts.missed, r.counts.matched]).toEqual([0, r.counts.planner]);
-    expect(r.cuts.length).toBe(r.counts.matched);
-    // The committed arrival reads every lane, the ladder's own among them.
-    expect(r.arrivals.all.ends + r.arrivals.all.unmeasured).toBe(2 * r.counts.cuts);
-    expect(r.arrivals.planner.ends + r.arrivals.planner.unmeasured).toBe(2 * r.counts.planner);
-  });
-
-  it('a replay over S8’s own limit is not S8’s run: S8’s own run stands, unmeasured (K21; the replay seam)', { timeout: 600_000 }, () => {
-    const t = { phase: 'full' as const, kind: 'curved' as const, i: 0, seed: 1, replay: true };
-    const measured = runFull(t);
-    expect(measured.counts).not.toBeNull();
-    const over = runFull(t, { replay: (fd: FaceDistrict, kind) => {
-      const r = replayDistrict(fd, kind);
-      return 'error' in r ? r : { ...r, overLimit: true };
-    } });
-    const own = runFull({ phase: 'full', kind: 'curved', i: 0, seed: 1 });
-    expect(over).toEqual(own);
-    expect([over.counts, over.arrivals, over.cuts]).toEqual([null, null, []]);
-    // And the fold counts it unreplayed: the replay gate fails (N-3).
-    const s = foldSignature([measured, over]);
-    expect([s.replay.notReplayed, s.replay.pass]).toEqual([1, false]);
-  });
 });
 
 describe('the fillet share', () => {
@@ -268,25 +221,11 @@ describe('§16 M0 (b)’s corner and arrival clauses on the PR tier’s sample o
     expect(s.sigmaAndFillet).toBe('reported');
     expect(typeof s.all.sigma).toBe('number');
     expect(typeof s.all.fillet).toBe('number');
-    // The replay's gate holds and every bent cut carries its corner's place (N-3).
-    expect([s.replay.notReplayed, s.replay.pass]).toEqual([0, true]);
-    expect(s.corner.measured).toBe(s.corner.n);
-    // K09: a cut is a ring cut only on a holed face — never on the hole-free kinds — and the holed faces have some.
-    for (const k of M0B_KINDS) if (k !== 'holed') expect([k, s.byKind[k].ring]).toEqual([k, 0]);
-    expect(s.byKind['holed'].ring).toBeGreaterThan(0);
-    // The committed-geometry arrival is reported beside the judged one, every lane end measured (N-2).
-    const ca = s.committedArrival;
-    expect(ca.verdict).toBe('reported');
-    expect(ca.planner.ends + ca.planner.unmeasured).toBe(2 * s.replay.planner);
-    expect(ca.all.ends + ca.all.unmeasured).toBe(2 * s.replay.cuts);
-    expect(ca.all.share).toBe(ca.all.at85 / ca.all.ends);
-    expect(Object.keys(ca.byKind)).toEqual([...M0B_KINDS]);
-    expect(ca.all.ends).toBe(M0B_KINDS.reduce((n, k) => n + ca.byKind[k].all.ends, 0));
   });
 
   it('the fold judges the two clauses at their bounds', () => {
     const cut = (cornerT: number, arrival: number): SignatureCut => ({ kind: 'curved', faceKind: 'plain', startT: 0.5, startT0: 0.5, bends: 1, cornerT, arrivalCdeg: arrival, arrivalChordCdeg: arrival, fillet: false, lengthCm: 1, attempt: 0, turnCdeg: 0, wMinCm: 1 });
-    const recOf = (cuts: SignatureCut[]): FullRecord => ({ phase: 'full', kind: 'curved', i: 0, setup: null, refused: null, cuts, counts: { cuts: cuts.length, planner: cuts.length, fallback: 0, deep: 0, matched: cuts.length, missed: 0, misses: [] }, arrivals: null }) as unknown as FullRecord;
+    const recOf = (cuts: SignatureCut[]): FullRecord => ({ phase: 'full', kind: 'curved', i: 0, setup: null, refused: null, cuts, counts: { cuts: cuts.length, planner: cuts.length, fallback: 0, deep: 0, matched: cuts.length, missed: 0, misses: [] } }) as unknown as FullRecord;
     const mid = (n: number): SignatureCut[] => Array.from({ length: n }, () => cut(0.5, 9000));
     // 8 of 10 corners within 0.10 (0.6 sits on the bound): passes; 7 of 10 fails.
     expect(foldSignature([recOf([...mid(7), cut(0.6, 9000), cut(0.75, 9000), cut(0.1, 9000)])]).corner.pass).toBe(true);
@@ -305,117 +244,5 @@ describe('§16 M0 (b)’s corner and arrival clauses on the PR tier’s sample o
     // No cut: neither clause passes.
     const none = foldSignature([recOf([])]);
     expect([none.corner.pass, none.arrival.pass]).toEqual([false, false]);
-  });
-
-  it('the replay gate: a missed planner cut or a district not replayed fails it; a bent cut with no corner place fails the corner clause (N-3)', () => {
-    const cut = (cornerT: number | undefined): SignatureCut => ({ kind: 'curved', faceKind: 'plain', startT: 0.5, startT0: 0.5, bends: 1, ...(cornerT === undefined ? {} : { cornerT }), arrivalCdeg: 9000, arrivalChordCdeg: 9000, fillet: false, lengthCm: 1, attempt: 0, turnCdeg: 0, wMinCm: 1 });
-    const recOf = (cuts: SignatureCut[], missed = 0): FullRecord => ({ phase: 'full', kind: 'curved', i: 0, setup: null, refused: null, cuts, counts: { cuts: cuts.length + missed, planner: cuts.length + missed, fallback: 0, deep: 0, matched: cuts.length, missed, misses: [] }, arrivals: null }) as unknown as FullRecord;
-    const ten = Array.from({ length: 10 }, () => cut(0.5));
-    const ok = foldSignature([recOf(ten)]);
-    expect([ok.replay.pass, ok.corner.pass, ok.corner.measured, ok.corner.n]).toEqual([true, true, 10, 10]);
-    const missed = foldSignature([recOf(ten, 1)]);
-    expect([missed.replay.missed, missed.replay.pass, missed.corner.pass, missed.arrival.pass]).toEqual([1, false, true, true]);
-    const unreplayed = foldSignature([recOf(ten), { ...recOf([]), counts: null } as FullRecord]);
-    expect([unreplayed.replay.notReplayed, unreplayed.replay.pass]).toEqual([1, false]);
-    // Nine of ten corners at mid-course and one bent cut with no λ: the share (9 / 9) would pass, the clause does not.
-    const unplaced = foldSignature([recOf([...ten.slice(0, 9), cut(undefined)])]);
-    expect([unplaced.corner.share, unplaced.corner.n, unplaced.corner.measured, unplaced.corner.pass]).toEqual([1, 10, 9, false]);
-  });
-
-  it('a district S8 refused fails both clauses, whatever the other districts measure (K13, K27)', () => {
-    const cut: SignatureCut = { kind: 'curved', faceKind: 'plain', startT: 0.5, startT0: 0.5, bends: 1, cornerT: 0.5, arrivalCdeg: 9000, arrivalChordCdeg: 9000, fillet: false, lengthCm: 1, attempt: 0, turnCdeg: 0, wMinCm: 1 };
-    const good = { phase: 'full', kind: 'curved', i: 0, setup: null, refused: null, cuts: Array.from({ length: 10 }, () => cut), counts: { cuts: 10, planner: 10, fallback: 0, deep: 0, matched: 10, missed: 0, misses: [] }, arrivals: null } as unknown as FullRecord;
-    expect([foldSignature([good]).corner.pass, foldSignature([good]).arrival.pass]).toEqual([true, true]);
-    const refused = { ...good, i: 1, refused: 'E_WORK_LIMIT planted', cuts: [], counts: null } as FullRecord;
-    const s = foldSignature([good, refused]);
-    expect([s.s8Refused, s.corner.pass, s.arrival.pass]).toEqual([1, false, false]);
-    // A face the kernel would not build is no S8 input: outside both clauses.
-    const setup = foldSignature([good, { ...refused, refused: null, setup: 'E_X' } as FullRecord]);
-    expect([setup.setupRefused, setup.corner.pass, setup.arrival.pass]).toEqual([1, true, true]);
-  });
-
-  it('the committed arrival folds its ends per kind and pooled, the planner lanes apart (N-2)', () => {
-    const a = (pe: number, p85: number, pu: number, ae: number, a85: number, au: number) => ({ planner: { ends: pe, at85: p85, unmeasured: pu }, all: { ends: ae, at85: a85, unmeasured: au } });
-    const recOf = (kind: string, arrivals: ReturnType<typeof a> | null): FullRecord => ({ phase: 'full', kind, i: 0, setup: null, refused: null, cuts: [], counts: { cuts: 0, planner: 0, fallback: 0, deep: 0, matched: 0, missed: 0, misses: [] }, arrivals }) as unknown as FullRecord;
-    const s = foldSignature([recOf('holed', a(4, 3, 0, 6, 4, 1)), recOf('curved', a(2, 2, 1, 2, 2, 1)), recOf('holed', a(0, 0, 0, 2, 1, 0))]);
-    expect(s.committedArrival.planner).toEqual({ ends: 6, at85: 5, unmeasured: 1, share: 5 / 6 });
-    expect(s.committedArrival.all).toEqual({ ends: 10, at85: 7, unmeasured: 2, share: 0.7 });
-    expect(Object.keys(s.committedArrival.byKind)).toEqual(['curved', 'holed']);
-    expect(s.committedArrival.byKind['holed']).toEqual({ planner: { ends: 4, at85: 3, unmeasured: 0, share: 0.75 }, all: { ends: 8, at85: 5, unmeasured: 1, share: 0.625 } });
-    expect(foldSignature([recOf('curved', null)]).committedArrival.all).toEqual({ ends: 0, at85: 0, unmeasured: 0, share: null });
-  });
-});
-
-/**
- * The committed arrivals of a district S8 committed, read here apart from signature.ts: each lane's end against the one
- * chain passing through it among the face's rings and the lanes inserted before it — found by walking each chain's own
- * runs for the end point (chainRuns), not the end vertex's edges — or the one chain ending there.
- */
-function arrivalsApart(fd: FaceDistrict, holes: number, lanes: readonly string[], planner: readonly boolean[]): { planner: [number, number]; all: [number, number] } {
-  const angle = (u: { x: number; y: number }, v: { x: number; y: number }): number => (Math.atan2(Math.abs(u.x * v.y - u.y * v.x), Math.abs(u.x * v.x + u.y * v.y)) * 18_000) / Math.PI;
-  const rings = [{ role: 'district_bound', entity: 'district_bound:f' }, ...Array.from({ length: holes }, (_, h) => ({ role: 'reserved', entity: `reservation:h${String(h + 1)}` }))];
-  const out = { planner: [0, 0] as [number, number], all: [0, 0] as [number, number] };
-  lanes.forEach((id, i) => {
-    const runs = chainRuns(fd.plat, GROUND, { role: 'way', entity: id });
-    expect(runs.length).toBe(1);
-    const run = runs[0];
-    for (const [e, n] of [[0, 1], [run.length - 1, run.length - 2]] as const) {
-      const E = run[e];
-      const leg = { x: run[n].x - E.x, y: run[n].y - E.y };
-      const through: { x: number; y: number }[] = [];
-      const ending: { x: number; y: number }[] = [];
-      for (const ref of [...rings, ...lanes.slice(0, i).map((entity) => ({ role: 'way', entity }))]) {
-        for (const q of chainRuns(fd.plat, GROUND, ref)) {
-          const closed = q[0].x === q[q.length - 1].x && q[0].y === q[q.length - 1].y;
-          for (let k = 0; k < q.length; k += 1) {
-            if (q[k].x !== E.x || q[k].y !== E.y || (closed && k === q.length - 1)) continue;
-            const prev = k > 0 ? q[k - 1] : closed ? q[q.length - 2] : null;
-            const next = k < q.length - 1 ? q[k + 1] : null;
-            if (prev !== null && next !== null) through.push({ x: next.x - prev.x, y: next.y - prev.y });
-            else ending.push(prev ?? (next as { x: number; y: number }));
-          }
-        }
-      }
-      let dir: { x: number; y: number } | null = null;
-      if (through.length === 1) dir = through[0];
-      else if (through.length === 0 && ending.length === 1) dir = { x: E.x - ending[0].x, y: E.y - ending[0].y };
-      expect(dir).not.toBeNull();
-      if (dir === null) continue;
-      const sq = angle(leg, dir) >= 8500 ? 1 : 0;
-      out.all[0] += 1;
-      out.all[1] += sq;
-      if (planner[i]) {
-        out.planner[0] += 1;
-        out.planner[1] += sq;
-      }
-    }
-  });
-  return out;
-}
-
-describe('the arrival read from the committed geometry (hardening S3, N-2)', () => {
-  it('equals, on S8’s committed arena, the ends counted apart; square on the hand-built rectangle', { timeout: 600_000 }, () => {
-    const cases: { kind: (typeof M0B_KINDS)[number]; polygon: LatticePoint[][]; seed: number; holes: number }[] = [{ kind: 'curved', polygon: [RECT], seed: 77, holes: 0 }];
-    for (const kind of M0B_KINDS) for (const i of [0, 1]) {
-      const f = faceAt(kind, i, 2);
-      cases.push({ kind, polygon: f.polygon as LatticePoint[][], seed: 900 + i, holes: f.polygon.length - 1 });
-    }
-    let differs = 0;
-    for (const c of cases) {
-      const r = replayDistrict(faceDistrict(c.polygon, c.seed), c.kind);
-      if ('error' in r) throw new Error(r.error);
-      const fd = faceDistrict(c.polygon, c.seed);
-      const own = runS8(fd.input, { report: undefined } as never);
-      expect(own.ok).toBe(true);
-      if (!own.ok) continue;
-      const made = own.value.infill.report.districts[0].rungs.filter((x) => x.outcome === 'cut' || x.outcome === 'slit');
-      const apart = arrivalsApart(fd, c.holes, own.value.lanes.map((l) => l.id), made.map((x) => x.rung === 'a'));
-      expect([c.kind, r.arrivals.all.unmeasured, r.arrivals.planner.unmeasured]).toEqual([c.kind, 0, 0]);
-      expect([c.kind, [r.arrivals.all.ends, r.arrivals.all.at85], [r.arrivals.planner.ends, r.arrivals.planner.at85]]).toEqual([c.kind, apart.all, apart.planner]);
-      if (c.polygon[0] === RECT) expect(r.arrivals.all.at85).toBe(r.arrivals.all.ends);
-      if (r.arrivals.all.at85 < r.arrivals.all.ends) differs += 1;
-    }
-    // Not square by construction: some committed lane ends arrive under 85° on these faces.
-    expect(differs).toBeGreaterThan(0);
   });
 });

@@ -31,15 +31,6 @@
 //   fillet       whether an arc replaced K; `shortLegCm` the shorter leg ℓ and `wMinCm` the district's w_min (§4.6 step 6);
 //   lengthCm     the fillet-free course length (the legs' sum);
 //   faceKind     `ring` when the face was planned by the holed law (it had a hole), else `plain`.
-//
-// Beside the judged arrival, the arrival READ FROM THE COMMITTED GEOMETRY (hardening round S3, N-2; C-0433 (2)): when the
-// batch has returned, with every lane in place, each end of every lane — the planner's and the ladder's own alike — is
-// measured where it lies: the lane's own first chord from that end against the chord of the crossed chain's two raw
-// edges at the end vertex (the face's ring, a hole's ring or a lane inserted before it; its one edge where the end is a
-// chain's end), folded into 0 – 90°. It reads no plan, so it is not square by construction as `arrivalCdeg` nearly is
-// (step 5 builds the second leg square to the very run it is measured against); an end whose vertex no single earlier
-// chain crosses is counted unmeasured. Reported (planner cuts and all lanes), never judged (C-0073's clause stays the
-// planner's own reading).
 import {
   addressOf,
   type Id,
@@ -58,7 +49,6 @@ import {
   rowKey,
   rowsOn,
   type FaceId,
-  outgoing,
   type LatticePoint,
   type Overlay,
   type Plat,
@@ -253,108 +243,12 @@ export interface ReplayCounts {
   readonly misses: readonly string[];
 }
 
-/** Lane ends read from the committed geometry: measured, at ≥ 85°, and those no single earlier chain crosses. */
-export interface ArrivalEnds {
-  readonly ends: number;
-  readonly at85: number;
-  readonly unmeasured: number;
-}
-
-/** A district's committed arrivals (N-2): the planner's lanes (rung (a)) and every lane. */
-export interface CommittedArrivals {
-  readonly planner: ArrivalEnds;
-  readonly all: ArrivalEnds;
-}
-
-/** The committed arrival's square bound (cdeg): 85°, the arrival clause's. */
-const SQUARE_CDEG = 8500;
-
-/**
- * The angle (cdeg, 0 – 90°) at which the lane `lane` (its chain `run`) arrives at its end `end` (0 or the run's last
- * index), read from the committed arena: its own first chord from that end against the chord of the crossed chain's two
- * raw edges at the end vertex — the edges there carrying a ring's row, a lane's inserted before it (`earlier`) or any
- * other way's, the lane's own edges, the later lanes' (`lanes` not in `earlier`) and the junction rows aside — of the
- * one chain passing through the end (a continuation's collinear partner, which ends there, aside), or that chain's one
- * edge where the only chain there ends; null when the end is no vertex or no one chain is found.
- */
-function endArrival(p: Plat, run: readonly LatticePoint[], end: number, lane: Id, earlier: ReadonlySet<Id>, lanes: ReadonlySet<Id>): number | null {
-  const E = run[end];
-  const step = end === 0 ? 1 : -1;
-  let k = end + step;
-  while (k >= 0 && k < run.length && run[k].x === E.x && run[k].y === E.y) k += step;
-  if (k < 0 || k >= run.length) return null;
-  const leg: XY = { x: run[k].x - E.x, y: run[k].y - E.y };
-  const at = pointLocate(p, GROUND, 1, E);
-  if (at.on !== 'vertex') return null;
-  const O = p.halfEdges.origin;
-  // The crossed chains' edges at the end, by chain: a chain passing through the end has two, a chain ending there one.
-  const by = new Map<string, XY[]>();
-  for (const h of outgoing(p, at.vertex)) {
-    const keys: string[] = [];
-    let own = false;
-    for (const r of rowsOn(p, 'edge', h)) {
-      const key = rowKey(p, r);
-      if (key.role === 'junction') continue;
-      if (key.role === 'way' && key.entity === lane) own = true;
-      else if (key.role !== 'way' || earlier.has(key.entity) || !lanes.has(key.entity)) keys.push(`${key.role} ${key.entity}`);
-    }
-    if (own) continue;
-    const w = O[h ^ 1];
-    for (const k of keys) {
-      const list = by.get(k) ?? [];
-      list.push({ x: p.vertices.x[w], y: p.vertices.y[w] });
-      by.set(k, list);
-    }
-  }
-  // The one chain the end crosses (two edges; a continuation's collinear partner ending there aside, J-P11), or the one
-  // chain ending there.
-  const through = [...by.values()].filter((v) => v.length === 2);
-  const ending = [...by.values()].filter((v) => v.length === 1);
-  let dir: XY;
-  if (through.length === 1) dir = { x: through[0][1].x - through[0][0].x, y: through[0][1].y - through[0][0].y };
-  else if (through.length === 0 && ending.length === 1) dir = { x: E.x - ending[0][0].x, y: E.y - ending[0][0].y };
-  else return null;
-  if (dir.x === 0 && dir.y === 0) return null;
-  return lineAngleCdeg(leg, dir);
-}
-
-/** Both ends of every lane, read from the committed arena with every lane in place (`planner[i]`: lane i is rung (a)'s). */
-function committedArrivals(p: Plat, laneIds: readonly Id[], planner: readonly boolean[]): CommittedArrivals {
-  const pl = { ends: 0, at85: 0, unmeasured: 0 };
-  const all = { ends: 0, at85: 0, unmeasured: 0 };
-  const lanes = new Set(laneIds);
-  const earlier = new Set<Id>();
-  laneIds.forEach((id, i) => {
-    const tally = (cdeg: number | null): void => {
-      for (const t of planner[i] ? [pl, all] : [all]) {
-        if (cdeg === null) t.unmeasured += 1;
-        else {
-          t.ends += 1;
-          if (cdeg >= SQUARE_CDEG) t.at85 += 1;
-        }
-      }
-    };
-    const runs = chainRuns(p, GROUND, { role: 'way', entity: id });
-    if (runs.length !== 1 || runs[0].length < 2) {
-      tally(null);
-      tally(null);
-    } else {
-      tally(endArrival(p, runs[0], 0, id, earlier, lanes));
-      tally(endArrival(p, runs[0], runs[0].length - 1, id, earlier, lanes));
-    }
-    earlier.add(id);
-  });
-  return { planner: pl, all };
-}
-
 /** A district's replay: its report, its measured cuts and the counts; `overLimit` when the batch passed S8's own limit. */
 export interface ReplayResult {
   readonly report: DistrictReport;
   readonly partition: PartitionResult;
   readonly cuts: SignatureCut[];
   readonly counts: ReplayCounts;
-  /** The arrivals read from the committed geometry before the replay took any lane out (N-2). */
-  readonly arrivals: CommittedArrivals;
   /** The batch's own work passed the transaction limit S8 gives it (the run is then not S8's: the harness re-runs it). */
   readonly overLimit: boolean;
   /** The district's L1 faces when the batch returned (before the replay took its lanes out). */
@@ -501,11 +395,9 @@ export function replayDistrict(fd: FaceDistrict, kind: BentCutFaceKind): ReplayR
       if (misses.length < 4) misses.push(why);
     };
     if (made.length !== lanes.length) {
-      const none = { ends: 0, at85: 0, unmeasured: 2 * lanes.length };
-      result = { report, partition: part, cuts, counts: { cuts: lanes.length, planner: 0, fallback: 0, deep: 0, matched: 0, missed: lanes.length, misses: [`${String(made.length)} cut rungs for ${String(lanes.length)} lanes`] }, arrivals: { planner: { ends: 0, at85: 0, unmeasured: 0 }, all: none }, overLimit, facesAfter };
+      result = { report, partition: part, cuts, counts: { cuts: lanes.length, planner: 0, fallback: 0, deep: 0, matched: 0, missed: lanes.length, misses: [`${String(made.length)} cut rungs for ${String(lanes.length)} lanes`] }, overLimit, facesAfter };
       return err('E_INVARIANT', 'replay: rejected');
     }
-    const arrivals = committedArrivals(o.plat, lanes.map((l) => l.id), made.map((x) => x.rung === 'a'));
     const stops = new Map<string, StopUse>(report.stops.map((s) => [s.face, s]));
     // The junction rows each lane's insertion wrote (a fresh `end` junction carries [lane], a fresh `T` [spine, lane]).
     const rowsOf = new Map<Id, Id[]>();
@@ -583,7 +475,7 @@ export function replayDistrict(fd: FaceDistrict, kind: BentCutFaceKind): ReplayR
       cuts.push(measureCut(kind, sampleOf(plan, g, lineOf(f0.value), wMinCm)));
     }
     cuts.reverse();
-    result = { report, partition: part, cuts, counts: { cuts: lanes.length, planner, fallback, deep, matched, missed, misses }, arrivals, overLimit, facesAfter };
+    result = { report, partition: part, cuts, counts: { cuts: lanes.length, planner, fallback, deep, matched, missed, misses }, overLimit, facesAfter };
     return err('E_INVARIANT', 'replay: rejected on purpose (nothing commits)');
   });
   return result;

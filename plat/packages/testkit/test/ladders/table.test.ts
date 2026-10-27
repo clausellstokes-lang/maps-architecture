@@ -1,9 +1,12 @@
 // M0-x-05: the stage-rung registry (§13.1 *Ladder coverage*; §5.2's two tables; C-0085, C-0109, C-0269): every §5.2
 // ladder appears in the table, built or with its milestone, and a table missing one fails; every rung of C-0085's list
 // M0 builds is a built row with its fixture; every later rung and every ladder of a stage M0 does not build carries the
-// milestone the item's brief gives it; the kernel ladders are M0-k-04's (merged, never re-listed).
+// milestone the item's brief gives it; the kernel ladders are M0-k-04's (merged, never re-listed). Hardening round S1
+// (notes row 1): every rung a registered stage declares (registerBase's StageDecl `ladder`) is a table row or a declared
+// extra, and a stage that declares a rung the table lacks fails the check.
 import { describe, expect, it } from 'vitest';
 import { checkLadderTable, KERNEL_LADDERS, LADDER_CONTROLS, LADDER_FIXTURES, ladderLeafOf, SECTION_5_2, STAGE_LADDERS, type LadderRung } from '@plat/testkit';
+import { DECLARED_RUNGS, declaredRungProblems, registeredRungs } from '../../src/ladders/declared.js';
 
 const FIXTURE_IDS = new Set(LADDER_FIXTURES.map((f) => f.id));
 
@@ -189,5 +192,36 @@ describe('the deferred rows (§4b; the item’s defers)', () => {
       ['S8', 'M1'],
       ['S10', 'M1'],
     ]);
+  });
+});
+
+describe('the stages’ own ladder declarations (registerBase; notes row 1)', () => {
+  const declared = registeredRungs();
+
+  it('the base stages declare their ladders: S3, S4, S5, S6 and S8 (S1 reports its river’s uses as §5.4 ladderUses)', () => {
+    expect([...new Set(declared.map((d) => d.stage))]).toEqual(['S3', 'S4', 'S5', 'S6', 'S8']);
+    expect(declared.length).toBe(Object.keys(DECLARED_RUNGS).length);
+  });
+
+  it('every declared (stage, class, rung) is a table row of that class or a declared extra with its reason; nothing stale', () => {
+    expect(declaredRungProblems()).toEqual([]);
+    // The two extras the stages declare beside §5.2's rungs: S3's gate re-route (C-0201 (6)) and S6's degenerate merge.
+    const extras = Object.entries(DECLARED_RUNGS).filter(([, t]) => 'extra' in t).map(([k]) => k);
+    expect(extras).toEqual(['S3 F-WALL reroute', 'S6 F-NUM degenerateFaceMerge']);
+    // Every mapped row is a row of the table; the built ones counted under a leaf a fixture forces.
+    for (const [key, t] of Object.entries(DECLARED_RUNGS)) {
+      if (!('rows' in t)) continue;
+      for (const [ladder, stage, code] of t.rows) expect([key, STAGE_LADDERS.some((r) => r.ladder === ladder && r.stage === stage && r.code === code)]).toEqual([key, true]);
+    }
+  });
+
+  it('a stage declaring a rung the table does not hold fails, named; so do a lost row, a blank extra and a stale mapping', () => {
+    const planted = [...declared, { stage: 'S3', failureClass: 'F-WALL', rung: 'gateShift' }];
+    expect(declaredRungProblems(planted)).toEqual(["S3 declares F-WALL 'gateShift', which is no table row and no declared extra"]);
+    const lost = STAGE_LADDERS.filter((r) => !(r.ladder === 'F-CUT' && r.code === 'antenna'));
+    expect(declaredRungProblems(declared, lost)).toEqual(["S8's F-CUT 'antennaSplit' maps to 'S8 F-CUT antenna', which the table does not hold"]);
+    expect(declaredRungProblems(declared, STAGE_LADDERS, { ...DECLARED_RUNGS, 'S3 F-WALL reroute': { extra: ' ' } })).toEqual(["S3's F-WALL 'reroute' is a declared extra with no reason"]);
+    expect(declaredRungProblems(declared, STAGE_LADDERS, { ...DECLARED_RUNGS, 'S8 F-CUT meanNormal': { rows: [['F-WALL', 'S3', 'drop']] } })).toEqual(["S8's F-CUT 'meanNormal' maps to a F-WALL row"]);
+    expect(declaredRungProblems(declared.filter((d) => d.stage !== 'S6'))).toEqual(["the mapping 'S6 F-WORK leftoverRule' is declared by no registered stage", "the mapping 'S6 F-NUM degenerateFaceMerge' is declared by no registered stage"]);
   });
 });
