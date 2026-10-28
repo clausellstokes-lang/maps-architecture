@@ -1,5 +1,7 @@
 # M1 scope inventory
 
+**Standing rule for M1 and every later milestone (the owner, 2026-10-28; J567 — THE MILESTONE EXIT RULE):** every piece `docs/COMPOUNDING-MAP-2026-10-27.md` classifies COMPOUNDS for a milestone is hardened to M0's bar (hardening rounds to an independent closing-check PASS; a contract's seam pinned by a contract test) inside that milestone, before the next one starts; ISOLATED pieces take the contract check and a queue row; the map's section 3 lists are the exit checklists, its section 5 gaps are on the lists of the milestones they fall in, and its section 8 states the rule in full.
+
 *Lane filler/m1-scope-inventory, 2026-10-05. Implementer-side, clean room. An inventory of what the design already says M1 contains; it adds no design (J156 (1)). Where this file and the design differ, the design governs. Machine-readable twin: `scope.json` (same numbering).*
 
 ## What was read
