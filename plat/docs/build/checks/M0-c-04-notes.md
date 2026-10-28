@@ -364,3 +364,282 @@ The round's own shift is ruled out by the NO-SHIFT probes in `checks/M0-c-04-c1.
     each N-54 (3)). So no citing line is shown lost, and the lists name more than the file held. Suggested handling: the
     session reads C-0354 (7)'s "N-45" as "N-54 (3)" (or the builder's next row corrects it). Note only. CONFIRMED (the
     grep and the count). PLAUSIBLE (that the pre-round file held no N-45 / N-55 line: inferred from the plan's count).
+
+## Hardening round S4 (lane `build/M0-c-04-fix-s4`, 2026-10-28) — the builder's row-by-row outcome
+
+The session's hardening round of the item (J237 (2), J238, J264 / N-58, J290, J263 Q1 / Q6) on the inventory's FIX-NOW
+rows (`checks/hardening-inventory.md` §3, entry 31), the queue row L31, Q66 / R-34 (the same guard) and the census row Q37
+merged in. The gate (M0-c-02 S5's landing, `check/M0-c-02-close-s5` LANDED 12:12) was read first: c-02's 'Hardening round
+S5' rows 47 (Q27, L31, M0-c-04:138 19) and 48 – 56. Choices row C-0449 names every row it closes; ledger row L-0702. The
+before image is the owns at the round's start: all 16 files hash equal to the landed record `M0-c-04.json` (lane
+`build/M0-c-04-consolidate-1`), kept in the lane's scratch. Every probe and mutant ran in the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-c-04-fix-s4/` (isolation proved: no link into the tree, the workspace
+packages resolving inside the mirror; removed at the end).
+
+28. **N-28 row by row: the outcome, its evidence and its mutant (the table in row 31).**
+    * **1 N-1 — PINNED.** `resettle.test.ts` "a node the new roads reach at exactly its cost is not lowered": a field
+      priced with the roads already in it (T a full recompute over the extended road set) while its road flags are the old
+      ones, so every relaxation from the new edges ties bit for bit (the case two equal branches make when one is priced
+      in): `lowered` is empty and T unchanged; then a road set added in two steps lowers, at the second, exactly the nodes
+      the second strictly improves. B05 (`<=` in the propagation) and B05s (`<=` in the seeding) killed.
+    * **2 N-2 — PINNED.** `checks.ts`' `violations` (growth.test seeds 1 – 3, the bar's 100 seeds): each S5b road's lattice
+      course ends at a rim node, and at the rim node its radial bearing from its destination meets (`rimAt`, written in
+      the test: the ray walked in one-spacing steps out of the frame, the nearest rim node) unless that route found none
+      and the nearest frame was taken — its `unserved` rung on the route `s5b:<k>/<pick>/out` recorded, the fallback named.
+      Probe A over CITY 1 – 100: 4 courses end off their bearing, each with its `/out` rung (seed 11 way:19, and three
+      way:21), and 0 off-bearing ends without one. M12 (every outer course to the least-cost rim) and N10 (x and y swapped)
+      killed.
+    * **3 N-3 — PINNED, each guard on its own fixture.** `guards.test.ts`: `roadFault` (file-level now; the barrel
+      unchanged) has one fixture per fault — `start`, `self` (a crossing and a fold-back), `obstacle` (a wall segment; one
+      beside the road is none), `way` (a standing way crossed off the junction, the first segment run along its own way, a
+      later segment touching the junction's way), `outline` (out and back across the north side; once but off the
+      destination; no outline test unwalled) — and `smoothestLawful` (the fallback loop lifted out of `courses`, the same
+      statements) takes level 0, falls back to 1 and to 2, and returns none with every level's fault. End to end:
+      `growth.test.ts` "a wall across every course" (stage 1's line replaced, for stage 3's S5b on the 900 ha frame, by a
+      ring 100 m inside the frame: every destination unserved `invalid`, its faults named, no road, the version kept), and
+      "a destination whose every course meets a standing way … (400 ha, seed 3)" — the frame's own `invalid`
+      (`faults: way ×4`), reached with no hand edit. C-0244 (6) is now a promise of `violations`: an S5b road meets the other
+      ways only at a T junction of one of the two roads. M14 (`roadFault` null), M15 (the outline-once rule off), FB (the
+      fallbacks off), M29 (the walls dropped from the obstacles), WX (the standing ways neither blocked nor faulted) killed
+      — WX by seed 2's junction pin (the courses move; on CITY seeds 1 – 3 no course crosses a way even unblocked, so the
+      C-0244 (6) promise was shown to fire by probe D: a way laid across seed 1's way:14 is named "way:14 meets way:99 at
+      (−134864, −73600), no junction of theirs"); B15 (the trace's core dropped) killed by span.test's refused-trace pin.
+      The bar's new C-0244 (6) promise found a pre-existing defect on CITY seed 79 (this round's first NEAR run): way:21's
+      first segment ended 20 cm off way:15, 1.9 m from its junction, so the insertion laid it along way:15 (one edge
+      carrying both `way` rows) and the vertex where it branched off carried no junction row. `roadFault` now reads a
+      meeting within the attraction distance as the insertion makes it (§3.6 step 2): a vertex of the road but its junction
+      within TOUCH_CM (26 cm) of a standing way or an earlier road of the batch, or such a way's vertex but the junction
+      within it of the road, is the fault `way`; the course then takes its next level or its next candidate. Seed 79's
+      way:21 now leaves way:15 at (−51 268, −62 521), level 0 — the round's one DECLARED SHIFT (row 29). Pinned by
+      `guards.test.ts` "'way': a vertex of the road within the attraction distance of a way, or a way's vertex within it of
+      the road" (NEARW killed) and by the bar on seed 79.
+    * **4 N-4 — B10 PINNED; APPROACH_NODES RECORDED defensive.** `span.test.ts` "a crossing 40 cm from a way vertex takes
+      that vertex as its gate": the dry approach edge crossed 40 cm before the west deck end takes that deck end (the way's
+      own vertex), nothing split at the crossing, the span whole (B10, the snap off, killed: the first red is P6's slot,
+      whose two crossings no longer take the deck end).
+      M16 (`APPROACH_NODES` 0) is killed only by seed 2's junction pin (N-20: the straight approach changes which
+      junction a course leaves), a change detector, not the mechanism's purpose: no tested seed needs the approach to keep
+      its wall crossing its road once (the first check's seeds 48, 53, 77 no longer do). It is kept as defensive in C-0449
+      (4): the road's last two steps into its gate run inward, so the wall, which may depart 40 m from the boundary,
+      crosses it once, at its gate.
+    * **5 N-5 — PINNED.** `growth.test.ts` "the frames whose stages take the other branches": the 900 ha frame seed 1's
+      stage 2 (walled, N 5, c 5) spawns none, its main gates the five crossings; the 240 ha frame seed 1's stage 3 is
+      capped, adds land, is not folded, runs S5b and reports `short` 6 (N 14 − c 8 − 0 picks). Every promise of
+      `violations` holds on both. M32 (`short` forced to 0) and NLC (N_k − c read as N_k) killed.
+    * **6 N-6 — PINNED.** `growth.test.ts` "T is one field": stage 2's `lowered` is exactly the count of nodes whose T fell
+      between the field stage 2 read and the one stage 3 read, every other node's T kept bit for bit, and a strict part of
+      the lattice. FULL (the stage's `lowered` the whole lattice, as a recompute would report it) killed.
+    * **7 N-7 — STATED (comment and choices text).** `s5aStage` keeps §4.1's declaration (declared); its batches — the gate
+      plan, the trace's and the strips' — are callback batches at S5's rank (C-0226 (2), C-0244 (8)), always safe (§4.1).
+      The registration takes each sub-stage's form as declared (`BASE_OP_FORMS` S5a 'declared', M0-x-04's table test) and
+      pins S5a's callback batches as its one exception (`run.test.ts`: `off` = ['S5a:callback'], C-0264 (1)); the registered
+      S5 stage is the combined 'callback'. So the declaration stays and the exception is the registration's: C-0449 (7).
+    * **8 N-8 — FIXED, PINNED; the rows kept below.** `bar.ts` keeps the rows as data (`BarRow`), prints them, carries them
+      in the bar's failure message, and appends them as one JSON line per seed to the file `PLAT_S5B_ROWS` names
+      (`writeBarRows`); `guards.test.ts` pins the writer (ROWS, the writer off, killed). The 100 rows of this round's NEAR
+      run are row 30.
+    * **9 N-9 — FIXED, PINNED, NO SHIFT.** S5b's c counts crossings: `crossingsThrough` (file-level) keeps a meeting of
+      `boundaryCrossings` only where the way passes from one side of the outline to the other — read 30 cm along the way
+      before and after it (half the distance to a neighbouring meeting of the same run when nearer), a meeting at a run's
+      end kept. `checks.ts`' `recountC` counts the same way with its own reading (`wayMeetings`: 5 cm along the way's own
+      edges, or its two edges at a vertex it meets the ring at). The trace's gates stay every meeting: a graze, if one
+      occurs, keeps its pin, so the wall meets the way there at a gate vertex and nowhere beside it; `violations` counts
+      such a pin beside max(N_k, c). `boundary.test.ts` "a way tangent to the outline at a vertex of its own, or touching a
+      corner from outside, is no crossing" and "every crossing is kept" (GRAZE, a graze kept, killed). Probe A: 0 grazes in
+      the 200 stage boundaries of CITY 1 – 100 (and on the probed frames), so no c, no N_k − c and no print moved (row 29).
+    * **10 N-10 — REPORTED (a contract between items).** The gate plan stays a batch that is always rejected. Planning
+      without a batch needs where the kernel's split puts each gate vertex before the strategy's trace, which reads the gate
+      points before its own batch opens (`trace.ts`: `withGates`, the pull, the smoothing, then `k.tx`), and only
+      `splitThrough`'s plan knows them (`planSplitThrough` takes an open transaction; §3.6's attraction and placement).
+      The three ways out are other items': a read-only split plan outside a batch (M0-a-05's insertion), a strategy that
+      computes its line inside its own batch from points a prelude hook returns (M0-c-02's `TraceOptions`; C-0285's note;
+      c-02 S5 built no such hook), or watchers that skip a marked planning batch (the bench's `watchedKernel`, the
+      pipeline's `watched`). This round tried the in-owns form — S5a opening one L1 batch, making the splits on its overlay
+      and handing the strategy a kernel whose one callback batch runs on that same overlay — and withdrew it before any
+      test: it moves the strategy's post-commit read-back (the gate read-back, `wallInPieces`) inside the batch, ahead of
+      the kernel's commit rows, so the planted S5a zero-area and collinear cells would be refused inside the batch instead
+      of committing and being rolled back — M0-x-06's pinned facts (`repins.test.ts`: `rolledBack` → `batchCommitted`
+      true; C-0278 (1)) — and the self-touching cell's words would change (PLAUSIBLE: reasoned from the code and the pins,
+      not run). The receipts' shift is the planning batch's: one refused S5 batch per walled stage k ≥ 2, its work spent
+      twice; nothing is written by it (the version kept, span.test's batch pin reads it). For the session.
+    * **11 N-11 — PINNED.** `span.test.ts` "two gates at one bridgehead are refused, named, nothing written": a 10 cm slot
+      from the north beside the west deck end (its two sides cross the way 50 and 40 cm before it, each taking that deck
+      end) and the span crossed at mid-span, whose bridgehead is the same deck end — refused `S5a: the gate vertices could
+      not be put on their ways: S5a: two gates at bridge:1's bridgehead (50000, 0) (N-54 (3))`, verbatim, the version and
+      the vertices kept, the span whole (X11, the guard off, killed).
+    * **12 N-12 — RECORDED defensive (C-0449 (12)).** (a) X09: the bridgehead gate's recomputed bearing is read by no
+      consumer at M0 (`baseEnceinte.trace` reads no `GateSite.bearingCdeg`, the gate record carries none); kept so a later
+      reader of the site's bearing reads the gate's own. (b) X08: the splits re-made in the trace's batch are what make each
+      gate a vertex of its way before the wall's insertion, and what the batch's `moved` check reads against the plan;
+      insertChain's own crossing vertex stands at the same point on every observed input, so the redundancy is a backstop,
+      kept. No code change.
+    * **13 N-13 — RECORDED (the precedence, C-0449 (13)), PINNED.** The way-vertex snap comes first: a crossing within
+      2 · TOUCH_CM of a deck end is that deck end, the way's own vertex, even when it lies just outside the outline as
+      given (the outline moves at most 52 cm to it; the span whole, the gate on land). Applying the span rule first would
+      move such a gate 20 m to the other deck end for a 20 cm difference; the design (§4.4 S5a *Trace* (2): the gates
+      pinned where the arterials cross the boundary) supports the nearer. `placeGateVertices`' comment states it;
+      `span.test.ts` "a crossing 20 cm from the far deck end gates at that deck end" (SPAN1, the span rule first, killed).
+    * **14 N-14 — FIXED, PINNED.** `withinTraceBatch` arms exactly one batch: a second batch through it, or a declared one,
+      is refused E_INVARIANT, writing nothing (`… opened batch 2 through S5a's seam, which arms exactly one callback batch
+      (C-0449 (14))`), so the splits and the proofs never run in a batch that is not the commit; and `traceStage` refuses
+      a trace that committed through other than its one armed batch. `span.test.ts` "the trace makes one callback batch
+      and the strips one, after the gate plan; nothing else is opened" pins the sequence a watching kernel sees: the plan
+      (refused 'S5a: the gate plan (a batch always rejected)'), the trace's commit, the strips' commit. EXTRA (M0-c-02's
+      trace opening a dry-run batch before its commit, mutated in the mirror) killed; ARM2 (the seam's strictness off)
+      survives as a backstop no honest input reaches (one batch each today). Not closed by N-10's hook: none was built.
+    * **16 N-16 — FIXED, PINNED.** `wetSetback` now proves every setback edge too: `wetPointOn` (file-level) finds a point
+      of the edge deeper than STRIP_WET_DEPTH_CM in a water ring read with its holes, by halving (a stretch of half-length h
+      about a point at depth d holds nothing deeper than d + h), to half a centimetre. `guards.test.ts`: an edge across a
+      water corner with both ends dry is found; a graze of the corner and an edge 1 cm inside the bank are dry, 3 cm is not;
+      an island hole is dry land (WPO, the halving off, killed). `proof.test.ts` withholds one water stop from the strip
+      stand-in (a `vi.mock` of `layStrips` filtering the given stops) while the body stays in the water set: with the
+      puddle's stop withheld — a triangle 15 m off the stage's south side reaching across the outer setback line between two
+      of its vertices — the strips' batch is refused "S5a's strips: a setback edge of enceinte:2 (…) → (…) crosses river:3
+      at (…)", no setback written (EDGE, the edge proof off, killed: the batch commits); with the pond's withheld, "a setback
+      vertex … lies in river:1".
+    * **20 N-20 — PINNED.** `growth.test.ts` "pins the junction each S5b road leaves on seed 2": the seven roads' way, the
+      way each leaves and the junction point there (read on the before image by probe A and on the tree: identical). M13b
+      (a ring node keeps its first candidate) killed.
+    * **23 N-23 — PINNED.** `growth.test.ts` "each S5b road's op carries its way's lineage key (§6.3)": a kernel watching
+      the S5 declared batches on the 900 ha frame seed 1 reads each road's `insertChain` op: index 0, lineage
+      `lineageHash({ arena, unit: lineageHash(TOWN_ROOT), stage: S5, epoch: 0, index: n, reroll: 0 })` for `way:n`. K04
+      (index + 1) killed.
+    * **24 N-24 — PINNED.** `stage1.test.ts` "with a river band given": a river band through the town at x 300 – 340 m
+      with a deck at y 0, laid on L0 by hand in each arena; `commitS3ThenStage1` with the water equals `commitS3Slice`
+      level digest for level digest, its water gates, strips and line, and its warnings (seeds 1 and 2). K11 (the water
+      dropped) and K13 (the warnings dropped) killed.
+    * **26 N-26 — DONE (comment).** The stray copy of `courses`' header above `interface Routing` is deleted.
+    * **M0-d-09:68 10 — EXPLAINED (text; C-0449 (d-09)).** At the test frame (`runBase` FLAT 400 ha, 12 ha walled, the
+      d-09 seeds 1 – 3, old and `{ S5: 1 }`), S5's town-root streams draw nothing that can move: S5c grows nothing (seeds 0,
+      proposals 0, streets 0 at every stage — no seed inside a boundary, §4.4 S5c; M0-c-05's to confirm), S5d prices what
+      stands, stage 3 spawns no primary (N 3 = c 3), and stage 2 spawns one (N 3 − c 2) whose pick is the candidate with
+      the largest angular gap — the score is the gap term (gap ÷ 18 000 to the nearest crossing) plus 0.05 · u, one
+      uniform u per candidate (`PICK_JITTER`), flat ground adding no slope term. On the d-09 seeds 1 – 3 the best
+      candidate's gap term leads the runner-up's by 0.068, 0.043 and 0.036: on seed 1 no draw can change the pick, and
+      on seeds 2 and 3 only a runner-up's uniform beating the best's by more than 0.87 or 0.73 can (about 1 % and 4 % of
+      draws for that one rival). The `{ S5: 1 }` pair therefore re-draws nothing at S5 on these seeds, and
+      S6 / S8 read an unchanged S5 (probe B: no stage root moved, 0 refusals, both runs). At CITY (seed 1) stage 3 spawns
+      six primaries among candidates within the jitter of each other after the first picks, so the reroll moves S5, S6 and
+      S8 — as d-09's note saw. A test-frame pair is no matching workload for S5; the frame needs more primaries than
+      crossings at a stage with more than one candidate near the best gap (a later fusion workload's choice, not S5's
+      defect).
+    * **L31 / Q66 / R-34 — FIXED (MAKE-IT-SUCCEED), PINNED.** `traceStage` no longer refuses `notBuilt('M1')` a trace that
+      crosses water while an earlier enceinte holds water gates: each water gate takes the lowest `gate:w<i>` no earlier
+      gate holds (C-0324 (3), c-02's `trace.ts`). `traceStep` hands no count on; `StageTraceOptions.earlierWaterGates` is
+      read by nothing and kept for the frozen API. `span.test.ts` "a stage-3 trace over the water after stage 2's water
+      gates commits with the lowest free ones, gate:w2 and gate:w3" (a river band across the frame: stage 2's two water
+      gates gate:w0 and gate:w1, stage 3's gate:w2 and gate:w3, every gate_end on one vertex each) (L31G, the guard
+      restored, killed: refused notBuilt('M1')). The guard fired on none of the census's runs before the round (stage 1's
+      trace was never counted), so its removal lowers no count there; it makes a lawful class succeed.
+    * **Q27 (c-04's half) — DONE, NO SHIFT.** `stageStops` no longer copies `stopsFromArena`'s water-gate reading: it gives
+      each main gate's stub along the trace's normal (this stage's rule) and a water stop for every water ring, and
+      `layStrips` merges them with the stops it reads (Q27): a read water-gate stop is dropped by its ring. The rings are
+      the faces' own (the water gates' among them), so the stops `layStrips` lays from are the same (row 29's prints and
+      census identical, span.test's water stages green).
+    * **Q37 (census) — confirmed resolved by M0-c-02 S5.** The three EP-01/S5a/coincident seeds commit on their first state
+      (`repins.test.ts`, RELATED green); this round's stops change nothing there (the strips of a stage with no water are
+      laid from the same stubs).
+    * **M0-c-04:138 19 N-19 (c-04's half) — DONE.** `span.test.ts`' chord pin matches c-02's stable tag: the detail ends
+      with `[water: loose-gate]` (`LOOSE_GATE_TAG`), its coordinates no longer matched.
+29. **N-29 the refusal census (J264 (4), N-58) and the shift, before → after.** The before image's sources in the lane
+    mirror against the round's, the same probes and seeds (probe C: S3 → S4 → S5a / S5b through the item's `grow`; probe
+    B: M0-x-06's `edgeChain` through S5 with the registered S5 — the base set — and `runBase` on the d-09 frame).
+    | family (registered) | before | after | the refusals left |
+    |---|---|---|---|
+    | the here-bar: CITY flat fixture seeds 1 – 100 (probe C) | 0 | **0** | — |
+    | the probed frames: 400 ha / 30 ha seeds 1 – 12, 900 ha / 90 ha seeds 1 – 6 (probe C) | 0 | **0** | — |
+    | the base set through S5: FLAT 1 – 3, RIVER 1 – 6, RIVER 900 ha 1 – 15, RIVER from the north 900 ha 1 – 6 (probe B) | 12 | **12** | every one F-WALL `E_SELF_INTERSECT` "the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's" — RIVER 3, 4 (S5), 5 (S3); 900 ha 3, 7, 10, 13 (S3), 9, 11 (S5); from the north 3, 5 (S3), 6 (S5): LAWFUL, REFUSE `notBuilt('M1')` (R-30's ruling); the S3 ones are stage 1's trace (M0-c-02's), the S5 ones stage 2's through M0-c-02's strategy |
+    | the d-09 test frame, `runBase` FLAT 400 ha / 12 ha seeds 1 – 3, old and `{ S5: 1 }` | 0 | **0** | — |
+    | L31's guard (`notBuilt('M1')`, R-34) on the above | 0 | **0** (removed) | — |
+
+    The census never rose. L31's refusal class is removed outright: no registered run reached it (stage 1's trace was
+    never counted, so it fired only for a third walled stage after a second with water gates, which no M0 fixture has);
+    span.test's two-stage band now commits where it would have refused.
+    * **DECLARED SHIFT — CITY seed 79's way:21 only (N-3's near rule).** Probe C over CITY 1 – 100: 99 seeds byte-identical
+      (levels L0 – L4, version, stages, ways, junctions, T, the route report); seed 79's stage-3 road way:21 leaves way:15
+      at (−51 268, −62 521) instead of (−37 726, −82 321) (its old course laid along way:15 for 1.9 m), level 0, so L1 – L4,
+      the stages, the ways, T re-settled by it and the route report move there; the version (9), the junction records and
+      every other road are unchanged (the after lines' sha b13ee6f0…). The 400 ha
+      and 900 ha frames: identical. The base set: identical (probe B's 33 lines, d-09's included, before = after). No golden of the item's names seed 79; seed 2's junction pin
+      (N-20) and every other pin read the same. Everything else in the round — L31, N-9's c, the seams, the edge proof, the
+      stops — moves nothing: before the near rule the three probe-C families were byte-identical (sha 888fabd2…).
+30. **N-30 the bar's §13.2 rows (N-8), this round's NEAR run (`PLAT_S5B_ROWS`).** Per CITY seed: the primary length per
+    km² of the town's land (descriptive, no band at M0) and the gates on primaries (1 by the gate rule).
+    | seed | km/km² | gates | seed | km/km² | gates | seed | km/km² | gates | seed | km/km² | gates |
+    |---|---|---|---|---|---|---|---|---|---|---|---|
+    | 1 | 4.032 | 15 | 26 | 4.195 | 15 | 51 | 4.185 | 15 | 76 | 4.015 | 15 |
+    | 2 | 3.878 | 15 | 27 | 4.063 | 15 | 52 | 3.965 | 15 | 77 | 4.026 | 15 |
+    | 3 | 4.187 | 15 | 28 | 3.948 | 15 | 53 | 3.823 | 15 | 78 | 4.124 | 15 |
+    | 4 | 4.139 | 15 | 29 | 3.917 | 15 | 54 | 4.099 | 15 | 79 | 4.077 | 15 |
+    | 5 | 4.041 | 15 | 30 | 4.167 | 15 | 55 | 4.150 | 15 | 80 | 3.905 | 15 |
+    | 6 | 3.946 | 15 | 31 | 4.159 | 15 | 56 | 4.046 | 15 | 81 | 4.139 | 15 |
+    | 7 | 4.026 | 15 | 32 | 4.012 | 15 | 57 | 4.006 | 15 | 82 | 3.896 | 15 |
+    | 8 | 4.083 | 15 | 33 | 4.217 | 15 | 58 | 3.969 | 15 | 83 | 4.172 | 15 |
+    | 9 | 3.974 | 15 | 34 | 3.992 | 15 | 59 | 3.899 | 15 | 84 | 4.009 | 15 |
+    | 10 | 4.078 | 15 | 35 | 4.073 | 15 | 60 | 3.968 | 15 | 85 | 3.943 | 15 |
+    | 11 | 3.846 | 15 | 36 | 4.031 | 15 | 61 | 4.097 | 15 | 86 | 3.974 | 15 |
+    | 12 | 3.925 | 15 | 37 | 3.921 | 15 | 62 | 4.080 | 15 | 87 | 4.015 | 15 |
+    | 13 | 4.049 | 15 | 38 | 3.948 | 15 | 63 | 3.934 | 15 | 88 | 4.104 | 15 |
+    | 14 | 3.962 | 15 | 39 | 3.752 | 15 | 64 | 4.038 | 15 | 89 | 4.055 | 15 |
+    | 15 | 4.064 | 15 | 40 | 4.201 | 15 | 65 | 3.949 | 15 | 90 | 4.126 | 15 |
+    | 16 | 4.080 | 15 | 41 | 3.895 | 15 | 66 | 4.008 | 15 | 91 | 4.038 | 15 |
+    | 17 | 4.085 | 15 | 42 | 4.028 | 15 | 67 | 4.040 | 15 | 92 | 4.179 | 15 |
+    | 18 | 3.881 | 15 | 43 | 4.016 | 15 | 68 | 4.053 | 15 | 93 | 3.933 | 15 |
+    | 19 | 3.883 | 15 | 44 | 3.985 | 15 | 69 | 4.043 | 15 | 94 | 4.071 | 15 |
+    | 20 | 3.945 | 15 | 45 | 3.959 | 15 | 70 | 3.981 | 15 | 95 | 4.163 | 15 |
+    | 21 | 4.060 | 15 | 46 | 3.981 | 15 | 71 | 4.267 | 15 | 96 | 3.806 | 15 |
+    | 22 | 3.977 | 15 | 47 | 3.895 | 15 | 72 | 3.988 | 15 | 97 | 4.117 | 15 |
+    | 23 | 4.030 | 15 | 48 | 3.879 | 15 | 73 | 4.056 | 15 | 98 | 3.981 | 15 |
+    | 24 | 4.113 | 15 | 49 | 4.014 | 15 | 74 | 3.950 | 15 | 99 | 3.971 | 15 |
+    | 25 | 4.058 | 15 | 50 | 4.032 | 15 | 75 | 4.036 | 15 | 100 | 3.917 | 15 |
+    All 100 seeds: every gate on a primary (15 main gates each); the length density 3.752 – 4.267 km/km², mean 4.020.
+    Seed 79 reads 4.077 (3.981 before the round: its way:21, row 29's shift); every other row as before the round.
+31. **N-31 the round's mutant table (J183; the lane mirror, each on its pin files with `--bail=1`, `--maxWorkers=1`,
+    restored by copy and `cmp -s` before the next, every one `restored=True`).** 30 targeted mutants, run on the round's
+    final sources: 29 killed, 1 survivor judged (ARM2, a backstop).
+    | id | row | file | the mutation | pin files | result (the first red test) |
+    |---|---|---|---|---|---|
+    | B05 | N-1 | boundary.ts | `resettleT`'s propagation `cand <= dist[v]` | resettle | KILLED — "a node the new roads reach at exactly its cost is not lowered: lowered lists strict falls only" |
+    | B05s | N-1 | boundary.ts | `resettleT`'s seeding `cand <= dist[v]` | resettle | KILLED — "a node the new roads reach at exactly its cost is not lowered: lowered lists strict falls only" |
+    | M12 | N-2 | mainRoads.ts | every outer course to the least-cost rim (`ladder(rims)`) | growth | KILLED — "every promise holds on seeds 1 – 3 (nesting, N_k − c, gates on their boundary, walls, roads, T)" |
+    | N10 | N-2 | mainRoads.ts | `rimAtBearing` with x and y swapped | growth | KILLED — "every promise holds on seeds 1 – 3 (nesting, N_k − c, gates on their boundary, walls, roads, T)" |
+    | M14 | N-3 | mainRoads.ts | `roadFault` always null | guards | KILLED — "'start': the polyline does not begin at its junction" |
+    | M15 | N-3 | mainRoads.ts | the outline-once rule off | guards | KILLED — "'outline': a walled stage's road crosses its outline exactly once, at its destination" |
+    | FB | N-3 | mainRoads.ts | `smoothestLawful` tries the smoothed course only | guards | KILLED — "falls back to the simplified course (level 1), then to a lattice course (level 2)" |
+    | NEARW | N-3 | mainRoads.ts | the attraction-distance meeting off | guards | KILLED — "'way': a vertex of the road within the attraction distance of a way, or a way's vertex within it of the" |
+    | M29 | N-3 | mainRoads.ts | the walls dropped from a road's obstacles | growth | KILLED — "a wall across every course: every destination unserved invalid, its faults named, no road committed" |
+    | B15 | N-3 | boundary.ts | the trace's core dropped | span | KILLED — "a refused trace leaves the arena as it found it: no gate split, the span whole, the version unchanged" |
+    | WX | N-3 | mainRoads.ts | the standing ways neither blocked for the router nor faulted | growth | KILLED — "pins the junction each S5b road leaves on seed 2" |
+    | B10 | N-4 | boundary.ts | the gate's snap to its way's vertex off | span | KILLED — "two gates at one bridgehead are refused, named, nothing written" |
+    | M16 | N-4 | mainRoads.ts | `APPROACH_NODES` 0 | the six non-bar files | KILLED — "pins the junction each S5b road leaves on seed 2" |
+    | M32 | N-5 | mainRoads.ts | `short` forced to 0 | growth | KILLED — "a capped stage that still adds land runs S5b and reports the destinations no candidate was left for (240 ha, seed" |
+    | NLC | N-5 | mainRoads.ts | N_k − c read as N_k | growth | KILLED — "every promise holds on seeds 1 – 3 (nesting, N_k − c, gates on their boundary, walls, roads, T)" |
+    | FULL | N-6 | mainRoads.ts | a stage's `lowered` the whole lattice (a recompute's reading) | growth | KILLED — "T is one field: stage 2 reads S3's field itself, stage 3 the field S5b re-settled, never a new one" |
+    | ROWS | N-8 | test bar.ts | `writeBarRows` writes nothing | guards | KILLED — "writes one JSON line per seed to the file PLAT_S5B_ROWS names, nothing when none is named" |
+    | GRAZE | N-9 | boundary.ts | `crossingsThrough` keeps a graze | boundary | KILLED — "a way tangent to the outline at a vertex of its own, or touching a corner from outside, is no" |
+    | X11 | N-11 | boundary.ts | the two-gates-at-one-bridgehead guard off | span | KILLED — "two gates at one bridgehead are refused, named, nothing written" |
+    | SPAN1 | N-13 | boundary.ts | the span rule before the vertex snap | span | KILLED — "a crossing 20 cm from the far deck end gates at that deck end (the vertex snap first), the span whole" |
+    | EXTRA | N-14 | enceinte/trace.ts (M0-c-02's; mirror only) | the strategy opens a dry-run batch before its commit | span | KILLED — "the gate is the bridgehead on the stage's side, the span stays one edge between its deck ends" |
+    | ARM2 | N-14 | boundary.ts | the seam's one-batch rule off (every batch armed) | span, proof | SURVIVED — a backstop: no honest input opens a second batch through the seam (one each today, pinned by span.test's batch sequence) |
+    | EDGE | N-16 | boundary.ts | `wetSetback`'s edge proof off | proof | KILLED — "the puddle's stop withheld: a setback edge crossing it between two dry vertices refuses the strips' batch, nothing written" |
+    | WPO | N-16 | boundary.ts | `wetPointOn` tests the ends only (no halving) | guards | KILLED — "finds the edge across a water corner whose two ends are dry" |
+    | M13b | N-20 | mainRoads.ts | a ring node keeps its first candidate, not the nearer | growth | KILLED — "pins the junction each S5b road leaves on seed 2" |
+    | K04 | N-23 | mainRoads.ts | the lineage index + 1 | growth | KILLED — "each S5b road's op carries its way's lineage key (§6.3)" |
+    | K11 | N-24 | boundary.ts | `traceStage1` hands no water | stage1 | KILLED — "with a river band given: the same arena, the same water gates and strips, the same warnings" |
+    | K13 | N-24 | boundary.ts | `traceStage1` drops its warnings | stage1 | KILLED — "with a river band given: the same arena, the same water gates and strips, the same warnings" |
+    | TAG | N-19 | enceinte/trace.ts (M0-c-02's; mirror only) | the chord refusal without `[water: loose-gate]` | span | KILLED — "a trace whose wall crosses a span over the water is refused in its own batch by the chord proof, nothing written" |
+    | L31G | L31 | boundary.ts | the `earlierWaterGates` guard restored | span | KILLED — "a stage-3 trace over the water after stage 2's water gates commits with the lowest free ones, gate:w2 and gate:w3" |
+32. **N-32 the gates (W = 1, `tools/test_budget.py`).** GATES
+33. **N-33 new findings of this round (for the session).**
+    * The near rule's cause is general: any S5b course whose vertex stands within 26 cm of a standing way meets it where
+      the insertion lays it; CITY 1 – 100 had one (seed 79). Obstacles (walls, the plaza, the water) are still tested by
+      exact meeting in `roadFault`; the bar's "meets no wall" promise holds on the 100 seeds, so no case is known — a
+      hardening KI if one appears (the same reading would apply).
+    * `flatFixture` 400 ha / 12 ha walled (the layout fixture, not the bench's `runBase` frame): seeds 2, 4, 5 leave stage 2
+      and stage 3 one destination `short` on an uncapped stage (no approachable candidate: the ring between the previous
+      wall's clearance and the boundary holds none) — fail-safe and reported, a quality shortfall of small walled towns,
+      outside the registered families; the bar would flag it there.
+    * N-10's planning batch (row 28, 10): for the session's ruling — the cleanest seam is a read-only split plan from the
+      kernel or a strategy that traces inside its batch; either is another item's.
+    * c-02's N-56 (1): every arena way read as an extra stop takes the widest given way stop's half-width; `stageStops`
+      gives no way's own width (the kernel's spine widths would be the source) — fail-safe, left as c-02 recorded it.
