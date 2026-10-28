@@ -20,11 +20,10 @@
 //   river stays whole, reported (C-0229 (4)).
 //
 // Parts below SLIVER_AREA_CM2 are a boolean's slivers, dropped; a part keeps the body's course points that lie at least
-// SEED_DEPTH_CM inside it (its seeds; C-0229 (3)), or one interior point that deep where no course point is, and a part
-// with no point that deep is dropped and reported in `fallbacks` (`PART_DROPPED`; note 4).
+// SEED_DEPTH_CM inside it (its seeds), and a part with none is dropped too (C-0229 (3)).
 //
 // File-level (shared by path inside `@plat/site`, not part of the package's API; J263 Q1's convention): `KERNEL_RING`
-// and `PART_DROPPED` (the stage reads them back), `provedRings`, `fastRings`, `chainOf`, `simplifyChain`, `SIMPLIFY_CM`.
+// (the stage reads it back), `provedRings`, `fastRings`, `chainOf`, `simplifyChain`, `SIMPLIFY_CM`.
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
 import type { CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
@@ -115,8 +114,8 @@ function unit(a: XY, b: XY): XY | null {
 
 /**
  * The chain a body is buffered along, with a half-width per point: its course, prolonged past the arena's edge where
- * it ends on it (by its width plus a metre, longer at a grazing angle — `prolonged` — so the clip shapes the end), and
- * a joined body prolonged to the nearest point of the course it flows into.
+ * it ends on it (by its width plus a metre, so the clip shapes the end), and a joined body prolonged to the nearest
+ * point of the course it flows into.
  */
 export function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBody[]): { pts: LatticePoint[]; half: number[]; startOut: boolean; endOut: boolean; joined: boolean } | null {
   const course = body.course ?? [];
@@ -130,14 +129,16 @@ export function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBo
   const first = unit(course[1], course[0]);
   if (first !== null && onRing(reach, course[0])) {
     startOut = true;
-    pts.unshift(prolonged(course[0], first, widths[0] + 100, half[0], reach));
+    const ext = widths[0] + 100;
+    pts.unshift(lp({ x: course[0].x + first.x * ext, y: course[0].y + first.y * ext }));
     half.unshift(half[0]);
   }
   const n = course.length;
   const lastDir = unit(course[n - 2], course[n - 1]);
   if (lastDir !== null && onRing(reach, course[n - 1])) {
     endOut = true;
-    pts.push(prolonged(course[n - 1], lastDir, widths[n - 1] + 100, half[half.length - 1], reach));
+    const ext = widths[n - 1] + 100;
+    pts.push(lp({ x: course[n - 1].x + lastDir.x * ext, y: course[n - 1].y + lastDir.y * ext }));
     half.push(half[half.length - 1]);
   } else if (body.flowTo !== undefined) {
     // The nearest course point of the earlier bodies (the joined river, or the estuary split from it), when it lies
@@ -157,27 +158,6 @@ export function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBo
   }
   return { pts, half, startOut, endOut, joined };
 }
-
-/**
- * A chain's end prolonged out of the arena from its course point `at` on the edge along the unit `dir` (Q45): by `ext`
- * (its width plus a metre), doubled — at most PROLONG_DOUBLINGS times — until both offset points of the prolonged end,
- * `h` either side, lie outside the arena. A course leaving at a grazing angle then ends past the edge too, so the clip,
- * never the end's own cut, shapes its ring there (a reach reaching the edge shares the outer ring, §4.1's S1 row); where
- * the first length suffices the end is the one it always was.
- */
-function prolonged(at: XY, dir: XY, ext0: number, h: number, reach: Reach): LatticePoint {
-  let ext = ext0;
-  for (let i = 0; i < PROLONG_DOUBLINGS; i += 1) {
-    const x = at.x + dir.x * ext;
-    const y = at.y + dir.y * ext;
-    if (ringGap(reach, { x: x - dir.y * h, y: y + dir.x * h }) < 0 && ringGap(reach, { x: x + dir.y * h, y: y - dir.x * h }) < 0) break;
-    ext *= 2;
-  }
-  return lp({ x: at.x + dir.x * ext, y: at.y + dir.y * ext });
-}
-
-/** The prolongation's doublings at most (its length at most 64 times the first). */
-const PROLONG_DOUBLINGS = 6;
 
 /** A joined body is prolonged to the river it joins only from this near (cm): beside it, never across land. */
 const JOIN_REACH_CM = 10_000;
@@ -259,17 +239,11 @@ function onBoundary(ring: readonly XY[], q: XY): boolean {
   return ringsDist2([ring], q) === 0;
 }
 
-/**
- * A body's parts from its rings: grouped outer and holes, each part keeping its seeds — the course points ≥ SEED_DEPTH_CM
- * inside, or, where none is, one interior point that deep (`interiorSeed`; note 4 of checks/M0-e-03-notes.md). A part
- * with no point that deep anywhere (narrower than twice SEED_DEPTH_CM throughout: under the insertion's fidelity, a
- * sliver by its width) is dropped and returned in `lost` with its area, for the report.
- */
-function partsWithSeeds(body: WaterBody, rings: readonly Ring[]): { parts: WaterPart[]; lost: number[] } {
+/** A body's parts from its rings: grouped outer and holes, each part keeping its seeds (the course points ≥ SEED_DEPTH_CM inside). */
+function partsWithSeeds(body: WaterBody, rings: readonly Ring[]): WaterPart[] {
   const course = body.course ?? [];
   const depth2 = SEED_DEPTH_CM * SEED_DEPTH_CM;
   const parts: WaterPart[] = [];
-  const lost: number[] = [];
   for (const part of partsOf(rings)) {
     const seeds: LatticePoint[] = [];
     for (const q of course) {
@@ -277,48 +251,10 @@ function partsWithSeeds(body: WaterBody, rings: readonly Ring[]): { parts: Water
       if (ringsDist2(part, q) < depth2) continue;
       seeds.push(lp(q));
     }
-    if (seeds.length === 0) {
-      const q = interiorSeed(part);
-      if (q !== null) seeds.push(q);
-    }
     if (seeds.length > 0) parts.push({ rings: part, seeds });
-    else {
-      let a2 = 0;
-      for (const r of part) a2 += area2(r);
-      lost.push(Math.abs(a2) * 0.5);
-    }
   }
-  return { parts, lost };
+  return parts;
 }
-
-/**
- * A lattice point SEED_DEPTH_CM inside a part (its outer ring with its holes) when no course point is: from each outer
- * segment's midpoint in ring order, along the segment's inward (left) normal, at SEED_DEPTH_CM + 1 cm and then twice,
- * four and eight times as far — the first such point inside the part and that far from every ring; null when there is
- * none.
- */
-function interiorSeed(part: readonly Ring[]): LatticePoint | null {
-  const outer = part[0];
-  const n = outer.length;
-  const depth2 = SEED_DEPTH_CM * SEED_DEPTH_CM;
-  for (let i = 0; i < n; i += 1) {
-    const a = outer[i];
-    const b = outer[i + 1 === n ? 0 : i + 1];
-    const u = unit(a, b);
-    if (u === null) continue;
-    for (let d = SEED_DEPTH_CM + 1, k = 0; k < 4; d *= 2, k += 1) {
-      const q = lp({ x: (a.x + b.x) * 0.5 - u.y * d, y: (a.y + b.y) * 0.5 + u.x * d });
-      if (insideRings(part, q) && ringsDist2(part, q) >= depth2) return q;
-    }
-  }
-  return null;
-}
-
-/**
- * The `fallbacks` text that opens a part dropped with no seed (note 4), its area following: the stage tells such an entry
- * from a fast ring's refusal by it. File-level (see the header).
- */
-export const PART_DROPPED = `a part with no point ${String(SEED_DEPTH_CM)} cm inside, dropped: `;
 
 /** A ring with point q inserted on segment `seg` (or that vertex's index when q is one of its ends): the new ring and q's index. */
 function withVertex(ring: readonly LatticePoint[], seg: number, q: LatticePoint): { ring: LatticePoint[]; at: number } {
@@ -422,13 +358,11 @@ export function waterPolygons(
   const earlier: WaterBody[] = [];
   const split = splitEstuary(bodies, reach, opts.mouth);
   const keep = (body: WaterBody, rings: readonly Ring[]): boolean => {
-    const { parts, lost } = partsWithSeeds(body, rings);
+    const parts = partsWithSeeds(body, rings);
     if (parts.length === 0) {
       dropped.push({ id: body.id, reason: 'empty' });
       return false;
     }
-    // a part lost beside parts kept is reported, never silent (note 4): its area in m², rounded
-    for (const a of lost) fallbacks.push({ id: body.id, why: `${PART_DROPPED}${String(Math.round(a * 0.0001))} m²` });
     reaches.push({ body, parts });
     covered = [...covered, ...parts.flatMap((p) => p.rings)];
     return true;
@@ -440,7 +374,6 @@ export function waterPolygons(
       // the river and its estuary, cut from one ring
       bi += 1;
       const original = bodies.find((b) => b.id === body.id) as WaterBody;
-      const fallbacksBefore = fallbacks.length;
       const pair = opts.slowOnly === true ? 'slow only' : estuaryPair(body, next, reach, earlier, covered);
       if (typeof pair !== 'string') {
         earlier.push(body, next);
@@ -448,7 +381,6 @@ export function waterPolygons(
         if (keep(body, pair.river) && keep(next, pair.estuary)) continue;
         // a side without a seed: keep the river whole instead
         reaches.length = before;
-        fallbacks.length = fallbacksBefore;
         const others = dropped.filter((d) => d.id !== body.id && d.id !== next.id);
         dropped.length = 0;
         dropped.push(...others);
