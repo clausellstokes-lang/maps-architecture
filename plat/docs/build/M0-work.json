@@ -1208,7 +1208,10 @@
    "estHours": "7–9",
    "owns": [
     "plat/packages/kernel/src/tx/",
-    "plat/packages/kernel/test/tx/"
+    "plat/packages/kernel/test/tx/",
+    "plat/packages/kernel/src/faces/common.ts",
+    "plat/packages/kernel/src/index/spatial.ts",
+    "plat/packages/kernel/src/arr/kerb.ts"
    ],
    "sections": [
     "§3.3 (KernelTx, BatchScope, CommitRecord; Expectations; One level per transaction; Kept content; A batch's faces; Two op forms; No output depends on slot numbers; Work limits; The commit record)",
