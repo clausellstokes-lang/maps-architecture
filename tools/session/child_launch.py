@@ -59,6 +59,7 @@ def main():
     ap.add_argument('--lane', default='default', choices=['default', 'flow', 'consolidate'])
     ap.add_argument('--fromdisk', default='no', choices=['yes', 'no'])
     ap.add_argument('--check-model', default='opus', choices=['opus', 'fable'])
+    ap.add_argument('--check-effort', default='xhigh', choices=['high', 'xhigh', 'max'])  # J624: the opus check seat one step up
     ap.add_argument('--build-model', default='opus', choices=['opus', 'sonnet'])
     ap.add_argument('--extra-setup', default='', help='a setup addition after the step-1 overlay (e.g. a file restored from the design branch)')
     ap.add_argument('--handback-notes', default='machine id, the fitted args, any restart or relaunch, every REPORTED row, whether landed:verify printed ok')
@@ -75,7 +76,7 @@ def main():
     seats = {
         'build': {'model': a.build_model, 'effort': 'low' if a.build_model == 'sonnet' else 'high'},
         'fix': {'model': 'opus', 'effort': 'high'},
-        'check': {'model': a.check_model, 'effort': 'high'},
+        'check': {'model': a.check_model, 'effort': a.check_effort},
         'recheck': {'model': 'opus', 'effort': 'medium'},
     }
     lane_arg = 'default (omit the "lane" key in the Workflow args)' if a.lane == 'default' else f'{a.lane} (pass "lane": "{a.lane}" in the Workflow args)'
@@ -106,7 +107,7 @@ FROM = {a.from_}
 LANE = {lane_arg}
 BRIEF = {brief}
 FROMDISK = {fromdisk}
-SEATS = {json.dumps(seats)}  (J390 / J394)
+SEATS = {json.dumps(seats)}  (J390 / J394 / J624)
 BUILDLANE / CHECKLANE = {buildlane} / {checklane}.{old_check} Before launching, echo the rendered brief's two lane keys and confirm they equal these.
 VERDICT = {verdict}
 STATE = {a.state} The spec entry {a.id} {a.tag.upper()} in workflows/lane-prompts/session-fix-cloud/specs.json is binding (its "session" clause carries the session's rulings for the round; read it whole in the rendered brief). maxRounds 3.
