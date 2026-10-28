@@ -18,8 +18,9 @@
 //   S8  M0-b-03's `s8Stage` over S6's districts with their pass-1 values.
 // Each registered stage keeps its item's declaration (id, op form, ladders, laws, invariants, budget, batch scope,
 // lineage unit) and declares the data keys it reads and writes, so Kahn's sort over the set gives §4.1's drawn order
-// S1, S3, S4, S5, S6, S8 (`BASE_ORDER`); the op form of every sub-stage is §4.1's (`BASE_OP_FORMS`). Every stage reaches
-// the arena through the runner's façade, wrapped so each batch's op form is observed (`BaseBatch`).
+// S1, S3, S4, S5, S6, S8 (`BASE_ORDER`, asserted by `registerBase`); the op form of every sub-stage is §4.1's
+// (`BASE_OP_FORMS`). Every stage reaches the arena through the runner's façade, wrapped so each batch's op form is
+// observed (`BaseBatch`).
 //
 // `runBase(blueprint, seed, scope)` is the integrated runner entry the harnesses call (C-0077): a fresh registry with
 // the base registered, the ground arena over the blueprint's frame, M0-x-02's `run`. M0 builds the flat fixture and its
@@ -48,6 +49,8 @@ import { s8Stage, type S8District, type S8Input } from '../infill/stage.js';
 import { insideRing } from '../siting/geom.js';
 import { s3Slice } from '../siting/slice.js';
 import type { DeckSegment, S3Slice, Site, WaterPlan } from '../siting/types.js';
+import { isS1LandOwner } from '../districts/faces.js';
+import { kahn, RegistrationError } from './order.js';
 import { createRegistry, register, type ModelView, type PipelineContext, type PipelineStage, type StrategyRegistry } from './registry.js';
 import { run, type RunBlueprint, type RunOptions } from './runner.js';
 import type { GenerationReport } from './report.js';
@@ -652,7 +655,11 @@ export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineConte
   });
 }
 
-/** The warning S6's refusal carries when S5's land holds no claimable face (C-0264 (9)): the report keeps the cause. */
+/**
+ * The warning S6's refusal carries when S5's land holds no claimable face (C-0264 (9)): the report keeps the cause. A run
+ * whose S6 claimed land but left some under S5's last boundary unclaimed commits and counts it here, once per L1 face
+ * left (the soft check, C-0443 (4)).
+ */
 export const W_LAND_UNCLAIMED = 'W_LAND_UNCLAIMED';
 
 /** The owners of the live L1 faces whose centroid lies inside `ring` and which name an S1 land component (`land:<n>`). */
@@ -668,6 +675,68 @@ function landOwnersInside(p: Plat, ring: readonly LatticePoint[]): string[] {
     if (r.length > 0 && insideRing(ring, r[0])) out.add(id);
   }
   return [...out].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
+/**
+ * A point strictly inside L1 face `f`, holes counted (even-odd over all its rings): on each horizontal line halfway
+ * between two consecutive distinct vertex heights, the midpoint of the widest interval the rings cut — the reading of
+ * the kernel's `interiorPoint` (a face's outer ring alone would put a holed face's point in its hole). Null for a face
+ * with no interval.
+ */
+function insidePoint(p: Plat, f: number): { x: number; y: number } | null {
+  const rings = faceRings(p, 1, f);
+  const ys = [...new Set(rings.flatMap((r) => r.map((q) => q.y)))].sort((a, b) => a - b);
+  let best: { x: number; y: number } | null = null;
+  let width = 0;
+  for (let k = 0; k + 1 < ys.length; k += 1) {
+    const qy = (ys[k] + ys[k + 1]) * 0.5;
+    const xs: number[] = [];
+    for (const r of rings) {
+      for (let i = 0; i < r.length; i += 1) {
+        const a = r[i];
+        const b = r[i + 1 === r.length ? 0 : i + 1];
+        if (a.y < qy === b.y < qy) continue;
+        const t = ratio(qy - a.y, b.y - a.y, 'length');
+        if (t.ok) xs.push(a.x + t.value * (b.x - a.x));
+      }
+    }
+    xs.sort((a, b) => a - b);
+    for (let i = 0; i + 1 < xs.length; i += 2) {
+      if (xs[i + 1] - xs[i] > width) {
+        width = xs[i + 1] - xs[i];
+        best = { x: (xs[i] + xs[i + 1]) * 0.5, y: qy };
+      }
+    }
+  }
+  return best;
+}
+
+/**
+ * The L1 land faces under S5's last boundary that S6 left unclaimed (x-04 note 8; C-0443 (4)): live, no water (the face
+ * or its L0 parent a water body's), owned by no one or still by an S1 land component (`land:<n>`), with a point inside
+ * the boundary. Every other owner — a reservation, a wall strip, a district — is land S6 took or keeps by rule, so the
+ * count is the land under the boundary, less the water, the reservations and the strips, that no district holds. The
+ * boundary lies inside S6's perimeter, so on every lawful run it is 0.
+ */
+function landLeftUnder(p: Plat, boundary: readonly LatticePoint[], water: WaterSet): number {
+  const bodies = new Set<number>();
+  for (const b of water.bodies) {
+    const h = handleOf(p, b.id);
+    if (h >= 0) bodies.add(h);
+  }
+  const F1 = p.faces[1];
+  const F0 = p.faces[0];
+  let left = 0;
+  for (let f = 0; f < p.slots.face[1].top; f += 1) {
+    if (!isFaceLive(p, 1, f)) continue;
+    const h = F1.owner[f];
+    if (h >= 0 && (bodies.has(h) || !isS1LandOwner(idOf(p, h)))) continue;
+    const parent = F1.parent[f];
+    if (parent >= 0 && bodies.has(F0.owner[parent])) continue;
+    const q = insidePoint(p, f);
+    if (q !== null && insideRing(boundary, q)) left += 1;
+  }
+  return left;
 }
 
 function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, unknown>> {
@@ -705,6 +774,11 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
         ctx.report.warning(W_LAND_UNCLAIMED);
         return err('E_INVARIANT', `S6: no claimable land inside the perimeter of S5's last boundary${owners.length === 0 ? '' : ` — its L1 faces are owned by ${owners.join(', ')} (S1's land components, C-0229 (3)), and S6 claims only unowned faces (C-0245 (2))`} (C-0264 (9))`);
       }
+      // The soft check (x-04 note 8; C-0443 (4)): S6's land holds all the land under S5's last boundary less the water,
+      // the reservations and the strips. A part left unclaimed fails safe — the districts S6 made stand — and is
+      // counted, one W_LAND_UNCLAIMED per face left, never silent.
+      const left = landLeftUnder(k.plat(GROUND), s6in.value.boundary, input.water);
+      if (left > 0) ctx.report.warning(W_LAND_UNCLAIMED, left);
       // The second half (§4.5; C-0255 (12)): pass 1 after typing, over the arena S6 left.
       const p = k.plat(GROUND);
       const site = input.slice.site;
@@ -733,7 +807,9 @@ interface S8In {
 
 /**
  * A district's pass-1 value of a field (C-0264 (6)): the mean of its coarse faces' stored values weighted by their
- * cells; the plain mean of its faces' values when none holds a cell centre.
+ * cells; the plain mean of its faces' values when none holds a cell centre. A district that owns no face of the field
+ * has no value: a RangeError (the base's S8 refuses such an input `E_INVARIANT` before it reads a value, C-0443 (3)) —
+ * never the field's value at some other point.
  */
 export function districtValue(field: ScalarField, district: Id): number {
   let cells = 0;
@@ -752,7 +828,20 @@ export function districtValue(field: ScalarField, district: Id): number {
     if (r.ok) return r.value;
   }
   const r = ratio(plain, n, 'count');
-  return r.ok ? r.value : field.valueAt({ x: 0, y: 0 });
+  if (!r.ok) throw new RangeError(`districtValue: the district ${district} owns no face of the ${field.field} field (C-0443 (3))`);
+  return r.value;
+}
+
+/**
+ * The first district S6 wrote that owns no face of pass 1's prosperity or density field, with that field's name, or
+ * null when every district owns one of each (C-0443 (3)): S8's input reads both per district.
+ */
+function districtWithoutValue(districts: readonly District[], fields: Pick<FieldsPass1, 'prosperity' | 'density'>): { readonly district: Id; readonly field: string } | null {
+  for (const field of [fields.prosperity, fields.density]) {
+    const owners = new Set<Id | null>(field.faces.map((fv) => fv.owner));
+    for (const d of districts) if (!owners.has(d.id)) return { district: d.id, field: field.field };
+  }
+  return null;
 }
 
 /**
@@ -806,6 +895,9 @@ function stageS8(opts: BaseOptions): PipelineStage<S8In | null, Record<string, u
     },
     run(input: S8In | null, ctx: PipelineContext): KernelResult<Record<string, unknown>> {
       if (input === null) return ok({});
+      // Detect and refuse (x-04 note 6; C-0443 (3)): a district with no face of a field has no pass-1 value to cut by.
+      const bare = districtWithoutValue(input.s6.districts, input.fields);
+      if (bare !== null) return err('E_INVARIANT', `S8: the district ${bare.district} owns no face of pass 1's ${bare.field} field — no value to cut it by (C-0264 (6), C-0443 (3))`);
       const k = watched(ctx.kernel, { stage: 'S8', sub: 'S8', k: 0 }, opts.onBatch);
       const r = item.run(item.inputsOf(baseS8Input(input, k, ctx), { kind: 'all' }), ctx as never);
       if (!r.ok) return refused(r);
@@ -837,16 +929,26 @@ function declOf(item: { id: StageId; version: string; streamKeys: string[]; inva
 
 /**
  * The base's registrations (§4.1, §4.12, §14; C-0077): its strategies by name and the six M0 stages into the base
- * product. Registration order does not reach the order (Kahn's sort by declared I/O, the id tie-break); the set's order
- * is asserted to be §4.1's drawn order (`BASE_ORDER`) — a registry whose base product already holds a stage is refused.
+ * product. Registration order does not reach the order (Kahn's sort by declared I/O, the id tie-break). The set's Kahn
+ * order — over the product's `extraInputs` too — is asserted here, before anything is registered, to be §4.1's drawn
+ * order (`BASE_ORDER`): another order is a `RegistrationError` naming both, the registry left as it was (x-04 note 5;
+ * C-0443 (5); table.test.ts holds the order under every registration order). A registry whose base product already
+ * holds a stage is refused.
  */
 export function registerBase(registry: StrategyRegistry, opts: BaseOptions = {}): void {
   const product = registry.products.get('base');
   if (product !== undefined && product.stages.length > 0) throw new RangeError(`registerBase: the base product already holds ${String(product.stages.length)} stage(s)`);
   // The river reports of the run in hand (the base strategy's sink beside the runner's): S1 keeps the last on its record.
   const rivers: RiverReport[] = [];
+  const stages = [stageS1(registry, opts, rivers), stageS3(opts), stageS4(opts), stageS5(opts), stageS6(opts), stageS8(opts)] as unknown as PipelineStage[];
+  // A cycle is register's to name (§4.1: a registration error caught at load); an order is checked here.
+  const planned = kahn(stages, product?.extraInputs);
+  if (planned.ok) {
+    const order = planned.order.map((id) => stageText(id));
+    if (order.join(' ') !== BASE_ORDER.join(' ')) throw new RegistrationError(`registerBase: the base set orders ${order.join(', ')}, not §4.1's drawn order ${BASE_ORDER.join(', ')} (C-0443 (5))`);
+  }
   registerStrategies(registry, opts, rivers);
-  for (const s of [stageS1(registry, opts, rivers), stageS3(opts), stageS4(opts), stageS5(opts), stageS6(opts), stageS8(opts)]) register(registry, s as unknown as PipelineStage);
+  for (const s of stages) register(registry, s);
 }
 
 /** runBase's options: the runner's (its arenas are the base's) and the batch watcher. */
