@@ -30,7 +30,13 @@ import { attachIndex, createKernel, createPlat, type PlatKey } from '@plat/kerne
 import { fieldsCells, type S6Output } from '@plat/layout';
 import { districtReceipt, stageOutcomes, withoutSoftRows } from '../../src/site/index.js';
 
-const C0 = { faces: 4, skeletons: 4, downgrades: 0, workLimitHits: 0, failures: 0 };
+/** No downgrade: every cause 0 (the runner's names, in its order). */
+const NO_CAUSES = {
+  contract: { empty: 0, degenerate: 0, notSimple: 0, sharpCorner: 0, holeContact: 0, holeOutside: 0 },
+  validator: { planarity: 0, faces: 0, heights: 0, topology: 0 },
+  workLimit: 0,
+};
+const C0 = { faces: 4, skeletons: 4, downgrades: 0, workLimitHits: 0, failures: 0, causes: NO_CAUSES };
 
 type WG = NonNullable<RunRecord['waterGates']>;
 type ER = WG['enceintes'][number];
@@ -53,6 +59,7 @@ function wgOf(rows: readonly ER[], mainGates = 4, gateSites = 4): WG {
     mainGates,
     gateSites,
     enceintes: rows.map((r) => ({ ...r })),
+    sharedWallOverWater: 0,
   };
 }
 /** The record's water gates with enceinte row i patched. */
@@ -166,17 +173,51 @@ describe('the fold: each bar fails on one record that breaks it, naming its seed
   });
 
   it('corpus: the M0-a-12 bar over the group\'s faces (downgrades ≤ 0.5 %, work-limit hits ≤ 0.1 %, no failure)', () => {
-    const many = { faces: 1000, skeletons: 995, downgrades: 5, workLimitHits: 1, failures: 0 };
+    const many = { faces: 1000, skeletons: 995, downgrades: 5, workLimitHits: 1, failures: 0, causes: { ...NO_CAUSES, contract: { ...NO_CAUSES.contract, sharpCorner: 4 }, workLimit: 1 } };
     const at = (c: typeof many): RunRecord[] => SEEDS.map((s) => good(s, { corpus: { district: { roof: s === 1 ? c : C0, spine: C0 }, water: { roof: C0, spine: C0 } } }));
     expect(foldGroup('relief-60', 'default', at(many)).bars.corpus.verdict).toBe('pass');
     // exactly at both bounds over the group (964 + 9 × 4 = 1 000 faces: 5 downgrades, 1 work-limit hit) still passes
-    expect(foldGroup('relief-60', 'default', at({ faces: 964, skeletons: 959, downgrades: 5, workLimitHits: 1, failures: 0 })).bars.corpus.verdict).toBe('pass');
+    expect(foldGroup('relief-60', 'default', at({ ...many, faces: 964, skeletons: 959 })).bars.corpus.verdict).toBe('pass');
     expect(foldGroup('relief-60', 'default', at({ ...many, downgrades: 6, skeletons: 994 })).bars.corpus.verdict).toBe('fail');
     expect(foldGroup('relief-60', 'default', at({ ...many, workLimitHits: 2 })).bars.corpus.verdict).toBe('fail');
     expect(foldGroup('relief-60', 'default', at({ ...many, failures: 1 })).bars.corpus.verdict).toBe('fail');
     // a set of the run's water faces breaking the bar fails it too
-    const wet = SEEDS.map((s) => good(s, { corpus: { district: { roof: C0, spine: C0 }, water: { roof: C0, spine: s === 2 ? { faces: 4, skeletons: 3, downgrades: 1, workLimitHits: 0, failures: 0 } : C0 } } }));
+    const wet = SEEDS.map((s) => good(s, { corpus: { district: { roof: C0, spine: C0 }, water: { roof: C0, spine: s === 2 ? { faces: 4, skeletons: 3, downgrades: 1, workLimitHits: 0, failures: 0, causes: { ...NO_CAUSES, validator: { ...NO_CAUSES.validator, faces: 1 } } } : C0 } } }));
     expect(foldGroup('relief-60', 'default', wet).bars.corpus.verdict).toBe('fail');
+  });
+
+  it('corpus: the report keeps each downgrade\'s cause per set, summed over the group — a sharpCorner sliver told from a validator failure (M0-e-06 S2, note 4)', () => {
+    const sliver = { faces: 4, skeletons: 3, downgrades: 1, workLimitHits: 0, failures: 0, causes: { ...NO_CAUSES, contract: { ...NO_CAUSES.contract, sharpCorner: 1 } } };
+    const invalid = { faces: 4, skeletons: 3, downgrades: 1, workLimitHits: 0, failures: 0, causes: { ...NO_CAUSES, validator: { ...NO_CAUSES.validator, faces: 1 } } };
+    const recs = SEEDS.map((s) => good(s, { corpus: { district: { roof: s <= 3 ? sliver : C0, spine: C0 }, water: { roof: s === 4 ? invalid : C0, spine: C0 } } }));
+    const n = foldGroup('relief-60', 'default', recs).bars.corpus.numbers;
+    expect([n['districtRoof.downgrades'], n['districtRoof.contract.sharpCorner'], n['districtRoof.validator.faces'], n['districtRoof.workLimit']]).toEqual([3, 3, 0, 0]);
+    expect([n['waterRoof.downgrades'], n['waterRoof.contract.sharpCorner'], n['waterRoof.validator.faces']]).toEqual([1, 0, 1]);
+    // every cause is reported, zero or not, in the runner's order
+    expect(Object.keys(n).filter((k) => k.startsWith('districtSpine.'))).toEqual([
+      'districtSpine.faces',
+      'districtSpine.downgrades',
+      'districtSpine.workLimitHits',
+      'districtSpine.failures',
+      ...Object.keys(NO_CAUSES.contract).map((c) => `districtSpine.contract.${c}`),
+      ...Object.keys(NO_CAUSES.validator).map((c) => `districtSpine.validator.${c}`),
+      'districtSpine.workLimit',
+    ]);
+  });
+
+  it('bedMonotone: only a fitting river observes the clause; a degraded (non-fitting) river is reported apart and still fails the bar when its bed rises (M0-e-06 S2, note 9)', () => {
+    const river = (fits: boolean, bedCells: number, bedMonotone: boolean): RunRecord['rivers'][number] => ({ id: 'water:river:0', fits, outfall: fits ? 'frame' : 'sink', reachesCore: fits, attempt: 0, bedCells, bedMonotone });
+    // every river degraded, each a 2-cell bed: the clause is not observed (a 2-cell bed never rising says next to nothing)
+    const short = foldGroup('relief-3000', 'default', SEEDS.map((s) => good(s, { fixture: 'relief-3000', rivers: [river(false, 2, true)] }))).bars.bedMonotone;
+    expect([short.verdict, short.observed, short.of]).toEqual(['unobserved', 0, 'fitting rivers']);
+    expect(short.numbers).toMatchObject({ rivers: 10, fits: 0, fittingMonotone: 0, minFittingBedCells: null, degraded: 10, degradedMonotone: 10, minDegradedBedCells: 2, minBedCells: 2 });
+    // fitting rivers observe it; the degraded ones beside them are reported apart
+    const mixed = foldGroup('relief-3000', 'default', SEEDS.map((s) => good(s, { fixture: 'relief-3000', rivers: s <= 2 ? [river(false, 3, true)] : [river(true, 40 + s, true)] }))).bars.bedMonotone;
+    expect([mixed.verdict, mixed.observed]).toEqual(['pass', 8]);
+    expect(mixed.numbers).toMatchObject({ rivers: 10, fits: 8, fittingMonotone: 8, minFittingBedCells: 43, degraded: 2, degradedMonotone: 2, minDegradedBedCells: 3, minBedCells: 3 });
+    // a degraded river whose bed rises still fails the bar (judged on every river, observed on the fitting ones)
+    const rising = foldGroup('relief-3000', 'default', SEEDS.map((s) => good(s, { fixture: 'relief-3000', rivers: s === 6 ? [river(false, 5, false)] : [river(true, 40, true)] }))).bars.bedMonotone;
+    expect([rising.verdict, rising.failing, rising.observed]).toEqual(['fail', [6], 9]);
   });
 });
 
