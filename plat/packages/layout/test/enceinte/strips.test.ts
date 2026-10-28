@@ -264,6 +264,36 @@ describe('the strips at the map border and from the arena alone', () => {
   }, 60_000);
 });
 
+describe('the stops given merge with the arena\'s (Q27)', () => {
+  it('a gate the given stops leave out is stopped all the same, its way read from the arena at the given stops\' half-width; a given stop keeps its own path', () => {
+    const site = smallSite(5);
+    const slice = s3Slice(site);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const b = commitS3Batch(slice, k);
+    expect(b.ok).toBe(true);
+    if (!b.ok) return;
+    const t = traceBase(slice.levelSet.outline, slice.gateSites, [b.value.plaza], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(t.ok).toBe(true);
+    if (!t.ok) return;
+    const n = slice.gates.length;
+    expect(n).toBeGreaterThan(1);
+    // The first gate's stop given (its route's nodes about the gate edge, 7 m); the others left to the arena.
+    const g0 = slice.gates[0];
+    const r0 = slice.routes.find((q) => q.ordinal === g0.ordinal);
+    if (r0 === undefined) throw new Error('no route');
+    const path = r0.nodes.slice(Math.max(0, g0.routeIndex - WAY_SPAN_NODES), g0.routeIndex + 2 + WAY_SPAN_NODES).map((q) => slice.lattice.points[q]);
+    const r = layStrips(t.value, site.tables.table('walls').row('era.default'), k, { stops: [{ kind: 'way', gate: t.value.gates[0], at: g0.at, path, halfWidthCm: 700 }], frame: site.frameRing });
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    if (!r.ok) return;
+    // One strip per arc between gates on each side: every gate stopped the lines.
+    expect(r.value.faces).toEqual({ inner: n, outer: n });
+    const v = k.view(GROUND, 1);
+    const strips = v.faces().filter((f) => (v.owner(f) ?? '').startsWith('wall_strip')).map((f) => v.rings(f)[0]);
+    for (const g of slice.gates) for (const ring of strips) for (const q of ring) expect(Math.hypot(q.x - g.at.x, q.y - g.at.y)).toBeGreaterThanOrEqual(690);
+  }, 60_000);
+});
+
 describe('the wall is a barrier (§4.6): kerb(F) beside the wall stops at the strip', () => {
   /** kerb(F) of the L1 face at `at`, read inside an empty callback batch (the service reads the open transaction). */
   function kerbAt(c: Committed, at: LatticePoint): LatticePoint[][] {

@@ -2882,7 +2882,8 @@
    "estHours": "7–9",
    "owns": [
     "plat/packages/layout/src/enceinte/",
-    "plat/packages/layout/test/enceinte/"
+    "plat/packages/layout/test/enceinte/",
+    "plat/packages/testkit/test/edge/repins.test.ts"
    ],
    "sections": [
     "§4.4 S5a Trace (2) pull and pin (the 40 m search band, a cost-surface path; gates pinned), (3) smooth and simplify (3 pinned Laplacian passes; Visvalingam minimum segment 20 m, no angle < 100°, topology-preserving; a mandatory chain carrying wall, gate vertices carrying wall_gate)",
