@@ -142,3 +142,41 @@ pattern in the generated source; a refactor of `bentCutFabric.ts`'s call sites t
 line in "logpoints armed" and "cuts not counted", not as an error.
 
 ## 6 Self-verification
+
+On `8d5ffdcd` (the design branch's head; c-02 S5 landed since R7's `4abd334a`), Node 24.12.0, the production bundle
+(8 220 789 bytes, esbuild errors 0, warnings 0, `__name` 0, `PLAT_DEBUG_BUILD` defined false), the fusion run, seed 3,
+CITY, one process at a time, 2026-10-28 (UTC). The load is the one-minute average from `/proc/loadavg`: before the run,
+the maximum of the 30 s samples during it, and after.
+
+| run | started | load before → max during → after | S1 · S3 · S4 · S5 ms | S8 | cuts | ms a cut | root |
+|---|---|---|---|---|---|---|---|
+| plain | 14:03:03Z (the tool waited ≈ 140 s for the bar) | 0.26 → 1.01 → 1.01 | 205 · 2 525 · 400 · 4 166 | 103 289 ms (plain marks) | 1 220 (split 1 220, hole 0) | **84.7** (plain) | `db72c0bf0fa021ca873fd7f5f6f30d7b` |
+| cpu + cuts, window 100 | 14:06:34Z (waited ≈ 90 s) | 0.28 → 1.15 → 1.09 | 215 · 2 138 · 357 · 3 692 | 114 010 ms (profiled) | 1 220 | 93.5 (profiled) | `db72c0bf0fa021ca873fd7f5f6f30d7b` |
+
+Both runs: lanes 1 207, blocks 1 057; the cpu run's logpoints hit split 1 220, kerbFace 2 082, kerbSeed 364; the profile
+encloses S8's marks (174 278 samples). Profiling + four logpoints cost 10.4 % on S8 (114.0 / 103.3 s; R7 measured
+14.6 %).
+
+**Self time, top 10 (cpu run, % of S8's 114 010 ms window):** `gridCandidates` kernel/index/grid.ts:102 23.2 % ·
+`restoreIndex` kernel/tx/savepoint.ts:76 13.7 % · `collect` kernel/index/query.ts:178 9.0 % · (garbage collector)
+6.1 % · `query` kernel/index/query.ts:220 4.6 % · (anonymous) kernel/tx/savepoint.ts:58 2.8 % · (anonymous)
+kernel/tx/savepoint.ts:55 2.2 % · `walkRing` kernel/arena/walk.ts:26 2.0 % · (anonymous) kernel/tx/savepoint.ts:69
+1.9 % · `faceWalk` kernel/arena/walk.ts:41 1.4 %. By file: kernel/index/grid.ts 24.3 %, kernel/tx/savepoint.ts 22.1 %,
+kernel/index/query.ts 16.2 %, kernel/arr/kerb.ts 7.9 %, GC 6.1 %. Inclusive: `ladderOn` 92.3 %, `kerb` 81.4 %,
+`censusRead` 65.5 %, `dryInsert` 61.1 %, `insertChain` 53.8 %, `query` 43.4 %, `gridCandidates` 23.3 %.
+
+**The windows' least-squares lines (12 windows of 100 cuts, profiled ms; slope per window):** ms a cut 66.0 + 4.84
+(72.6 → 137.9 measured); savepoint (opSave + putBack) a cut 1.1 + 3.47 (2.9 → 41.7); the rest a cut 64.9 + 1.37;
+insertChain a read 23.1 + 0.35; gridCandidates a read 9.4 + 0.27; restore a read 0.0 + 1.15 (0.6 → 13.1); GC a cut
+2.2 + 0.62.
+
+**Against R7** (117.7 ms a cut plain, root `7bf09771f39186df5bf0ba2e0ea7eec4`, lanes 1 205, splitFace 1 216, on
+`4abd334a`): the tree has moved, so the root differs (`db72c0bf…`), and so do lanes (1 207) and cuts (1 220). That is
+not a fault. The plain figure here, 84.7 ms a cut on the same idle-box discipline, is one run, not R7's three-run
+median. The savepoint machinery's linear growth (R7 §3's asymptotic term) still shows: the slope is 3.47 ms a cut per
+100 cuts and the restore 1.15 ms a read per window.
+
+**Count mode** was not run at CITY (≈ 9 min under precise coverage; the brief made it optional). It was exercised at
+the test size (900 / 30 ha, the same tree): S8 108 cuts from coverage (splitFace 108, connectHole 0), insertChain 67.4
+calls a cut, query 2 654, gridCandidates 11 257, boxesMeet 133 313. Root `f65a10748242f276eced9ec1fbf75a88` in the cpu
+and count runs alike (R7's test-size root on `4abd334a` was `421f90d3…`).
