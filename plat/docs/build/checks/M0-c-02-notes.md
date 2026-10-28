@@ -512,3 +512,428 @@ notes a survivor it meets and adds no pin. The hardening pass (M4) drains the KI
       (Q41)", with 'laddered' received where 'refused-lawful' was expected. The same red appears on 194eb090's owns
       in this lane's `before` mirror. The S8 cell runs no enceinte code. This is M0-x-06's census pin, stale since
       M0-b-03 s4; the session should re-pin it (J264).
+
+## Hardening round S5 (lane `build/M0-c-02-fix-s5`, 2026-10-27 – 28) — the builder's rows
+
+The session's hardening round of the item (J237 (2)) on the inventory's FIX-NOW rows (`checks/hardening-inventory.md`
+§3, entry 29) and the queue rows Q27 and L31, with Q46 / KI-10, Q52's classes B, D, E, F and census R-31 merged in. The
+gate (M0-a-05 S10 landed, its S9/S10 notes) was read first; N-26 and N-28 were re-read against the router as it
+stands. Choices row C-0432 names every row it closes; ledger row L-0669. The before-image is the tree's owns at the
+round's start, read read-only from HEAD 398869ce's object store by a python reader (no git command): all 26 files hash
+equal to the landed record `M0-c-02.json` (lane `build/M0-c-02-consolidate-1`). Every probe and mutant ran in the lane
+mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-02-fix-s5/` (isolation proved; removed at the end). The lane
+ran in four parts on four containers (11:54 – 17:52, 19:39 – 22:25, 22:37 – 00:18, from 00:20 on 2026-10-28), the mirror rebuilt
+each time (isolation proved each time); every figure below was measured on the round's final sources unless it says otherwise.
+
+47. **N-47 row by row: the outcome, its evidence and its mutant (J183's table at the end).**
+    * **3 N-3 (the §4.4 inward-pull cap) — STAGED, choices text.** The cap reads S5d's tolerance and the stage's land
+      shortfall, which M0-c-05's S5d computes after S5a's commit; the trace strategy has neither at its pull. C-0432 (1)
+      stages it to M1 (a contract between S5a and S5d, not this item's to change), names the report field the pull
+      already gives (`report.pull.moved`, `maxOffsetCm`) and the rule that holds at M0: the inward pull is bounded by the
+      40 m band (C-0232), never by land.
+    * **4 N-4 — PINNED, and two guards re-judged.** M34 (`selfTouches`' adjacent fold-back clause) is pinned by
+      `fwall.test.ts` "the detection's fold-back clause alone" (a sliver triangle folds back; a right triangle does not).
+      M26's clause (a face found from both sides refused "one face on both sides of the wall") no longer exists: the
+      round's `layStrips` reads each candidate face's side from its own vertices (`sideOfFace`) and takes a face once
+      (`seen`), so a face cannot be counted on both sides; the closed trace separates the two sides, so no face lies on
+      both. M27's clause (a probed face's width) is now the strip-width clause, pinned by N-24's twin (mutant Z12). M35
+      (the defect re-check after the kernel's simplify) stays equivalent in effect: the kernel's simplify is
+      topology-preserving with the water, the reservations and the core as obstacles (one-line note, no test).
+    * **5 N-5 — REWORDED (comment only).** `trace.ts` now says what the code proves: every MAIN gate read back on the
+      committed trace by lattice equality; a water gate's banks proved inside the batch by `looseGate` (each `gate_end`
+      one vertex, the one `wall_gate` edge between them), a bank allowed to land on a shore vertex within the attraction
+      distance (C-0300 (2)), so its vertex is not read back against `bankAt`.
+    * **6 N-6 — STATED (choices text and the module comment).** C-0432 (6) gives C-0226 (10)'s reading: where the trace
+      runs along a bank (a graze) the water splits a strip, and each piece is a face of the side's owner; `strips.ts`'s
+      header says so.
+    * **7 N-7 — FIXED, PINNED.** `departure` is exact to a stated tolerance: `DEPARTURE_TOL_CM` = 0.5 cm, never above the
+      exact value (a distance from a set is 1-Lipschitz, so a stretch of half-length h about a point at distance d holds
+      nothing farther than d + h; stretches are halved until none can beat the largest found by more than the
+      tolerance). `sideDeparture` is the one-side form. Pin: `trace.test.ts` "reads a side's farthest point between metre
+      samples" and §4.2 S3 (9)'s seed tests (the report within its tolerance of the 50 cm samples; mutant N7, the metre sampling restored, killed first by "seed 1: every gate vertex …").
+      RELATED@1000 found the halving slow where a side lies on the ring (its distance 0 everywhere, so every stretch was
+      halved to 1 cm: `trace.test.ts` "a gate site off its boundary …" 88 ms before the round, 6.5 s after, past vitest's
+      5 s): `sideDeparture` now also prunes a stretch by a second bound — the distance from one side of the ring is convex
+      along a segment, so on a stretch it is at most the larger of its two ends, and the ring's distance at most that for
+      every side; the least such bound — with the same tolerance (the test 0.16 s; the item's tests and pins, `PINNED_OUTWARD`'s
+      departure to the last digit, unchanged). Mutant BOUND (the bound taken at the smaller end) killed by "seed 1: every
+      gate vertex …". Timings here are informative only (never gated).
+    * **8 N-8 — FIXED (a fail-safety gap), PINNED.** The in-batch band proof read only the vertices the insertion placed
+      for the trace (`ins.value.placed`); an existing vertex the insertion routed the wall through (§3.6 step 3) was not
+      among them, so a contact 26 cm beyond the band could commit unseen. It now reads the wall's committed run whole and
+      proves each side exactly (`sideDeparture`). Pin: `trace.test.ts` "a way's vertex 25 cm beyond that chord's farthest
+      point, 40.18 m from the boundary … refused E_INVARIANT `band`, nothing written", with its twin "without the way the
+      same trace commits" (mutant N04). Refined after RELATED@1000 (the lane's last part): the first form refused "band:
+      the inserted trace is not one closed run" inside the batch, before the kernel's own `branches` check and the gate
+      read-back, so six of M0-x-06's refused-safe cells (`testkit test/edge/repins.test.ts`: EP-01/S3 and S5a zero-area,
+      collinear and self-touching) changed their refusal words (still refused, the arena restored). Now a wall the
+      insertion left in more than one run is proved on the vertices it placed (the pre-round reading), its shape refused by
+      the batch's `branches` or the gate read-back as before the round, and by `wallInPieces` after both (a backstop: a
+      wall in pieces is never a committed trace). The in-batch proof runs `sideDeparture` from the band as its floor (a
+      stretch is halved only while it could hold a point beyond the band by more than the tolerance). Pins: the six
+      repins cells (mutant PLACED: the first form restored — six reds, killed); `wallInPieces` alone (mutant PIECES) is a
+      backstop with no reachable case known (the six cells refuse earlier), like K05.
+    * **9 N-9 — FIXED, PINNED.** The smoothing's result is rounded and then PROVED (`pull.ts`): a side the lattice's
+      rounding carried out of the band or over a barred ring has its moved ends put back (rounded) until every changed
+      side holds. The margins pinned each on its own (`pull.test.ts` "the smoothing's margins, each on its own"): the
+      vertex clause at the band less the attraction distance (N12), `bandLimit`'s 1 cm (N10), the barred-ring vertex
+      clause, the rounded points (RP). The reference ring pinned by `trace.test.ts` "the band measured from the boundary
+      as given, never the ring after the water splice" — a chorded crossing on flat ground (the report's departure ≥ 16 m)
+      and under an outward field (the line and its departure pinned) — N13 killed. Two of the row's mutants survive as
+      equivalent in effect, probed: N06 (the smoothing measured against the spliced ring) leaves the committed line
+      byte-identical on 195 chorded-crossing variants (bows 10 – 35 m; dents of 5 – 30 m at four places beside the river;
+      five cost fields, outward, north-only, west-only, east-only) and on the item's tests — the pull leaves every vertex
+      within the band of its own start on the spliced ring and the smoothing's steps toward its neighbours never reached
+      the bow's 24 m; the pre-commit band proof reads `ring0` regardless (fail safe). N17 (the union rung's candidate not
+      simplified before its verdict) leaves 30 union-rung variants (notch widths 50 – 75 m, ridges offset and sloped)
+      byte-identical, verdicts and lines: the trace's own simplify runs on the rung's line after the rungs at the same
+      bounds, and the booleans' outline carries no fold-back the simplify alone removes. KI for M4 if a probe finds either.
+    * **10 N-10 — FIXED, PINNED.** `chordInWater` (water.ts) replaces the nine-sample test: the chord is cut at every
+      meeting with a side of the water's rings, its holes (islands) among them; its middle must lie in the water, and a
+      piece out of the water leaves it when a point of it lies farther than `WET_TOL_CM` (2 cm, the side test's own
+      tolerance: the shore crossings are lattice roundings) from the shore. `waterRings` reads each water face's holes
+      (`WaterRing.holes`, optional; additive). Pins: `water.test.ts` "a land spit 5 cm wide across the chord between two
+      of its nine-tenths samples" (N14), "an island under the chord" (HOLES), "waterRings reads a water face's holes";
+      `chord.test.ts` "a chord cutting a shore's tooth by a rounding's depth … keeps in the water (RIVER 900 ha seed 12)"
+      (TOOTH: without the tolerance the base RIVER 900 ha seed 12 regressed to S5 E_SELF_INTERSECT in the first part).
+    * **11 N-11 — FIXED, PINNED.** The rounded points proved (row 9), so the probe's pond commits dry instead of refusing:
+      `sides.test.ts` "a pond under the smoothed corner side … the corner vertex stays home and the trace commits dry"
+      and `pull.test.ts` "the rounded points proved" (RP). The in-commit edge proof (`committedWetEdge`, N-18's M23 /
+      K06) is pinned by the attraction-onto-a-barred-edge fixture `trace.test.ts` "a way's vertex in the core 20 cm off
+      the side: the wall routed through it lies over the core, so the batch is refused E_INVARIANT `water`, nothing
+      written" (the detail verbatim) with its twin "without the way the same trace commits". With WATER in the core's
+      place the path is unreachable from an L1 vertex: the insertion lays any vertex within `attractCm` of a shore onto
+      the shore (probed: a way's vertex 10 – 20 cm into a pond 1 cm off the side lands on the shore at (x, −30001), and
+      the wall commits dry through it), so the fixture's barred ring is a core ring 10 cm inside the side; the proof is
+      one for both (its `every` and `reserved` sides)
+      (K06; K07, both proofs off, killed by the same fixture). K05 (the pre-commit side proof alone) survives as a
+      backstop equivalent in effect: every side of the committed line is proved dry by the step that made it (the pull's
+      steps, K26; the smoothing's changed sides, RP; the rungs' `rungVerdict`; the simplify's `wet.firstOver`) or is a
+      crossing's course (`crossWater` cuts every side at every shore meeting), and K06 refuses at the commit whatever
+      reaches it; its only known reach (N-11's pond) is the one RP now commits dry. The 195 N06 variants run identical
+      under K05.
+    * **13 N-13 — PINNED.** `sides.test.ts` "only a side OF the ring lies on it" (K18) and "firstOver tests the closing
+      side too" (K19).
+    * **14 N-14 — PINNED.** `sides.test.ts` pins the replay's `report.pull` and line: `{ moved: 151, maxOffsetCm: 3974 }`,
+      224 vertices (`REPLAY_PULL`); `pull.test.ts` "a step whose own side crosses the pond is never taken" (K26). The
+      replay's `moved` reads 151 (150 before the round) because N-21 recaptured the fixture's costs about the settled
+      bank (row 21): a DECLARED shift of the fixture's figure, the line's length and its water gates unchanged.
+    * **15 N-15 — PINNED.** `chord.test.ts` P1 (a shore vertex near the EXIT bank, past the chord's last quarter) and P2
+      (one near each bank, two rounds) (M27, M15).
+    * **16 N-16 — PINNED.** `chord.test.ts` "a bank settled onto a shore vertex whose chord then leaves the water is no
+      clear chord" (M14).
+    * **17 N-17 — PINNED** (the defer-candidate kept, J238): `chord.test.ts` "waterGates(trace, water, k) reads the
+      arena's vertices" — the bank settles on V; a way's vertex in the water nearer the bank, no shore's, leaves it
+      unsettled (M20).
+    * **21 N-21 — FIXED, PINNED.** `fixtures/relief60-s9-stage2.json` gains the seed's terrain costs about the settled
+      bank; `sides.test.ts` and `chord.test.ts` assert misses 0 again (N21: the pre-round fixture restored).
+    * **22 N-22 — PINNED; (b) made to succeed.** (a) `corridor.test.ts` TYPED_SEEDS 1149953023 and 3436289613: no
+      untyped face in the strip zone. (b) Under RQ5 the hand twin with a vertex 110 cm in is no longer refused: the face is
+      cut along the corridor's edge and the strips commit beside it (`corridor.test.ts` "a way along the trace 110 cm
+      wide, off the trace's vertices"): a lawful input that refused before now succeeds (N-58, ZERO REFUSALS), so the fix
+      shape's "refused" is superseded by the ruling. Z03 is pinned by `corridor.test.ts` "seed 3980833922: that face is wall_strip:2-outer" (family index 109: stage 2's
+      outer face through (−14530, 2713) and (−14278, −1730) holds a vertex between 26 cm and the slack inside a corridor;
+      under Z03 it is left `land:0` — the untyped-point oracle does not see it, so the pin names the face). Z04 is
+      subsumed: the area clause (`deeperThan` over every side of the face's rings, its vertices among them, at the same
+      slack, to 1 cm by halving) refuses any face with a vertex deeper than the slack by more than 0.5 cm; the family's
+      indices 0 – 199 run byte-identical under Z04.
+    * **23 N-23 — PINNED.** `corridor.test.ts` "a gate whose way runs inward only: the outer side's one face holds the
+      gate's vertex, so the outer side is refused, named, nothing written" (Z10).
+    * **24 N-24 — PINNED.** `corridor.test.ts` "a probe meeting open ground beyond the strip's width … refused, named"
+      (Z12).
+    * **26 N-26 — FIXED as RQ5 rules (rulings-hardening-1 §5), PINNED, DECLARED SHIFT.** (i) The stops: every way whose
+      corridor runs inside a strip's band — the gate's way along its whole length (`commit.ts` hands each gate's route
+      whole, run on to the frame, as `LayStripsOptions.corridors`; `stopsFromArena` reads the way chain through a gate's
+      vertex whole), and every other way chain of the arena — is a stop where it runs inside the band beyond the stops'
+      corridors by more than `CORRIDOR_SLACK_CM` (`intrudes`); the setback lines are capped along the corridor's edge and
+      every other piece of a corridor's ring inside the band is laid as a setback chain of its own. (ii) Membership by
+      area: a face is a strip's when it lies within the width (vertex clause first), on the trace's side of the setback
+      line, holds no gate vertex nor a vertex deeper than the slack, and its interior meets no corridor (no point of its
+      rings deeper than the slack, exactly by halving; no centreline vertex inside it). Pins: `corridor.test.ts` RQ5_SEEDS
+      1842059696, 2537277803, 889845538 (stage 1), 1671642301 (stage 2) — 0 corridor points in a strip face, both sides
+      typed (each covered 47 – 125 points before the round); the hand fixtures "a way run along the trace", "a face beyond
+      the setback line is no strip" (BEYOND) and, each mechanism on its own, `corridor.test.ts` "RQ5 on hand fixtures": a
+      way along the wall's outside given as a corridor whose faces inside it hold no vertex deeper than the slack (RQ5a:
+      no corridor beyond the stops; RQ5b: no area clause), a gate's way read from the arena bending along the wall inside
+      (RQ5c: the way chain through the gate's vertex not read), an arena way with no gate along the wall inside (RQ5d:
+      the arena's other ways not read). The family seeds alone did not separate them: indices 0 – 199 under RQ5a, RQ5b and
+      RQ5c keep refusals, P4 and the untyped points unchanged (RQ5a moves the strip faces of 3 seeds, RQ5b and RQ5c none),
+      because the stops' own paths and the ring pieces carry the family's corridors; the hand fixtures reach each. Census
+      and shift: row 49.
+    * **28 N-28 — FIXED, PINNED.** The strip piece a cap closed past a deep trace vertex is now its own face cut along
+      the corridor's edge and typed: `corridor.test.ts` TYPED_SEEDS 2704069009, 1793505783, 3435165676, 671252167,
+      3568440702, 3709170404 — no untyped face in the strip zone (N28: the corridor ring pieces not laid). Over the 1 000
+      family seeds the untyped-point oracle reads 0 (row 49).
+    * **39 N-39 — PINNED.** A07: `commit.test.ts` "a way's vertex 10 cm off the boundary draws the trace onto it:
+      commitS3Slice's warnings begin with the trace's W_ATTRACTED there"; A08: `commit.test.ts` "a 3 ha town … under a
+      field pulling the line toward the plaza: the trace is held on its ring, never inside"; A11: `sides.test.ts` "the
+      oracle reads a segment wholly inside the ring, far from its line, by its depth".
+    * **40 N-40 — PINNED** (the defer-candidate kept): `pull.test.ts` "the vertex clause holds a vertex the pass would
+      set beyond the band less the attraction distance (39.74 m), though both its sides keep the band (39.99 m)" (M06)
+      and "… 1 cm inside a barred ring, though its sides touch the ring within the water's 2 cm" (M07).
+    * **45 N-45 — DONE (comment only).** `water.ts`' and `chord.test.ts`' headers cite C-0300 (3) for the one-chord rule;
+      `frame.test.ts`' and `sides.test.ts`' headers mark their fixtures' figures as counterfactual ("not what the code
+      does").
+    * **M0-c-04:138 19 N-19 — FIXED in c-02's owns; c-04's half REPORTED.** The chord refusal's detail now ends with the
+      stable tag `[water: loose-gate]` (`trace.ts` `LOOSE_GATE_TAG`, a file-level export; the index and barrel unchanged);
+      `chord.test.ts` pins the text verbatim and the tag's value (TAG). M0-c-04's `span.test.ts` pin 5 matches a prefix of
+      the text and stays green (RELATED); the shape c-04 needs: match the tag (import `LOOSE_GATE_TAG` from
+      `src/enceinte/trace.js`, or `/\[water: loose-gate\]$/`), not the coordinates — c-04 S4's.
+    * **Q27 — FIXED, PINNED; the contract stated.** `layStrips` merges the stops it is given with the stops it reads from
+      the arena: a read stop is dropped where a given stop names its gate (or, for water, its ring); a main gate read from
+      the arena takes the given way stops' widest half-width (else `wayHalfWidthCm`). Pin: `strips.test.ts` "a gate the
+      given stops leave out is stopped all the same" (Q27: the given stops alone).
+    * **L31 — PINNED (Y07, Y12, Y15, Y17); Y13 / Z11 recorded equivalent; the guard is c-04's.** `bend.test.ts`: the
+      U-shaped water entered and left by its inner shores — refused E_INVARIANT `water`, named, nothing written, never a
+      gate over the peninsula (Y07); a routed chord settles as every chord does (Y12); a crossing ending on another water
+      body is never routed on one ring's indices (Y15); a chord cutting a 20 cm land sliver 30 cm from its bank is not
+      clear (Y17). Y13 (the shared-walk guard; the builder's Z11) is equivalent in effect on reachable input: a shared
+      shore point needs walks round a river's end beyond the band (N-31). Each water gate takes the lowest free
+      `gate:w<i>` (`trace.ts`, pinned by `bend.test.ts`' second trace, gate:w2 and gate:w3); removing c-04's
+      `earlierWaterGates` guard is c-04's.
+    * **Q46 / KI-10 — FIXED (MAKE-IT-SUCCEED), PINNED.** `bend.test.ts` "the base RIVER fixture from the north at seed 5":
+      runBase commits every stage with no bug and no setback vertex of either enceinte in the water (S5a's strips check
+      refused it before the round).
+    * **Q52 — B and F FIXED (MAKE-IT-SUCCEED), C and D already lawful, E REPORTED (M1).** Before the round on this tree (M0-x-06's cells, 26 runs; `checks/hardening-inventory.md`'s
+      Q52 seeds): B 17 lawful refusals over 16 runs (`closed no strip face` at S3 or S5, each a corridor the strips
+      crossed: 957349493, 2306189499, 4102748823, 4210924515, 2806303556, 35167633, 281949303, 1908460072, 3629930494,
+      636887255, 936491186, 1017919770, 1140569634, 1387994580 (two states), 2303806328, 2870428480) → 0; F 1
+      (1933152649, S3 E_DEGENERATE `empty`) → 0; C (1409296145) and D (396602230, 765046355, 914597522, 3484178840)
+      already commit on this tree (0 → 0); E 4 → 3: 1785777080, 1918289972 (the core), 3360356802 remain S3
+      E_SELF_INTERSECT "F-WALL … the later rungs are M1's" — LAWFUL, REFUSE as notBuilt('M1') (§5.2 F-WALL; C-0085),
+      REPORTED with their seeds, never built; 1523636832 no longer meets one (its stage-1 strips changed what the later
+      trace meets).
+    * **R-31 (census, c-01 S2) — FIXED, PINNED.** A strips chain shorter than the insertion's attraction distance is not
+      laid (it bounds nothing the slack does not; the insertion would land it whole on existing vertices and refuse
+      E_DEGENERATE `empty`): `corridor.test.ts` "seed 1933152649: S3 commits" (FLOOR).
+48. **N-48 new findings of this round (for the session).**
+    * N-26's P4 oracle in `support.ts` rebuilds a stage-k ≥ 2 stop along the trace's normal from the wall as committed
+      (walking past setback ends); on family indices 19 (3443032966) and 87 (2251116277) that normal differs from the one
+      M0-c-04's `stageStops` gave `layStrips`, and the oracle reads 22 and 41 covered points at stage 2. Instrumented, the
+      stops `layStrips` was given read 0 at both stages on both seeds (and on all 1 000): an oracle artefact, not a strip
+      over a corridor. The RQ5 pins read seeds where the two agree. KI: give the oracle the stops as given (M0-c-04's).
+    * S4's committed arterial can leave the slice's route near a gate (e.g. 1842059696: the way skips route node
+      (−13258, 2139)): the stage-1 corridors are read from the routes, so a way that departs from its route is a stop
+      only where its chain runs (`intrudes` over the arena's way chains). A c-03 / c-04 note for the session.
+    * The base set's seven remaining refusals are all F-WALL's (class E): RIVER 900 ha seeds 8 and 14, RIVER from the
+      north 900 ha seeds 1 (the core) and 6, the default RIVER fixture seeds 3 and 4 at S5 and 5 at S3 — `E_SELF_INTERSECT`
+      "the trace touches itself (crosses the core) after the re-offset and union-simplify rungs; the later rungs are
+      M1's". Unchanged by the round (before 8 with KI-10); for M1's rungs, with their seeds.
+    * `committedWetEdge`'s water branch is reachable only through a reservation or the core: the kernel's insertion
+      lays a way's vertex within `attractCm` of a shore onto the shore (row 11's probe), so an L1 vertex never stands in
+      the water within the attraction distance of a dry side. No code change; the proof stays as the last word.
+    * **RELATED@1000's reds that the round cannot fix in its owns (for the session).** (a) `bench
+      test/determinism/pair.test.ts` "every S1 and S4 entity survives identically …" (C-0090, seed 1, the site spike with
+      the S5 reroll): green on the before image, red after — a fresh S8 junction (`junction:6nymg6w713p26`) and a fresh S8
+      block (`block:2skgtzs7hxr50`) keep their own ids while the matcher hands the same old ids by succession (`by: point`,
+      scores 74.7 and 70.2) to other fresh entities (`junction:3ab8743sbjpay`, `block:cmps09px73p0z`), so two fresh entities
+      hold one address after the hand-on (the test's line 86; its `duplicateIds` and `silentRebinds` read 0, so they do not
+      count this case). The round's declared shift moves seed 1's S8 output and so exposes it; the defect is the match's or
+      the address minting's (`@plat/model` `match`, `bench/src/determinism` `mintAddresses`; M0-d-09's), not the strips' —
+      REPORTED, never built here. (b) `testkit test/edge/repins.test.ts` "Q37's three seeds: the unplanted state's strips
+      are refused … counted, the state replaced": the round makes those three lawful inputs succeed (Q37 → 0, row 49), so
+      the census pin's `tries 2` / one lawful refusal now read `tries 1` / none — a stale pin of M0-x-06's, to be re-pinned as
+      its neighbour "EP-01/S5a/coincident at Q22's seeds … is absorbed on its first state" is (handling `absorbed`, tries
+      1, lawful []). (c) The same file's "EP-01/S5a/coincident at seed 1658509524: refused-safe …" (received `absorbed`) is
+      red on the before image too: foreign, not the round's.
+49. **N-49 the refusal census (J264 (4), N-58) and the declared shift, before → after.**
+    * **The refusal census, before → after (each class by its input kind and verdict, N-58).** The before image's
+      sources in the lane mirror against the round's, same probes, same seeds:
+      | family (registered) | before | after | the refusals left |
+      |---|---|---|---|
+      | EP-01/S5a/coincident, unplanted, 1 000 seeds through S5 on SMALL_FLAT (`corridor.test.ts`' `throughS5`) | 3 (indices 156, 593, 956: S5 E_INVARIANT `closed no strip face`, Q37 / Q52 B; LAWFUL, MAKE-IT-SUCCEED) | **0** | — |
+      | M0-x-06's cells, Q52's 26 runs (B, C, D, E, F) | 22 lawful (B 17, E 4, F 1) | **3** | E: 1785777080, 1918289972, 3360356802 (F-WALL, M1's rungs; LAWFUL, REFUSE notBuilt('M1'), reported) |
+      | `runBase`: FLAT 900 ha 1 – 3, RIVER 900 ha 1 – 15, RIVER from the north 900 ha 1 – 6, RIVER default 1 – 6 (30 runs) | 8 (KI-10: from the north seed 5, S5 E_INVARIANT strips; seven F-WALL) | **7** | the seven F-WALL refusals of row 48 (class E, M1) |
+      | total (distinct cells) | 30 (the family's three are Q52 B's EP-01/S5a/coincident control cells, the same seeds 957349493, 2306189499, 4102748823; 33 counted per family) | **10** | every one F-WALL's later rungs (M1) |
+
+      The census never rose; it fell by 20 distinct cells, each a lawful input made to succeed (Q52 B 17 over 16 runs,
+      the family's three Q37 cells among them; Q52 F 1; KI-10 1; 1523636832's E 1). Census R-31 (c-01 S2: R-31 1 → 1 and KI-10 1 → 1 handed to c-02 / c-04): both strips halves
+      fixed here (R-31 is Q52 F's 1933152649).
+    * **Re-measured on the final sources.** After the lane's last part changed `trace.ts` (N-8's run read) and `plane.ts`
+      (`sideDeparture`'s bound), the three after-censuses were run again in the mirror: the family's 1 000 lines (each
+      seed's refusal, P4, untyped points and the L0 – L4, strips, walls and ways digests), the edge cells' 26 and the base
+      set's 30 are identical line for line to the runs above — no refusal, digest or shift figure moved.
+    * **The P4 oracle and the untyped points (N-26, N-28) on the 1 000 family seeds.** Strip faces covering a stop's
+      corridor point (deeper than the slack + 6 cm; the stops and corridors `layStrips` was given, instrumented): stage 1
+      on 554 seeds before → 0; stage 2 on 3 → 0. Untyped strip-zone points: 0 → 0 by the oracle (the N-28 seeds and
+      3980833922's face are pinned by name, row 47). The test oracle's own stage-2 stand-in reads 7 seeds after (10 before),
+      an artefact of its normal (row 48), never a strip over a stop as given.
+    * **DECLARED SHIFT (strip faces; the stage-2 walls and the ways they meet).** On the 1 000 family seeds: L0 identical on
+      all; the L1 – L4 digests differ on 789 (the strip faces, their setback chains now capped along each corridor and
+      cut by its ring pieces). The wall and way vertex lists differ on 88; with collinear vertices dropped the walls of 80
+      and the ways of 30 still differ, measured by the Hausdorff distance between before and after: stage-1 walls at most
+      0.83 cm (none above 1 cm: lattice re-seats where a new setback vertex meets them), stage-2 walls at most 28.5 cm
+      (8 seeds above 1 cm: indices 686 28.5, 980 26.5, 900 18.7, 933 7.9, 278 7.4, 245 7.3 cm, …), ways at most 165.7 cm
+      (5 above 1 cm: 278 `way:3` 165.7, 337 83.0, 796 55.2, 360 46.9, 900 43.3 cm) — the stage-2 trace and the later
+      ways meet stage 1's changed setback vertices (the attraction, the router's costs). Indices 156, 593 and 956 now
+      commit stage 2 (refused before). The pins re-recorded or newly set in this round, all in the item's owns:
+      `sides.test.ts` `REPLAY_PULL` (`moved` 151, was 150: N-21's recaptured costs; line 224 and the water gates
+      unchanged), `trace.test.ts` `PINNED_OUTWARD` (new). Outside the owns two tests move with the shift (RELATED, row 48): M0-x-06's Q37 census
+      pin (stale: the three seeds now succeed) and M0-d-09's re-derivation pair (an address collision the new S8 output
+      exposes); both REPORTED.
+50. **N-50 the round's mutant table (J183; the lane mirror, each mutant on its pin files with `--bail=1`, `--maxWorkers=1`,
+    restored by copy and `cmp -s` before the next).**
+    47 targeted mutants (`--maxWorkers=1 --bail=1` on each mutant's pin files; restored by copy and `cmp -s` before the
+    next, each `restored=True`); 42 killed, 5 survivors judged. RQ5a – RQ5d and Z03 re-run on the final `corridor.test.ts`;
+    BOUND, PLACED, PIECES and N04 on the final `plane.ts` / `trace.ts` (the lane's last part).
+      | id | row | file | the mutation | pin files | result (the first red test) |
+      |---|---|---|---|---|---|
+      | N7 | N-7 | plane.ts | `departure` sampled every metre again | trace.test.ts | KILLED — "seed 1: every gate vertex lies on the committed trace exactly; the trace departs from the boundary by ≤ 40 m everywhere" |
+      | N04 | N-8 | trace.ts | the in-batch band proof finds no side | trace.test.ts | KILLED — "a way's vertex 25 cm beyond that chord's farthest point, 40.18 m from the boundary: the insertion routes the wall through it (§3.6 step 3) and the bat…" |
+      | N06 | N-9 | trace.ts | the smoothing measured against the spliced ring | trace / water / sides | SURVIVED — equivalent in effect, probed (195 variants identical; row 47, 9) |
+      | N10 | N-9 | plane.ts | `bandLimit` without its 1 cm | pull / trace | KILLED — "the side clause holds a vertex whose move keeps it inside 39.74 m when a side to a pinned vertex 39.945 m out is not proved within the band less one l…" |
+      | N12 | N-9 | pull.ts | the smoothing's vertex clause at the band + 10 m | pull.test.ts | KILLED — "the vertex clause holds a vertex the pass would set beyond the band less the attraction distance (39.74 m), though both its sides keep the band (39.99…" |
+      | N13 | N-9 | trace.ts | `report.departureCm` against the spliced ring | trace.test.ts | KILLED — "on flat ground the trace keeps the chord and the report reads its departure from the boundary as given: 16 m and more" |
+      | N17 | N-9 | trace.ts | the union rung's candidate not simplified | fwall / trace | SURVIVED — equivalent in effect, probed (30 variants identical; row 47, 9) |
+      | RP | N-9/N-11 | pull.ts | the rounded points not proved | pull / sides | KILLED — "the rounded points proved (N-9, N-11): a side 1.7 cm deep in a pond on doubles and 2.04 cm deep once its moved end is rounded keeps that end where it …" |
+      | M06 | N-40 | pull.ts | the smoothing's band vertex clause off | pull.test.ts | KILLED — "the vertex clause holds a vertex the pass would set beyond the band less the attraction distance (39.74 m), though both its sides keep the band (39.99…" |
+      | M07 | N-40 | pull.ts | the smoothing's barred-ring vertex clause off | pull.test.ts | KILLED — "the vertex clause holds a vertex the pass would set 1 cm inside a barred ring, though its sides touch the ring within the water's 2 cm" |
+      | K26 | N-14 | pull.ts | a ramp step's sides swapped | pull / sides | KILLED — "a step whose own side crosses the pond is never taken: the pulled line keeps off it, the pin unmoved" |
+      | M34 | N-4 | plane.ts | `selfTouches`' adjacent fold-back clause off | fwall.test.ts | KILLED — "the detection's fold-back clause alone: a sliver triangle (every pair of its sides adjacent) folds back on itself; a right triangle does not (N-4, M34…" |
+      | K18 | N-13 | wet.ts | a side of the ring never on it | sides.test.ts | KILLED — "only a side OF the ring lies on it: a side between two of its vertices that are not neighbours crosses the water (N-13, K18)" |
+      | K19 | N-13 | wet.ts | `firstOver` skips the closing side | sides.test.ts | KILLED — "firstOver tests the closing side too: a line whose only wet side runs from its last vertex to its first (N-13, K19)" |
+      | A07 | N-39 | commit.ts | the trace's warnings dropped | commit.test.ts | KILLED — "a way's vertex 10 cm off the boundary draws the trace onto it: commitS3Slice's warnings begin with the trace's W_ATTRACTED there" |
+      | A08 | N-39 | commit.ts | the plaza not handed to the trace | commit.test.ts | KILLED — "a 3 ha town (its plaza 26.8 m inside the outline) under a field pulling the line toward the plaza: the trace is held on its ring, never inside" |
+      | A11 | N-39 | test support.ts | `depthOf`'s far-side shortcut reads 0 | sides.test.ts | KILLED — "the oracle reads a segment wholly inside the ring, far from its line, by its depth (N-39, A11)" |
+      | TAG | N-19 | trace.ts | the chord refusal without `[water: loose-gate]` | chord.test.ts | KILLED — "the twin whose chord the insertion splits — a stage-1 wall stub crossing gate:w0's chord in the water, 3 m each side — is refused inside the batch (th…" |
+      | M15 | N-15 | water.ts | `SETTLE_ROUNDS` 1 | chord.test.ts | KILLED — "P2: one such vertex near each bank — both banks settle, over two rounds, and the chord V → W is clear (N-15, M15)" |
+      | M27 | N-15 | water.ts | a settling vertex past the chord's three quarters ignored | chord.test.ts | KILLED — "P1: a shore vertex near the EXIT bank, past the chord's last quarter, takes the exit; the chord from the bank to it is clear (N-15, M27)" |
+      | M14 | N-16 | water.ts | a settled chord leaving the water kept | chord.test.ts | KILLED — "a bank settled onto a shore vertex whose chord then leaves the water is no clear chord (N-16, M14)" |
+      | M20 | N-17 | water.ts | `waterGates` without the arena's vertices | chord.test.ts | KILLED — "waterGates(trace, water, k) reads the arena's vertices (N-17, M20): the bank settles on V; a vertex of a way in the water nearer the bank than V, no s…" |
+      | N14 | N-10 | water.ts | the chord-in-water test at nine samples, outer ring only | water.test.ts | KILLED — "a land spit 5 cm wide across the chord between two of its nine-tenths samples: the chord is not taken" |
+      | HOLES | N-10 | water.ts | the water's holes not read | water.test.ts | KILLED — "an island under the chord, above the course: the chord crosses the hole's ring and is not taken; the same river without the island takes it" |
+      | TOOTH | N-10 | water.ts | no tolerance for a shore's tooth | chord.test.ts | KILLED — "commits with every water gate's chord one wall edge from gate_end 0 to gate_end 1: 0 ungated wet sides under the strict reading" |
+      | Y07 | L31 | water.ts | the chord's middle not tested in the water | bend.test.ts | KILLED — "the crossing has no chord in the water and no bank route within the band clears one: refused E_INVARIANT `water`, named, nothing written — never a gat…" |
+      | Y12 | L31 | water.ts | a routed chord taken clear unsettled | bend.test.ts | KILLED — "a routed chord settles as every chord does (Y12): a way's vertex in the water 10 cm off it, no shore's, leaves it not clear — refused before the pull,…" |
+      | Y15 | L31 | water.ts | a route across two water bodies on one ring's indices | bend.test.ts | KILLED — "a crossing that enters one water body and ends on another's shore is never routed on one ring's side indices (Y15): its chord leaves the water, no rou…" |
+      | Y17 | L31 | water.ts | the shore tolerance 50 cm | bend.test.ts | KILLED — "crossWater: a chord through a thin land needle between its nine samples is not clear — another pair is taken, its chord crossing no shore" |
+      | N21 | N-21 | fixtures/relief60-s9-stage2.json | the pre-round fixture (costs not recaptured) | sides / chord | KILLED — "commits with every water gate's chord one wall edge from gate_end 0 to gate_end 1: 0 ungated wet sides under the strict reading" |
+      | Q27 | Q27 | strips.ts | the given stops alone (no merge) | strips.test.ts | KILLED — "a gate the given stops leave out is stopped all the same, its way read from the arena at the given stops' half-width; a given stop keeps its own path" |
+      | Z03 | N-22 | strips.ts | the vertex clause at `attractCm` | corridor.test.ts | KILLED — "seed 3980833922: that face is wall_strip:2-outer" |
+      | Z04 | N-22 | strips.ts | the vertex clause at twice the slack | corridor.test.ts | SURVIVED — subsumed by the area clause (row 47, 22) |
+      | Z10 | N-23 | strips.ts | the outer side's corridor clauses off | corridor.test.ts | KILLED — "a gate whose way runs inward only (N-23): the outer side's one face holds the gate's vertex, so the outer side is refused, named, nothing written" |
+      | Z12 | N-24 | strips.ts | the strip-width clause off | corridor.test.ts | KILLED — "a probe meeting open ground beyond the strip's width (N-24): the glacis line cut away by the frame on the west and no border laid, the outer side's on…" |
+      | RQ5a | N-26 | strips.ts | no corridor beyond the stops (given corridors and arena ways) | corridor.test.ts | KILLED — "a way along the wall's outside, its corridor over the trace (given as a corridor, no gate on it): the faces inside the corridor hold no vertex deeper …" |
+      | RQ5b | N-26 | strips.ts | no area clause (`deeperThan`) | corridor.test.ts | KILLED — "a way along the wall's outside, its corridor over the trace (given as a corridor, no gate on it): the faces inside the corridor hold no vertex deeper …" |
+      | RQ5c | N-26 | strips.ts | the gate's way chain not read (`wayThrough`) | corridor / strips | KILLED — "a gate's way read from the arena bends along the wall inside: the way chain through the gate's vertex is read whole, and the strips stop at its corrid…" |
+      | RQ5d | N-26 | strips.ts | the arena's other ways not read | corridor.test.ts | KILLED — "a way of the arena with no gate on it runs along the wall inside: read from the arena at `wayHalfWidthCm`, its corridor stops the strips there" |
+      | BEYOND | N-26 | strips.ts | the setback-line side clause off | corridor.test.ts | KILLED — "a face beyond the setback line is no strip however near the trace its vertices stand (RQ5, by area): the town inside a closed inner setback stays unty…" |
+      | N28 | N-28 | strips.ts | the corridor ring pieces not laid | corridor.test.ts | KILLED — "a way run along the trace (RQ5): the strips stop at its corridor along its whole length — the corridor's own face, holding the gate's vertex, is no st…" |
+      | FLOOR | R-31/Q52 F | strips.ts | a chain below `attractCm` laid | corridor.test.ts | KILLED — "seed 1933152649: S3 commits (refused E_DEGENERATE `empty` before the round — the insertion of a ~15 cm inner chain), both strips typed" |
+      | K05 | N-11 | trace.ts | the pre-commit side proof off | sides / trace / pull | SURVIVED — a backstop, equivalent in effect (row 47, 11) |
+      | BOUND | N-7 | plane.ts | `sideDeparture`'s convex bound taken at the smaller end | trace.test.ts | KILLED — "seed 1: every gate vertex lies on the committed trace exactly; the trace departs from the boundary by ≤ 40 m everywhere" |
+      | PLACED | N-8 | trace.ts | a wall in more than one run refused inside the batch (the first form) | testkit edge/repins.test.ts (RELATED) | KILLED — six refused-safe cells' words ("is not on the committed trace at its point", "branches: a linear role forms simple chains or rings") |
+      | PIECES | N-8 | trace.ts | `wallInPieces` never true | trace.test.ts, repins (RELATED) | SURVIVED — a backstop, no reachable case known (row 47, 8) |
+      | K06 | N-11/N-18 | trace.ts | the in-commit edge proof off | trace.test.ts | KILLED — "a way's vertex in the core 20 cm off the side: the wall routed through it lies over the core, so the batch is refused E_INVARIANT `water`, nothing wri…" |
+
+    The gates on the round's final tree (W = 1, `tools/test_budget.py`): `install --frozen-lockfile` 0; `lint` 0 (eslint
+    1184 files, probe-red ok, nine whole-tree checks); `build` 0; NEAR, the item's folder `test/enceinte/` (12 files) at
+    full strength: 169 / 169; RELATED@1000 over the round's seven source files (`commit.ts`, `plane.ts`,
+    `pull.ts`, `strips.ts`, `trace.ts`, `types.ts`, `water.ts`): 224 test files (bench 40, layout 97, testkit 87, the set
+    vitest's own related selection gives), run one vitest run per file at `PLAT_FUZZ_RUNS=1000`, W = 1, each detached with
+    its own log and done-file (the managing seat's instruction after two container restarts: the split is scheduling
+    only, the same tests and seeds as one `vitest related` run): 2 859 passed, 3 failed — `bench test/determinism/pair.test.ts`
+    (1) and `testkit test/edge/repins.test.ts` (2), row 48's (a) – (c), each REPORTED (outside the owns; (c) red on the
+    before image too). The first full pass on the sources before this part's two changes had found those and two more
+    (`trace.test.ts`'s 5 s timeout and six repins words; row 47's N-7 and N-8 entries), fixed here and green on the rerun. The
+    J176 Mac-reference files and the known foreign `fusion/hausdorff` are not in the set; `ladder-coverage/entry` is, and
+    is green in the tree.
+51. **N-51 the managing seat's ruling J601 on the round's blocked landing (2026-10-28 07:34Z), applied.** The build had
+    LANDED at 07:30Z blocked on row 50's three RELATED@1000 reds; J601 judged them and extended the owns by one test.
+    * **Q37 re-pinned (J601 (b); Q37 resolved by this round).** `testkit test/edge/repins.test.ts`'s census pin "Q37's three
+      seeds: the unplanted state's strips are refused …" was a stale pin whose subject this round changed on purpose (row
+      49: the family's three lawful refusals made to succeed, 3 → 0). J601 extends the item's owns by
+      `plat/packages/testkit/test/edge/repins.test.ts` for that one test only (named in `landed/M0-c-02.json`'s owns and
+      notes); it is re-pinned to the committed outcome in the form of its Q22 neighbour: "Q37's three seeds 957349493,
+      2306189499 and 4102748823: EP-01/S5a/coincident commits on its first state (M0-c-02 s5)" — handling `absorbed`,
+      tries 1, lawful `[]` — and the file's header comment says so (Q37's seeds once refused at S5, now committing; C-0432,
+      J601). No other test of the file was touched. Re-run (`PLAT_FUZZ_RUNS=1000`, W = 1): 24 / 25 passed, the one red
+      the foreign coincident pin below.
+    * **Declared red, Q124 (J601).** `bench test/determinism/pair.test.ts:86` ("every S1 and S4 entity survives
+      identically …", seed 1): the hand-on gives one old id to two fresh entities (`junction:6nymg6w713p26`) and its
+      counters (`duplicateIds`, `silentRebinds`) miss the case — the matcher's defect, exposed by this round's declared
+      shift; opened as Q124 for M0-d-09's next round. A DECLARED RED on the design tree until that round lands: not fixed,
+      not pinned, `bench/src/determinism` and `@plat/model` untouched. Re-run (`PLAT_FUZZ_RUNS=1000`, W = 1): 8 / 9
+      passed, red at `:86` only.
+    * **Foreign (J601 (c)).** repins' "EP-01/S5a/coincident at seed 1658509524: refused-safe …" (received `absorbed`) is
+      red on the before image too: Q106's (M0-e-03 S1's in-flight work). Nothing for this item.
+    * The gates after the re-pin (W = 1): `install --frozen-lockfile` 0; `lint` 0 (eslint 1184 files, probe-red ok);
+      `build` 0; NEAR `test/enceinte/` 169 / 169. RELATED@1000 is not re-run (row 50's 224 per-file runs stand; only the two
+      files above were re-run, as J601 says). C-0432 (18) amended to record the ruling.
+
+## Closing check of hardening round S5 (`check/M0-c-02-close-s5`, 2026-10-28)
+
+Every row of the round is confirmed (`M0-c-02-s5.md`, PASS). These notes come from this lane's own 50 mutants and its
+probes in the mirror `/home/user/maps-scratch/waves/check-M0-c-02/s5/after/` (the probes `packages/testkit/zz-probe/
+{edge,family,base,p4given}.ts` and `packages/layout/zz-probe/centre.ts`, the mirror's only additions). Under N-48 and the
+blocker rule the KI rows are test-gap notes on code the probes confirm correct, not blockers; N-52 and N-56 are for the
+session.
+
+52. **N-52 session + KI: an arena way whose run ends inside a strip's band refuses the side (a lawful-input refusal
+    outside the registered families; MAKE-IT-SUCCEED candidate).**
+    * Observation (probe `centre.ts`, real code): a 400 m square trace with no gate and one arena way chain (role `way`,
+      no gate on it) 20 m long parallel to the wall 7.5 m outside it (its 14 m corridor at `wayHalfWidthCm` 700 wholly
+      inside the outer strip's band); `layStrips` with no given stop is refused E_INVARIANT "layStrips: a side's lines
+      closed no strip face — the outer side: vertex (-20750, -1000) is way:short's gate vertex (the face crosses its
+      corridor)", nothing typed. The same with the way 60 m long, and with the way inside the wall at 4 m (the inner
+      side refused). Cause (read): `strips.ts` gives an arena way read as an extra stop `at: run[0]`, and `whyNot`'s
+      gate-vertex clause (`v.x === st.at.x && v.y === st.at.y`) reads the way's END vertex as a gate's; the insertion lays
+      the corridor's flat-cap chain through that existing vertex (§3.6 step 3), so the strip face beside the corridor
+      holds it and is barred, and a side whose only face holds it is refused. **CONFIRMED** (probe, read).
+    * Input kind: LAWFUL (an L1 way chain ending inside the band is lawful geometry); OUR OWN INTERMEDIATE if a stage
+      lays a dead-end lane inside a later enceinte's band. Not reached by the registered families: this seat's census
+      (family indices 0 – 999 and Q37's seeds, Q52's 26 cells, the base set's 30 runs) reads no such refusal, and the
+      refusal is typed and fails safe (nothing written).
+    * Suggested handling: the gate-vertex clause only for a stop that names a gate of the enceinte (a sentinel `at` for
+      an arena way, or the clause keyed on `enceinte.gates`); a pin with this probe's fixture (the strips beside the
+      corridor typed, the corridor's own face not). The hardening pass (M4), or earlier if a census seed meets it.
+53. **N-53 KI: the centreline clause of the area rule is not isolated by a pin (mutant CENTRE; M4).**
+    * Observation: `whyNot`'s third area clause (a corridor's centreline vertex inside the face, deeper than the slack)
+      survives the item's tests. On N-52's fixture it is shadowed by the gate-vertex clause (identical refusal with and
+      without it). It is load-bearing for a corridor wholly inside a band whose end vertices lie in no band face (a
+      given corridor, or an arena way once N-52 is fixed): the corridor's own face has every vertex and side on its ring
+      (depth 0, so the vertex and `deeperThan` clauses pass) and only the centreline inside it — without the clause that
+      face would be typed `wall_strip`. **CONFIRMED** (survival, probe); the reach **PLAUSIBLE** (read).
+    * Suggested handling: a pin with a given corridor 20 m long parallel to the wall inside the outer band: the
+      corridor's own face never typed, the strips beside it typed.
+54. **N-54 KI: N06 and N17 survive as equivalent in effect (M4).**
+    * N06 (the smoothing measured against the water-spliced ring instead of the boundary as given) survives trace,
+      water and sides. Reasoned: every free vertex starts on the boundary as given (a chord's only vertices are its
+      pinned banks; a routed crossing's walked points are kept), the pull's offsets are bounded from that start and the
+      passes move a vertex toward neighbours that keep the band; beside a chord the spliced ring is nearer, so the
+      smoothing is more permissive by at most the bow's depth, and the pre-commit proof against `ring0` refuses such a
+      trace (fail safe, never a wrong commit). N17 (the union rung's candidate not simplified before its verdict)
+      survives fwall and trace: the trace's own simplify runs on the rung's line after the rungs at the same bounds; an
+      outline the verdict refuses unsimplified costs a refusal. The builder's 195 and 30 variants were byte-identical.
+      **CONFIRMED** (survival); the equivalence **PLAUSIBLE** (read).
+    * Suggested handling: a chorded crossing with a deep bow under an outward field where the two margins differ; a
+      union-rung outline the verdict refuses unsimplified.
+55. **N-55 KI: `traceWithStrips`' hand-over of each gate's whole route as `corridors` is not isolated (mutant CORR; M4).**
+    * Observation: dropping `corridors` from `commit.ts`' `layStrips` call survives `corridor.test.ts` (47 s): the RQ5
+      seeds' arterial bends lie within the stop's own path (`WAY_SPAN_NODES` = 4 nodes, about 100 m, each side of the
+      gate), and the arterial through a gate's vertex is not read as an arena extra (`gateAt`), so only a route that
+      re-enters the band farther than that from its gate reaches the hand-over. `layStrips`' own handling of a given
+      corridor is pinned (RQ5a's hand fixture). **CONFIRMED** (survival, read).
+    * Suggested handling: a fixture whose arterial re-enters the band beyond `WAY_SPAN_NODES` from its gate.
+56. **N-56 session notes.**
+    * Every arena way read as an extra stop takes the widest given way stop's half-width (`widest`, C-0432 (10)), not
+      its own class's: a narrower way's corridor is over-stopped by up to the difference — fail safe (never a strip over
+      a corridor), a quality shortfall for the pass that gives `layStrips` each way's width (the kernel's spine widths or
+      the Way records; M0-c-04's `stageStops` or M4). **CONFIRMED** (read).
+    * C-0432's header says "DECLARED SHIFT (strip faces only)" while its body declares the stage-2 walls (≤ 28.5 cm on
+      8 of 1 000 family seeds) and the ways (≤ 165.7 cm on 5) moving with them; the body is the record.
+    * `corepack pnpm landed:verify -- flow-7 --item M0-c-02` exits 1 on one line, `repins.test.ts` outside M0-work.json's
+      owns of M0-c-02 — J601's extension, until the session records it (in `M0-work.json`, or by taking the one
+      re-pinned test back into M0-x-06's owns at its next round). Every other path and every hash verified (27 / 27).
+    * The test oracle `coveredCorridorPoints` reads 22 – 74 stage-2 points on seven of the 1 000 family indices (19
+      3443032966, 87 2251116277, 395 1021673811, 459 3378976297, 464 2785212533, 729 2505145090, 950 3187772940 — the
+      builder's seven, N-48 (1)); with `strips.ts` instrumented in the mirror to publish the stops and corridors
+      `layStrips` was given, P4 along those paths reads 0 on all seven (7 295 – 9 630 stage-2 corridor points each; 8 090 –
+      8 870 at stage 1) — the oracle's own stage-2 normal, not a strip over a stop. **CONFIRMED.** KI: give the oracle the
+      stops as given (c-04's `stageStops`).
+    * The builder's L-0669 discloses one read-only `git log -1` at the lane's start (a working-rule slip, no content
+      outside rule 1 reached it); the session records it. This seat: one non-recursive `ls docs/ | head` listed file
+      names of the project's `docs/` folder (nothing opened); for about four minutes two of its own probes ran at once
+      (the base census's last run and the P4-given probe, then the family census 300 – 999) when a wait on the base
+      census's done-file timed out and was read as done — probes of its own, no test of the tree; no other overlap.
+    * RELATED@1000's reds, each ruled before this check: (a) `bench determinism/pair.test.ts:86`, seed 1 — the declared red Q124 (J601), M0-d-09's matcher, exposed by the round's shift; (b) `testkit edge/repins.test.ts`' coincident 1658509524 — foreign, Q106 (red on the before image too). Nothing else red in 224 files (2 860 tests).

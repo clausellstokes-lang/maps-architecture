@@ -3,9 +3,9 @@
 // shore and bank edges, the land components by flood fill, every crossing site's two pinned deck_end vertices of a
 // Bridge in state site — siteCrossings, Terrain.outfalls, and the batch as a Stage. This index and its folder are
 // M0-e-03's. Its files also export, at file level, helpers for the sibling files to import by path; they are not part
-// of the package's API and so are not listed here (J263 Q1): geometry.ts `lp`, `quot`; offset.ts `unitOf`, `offsetRing`,
+// of the package's API and so are not listed here (J263 Q1): geometry.ts `lp`; offset.ts `unitOf`, `offsetRing`,
 // `mouthRing` and the ring tools (`cleanRing`, `clearRing`, `isSimple`, `ringsApart`, `clearOf` …); polygons.ts
-// `KERNEL_RING`, `PART_DROPPED`, `provedRings`, `fastRings`, `chainOf`, `simplifyChain`, `SIMPLIFY_CM`.
+// `KERNEL_RING`, `provedRings`, `fastRings`, `chainOf`, `simplifyChain`.
 export {
   DECK_CLEARANCE_CM,
   DECK_SPAN_SHARE_MAX,

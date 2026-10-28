@@ -1,8 +1,9 @@
 // M0-c-02, the dry-side rule (N-54 (1); C-0282): the trace's SIDES, not its vertices only, against the water and the
 // reservations — the pull, the smoothing, F-WALL's verdict and the final proof test every side, so no vertex pulled
 // across a river onto the far bank's land commits bare wall chords over the water (the registered replay
-// fixtures/relief60-s9-stage2.json, relief-60 CITY seed 9 stage 2: tested by vertices only, boundary vertex 124 pulled
-// 29.8 m onto the far bank and two bare chords 11 m deep were committed). The property, per committed wall edge: it
+// fixtures/relief60-s9-stage2.json, relief-60 CITY seed 9 stage 2). Counterfactual, not what the code does: tested by
+// vertices only (before N-54 (1)), boundary vertex 124 was pulled 29.8 m onto the far bank and two bare chords 11 m
+// deep were committed. The property, per committed wall edge: it
 // lies over water ⇔ it is a water gate's course edge (`wall_gate`). Water is measured here independently (sampled every
 // 25 cm, wet when strictly inside the ring and more than 2 cm from its line).
 import { readFileSync } from 'node:fs';
@@ -41,6 +42,24 @@ describe('the side test (wet.ts): a side lies over a ring when a point of it lie
     // 3 cm deep along 10 m: over (the tolerance is 2 cm).
     expect(w.over(P(10003, -500), P(10003, 500))).toBe(true);
     expect(w.over(P(10001, -500), P(10001, 500))).toBe(false);
+  });
+
+  it('only a side OF the ring lies on it: a side between two of its vertices that are not neighbours crosses the water (N-13, K18)', () => {
+    expect(w.over(P(10000, -50000), P(60000, 50000))).toBe(true);
+    expect(w.over(P(10000, -50000), P(60000, -50000))).toBe(false);
+  });
+
+  it('firstOver tests the closing side too: a line whose only wet side runs from its last vertex to its first (N-13, K19)', () => {
+    const line = [P(0, 0), P(0, 70000), P(70000, 70000), P(70000, 0)];
+    expect(w.firstOver(line)).toBe(3);
+    // Every other side is dry: the same line closed further north is.
+    expect(w.firstOver([P(0, 60000), P(0, 70000), P(70000, 70000), P(70000, 60000)])).toBe(-1);
+  });
+
+  it('the oracle reads a segment wholly inside the ring, far from its line, by its depth (N-39, A11)', () => {
+    // Its middle 200 m from the nearest ring line, the segment 2 m long: the far-side shortcut, never 0.
+    expect(depthOf(P(30000, -100), P(30000, 100), lake)).toBeCloseTo(20000, 6);
+    expect(depthOf(P(-30000, -100), P(-30000, 100), lake)).toBe(0);
   });
 
   it('a water gate\'s course side may lie over the water (either way), never over a reservation', () => {
@@ -181,6 +200,31 @@ describe('through the strategy: no committed wall edge over water but a water ga
     }, 120_000);
   }
 
+  it('a pond under the smoothed corner side, about 1.98 cm deep on doubles and 2.34 cm once its moved end is rounded: the rounded points are proved, the corner vertex stays home and the trace commits dry (N-11; C-0282)', () => {
+    const site = smallSite(2);
+    const { plat, k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    // The third smoothing pass moves (-280, -300) m to (-279.84375, -299.84375) m, which rounds to (-279.84, -299.84) m;
+    // the pond's north-west shore runs under the side from there to (-270, -300) m. Before the round the rounded side
+    // reached the pre-commit proof and the trace was refused E_INVARIANT `water: the trace's side -27984,-29984 →
+    // -27000,-30000 lies over water …`, nothing written.
+    const POND = [P(-27944, -29987), P(-27100, -29998), P(-27100, -29598), P(-27944, -29587)];
+    const water = handBuildWater(k, POND, 'pond:1', P(-27522, -29787));
+    const boundary = densify([[-30000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]);
+    const gates: GateSite[] = [
+      { ordinal: 0, at: P(-30000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+      { ordinal: 1, at: P(0, -30000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+    ];
+    const r = traceBase(boundary, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
+    if (!r.ok) return;
+    expect(r.value.traced.line.some((q) => q.x === -28000 && q.y === -30000)).toBe(true);
+    expect(r.value.traced.line.some((q) => q.x === -27984 && q.y === -29984)).toBe(false);
+    const depths = wallDepths(plat, 'enceinte:1', POND);
+    expect(depths.length).toBeGreaterThan(0);
+    for (const d of depths) expect(d.depth).toBeLessThanOrEqual(WET_TOL_CM);
+  }, 120_000);
+
   it('a graze along a bulged shore arc commits: the trace follows the shore, no wall edge midpoint more than 2 cm in the water, no gate', () => {
     const site = smallSite(2);
     const { plat, k } = kernelFor(site);
@@ -205,6 +249,9 @@ describe('through the strategy: no committed wall edge over water but a water ga
     expect(wall.some((e) => [e.a, e.b].some((q) => q.x === 30400 && q.y === 0))).toBe(true);
   }, 120_000);
 });
+
+/** The replay's pull and line (N-14). */
+const REPLAY_PULL = { pull: { moved: 151, maxOffsetCm: 3974 }, line: 224 };
 
 describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and boundary beside a ~22 m river', () => {
   interface Fixture {
@@ -240,9 +287,9 @@ describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and b
       core: [pts(fx.plaza), ...fx.core.map(pts)],
       costField: cost,
     });
-    // The captured field covers every point the pull read, but the candidates about gate:w0's bank, which settling moves
-    // 27 cm along the shore (C-0300): those read 0, each within twice the band of the settled bank.
-    for (const q of misses) expect(Math.hypot(q.x + 13908, q.y + 90171)).toBeLessThanOrEqual(8000);
+    // The captured field covers every point the pull read (misses 0): the candidates about gate:w0's bank, which settling
+    // moves 27 cm along the shore (C-0300), were captured again from the seed's terrain (N-21).
+    expect(misses).toEqual([]);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const t = r.value.traced;
@@ -250,8 +297,9 @@ describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and b
     // moves 27 cm along the shore onto the shore vertex its chord passed 11 cm off (C-0300; chord.test.ts).
     const settled = fx.before.waterGates.map((g, i) => (i === 0 ? [{ x: -13908, y: -90171 }, g[1]] : g));
     expect(t.waterGates.map((g) => g.bankAt.map((q) => ({ x: q.x, y: q.y })))).toEqual(settled);
-    // The pull still moves the line (the seed's own field), within the band.
-    expect(t.report.pull.moved).toBeGreaterThan(0);
+    // The pull moves the line (the seed's own field), within the band: its figures pinned (N-14 — a ramp step tested on
+    // the wrong segment moves other vertices).
+    expect({ pull: t.report.pull, line: t.line.length }).toEqual(REPLAY_PULL);
     expect(t.report.departureCm).toBeLessThanOrEqual(4000);
     // Per side of the trace: over the water ⇔ the chord between a water gate's two banks.
     const chord = (a: Pt, b: Pt): boolean => t.waterGates.some((g) => [[0, 1], [1, 0]].some(([i, j]) => g.bankAt[i].x === a.x && g.bankAt[i].y === a.y && g.bankAt[j].x === b.x && g.bankAt[j].y === b.y));

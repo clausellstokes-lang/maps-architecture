@@ -124,22 +124,70 @@ export function distToRing(p: XY, ring: readonly XY[]): number {
   return Math.sqrt(best);
 }
 
+/** The tolerance of `departure` (cm): it reads the largest distance at most this much below the exact one (N-7). */
+export const DEPARTURE_TOL_CM = 0.5;
+
 /**
- * The largest distance of the closed line `line` from the closed ring `ring`, over its vertices and points every
- * `stepCm` along each of its sides (S3 (9)'s test: "the trace departs from the boundary by ≤ 40 m everywhere").
+ * The largest distance of the closed line `line` from the closed ring `ring` (S3 (9)'s test: "the trace departs from the
+ * boundary by ≤ 40 m everywhere"), to within `DEPARTURE_TOL_CM` below the exact value (N-7): a distance from a set moves
+ * by at most the distance moved, so a stretch of half-length h about a point at distance d holds nothing farther than
+ * d + h; each side's stretches are halved, from its two ends and its middle, until none can hold a point farther than
+ * the largest distance found plus the tolerance. Never above the exact value.
  */
-export function departure(line: readonly XY[], ring: readonly XY[], stepCm = 100): number {
+export function departure(line: readonly XY[], ring: readonly XY[]): number {
   let worst = 0;
-  for (let i = 0; i < line.length; i += 1) {
-    const a = line[i];
-    const b = line[i + 1 === line.length ? 0 : i + 1];
-    const l = dist(a, b);
-    const n = Math.max(1, Math.ceil(quot(l, stepCm, 'length', 'departure step')));
-    for (let s = 0; s < n; s += 1) {
-      const t = quot(s, n, 'count', 'departure sample');
-      const d = distToRing({ x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) }, ring);
-      if (d > worst) worst = d;
+  for (let i = 0; i < line.length; i += 1) worst = sideDeparture(line[i], line[i + 1 === line.length ? 0 : i + 1], ring, worst);
+  return worst;
+}
+
+/**
+ * The largest distance of segment ab from the closed ring `ring`, or `floor` when that is larger, to within
+ * `DEPARTURE_TOL_CM` below the exact value (the halving of `departure`).
+ */
+export function sideDeparture(a: XY, b: XY, ring: readonly XY[], floor = 0): number {
+  let worst = floor;
+  const n = ring.length;
+  // The squared distance of the point at t from each side of the ring; the point's distance is the least of them.
+  const sides = (t: number): Float64Array => {
+    const p = { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) };
+    const out = new Float64Array(n);
+    for (let i = 0; i < n; i += 1) out[i] = footOn(p, ring[i], ring[i + 1 === n ? 0 : i + 1]).d2;
+    return out;
+  };
+  const least = (d: Float64Array): number => {
+    let m = Infinity;
+    for (let i = 0; i < n; i += 1) if (d[i] < m) m = d[i];
+    return Math.sqrt(m);
+  };
+  // A bound on the stretch between two points: the distance from one side of the ring is convex along a segment, so on
+  // the stretch it is at most the larger of its two ends; the ring's distance is at most that for every side (perf).
+  const bound = (d0: Float64Array, d1: Float64Array): number => {
+    let m = Infinity;
+    for (let i = 0; i < n; i += 1) {
+      const v = d0[i] > d1[i] ? d0[i] : d1[i];
+      if (v < m) m = v;
     }
+    return Math.sqrt(m);
+  };
+  const s0 = sides(0);
+  const da = least(s0);
+  if (da > worst) worst = da;
+  const l = dist(a, b);
+  if (l === 0 || n === 0) return worst;
+  const s1 = sides(1);
+  const db = least(s1);
+  if (db > worst) worst = db;
+  const stack: [number, Float64Array, number, Float64Array][] = [[0, s0, 1, s1]];
+  while (stack.length > 0) {
+    const [t0, d0, t1, d1] = stack.pop() as [number, Float64Array, number, Float64Array];
+    if (bound(d0, d1) <= worst + DEPARTURE_TOL_CM) continue;
+    const tm = (t0 + t1) * 0.5;
+    const dmS = sides(tm);
+    const dm = least(dmS);
+    if (dm > worst) worst = dm;
+    const half = l * (t1 - t0) * 0.5;
+    if (dm + half <= worst + DEPARTURE_TOL_CM) continue;
+    stack.push([t0, d0, tm, dmS], [tm, dmS, t1, d1]);
   }
   return worst;
 }
