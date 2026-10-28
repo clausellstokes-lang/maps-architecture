@@ -7,9 +7,7 @@
 // (§3.3) and checks §3.10's stage-end rows over every reference the water, the bridges, the land and the terrain hold —
 // its declared row `references-resolve` evaluated once and reported through the context's sink (§5.4's
 // `ReportSink.invariant`: the runner's line counts the evaluation, so a pass is a counted pass; C-0310), a failing hard
-// row refusing the stage E_INVARIANT with the row named first — then writes Terrain.outfalls (S1 (9)), each bank point
-// on its body's committed shore chain (§2.3). The sites' decks are the committed ones, re-read from their deck_end
-// vertices after the commit (the insertion's attraction may move an end). A water batch
+// row refusing the stage E_INVARIANT with the row named first — then writes Terrain.outfalls (S1 (9)). A water batch
 // the kernel refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and
 // reported (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first
 // body, the river, whose refusal is the stage's (C-0229 (2)), its detail naming the fast ring's cause and the kernel
@@ -17,18 +15,17 @@
 // (`provedRings`); a body they cannot make clear is dropped there, reason `refused`. The stage draws nothing (no stream
 // key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel parameter and the
 // StageContext no kernel slot (C-0229 (1)).
-import { checkStageEnd, err, ok, STAGES, type Invariant, type InvariantResult, type Kernel, type KernelError, type KernelResult, type LatticePoint, type Plat, type Warning } from '@plat/kernel';
-import type { Bridge, Cm, GeomRef, HydroGrid, Id, Outfall, PointCm, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
+import { checkStageEnd, err, ok, STAGES, type Invariant, type InvariantResult, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
+import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
-import { cellIndexAt, type XY } from '../hydro/course.js';
 import { GROUND_KEY } from '../terrain/heightfield.js';
 import type { SiteEnv } from '../terrain/types.js';
 import { siteCrossings } from './crossings.js';
 import { bridgeId, outerRingBatch, waterFaces } from './faces.js';
-import { footOn, lp, reachOf, type Reach } from './geometry.js';
+import { reachOf, type Reach } from './geometry.js';
 import { outfalls } from './outfalls.js';
 import { waterParams, type WaterParams } from './params.js';
-import { KERNEL_RING, PART_DROPPED, waterPolygons } from './polygons.js';
+import { KERNEL_RING, waterPolygons } from './polygons.js';
 import type { CrossingSite, DroppedBody, S1Input, S1Output } from './types.js';
 
 /** The work-limit counters an L0 batch charges (M0.md §2.2's insert and tx rows). */
@@ -73,10 +70,8 @@ function water(input: S1Input, bodies: readonly WaterBody[], mouth: S1Input['mou
     return { ok: false, code: 'E_INVARIANT', detail: `the kernel's ring ${at < 0 ? 'refused' : why.slice(at + KERNEL_RING.length)}`, fast: false, fallbacks, riverPolygon: true };
   }
   const reaches = polys.value.reaches;
-  // a fast ring stands among the reaches: a reach whose body has no fast-ring refusal in `fallbacks` (an entry of a body
-  // that is no reach — refused on both polygons, an estuary not split — and a dropped part's entry never count)
-  const slow = new Set(fallbacks.filter((f) => !f.why.startsWith(PART_DROPPED)).map((f) => f.id));
-  const fast = reaches.some((r) => !slow.has(r.body.id));
+  // a fast ring stands among the reaches (a body refused on both polygons is in `fallbacks` but no reach)
+  const fast = fallbacks.filter((f) => !polys.value.dropped.some((d) => d.id === f.id && d.reason === 'refused')).length < reaches.length;
   const sites = siteCrossings(reaches, params.searchBandCm * 0.01, input.existingDecks ?? [], { reach, minSpacingCm: params.minSpacingCm, fordMaxWidthCm: params.fordMaxWidthCm });
   const first = input.water.bridges.length;
   const ids = sites.map((_, i) => bridgeId(first + i));
@@ -151,11 +146,9 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   const reaches = polys.value.reaches;
   const committed = faces;
   const version = plat.version;
-  // the sites' decks re-read from their committed deck_end vertices (note 10): the insertion's attraction can move an
-  // end by up to attractCm, and the site and its Bridge keep the arena's deck
-  const decks = committedDecks(k, plat, sites, committed.value.bridges);
+  const bridges = committed.value.bridges;
   const kept = reaches.map((r) => r.body);
-  const out: WaterSet = { bodies: kept, bridges: [...input.water.bridges, ...decks.bridges] };
+  const out: WaterSet = { bodies: kept, bridges: [...input.water.bridges, ...bridges] };
   // the stage's end: the L0 partitions rebuilt (§3.3), then §3.10's stored references
   if (plat.index !== undefined) k.index.rebuildAtStageEnd(GROUND_KEY);
   const refs: GeomRef[] = [{ role: 'margin', entity: input.terrain.id }];
@@ -180,14 +173,14 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   if (row === undefined) return err('E_INVARIANT', `${REFERENCES_ROW.name}: the kernel's stage-end check returned no such row at S1's end`);
   const failed = rows.filter((r) => r.class === 'hard' && !r.holds);
   if (failed.length > 0) return err('E_INVARIANT', stageEndDetail(failed));
-  // S1 (9): the outfalls on the hydrology S1 (3) left, each bank point on its body's committed shore chain (note 1)
-  input.terrain.outfalls = onCommittedShores(k, plat, input.terrain.hydro, outfalls(input.terrain, reaches, { reach, stretchCm: params.outfallStretchCm }));
+  // S1 (9): the outfalls on the hydrology S1 (3) left
+  input.terrain.outfalls = outfalls(input.terrain, reaches, { reach, stretchCm: params.outfallStretchCm });
   return ok(
     {
       terrain: input.terrain,
       water: out,
       land: committed.value.land,
-      sites: decks.sites,
+      sites,
       report: {
         dropped: [...refused, ...polys.value.dropped],
         fallbacks: polys.value.fallbacks,
@@ -199,76 +192,6 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     },
     warnings,
   );
-}
-
-/**
- * The sites with their decks as committed (note 10): each site whose two `deck_end` vertices resolve, one each, where
- * its deck's ends do not lie takes the resolved points as its deck and their distance, rounded, as its span — and its
- * Bridge that span; every other site and Bridge is returned as it is.
- */
-function committedDecks(k: Kernel, plat: Plat, sites: readonly CrossingSite[], bridges: readonly Bridge[]): { sites: CrossingSite[]; bridges: Bridge[] } {
-  const outSites: CrossingSite[] = [];
-  const outBridges: Bridge[] = [];
-  for (let i = 0; i < sites.length; i += 1) {
-    const site = sites[i];
-    const bridge = bridges[i];
-    const ends: LatticePoint[] = [];
-    for (const ref of bridge.deck) {
-      const r = k.resolve(ref, GROUND_KEY);
-      if (r.view === 'vertices' && r.vertices.length === 1) ends.push({ x: plat.vertices.x[r.vertices[0]] as Cm, y: plat.vertices.y[r.vertices[0]] as Cm });
-    }
-    const [a, b] = ends;
-    if (ends.length !== 2 || (a.x === site.deck[0].x && a.y === site.deck[0].y && b.x === site.deck[1].x && b.y === site.deck[1].y)) {
-      outSites.push(site);
-      outBridges.push(bridge);
-      continue;
-    }
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const span = Math.round(Math.sqrt(dx * dx + dy * dy));
-    outSites.push({ ...site, deck: [a, b], spanCm: span });
-    outBridges.push({ ...bridge, spanCm: span as Cm });
-  }
-  return { sites: outSites, bridges: outBridges };
-}
-
-/**
- * Each bank outfall's point moved onto its body's committed shore chain (§2.3: `at`, "the bank point (on the receiving
- * body's shore chain)"; note 1): `outfalls` reads the polygon handed to the batch, and the insertion's attraction can
- * move the committed chain off it by up to attractCm. The point becomes the nearest point of the shore's committed edges
- * (`footOn`, the first nearest in the chain's order), rounded to the centimetre, and `cell` is re-found from it; a frame
- * outfall, and one whose point already lies there, is kept as it is.
- */
-function onCommittedShores(k: Kernel, plat: Plat, g: HydroGrid, outs: readonly Outfall[]): Outfall[] {
-  const shores = new Map<Id, [XY, XY][]>();
-  const O = plat.halfEdges.origin;
-  const pt = (v: number): XY => ({ x: plat.vertices.x[v], y: plat.vertices.y[v] });
-  return outs.map((o) => {
-    if (o.water === null) return o;
-    let segs = shores.get(o.water);
-    if (segs === undefined) {
-      segs = [];
-      const r = k.resolve({ role: 'shore', entity: o.water }, GROUND_KEY);
-      if (r.view === 'edges') for (const run of r.runs) for (const h of run) segs.push([pt(O[h]), pt(O[h ^ 1])]);
-      shores.set(o.water, segs);
-    }
-    let best: XY | null = null;
-    let bestD = Infinity;
-    for (const [a, b] of segs) {
-      const f = footOn(o.at, a, b);
-      const dx = f.x - o.at.x;
-      const dy = f.y - o.at.y;
-      const d = dx * dx + dy * dy;
-      if (d < bestD) {
-        bestD = d;
-        best = f;
-      }
-    }
-    if (best === null) return o;
-    const at = lp(best) as PointCm;
-    if (at.x === o.at.x && at.y === o.at.y) return o;
-    return { ...o, at, cell: cellIndexAt(g, at.x, at.y) };
-  });
 }
 
 /**

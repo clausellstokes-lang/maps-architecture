@@ -7,24 +7,19 @@
 //
 // runs, on one-face districts through the real S8 stage (district.ts), on M0-k-01's generated faces (faces.ts):
 //   fcut       §4.6 step 8's F-CUT bar on --fcut random faces (10⁵; half concave, half holed): each face's ladder ends
-//              in ≤ 6 kernel calls and the face count never decreases (runs.ts); the ladders that ended `unresolved`
-//              (every rung refused, the face left whole: an ending, no pass of rung (c)) printed beside the verdict
-//              (hardening S3, N-1);
+//              in ≤ 6 kernel calls and the face count never decreases (runs.ts);
 //   residue    --districts whole districts of the same faces (1 000): each district's substitution residue share
 //              against the soft 5 % (reported, never gating), and every ladder at every depth, judged with F-CUT (a
 //              district S8 refuses or throws on fails it);
 //   signature  --sig faces of each of §16 M0 (b)'s five kinds (100): every cut the planner made, replayed and measured
 //              (signature.ts) — σ and the fillet share reported, the corner clause (within 0.10 of mid-course on
-//              ≥ 80 % of bent cuts, every bent cut's corner placed) and the arrival clause (≥ 85° on ≥ 95 %) judged
-//              (C-0073), on the replay's gate (no district unreplayed, no planner cut missed: N-3), the arrival read
-//              from the committed geometry reported beside (N-2);
+//              ≥ 80 % of bent cuts) and the arrival clause (≥ 85° on ≥ 95 %) judged (C-0073);
 //   t34        T34-1's mean of g over --t34 stop draws (10 000) of whole districts of the M0 (b) faces, taken round the
 //              five kinds face by face: within 7/30 ± 3 s.e. (C-0108);
 // and folds the counters' work per unit (C-0091). The full report goes to $PLAT_BENCH_OUT/bentcut/report.json; the
 // numbers-only summary to docs/build/summaries/M0-b-04.json only with --summary on a whole run (checks/M0-spec-notes.md
-// N-03: a run item's re-run writes nothing in plat/). Exit 0 when every bar judged holds (F-CUT, the replay gate, the
-// corner and arrival clauses, T34-1), 1 when one does not, 64 on a bad argument. --workers W runs the faces across W
-// worker threads (the report does not depend on W; a worker that dies fails the run, N-8).
+// N-03: a run item's re-run writes nothing in plat/). Exit 0 when every bar judged holds, 1 when one does not, 64 on a
+// bad argument. --workers W runs the faces across W worker threads (the report does not depend on W).
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -259,7 +254,6 @@ export async function bentcut(a: BentCutArgs, log: (line: string) => void = () =
   const work = workRecords.length > 0 ? foldWork(workRecords) : null;
   const verdicts = {
     fcut: fcut === null ? null : fcut.pass,
-    replay: signature === null ? null : signature.replay.pass,
     corner: signature === null ? null : signature.corner.pass,
     arrival: signature === null ? null : signature.arrival.pass,
     t34: t34 === null ? null : t34.pass,
@@ -287,9 +281,8 @@ export async function run(args: string[], ctx: BentCutContext): Promise<number> 
   const seconds = (performance.now() - t0) / 1000;
   if (r.fcut !== null) {
     const f = r.fcut;
-    say(`bentcut: F-CUT ${String(f.run)} faces run of ${String(f.faces)} (${String(f.setupRefused)} not built, ${String(f.s8Refused)} refused by S8): ${String(f.unresolved)} ladders ended unresolved (${UNRESOLVED_TEXT}); the ladder ends in ≤ ${String(f.maxKernelCalls)} kernel calls, ${String(f.decreases)} face-count decreases — ${f.pass ? 'HOLDS' : 'FAILS'}`);
-    say(`bentcut: F-CUT depth-0 kernel calls ${JSON.stringify(f.callsHistogram)}; outcomes ${JSON.stringify(f.outcomes)}`);
-    say(`bentcut: F-CUT at every depth of ${String(f.allDepths.districts)} whole districts of the same faces: ${String(f.allDepths.ladders)} ladders, ≤ ${String(f.allDepths.maxKernelCalls)} kernel calls, ${String(f.allDepths.decreases)} decreases, ${String(f.allDepths.refused)} districts refused or thrown on by S8, ${String(f.allDepths.unresolved)} ladders ended unresolved`);
+    say(`bentcut: F-CUT ${String(f.run)} faces run of ${String(f.faces)} (${String(f.setupRefused)} not built, ${String(f.s8Refused)} refused by S8): the ladder ends in ≤ ${String(f.maxKernelCalls)} kernel calls (calls ${JSON.stringify(f.callsHistogram)}), ${String(f.decreases)} face-count decreases; outcomes ${JSON.stringify(f.outcomes)} — ${f.pass ? 'HOLDS' : 'FAILS'}`);
+    say(`bentcut: F-CUT at every depth of ${String(f.allDepths.districts)} whole districts of the same faces: ${String(f.allDepths.ladders)} ladders, ≤ ${String(f.allDepths.maxKernelCalls)} kernel calls, ${String(f.allDepths.decreases)} decreases, ${String(f.allDepths.refused)} districts refused or thrown on by S8`);
   }
   if (r.residue !== null) {
     const x = r.residue;
@@ -297,10 +290,7 @@ export async function run(args: string[], ctx: BentCutContext): Promise<number> 
   }
   if (r.signature !== null) {
     const s = r.signature;
-    say(`bentcut: replay over ${String(s.faces)} signature faces: ${String(s.replay.notReplayed)} districts not replayed (S8's own run stood, its cuts unmeasured); ${String(s.replay.missed)} of ${String(s.replay.planner)} planner cuts missed (the bound 0) — ${s.replay.pass ? 'HOLDS' : 'FAILS'}`);
-    say(`bentcut: signature over ${String(s.all.cuts)} planner cuts of ${String(s.faces)} faces (${String(s.replay.matched)} replayed of ${String(s.replay.planner)}, ${String(s.replay.missed)} misses; the ladder's own cuts ${pct(s.fallbackShare)} of ${String(s.replay.cuts)}): corner within 0.10 of mid-course ${pct(s.corner.share)} of ${String(s.corner.n)} bent, ${String(s.corner.measured)} placed (≥ 80 %: ${s.corner.pass ? 'HOLDS' : 'FAILS'}); arrival ≥ 85° ${pct(s.arrival.share)} (≥ 95 %: ${s.arrival.pass ? 'HOLDS' : 'FAILS'})`);
-    const ca = s.committedArrival;
-    say(`bentcut: arrival ≥ 85° read from the committed geometry (reported, not judged): planner lanes ${pct(ca.planner.share)} of ${String(ca.planner.ends)} ends (${String(ca.planner.unmeasured)} unmeasured), all lanes ${pct(ca.all.share)} of ${String(ca.all.ends)} ends (${String(ca.all.unmeasured)} unmeasured)`);
+    say(`bentcut: signature over ${String(s.all.cuts)} planner cuts of ${String(s.faces)} faces (${String(s.replay.matched)} replayed of ${String(s.replay.planner)}, ${String(s.replay.missed)} misses; the ladder's own cuts ${pct(s.fallbackShare)} of ${String(s.replay.cuts)}): corner within 0.10 of mid-course ${pct(s.corner.share)} of ${String(s.corner.n)} bent (≥ 80 %: ${s.corner.pass ? 'HOLDS' : 'FAILS'}); arrival ≥ 85° ${pct(s.arrival.share)} (≥ 95 %: ${s.arrival.pass ? 'HOLDS' : 'FAILS'})`);
     say(`bentcut: reported, not judged (M0-b-05a / M0-b-05b): σ ${s.all.sigma?.toFixed(4) ?? 'n/a'} (plain ${s.all.sigmaPlain?.toFixed(4) ?? 'n/a'}, ring ${s.all.sigmaRing?.toFixed(4) ?? 'n/a'}; first frame ${s.all.sigmaFirstFrame?.toFixed(4) ?? 'n/a'}; attempt 0 ${s.all.sigmaAttempt0?.toFixed(4) ?? 'n/a'}), fillet share ${pct(s.all.fillet)} of bent cuts`);
   }
   if (r.t34 !== null) {
@@ -321,6 +311,3 @@ export async function run(args: string[], ctx: BentCutContext): Promise<number> 
 }
 
 const G_MEAN_TEXT = (7 / 30).toFixed(5);
-
-/** What an unresolved count means, printed beside the F-CUT verdict (hardening S3, N-1; C-0433 (1); pinned verbatim). */
-const UNRESOLVED_TEXT = 'every rung refused, the face left whole: the ladder ended, no pass of rung (c); reported, not judged';

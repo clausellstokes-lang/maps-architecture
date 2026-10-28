@@ -16,22 +16,23 @@
 // The table (per property per seed, 10⁴ cases each; 'a+b' = a E_INVARIANT + b optional E_BELOW_MIN_EDGE 'N-43'),
 // lowered by the hardening round S9 (C-0423; J207's ratchet) to its own measure — the same 31 seeds at the PR size on
 // the round's final sources (the retrace cut, the own-run landing, the strict route's second reading); no count rose,
-// seed by seed and property by property:
+// seed by seed and property by property — and its constructive row by round S12 (C-0432; the ratchet again: 6907
+// 0+2 → 0+1, 7507 2 → 1 on the round's final sources, every other cell of the four rows equal):
 //
 //   seeds         5101 −5203 5309 −5407 5501 −5623 5701 −5801 5903 −6007 6101 −6203 6301 −6421 6521 −6607 6703 −6803
 //                 6907 −7001 7103 −7207 7307 −7411 7507 −7603 7703 −7817 7901 −8009 8101
 //   random        2+4 2+1 4+3 3+1 2+1 3 0 1+1 1+1 2+2 2+1 2+3 1+2 1 1 2+2 3+1 4 2+4 2+3 3+1 1+1 1+1 4+1 0+3 1 0+1 1
 //                 0+2 0+4 4+4                                                     → 55 + 48 = 103 in 31 seeds, max 8
-//   constructive  3 2+1 3 1 1+1 0 1+1 2 1+1 1 0 3 2+1 0+1 1 1 2 0+1 0+2 1 0 1+1 0 0+1 2 0+1 0+1 2 0 1+1 0
-//                                                                                 → 31 + 14 = 45, max 3
+//   constructive  3 2+1 3 1 1+1 0 1+1 2 1+1 1 0 3 2+1 0+1 1 1 2 0+1 0+1 1 0 1+1 0 0+1 1 0+1 0+1 2 0 1+1 0
+//                                                                                 → 30 + 13 = 43, max 3
 //   mandatory     3 1 2 1 2 2 1+1 0 2 1 4 2 2+1 3 1 1 0 0 1 2 1 4 1 2 0 0 1 2 0 3 2  → 47 + 2 = 49, max 4
 //   fidelity      0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0    → 3, max 2
 //
 // (S6's measure on the same seeds, C-0221, before this round: random 58 + 49 = 107, max 9 — 5309 5+3, −6803 4+1, −7603
 // 2, 8101 5+4 —; constructive 31 + 15 = 46 — 6907 0+3 —; mandatory 47 + 2 = 49; fidelity 3. The S5 closing check's
 // measure: random 58 + 96, constructive 31 + 51, mandatory-only 47 + 6, fidelity 3.) Rate / cap per 10⁴: random
-// 3.32 / 4.30, constructive 1.45 / 2.10, mandatory-only 1.58 / 2.26, fidelity 0.10 / 0.26. At the PR size the caps are
-// 12, 8, 8 and 3; at 10³ 4, 3, 3 and 1; at the nightly 10⁶ 496, 256, 274 and 44. Every refusal these count names its
+// 3.32 / 4.30, constructive 1.39 / 2.02, mandatory-only 1.58 / 2.26, fidelity 0.10 / 0.26. At the PR size the caps are
+// 12, 8, 8 and 3; at 10³ 4, 3, 3 and 1; at the nightly 10⁶ 496, 247, 274 and 44. Every refusal these count names its
 // class in its detail ('class S' … 'class C', each '(notBuilt #2, M4)': KI-1's residual, C-0423).
 
 import { appendFileSync } from 'node:fs';
@@ -58,16 +59,16 @@ export function countedRefusal(code: string, detail: string): boolean {
   return code === 'E_INVARIANT' || (code === 'E_BELOW_MIN_EDGE' && detail.includes('(N-43)'));
 }
 
-/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S9, C-0423). */
+/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S9, C-0423; constructive S12, C-0432). */
 export const MEASURED_PER_1E4 = {
   random: 103 / 31,
-  constructive: 45 / 31,
+  constructive: 43 / 31,
   mandatory: 49 / 31,
   fidelity: 3 / 31,
 } as const;
 
 /** The 31-seed counts behind MEASURED_PER_1E4 (N-46 (4)'s 3 · √count reads them). */
-export const MEASURED_COUNT = { random: 103, constructive: 45, mandatory: 49, fidelity: 3 } as const;
+export const MEASURED_COUNT = { random: 103, constructive: 43, mandatory: 49, fidelity: 3 } as const;
 
 /** N-46 (4)'s cap per family, per 10⁴ cases: the measured rate plus 3 · √count on the 31-seed total — the ratchet's baseline. */
 export function capPer1e4(family: keyof typeof MEASURED_COUNT): number {

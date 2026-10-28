@@ -84,9 +84,8 @@ export function segDist2(q: XY, a: XY, b: XY): number {
 }
 
 /**
- * The nearest point on segment ab to q, at hydro/course.ts's `segParam`; `Math.max(0, …)` reads a −0 parameter (q at a,
- * or q square to a along an axis b does not move on) as +0, so the point a + (b − a) · t is the one the clamp
- * `Math.min(1, Math.max(0, t))` gave before R3, bit for bit.
+ * The nearest point on segment ab to q, at hydro/course.ts's `segParam`; `Math.max(0, …)` reads a −0 parameter (q at a)
+ * as +0, so the point keeps a's own coordinates, the zero's sign among them.
  */
 export function footOn(q: XY, a: XY, b: XY): XY {
   const t = Math.max(0, segParam(q, a, b));

@@ -38,7 +38,10 @@
 // (d): cut back there, snapRound.ts); a later segment whose route retraces an edge of the chain's path before it is cut
 // back to a vertex of that path near its start's input point (`cutBack`, the passes watching the path; C-0423 (1)),
 // and a chain no cut back routes is routed as before (notBuilt #3, M4: every retrace of the chain's own path the cut
-// back does not route, its five forms in C-0424 (3) as C-0425 amends it). A chain given again under a key of one chain
+// back does not route; round S12 builds its forms (3) – (5) and form (1) within the corner bound, its residual two forms
+// in C-0424 (3) as C-0432 amends it). A ring's seam is walked again from another point (`walk`, SEAM); an open chain's
+// END whose placement falls back beyond the bound stays on the edge it meets where a vertex can stand there within it
+// (`endLanding`; Q104, N-63 (2)). A chain given again under a key of one chain
 // per entity whose run the arena carries is that run (item 130 (e): its points land on the run's vertices within √2 ·
 // `attractCm`, its segments follow the run, `ownWalk`).
 //
@@ -72,7 +75,7 @@ import {
 } from '../arena/index.js';
 import { beginIndexBatch, endIndexBatch, indexAdd, indexChange, indexDelete, indexOf, isItemLive, ITEM_VERTEX, query } from '../index/index.js';
 import { belowMinEdge, err, LATTICE, ok, ratio, type KernelResult, type Warning } from '../num/index.js';
-import type { LatticePoint } from '../types/index.js';
+import type { LatticePoint, Level } from '../types/index.js';
 import { applyAttraction, planAttraction } from './attractVertex.js';
 import { charge, check, classOutcome, classRefusal, cloneWarnings, foldWarnings, INSERT_ATTRACT_QUERIES, INSERT_PLACEMENT_CANDIDATES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
 import { placeOnRun } from './crossings.js';
@@ -558,9 +561,20 @@ function stepTwoStrip(ctx: ChainCtx, pt: LatticePoint, v: VertexId, prevPt: Latt
     if (!f.ok) return passOn(f);
     return ok(f.value === null ? null : { kind: 'free', at: f.value });
   };
+  // Q104 (N-63 (2)): an END of an open chain (`ctx.chainEnd`) stays on the edge it meets — the piece step 2 attracts it
+  // to, its nearest qualifying point within the bound (`edgeWithin`), or a vertex on that piece within it — before a free
+  // spot, where the chain would end on a dangling tip off that edge (a kerb piece's contact, N-57 (2)).
+  const onEdge = (): KernelResult<Landing | null> => {
+    if (ctx.chainEnd !== true || ctx.endRules === false) return ok(null);
+    const e = endLanding(ctx, pt, v, true);
+    if (e.ok && e.value !== null) ctx.endRuled = true;
+    return e;
+  };
   // The first reading tries the strip, then the nearest landing, then a free spot; the second (a chain the first refused)
-  // the free spot first.
-  const order = ctx.strip.variant === 1 ? [free, nearest, across] : [across, nearest, free];
+  // the free spot first. An end's edge landing (`onEdge`) comes before the free spot in each (C-0432 (1)): the first
+  // reading's strip and nearest landings stand as before the round — taken first, an edge landing there moved ends the
+  // reading had seated nearer and later chains were refused round them (round S12's own bands measure, seed 4).
+  const order = ctx.strip.variant === 1 ? [onEdge, free, nearest, across] : [across, nearest, onEdge, free];
   for (const f of order) {
     const r = f();
     if (!r.ok) return passOn(r);
@@ -569,6 +583,67 @@ function stepTwoStrip(ctx: ChainCtx, pt: LatticePoint, v: VertexId, prevPt: Latt
   return ok(null);
 }
 
+/**
+ * The landing of a chain point at `pt` on the level-n route piece step 2 attracts it to (`nearestPiece`: within
+ * `attractCm`, its foot inside the piece) at the piece's nearest qualifying point within the fidelity bound of `pt` —
+ * the placement rule's tests (`placeOnRun`, a candidate whose sub-edge cannot be split with clearance kept passed over;
+ * W_PLACED) — or null when no point of the piece within the bound qualifies, or no piece is near (Q104, N-63 (2)).
+ * Nothing written; refuses only E_WORK_LIMIT.
+ */
+function edgeWithin(ctx: ChainCtx, pt: LatticePoint): KernelResult<Landing | null> {
+  const X = ctx.p.vertices.x;
+  const Y = ctx.p.vertices.y;
+  const near = nearestPiece(ctx, pt);
+  if (!near.ok) return passOn(near);
+  if (near.value === null) return ok(null);
+  const pc = near.value;
+  const foot = footOnSegment(X[pc.a], Y[pc.a], X[pc.b], Y[pc.b], pt.x, pt.y);
+  const admit = (qx: number, qy: number): boolean => (qx - pt.x) * (qx - pt.x) + (qy - pt.y) * (qy - pt.y) <= FIDELITY_SQ;
+  return placeOnRun(ctx, pc.edge, foot, { a: -1, b: -1, partner: null, reach: BOUND, passOver: true, admit });
+}
+
+/**
+ * An END of an open chain whose placement falls back onto `v` beyond the fidelity bound (Q104, N-63 (2)): the nearer to
+ * `pt` of the piece's landing within the bound (`edgeWithin`) and the nearest existing vertex of level ≤ n within it
+ * other than `v` (`nearestVertexWithin`, W_PLACED) — the in-bound landing `stepTwoStrip`'s nearest reading makes, read
+ * on the piece the end attracts to; null when neither exists. With `onEdge` (the end rule W's own landing, `stepTwoStrip`'s
+ * `onEdge`) only a vertex ON that piece's route counts (`onPiece`): the end stays on the edge it meets, and a vertex off
+ * it is left to the in-bound readings after it, as before the round (round S12's own census, C-0432 (1): the widened
+ * bands family at 20261011 — a dead end's kerb part landed on the antenna's tip vertex 67.6 cm off, and the dry-run kept
+ * it too deep). Nothing written; refuses only E_WORK_LIMIT.
+ */
+function endLanding(ctx: ChainCtx, pt: LatticePoint, v: VertexId, onEdge = false): KernelResult<Landing | null> {
+  const { p } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const e = edgeWithin(ctx, pt);
+  if (!e.ok) return passOn(e);
+  // The piece's landing counts only where it stands within the bound itself (a placement sent onto a sub-edge's end
+  // within attractCm of its candidate may stand beyond it).
+  const at = e.value === null ? null : landingPoint(p, e.value);
+  const ed = at === null ? Infinity : (at.x - pt.x) * (at.x - pt.x) + (at.y - pt.y) * (at.y - pt.y);
+  const edge = ed <= FIDELITY_SQ ? e.value : null;
+  let piece: Piece | null = null;
+  if (onEdge) {
+    const near = nearestPiece(ctx, pt);
+    if (!near.ok) return passOn(near);
+    if (near.value === null) return ok(edge);
+    piece = near.value;
+  }
+  const on = piece;
+  const w = nearestVertexWithin(ctx, pt, (u) => u === v || (on !== null && !onPiece(p, u, on, ctx.n)));
+  if (!w.ok) return passOn(w);
+  if (w.value < 0) return ok(edge);
+  const wd = (X[w.value] - pt.x) * (X[w.value] - pt.x) + (Y[w.value] - pt.y) * (Y[w.value] - pt.y);
+  if (edge !== null && ed <= wd) return ok(edge);
+  return ok({ kind: 'vertex', vertex: w.value, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, w.value) }] });
+}
+
+/** Does vertex v lie on the route of the level-n piece pc — one of its ends, or a vertex of level ≤ n that splits it? */
+function onPiece(p: Plat, v: VertexId, pc: Piece, n: Level): boolean {
+  if (v === pc.a || v === pc.b) return true;
+  return routeBetween(p, pc.a, v, n) !== null && routeBetween(p, v, pc.b, n) !== null;
+}
 
 /**
  * The finer geometry round a free vertex: the nearest finer vertex on a route of level ≤ n within `attractCm` (candidate
@@ -939,6 +1014,9 @@ function routed(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): KernelR
  */
 const REENTRY_DETAIL = 'insert: the chain re-enters its own path';
 
+/** A ring's walk whose back-pass closing segment retraced the run's path (`run`'s `walk`; form (3) of notBuilt #3). */
+const SEAM = 'seam';
+
 /** Has a kept reading of this pass retraced an edge of the chain's path (`ChainCtx.reentry`)? */
 function retracedNow(ctx: ChainCtx): boolean {
   return ctx.reentry === true;
@@ -1257,16 +1335,16 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
      * `prevIdx`, reached from pprev) to the vertex of input index `idx` was routed back over an edge of the run's path
      * before it — attracted through a vertex an earlier segment routed through, the edge between them retraced and prev
      * left at the end of a spur. The path is cut back to a vertex x of it within √2 · `attractCm` of prev's input point
-     * — the bound attraction moves an incoming vertex by: prev's point lands on x — and routed on from x: everything
-     * since prev's own landing undone (`prevLand`), pprev → x routed, the point of `idx` landed again after x and x → it
-     * routed, neither route retracing the path again. Candidates nearest first (ties y then x), at most 8, pprev itself
-     * never (its segment would vanish); each reports W_ATTRACTED at prev's input point. A candidate the undo removed or
-     * that stands finer than the batch is passed over; E_WORK_LIMIT ends the op. Returns x, the vertex of `idx` and the
-     * mark before its landing; the failure as given when no candidate routes (the pass then refuses, everything undone).
-     * Two of notBuilt #3's forms end here (C-0424 (3) as C-0425 amends it): (4) every candidate's route refused, an
-     * optional chain's by its class's precision rules (E_BELOW_MIN_ANGLE on pprev → x or on x → the next point); (5) a
-     * candidate the chain's own earlier segment placed (a crossing or wedge vertex), removed by the undo to `prevLand`
-     * and so passed over.
+     * — the bound attraction moves an incoming vertex by: prev's point lands on x — or, at a tip of at most a right
+     * angle, within the corner bound 2 · √2 · `attractCm` (§3.6 *Existing geometry wins*; form (1) of notBuilt #3, round
+     * S12), and routed on from x: everything since prev's own landing undone (`prevLand`), pprev → x routed — arriving
+     * along an edge it meets at x within `minFaceAngle` (`ChainCtx.cutStretch`, form (4)) — the point of `idx` landed
+     * again after x and x → it routed, leaving x along such an edge too, neither route retracing the path again. Candidates nearest first (ties y then x),
+     * at most 8 per bound, pprev itself never (its segment would vanish); each reports W_ATTRACTED at prev's input point.
+     * A candidate the undo removed — a crossing or wedge vertex the chain's own earlier segment placed — is landed again
+     * at its position (form (5)); one finer than the batch is passed over; E_WORK_LIMIT ends the op. Returns x, the
+     * vertex of `idx` and the mark before its landing; the failure as given when no candidate routes (the pass then
+     * refuses, everything undone).
      */
     const cutBack = (prev: VertexId, pp: VertexId, ppIdx: number, prevIdx: number, prevLand: Mark, idx: number, nextPt: LatticePoint | null, failure: Refusal): KernelResult<{ x: VertexId; v: VertexId; landMark: Mark }> => {
       const X = p.vertices.x;
@@ -1275,23 +1353,70 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       const found: { x: VertexId; d: number }[] = [];
       for (const x of priorPath(ctx, prev, -1)) {
         const d = (X[x] - at.x) * (X[x] - at.x) + (Y[x] - at.y) * (Y[x] - at.y);
-        if (x !== pp && d <= RELAND_SQ) found.push({ x, d });
+        if (x !== pp && d <= FIDELITY_SQ) found.push({ x, d });
       }
-      if (found.length === 0) return passOn(failure);
       found.sort((u, w) => u.d - w.d || Y[u.x] - Y[w.x] || X[u.x] - X[w.x]);
+      // Each candidate's position, read before the undo: a vertex the chain's own earlier segment placed there (a crossing
+      // or wedge vertex) is removed by it, and is landed again at that position (form (5) of notBuilt #3, round S12).
+      // The candidates within √2 · attractCm first; then, at a tip of at most a right angle, those within the corner
+      // bound 2 · √2 · attractCm (§3.6 *Existing geometry wins*: "or by the corner bound of step 4 at an acute tip") —
+      // form (1) of notBuilt #3 built (round S12): a corner both of whose arms pass within attractCm of a vertex of the
+      // path beyond √2 · attractCm stands at most 90° wide (each arm within 45° of the line to that vertex).
+      const near = found.filter((f) => f.d <= RELAND_SQ).slice(0, RELAND_MAX).map(({ x }) => ({ x, at: pointOf(p, x) }));
+      const far = found.filter((f) => f.d > RELAND_SQ).slice(0, RELAND_MAX).map(({ x }) => ({ x, at: pointOf(p, x) }));
       rollback(ctx, log, prevLand);
-      for (const { x } of found.slice(0, RELAND_MAX)) {
-        if (!isVertexLive(p, x) || p.vertices.level[x] > n) continue;
+      const first = tryCuts(pp, ppIdx, at, idx, nextPt, near, RELAND_SQ);
+      if (first !== null) return first;
+      return tryCuts(pp, ppIdx, at, idx, nextPt, acute(pp, at, idx) ? far : [], FIDELITY_SQ) ?? passOn(failure);
+    };
+
+    /** Is the corner at prev's input point `at` (between pp and the next input point) at most a right angle — a tip? */
+    const acute = (pp: VertexId, at: LatticePoint, idx: number): boolean => {
+      const q = dec.points[idx];
+      return (p.vertices.x[pp] - at.x) * (q.x - at.x) + (p.vertices.y[pp] - at.y) * (q.y - at.y) >= 0;
+    };
+
+    /**
+     * The cut back's candidates tried in turn (`cutBack`), the state at prev's own landing undone: a candidate the undo
+     * removed landed again at its position (within `bound2` of prev's input point, cm²), pp → x routed, the next point
+     * landed again after x and x → it routed, neither retracing the path; the first that routes, E_WORK_LIMIT, or null
+     * when none routes (everything back as it was).
+     */
+    const tryCuts = (pp: VertexId, ppIdx: number, at: LatticePoint, idx: number, nextPt: LatticePoint | null, tried: readonly { x: VertexId; at: LatticePoint }[], bound2: number): KernelResult<{ x: VertexId; v: VertexId; landMark: Mark }> | null => {
+      const X = p.vertices.x;
+      const Y = p.vertices.y;
+      for (const { x: x0, at: was } of tried) {
         const m1 = markOf(ctx, log);
+        let x = x0;
+        if (!isVertexLive(p, x0) || X[x0] !== was.x || Y[x0] !== was.y) {
+          const rl = land(ctx, was, pp, pointOf(p, pp), at);
+          if (!rl.ok && rl.code === 'E_WORK_LIMIT') return passOn(rl);
+          const ok1 = rl.ok && !rl.value.merged && rl.value.vertex !== pp && (X[rl.value.vertex] - at.x) * (X[rl.value.vertex] - at.x) + (Y[rl.value.vertex] - at.y) * (Y[rl.value.vertex] - at.y) <= bound2;
+          if (!ok1) {
+            rollback(ctx, log, m1);
+            continue;
+          }
+          x = rl.value.vertex;
+        }
+        if (p.vertices.level[x] > n) {
+          rollback(ctx, log, m1);
+          continue;
+        }
         warn(tx, ctx.warnings, 'W_ATTRACTED', at);
+        // Form (4) of notBuilt #3 (round S12): the route to x arrives along an edge it meets at x within minFaceAngle
+        // (`ChainCtx.cutStretch`), as the earlier segment's route reached x, not at a corner below it.
+        ctx.cutStretch = 'end';
         const r1 = routeSegment(ctx, log, pp, x, dec.points[ppIdx], at);
+        ctx.cutStretch = null;
         if (!r1.ok || retracedNow(ctx)) {
           rollback(ctx, log, m1);
           if (!r1.ok && r1.code === 'E_WORK_LIMIT') return passOn(r1);
           continue;
         }
         const landMark = markOf(ctx, log);
+        ctx.chainEnd = idx === lastEnd;
         const l = land(ctx, dec.points[idx], x, pointOf(p, x), nextPt);
+        ctx.chainEnd = false;
         if (!l.ok) {
           rollback(ctx, log, m1);
           if (l.code === 'E_WORK_LIMIT') return passOn(l);
@@ -1302,16 +1427,28 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
           rollback(ctx, log, m1);
           continue;
         }
+        // … and the route on from x leaves along an edge it meets there within minFaceAngle (form (4)).
+        ctx.cutStretch = 'start';
         const r = routeSegment(ctx, log, x, bv, at, dec.points[idx]);
+        ctx.cutStretch = null;
         if (r.ok && !retracedNow(ctx)) return ok({ x, v: bv, landMark });
         rollback(ctx, log, m1);
         if (!r.ok && r.code === 'E_WORK_LIMIT') return passOn(r);
       }
-      return passOn(failure);
+      return null;
     };
 
-    for (const run of dec.runs) {
-      const vs = run.vertices;
+    // The chain's two ends (an open chain's first and last input points, as decimated): Q104's end rule reads them.
+    const firstEnd = opts.closed === true ? -1 : dec.of[0];
+    const lastEnd = opts.closed === true ? -1 : dec.of[dec.of.length - 1];
+    /**
+     * One run of the chain walked (steps 2 – 4 for each of its points and segments, item 130 (d)'s cut back across them):
+     * `vs` its points in walking order. Returns null when walked, the refusal of the op otherwise, or SEAM when the back
+     * pass's closing segment of a ring retraced the run's path (form (3) of notBuilt #3: the caller walks the ring again
+     * from another seam).
+     */
+    const walk = (vs: readonly number[], closed: boolean): KernelResult<ChainInsert> | typeof SEAM | null => {
+      const run = { closed };
       const k = vs.length;
       // The run's committed route so far is read from here (item 130 (d) on the chain's path, `priorPath`, `priorPairs`).
       ctx.runStart = { newPairs: journal.newPairs.length, shared: journal.sharedPairs.length };
@@ -1336,7 +1473,9 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
           const pt = dec.points[idx];
           const prevPt = prev >= 0 ? pointOf(p, prev) : null;
           const before = markOf(ctx, log);
+          ctx.chainEnd = idx === firstEnd || idx === lastEnd;
           const l = land(ctx, pt, prev, prevPt, nextPt);
+          ctx.chainEnd = false;
           if (!l.ok) return refuse(l);
           v = l.value.vertex;
           landed[idx] = v;
@@ -1381,14 +1520,43 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         // Re-landable later only while still free: the run's first vertex, before its first segment.
         prevMark = mark !== null && p.vertices.out[v] === -1 ? mark : null;
       }
-      // The closing segment has no cut back: a ring whose closing segment retraces its path (its seam's corner beside a
-      // vertex its first segment routed through) is refused by the watching and back passes at the commit and routed as
-      // before — notBuilt #3, form (3).
+      // The closing segment: where the back pass's closing segment retraces the run's path (the seam's corner beside a
+      // vertex its first segment routed through, form (3) of notBuilt #3 as round S12 builds it), the caller walks the
+      // ring again from the seam's previous point, so the corner's two segments are cut back as any other (`SEAM`).
       if (run.closed && prev >= 0 && prev !== landed[vs[0]]) {
+        const closeMark = markOf(ctx, log);
         const r0 = routeSegment(ctx, log, prev, landed[vs[0]], dec.points[prevIdx], dec.points[vs[0]]);
         const r = r0.ok || !boundRefusal(r0) || ctx.extended !== true ? r0 : splitRoute(prev, dec.points[prevIdx], landed[vs[0]], dec.points[vs[0]], SPLIT_DEPTH, r0);
         if (!r.ok) return refuse(r);
+        if (ctx.chainPath === 'back' && retracedNow(ctx) && !closeMark.reentry) return SEAM;
       }
+      return null;
+    };
+    for (const run of dec.runs) {
+      const vs = run.vertices;
+      if (!run.closed || ctx.chainPath !== 'back') {
+        const w = walk(vs, run.closed);
+        if (w !== null && w !== SEAM) return w;
+        continue;
+      }
+      // Form (3) of notBuilt #3 built (round S12): a ring whose back pass retraced its path at the seam — the seam's
+      // corner its first point (the closing segment returning through the vertex its first segment left by) or its last
+      // (the closing segment leaving by the vertex its last segment came through) — is walked again from its last point,
+      // then from the point before it, so that corner stands second and the cut back reaches it as any other; where
+      // every walk retraces at its own seam, the pass refuses (the chain routed as before).
+      const m0 = markOf(ctx, log);
+      const before = vs.map((i) => landed[i]);
+      const n0 = vs.length;
+      let w = walk(vs, true);
+      for (let turn = 1; w === SEAM && turn <= Math.min(2, n0 - 1); turn += 1) {
+        rollback(ctx, log, m0);
+        vs.forEach((i, j) => {
+          landed[i] = before[j];
+        });
+        w = walk([...vs.slice(n0 - turn), ...vs.slice(0, n0 - turn)], true);
+      }
+      if (w === SEAM) return refuse({ code: 'E_INVARIANT', detail: REENTRY_DETAIL });
+      if (w !== null) return w;
     }
     ctx.runStart = null;
     const placed = dec.of.map((i) => landed[i]);
@@ -1432,6 +1600,9 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     ctx.anchor = null;
     ctx.runStart = null;
     ctx.reentry = false;
+    ctx.chainEnd = false;
+    ctx.endRuled = false;
+    ctx.cutStretch = null;
     ctx.strip = strip === null ? null : { variant: strip, a: null, b: null };
     landed.fill(-1);
     foldWarnings(tx.warnings, d.warnings);
@@ -1450,6 +1621,17 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   // a refusal keeps pass 2's refusal and its code, counted — a later pass never turns a refusal into another code. A pass
   // that would commit a route retracing the chain's own path (`REENTRY_DETAIL`, `mode` 'watch' or 'back') ends the
   // passes at once.
+  // The third or fourth pass (`strip` its reading), the end rule read first (Q104); a pass it led to a refusal is run
+  // again without it, as before the round, so a chain those passes committed before is never refused now.
+  const inBound = (strip: 0 | 1): KernelResult<ChainInsert> => {
+    ctx.endRules = true;
+    const r = attempt(true, strip);
+    if (r.ok || reentered(r) || ctx.endRuled !== true) return r;
+    ctx.endRules = false;
+    const again = attempt(true, strip);
+    ctx.endRules = true;
+    return again;
+  };
   const passes = (mode: 'watch' | 'back' | null): KernelResult<ChainInsert> => {
     ctx.chainPath = mode;
     let result = attempt(false);
@@ -1459,9 +1641,9 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       if (reentered(result)) return result;
     }
     if (!result.ok && boundRefusal(result)) {
-      const third = attempt(true, 0);
+      const third = inBound(0);
       if (reentered(third) || third.ok) return third;
-      const fourth = attempt(true, 1);
+      const fourth = inBound(1);
       if (reentered(fourth) || fourth.ok) return fourth;
       if (result.code === 'E_BELOW_MIN_EDGE') {
         // An optional chain's refusal for the bound keeps its code and the bound's key; where the in-bound passes were
@@ -1478,13 +1660,15 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   // the earlier corner left a dead end and the vertex a branch in the chain's own rows — is routed again with each such
   // segment cut back to a vertex of the path near its start's input point (`cutBack`). Where no cut back routes, the
   // chain is routed as before: nothing a chain committed before is refused now. That residual is notBuilt #3 (M4): every
-  // retrace of the chain's own path that the cut back does not route (C-0424 (3) as C-0425 amends it). Its five forms:
-  // (1) a corner farther than √2 · attractCm from every vertex of the path it re-enters; (2) a first arm shorter than
-  // that bound folded back over by the second (only pprev near); (3) a closed run's seam (the closing segment is never
-  // cut back); (4) a cut back whose routes are refused at every candidate, an optional chain's by its precision rules;
-  // (5) a re-entered vertex the chain's own earlier segment placed (the cut back's undo removes it). Each commits with a
-  // branch in the chain's own rows (or, (2), a re-ordered run) and is refused 'branches' under a linear key
-  // (reentry.test.ts pins each form).
+  // retrace of the chain's own path that the cut back does not route (C-0424 (3) as C-0432 amends it). Round S12 builds
+  // its forms (3) a ring's seam (walked again from another point), (4) a cut back refused by an optional chain's
+  // precision rules (its route arriving along the edge at x), (5) a re-entered vertex the chain's own earlier segment
+  // placed (landed again at its position) and (1) within the corner bound (a tip of at most 90°, the cut back within
+  // 2 · √2 · attractCm). Its residual forms: (1′) a corner beyond the corner bound of every vertex of the path it
+  // re-enters (committed with a branch, refused 'branches' under a linear key); (2) a first arm shorter than √2 ·
+  // attractCm folded back over by the second, only pprev near (a re-ordered simple run, committed under every key).
+  // Keeping the corner with the path left out of step 3 measured a census rise (C-0432), so both wait for M4's thin-face
+  // handling (reentry.test.ts pins each form).
   let result = passes('watch');
   if (reentered(result)) {
     const back = passes('back');

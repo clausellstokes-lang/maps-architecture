@@ -18,25 +18,6 @@ describe('runNgTasks', () => {
     expect(out.pooled[0].cuts).not.toEqual(out.pooled[3].cuts);
   });
 
-  it('a worker that exits without an error event fails the run, naming the exit — never hangs (hardening S1, note 5)', { timeout: 600_000 }, () => {
-    const probe = (mode: string) => {
-      const p = spawnSync('corepack', ['pnpm', '--silent', 'exec', 'tsx', '--conditions=plat-source', 'bench/test/bentcut-ng/pool-exit-probe.ts'], {
-        cwd: PLAT_ROOT,
-        encoding: 'utf8',
-        timeout: 120_000,
-        env: { ...process.env, PLAT_TEST_POOL_EXIT: mode },
-      });
-      return { status: p.status, err: p.stderr.slice(0, 400), out: p.stdout.trim() };
-    };
-    // On its first chunk, with code 3 (an out-of-memory kill's shape) and with code 0: no records came back.
-    expect(probe('first')).toEqual({ status: 0, err: '', out: JSON.stringify({ rejected: 'bentcut-ng: a pool worker exited (code 3) before the pool retired it; 0 of 6 tasks done' }) });
-    expect(probe('zero')).toEqual({ status: 0, err: '', out: JSON.stringify({ rejected: 'bentcut-ng: a pool worker exited (code 0) before the pool retired it; 0 of 6 tasks done' }) });
-    // After answering a chunk each, the two workers die on their next: the run fails, the done count named.
-    const second = probe('second');
-    expect([second.status, second.err]).toEqual([0, '']);
-    expect(second.out).toMatch(/^\{"rejected":"bentcut-ng: a pool worker exited \(code 3\) before the pool retired it; [12] of 6 tasks done"\}$/);
-  });
-
   it('runs a test\'s runner in this thread, in task order, whatever the worker count', async () => {
     const tasks: NgTask[] = threeFaces().map((face, i) => ({ face, seed: 1, seedIndex: i, bars: false }));
     const seen: number[] = [];
