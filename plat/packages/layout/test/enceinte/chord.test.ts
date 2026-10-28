@@ -1,4 +1,4 @@
-// M0-c-02, the one-chord rule (C-0300 (1); N-54 (1)): a water gate's wet side IS its chord — one wall edge between its
+// M0-c-02, the one-chord rule (C-0300 (3); N-54 (1)): a water gate's wet side IS its chord — one wall edge between its
 // two gate_end vertices. The registered replay (relief-60 CITY seed 9, stage 2) holds the case: gate:w0's chord from its
 // bank pin (−13928, −90189) passes the shore vertex (−13908, −90171), 27 cm along the shore and 11 cm off the chord,
 // through which the insertion would route it (§3.6 step 3) — a 27 cm shore edge carrying wall_gate, then a 47.25 m wet
@@ -12,7 +12,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { err, STAGES, type Kernel, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
 import type { GateSite, WaterSet } from '@plat/model';
-import { commitOuterRing, crossWater, siteContext, traceBase, WET_TOL_CM } from '../../src/index.js';
+import { commitOuterRing, crossWater, siteContext, traceBase, waterGates, WET_TOL_CM } from '../../src/index.js';
+import { LOOSE_GATE_TAG } from '../../src/enceinte/trace.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
 import { densify, depthOf, edgesWith, GROUND, handBuildWater, incidentRows, kernelFor, P, smallSite, verticesWith, type EdgeInfo } from './support.js';
 
@@ -70,7 +71,7 @@ describe('the relief-60 CITY seed 9 stage-2 replay: gate:w0\'s chord from pin to
   const SHORE_V = P(-13908, -90171);
   const FAR_PIN = P(-9391, -88784);
 
-  function replay(stub?: readonly LatticePoint[]): { plat: ReturnType<typeof kernelFor>['plat']; water: WaterSet; r: ReturnType<typeof traceBase> } {
+  function replay(stub?: readonly LatticePoint[]): { plat: ReturnType<typeof kernelFor>['plat']; water: WaterSet; r: ReturnType<typeof traceBase>; misses: Pt[] } {
     const base = smallSite(1);
     const site = { ...base, frame: fx.frame as unknown as typeof base.frame };
     const { plat, k } = kernelFor(site);
@@ -78,17 +79,24 @@ describe('the relief-60 CITY seed 9 stage-2 replay: gate:w0\'s chord from pin to
     const water = handBuildWater(k, RING, fx.water.body, P(fx.water.within[0], fx.water.within[1]));
     if (stub !== undefined) handBuildWall(k, stub);
     const gates: GateSite[] = fx.gateSites.map((g) => ({ ordinal: g.ordinal, at: P(g.at[0], g.at[1]), bearingCdeg: g.bearingCdeg as GateSite['bearingCdeg'], kind: 'main', forced: false }));
+    // The captured field (recaptured about the settled bank, N-21): a point it lacks is recorded, and reads 0.
+    const misses: Pt[] = [];
     const r = traceBase(pts(fx.boundary), gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k, {
       stage: 2,
       enceinteId: 'enceinte:2',
       core: [pts(fx.plaza), ...fx.core.map(pts)],
-      costField: (p) => fx.costs[`${String(p.x)},${String(p.y)}`] ?? 0,
+      costField: (p) => {
+        const v = fx.costs[`${String(p.x)},${String(p.y)}`];
+        if (v === undefined) misses.push({ x: p.x, y: p.y });
+        return v ?? 0;
+      },
     });
-    return { plat, water, r };
+    return { plat, water, r, misses };
   }
 
   it('commits with every water gate\'s chord one wall edge from gate_end 0 to gate_end 1: 0 ungated wet sides under the strict reading', () => {
-    const { plat, r } = replay();
+    const { plat, r, misses } = replay();
+    expect(misses).toEqual([]);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const wgs = r.value.traced.waterGates;
@@ -132,6 +140,9 @@ describe('the relief-60 CITY seed 9 stage-2 replay: gate:w0\'s chord from pin to
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
     expect(r.detail).toMatch(/^water: the water gate gate:w0's wall_gate run between -13908,-90171 and -9391,-88784 is 2 edges, not its one chord/);
+    // The refusal's text, verbatim, ends with its stable tag (N-19): a reader matches the tag, never the coordinates.
+    expect(r.detail).toBe(`water: the water gate gate:w0's wall_gate run between -13908,-90171 and -9391,-88784 is 2 edges, not its one chord (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300) [${LOOSE_GATE_TAG}]`);
+    expect(LOOSE_GATE_TAG).toBe('water: loose-gate');
     expect(edgesWith(plat, 'wall', 'enceinte:2')).toEqual([]);
     expect(edgesWith(plat, 'wall_gate')).toEqual([]);
     expect(verticesWith(plat, 'gate_end', 'gate:w0')).toEqual([]);
@@ -162,6 +173,63 @@ describe('a synthetic graze: a shore vertex 27 cm from the bank and 10 cm off th
     expect(r.keep.has('-30000,500')).toBe(false);
     // Every crossing is clear (the top side's chord passes no vertex).
     expect(r.crossings.every((q) => q.chord && q.clear)).toBe(true);
+  });
+
+  // The bank settling's two corners (N-15): W, a vertex on the east shore 26.9 cm from the exit and 10 cm off the chord
+  // (the mirror of V), settles the exit; with V and W both, the two banks settle over two rounds.
+  const W = P(-29990, -3475);
+  const withW = (v: boolean) => [P(-54000, -59500), ...(v ? [V] : []), P(-6000, 60500), P(-4400, 60500), W, P(-52400, -59500)];
+
+  it('P1: a shore vertex near the EXIT bank, past the chord\'s last quarter, takes the exit; the chord from the bank to it is clear (N-15, M27)', () => {
+    const ring = ccw(openRing(BOUNDARY.map(lat)));
+    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: withW(false) }]);
+    const c = r.crossings.find((q) => q.entry.x <= -30000 && q.exit.x <= -30000 + 10);
+    expect(c === undefined ? null : [c.entry, c.exit, c.chord, c.clear]).toEqual([BANK, W, true, true]);
+  });
+
+  it('P2: one such vertex near each bank — both banks settle, over two rounds, and the chord V → W is clear (N-15, M15)', () => {
+    const ring = ccw(openRing(BOUNDARY.map(lat)));
+    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: withW(true) }]);
+    const c = r.crossings.find((q) => q.entry.x <= -30000 && q.exit.x <= -30000 + 10);
+    expect(c === undefined ? null : [c.entry, c.exit, c.chord, c.clear]).toEqual([V, W, true, true]);
+    expect(c?.course).toEqual([V, W]);
+  });
+
+  it('waterGates(trace, water, k) reads the arena\'s vertices (N-17, M20): the bank settles on V; a vertex of a way in the water nearer the bank than V, no shore\'s, leaves it unsettled', () => {
+    const site = smallSite(2);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const water = handBuildWater(k, RIVER, 'river:1', P(-30000, -1500));
+    const west = (gs: ReturnType<typeof waterGates>) => gs.find((g) => g.bankAt[0].x <= -30000 + 10 && g.bankAt[1].x <= -30000 + 10 && g.bankAt.some((q) => q.y > 0));
+    expect(west(waterGates(BOUNDARY, water, k))?.bankAt).toEqual([V, EXIT]);
+    // X: 20 cm along the chord from the bank and 25 cm off it (32 cm from the bank: no landing; 30.6 cm from the west
+    // shore), on a wall stub in the water (an L1 vertex no shore holds): the settling meets it before V and stops; the
+    // water rings alone (no arena) would not see it and would move the bank onto V.
+    handBuildWall(k, [P(-29975, 480), P(-29700, 480)]);
+    expect(west(waterGates(BOUNDARY, water, k))?.bankAt).toEqual([BANK, EXIT]);
+  }, 60_000);
+
+  it('a chord cutting a shore\'s tooth by a rounding\'s depth (under the side test\'s 2 cm) keeps in the water (N-10; RIVER 900 ha seed 12)', () => {
+    // The boundary crosses the channel by a vertex 1 m south of y −300 m; the east shore's tooth (tip (209, −300.01) m)
+    // reaches 1 cm past the chord between the banks, which runs 23 cm through it, never 2 cm from its shore.
+    const TOOTH = [P(20000, -90000), P(21000, -90000), P(21000, -29998), P(20900, -30001), P(21000, -29990), P(21000, 90000), P(20000, 90000)];
+    const bent = BOUNDARY.flatMap((q) => (q.x === 20000 && q.y === -30000 ? [q, P(20500, -30100)] : [q]));
+    const ring = ccw(openRing(bent.map(lat)));
+    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: TOOTH }]);
+    const c = r.crossings.find((q) => q.entry.y === -30000 && q.entry.x === 20000);
+    expect(c === undefined ? null : { exit: c.exit, chord: c.chord, clear: c.clear }).toEqual({ exit: { x: 20900, y: -30001 }, chord: true, clear: true });
+  });
+
+  it('a bank settled onto a shore vertex whose chord then leaves the water is no clear chord (N-16, M14)', () => {
+    // A channel (x 200 – 210 m) whose east shore holds a spit of land pointing west: its tip T (202, -299.75) m 25 cm
+    // above the boundary's crossing along y −300 m, its lower edge dipping to K (206, −299.99) m, 1 cm above it. The
+    // crossing's chord keeps in the water; it passes T within the attraction distance, so its entry settles on T — and
+    // the chord from T to the exit runs through the spit, up to 11 cm from its shore.
+    const CHANNEL = [P(20000, -90000), P(21000, -90000), P(21000, -29992), P(20600, -29999), P(20200, -29975), P(21000, -29940), P(21000, 90000), P(20000, 90000)];
+    const ring = ccw(openRing(BOUNDARY.map(lat)));
+    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: CHANNEL }]);
+    const c = r.crossings.find((q) => q.exit.y === -30000 && q.exit.x === 21000);
+    expect(c === undefined ? null : { entry: c.entry, chord: c.chord, clear: c.clear }).toEqual({ entry: { x: 20200, y: -29975 }, chord: true, clear: false });
   });
 
   it('a vertex near the chord that no shore holds leaves the chord not clear; one that stays farther than 26 cm moves nothing', () => {
