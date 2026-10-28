@@ -1,16 +1,16 @@
 {
   "schema": "plat-landed-record/1",
   "item": "session-bench-manifest",
-  "lane": "session/bench-manifest-2",
-  "lanes": ["session/bench-manifest-1", "session/bench-manifest-2"],
+  "lane": "session/bench-manifest-3",
+  "lanes": ["session/bench-manifest-1", "session/bench-manifest-2", "session/bench-manifest-3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-27T21:25:54.534Z",
+  "date": "2026-10-28T00:37:48.898Z",
   "ownsSource": "declared",
   "owns": ["plat/bench/manifest.json"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/bench/manifest.json", "status": "created", "sha256": "302a1694cd51891abe034b161a5e8b67f511abb2aa115be278339e8e6d604cea", "size": 1214 }
+    { "path": "plat/bench/manifest.json", "status": "created", "sha256": "79c0b00cb712e7c4b521eff60b586140edeb27d16585acb3b17ada7ee54a06c1", "size": 1235 }
   ],
   "appends": []
 }
