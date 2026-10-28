@@ -288,6 +288,21 @@ Each is a place where the document, the code or the plan disagree, or where a co
 
 ---
 
+## 8 The sequence — the owner's rule on exits (2026-10-28, J567)
+
+**The owner's word (2026-10-28 ~00:05Z):** "So for everything that is compounded that is automatically supposed to be hardened to the fullest extent before proceeding to the next phase. Put that in the sequence, please." Recorded as THE MILESTONE EXIT RULE, vetoable in its reading, binding in its word:
+
+1. **Every piece this map classifies COMPOUNDS for milestone N is hardened to the fullest extent inside milestone N, before milestone N + 1 starts.** "The fullest extent" is M0's bar, the one this programme already runs: hardening rounds until an independent closing check PASSES on the evidence — the targeted mutants killed or shown equivalent, NEAR and RELATED@1000 green, the refusal census at zero on lawful input (J264), the §5.3 invariants, the goldens where they exist, the clean-room and choices rows written — and, for a contract, its seam pinned by a contract test on the consumer's side even when the consumer is a later milestone (M1 pins the seam records M5 reads; M2a pins the log fold M3a replays). "Thoroughly" keeps J265's meaning: to the evidence, not until no reviewer can imagine anything more.
+2. **A compounding piece that is a decision, not code** (the address namespace, the engine choice, the band ids, the milestone of the transient arena, the items of section 5) is "hardened" when it is DECIDED, recorded as a choices row or a J-row, and its consequence pinned by a test, before the first golden that would freeze it.
+3. **ISOLATED pieces take the contract check only** — the seam exists and is pinned — plus a queue row naming the milestone that absorbs them and the moment after which they stop being cheap (section 6). **MIXED pieces harden their contract part to the bar** and treat their implementation as isolated.
+4. **The lists of section 3 are the exit checklists.** A milestone's `MilestoneRecord` (§13.3) exits only when every COMPOUNDS line of its list is closed by a landed check, or ruled by the owner; the gaps of section 5 that fall inside a milestone are on that milestone's list.
+5. **The order of milestones stands; the gates between them are now these checklists.** M0 → (the Mac steps, the re-budget-or-redesign decision, a-16's API rows, the ultra review; J558) → M1 → M2a → M2b → M3a → M3b → M4 → M4b → M5 → M6-P → M6-U → M6-E / M6-sky → M-SF → M-W, each exit = its compounding list hardened to the bar. The AFTER-M-1 items and the volumes' own milestones keep their start conditions (C-0071).
+6. **The asymmetry stays the tie-break:** when a piece's bin is in doubt, it is COMPOUNDS and takes the bar.
+
+*The session's agreement, with two refinements (J567):* yes — the rule is M0's own protocol applied where the map says it buys the most, and it is what makes passing over the isolated pieces safe. The refinements: (a) the bar is the closing-check protocol, with its stopping rule (a PASS on the evidence), so "fullest extent" never becomes an open-ended round count; (b) a compounding contract whose consumer is a later milestone is hardened by writing the consumer's contract test now, in its own milestone, not by waiting for the consumer.
+
+---
+
 # Appendices — the seven readers' reports, verbatim
 
 Each appendix is one reading seat's hand-back (Opus 5.5, high; 2026-10-27 22:2xZ–23:3xZ), unedited. Line numbers are `docs/ARCHITECTURE.md` at the design branch's head unless the report names another file; "(inf.)" marks the reader's own inference.
