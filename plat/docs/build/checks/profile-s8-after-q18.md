@@ -2,7 +2,7 @@
 
 Seat R7 of the Maps programme (a measurement seat; parent `session_019yED1RC11y49BWLSYN3Wpo`), in a cloud container —
 Linux x64, 4 cpu (Intel Xeon Processor @ 2.80GHz), 15 GiB, Node v24.12.0, V8 13.6.233.17-node.37 — on the tree
-`4abd334ad145eb9461d7ea37caeb2b3cdc6ccd9e` (a detached worktree), 2026-10-28 07:21 – 08:40 UTC. It changed no code: every
+`4abd334ad145eb9461d7ea37caeb2b3cdc6ccd9e` (a detached worktree), 2026-10-28 07:21 – 08:15 UTC. It changed no code: every
 driver, bundle, profile and analyser lives in the seat's scratch (`<scratch>` below); the tree carries only this file.
 **Every timing here is IDLE**: one process at a time, nothing else on the box; the one-minute load was 0.25 – 0.28
 before each run (`/proc/loadavg`, read by the run script) and 1.0 – 1.7 during it — the run's own process and its GC
