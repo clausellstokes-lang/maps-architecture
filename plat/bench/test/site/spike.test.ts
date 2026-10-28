@@ -8,7 +8,8 @@
 //   stage 1's trace crosses the river twice.
 // The receipt's own readings carry controls of their own (C-0275 (3)): the strip count is shown counting (the town's
 // land face read as the water, every strip vertex inside it counted as the arena reads it), and the 2 cm tolerance is
-// pinned on both sides (1 cm inside the river is not in the water; 10 cm and 50 cm inside are).
+// pinned on both sides (1 cm inside the river is not in the water; 10 cm and 50 cm inside are) and to 2 cm itself, not
+// a window (a point 1.2 – 1.9 cm inside is not in the water, one 2.1 – 2.9 cm inside is; M0-e-06 S2, note 13).
 // Every enceinte is read against its own water gates (N-54 (4); C-0291): on relief-60 at CITY, seed 9, stage 2's wall
 // crosses the river at stage 2's water gates (S5's output) and reads gated, while stage 1's records alone read the same
 // edges ungated; a stage-2 chord without its gate, a gate of another enceinte and a chord not between its gate's two
@@ -342,7 +343,7 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     expect(waterGateReceipt(k, p, water, commit, slice).stripVerticesInWater).toBe(0);
   });
 
-  it('the tolerance: a point or an edge\'s midpoint 1 cm inside the river is not over the water; 10 cm and 50 cm inside are; 10 cm outside is not', { timeout: HEAVY }, () => {
+  it('the tolerance: a point or an edge\'s midpoint 1 cm inside the river is not over the water; 10 cm and 50 cm inside are; 10 cm outside is not; 1.2 – 1.9 cm inside is not, 2.1 – 2.9 cm is (2 cm, not a window)', { timeout: HEAVY }, () => {
     const d = derivation(fixtureNamed('relief-60') as SiteFixture, 2);
     const p = ground(d);
     const water = d.model.data.get('water') as WaterSet;
@@ -385,6 +386,24 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     // the receipts' reading
     expect([q1, q10, q50, out10].map((q) => pointInWaterDeep(p, water, q))).toEqual([false, true, true, false]);
     expect([q1, q10, q50, out10].map((q) => edgeInWaterDeep(p, water, ...edge(q)))).toEqual([false, true, true, false]);
+    // the tolerance itself, not a window (M0-e-06 S2, note 13): a lattice point inside the river between 1.2 and 1.9 cm
+    // from the shore is not over the water, one between 2.1 and 2.9 cm is — so 1 cm (C02), 3 cm and 5 cm (C01) all fail
+    // here; each point found by walking in from the shore edge's midpoint, its depth read independently
+    const near = (lo: number, hi: number): LatticePoint => {
+      for (let s = 0; s <= 60; s += 1) {
+        for (let d = 100; d <= 320; d += 5) {
+          const q = R(m.x + (s - 30) * t.x + (d / 100) * n.x, m.y + (s - 30) * t.y + (d / 100) * n.y);
+          const dist = ringsDist(rings, q);
+          if (insideRings(rings, q) && dist > lo && dist < hi) return q;
+        }
+      }
+      throw new Error(`spike.test: no lattice point ${String(lo)} – ${String(hi)} cm inside the river near the shore edge`);
+    };
+    const q15 = near(1.2, 1.9);
+    const q25 = near(2.1, 2.9);
+    expect([ringsDist(rings, q15) <= TOLERANCE_CM, ringsDist(rings, q25) > TOLERANCE_CM]).toEqual([true, true]);
+    expect([q15, q25].map((q) => pointInWaterDeep(p, water, q))).toEqual([false, true]);
+    expect([q15, q25].map((q) => edgeInWaterDeep(p, water, ...edge(q)))).toEqual([false, true]);
   });
 });
 
