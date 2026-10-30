@@ -3,6 +3,7 @@
 // records equal, the same address, kind and lineage, the routine's outcome `survive`); the S5 / S6 / S8 entities match
 // per kind with 0 duplicate ids and 0 silent re-binds. Beside it: the entities' anchors read from the run's arena
 // (C-0268 (7)), the two contracts' counters on planted failures, and the pair's timing stamp (M0-f-01's harness).
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { LatticePoint } from '@plat/kernel';
 import { match, type MatchEntity, type MatchResult } from '@plat/model';
@@ -77,14 +78,27 @@ describe('the re-derivation pair at one seed (C-0090)', () => {
     expect(r.silentRebinds).toBe(0);
     expect(r.totals.survive).toBe(standing.length);
     expect(r.perKind.map((k) => k.kind)).toEqual([...MATCH_KINDS]);
-    // every fresh entity holds one address after the hand-on, every old address at most one holder
+    // every fresh entity holds one address after the hand-on and the mint, every old address at most one holder
+    // (Q124: read on the final addresses — the routine's raw `addressOf` gives a fresh entity its natural address even
+    // where a succession hands that address to another, which the mint resolves by §6.3's `~k`, C-0274)
+    expect(r.minted.refused).toEqual([]);
     const held = new Set<string>();
     for (const e of p.old.entities.entities) if (STANDING.includes(e.by)) held.add(e.entity.id);
     for (const e of p.fresh.entities.entities.filter((x) => !STANDING.includes(x.by))) {
-      const a = r.result.addressOf.get(e.entity.id);
+      const a = r.minted.addressOf.get(e.entity.id);
       expect(a, e.entity.id).toBeDefined();
       expect(held.has(a as string), a).toBe(false);
       held.add(a as string);
+    }
+    // Q124's case, wherever the pair holds it (at seed 1 on c-02 S5's tree: junction:6nymg6w713p26 handed to
+    // junction:3ab8743sbjpay at 74.7 cm, block:2skgtzs7hxr50 to block:cmps09px73p0z at 70.2 cm): the successor ends at
+    // the handed-on address, the fresh entity whose natural address it is at `<id>~k`, never beside it
+    const handed = new Map([...r.result.handedOn].map(([f, a]) => [a, f]));
+    for (const e of p.fresh.entities.entities.filter((x) => !STANDING.includes(x.by))) {
+      const successor = handed.get(e.entity.id);
+      if (successor === undefined || successor === e.entity.id) continue;
+      expect(r.minted.addressOf.get(successor), successor).toBe(e.entity.id);
+      expect(r.minted.addressOf.get(e.entity.id), e.entity.id).toMatch(new RegExp(`^${e.entity.id}~[1-9][0-9]*$`));
     }
   });
 });
@@ -169,7 +183,7 @@ describe('the mint after the matching on a real pair (C-0274; the CITY bar form 
     const r = matchPair(p);
     const { old, fresh } = pairEntities(p);
     // before the mint the routine's own addresses collide: a fresh S8 entity keeps a natural address handed to another
-    const before = duplicateIds(r.result, old, fresh, { addressOf: r.result.addressOf, suffixed: 0 });
+    const before = duplicateIds(r.result, old, fresh, { addressOf: r.result.addressOf, suffixed: 0, refused: [] });
     expect(before).toBeGreaterThanOrEqual(1);
     expect(r.duplicateIds).toBe(0);
     expect(r.silentRebinds).toBe(0);
@@ -200,7 +214,7 @@ describe('the two contracts\' counters', () => {
     const r = match(old, fresh, anchors);
     expect(r.old.get('junction:2')).toMatchObject({ outcome: 'succeed', fresh: 'junction:7' });
     expect(duplicateIds(r, old, fresh)).toBe(0);
-    expect(mintAddresses(r, old, fresh)).toEqual({ addressOf: new Map([['junction:7', 'junction:2'], ['junction:9', 'junction:9']]), suffixed: 0 });
+    expect(mintAddresses(r, old, fresh)).toEqual({ addressOf: new Map([['junction:7', 'junction:2'], ['junction:9', 'junction:9']]), suffixed: 0, refused: [] });
     expect(silentRebinds(r, old, fresh)).toEqual({ silent: 0, reported: 0 });
   });
   it('apply the mint\'s one collision rule before counting (§6.3, C-0274): a taken natural address takes ~k, never a duplicate', () => {
@@ -216,7 +230,7 @@ describe('the two contracts\' counters', () => {
     const r2 = match(old, f2, anchors);
     expect(r2.handedOn.get('junction:7')).toBe('junction:2');
     expect(r2.addressOf.get('junction:2')).toBe('junction:2'); // before the mint: two holders
-    expect(duplicateIds(r2, old, f2, { addressOf: r2.addressOf, suffixed: 0 })).toBe(1);
+    expect(duplicateIds(r2, old, f2, { addressOf: r2.addressOf, suffixed: 0, refused: [] })).toBe(1);
     const m2 = mintAddresses(r2, old, f2);
     expect(m2.addressOf).toEqual(new Map([['junction:7', 'junction:2'], ['junction:2', 'junction:2~1']]));
     expect(duplicateIds(r2, old, f2)).toBe(0);
@@ -257,6 +271,90 @@ describe('the two contracts\' counters', () => {
     expect(silentRebinds(r2, withWay, fresh)).toEqual({ silent: 0, reported: 1 }); // way:5's end junction:3 is a tombstone: reported, never re-bound
     const bad = { ...r2, addressOf: new Map(r2.addressOf).set('junction:7', 'junction:99') };
     expect(silentRebinds(bad, withWay, fresh).silent).toBe(3); // the succession, the fresh holder and way:5's kept end
+  });
+});
+
+describe('the hand-on\'s uniqueness (hardening S2, Q124)', () => {
+  const P = (x: number, y: number): LatticePoint => ({ x, y }) as unknown as LatticePoint;
+  const pt = (id: string, x: number, survives = false): MatchEntity => ({ id, kind: 'junction', lineage: [1, x], anchor: { point: P(x, 0) }, ...(survives ? { survives } : {}) });
+  const old = [pt('junction:1', 0, true), pt('junction:2', 1000), pt('junction:3', 5000)];
+  const anchors = m0Anchors();
+  const handOn = (r: MatchResult, f: string, a: string): MatchResult => ({ ...r, handedOn: new Map(r.handedOn).set(f, a), addressOf: new Map(r.addressOf).set(f, a) });
+  /** Every final address (the survivors' and the fresh entities' after the mint) is held once. */
+  const heldOnce = (r: MatchResult, fresh: readonly MatchEntity[]): boolean => {
+    const m = mintAddresses(r, old, fresh);
+    const all = [...old.filter((e) => e.survives === true).map((e) => e.id), ...fresh.map((f) => m.addressOf.get(f.id))];
+    return all.every((a) => a !== undefined) && new Set(all).size === all.length;
+  };
+  it('a succession handing a natural holder\'s address: the successor keeps it, the holder takes ~k, whichever sorts first (§6.3)', () => {
+    // the natural holder junction:2 sorts before its address's successor junction:7 (lineage [1, 500] < [1, 1010])
+    const fresh = [pt('junction:7', 1010), pt('junction:2', 500)];
+    const r = match(old, fresh, anchors);
+    expect(r.old.get('junction:2')).toMatchObject({ outcome: 'succeed', fresh: 'junction:7' });
+    expect(r.addressOf.get('junction:2')).toBe('junction:2'); // the routine's raw addresses: two holders before the mint
+    const m = mintAddresses(r, old, fresh);
+    expect(m).toEqual({ addressOf: new Map([['junction:2', 'junction:2~1'], ['junction:7', 'junction:2']]), suffixed: 1, refused: [] });
+    expect(heldOnce(r, fresh)).toBe(true);
+    expect(duplicateIds(r, old, fresh)).toBe(0);
+    expect(silentRebinds(r, old, fresh)).toEqual({ silent: 0, reported: 0 });
+    // the same fresh entity left as its raw address after the mint — the case Q124 names — is a duplicate and a silent re-bind
+    const raw = { addressOf: r.addressOf, suffixed: 0, refused: [] };
+    expect(duplicateIds(r, old, fresh, raw)).toBe(1);
+    expect(silentRebinds(r, old, fresh, raw).silent).toBe(1);
+    // a mint that leaves the successor at its natural address: no address held twice, but the hand-on is lost — a silent re-bind
+    const lost = { addressOf: new Map([['junction:2', 'junction:2~1'], ['junction:7', 'junction:7']]), suffixed: 1, refused: [] };
+    expect(duplicateIds(r, old, fresh, lost)).toBe(0);
+    expect(silentRebinds(r, old, fresh, lost).silent).toBe(1);
+  });
+  it('a planted succession that hands a held id is refused, minted fresh and counted: a survivor\'s, another successor\'s, a fresh entity\'s own', () => {
+    const fresh = [pt('junction:7', 1010), pt('junction:9', 90_000), pt('junction:8', 80_000)];
+    const r = match(old, fresh, anchors);
+    expect(r.handedOn).toEqual(new Map([['junction:7', 'junction:2']]));
+    for (const [what, f, a] of [
+      ['a survivor\'s address', 'junction:8', 'junction:1'],
+      ['an address handed to another successor', 'junction:8', 'junction:2'],
+      ['a fresh entity\'s own address', 'junction:8', 'junction:9'],
+    ] as const) {
+      const bad = handOn(r, f, a);
+      const m = mintAddresses(bad, old, fresh);
+      expect(m.refused, what).toEqual(['junction:8']);
+      expect(m.addressOf.get('junction:8'), what).toBe('junction:8'); // minted as a fresh entity
+      expect(m.addressOf.get('junction:9'), what).toBe('junction:9');
+      expect(m.addressOf.get('junction:7'), what).toBe('junction:2'); // the outcome's successor keeps its address
+      expect(heldOnce(bad, fresh), what).toBe(true);
+      expect(duplicateIds(bad, old, fresh), what).toBe(1);
+      expect(silentRebinds(bad, old, fresh).silent, what).toBe(1);
+    }
+    // an unknown address no entity holds: refused and a duplicate counted, no holder re-bound
+    const unknown = handOn(r, 'junction:8', 'junction:404');
+    expect(mintAddresses(unknown, old, fresh).refused).toEqual(['junction:8']);
+    expect(duplicateIds(unknown, old, fresh)).toBe(1);
+    // a succession whose successor's hand-on names another address: the outcome's address is not held by its successor
+    const moved = { ...r, handedOn: new Map(r.handedOn).set('junction:7', 'junction:3') };
+    expect(mintAddresses(moved, old, fresh).refused).toEqual(['junction:7']);
+    expect(heldOnce(moved, fresh)).toBe(true);
+    expect(silentRebinds(moved, old, fresh).silent).toBeGreaterThanOrEqual(1);
+  });
+  it('the final addresses are held once for any planted hand-on, and every refusal is counted (fast-check)', () => {
+    const fresh = [pt('junction:7', 1010), pt('junction:9', 90_000), pt('junction:2', 500), pt('junction:3', 5100)];
+    const r = match(old, fresh, anchors);
+    expect(mintAddresses(r, old, fresh).refused).toEqual([]);
+    const ids = ['junction:1', 'junction:2', 'junction:3', 'junction:7', 'junction:9', 'junction:2~1', 'junction:404'];
+    fc.assert(
+      fc.property(fc.array(fc.tuple(fc.constantFrom(...fresh.map((f) => f.id)), fc.constantFrom(...ids)), { maxLength: 4 }), (plants) => {
+        let bad = r;
+        for (const [f, a] of plants) bad = handOn(bad, f, a);
+        const m = mintAddresses(bad, old, fresh);
+        expect(heldOnce(bad, fresh)).toBe(true);
+        expect(duplicateIds(bad, old, fresh)).toBe(m.refused.length);
+        const lawful = fresh.filter((f) => {
+          const o = bad.old.get(bad.handedOn.get(f.id) ?? '');
+          return o?.outcome === 'succeed' && o.fresh === f.id;
+        }).length;
+        expect(m.refused.length).toBe(bad.handedOn.size - lawful);
+        if (m.refused.length === 0) expect(silentRebinds(bad, old, fresh).silent).toBe(0);
+      }),
+    );
   });
 });
 
