@@ -1,16 +1,21 @@
 // The bench entry `corepack pnpm bench -- worklimits` (M0-f-03b; C-0021, C-0067, C-0091, C-0105: a vitest test spawns
 // no script — the entry's `run` is called in-process, its output redirected to a temporary folder, every file access
 // through a recording `io`; C-0114: the harness's tests live in bench/test/worklimits/). The item's four tests:
-// the coefficients are reproducible from the same reports (the hand-over fixtures/workLimits.v3.json and
-// summaries/M0-f-03b.json are the fit of the four committed summaries, byte for byte, from M0-f-03a's version-2 file);
+// the coefficients are reproducible from the same reports (the fit of the four FROZEN summaries — fixtures/summaries/,
+// support.ts, session round S1 (Q134) — from M0-f-03a's version-2 file is one text, byte for byte, its sha256 pinned;
+// F0's hand-over fixtures/workLimits.v3.json and its record summaries/M0-f-03b.json agree cell by cell and name the
+// inputs F0 read);
 // every row keeps its counter and unit, only perUnit, floor and provenance change (the fixed row and the unmeasured row
 // not at all); the hit rate at the coefficients is at most 1 per 1 000 batches on the spikes' runs; the script opens the
 // four summary files under plat/docs/build/summaries/ and nothing else (the file-open log). The shipped
 // workLimits.json is pinned to one of exactly two byte strings: version 2 (M0-f-03a's, the PIN) while the hand-over
 // waits on the session's ruling, the v3 fixture once `--write` has applied it (C-0445; C-0309's gating pattern). On the
-// committed summaries the hit-rate report does not pass — the spikes ran stages charging counters their summaries carry
-// no block for (C-0446) — so the entry exits 1 and writes no table; the hand-over's mechanics are exercised with the
-// stage-charge table narrowed to the blocks (support.ts BLOCKS_ONLY). A fitted text the loader refuses writes nothing.
+// frozen summaries the hit-rate report does not pass — the spikes ran stages charging counters their summaries carry
+// no block for (C-0446), and M0-c-06's integrated S8 is over the target — so the entry exits 1 and writes no table; the
+// hand-over's mechanics are exercised on the passing variant (support.ts passingDir: one max under its threshold) with
+// the stage-charge table narrowed to the blocks (BLOCKS_ONLY). A fitted text the loader refuses writes nothing. Every
+// run that pins content reads the frozen copies (summariesDir FIXTURE_DIR); a run over the default folder (the live
+// committed files) asserts only what holds whatever they hold.
 import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
@@ -29,12 +34,30 @@ import {
   spikeDateOf,
   SUMMARIES_DIR,
   SUMMARY_IDS,
+  STAGE_CHARGES,
   SUMMARY_PATH,
   summaryOf,
   TABLE_PATH,
+  type StageCharges,
   type WorkLimitsIo,
 } from '../../src/worklimits/index.js';
-import { BLOCKS_ONLY, fitDate, HANDED_OVER, SHIPPED_TEXT, SUMMARY_TEXTS, sha256, summaries, V2_PIN, V2_TEXT, v2Table, V3_TEXT } from './support.js';
+import {
+  BLOCKS_ONLY,
+  FIXTURE_DIR,
+  FIXTURE_SHA256,
+  fitDate,
+  HANDED_OVER,
+  passingDir,
+  passingSummaries,
+  SHIPPED_TEXT,
+  SUMMARY_TEXTS,
+  sha256,
+  summaries,
+  V2_PIN,
+  V2_TEXT,
+  v2Table,
+  V3_TEXT,
+} from './support.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'worklimits-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -62,9 +85,34 @@ function recording(): { io: WorkLimitsIo; reads: string[]; writes: Map<string, s
 
 type Raw = { table: string; version: number; section: string; rows: Record<string, Record<string, Record<string, unknown>>> };
 
-/** The committed summary's inputs block, rebuilt from the four texts. */
-function inputsOf(): { summary: string; path: string; sha256: string; bytes: number }[] {
-  return SUMMARY_IDS.map((id) => ({ summary: id, path: `docs/build/summaries/${id}.json`, sha256: sha256(SUMMARY_TEXTS[id]), bytes: Buffer.byteLength(SUMMARY_TEXTS[id], 'utf8') }));
+/** A summaries folder's inputs block as the entry records it (paths relative to plat/). */
+function inputsOf(d: string = FIXTURE_DIR): { summary: string; path: string; sha256: string; bytes: number }[] {
+  return SUMMARY_IDS.map((id) => {
+    const t = readFileSync(inputPath(id, d), 'utf8');
+    return { summary: id, path: relative(PLAT_ROOT, inputPath(id, d)).split('\\').join('/'), sha256: sha256(t), bytes: Buffer.byteLength(t, 'utf8') };
+  });
+}
+
+/** The summary the entry writes from a summaries folder (version 2 in force), as its JSON reads back. */
+function summaryFor(d: string, charges: StageCharges = STAGE_CHARGES): unknown {
+  const s = Object.fromEntries(SUMMARY_IDS.map((id) => [id, JSON.parse(readFileSync(inputPath(id, d), 'utf8')) as unknown]));
+  const inputs = inputsOf(d);
+  return JSON.parse(JSON.stringify(summaryOf(fitWorkLimits(v2Table(), s as Record<(typeof SUMMARY_IDS)[number], unknown>, fitDate(), charges), inputs, 3, inputs.map((i) => i.path)))) as unknown;
+}
+
+/** The fit of the frozen summaries from version 2: its text (the bytes `--write` would write from them), its sha256 pinned. */
+const FIXTURE_FIT_TEXT = fittedText(v2Table(), fitWorkLimits(v2Table(), summaries(), fitDate()).counters).text;
+/** The fit of the passing variant from version 2 (what the hand-over runs below write). */
+const PASSING_TEXT = fittedText(v2Table(), fitWorkLimits(v2Table(), passingSummaries(), fitDate()).counters).text;
+/** The passing variant as a summaries folder (outside the output folder: nothing read lies under it). */
+const passing = passingDir();
+afterAll(() => rmSync(passing, { recursive: true, force: true }));
+
+/** The rows whose cells differ between two workLimits texts, in the file's order. */
+function differingRows(a: string, b: string): string[] {
+  const x = JSON.parse(a) as Raw;
+  const y = JSON.parse(b) as Raw;
+  return Object.keys(x.rows).filter((c) => JSON.stringify(x.rows[c]) !== JSON.stringify(y.rows[c]));
 }
 
 describe('the coefficients are reproducible from the same reports', () => {
@@ -73,7 +121,7 @@ describe('the coefficients are reproducible from the same reports', () => {
     expect(v2Table().table.version).toBe(V2_PIN.version);
   });
 
-  it('the fit of the four committed summaries from version 2 is the v3 hand-over, byte for byte, twice', () => {
+  it('the fit of the four frozen summaries from version 2 is one text, byte for byte, twice; it departs from F0’s hand-over in the four rows the re-run summaries moved', () => {
     const date = fitDate();
     const a = fitWorkLimits(v2Table(), summaries(), date);
     const b = fitWorkLimits(v2Table(), summaries(), date);
@@ -82,15 +130,20 @@ describe('the coefficients are reproducible from the same reports', () => {
     expect(fittedText(v2Table(), b.counters)).toEqual(ta);
     expect(ta.changed).toBe(true);
     expect(ta.version).toBe(3);
-    expect(ta.text).toBe(V3_TEXT);
-    // The hand-over loads through the tables package's own loader.
+    expect(ta.text).toBe(FIXTURE_FIT_TEXT);
+    expect(sha256(ta.text)).toBe('82663a6f9fcc7356c54c11ee2c949d9c477c4e523225033e01991e26504c74db');
+    // Both texts load through the tables package's own loader.
+    expect(parseWorkLimitsText(ta.text).table.version).toBe(3);
     expect(parseWorkLimitsText(V3_TEXT).table.version).toBe(3);
+    // F0's hand-over is the fit of the summaries F0 read (summaries/M0-f-03b.json names them); M0-e-06 S2's regenerated
+    // summary (J593) moved the four e-06-measured rows, M0-c-06's 1 000-seed fold (J628) none (its p999s stay under b-04's).
+    expect(differingRows(ta.text, V3_TEXT)).toEqual(['growth.proposals', 'growth.candidates', 'route.nodes', 'grower.turns']);
   });
 
-  it('the fit of the hand-over from the same summaries changes nothing (the same bytes, the same version)', () => {
-    const t3 = parseWorkLimitsText(V3_TEXT);
+  it('the fit of the fitted text from the same summaries changes nothing (the same bytes, the same version)', () => {
+    const t3 = parseWorkLimitsText(FIXTURE_FIT_TEXT);
     const t = fittedText(t3, fitWorkLimits(t3, summaries(), fitDate()).counters);
-    expect([t.changed, t.version, t.text]).toEqual([false, 3, V3_TEXT]);
+    expect([t.changed, t.version, t.text]).toEqual([false, 3, FIXTURE_FIT_TEXT]);
   });
 
   it('with no fit applied the text is the input file’s own bytes (the layout is the file’s)', () => {
@@ -101,15 +154,30 @@ describe('the coefficients are reproducible from the same reports', () => {
     expect(fittedText(t3, none3).text).toBe(V3_TEXT);
   });
 
-  it('summaries/M0-f-03b.json is the summary of that fit (the inputs’ hashes, the fit, the hit rates, the files opened)', () => {
-    const r = fitWorkLimits(v2Table(), summaries(), fitDate());
-    const inputs = inputsOf();
+  it('summaries/M0-f-03b.json is F0’s record of its fit: the shape the entry writes, the inputs F0 read, the hand-over’s cells, the failing verdict', () => {
     const committed = JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')) as Record<string, unknown>;
-    expect(committed).toEqual(summaryOf(r, inputs, 3, inputs.map((i) => i.path)));
+    // The entry's summary of the frozen summaries' fit has the same fields, in the same order.
+    expect(Object.keys(committed)).toEqual(Object.keys(summaryFor(FIXTURE_DIR) as Record<string, unknown>));
     expect(committed['date']).toBe(fitDate());
     expect((committed['table'] as { version: number }).version).toBe(3);
-    expect((committed['counters'] as Record<string, unknown>)['skeleton.events']).toMatchObject({ coefficient: 1.1538461538461537 * 1.5, perUnit: 8, floor: 64, law: { perUnit: 8, floor: 64 }, status: 'floored' });
-    expect((committed['counters'] as Record<string, unknown>)['warp.halvings']).toMatchObject({ status: 'fixed-skipped', perUnit: 0, floor: 8, blocks: 0, p999: null });
+    // The inputs F0 read: M0-b-04's and M0-k-04's are the frozen copies' bytes; M0-c-06's and M0-e-06's the files their
+    // later runs replaced (the 1 000-seed fold, J628; e-06 S2, J593).
+    expect((committed['inputs'] as { summary: string; sha256: string }[]).map((i) => [i.summary, i.sha256])).toEqual([
+      ['M0-c-06', 'b2fd94b4e96782626be80797b31aab0fe89d47680cb98e9df26d2631d9ba7991'],
+      ['M0-e-06', '2fe14f762167ae9b475ee24e902840287059ec66d986ab8d8a1bc0d1afc565e1'],
+      ['M0-b-04', FIXTURE_SHA256['M0-b-04']],
+      ['M0-k-04', FIXTURE_SHA256['M0-k-04']],
+    ]);
+    // The record and the hand-over agree cell by cell.
+    const raw = JSON.parse(V3_TEXT) as Raw;
+    const counters = committed['counters'] as Record<string, { perUnit: number; floor: number; provenance: string }>;
+    expect(Object.keys(counters).sort()).toEqual(Object.keys(raw.rows).sort());
+    for (const [c, f] of Object.entries(counters)) {
+      expect(f.perUnit, c).toBe(raw.rows[c]['perUnit']['value']);
+      expect(f.floor, c).toBe(raw.rows[c]['floor']['value']);
+    }
+    expect(counters['skeleton.events']).toMatchObject({ coefficient: 1.1538461538461537 * 1.5, perUnit: 8, floor: 64, law: { perUnit: 8, floor: 64 }, status: 'floored' });
+    expect(counters['warp.halvings']).toMatchObject({ status: 'fixed-skipped', perUnit: 0, floor: 8, blocks: 0, p999: null });
     // The record says the report does not pass and names the unbounded rows (C-0446), never a pass.
     expect(committed['pass']).toBe(false);
     const h = committed['hitRate'] as { pass: boolean; unbounded: { summary: string; stage: string; counters: string[] }[] };
@@ -201,7 +269,7 @@ describe('every row keeps its counter and unit; only perUnit, floor and provenan
 });
 
 describe('the hit rate at the coefficients is ≤ 1 per 1 000 batches on the spikes’ runs', () => {
-  it('the committed summary and the entry’s report: the bounded rows within the target, the unbounded rows named and the report failed', () => {
+  it('F0’s committed summary: the bounded rows within the target, the unbounded rows named and the report failed; the entry’s report on the frozen summaries fails too, over the target at one row', () => {
     const committed = JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')) as { pass: boolean; hitRate: { pass: boolean; worstPerThousand: number; before: number; after: number; unbounded: unknown[]; rows: { perThousand: number | null; after: number | null; unbounded: string[] }[] } };
     expect([committed.pass, committed.hitRate.pass]).toEqual([false, false]);
     expect(committed.hitRate.worstPerThousand).toBeLessThanOrEqual(1);
@@ -211,10 +279,11 @@ describe('the hit rate at the coefficients is ≤ 1 per 1 000 batches on the spi
       if (r.unbounded.length === 0) expect(r.perThousand).toBeLessThanOrEqual(1);
       else expect([r.after, r.perThousand]).toEqual([null, null]);
     }
-    const out = runWorkLimits(['--date', fitDate()], { out: dir, say: quiet, io: recording().io, table: v2Table() });
+    const out = runWorkLimits(['--date', fitDate()], { out: dir, say: quiet, io: recording().io, table: v2Table(), summariesDir: FIXTURE_DIR });
     expect(out.code).toBe(1);
     expect(out.report?.hitRate.pass).toBe(false);
-    expect(out.report?.hitRate.worstPerThousand).toBe(committed.hitRate.worstPerThousand);
+    expect(out.report?.hitRate.worstPerThousand).toBe((1000 * 34) / 33569);
+    expect([out.report?.hitRate.before, out.report?.hitRate.after]).toEqual([0, 52]);
     expect(out.report?.hitRate.unbounded).toHaveLength(29);
   });
 
@@ -222,23 +291,24 @@ describe('the hit rate at the coefficients is ≤ 1 per 1 000 batches on the spi
     for (const args of [[], ['--write']]) {
       const rec = recording();
       const lines: string[] = [];
-      const out = runWorkLimits([...args, '--date', fitDate()], { out: dir, say: (l) => void lines.push(l), table: v2Table(), io: rec.io, tablePath: join(dir, 'u-never.json'), summaryPath: join(dir, 'u-never-s.json') });
+      const out = runWorkLimits([...args, '--date', fitDate()], { out: dir, say: (l) => void lines.push(l), table: v2Table(), io: rec.io, summariesDir: FIXTURE_DIR, tablePath: join(dir, 'u-never.json'), summaryPath: join(dir, 'u-never-s.json') });
       expect(out.code, args.join(' ')).toBe(1);
       expect(rec.writes.size, args.join(' ')).toBe(0);
-      expect(lines).toContain('worklimits: M0-e-06 groups/2 (relief-3000/default) S3: 22 batches, E_WORK_LIMIT before 0, after UNBOUNDED — no block for insert.points, insert.attractQueries, insert.placementCandidates, insert.crossings, tx.facesWalked, route.nodes (never counted as 0)');
+      expect(lines).toContain('worklimits: M0-e-06 groups/2 (relief-3000/default) S3: 587 batches, E_WORK_LIMIT before 0, after UNBOUNDED — no block for insert.points, insert.attractQueries, insert.placementCandidates, insert.crossings, tx.facesWalked, route.nodes (never counted as 0)');
       expect(lines.some((l) => l.startsWith('worklimits: the hit rate is UNBOUNDED at 29 stage row(s)') && l.includes('missing blocks: M0-c-06 runs/0 (fusion) S1: insert.points'))).toBe(true);
       expect(lines.at(-1)).toBe('worklimits: the hit-rate report does not pass; nothing written');
     }
     // --summary records the failing verdict and writes no table.
     const rec = recording();
     const summaryPath = join(dir, 'u-s.json');
-    const out = runWorkLimits(['--write', '--summary', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: rec.io, tablePath: join(dir, 'u-never.json'), summaryPath });
+    const out = runWorkLimits(['--write', '--summary', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: rec.io, summariesDir: FIXTURE_DIR, tablePath: join(dir, 'u-never.json'), summaryPath });
     expect(out.code).toBe(1);
     expect([...rec.writes.keys()]).toEqual([summaryPath]);
-    expect(JSON.parse(rec.writes.get(summaryPath) ?? '')).toEqual(JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')));
-    // With every stage charged only what its blocks name the same run passes and hands over.
+    expect(JSON.parse(rec.writes.get(summaryPath) ?? '')).toEqual(summaryFor(FIXTURE_DIR));
+    expect((JSON.parse(rec.writes.get(summaryPath) ?? '') as { pass: boolean }).pass).toBe(false);
+    // Charged only what their blocks name, the passing variant's run passes and hands over.
     const ok = recording();
-    const w = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: ok.io, tablePath: join(dir, 'u-t.json'), summaryPath, charges: BLOCKS_ONLY });
+    const w = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: ok.io, summariesDir: passing, tablePath: join(dir, 'u-t.json'), summaryPath, charges: BLOCKS_ONLY });
     expect([w.code, [...ok.writes.keys()]]).toEqual([0, [join(dir, 'u-t.json'), summaryPath]]);
   });
 
@@ -283,7 +353,7 @@ describe('a fitted table the loader refuses is never written (C-0444 (8))', () =
         const lines: string[] = [];
         const tablePath = join(dir, 'bad-table.json');
         const summaryPath = join(dir, 'bad-summary.json');
-        const out = runWorkLimits([...args, '--date', '2026-02-30'], { out: join(dir, 'bad-out'), say: (l) => void lines.push(l), table: v2Table(), io: rec.io, tablePath, summaryPath, ...(charges === undefined ? {} : { charges }) });
+        const out = runWorkLimits([...args, '--date', '2026-02-30'], { out: join(dir, 'bad-out'), say: (l) => void lines.push(l), table: v2Table(), io: rec.io, summariesDir: charges === undefined ? FIXTURE_DIR : passing, tablePath, summaryPath, ...(charges === undefined ? {} : { charges }) });
         const what = `${args.join(' ')} ${charges === undefined ? 'STAGE_CHARGES' : 'BLOCKS_ONLY'}`;
         expect(out.code, what).toBe(1);
         expect(rec.writes.size, what).toBe(0);
@@ -295,7 +365,7 @@ describe('a fitted table the loader refuses is never written (C-0444 (8))', () =
     }
     // The control: the same run at a real date writes (where the report passes).
     const rec = recording();
-    const ok = runWorkLimits(['--write', '--date', '2026-02-28'], { out: dir, say: quiet, table: v2Table(), io: rec.io, tablePath: join(dir, 'good.json'), summaryPath: join(dir, 'good-s.json'), charges: BLOCKS_ONLY });
+    const ok = runWorkLimits(['--write', '--date', '2026-02-28'], { out: dir, say: quiet, table: v2Table(), io: rec.io, summariesDir: passing, tablePath: join(dir, 'good.json'), summaryPath: join(dir, 'good-s.json'), charges: BLOCKS_ONLY });
     expect([ok.code, [...rec.writes.keys()]]).toEqual([0, [join(dir, 'good.json'), join(dir, 'good-s.json')]]);
     expect(parseWorkLimitsText(rec.writes.get(join(dir, 'good.json')) ?? '').table.version).toBe(3);
   });
@@ -303,29 +373,11 @@ describe('a fitted table the loader refuses is never written (C-0444 (8))', () =
 
 describe('the script opens the four summary files under plat/docs/build/summaries/ and nothing else (the file-open log)', () => {
   it('a dry run reads exactly the four, in C-0091’s order, and writes only its report under the output folder', () => {
+    // Over the default folder (the live committed files): what holds whatever they hold — a verdict (0 or 1), never a
+    // refusal of a bad argument; the four read in order; only the report written.
     const rec = recording();
-    const lines: string[] = [];
-    const out = runWorkLimits(['--date', fitDate()], {
-      out: dir,
-      say: (l) => {
-        lines.push(l);
-      },
-      io: rec.io,
-    });
-    // The hit-rate report does not pass on the committed summaries (C-0446): exit 1 whichever version is shipped.
-    expect(out.code).toBe(1);
-    expect(lines).toContain(`worklimits: skeleton.events (vertices) floored; p999 1.1538461538461537 × 1.5 = ${String(1.1538461538461537 * 1.5)} from 1 block(s); perUnit 8 → 8, floor 64 → 64`);
-    expect(lines).toContain('worklimits: warp.halvings (fixed) fixed-skipped; perUnit 0 → 0, floor 8 → 8');
-    expect(lines.at(-1)).toBe('worklimits: the hit-rate report does not pass; nothing written');
-    // Narrowed to the blocks, the verdict is the table's.
-    const narrowed: string[] = [];
-    const n = runWorkLimits(['--date', fitDate()], { out: dir, say: (l) => void narrowed.push(l), io: recording().io, charges: BLOCKS_ONLY });
-    expect(n.code).toBe(HANDED_OVER ? 0 : 1);
-    expect(narrowed.at(-1)).toBe(
-      HANDED_OVER
-        ? 'worklimits: workLimits.json (version 3) is the fit of the four summaries; nothing to hand over'
-        : 'worklimits: workLimits.json (version 2) is not the fit of the four summaries — run with --write to hand it over as version 3',
-    );
+    const out = runWorkLimits(['--date', fitDate()], { out: dir, say: quiet, io: rec.io });
+    expect([0, 1]).toContain(out.code);
     const four = SUMMARY_IDS.map((id) => join(SUMMARIES_DIR, `${id}.json`));
     expect(rec.reads).toEqual(four);
     expect(out.opened).toEqual(four);
@@ -335,10 +387,27 @@ describe('the script opens the four summary files under plat/docs/build/summarie
     // The report names what was opened, relative to plat/.
     const report = JSON.parse(readFileSync(join(dir, REPORT_NAME), 'utf8')) as { opened: string[] };
     expect(report.opened).toEqual(SUMMARY_IDS.map((id) => `docs/build/summaries/${id}.json`));
+    // On the frozen summaries: the lines and the verdict. The hit-rate report does not pass (C-0446): exit 1.
+    const lines: string[] = [];
+    const f = runWorkLimits(['--date', fitDate()], { out: dir, say: (l) => void lines.push(l), io: recording().io, table: v2Table(), summariesDir: FIXTURE_DIR });
+    expect(f.code).toBe(1);
+    expect(lines).toContain(`worklimits: skeleton.events (vertices) floored; p999 1.1538461538461537 × 1.5 = ${String(1.1538461538461537 * 1.5)} from 1 block(s); perUnit 8 → 8, floor 64 → 64`);
+    expect(lines).toContain('worklimits: warp.halvings (fixed) fixed-skipped; perUnit 0 → 0, floor 8 → 8');
+    expect(lines).toContain('worklimits: M0-c-06 runs/1 (integrated) S8: 33569 batches, E_WORK_LIMIT before 0, after ≤ 34 = 1.013 per 1 000');
+    expect(lines.at(-1)).toBe('worklimits: the hit-rate report does not pass; nothing written');
+    // Narrowed to the blocks on the passing variant, the verdict is the table's.
+    const narrowed: string[] = [];
+    const n = runWorkLimits(['--date', fitDate()], { out: dir, say: (l) => void narrowed.push(l), io: recording().io, table: v2Table(), summariesDir: passing, charges: BLOCKS_ONLY });
+    expect(n.code).toBe(1);
+    expect(narrowed.at(-1)).toBe('worklimits: workLimits.json (version 2) is not the fit of the four summaries — run with --write to hand it over as version 3');
+    const t = parseWorkLimitsText(PASSING_TEXT);
+    const m = runWorkLimits(['--date', fitDate()], { out: dir, say: (l) => void narrowed.push(l), io: recording().io, table: t, summariesDir: passing, charges: BLOCKS_ONLY });
+    expect(m.code).toBe(0);
+    expect(narrowed.at(-1)).toBe('worklimits: workLimits.json (version 3) is the fit of the four summaries; nothing to hand over');
   });
 
   it('a hand-over run reads the same four and writes only the table, the summary and the report; an io that refuses any other path still serves it', () => {
-    const allowed = new Set(SUMMARY_IDS.map((id) => inputPath(id)));
+    const allowed = new Set(SUMMARY_IDS.map((id) => inputPath(id, passing)));
     const reads: string[] = [];
     const writes = new Map<string, string>();
     const strict: WorkLimitsIo = {
@@ -353,17 +422,19 @@ describe('the script opens the four summary files under plat/docs/build/summarie
     };
     const tablePath = join(dir, 'workLimits.json');
     const summaryPath = join(dir, 'M0-f-03b.json');
-    const out = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: strict, tablePath, summaryPath, charges: BLOCKS_ONLY });
+    const out = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: strict, summariesDir: passing, tablePath, summaryPath, charges: BLOCKS_ONLY });
     expect(out.code).toBe(0);
     expect(reads).toEqual([...allowed]);
     expect([...writes.keys()]).toEqual([tablePath, summaryPath]);
     expect(out.written).toEqual([join(dir, REPORT_NAME), tablePath, summaryPath]);
-    expect(writes.get(tablePath)).toBe(V3_TEXT);
-    // The summary of the narrowed run differs from the committed one only in the hit-rate verdict and its rows.
+    expect(writes.get(tablePath)).toBe(PASSING_TEXT);
+    // The summary of the narrowed run differs from the full charge table's summary of the same inputs only in the
+    // hit-rate verdict and its rows.
     const written = JSON.parse(writes.get(summaryPath) ?? '') as Record<string, unknown>;
-    const committed = JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')) as Record<string, unknown>;
-    for (const k of ['item', 'date', 'provenance', 'table', 'inputs', 'opened', 'counters']) expect(written[k], k).toEqual(committed[k]);
-    expect([written['pass'], committed['pass']]).toEqual([true, false]);
+    const full = summaryFor(passing) as Record<string, unknown>;
+    expect(written).toEqual(summaryFor(passing, BLOCKS_ONLY));
+    for (const k of ['item', 'date', 'provenance', 'table', 'inputs', 'opened', 'counters']) expect(written[k], k).toEqual(full[k]);
+    expect([written['pass'], full['pass']]).toEqual([true, false]);
     // Never the output folder as an input (C-0091): nothing read lies under it.
     for (const p of reads) expect(p.startsWith(dir)).toBe(false);
   });
@@ -408,7 +479,7 @@ describe('the entry’s arguments and outcomes', () => {
     const rec = recording();
     const tablePath = join(dir, 'w2.json');
     const summaryPath = join(dir, 's2.json');
-    const ctx = { out: dir, say: quiet, table: v2Table(), io: rec.io, tablePath, summaryPath, charges: BLOCKS_ONLY };
+    const ctx = { out: dir, say: quiet, table: v2Table(), io: rec.io, summariesDir: passing, tablePath, summaryPath, charges: BLOCKS_ONLY };
     expect(runWorkLimits(['--date', fitDate()], ctx).code).toBe(1);
     expect(rec.writes.size).toBe(0);
     const s = runWorkLimits(['--summary', '--date', fitDate()], ctx);
@@ -416,19 +487,20 @@ describe('the entry’s arguments and outcomes', () => {
     expect([...rec.writes.keys()]).toEqual([summaryPath]);
     expect((JSON.parse(rec.writes.get(summaryPath) ?? '') as { pass: boolean }).pass).toBe(true);
     rec.writes.clear();
-    // The same --summary under the full stage-charge table records the committed (failing) summary, exit 1.
+    // The same --summary under the full stage-charge table records the failing summary, exit 1.
     const { charges: _narrowed, ...full } = ctx;
     const sf = runWorkLimits(['--summary', '--date', fitDate()], full);
     expect([sf.code, [...rec.writes.keys()]]).toEqual([1, [summaryPath]]);
-    expect(JSON.parse(rec.writes.get(summaryPath) ?? '')).toEqual(JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')));
+    expect(JSON.parse(rec.writes.get(summaryPath) ?? '')).toEqual(summaryFor(passing));
+    expect((JSON.parse(rec.writes.get(summaryPath) ?? '') as { pass: boolean }).pass).toBe(false);
     rec.writes.clear();
     const w = runWorkLimits(['--date', fitDate(), '--write'], ctx);
     expect(w.code).toBe(0);
     expect([w.changed, w.version]).toEqual([true, 3]);
     expect([...rec.writes.keys()]).toEqual([tablePath, summaryPath]);
-    expect(rec.writes.get(tablePath)).toBe(V3_TEXT);
+    expect(rec.writes.get(tablePath)).toBe(PASSING_TEXT);
     // A second run over the handed-over text writes nothing.
-    const t3 = parseWorkLimitsText(V3_TEXT);
+    const t3 = parseWorkLimitsText(PASSING_TEXT);
     const again = recording();
     const w2 = runWorkLimits(['--write'], { ...ctx, table: t3, io: again.io });
     expect([w2.code, w2.changed, w2.version]).toEqual([0, false, 3]);
@@ -449,9 +521,9 @@ describe('the entry’s arguments and outcomes', () => {
     expect(runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: rec.io, summariesDir: empty }).code).toBe(1);
     expect(rec.writes.size).toBe(0);
     const bad: WorkLimitsIo = { read: (p) => (p.endsWith('M0-b-04.json') ? '{"item": ' : FS_IO.read(p)), write: rec.io.write };
-    const out = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: bad });
+    const out = runWorkLimits(['--write', '--date', fitDate()], { out: dir, say: quiet, table: v2Table(), io: bad, summariesDir: FIXTURE_DIR });
     expect(out.code).toBe(1);
-    expect(out.opened.map((p) => relative(SUMMARIES_DIR, p))).toEqual(['M0-c-06.json', 'M0-e-06.json', 'M0-b-04.json']);
+    expect(out.opened.map((p) => relative(FIXTURE_DIR, p))).toEqual(['M0-c-06.json', 'M0-e-06.json', 'M0-b-04.json']);
     expect(rec.writes.size).toBe(0);
   });
 
