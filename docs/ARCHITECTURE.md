@@ -9818,9 +9818,9 @@ piece.
 One accounted exception stands outside the pipeline, on the public product path only (§5.5): when a public user's
 derivation ends in a fault no ladder ever reached — the worker crashed, hung, threw, or a bug abort left out something
 the user asked for — the host that runs the worker rebuilds the whole town from a fixed fallback key, at most twice,
-tells the user it happened, and writes the fault down as a defect with everything needed to reproduce it. A parachute,
-never a second engine: it is off in every test, bench and golden run, every pull of it counts against a budget that may
-only fall, and nothing in the model packages knows it exists.
+without a word to the user, and writes the fault down for us as a defect with everything needed to reproduce it. A
+parachute, never a second engine: it is off in every test, bench and golden run, every pull of it counts against a budget
+that may only fall, and nothing in the model packages knows it exists. Only we see that it fired; the user sees a town.
 
 ### 5.1 Principles and the seven tiers (G-P7)
 
@@ -9967,7 +9967,7 @@ row marked † names in brackets the section that states how its rungs are compu
 | F-LIGHT† the light pass cannot run as drawn [§8.4] (item 68) | the view — the tile worker and the compositor, outside the model packages | §8.4 (g)'s and §8.8's triggers | §8.4's fallback ladder down to the vector rung; each rung counted in the view telemetry, never an error and never a model change; exports, stills and goldens always take the CPU reference (§8.4) | §13.4's fallback run renders a frame on every rung; the CPU reference byte-identical across engines (§6.5 (9)) |
 | F-WORK operation count reached | any stage, ladder or kernel call | `E_WORK_LIMIT`: a declared count reached (candidates, proposals, kernel calls, skeleton events, recursion depth), each the stage's law over its batch scope (§5.1 (5)) | the stage's declared coarser rung, entered by the count, never by time (fewer candidates, larger cells, a shallower recursion) → `work_cut` with the count; the map is valid and identical on every machine | time dilation (§6.5 (9)): per-stage digests byte-identical; work-cut rate per stage reported on B-CITY; hit rate flat across each band (§5.1 (5)) |
 | F-BUDGET-TIME stage over its time budget — reporting and scheduling only | `@plat/api` worker host (outside model packages) | wall-clock watchdog | postpone or resume a lazy tier (cancel-and-resume only); `time_over` in telemetry; never a model change | a tier postponed and resumed hashes like the eager tier; per-stage timing against §12 in CI telemetry on reference hardware |
-| F-LAST† the derivation faults past every ladder — the public path's accounted last resort [§5.5] | `@plat/api` worker host (outside model packages; the public product path only — OFF in CI, tests, benches, goldens and the D-5 protocol) | §5.5 (1)'s five triggers: `crash` (a dead worker), `hang` (the host's watchdog), `exception` (a model package threw past every ladder), `invariant` (a stage-end or save invariant no ladder owns), `bug` (a `bugs` entry whose tier-6 outcome omitted a requested feature or a mandatory chain); never an edit, never a stored document, never a lawful tier-6 omission | §5.5 (2)'s two rungs: re-derive the unchanged recipe from the fallback seed s_k = H(seed ‖ "fallback" ‖ k), k = 1 … `lastResort.maxAttempts` (deterministic; the permalink carries `&f=<k>`; the user told) → refuse with the record's id; every firing writes a `LastResortRecord` (§5.5 (3)) and counts against `lastResort.budgetPer10k` (§5.5 (4)) | §5.5 (7)'s host fault-injection suite on B-CITY-lite: each trigger forced once → one record, a replayable key, s_1's town byte-identical across two runs and two hosts for the deterministic triggers, the refusal after the cap, no loop; the same faults with the flag OFF end red |
+| F-LAST† the derivation faults past every ladder — the public path's accounted last resort [§5.5] | `@plat/api` worker host (outside model packages; the public product path only — OFF in CI, tests, benches, goldens and the D-5 protocol) | §5.5 (1)'s five triggers: `crash` (a dead worker), `hang` (the host's watchdog), `exception` (a model package threw past every ladder), `invariant` (a stage-end or save invariant no ladder owns), `bug` (a `bugs` entry whose tier-6 outcome omitted a requested feature or a mandatory chain); never an edit, never a stored document, never a lawful tier-6 omission | §5.5 (2)'s two rungs: re-derive the unchanged recipe from the fallback seed s_k = H(seed ‖ "fallback" ‖ k), k = 1 … `lastResort.maxAttempts` (deterministic; k a field of the canonical recipe; silent and seamless to the user — J652) → refuse with the record's id; every firing writes a `LastResortRecord` (§5.5 (3)) and counts against `lastResort.budgetPer10k` (§5.5 (4)) | §5.5 (7)'s host fault-injection suite on B-CITY-lite: each trigger forced once → one record, a replayable key, s_1's town byte-identical across two runs and two hosts for the deterministic triggers, the refusal after the cap, no loop; the same faults with the flag OFF end red |
 | F-EDIT constraint conflict | S0, edits | every refusal and conflict cause of §7.1's dry-run outcome table | the outcome's catalogue key with its arguments (`ApplyResult.outcome`, a `MsgRef` whose address slots render per caller, V09 §4.9, §11.2) and the actions that table gives the cause (`ConflictAction`s, each with its own `MsgRef`; §7.1's *The returned kinds*), so a filtered result never carries a withheld name; decided by §7.7's precedence order; never silently resolved | B-EDIT sequences and conflict fixtures: 0 planarity violations, 0 lost faces, 0 silent re-binds |
 | F-REDERIVE coarse re-derivation invalidates finer content or crossings | §7.3's local operators (S1 water and terrain, S4, S5, S6, S7) | a plot, footprint or yard in new water, in a new corridor, across a moved wall band or outside its new cell; a way that new water ⊕ its bank setback will meet off a deck (found on the new water's data before it is inserted, §7.3 (b) 1–2); a deck span no longer over water; a crossing `site` whose bank vertices no longer stand on a shore of its reach; a stored reference §3.10's stored-references row finds unresolved after the re-derivation (`E_INVARIANT` naming the reference: a live entity's `FaceRef`, `ChainRef`, `EdgeSetRef` or `VertexRef` that finds no geometry, an indexed role without its one vertex or edge set per ordinal); a wall run that S1's water operator or a carve would re-trace (§4.11 *Other crossings*; §7.3 (b) 2–3) with no lawful crossing of a standing raised way, its water gate with no point within the run that §2.7's laws admit (law 1, read with its terms; chiefly (6)), or a held building's widened strip or a shape-locked raised way's `vault`-use span's strip it cannot keep clear (§2.7's laws, law 2 (c), law 1 (6), (9), (10); its worked examples the crossing table's (G3) and *beneath*), found on the new water's data before it is inserted | **Plots and buildings:** re-cut the plot along the new boundary (ids kept by the anchor rule, §6.3) → re-fit its site plan (F-SITEPLAN) → demolish what still conflicts, with a lifecycle event whose cause is the edit. **A way new water will meet off a deck** — decided before the water is inserted, in the L1 batch of S1's water operator (§7.3 (b) 3) or of a carve (§4.11 (1)), so the L0 insertion meets no finer edge except at the vertices that batch prepared (§3.3): a **kept way** — an arterial, the only connection of the streets beyond it to a gate or the plaza (§4.11's rule), or a way that crossed the changed water on a deck — is re-routed through a deck as §7.3 (b) 2 states, within the **detour bound** (the re-routed length between its nearest pinned nodes on either side of the water ≤ 1.4 × the old length); every other way is cut at the bank setback: the stretch inside the new water ⊕ bank setback is removed and each land part stays a way — the part keeping the old anchor (end junction, else larger overlap, §6.3) keeps the address, the other is a fresh way — and a land part shorter than the district's minimum block width that ends at the setback (a stub) is removed, leaving a dead end at the bank. **A deck over land** (its reach moved away, no site within the band, §7.3 (b) 2): the `Bridge` becomes a tombstone (`demolish`, cause the edit); its span stays in its way as an ordinary segment of the way's class — the higher class of the two ways it joins where the span was a separate `bridge` way — or leaves with the way if the way was removed; its `deck` and `deck_end` rows are removed (`removeEdges` on `ChainRef('deck', bridge)` and its two `VertexRef('deck_end', bridge, i)`), after which demotion takes its bank vertices to the way's level and clears their kernel pins (§2.2 rule 3). **A site over land** (no successor site matched it, §7.3 (b) 2): its `deck_end` rows are removed by `removeEdges` on their `VertexRef`s and its record becomes a tombstone (§2.7). **A stored reference that no longer resolves:** its entity is re-derived under its successor address (§6.3) → else tombstoned with a lifecycle event whose cause is the edit. Every re-cut, demolition, re-route, cut, pruned stub and tombstoned entity is listed in the fate report with its lifecycle event; a locked or pinned entity is never demolished, re-routed, cut or tombstoned — its conflict returns to the dry run as F-EDIT. **A wall run with no lawful shape at a raised way** (its rung alone runs on it; the run its own law re-traces never widened past the towers the new water leaves unaffected: §2.7's laws, law 1 (11), law 2 (c)) → by hand, `refuse.raised.meeting` (§7.1); at an epoch, the water op that would re-trace it (`shiftCourse`, an avulsion, `digCanal`) not made that epoch, waiting (`walls.waited`, V06 §2.10), the river, the run and the raised way unchanged — never a run across water without its water gate (§5.3) | the coarse-edit oracle, §7.3 item 7 (v); T110-2 (4)'s epoch `shiftCourse` beside a viaduct (the raised-way rung) |
 
@@ -10164,14 +10164,18 @@ and `prefix` lists (the report's schema test, §13.2).
 short ladder. That law covers the failures we have named. It cannot cover the ones we have not — there is no list of
 unknown unknowns. So the product carries one parachute, and only the product: when a public user's derivation ends in a
 fault that no ladder reached, the host that runs the worker rebuilds the whole town from a fixed fallback key, at most
-twice, tells the user it happened, and writes the fault down as a defect with everything needed to reproduce it. A
-parachute, never a second engine: it is off in every test, bench and golden run, so a fault there stays red; every pull
-of it is counted against a budget that may only fall; and nothing in the model packages knows it exists.
+twice, silently and seamlessly — the user sees a town, never the repair — and writes the fault down for us as a defect
+with everything needed to reproduce it. A parachute, never a second engine: it is off in every test, bench and golden
+run, so a fault there stays red; every pull of it is counted against a budget that may only fall; and nothing in the model
+packages knows it exists. Only we see that it broke; a user who finds something wrong says so through the report action
+the product already carries ((6)).
 
 **Standing.** The owner's design of 2026-10-30 (J650: "a regenerate everything feature when everything else fails when
 in use by public users … the absolute last option … it still has to include writing down an accounting for what the
 issue was for [us to fix] later … the absolute last thing we do after we close most of M0"; then "Add it to the
-architecture"), with the session's reading of its shape (vetoable). The rule is a product rule of `@plat/api`'s worker
+architecture"; and J652, on the session's condition that the user be told: "it should just silently and seamlessly
+regenerate … Only we see that it breaks. If they have a complaint, they submit it through the appropriate house which
+we've already built"), with the session's reading of its shape (vetoable where it is not the owner's word). The rule is a product rule of `@plat/api`'s worker
 host — the host that owns F-BUDGET-TIME — never a model rule: §5.1 (1)'s "no restart path" stays literally true of every
 model package, and "regenerate everything" means the host asks the pipeline for a fresh derivation under a different root,
 never that the pipeline restarts itself.
@@ -10192,13 +10196,16 @@ never that the pipeline restarts itself.
 2. **The ladder: two rungs, bounded, deterministic, in the open.** *Rung 7a, re-derive:* the host derives the same
    recipe, unchanged in every parameter the user chose, from the **fallback seed** s_k = H(seed ‖ "fallback" ‖ k) for
    k = 1, then 2 — `lastResort.maxAttempts` (a cell of the base settings row, V11 §3.1; default 2); the pipeline sees an
-   ordinary derivation and §6.1's keys are untouched. The user's seed stays the town's name: the permalink carries it with
-   `&f=<k>` (§6.4), a replay derives s_k directly and never re-runs the faulting derivation (J-DET-20's pattern), and two
-   hosts replaying the link derive the same town (§6.5). *Rung 7b, refuse:* when attempt `maxAttempts` faults too, the
-   host returns a refusal with the record's id and the user keeps the seed — never a loop, never a silent default town.
-   The result envelope of a rung-7a town carries `lastResort: { k, recordId }` and the viewer shows it (a `MsgRef`,
-   V09 §4.9: "this town was rebuilt after a fault; report <id>") with the send-report action — the fault is never hidden
-   from the one person who could report it. *The one exception to host identity:* trigger (b) is the only place liveness
+   ordinary derivation and §6.1's keys are untouched. The user's seed stays the town's name: the fallback ordinal k is a field of the
+   canonical recipe (§6.4; default 0, omitted at 0), so the link stays an ordinary link — the one-line form at k = 0, the
+   recipe form otherwise — a replay derives s_k directly and never re-runs the faulting derivation (J-DET-20's pattern),
+   and two hosts replaying the link derive the same town (§6.5). *Rung 7b, refuse:* when attempt `maxAttempts` faults
+   too, the host returns the product's plain refusal (a `MsgRef`, V09 §4.9: the town could not be built, with a reference
+   id) and the user keeps the seed — never a loop, never a silent default town. **Silent and seamless (J652, the owner's
+   word):** a rung-7a town reaches the user as any town does — no notice, no flag in the view, nothing in the link that
+   names a fault; the result envelope's `lastResort: { k, recordId }` is read by the host's telemetry and by our own
+   operator view only, never rendered to the user. Only we see that it broke; a user who finds something wrong says so
+   through the report action of (6), the product's one complaint channel. *The one exception to host identity:* trigger (b) is the only place liveness
    outranks §6.5's identity — a slow host may trip where a fast one finishes — so a `hang` record marks its shipped town
    `nondeterministicTrigger: true`, no golden or baseline is ever taken from one, and its defect row's fix is a work limit
    (§5.1 (5), F-WORK) at the stage that hung, so the same cause never trips twice.
@@ -10221,7 +10228,7 @@ never that the pipeline restarts itself.
      attemptsTaken: number;                         // the k that shipped; 0 when none did
      outcome: 'shipped' | 'rederived' | 'refused';  // shipped = a flagged town with the fault recorded and no re-derivation
      nondeterministicTrigger: boolean;              // true only for `hang`
-     message: MsgRef;                               // what the user was shown (V09 §4.9)
+     message?: MsgRef;                              // rung 7b only: the refusal the user was shown (V09 §4.9); a rung-7a town shows nothing
      note?: string; view?: ViewState;               // trigger 'user' only ((6)): the user's words and where they were looking
      consent: boolean;                              // whether the recipe left the device
    }
@@ -10245,11 +10252,13 @@ never that the pipeline restarts itself.
    reads or branches on it; the kernel-boundary lint (KI-8) names it among the host's words. (c) The pipeline has no
    restart path: §5.1 (1) and the staged layers' "never a whole-map retry" are read literally, and §5.1 (7)'s property
    stays a design property — the rate of (4) is the number. (d) A rung-7a town is a lawful town of its fallback seed,
-   meeting every bar a first derivation meets, with its flag; the net never ships a town that failed an invariant. (e) The
+   meeting every bar a first derivation meets, indistinguishable to its user from a first derivation; the net never ships
+   a town that failed an invariant. (e) The
    net never widens by a setting: a new trigger kind, a third attempt or a region-level rung is a declared shift of this
    section with its own J-row.
-6. **The report-this-map action.** A net catches only loud faults. A town that builds, passes every invariant and
-   still looks wrong is found by the user, so the viewer carries one action that writes the same record with trigger
+6. **The report-this-map action.** A net catches only loud faults, and (2) shows the user none of them. A town that
+   builds, passes every invariant and still looks wrong is found by the user, so the viewer carries one action — the
+   product's complaint channel, the only user-facing part of this section — that writes the same record with trigger
    `user`, the user's note and the `ViewState` they were looking at, under the same consent rule, into the same ingest.
    Because the model is deterministic, (output version, recipe, seed, k) reproduces exactly the town the user saw. The
    two features ship together and share one dashboard; `user` rows are not counted against (4)'s budget but are its
@@ -10260,8 +10269,8 @@ never that the pipeline restarts itself.
    never returns (`hang`, by a stub, never a slow run), a worker killed (`crash`). For each: the host writes exactly one
    record with (3)'s fields filled and the stream key replayable where one exists; rung 7a derives s_1's town
    byte-identical across two runs and across two hosts for `bug`, `invariant`, `exception` and `crash` (§6.5 (9)'s
-   pairs); the message names the fault and the id; a fault forced on every attempt ends in rung 7b after `maxAttempts`
-   with no loop; the same suite with the flag OFF ends in the raw fault (red). A `user` report from a fixture town
+   pairs); the rendered view of s_1's town is byte-identical to a first derivation of s_1 (nothing of the fault reaches
+   the user); a fault forced on every attempt ends in rung 7b after `maxAttempts` with no loop and the plain refusal; the same suite with the flag OFF ends in the raw fault (red). A `user` report from a fixture town
    reproduces that town from its record. The ingest test folds three records of one signature into one row with count 3.
 8. **When.** Specified here at M0's close (J650) so that M1's spec has it. The record and the result envelope are a seam
    of the API (M3a's `@plat/api` surface) that settles with KI-3's consumer contract in M1's spec; the host feature is
@@ -10273,12 +10282,13 @@ never that the pipeline restarts itself.
    now, the build in M1, because the host and the public path do not exist before M1.
 
 **Rejected (J650, vetoable):** a random re-roll (it breaks the promise that a seed is a town and makes the fault
-irreproducible); a silent net (it hides the fault from its only witness and rots the ratchet); region-level regeneration
-as the first rung (it preserves more of a good map but brings seam invariants of its own — it may be added later as a
+irreproducible); region-level regeneration as the first rung (it preserves more of a good map but brings seam invariants of its own — it may be added later as a
 declared shift when (4)'s counts justify it, never as the first form); a tier inside the ladders (the pipeline would then
 have a restart path, and the host does not need one); enabling it in CI or on goldens (it would turn every unknown
 unknown into a known unknown nobody counts); counting a firing as a handled failure (every firing is a defect row until
-its fix lands).
+its fix lands). **Reversed (J652, the owner's word):** J650's condition that the user be told of a rung-7a rebuild — the
+owner ruled the net silent and seamless ("they want a working product and they want to trust the process"); the user's
+channel is the report action of (6), and the ratchet's witnesses are the internal record of (3) and the dashboard of (4).
 
 ## §6 Determinism
 
@@ -11002,8 +11012,9 @@ recycling case (a superseded, assigned building whose creation slot is reused) �
 **Permalinks.** A link carries the canonical recipe, never a pointer to machine state:
 * `?o=<output version>&s=<seed, base 36>&z=<rung>` when the recipe is the output version's defaults apart from seed and
   rung (watabou's one-line link kept);
-* `&f=<k>` when §5.5's last resort shipped the town's k-th fallback derivation: the link keeps the user's seed as the
-  town's name and replays s_k directly, never the faulting derivation (J-DET-20's pattern; §5.5 (2));
+* the fallback ordinal k of §5.5 (2) is a field of the canonical recipe (default 0, omitted at 0): a town the last resort
+  shipped takes the recipe form, keeps the user's seed as its name and replays s_k directly, never the faulting
+  derivation (J-DET-20's pattern); nothing in a link names a fault (J652);
 * otherwise `&r=<base64url of the deflated CBOR recipe delta>` (params with preferences folded in, intent, the district
   intents (`districtIntent`), entry mode, the rerollable concerns' salts — keyed and schema-checked as `Recipe.salts`,
   §2.9 — and the table pins and packs that differ from the output version's shipped ones, packs by id, version and
