@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-09",
-  "lane": "build/M0-d-09-fix-s1",
-  "lanes": ["build/M0-d-09", "build/M0-d-09-fix1", "build/M0-d-09-fix-s1"],
+  "lane": "build/M0-d-09-fix-s2",
+  "lanes": ["build/M0-d-09", "build/M0-d-09-fix1", "build/M0-d-09-fix-s1", "build/M0-d-09-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-20T20:14:11.135Z",
+  "date": "2026-10-30T16:14:58.552Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/determinism/", "plat/bench/test/determinism/", "plat/docs/build/summaries/M0-d-09.json"],
   "counts": { "created": 23, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -14,7 +14,7 @@
     { "path": "plat/bench/src/determinism/entities.ts", "status": "created", "sha256": "cd5767b398e66ab52f3cf0500c19a340816ef808576cce0baaf1f01a5539ff49", "size": 15920 },
     { "path": "plat/bench/src/determinism/index.ts", "status": "changed", "sha256": "0f250d779807d29431e8796c3ef78a4ef184972d83a5cd9b85b30982faa4b866", "size": 11488 },
     { "path": "plat/bench/src/determinism/records.ts", "status": "created", "sha256": "a2c9c511956884f6bd05cf5455fc5f5634fd07fb244f917cc8a0af778ead062b", "size": 3806 },
-    { "path": "plat/bench/src/determinism/rederive.ts", "status": "created", "sha256": "60033845e4ca3fdb60d71b4acf8ffd2fd0d527963c32daca167a6448c6d176f5", "size": 16568 },
+    { "path": "plat/bench/src/determinism/rederive.ts", "status": "created", "sha256": "56bc9704183761520aa5c713a0967e8c50b5f752db56dcc654767adc1b8a96f9", "size": 20006 },
     { "path": "plat/bench/src/determinism/report.ts", "status": "created", "sha256": "3e0340aa7070293a2a3b3a27aff0470075789ad2e47941dac542642fd667d334", "size": 24093 },
     { "path": "plat/bench/src/determinism/runner.ts", "status": "created", "sha256": "ec80b83fec7033ee0eb38b82709bf2f434e31d9e701d6af1657f23e071cdd0ab", "size": 13356 },
     { "path": "plat/bench/src/determinism/sizes/test.json", "status": "created", "sha256": "cd6bf7ccd1d3be2020ca622b589039759a02daaa64dac876127042d243837fb9", "size": 401 },
@@ -25,7 +25,7 @@
     { "path": "plat/bench/test/determinism/census.test.ts", "status": "created", "sha256": "dc09c0a4a3934ec0445ffa6c7b2ee290913b878aed1355d8386095276966b194", "size": 7778 },
     { "path": "plat/bench/test/determinism/fixtures/clock-stages.ts", "status": "created", "sha256": "eed1c2ca1e2027a1d741ee459901e41431ad5823902e654cd505abc3e4fe296c", "size": 2196 },
     { "path": "plat/bench/test/determinism/fixtures/planted-stages.ts", "status": "created", "sha256": "d08407e00a82ae297bda7534a251a2ea3a9355561906483dcf6169ae7af87e54", "size": 1497 },
-    { "path": "plat/bench/test/determinism/pair.test.ts", "status": "created", "sha256": "8352c1b5b1cb648f57ac5477b6c5224892337d55f694a2b2def98fa7d0005a82", "size": 16803 },
+    { "path": "plat/bench/test/determinism/pair.test.ts", "status": "created", "sha256": "fced4359f74cf279d94cda7e19c3f55431a691b97e6d9d221e1ee5889177313a", "size": 23859 },
     { "path": "plat/bench/test/determinism/planted.test.ts", "status": "created", "sha256": "730f4e2450976173f0e950352d7c706b06167f12abd0e1bc7f2b842814463284", "size": 4210 },
     { "path": "plat/bench/test/determinism/records.test.ts", "status": "created", "sha256": "8f10a67d6d084fb96d0495c82cc154fb66ac7f048a0acccca32638a6e68a7e39", "size": 3130 },
     { "path": "plat/bench/test/determinism/report.test.ts", "status": "created", "sha256": "b5167dd24759baae4b9a6ac854f2100ed783e6f06c011996042211d94ba999d9", "size": 14647 },
@@ -38,14 +38,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0333", "L-0341", "L-0351", "L-0609"],
-      "lines": ["15d6199137902e90", "58d3fef6a989028c", "c7aef90c621b34b0", "a392c932e25a9d4b"],
+      "ids": ["L-0333", "L-0341", "L-0351", "L-0609", "L-0706"],
+      "lines": ["15d6199137902e90", "58d3fef6a989028c", "c7aef90c621b34b0", "a392c932e25a9d4b", "08c2b33ca12a39d2"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0268", "C-0272", "C-0274", "C-0280", "C-0401"],
-      "lines": ["311211ad24f7aec1", "83072fbe78435f94", "b177c9e68b909f36", "051a3e5e753674e4", "b492681d2ba83c84"],
+      "ids": ["C-0268", "C-0272", "C-0274", "C-0280", "C-0401", "C-0451"],
+      "lines": ["311211ad24f7aec1", "83072fbe78435f94", "b177c9e68b909f36", "051a3e5e753674e4", "b492681d2ba83c84", "1b2603b4acac2fc0"],
       "removed": []
     }
   ]
