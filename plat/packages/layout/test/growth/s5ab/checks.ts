@@ -71,7 +71,10 @@ export function violations(g: Grown): string[] {
     const c = st.crossings.length;
     // c recounted from the arena, never from the record (walled and unwalled alike): a miscounted c fails here.
     const cArena = recountC(g, st.k, wayEdges);
-    if (cArena !== c) say(`stage ${String(st.k)}: c recorded ${String(c)} vs ${String(cArena)} meetings of the standing ways with the boundary as picked`);
+    if (cArena !== c) say(`stage ${String(st.k)}: c recorded ${String(c)} vs ${String(cArena)} crossings of the standing ways with the boundary as picked`);
+    // The meetings that are no crossing (a way touching the boundary and staying on its side): pinned as gates by the
+    // trace, never counted in c (C-0452 (9)).
+    const grazes = recountC(g, st.k, wayEdges, 'meetings') - cArena;
     const want = Math.max(0, st.count.n - c);
     if (st.picks.length + st.short !== want) say(`stage ${String(st.k)}: ${String(st.picks.length)} picks and ${String(st.short)} short for N_k ${String(st.count.n)} − c ${String(c)}`);
     if (!b.capped && st.short !== 0) say(`stage ${String(st.k)}: ${String(st.short)} destinations short on an uncapped stage`);
@@ -95,6 +98,28 @@ export function violations(g: Grown): string[] {
       const fromEdges = wayEdges.get(r.from.way) ?? [];
       if (!fromEdges.some(([a, q]) => (a.x === from.x && a.y === from.y) || (q.x === from.x && q.y === from.y))) say(`${w.id}: its junction (${String(from.x)}, ${String(from.y)}) is no vertex of ${r.from.way}`);
       if (insideRing(prevWall, from) || ringDist(from, prevWall) <= clearCm) say(`${w.id}: its junction lies inside the previous wall or within ${String(clearCm)} cm of it`);
+      // To the frame at its bearing (§4.4 S5b): the lattice course ends at the rim node the radial bearing from its
+      // destination meets, unless that route found none and the nearest frame was taken (its `unserved` rung on the
+      // route `s5b:<k>/<pick>/out` recorded: the fallback named).
+      const rimEnd = r.nodes[r.nodes.length - 1];
+      if (lattice.rim[rimEnd] !== 1) say(`${w.id}: its course ends at node ${String(rimEnd)}, no rim node`);
+      const atBearing = rimAt(lattice, r.pick.at, r.pick.bearingCdeg);
+      const fellBack = growth.report.rungs.some((x) => x.route === `s5b:${String(st.k)}/${String(r.pick.ordinal)}/out` && x.rung === 'unserved');
+      if (rimEnd !== atBearing && !fellBack) say(`${w.id}: its course ends at rim node ${String(rimEnd)}, not ${String(atBearing)} at its bearing ${String(r.pick.bearingCdeg)}, and no fallback is recorded`);
+      // C-0244 (6): an S5b road meets the other ways only at a junction vertex — its own T junction on the way it leaves,
+      // or a later road's T junction on it (no unrecorded X junction).
+      const tees = new Set(growth.stages.flatMap((s) => s.roads.map((x) => `${String(x.from.at.x)},${String(x.from.at.y)}`)));
+      for (const [other, oe] of wayEdges) {
+        if (other === w.id) continue;
+        const off = new Set<string>();
+        for (const [a, q] of edges) {
+          for (const p of meetings(oe, [a, q])) {
+            const at = `${String(Math.round(p.x))},${String(Math.round(p.y))}`;
+            if (!tees.has(at)) off.add(at);
+          }
+        }
+        for (const at of off) say(`${w.id} meets ${other} at (${at}), no junction of theirs`);
+      }
       const jFrom = verticesWith(plat, 'junction', r.from.junction);
       const jEnd = verticesWith(plat, 'junction', r.end);
       if (jFrom.length !== 1 || jFrom[0].x !== from.x || jFrom[0].y !== from.y) say(`${w.id}: the junction row ${r.from.junction} is not on its first vertex`);
@@ -130,8 +155,9 @@ export function violations(g: Grown): string[] {
       const line = tr.traced.line;
       const mains = st.gates.filter((x) => x.kind === 'main');
       if (mains.length < c) say(`stage ${String(st.k)}: ${String(mains.length)} gates for ${String(c)} crossings`);
-      // The crossings become the stage's main gates: N_k of them when N_k > c (each spawned primary one gate), else c.
-      if (st.short === 0 && st.unserved.length === 0 && mains.length !== Math.max(st.count.n, c)) say(`stage ${String(st.k)}: ${String(mains.length)} gates for max(N_k ${String(st.count.n)}, c ${String(c)})`);
+      // The crossings become the stage's main gates: N_k of them when N_k > c (each spawned primary one gate), else c —
+      // and a graze, should one occur, its pin (C-0452 (9)).
+      if (st.short === 0 && st.unserved.length === 0 && mains.length !== Math.max(st.count.n, c) + grazes) say(`stage ${String(st.k)}: ${String(mains.length)} gates for max(N_k ${String(st.count.n)}, c ${String(c)}) and ${String(grazes)} grazes`);
       const gatePts = mains.map((x) => {
         const v = verticesWith(plat, 'gate', x.id);
         return v.length === 1 ? v[0] : null;
@@ -172,21 +198,76 @@ export function violations(g: Grown): string[] {
   return out;
 }
 
+type Pt = { x: number; y: number };
+
+/**
+ * The meetings of one way's edges with a closed ring (two within 1 cm once), each marked a crossing when the way passes
+ * from one side of the ring to the other there — read 5 cm along the way on each side of it (along its edge, or along
+ * the way's two edges at a vertex it meets the ring at; a vertex with one edge or more than two is a crossing) — and a
+ * graze when both sides lie on one side of the ring.
+ */
+export function wayMeetings(edges: readonly [Pt, Pt][], ring: readonly Pt[]): { at: Pt; crossing: boolean }[] {
+  const same = (a: Pt, b: Pt): boolean => Math.hypot(a.x - b.x, a.y - b.y) < 0.5;
+  const toward = (from: Pt, to: Pt, d: number): Pt => {
+    const l = Math.hypot(to.x - from.x, to.y - from.y);
+    const s = Math.min(d, l / 2) / l;
+    return { x: from.x + s * (to.x - from.x), y: from.y + s * (to.y - from.y) };
+  };
+  return meetings(edges, ring).map((at) => {
+    const ends = edges.flatMap(([a, b]) => (same(a, at) ? [b] : same(b, at) ? [a] : []));
+    let sides: [Pt, Pt] | null = null;
+    if (ends.length === 2) sides = [toward(at, ends[0], 5), toward(at, ends[1], 5)];
+    else if (ends.length === 0) {
+      const e = edges.find(([a, b]) => segDist(at, a, b) < 0.5);
+      if (e !== undefined) sides = [toward(at, e[0], 5), toward(at, e[1], 5)];
+    }
+    return { at, crossing: sides === null || insideRing(ring, sides[0]) !== insideRing(ring, sides[1]) };
+  });
+}
+
 /**
  * Stage k's c recounted independently of the code under test (§4.4 S5b: the times the existing arterials cross the new
- * boundary): the meetings, read from the arena's `way` edge rows and counted per way (two within 1 cm once), of the ways
- * that stood before stage k's S5b (S4's and the earlier stages' S5b roads) with the stage's boundary as picked — S3's
- * level set at the stage's threshold over its union field, no destination pinned. 0 for a folded stage.
+ * boundary): the crossings (`wayMeetings`; a graze no crossing, C-0452 (9)) — or, with `what` 'meetings', every
+ * meeting — read from the arena's `way` edge rows and counted per way, of the ways that stood before stage k's S5b (S4's
+ * and the earlier stages' S5b roads) with the stage's boundary as picked: S3's level set at the stage's threshold over
+ * its union field, no destination pinned. 0 for a folded stage.
  */
-export function recountC(g: Grown, k: number, wayEdges: Map<string, [{ x: number; y: number }, { x: number; y: number }][]> = roleEdges(g.plat, 'way')): number {
+export function recountC(g: Grown, k: number, wayEdges: Map<string, [Pt, Pt][]> = roleEdges(g.plat, 'way'), what: 'crossings' | 'meetings' = 'crossings'): number {
   const st = g.growth.stages[k - 1];
   const b = st.boundary;
   if (b === null) return 0;
   const outline = levelSet(b.field, b.threshold.t).outline;
   const standing = [...g.s4.network.ways.map((w) => w.id), ...g.growth.stages.filter((s) => s.k < k).flatMap((s) => s.roads.map((r) => r.way.id))];
   let c = 0;
-  for (const id of standing) c += meetings(wayEdges.get(id) ?? [], outline).length;
+  for (const id of standing) c += wayMeetings(wayEdges.get(id) ?? [], outline).filter((m) => what === 'meetings' || m.crossing).length;
   return c;
+}
+
+/**
+ * The rim node the radial bearing from p meets (written here, independent of the code under test): the ray from p at
+ * the compass bearing (cdeg), walked in one-spacing steps until it leaves the frame, then the rim node nearest that
+ * point.
+ */
+export function rimAt(lattice: Grown['slice']['lattice'], p: Pt, bearingCdeg: number): number {
+  const th = ((9_000 - bearingCdeg) * Math.PI) / 18_000;
+  const f = lattice.frame;
+  let x = p.x;
+  let y = p.y;
+  while (x > f.minX && x < f.maxX && y > f.minY && y < f.maxY) {
+    x += Math.cos(th) * lattice.spacingCm;
+    y += Math.sin(th) * lattice.spacingCm;
+  }
+  let best = -1;
+  let bestD = Infinity;
+  for (let i = 0; i < lattice.points.length; i += 1) {
+    if (lattice.rim[i] !== 1) continue;
+    const d = Math.hypot(lattice.points[i].x - x, lattice.points[i].y - y);
+    if (d < bestD) {
+      bestD = d;
+      best = i;
+    }
+  }
+  return best;
 }
 
 /** §13.2's S5b statistics on a grown run: primary length per km² of the town's land, the share of gates on primaries. */

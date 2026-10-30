@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import type { LatticePoint } from '@plat/kernel';
 import { flatFixture, s3Slice, type S3Slice } from '../../../src/index.js';
-import { boundaryCrossings, HA_CM2, insertOnOutline, landOf, squareGates, stageBoundary, unionField, withPins, type WayLine } from '../../../src/growth/boundary.js';
+import { boundaryCrossings, crossingsThrough, HA_CM2, insertOnOutline, landOf, squareGates, stageBoundary, unionField, withPins, type WayLine } from '../../../src/growth/boundary.js';
 import { P } from './support.js';
 
 const SLICES = new Map<string, S3Slice>();
@@ -175,6 +175,37 @@ describe('boundaryCrossings', () => {
       [10_000, 6_000],
       [0, 6_000],
     ]);
+  });
+});
+
+describe('crossingsThrough: c counts a crossing, not a graze (§4.4 S5b; N-9, C-0452 (9))', () => {
+  const square: LatticePoint[] = [P(0, 0), P(10_000, 0), P(10_000, 10_000), P(0, 10_000)];
+  const line = (way: string, ...pts: LatticePoint[]): WayLine => ({ way, runs: [{ points: pts, halfEdges: pts.slice(1).map((_p, i) => 2 * i) }] });
+
+  it('a way tangent to the outline at a vertex of its own, or touching a corner from outside, is no crossing', () => {
+    const inside = line('g', P(2_000, 2_000), P(5_000, 0), P(8_000, 2_000));
+    const corner = line('h', P(-5_000, 1_000), P(0, 0), P(1_000, -5_000));
+    expect(boundaryCrossings(square, [inside, corner], P(5_000, 5_000))).toHaveLength(2);
+    expect(crossingsThrough(square, [inside, corner], P(5_000, 5_000))).toEqual([]);
+  });
+
+  it('every crossing is kept: through a side, through an outline vertex, at a way vertex on a side, at a run\'s end', () => {
+    const through = line('a', P(5_000, 5_000), P(5_000, 20_000));
+    const diagonal = line('d', P(-5_000, -5_000), P(5_000, 5_000));
+    const bent = line('b', P(5_000, 5_000), P(10_000, 6_000), P(15_000, 5_000));
+    const ends = line('f', P(3_000, 3_000), P(3_000, 0));
+    const all = [through, diagonal, bent, ends];
+    const xs = crossingsThrough(square, all, P(5_000, 5_000));
+    expect(xs).toEqual(boundaryCrossings(square, all, P(5_000, 5_000)));
+    expect(xs.map((x) => [x.way, x.at.x, x.at.y])).toEqual([
+      ['a', 5_000, 10_000],
+      ['d', 0, 0],
+      ['b', 10_000, 6_000],
+      ['f', 3_000, 0],
+    ]);
+    // The two-crossing way of the test above: its four meetings, each a crossing.
+    const two = line('e', P(-1_000, 5_000), P(11_000, 5_000), P(11_000, 6_000), P(-1_000, 6_000));
+    expect(crossingsThrough(square, [two], P(5_000, 5_000))).toHaveLength(4);
   });
 });
 
