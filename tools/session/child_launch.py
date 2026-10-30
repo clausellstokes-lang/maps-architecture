@@ -16,7 +16,7 @@ import argparse, json, sys
 
 REPO = 'https://github.com/clausellstokes-lang/maps-architecture'
 BRANCH = 'claude/great-galileo-b4mzbq'
-PARENT = 'session_01UZr7HWSaSZAuvVxtBo6UtD'
+PARENT = 'session_01FE9mEvu9PsVihkJBKsh1FB'
 R = '/home/user/maps-architecture'
 
 
@@ -58,8 +58,8 @@ def main():
     ap.add_argument('--old-count', type=int, default=0, help='the lane-line count the OLD overlay must reach')
     ap.add_argument('--lane', default='default', choices=['default', 'flow', 'consolidate'])
     ap.add_argument('--fromdisk', default='no', choices=['yes', 'no'])
-    ap.add_argument('--check-model', default='opus', choices=['opus', 'fable'])
-    ap.add_argument('--check-effort', default='xhigh', choices=['high', 'xhigh', 'max'])  # J624: the opus check seat one step up
+    ap.add_argument('--check-model', default='fable', choices=['opus', 'fable'])  # J631: the fable tier back (J624's reversal)
+    ap.add_argument('--check-effort', default='high', choices=['high', 'xhigh', 'max'])  # J624: opus one step up (xhigh) while fable was out; J631: back to high
     ap.add_argument('--build-model', default='opus', choices=['opus', 'sonnet'])
     ap.add_argument('--extra-setup', default='', help='a setup addition after the step-1 overlay (e.g. a file restored from the design branch)')
     ap.add_argument('--handback-notes', default='machine id, the fitted args, any restart or relaunch, every REPORTED row, whether landed:verify printed ok')
