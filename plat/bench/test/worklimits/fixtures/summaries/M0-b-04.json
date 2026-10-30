@@ -1,0 +1,369 @@
+{
+  "item": "M0-b-04",
+  "sizes": {
+    "seed": 1,
+    "fcut": 100000,
+    "districts": 1000,
+    "signature": 100,
+    "t34": 10000
+  },
+  "pass": true,
+  "verdicts": {
+    "fcut": true,
+    "replay": true,
+    "corner": true,
+    "arrival": true,
+    "t34": true
+  },
+  "fcut": {
+    "faces": 100000,
+    "byKind": {
+      "holed": 50000,
+      "concave": 50000
+    },
+    "setupRefused": 0,
+    "s8Refused": 0,
+    "run": 100000,
+    "maxKernelCalls": 5,
+    "callsHistogram": {
+      "0": 22603,
+      "1": 76968,
+      "2": 73,
+      "3": 344,
+      "4": 4,
+      "5": 8
+    },
+    "outcomes": {
+      "cut": 72837,
+      "slit": 4492,
+      "block": 21241,
+      "court": 1430
+    },
+    "unresolved": 0,
+    "decreases": 0,
+    "pass": true,
+    "allDepths": {
+      "districts": 1000,
+      "ladders": 20853,
+      "maxKernelCalls": 5,
+      "decreases": 0,
+      "refused": 0,
+      "unresolved": 0
+    }
+  },
+  "residue": {
+    "districts": 1000,
+    "softExceeded": 63,
+    "exceededShare": 0.063,
+    "landShare": 0.012085728805348993,
+    "perDistrict": {
+      "n": 1000,
+      "p50": 0,
+      "p99": 1,
+      "p999": 1,
+      "max": 1
+    },
+    "mean": 0.02135859610521774,
+    "verdict": "reported"
+  },
+  "signature": {
+    "metricVersions": {
+      "cut.sigma": "1.0.0",
+      "cut.cornerMid": "1.0.0",
+      "cut.arrival85": "1.0.0",
+      "cut.fillet": "1.0.0"
+    },
+    "faces": 500,
+    "setupRefused": 0,
+    "s8Refused": 0,
+    "all": {
+      "cuts": 4792,
+      "bent": 3385,
+      "ring": 218,
+      "sigma": 0.08480046923979598,
+      "sigmaPlain": 0.08526176958069218,
+      "sigmaRing": 0.07463476037480962,
+      "sigmaFirstFrame": 0.10477735426850598,
+      "sigmaAttempt0": 0.08458351733116674,
+      "cornerMid": 0.968685376661743,
+      "arrival85": 1,
+      "fillet": 0.6629246676514032,
+      "cornerMidCourse": 0.8945347119645495,
+      "arrival85Chord": 0.9931135225375626,
+      "retried": 274
+    },
+    "byKind": {
+      "curved": {
+        "cuts": 1143,
+        "bent": 824,
+        "ring": 0,
+        "sigma": 0.08491677233736011,
+        "sigmaPlain": 0.08491677233736011,
+        "sigmaRing": null,
+        "sigmaFirstFrame": 0.10498972348941464,
+        "sigmaAttempt0": 0.08449879471647036,
+        "cornerMid": 0.9660194174757282,
+        "arrival85": 1,
+        "fillet": 0.7111650485436893,
+        "cornerMidCourse": 0.9223300970873787,
+        "arrival85Chord": 0.9921259842519685,
+        "retried": 54
+      },
+      "round-joined": {
+        "cuts": 1271,
+        "bent": 835,
+        "ring": 0,
+        "sigma": 0.08214684645695985,
+        "sigmaPlain": 0.08214684645695985,
+        "sigmaRing": null,
+        "sigmaFirstFrame": 0.09689876679214483,
+        "sigmaAttempt0": 0.08142388015285316,
+        "cornerMid": 0.9604790419161676,
+        "arrival85": 1,
+        "fillet": 0.6862275449101797,
+        "cornerMidCourse": 0.9053892215568863,
+        "arrival85Chord": 0.996852871754524,
+        "retried": 52
+      },
+      "triangular": {
+        "cuts": 450,
+        "bent": 391,
+        "ring": 0,
+        "sigma": 0.09235826164741265,
+        "sigmaPlain": 0.09235826164741265,
+        "sigmaRing": null,
+        "sigmaFirstFrame": 0.11399825508293619,
+        "sigmaAttempt0": 0.09226935661784143,
+        "cornerMid": 0.9769820971867008,
+        "arrival85": 1,
+        "fillet": 0.639386189258312,
+        "cornerMidCourse": 0.8925831202046036,
+        "arrival85Chord": 0.9955555555555555,
+        "retried": 30
+      },
+      "C-shaped": {
+        "cuts": 1044,
+        "bent": 653,
+        "ring": 0,
+        "sigma": 0.0846887372455527,
+        "sigmaPlain": 0.0846887372455527,
+        "sigmaRing": null,
+        "sigmaFirstFrame": 0.1059416093719533,
+        "sigmaAttempt0": 0.08453963917894354,
+        "cornerMid": 0.9923430321592649,
+        "arrival85": 1,
+        "fillet": 0.6171516079632465,
+        "cornerMidCourse": 0.889739663093415,
+        "arrival85Chord": 0.9894636015325671,
+        "retried": 56
+      },
+      "holed": {
+        "cuts": 884,
+        "bent": 682,
+        "ring": 218,
+        "sigma": 0.08470505828534418,
+        "sigmaPlain": 0.08780139717885169,
+        "sigmaRing": 0.07463476037480962,
+        "sigmaFirstFrame": 0.10924358942245618,
+        "sigmaAttempt0": 0.08546601068886533,
+        "cornerMid": 0.9545454545454546,
+        "arrival85": 1,
+        "fillet": 0.6334310850439883,
+        "cornerMidCourse": 0.8533724340175953,
+        "arrival85Chord": 0.9920814479638009,
+        "retried": 82
+      }
+    },
+    "replay": {
+      "cuts": 5356,
+      "planner": 4792,
+      "fallback": 178,
+      "deep": 386,
+      "matched": 4792,
+      "missed": 0,
+      "notReplayed": 0,
+      "pass": true
+    },
+    "fallbackShare": 0.1053024645257655,
+    "corner": {
+      "share": 0.968685376661743,
+      "bound": 0.8,
+      "n": 3385,
+      "measured": 3385,
+      "pass": true
+    },
+    "arrival": {
+      "share": 1,
+      "bound": 0.95,
+      "n": 4792,
+      "pass": true
+    },
+    "committedArrival": {
+      "planner": {
+        "ends": 9584,
+        "at85": 9440,
+        "unmeasured": 0,
+        "share": 0.9849749582637729
+      },
+      "all": {
+        "ends": 10712,
+        "at85": 10288,
+        "unmeasured": 0,
+        "share": 0.9604182225541449
+      },
+      "byKind": {
+        "curved": {
+          "planner": {
+            "ends": 2286,
+            "at85": 2255,
+            "unmeasured": 0,
+            "share": 0.9864391951006124
+          },
+          "all": {
+            "ends": 2528,
+            "at85": 2449,
+            "unmeasured": 0,
+            "share": 0.96875
+          }
+        },
+        "round-joined": {
+          "planner": {
+            "ends": 2542,
+            "at85": 2497,
+            "unmeasured": 0,
+            "share": 0.9822974036191975
+          },
+          "all": {
+            "ends": 2788,
+            "at85": 2704,
+            "unmeasured": 0,
+            "share": 0.96987087517934
+          }
+        },
+        "triangular": {
+          "planner": {
+            "ends": 900,
+            "at85": 888,
+            "unmeasured": 0,
+            "share": 0.9866666666666667
+          },
+          "all": {
+            "ends": 968,
+            "at85": 925,
+            "unmeasured": 0,
+            "share": 0.9555785123966942
+          }
+        },
+        "C-shaped": {
+          "planner": {
+            "ends": 2088,
+            "at85": 2062,
+            "unmeasured": 0,
+            "share": 0.9875478927203065
+          },
+          "all": {
+            "ends": 2464,
+            "at85": 2349,
+            "unmeasured": 0,
+            "share": 0.953327922077922
+          }
+        },
+        "holed": {
+          "planner": {
+            "ends": 1768,
+            "at85": 1738,
+            "unmeasured": 0,
+            "share": 0.9830316742081447
+          },
+          "all": {
+            "ends": 1964,
+            "at85": 1861,
+            "unmeasured": 0,
+            "share": 0.9475560081466395
+          }
+        }
+      },
+      "verdict": "reported"
+    },
+    "sigmaAndFillet": "reported"
+  },
+  "t34": {
+    "n": 10000,
+    "wanted": 10000,
+    "faces": 486,
+    "mean": 0.23299314184486866,
+    "sd": 0.17066958310863997,
+    "se": 0.0017066958310863996,
+    "seTheory": 0.0016996731711975948,
+    "z": -0.19932754405811473,
+    "target": 0.23333333333333334,
+    "bound": 3,
+    "pass": true
+  },
+  "work": {
+    "stage": "S8",
+    "fixture": "one-face districts, CITY block scale",
+    "counters": {
+      "cut.kernelCalls": {
+        "unit": "faces",
+        "log2": false,
+        "districts": 1500,
+        "units": {
+          "n": 1500,
+          "p50": 4,
+          "p99": 88,
+          "p999": 109.50099999999998,
+          "max": 121
+        },
+        "unitsTotal": 18030,
+        "perUnit": {
+          "n": 1500,
+          "p50": 0.7583333333333333,
+          "p99": 1.5,
+          "p999": 2.100199999999995,
+          "max": 2.25
+        }
+      },
+      "cut.recursionDepth": {
+        "unit": "faces",
+        "log2": true,
+        "districts": 1500,
+        "units": {
+          "n": 1500,
+          "p50": 4,
+          "p99": 88,
+          "p999": 109.50099999999998,
+          "max": 121
+        },
+        "unitsTotal": 18030,
+        "perUnit": {
+          "n": 1500,
+          "p50": 1,
+          "p99": 2,
+          "p999": 3,
+          "max": 3
+        }
+      },
+      "cut.candidates": {
+        "unit": "faces",
+        "log2": false,
+        "districts": 1500,
+        "units": {
+          "n": 1500,
+          "p50": 4,
+          "p99": 88,
+          "p999": 109.50099999999998,
+          "max": 121
+        },
+        "unitsTotal": 18030,
+        "perUnit": {
+          "n": 1500,
+          "p50": 1.215250965250965,
+          "p99": 4,
+          "p999": 13.557243478260682,
+          "max": 19.666666666666668
+        }
+      }
+    }
+  }
+}

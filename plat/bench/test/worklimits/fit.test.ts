@@ -6,8 +6,11 @@
 // sample of batches has more batches at or over the fitted limit than `hitBound` allows (fast-check, both quantile
 // definitions the summaries use). The report has a row for every stage each summary shows ran, on every counter the stage
 // charges (STAGE_CHARGES, held to the base stages' declarations); a charged counter with no block is unbounded — after
-// null, never 0 — and fails the report (C-0446).
+// null, never 0 — and fails the report (C-0446). Every number pinned here is the fit's on the FROZEN copies of the four
+// summaries (support.ts summaries(): fixtures/summaries/, their sha256 pinned below; session round S1, Q134), so another
+// item's landing never moves a pin; the live committed summaries are read by live.test.ts alone (invariants, a report).
 import fc from 'fast-check';
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { skeletonEventLimit, stageText } from '@plat/kernel';
 import { createRegistry, registerBase } from '@plat/layout';
@@ -28,8 +31,9 @@ import {
   type CounterFit,
   type WorkLimitCoefficientReport,
   type WorkQuantiles,
+  inputPath,
 } from '../../src/worklimits/index.js';
-import { at, BLOCKS_ONLY, objAt, summaries, v2Table } from './support.js';
+import { at, BLOCKS_ONLY, FIXTURE_DIR, FIXTURE_SHA256, objAt, passingSummaries, sha256, SUMMARY_TEXTS, summaries, v2Table } from './support.js';
 
 const DATE = '2026-10-27';
 
@@ -263,31 +267,43 @@ describe('the fit refuses what it cannot read honestly', () => {
 });
 
 describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s Confirmation)', () => {
-  it('the bounded rows are at or under 1 work cut per 1 000 batches; the totals add up over them; the unbounded rows fail the report', () => {
+  it('on the frozen summaries the totals add up over the bounded rows, M0-c-06’s integrated S8 alone is over the target (34 of 33 569), and the unbounded rows fail the report', () => {
     const h = fit().hitRate;
     expect(HIT_RATE_TARGET_PER_THOUSAND).toBe(1);
     const bounded = h.rows.filter((r) => r.unbounded.length === 0);
     expect(bounded.length).toBe(7);
     for (const r of bounded) {
-      expect(r.perThousand, `${r.summary} ${r.at} ${r.stage}`).toBeLessThanOrEqual(1);
       expect(r.batches).not.toBeNull();
       expect(r.perThousand).toBe(r.batches === 0 ? 0 : (1000 * (r.after ?? NaN)) / (r.batches ?? NaN));
       expect(r.after).toBe(Math.min(r.batches ?? 0, r.counters.reduce((a, c) => a + c.bound, 0)));
     }
+    // The 1 000-seed fold of M0-c-06 (J628): the integrated run's S8 cut.candidates max 28.33 reaches its threshold
+    // 20.3359 (b-04's p999 13.5572 × 1.5) over 33 569 batches, so its bound is ⌈33 569 / 1 000⌉ = 34 — 1.0128 per 1 000.
+    expect(bounded.filter((r) => (r.perThousand ?? 0) > 1).map((r) => `${r.summary} ${r.at} ${r.stage}`)).toEqual(['M0-c-06 runs/1 (integrated) S8']);
+    const over = bounded.find((r) => r.summary === 'M0-c-06' && r.at.startsWith('runs/1') && r.stage === 'S8');
+    expect([over?.batches, over?.after, over?.perThousand, over?.afterExact]).toEqual([33569, 34, (1000 * 34) / 33569, false]);
+    expect(over?.counters.map((c) => [c.counter, c.threshold, c.bound])).toEqual([
+      ['cut.candidates', 13.557243478260682 * 1.5, 34],
+      ['cut.kernelCalls', 2.100199999999995 * 1.5, 0],
+      ['cut.recursionDepth', 4.5, 0],
+    ]);
     expect(h.batches).toBe(h.rows.reduce((a, r) => a + (r.batches ?? 0), 0));
     expect(h.after).toBe(bounded.reduce((a, r) => a + (r.after ?? 0), 0));
-    expect(h.after).toBe(18);
+    expect(h.after).toBe(52);
     expect(h.worstPerThousand).toBe(Math.max(...bounded.map((r) => r.perThousand ?? 0)));
-    expect(h.worstPerThousand).toBe(1);
+    expect(h.worstPerThousand).toBe((1000 * 34) / 33569);
     expect(h.unbounded.length).toBe(29);
     expect(h.pass).toBe(false);
-    // Charged only what their blocks name, the stages are all bounded and the report passes (the reading before C-0446).
+    // Charged only what their blocks name, no stage is unbounded and the over-target row alone fails the report.
     const b = fitBlocks().hitRate;
-    expect([b.pass, b.unbounded.length, b.after, b.worstPerThousand]).toEqual([true, 0, 18, 1]);
-    for (const r of b.fWork.rows) expect(r.perThousand, `${r.stage}`).toBeLessThanOrEqual(1);
+    expect([b.pass, b.unbounded.length, b.after, b.worstPerThousand]).toEqual([false, 0, 52, (1000 * 34) / 33569]);
+    // With that one max under its threshold (support.ts passingSummaries) the narrowed report passes: the reading before C-0446.
+    const p = fitBlocks(passingSummaries()).hitRate;
+    expect([p.pass, p.unbounded.length, p.after, p.worstPerThousand]).toEqual([true, 0, 18, 1]);
+    for (const r of p.fWork.rows) expect(r.perThousand, `${r.stage}`).toBeLessThanOrEqual(1);
   });
 
-  it('on the committed summaries M0-e-06’s S3 (route.nodes and the kernel counters) and S5 rows come out unbounded: after null, never 0', () => {
+  it('on the frozen summaries M0-e-06’s S3 (route.nodes and the kernel counters) and S5 rows come out unbounded: after null, never 0', () => {
     const h = fit().hitRate;
     const e06 = h.rows.filter((r) => r.summary === 'M0-e-06');
     expect(e06.map((r) => `${r.at} ${r.stage}`)).toEqual(
@@ -296,20 +312,20 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
     for (const r of e06.filter((x) => x.stage === 'S3')) {
       expect(r.unbounded, r.at).toEqual([...KERNEL, 'route.nodes']);
       expect([r.after, r.perThousand, r.afterExact, r.counters], r.at).toEqual([null, null, false, []]);
-      expect(r.batches, r.at).toBe(r.at.includes('relief-60') ? 24 : 22);
+      expect(r.batches, r.at).toBe({ 'groups/0 (relief-60/default)': 535, 'groups/1 (relief-60/coarse)': 536, 'groups/2 (relief-3000/default)': 587, 'groups/3 (relief-3000/coarse)': 590 }[r.at]);
     }
     for (const r of e06.filter((x) => x.stage === 'S5')) {
       expect(r.unbounded, r.at).toEqual([...KERNEL, 'growth.proposals', 'growth.candidates', 'route.nodes']);
       expect([r.after, r.perThousand, r.afterExact], r.at).toEqual([null, null, false]);
-      expect(r.batches, r.at).toBe(r.at.includes('relief-60') ? 68 : 45);
+      expect(r.batches, r.at).toBe({ 'groups/0 (relief-60/default)': 1291, 'groups/1 (relief-60/coarse)': 1292, 'groups/2 (relief-3000/default)': 1451, 'groups/3 (relief-3000/coarse)': 1457 }[r.at]);
     }
-    // S4 of the relief-60 groups has its route.nodes block (n 2, 3): the kernel counters alone are missing there; the
-    // relief-3000 groups' S4 ran 7 batches with no route.nodes block at all.
+    // Every group's S4 has its route.nodes block (groups/0: n 50 of 167 batches): the kernel counters alone are missing there.
     const s4 = new Map(e06.filter((x) => x.stage === 'S4').map((r) => [r.at, r]));
-    expect(s4.get('groups/0 (relief-60/default)')?.unbounded).toEqual(KERNEL);
-    expect(s4.get('groups/0 (relief-60/default)')?.counters.map((c) => c.counter)).toEqual(['route.nodes']);
-    expect(s4.get('groups/2 (relief-3000/default)')?.unbounded).toEqual([...KERNEL, 'route.nodes']);
-    expect(s4.get('groups/2 (relief-3000/default)')?.batches).toBe(7);
+    for (const [at, r] of s4) {
+      expect(r.unbounded, at).toEqual(KERNEL);
+      expect(r.counters.map((c) => c.counter), at).toEqual(['route.nodes']);
+    }
+    expect([...s4.values()].map((r) => r.batches)).toEqual([167, 167, 186, 187]);
     // The report's own list names every unbounded row with its counters, and nothing else.
     expect(h.unbounded).toEqual(h.rows.filter((r) => r.unbounded.length > 0).map((r) => ({ summary: r.summary, at: r.at, stage: r.stage, counters: r.unbounded })));
     expect(h.unbounded.filter((m) => m.summary === 'M0-e-06' && (m.stage === 'S3' || m.stage === 'S5'))).toHaveLength(8);
@@ -402,10 +418,10 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
       'M0-k-04 primitives/splitFace splitFace',
     ]);
     const by = new Map(h.rows.map((r) => [`${r.summary} ${r.at} ${r.stage}`, r]));
-    expect(by.get('M0-c-06 runs/0 (fusion) S8')?.batches).toBe(1596);
-    expect(by.get('M0-c-06 runs/1 (integrated) S8')?.batches).toBe(1679);
-    expect(by.get('M0-e-06 groups/0 (relief-60/default) S1')?.batches).toBe(16);
-    expect(by.get('M0-e-06 groups/0 (relief-60/default) S4')?.batches).toBe(8);
+    expect(by.get('M0-c-06 runs/0 (fusion) S8')?.batches).toBe(31780);
+    expect(by.get('M0-c-06 runs/1 (integrated) S8')?.batches).toBe(33569);
+    expect(by.get('M0-e-06 groups/0 (relief-60/default) S1')?.batches).toBe(400);
+    expect(by.get('M0-e-06 groups/0 (relief-60/default) S4')?.batches).toBe(167);
     expect(by.get('M0-b-04 work (one-face districts, CITY block scale) S8')?.before).toBeNull();
     expect(by.get('M0-k-04 primitives/splitFace splitFace')?.batches).toBe(8576);
     expect(by.get('M0-k-04 primitives/splitFace splitFace')?.after).toBe(8);
@@ -413,15 +429,15 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
     expect(h.before).toBe(0);
     // Unrecorded: M0-b-04's fixture and M0-c-06's seven stages without a block.
     expect(h.beforeUnrecorded).toBe(8);
-    expect(h.batches).toBe(43388);
+    expect(h.batches).toBe(121321);
     for (const r of h.rows) if (r.after === 0) expect(r.afterExact, `${r.at}`).toBe(true);
     // The stage spikes run at CITY; M0-k-04's kernel fuzz has no rung and stays out of the FWorkReport.
     for (const r of h.rows) expect(r.rung).toBe(r.summary === 'M0-k-04' ? null : 'CITY');
     expect(h.fWork.batches).toBe(h.rows.filter((r) => r.rung !== null).reduce((a, r) => a + (r.batches ?? 0), 0));
     expect(h.fWork.rows.map((r) => `${r.stage} ${r.rung} ${r.position}`)).toEqual(['S1 CITY target', 'S3 CITY target', 'S4 CITY target', 'S5 CITY target', 'S6 CITY target', 'S8 CITY target']);
     // An unbounded row counts every batch as cut in the worst case: S3's fWork row is 1 000 per 1 000.
-    expect(h.fWork.rows.find((r) => r.stage === 'S3')).toMatchObject({ batches: 92, workCuts: 92, perThousand: 1000 });
-    expect(h.fWork.rows.find((r) => r.stage === 'S8')).toMatchObject({ batches: 1596 + 1679 + 1500, workCuts: 0 });
+    expect(h.fWork.rows.find((r) => r.stage === 'S3')).toMatchObject({ batches: 535 + 536 + 587 + 590, workCuts: 2248, perThousand: 1000 });
+    expect(h.fWork.rows.find((r) => r.stage === 'S8')).toMatchObject({ batches: 31780 + 33569 + 1500, workCuts: 34 });
   });
 
   it('the recorded hits before are the summaries’ own counts: c-06 limitHits, e-06 E_WORK_LIMIT refusals, k-04 workLimitHits', () => {
@@ -450,8 +466,9 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
       ['insert.points', 36, 0],
       ['tx.facesWalked', 25.5, 10],
     ]);
-    // insert.points' max raised to its threshold (36): ⌈8 576 / 1 000⌉ = 9 more → 19 of 10 000 = 1.9 per 1 000 > 1.
-    const s = summaries();
+    // insert.points' max raised to its threshold (36): ⌈8 576 / 1 000⌉ = 9 more → 19 of 10 000 = 1.9 per 1 000 > 1 (on the
+    // passing variant: the frozen summaries with M0-c-06's one over-target max under its threshold, support.ts).
+    const s = passingSummaries();
     objAt(s['M0-k-04'], 'primitives/corridorUnion/work/insert.points')['max'] = 36;
     const h = fitBlocks(s).hitRate;
     const cu = h.rows.find((r) => r.stage === 'corridorUnion');
@@ -470,11 +487,12 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
     expect(w.rows.find((r) => r.stage === 'corridorUnion')?.after).toBe(0);
     expect(w.worstPerThousand).toBe((1000 * 8) / 8576);
     expect(fit(s).hitRate.worstPerThousand).toBe((1000 * 8) / 8576);
-    // A small stage: M0-e-06's S4 ran 8 batches, 2 of them charged route.nodes; a max at the threshold bounds 1 of 8.
+    // A small stage: M0-e-06's groups/0 S4 ran 167 batches, 50 of them charged route.nodes; a max at the threshold
+    // (p999 2.0512 × 1.5) bounds ⌈50 / 1 000⌉ = 1 of 167.
     const t = summaries();
-    objAt(t['M0-e-06'], 'groups/0/work/route.nodes/perUnit')['max'] = 0.3851764052265605;
+    objAt(t['M0-e-06'], 'groups/0/work/route.nodes/perUnit')['max'] = 3.076830551068716;
     const e = fitBlocks(t).hitRate.rows.find((r) => r.summary === 'M0-e-06' && r.at.startsWith('groups/0') && r.stage === 'S4');
-    expect([e?.after, e?.perThousand, e?.afterExact]).toEqual([1, 125, false]);
+    expect([e?.batches, e?.after, e?.perThousand, e?.afterExact]).toEqual([167, 1, 1000 / 167, false]);
   });
 
   it('a floored row’s threshold is min(perUnit, floor): skeleton.events’ block reaching 8 per vertex (under its floor 64) is counted', () => {
@@ -494,18 +512,18 @@ describe('the hit-rate report at the fitted coefficients (§13.2; §5.1 (5)’s 
     const fits = fit().counters;
     const g = groups.find((x) => x.summary === 'M0-e-06' && x.at.startsWith('groups/0') && x.stage === 'S4');
     if (g === undefined) throw new Error('no S4 group');
-    expect(g.batches).toBe(8);
+    expect(g.batches).toBe(167);
     const hot = (c: string): (typeof g.blocks)[number] => {
       const b = g.blocks[0];
       const f = fits.find((x) => x.counter === c);
       if (f === undefined) throw new Error(c);
       const t = Math.min(f.after.perUnit, f.after.floor);
-      return { ...b, counter: c, perUnit: { n: 8, p50: 0, p99: 0, p999: t, max: t } };
+      return { ...b, counter: c, perUnit: { n: 167, p50: 0, p99: 0, p999: t, max: t } };
     };
     const crowded = { ...g, charged: [], blocks: [hot('route.nodes'), hot('field.cells'), hot('hydro.cells')] };
     const row = hitRates([crowded], fits).rows[0];
-    expect(row.counters.map((c) => c.bound)).toEqual([8, 8, 8]);
-    expect([row.after, row.perThousand]).toEqual([8, 1000]);
+    expect(row.counters.map((c) => c.bound)).toEqual([167, 167, 167]);
+    expect([row.after, row.perThousand]).toEqual([167, 1000]);
   });
 
   it('M0-b-04’s batches are the districts it states, where they exceed a block’s sample', () => {
@@ -574,5 +592,15 @@ describe('hitBound is sound (fast-check, PLAT_FUZZ_RUNS)', () => {
 describe('the summaries the fit reads', () => {
   it('are the four of C-0091, in its order', () => {
     expect([...SUMMARY_IDS]).toEqual(['M0-c-06', 'M0-e-06', 'M0-b-04', 'M0-k-04']);
+  });
+
+  it('the pins read the frozen copies (fixtures/summaries/), byte for byte the files their sha256 names: a re-freeze is a declared change (Q134)', () => {
+    expect(Object.keys(FIXTURE_SHA256)).toEqual([...SUMMARY_IDS]);
+    for (const id of SUMMARY_IDS) {
+      const path = inputPath(id, FIXTURE_DIR);
+      expect(path.split(/[\\/]/).slice(-4).join('/'), id).toBe(`worklimits/fixtures/summaries/${id}.json`);
+      expect(SUMMARY_TEXTS[id], id).toBe(readFileSync(path, 'utf8'));
+      expect(sha256(SUMMARY_TEXTS[id]), id).toBe(FIXTURE_SHA256[id]);
+    }
   });
 });
