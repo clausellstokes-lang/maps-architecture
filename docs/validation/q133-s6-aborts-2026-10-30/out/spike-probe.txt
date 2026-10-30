@@ -1,0 +1,43 @@
+== seed 195: overlay outer ring 1714 pts; ring edges leaving the shell [4896, 5104] measured against the boundary as a whole: 0; the ring's least distance 4928.4 cm (edge 262), its greatest 5022.4 cm
+   the deepest ring vertex (70236, -46485): 4928.4 cm from the boundary (edge 65), i.e. 71.6 cm inside the offset (tolerance 104 cm)
+   overlay ring vertices around it (point, cm to the boundary): (67042, -51901) 5000.6 → (68308, -49747) 4999.5 → (68948, -48663) 5000.5 → (69588, -47580) 4999.8 → (70092, -46728) 4975.7 → (70392, -46394) 4988.5 → (70236, -46485) 4928.4 → (70536, -46233) 4980.1 → (70680, -46073) 4958.6 → (71064, -45752) 4979.3 → (71256, -45591) 4989.3 → (71449, -45430) 4974.7
+   input segments within 2 m of that vertex (6); nearest 0.0 cm (router fidelity bound 73.5 cm):
+      0.0 cm  conv #309 (69588, -47580)→(70236, -46485) (1272 cm; its ends 5000 / 4928 cm from the boundary)
+      0.0 cm  conv #310 (70236, -46485)→(70086, -46724) (282 cm; its ends 4928 / 4969 cm from the boundary)
+      34.3 cm  conv #316 (70387, -46389)→(70230, -46538) (216 cm; its ends 4981 / 4958 cm from the boundary)
+      35.2 cm  conv #317 (70230, -46538)→(71449, -45430) (1647 cm; its ends 4958 / 4975 cm from the boundary)
+      72.1 cm  conv #313 (69746, -47174)→(70680, -46073) (1444 cm; its ends 4929 / 4959 cm from the boundary)
+      178.9 cm  conv #315 (70537, -46234)→(70387, -46389) (216 cm; its ends 4982 / 4981 cm from the boundary)
+   convolution vertices within 3 m of it lie up to 4981.4 cm from the boundary
+   overlay warnings: [{"code":"W_ATTRACTED","count":2071,"at":{"x":27090,"y":-85579}},{"code":"W_STRETCH_SHARED","count":1425,"at":{"x":26905,"y":-85681}},{"code":"W_ACUTE_CORNER","count":9,"at":{"x":49366,"y":-70168}},{"code":"W_WEDGE_ROUTED","count":2,"at":{"x":62502,"y":-55648}},{"code":"W_PLACED","count":2,"at":{"x":-81629,"y":-35333}}]
+== seed 253: overlay outer ring 1777 pts; ring edges leaving the shell [4896, 5104] measured against the boundary as a whole: 2; the ring's least distance 4893.2 cm (edge 1249), its greatest 5021.1 cm
+   the deepest ring vertex (-88421, 11549): 4893.2 cm from the boundary (edge 424), i.e. 106.8 cm inside the offset (tolerance 104 cm)
+   overlay ring vertices around it (point, cm to the boundary): (-89563, 11997) 5000.2 → (-88907, 11723) 5000.2 → (-88666, 11630) 4999.8 → (-88531, 11585) 4974.0 → (-88475, 11496) 4965.7 → (-88391, 11319) 4973.4 → (-88421, 11549) 4893.2 → (-88292, 11110) 4982.6 → (-88210, 10819) 4988.8 → (-88256, 10551) 4942.7 → (-88475, 10195) 4999.4 → (-88565, 9980) 5000.4
+   input segments within 2 m of that vertex (9); nearest 0.0 cm (router fidelity bound 73.5 cm):
+      0.0 cm  conv #2046 (-88666, 11630)→(-88421, 11549) (258 cm; its ends 5000 / 4893 cm from the boundary)
+      0.0 cm  conv #2047 (-88421, 11549)→(-88172, 11481) (258 cm; its ends 4893 / 4704 cm from the boundary)
+      22.1 cm  conv #2081 (-88371, 11328)→(-88444, 11548) (232 cm; its ends 4951 / 4914 cm from the boundary)
+      22.3 cm  conv #2082 (-88444, 11548)→(-88056, 10280) (1326 cm; its ends 4914 / 4650 cm from the boundary)
+      74.2 cm  conv #2074 (-88475, 11496)→(-88582, 11660) (196 cm; its ends 4966 / 4944 cm from the boundary)
+      74.5 cm  conv #2073 (-89150, 12483)→(-88475, 11496) (1196 cm; its ends 4393 / 4966 cm from the boundary)
+      106.6 cm  conv #2077 (-88777, 11999)→(-88092, 10691) (1477 cm; its ends 4695 / 4849 cm from the boundary)
+      187.0 cm  conv #2061 (-88669, 11891)→(-88016, 11547) (738 cm; its ends 4756 / 4535 cm from the boundary)
+      195.6 cm  conv #2075 (-88582, 11660)→(-88683, 11828) (196 cm; its ends 4944 / 4820 cm from the boundary)
+   convolution vertices within 3 m of it lie up to 4999.8 cm from the boundary
+   overlay warnings: [{"code":"W_ATTRACTED","count":2068,"at":{"x":65911,"y":-62968}},{"code":"W_STRETCH_SHARED","count":1408,"at":{"x":66030,"y":-62791}},{"code":"W_ACUTE_CORNER","count":8,"at":{"x":68202,"y":-60082}},{"code":"W_PLACED","count":6,"at":{"x":87607,"y":-42014}}]
+== seed 476: overlay outer ring 1665 pts; ring edges leaving the shell [4896, 5104] measured against the boundary as a whole: 2; the ring's least distance 4893.8 cm (edge 302), its greatest 5023.1 cm
+   the deepest ring vertex (87384, -27053): 4893.8 cm from the boundary (edge 66), i.e. 106.2 cm inside the offset (tolerance 104 cm)
+   overlay ring vertices around it (point, cm to the boundary): (87916, -27426) 5000.6 → (87796, -27370) 4987.3 → (87716, -27332) 4979.0 → (87692, -27321) 4974.1 → (87627, -27274) 4971.4 → (87472, -27162) 4908.9 → (87384, -27053) 4893.8 → (87554, -27188) 4963.8 → (87482, -27033) 4987.1 → (87431, -26945) 4991.8 → (87378, -26854) 4988.7 → (87339, -26787) 4986.5
+   input segments within 2 m of that vertex (14); nearest 0.0 cm (router fidelity bound 73.5 cm):
+      0.0 cm  conv #360 (87950, -27486)→(87384, -27053) (713 cm; its ends 4961 / 4894 cm from the boundary)
+      0.0 cm  conv #361 (87384, -27053)→(87554, -27188) (217 cm; its ends 4894 / 4964 cm from the boundary)
+      41.9 cm  conv #365 (87397, -27006)→(87563, -27179) (240 cm; its ends 4930 / 4976 cm from the boundary)
+      42.5 cm  conv #364 (87874, -27481)→(87397, -27006) (673 cm; its ends 4932 / 4930 cm from the boundary)
+      98.9 cm  conv #373 (87435, -26943)→(87526, -27102) (183 cm; its ends 4996 / 4987 cm from the boundary)
+      100.0 cm  conv #368 (87869, -27549)→(87482, -27033) (645 cm; its ends 4869 / 4987 cm from the boundary)
+      100.0 cm  conv #369 (87482, -27033)→(87587, -27179) (180 cm; its ends 4987 / 4996 cm from the boundary)
+      101.3 cm  conv #374 (87526, -27102)→(87218, -26536) (644 cm; its ends 4987 / 4988 cm from the boundary)
+      106.1 cm  conv #371 (87687, -27328)→(87339, -26787) (643 cm; its ends 4966 / 4986 cm from the boundary)
+      121.2 cm  conv #372 (87339, -26787)→(87435, -26943) (183 cm; its ends 4986 / 4996 cm from the boundary)
+   convolution vertices within 3 m of it lie up to 4996.4 cm from the boundary
+   overlay warnings: [{"code":"W_ATTRACTED","count":1849,"at":{"x":52584,"y":-75186}},{"code":"W_STRETCH_SHARED","count":1282,"at":{"x":52309,"y":-75157}},{"code":"W_ACUTE_CORNER","count":12,"at":{"x":69572,"y":-65008}},{"code":"W_PLACED","count":5,"at":{"x":62954,"y":70818}},{"code":"W_WEDGE_ROUTED","count":2,"at":{"x":-70278,"y":-55133}}]

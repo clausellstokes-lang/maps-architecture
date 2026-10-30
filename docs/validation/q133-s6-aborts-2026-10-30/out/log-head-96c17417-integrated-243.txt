@@ -1,0 +1,116 @@
+{
+  "seed": 243,
+  "kind": "integrated",
+  "tree": "head-96c17417",
+  "plat": "/home/user/maps-architecture/plat",
+  "throughS6": false,
+  "wallMs": 13712,
+  "order": [
+    "S1",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S8"
+  ],
+  "invocations": {
+    "S1": 1,
+    "S3": 1,
+    "S4": 1,
+    "S5": 1,
+    "S6": 1,
+    "S8": 1
+  },
+  "stampsMs": {
+    "S1": 223,
+    "S3": 4201,
+    "S4": 707,
+    "S5": 5135,
+    "S6": 3402,
+    "S8": 0
+  },
+  "bugs": [
+    {
+      "cls": "E_INVARIANT",
+      "entity": "town:10bqcwtcw044g",
+      "key": "S6@town:10bqcwtcw044g",
+      "stage": "S6"
+    }
+  ],
+  "bugsAsRecord": [
+    "S6:E_INVARIANT"
+  ],
+  "refusals": {
+    "S6": {
+      "code": "E_INVARIANT",
+      "detail": "settlementPerimeter: the union: insert: no route from (-84183, 22037) to (-84159, 22313) keeps clearance (§3.10) within the fidelity bound (N-43); class S (notBuilt #2, M4): the design route's farthest vertex (-84071, 22220), 95.4 cm off"
+    }
+  },
+  "s6Outcome": {
+    "ok": false,
+    "code": "E_INVARIANT",
+    "detail": "settlementPerimeter: the union: insert: no route from (-84183, 22037) to (-84159, 22313) keeps clearance (§3.10) within the fidelity bound (N-43); class S (notBuilt #2, M4): the design route's farthest vertex (-84071, 22220), 95.4 cm off"
+  },
+  "s6Report": {
+    "name": "S6",
+    "work": {
+      "grower.turns": 0,
+      "insert.attractQueries": 0,
+      "insert.crossings": 0,
+      "insert.placementCandidates": 0,
+      "insert.points": 0,
+      "tx.facesWalked": 0
+    },
+    "attempts": 0,
+    "warnings": {},
+    "ladderUses": [],
+    "invariants": []
+  },
+  "kernel": {
+    "engine": "plat-arrangement@1",
+    "warnings": {
+      "W_ATTRACTED": 6
+    },
+    "downgrades": 0,
+    "workLimitHits": 0
+  },
+  "unplaced": 0,
+  "districts": 0,
+  "rootS5": "1a01558b22f0b2b83dd499a129c6dc68",
+  "root": "1a01558b22f0b2b83dd499a129c6dc68",
+  "stageRoots": {
+    "S1": "07b06aba63f5e0b62d0fab33a7685704",
+    "S3": "3a8c886a84b7cadb422033f344bbd1bc",
+    "S4": "96f880b6719e3073ea4ce088bb49a1ab",
+    "S5": "1a01558b22f0b2b83dd499a129c6dc68",
+    "S6": "1a01558b22f0b2b83dd499a129c6dc68",
+    "S8": "1a01558b22f0b2b83dd499a129c6dc68"
+  },
+  "chunk": {
+    "file": "chunk-0243-0002.json.gz",
+    "bugs": [
+      "S6:E_INVARIANT"
+    ],
+    "rootS5": "9a781b3f395c238d2d794175d343473a",
+    "root": "9a781b3f395c238d2d794175d343473a",
+    "order": [
+      "S1",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S8"
+    ],
+    "stampsMs": {
+      "S1": 474.142151,
+      "S3": 5085.818465,
+      "S4": 1084.3386020000007,
+      "S5": 7014.972813,
+      "S6": 4836.871256000002,
+      "S8": 0.07708300000012969
+    },
+    "rootS5Equal": false,
+    "rootEqual": false,
+    "bugsEqual": true
+  }
+}

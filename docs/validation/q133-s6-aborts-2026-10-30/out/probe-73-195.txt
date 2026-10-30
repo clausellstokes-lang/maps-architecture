@@ -1,0 +1,25 @@
+== seed 73 (head-96c17417): S5's last boundary k=3, 676 points, area 249.97 ha; offset d = 5000 cm; attractCm 26, minEdge 25; SUM_TOL 5, OVERLAY_TOL 104
+  settlementPerimeter (offline, no arena): E_INVARIANT settlementPerimeter: the union: insert: no route from (-8530, 87011) to (-9283, 87375) keeps clearance (§3.10) within the fidelity bound (N-43); class W (notBuilt #2, M4): the design route's farthest vertex (-9157, 87405), 81.8 cm off  [2168 ms]
+  mergeCollinear: 676 → 676 points
+  fast ring 1 (miter, unloop): 1586 pts, simpleCcw true, isSumRing(5 cm) false
+  fast ring 2 (onSegments, unloop): 1636 pts, simpleCcw false, isSumRing(5 cm) n/a
+      self-crossing: edges 1227 and 1287 near (-92029, 1542) (nearest boundary edge 505 at 4930 cm)
+  boundary necks under 2d = 10000 cm: vertices 137 (98963, -18429) and 145 (99676, -16382) (8 apart along the ring): 2084 cm; vertices 497 (-90125, 6669) and 505 (-87283, 3567) (8 apart along the ring): 3385 cm; vertices 547 (-91100, -33536) and 555 (-91666, -37556) (8 apart along the ring): 3535 cm; vertices 34 (29265, -91418) and 42 (33472, -92548) (8 apart along the ring): 3560 cm; vertices 626 (-29532, -90151) and 634 (-25789, -92436) (8 apart along the ring): 3729 cm
+  overlay: booleans('union', [boundary], [full convolution 3203 pts], 'nonzero'): E_INVARIANT insert: no route from (-8530, 87011) to (-9283, 87375) keeps clearance (§3.10) within the fidelity bound (N-43); class W (notBuilt #2, M4): the design route's farthest vertex (-9157, 87405), 81.8 cm off  [1840 ms]
+      the refused segment (-8530, 87011)→(-9283, 87375) (836 cm): its ends lie 4228 / 5000 cm from the boundary (edges 331, 340) — on the convolution curve (d = 5000)
+      it is convolution segment #1635 of 3203; the farthest vertex of its design route (-9157, 87405) is 81.8 cm off (fidelity bound 2√2·attractCm = 73.5 cm)
+      convolution segments within 4·attractCm of it or crossing it (9): #1588 (-9126, 87521)→(-9467, 86939) CROSSES; #1590 (-9319, 87176)→(-9157, 87405) CROSSES; #1591 (-9157, 87405)→(-8983, 87625) 82 cm; #1592 (-8983, 87625)→(-9463, 87053) CROSSES; #1594 (-9315, 87222)→(-9160, 87383) CROSSES; #1595 (-9160, 87383)→(-8997, 87538) 61 cm; #1596 (-8997, 87538)→(-9616, 86975) CROSSES; #1598 (-9413, 87150)→(-9200, 87315) 18 cm; #1599 (-9200, 87315)→(-9959, 86761) 18 cm
+      boundary edges within d + 2 m of it (13): #328 (-3249, 85628)→(-3861, 85601) (613 cm) at 4877 cm; #329 (-3861, 85601)→(-4382, 85390) (562 cm) at 4453 cm; #330 (-4382, 85390)→(-4812, 84993) (585 cm) at 4230 cm; #331 (-4812, 84993)→(-5153, 84411) (675 cm) at 4228 cm; #332 (-5153, 84411)→(-5633, 83839) (747 cm) at 4258 cm; #333 (-5633, 83839)→(-6252, 83276) (837 cm) at 4296 cm; #334 (-6252, 83276)→(-7011, 82722) (940 cm) at 4375 cm; #335 (-7011, 82722)→(-7910, 82178) (1051 cm) at 4550 cm; #336 (-7910, 82178)→(-8729, 81885) (870 cm) at 4873 cm; #337 (-8729, 81885)→(-9468, 81842) (740 cm) at 5130 cm
+  settlementPerimeterByBuffer (the buffer reference form): ok, 1679 pts, simpleCcw true, isSumRing(104) true  [10814 ms]
+== seed 195 (head-96c17417): S5's last boundary k=3, 676 points, area 249.86 ha; offset d = 5000 cm; attractCm 26, minEdge 25; SUM_TOL 5, OVERLAY_TOL 104
+  settlementPerimeter (offline, no arena): E_INVARIANT settlementPerimeter: the overlay's outer ring is not the boundary's offset (the sum check failed)  [4619 ms]
+  mergeCollinear: 676 → 676 points
+  fast ring 1 (miter, unloop): 1580 pts, simpleCcw true, isSumRing(5 cm) false
+  fast ring 2 (onSegments, unloop): 1672 pts, simpleCcw false, isSumRing(5 cm) n/a
+      self-crossing: edges 663 and 760 near (44102, 77423) (nearest boundary edge 251 at 4975 cm)
+  boundary necks under 2d = 10000 cm: vertices 535 (-80862, -46582) and 545 (-81413, -48794) (10 apart along the ring): 2087 cm; vertices 241 (42957, 72131) and 249 (40206, 72117) (8 apart along the ring): 2348 cm; vertices 632 (-6568, -96454) and 640 (-2848, -96934) (8 apart along the ring): 3242 cm; vertices 470 (-102696, 2757) and 478 (-103051, -1352) (8 apart along the ring): 3275 cm; vertices 118 (103388, -3222) and 126 (104345, 549) (8 apart along the ring): 3619 cm
+  overlay: booleans('union', [boundary], [full convolution 3304 pts], 'nonzero'): ok, 3 rings; warnings {"W_ATTRACTED":1,"W_STRETCH_SHARED":1,"W_ACUTE_CORNER":1,"W_WEDGE_ROUTED":1,"W_PLACED":1}  [4526 ms]
+      overlay outer ring: 1714 pts, simpleCcw true, isSumRing(104 cm) false
+      why: ring edge 257 (67042, -51901)→(68308, -49747) (2498 cm) has no ONE boundary edge within d + tol = 5104 cm of both ends: best edge 60 (62731, -49367)→(63364, -48290) at 5000.6 / 5154.2 cm; p's nearest edge 59 at 5000.6 cm, q's nearest edge 62 at 4999.5 cm
+  settlementPerimeterByBuffer (the buffer reference form): ok, 1633 pts, simpleCcw true, isSumRing(104) false  [10629 ms]
+      why: ring edge 249 (67042, -51901)→(68308, -49747) (2498 cm) has no ONE boundary edge within d + tol = 5104 cm of both ends: best edge 60 (62731, -49367)→(63364, -48290) at 5000.6 / 5154.2 cm; p's nearest edge 59 at 5000.6 cm, q's nearest edge 62 at 4999.5 cm

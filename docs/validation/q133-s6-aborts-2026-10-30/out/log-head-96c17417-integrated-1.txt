@@ -1,0 +1,78 @@
+{
+  "seed": 1,
+  "kind": "integrated",
+  "tree": "head-96c17417",
+  "plat": "/home/user/maps-architecture/plat",
+  "throughS6": false,
+  "wallMs": 176996,
+  "order": [
+    "S1",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S8"
+  ],
+  "invocations": {
+    "S1": 1,
+    "S3": 1,
+    "S4": 1,
+    "S5": 1,
+    "S6": 1,
+    "S8": 1
+  },
+  "stampsMs": {
+    "S1": 383,
+    "S3": 4579,
+    "S4": 789,
+    "S5": 5279,
+    "S6": 1168,
+    "S8": 164732
+  },
+  "bugs": [],
+  "bugsAsRecord": [],
+  "refusals": {},
+  "s6Outcome": {
+    "ok": true,
+    "districts": 31,
+    "perimeterPoints": 1575,
+    "landHa": 259.01851313
+  },
+  "s6Report": {
+    "name": "S6",
+    "work": {
+      "grower.turns": 0,
+      "insert.attractQueries": 0,
+      "insert.crossings": 0,
+      "insert.placementCandidates": 0,
+      "insert.points": 0,
+      "tx.facesWalked": 0
+    },
+    "attempts": 0,
+    "warnings": {},
+    "ladderUses": [],
+    "invariants": []
+  },
+  "kernel": {
+    "engine": "plat-arrangement@1",
+    "warnings": {
+      "W_ATTRACTED": 10,
+      "W_STRETCH_SHARED": 3879
+    },
+    "downgrades": 0,
+    "workLimitHits": 0
+  },
+  "unplaced": 0,
+  "districts": 31,
+  "rootS5": "ad4a108e42a5bfffc126fa8bb46675df",
+  "root": "be9e88bfa1be0d8d4e207ed36502744f",
+  "stageRoots": {
+    "S1": "07b06aba63f5e0b62d0fab33a7685704",
+    "S3": "5b62f2511a9004b182761cfec15e3f42",
+    "S4": "9ad0ddc2d10896f9d6734bcd4c11181e",
+    "S5": "ad4a108e42a5bfffc126fa8bb46675df",
+    "S6": "00b704c91d2e893a8c10940809f51a37",
+    "S8": "be9e88bfa1be0d8d4e207ed36502744f"
+  },
+  "chunk": null
+}

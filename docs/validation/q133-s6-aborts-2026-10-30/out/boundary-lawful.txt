@@ -1,0 +1,8 @@
+seed 73: 676 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 400 cm (minEdge 25), sharpest vertex angle 71.2°, reflex vertices 350 of 676; stages k: 1w,2w,3
+seed 195: 676 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 389 cm (minEdge 25), sharpest vertex angle 109.5°, reflex vertices 352 of 676; stages k: 1w,2w,3
+seed 243: 687 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 388 cm (minEdge 25), sharpest vertex angle 97.3°, reflex vertices 338 of 687; stages k: 1w,2w,3
+seed 253: 676 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 400 cm (minEdge 25), sharpest vertex angle 87.7°, reflex vertices 349 of 676; stages k: 1w,2w,3
+seed 310: 670 pts, area2>0 true, simpleCcw true, exactly-collinear merged 1, least edge 299 cm (minEdge 25), sharpest vertex angle 107.5°, reflex vertices 351 of 670; stages k: 1w,2w,3
+seed 476: 655 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 444 cm (minEdge 25), sharpest vertex angle 141.8°, reflex vertices 291 of 655; stages k: 1w,2w,3
+seed 751: 683 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 389 cm (minEdge 25), sharpest vertex angle 110.5°, reflex vertices 337 of 683; stages k: 1w,2w,3
+seed 999: 704 pts, area2>0 true, simpleCcw true, exactly-collinear merged 0, least edge 431 cm (minEdge 25), sharpest vertex angle 121.2°, reflex vertices 352 of 704; stages k: 1w,2w,3

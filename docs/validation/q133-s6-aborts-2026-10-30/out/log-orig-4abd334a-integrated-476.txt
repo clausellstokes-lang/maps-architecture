@@ -1,0 +1,117 @@
+{
+  "seed": 476,
+  "kind": "integrated",
+  "tree": "orig-4abd334a",
+  "plat": "/home/user/maps-scratch/q133-4abd334a/plat",
+  "throughS6": false,
+  "wallMs": 14806,
+  "order": [
+    "S1",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S8"
+  ],
+  "invocations": {
+    "S1": 1,
+    "S3": 1,
+    "S4": 1,
+    "S5": 1,
+    "S6": 1,
+    "S8": 1
+  },
+  "stampsMs": {
+    "S1": 226,
+    "S3": 3221,
+    "S4": 653,
+    "S5": 6076,
+    "S6": 4589,
+    "S8": 0
+  },
+  "bugs": [
+    {
+      "cls": "E_INVARIANT",
+      "entity": "town:10bqcwtcw044g",
+      "key": "S6@town:10bqcwtcw044g",
+      "stage": "S6"
+    }
+  ],
+  "bugsAsRecord": [
+    "S6:E_INVARIANT"
+  ],
+  "refusals": {
+    "S6": {
+      "code": "E_INVARIANT",
+      "detail": "settlementPerimeter: the overlay's outer ring is not the boundary's offset (the sum check failed)"
+    }
+  },
+  "s6Outcome": {
+    "ok": false,
+    "code": "E_INVARIANT",
+    "detail": "settlementPerimeter: the overlay's outer ring is not the boundary's offset (the sum check failed)"
+  },
+  "s6Report": {
+    "name": "S6",
+    "work": {
+      "grower.turns": 0,
+      "insert.attractQueries": 0,
+      "insert.crossings": 0,
+      "insert.placementCandidates": 0,
+      "insert.points": 0,
+      "tx.facesWalked": 0
+    },
+    "attempts": 0,
+    "warnings": {},
+    "ladderUses": [],
+    "invariants": []
+  },
+  "kernel": {
+    "engine": "plat-arrangement@1",
+    "warnings": {
+      "W_ATTRACTED": 11,
+      "W_STRETCH_SHARED": 1
+    },
+    "downgrades": 0,
+    "workLimitHits": 0
+  },
+  "unplaced": 0,
+  "districts": 0,
+  "rootS5": "6d7ee0732b18068bd5bda55aa28201f6",
+  "root": "6d7ee0732b18068bd5bda55aa28201f6",
+  "stageRoots": {
+    "S1": "07b06aba63f5e0b62d0fab33a7685704",
+    "S3": "74a3d8f02cbb0c2d3cf81659f721903b",
+    "S4": "fada57fe0ba811f1cd3d951e50dbbed0",
+    "S5": "6d7ee0732b18068bd5bda55aa28201f6",
+    "S6": "6d7ee0732b18068bd5bda55aa28201f6",
+    "S8": "6d7ee0732b18068bd5bda55aa28201f6"
+  },
+  "chunk": {
+    "file": "chunk-0475-0002.json.gz",
+    "bugs": [
+      "S6:E_INVARIANT"
+    ],
+    "rootS5": "6d7ee0732b18068bd5bda55aa28201f6",
+    "root": "6d7ee0732b18068bd5bda55aa28201f6",
+    "order": [
+      "S1",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S8"
+    ],
+    "stampsMs": {
+      "S1": 436.46393100000023,
+      "S3": 6131.175221000001,
+      "S4": 1240.313064,
+      "S5": 11112.311976,
+      "S6": 6929.414349999999,
+      "S8": 0.18599799999719835
+    },
+    "rootS5Equal": true,
+    "rootEqual": true,
+    "bugsEqual": true
+  }
+}
