@@ -2,6 +2,7 @@
 // of the committed arena written from the arena's own tables (never through the code under test), and plane helpers
 // written here, independent of the code under test.
 import { attachIndex, createKernel, createPlat, dest, isHalfEdgeLive, isVertexLive, rowKey, rowsOn, type Kernel, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
+import { parseTable, tableView, type TableView } from '@plat/tables';
 import { commitS3Slice, flatFixture, runS4, s3Slice, type FlatFixtureOptions, type S3Commit, type S3Slice, type S4Output, type Site, type SliceOptions } from '../../../src/index.js';
 import { runS5ab, type GrowthState } from '../../../src/growth/mainRoads.js';
 
@@ -64,6 +65,26 @@ export function cityGrown(seed: number, opts: FlatFixtureOptions = {}): Grown {
     CACHE.set(key, r);
   }
   return r;
+}
+
+/** A TableView whose regimes table has one cell's value replaced (S5b reads its cells; nothing is inlined). */
+export function regimesWith(row: string, cell: string, value: number, base: TableView = tableView()): TableView {
+  const t = base.table('regimes');
+  const rows: Record<string, Record<string, unknown>> = {};
+  for (const [rk, cells] of t.rows) {
+    const r: Record<string, unknown> = {};
+    for (const [ck, c] of cells) r[ck] = { ...c, ...(rk === row && ck === cell ? { value } : {}) };
+    rows[rk] = r;
+  }
+  const regimes = parseTable('regimes', { table: 'regimes', version: t.version, section: t.section, rows });
+  return {
+    hash: base.hash,
+    version: (id) => base.version(id),
+    get: (id, key) => (id === 'regimes' ? regimes.rows.get(key) : base.get(id, key)),
+    rows: (id) => (id === 'regimes' ? regimes.rows : base.rows(id)),
+    slice: (id, kind, key) => base.slice(id, kind, key),
+    table: (id) => (id === 'regimes' ? regimes : base.table(id)),
+  };
 }
 
 // ---- readers of the committed arena (its own tables) ------------------------------------------------------------------

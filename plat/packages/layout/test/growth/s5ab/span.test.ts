@@ -9,6 +9,7 @@ import { err, isVertexLive, outgoing, dest, rowKey, rowsOn, STAGES, type Kernel,
 import type { Bridge, Cm, Lifecycle, WaterBody, WaterSet } from '@plat/model';
 import { tableView } from '@plat/tables';
 import { commitOuterRing, commitRoutes, commitS3Slice, flatFixture, s3Slice, type RoutePoint, type S3Commit, type S3Slice, type S4Route, type Site } from '../../../src/index.js';
+import { LOOSE_GATE_TAG } from '../../../src/enceinte/trace.js';
 import { boundaryCrossings, traceStage, wayLines } from '../../../src/growth/boundary.js';
 import { GROUND, kernelFor, P, roleEdges, verticesWith } from './support.js';
 
@@ -103,12 +104,29 @@ interface Fixture {
   ways: string[];
 }
 
-function fixture(decks = true): Fixture {
+/** A river band x 700 – 740 m across the whole frame, laid on L0 as the pond is (no crossing site). */
+const BAND = rect(70_000, 74_000, -100_000, 100_000);
+
+function layBand(k: Kernel): WaterBody {
+  const id = 'river:2';
+  const r = k.tx(l0(), (o) => {
+    const ins = k.geom.insertChain(o, BAND, [{ role: 'shore', entity: id }, { role: 'bank', entity: id }], 'mandatory', { closed: true });
+    if (!ins.ok) return err(ins.code, ins.detail);
+    const loc = k.geom.pointLocate(GROUND, 0, P(72_000, 50_000));
+    if (loc.on !== 'face') throw new Error('span.test: no band face');
+    return k.geom.setOwner(o, [loc.face], id);
+  });
+  if (!r.ok) throw new Error(`span.test: the band was refused: ${r.code} ${r.detail}`);
+  return { id, kind: 'river', face: { owner: id, level: 0 }, shore: { role: 'shore', entity: id }, lifecycle: GENERATED } as WaterBody;
+}
+
+function fixture(decks = true, band = false): Fixture {
   const site = flatFixture(1, { frameAreaHa: 400, walledHa: 30 });
   const slice = s3Slice(site);
   const { plat, k } = kernelFor(site);
   expect(commitOuterRing(site, k).ok).toBe(true);
-  const water = layPond(k, decks);
+  const pond = layPond(k, decks);
+  const water: WaterSet = band ? { bodies: [...pond.bodies, layBand(k)], bridges: pond.bridges } : pond;
   const c = commitS3Slice(slice, k, { outerRing: 'present', water });
   if (!c.ok) throw new Error(`span.test: S3's commits were refused: ${c.code} ${c.detail}`);
   // The town's wall stays well inside the outline: the fixture's geometry holds.
@@ -279,7 +297,8 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(t.ok).toBe(false);
     if (t.ok) return;
     expect(t.code).toBe('E_INVARIANT');
-    expect(t.detail).toMatch(/water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord/);
+    // The chord proof's stable tag (M0-c-02's `LOOSE_GATE_TAG`; N-19, C-0452 (19)), never its coordinates.
+    expect(t.detail.endsWith(`[${LOOSE_GATE_TAG}]`), t.detail).toBe(true);
     expect(f.plat.version).toBe(version);
     expect(liveVertices(f.plat)).toBe(vertices);
     expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
@@ -339,6 +358,100 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(sb.total).toBeGreaterThan(0);
     expect(sb.wet).toBe(0);
     expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  // The batches S5a's trace makes (N-10, N-14; C-0452 (10), (14)): the gate plan (always rejected, nothing written), the
+  // trace's one callback batch (the splits inside it) and the strips' one — so the seam arms the trace's commit and the
+  // strips' commit, and a strategy or strip stand-in that opened another batch would show here (and be refused).
+  it('the trace makes one callback batch and the strips one, after the gate plan; nothing else is opened', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(OUTLINE, wayLines(f.k, f.ways), f.site.centre);
+    const seen: { level: number; form: string; ok: boolean; detail: string }[] = [];
+    const tx = (spec: KernelTx, fn?: never): ReturnType<Kernel['tx']> => {
+      const r = f.k.tx(spec, fn);
+      seen.push({ level: spec.level, form: fn === undefined ? 'declared' : 'callback', ok: r.ok, detail: r.ok ? '' : r.detail });
+      return r;
+    };
+    const watched = Object.freeze({ ...f.k, tx: tx as Kernel['tx'] }) as Kernel;
+    const t = traceStage(2, OUTLINE, xs, f.slice, f.commit.plaza, f.commit.traced.line, watched, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
+    expect(seen).toEqual([
+      { level: 1, form: 'callback', ok: false, detail: 'S5a: the gate plan (a batch always rejected)' },
+      { level: 1, form: 'callback', ok: true, detail: '' },
+      { level: 1, form: 'callback', ok: true, detail: '' },
+    ]);
+  });
+
+  // Two crossings meeting one bridgehead (N-11): the outline cut by a 10 cm slot from the north beside the west deck end
+  // (its two sides cross the way 50 and 40 cm before it, each taking that deck end, the way's own vertex there) and
+  // crossing the span at mid-span (whose bridgehead is that same deck end): refused before anything is written.
+  it('two gates at one bridgehead are refused, named, nothing written', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const slot = densify([P(-40_000, -40_000), P(11_000, -40_000), P(51_000, 0), P(91_000, 40_000), P(49_960, 40_000), P(49_960, -1_000), P(49_950, -1_000), P(49_950, 40_000), P(-40_000, 40_000)]);
+    const xs = boundaryCrossings(slot, wayLines(f.k, f.ways), f.site.centre);
+    const east = xs.filter((c) => Math.abs(c.at.y) <= 1);
+    expect(east.map((c) => c.at.x)).toEqual([49_950, 49_960, 51_000]);
+    const version = f.plat.version;
+    const vertices = liveVertices(f.plat);
+    const t = traceStage(2, slot, xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok).toBe(false);
+    if (t.ok) return;
+    expect(t.code).toBe('E_INVARIANT');
+    expect(t.detail).toBe("S5a: the gate vertices could not be put on their ways: S5a: two gates at bridge:1's bridgehead (50000, 0) (N-54 (3))");
+    expect(f.plat.version).toBe(version);
+    expect(liveVertices(f.plat)).toBe(vertices);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  // The precedence of the way-vertex snap over the span rule (N-13; C-0452 (13)): a crossing within twice the attraction
+  // distance of a deck end is that deck end — the way's own vertex — though the deck end lies just outside the outline
+  // as given; the span stays one edge, the gate on land, the outline moved at most 26 cm.
+  it('a crossing 20 cm from the far deck end gates at that deck end (the vertex snap first), the span whole', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(slanted(51_980), wayLines(f.k, f.ways), f.site.centre);
+    const east = xs.findIndex((c) => Math.abs(c.at.y) <= 1);
+    expect(xs[east].at).toEqual(P(51_980, 0));
+    const t = traceStage(2, slanted(51_980), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
+    if (!t.ok) return;
+    expect(verticesWith(f.plat, 'gate', `gate:${String(100 + east)}`)).toEqual([DECK.b]);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  // The gate's snap to its way's own vertex (N-4; C-0244, C-0452 (4)): a crossing of the dry approach edge 40 cm before
+  // the bridge's west deck end takes that deck end — the way's own vertex there, no sub-edge shorter than twice the
+  // attraction distance beside a gate — and nothing is split at the crossing.
+  it('a crossing 40 cm from a way vertex takes that vertex as its gate; nothing split beside it', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(slanted(49_960), wayLines(f.k, f.ways), f.site.centre);
+    const east = xs.findIndex((c) => Math.abs(c.at.y) <= 1);
+    expect(xs[east].at).toEqual(P(49_960, 0));
+    const t = traceStage(2, slanted(49_960), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
+    if (!t.ok) return;
+    expect(verticesWith(f.plat, 'gate', `gate:${String(100 + east)}`)).toEqual([DECK.a]);
+    expect(vertexAt(f.plat, P(49_960, 0))).toBe(-1);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  // L31 (C-0324 (3); C-0452 (L31)): a later stage's trace crossing water while an earlier enceinte holds water gates
+  // commits, its water gates the lowest gate:w<i> no earlier gate holds — the earlier enceinte's ids untouched. A river
+  // band across the frame east of the pond: stage 2's outline crosses it twice (its two water gates gate:w0, gate:w1),
+  // stage 3's, 100 m outside it, twice again.
+  it('a stage-3 trace over the water after stage 2\'s water gates commits with the lowest free ones, gate:w2 and gate:w3', { timeout: 120_000 }, () => {
+    const f = fixture(true, true);
+    const o2 = densify([P(-40_000, -40_000), P(80_000, -40_000), P(80_000, 40_000), P(-40_000, 40_000)]);
+    const t2 = traceStage(2, o2, boundaryCrossings(o2, wayLines(f.k, f.ways), f.site.centre), f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t2.ok, t2.ok ? '' : `${t2.code} ${t2.detail}`).toBe(true);
+    if (!t2.ok) return;
+    expect(t2.value.waterGates.map((g) => g.id)).toEqual(['gate:w0', 'gate:w1']);
+    const o3 = densify([P(-50_000, -50_000), P(90_000, -50_000), P(90_000, 50_000), P(-50_000, 50_000)]);
+    const t3 = traceStage(3, o3, boundaryCrossings(o3, wayLines(f.k, f.ways), f.site.centre), f.slice, f.commit.plaza, t2.value.traced.line, f.k, { water: f.water, firstOrdinal: 200, earlierWaterGates: 2 });
+    expect(t3.ok, t3.ok ? '' : `${t3.code} ${t3.detail}`).toBe(true);
+    if (!t3.ok) return;
+    expect(t3.value.waterGates.map((g) => g.id).sort()).toEqual(['gate:w2', 'gate:w3']);
+    expect(t2.value.enceinte.gates.filter((g) => g.startsWith('gate:w'))).toEqual(['gate:w0', 'gate:w1']);
+    for (const id of ['gate:w0', 'gate:w1', 'gate:w2', 'gate:w3']) expect(verticesWith(f.plat, 'gate_end', id), id).toHaveLength(2);
   });
 
   it('strips that would break a span are refused in their own batch, no setback line written (the pond withheld: a caller\'s miss)', { timeout: 120_000 }, () => {
