@@ -3,11 +3,29 @@
 // digest (the checker's digest comparison), the same trace, gates and strips; and S5's growth state starts from S3's
 // boundary, trace and field, S4's network.
 import { describe, expect, it } from 'vitest';
-import { recomputeLevelDigest } from '@plat/kernel';
+import { err, recomputeLevelDigest, STAGES, type Kernel, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
+import type { Lifecycle, WaterBody, WaterSet } from '@plat/model';
 import { commitOuterRing, commitS3Slice, flatFixture, runS4, s3Slice } from '../../../src/index.js';
 import { commitS3ThenStage1 } from '../../../src/growth/boundary.js';
 import { growthStart } from '../../../src/growth/mainRoads.js';
-import { kernelFor } from './support.js';
+import { GROUND, kernelFor, P } from './support.js';
+
+const GENERATED: Lifecycle = { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
+
+/** A river band laid on L0 (written here): its ring one closed chain carrying `shore` and `bank`, its face the body's. */
+function layWater(k: Kernel, ring: readonly LatticePoint[], id = 'river:1'): WaterSet {
+  const spec: KernelTx = { key: GROUND, level: 0, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S1 as StageId }, stage: STAGES.S1 as StageId, rederivesFrom: STAGES.S1 as StageId, workLimit: 10_000_000 };
+  const r = k.tx(spec, (o) => {
+    const a = k.geom.insertChain(o, ring, [{ role: 'shore', entity: id }, { role: 'bank', entity: id }], 'mandatory', { closed: true });
+    if (!a.ok) return err(a.code, a.detail);
+    const loc = k.geom.pointLocate(GROUND, 0, P(Math.round((ring[0].x + ring[1].x) / 2), 0));
+    if (loc.on !== 'face') throw new Error('stage1.test: no water face');
+    return k.geom.setOwner(o, [loc.face], id);
+  });
+  if (!r.ok) throw new Error(`stage1.test: the water was refused: ${r.code} ${r.detail}`);
+  const body = { id, kind: 'river', face: { owner: id, level: 0 }, shore: { role: 'shore', entity: id }, lifecycle: GENERATED } as WaterBody;
+  return { bodies: [body], bridges: [] };
+}
 
 describe('S5a, k = 1', () => {
   it('commits S3\'s trace byte for byte: every level digest equal to commitS3Slice\'s arena', { timeout: 120_000 }, () => {
@@ -29,6 +47,32 @@ describe('S5a, k = 1', () => {
       expect(cb.value.plaza).toEqual(ca.value.plaza);
       // The trace is a different arena's if S3's outline is not the one traced: a moved gate site changes the digest.
       expect(cb.value.traced.report).toEqual(ca.value.traced.report);
+    }
+  });
+
+  // With water (N-24; C-0449 (24)): a river band through the town at x 300 – 340 m with a deck at y 0, laid on L0 by
+  // hand in each arena; stage 1 given the water traces over it with its water gates as commitS3Slice does, level digest
+  // for level digest, and returns the same warnings.
+  it('with a river band given: the same arena, the same water gates and strips, the same warnings', { timeout: 120_000 }, () => {
+    const band = [P(30_000, -200_000), P(34_000, -200_000), P(34_000, 200_000), P(30_000, 200_000)];
+    for (const seed of [1, 2]) {
+      const site = flatFixture(seed, { water: { faces: [band], decks: [{ id: 'bridge:1', a: P(30_000, 0), b: P(34_000, 0) }] } });
+      const slice = s3Slice(site);
+      const a = kernelFor(site);
+      expect(commitOuterRing(site, a.k).ok).toBe(true);
+      const ca = commitS3Slice(slice, a.k, { outerRing: 'present', water: layWater(a.k, band) });
+      const b = kernelFor(site);
+      expect(commitOuterRing(site, b.k).ok).toBe(true);
+      const cb = commitS3ThenStage1(slice, b.k, { water: layWater(b.k, band) });
+      expect(ca.ok, ca.ok ? '' : ca.detail).toBe(true);
+      expect(cb.ok, cb.ok ? '' : cb.detail).toBe(true);
+      if (!ca.ok || !cb.ok) return;
+      expect(ca.value.waterGates.length).toBeGreaterThan(0);
+      for (const level of [0, 1, 2, 3, 4] as const) expect(recomputeLevelDigest(b.plat, level)).toEqual(recomputeLevelDigest(a.plat, level));
+      expect(cb.value.waterGates).toEqual(ca.value.waterGates);
+      expect(cb.value.strips).toEqual(ca.value.strips);
+      expect(cb.value.traced.line).toEqual(ca.value.traced.line);
+      expect(cb.warnings).toEqual(ca.warnings);
     }
   });
 

@@ -42,7 +42,6 @@ export const HARNESSES = {
   crosshost: { folder: 'crosshost', item: 'M0-d-06' },
   worklimits: { folder: 'worklimits', item: 'M0-f-03b' },
   'ladder-coverage': { folder: 'ladder-coverage', item: 'M0-x-05' },
-  profile: { folder: 'profile', item: 'M0-c-06' },
   scan: { folder: 'scan', item: 'M0-k-06' },
   parity: { folder: 'parity', item: 'M0-k-05' },
   'baselines-check': { folder: 'baselines-check', item: 'M0-k-05' },

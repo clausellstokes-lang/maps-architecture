@@ -110,6 +110,41 @@ describe('resettleT', () => {
     expect(sameT(again.field.T, both.field.T)).toBe(0);
   });
 
+  // Exact ties (N-1; C-0449 (1)): a node the new roads reach at exactly the cost it already has is not lowered. The
+  // field is priced with the roads already in it (T a full recompute over the extended road set) while its road flags
+  // are the old ones, so every relaxation from the new edges ties, bit for bit — the case two equal road branches make
+  // where one is priced in and the other is added. Then a road set added in two steps lowers, at the second, only the
+  // nodes the second strictly improves.
+  it('a node the new roads reach at exactly its cost is not lowered: lowered lists strict falls only', { timeout: 60_000 }, () => {
+    const s = small();
+    const r = rng(31);
+    const roads = [{ nodes: walk(s, r, 40) }, { nodes: walk(s, r, 30) }];
+    const priced = fieldT(s.lattice, [...s.routes, ...roads], s.field.a);
+    const tied = resettleT({ lattice: s.lattice, T: priced.T, road: s.field.road, a: s.field.a }, roads);
+    expect(tied.addedEdges).toBeGreaterThan(0);
+    expect(tied.lowered).toEqual([]);
+    expect(sameT(tied.field.T, priced.T)).toBe(0);
+    const out = resettleT(s.field, [roads[0]]);
+    const both = resettleT(out.field, [roads[1]]);
+    const fell: number[] = [];
+    for (let i = 0; i < priced.T.length; i += 1) if (priced.T[i] < out.field.T[i]) fell.push(i);
+    expect(both.lowered).toEqual(fell);
+    // Ties met while the lowering propagates: the priced field with one node u of the new roads put back to its old,
+    // higher T. The new edges lower u alone; from u the relaxation reaches the nodes priced through it at exactly their
+    // cost, and none of them is lowered — for every such u whose re-settlement gives the priced field back bit for bit.
+    let tried = 0;
+    for (const u of new Set(roads.flatMap((r) => r.nodes))) {
+      if (!(priced.T[u] < s.field.T[u])) continue;
+      const raised = Float64Array.from(priced.T);
+      raised[u] = s.field.T[u];
+      const r1 = resettleT({ lattice: s.lattice, T: raised, road: s.field.road, a: s.field.a }, roads);
+      if (sameT(r1.field.T, priced.T) !== 0) continue;
+      tried += 1;
+      expect(r1.lowered).toEqual([u]);
+    }
+    expect(tried).toBeGreaterThan(10);
+  });
+
   it('a road along edges already in the road set lowers nothing; a road of non-neighbours is refused', { timeout: 60_000 }, () => {
     const s = small();
     const r = resettleT(s.field, [{ nodes: s.routes[0].nodes.slice(0, 20) }]);

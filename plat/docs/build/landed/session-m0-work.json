@@ -1,17 +1,13 @@
 {
   "schema": "plat-landed-record/1",
   "item": "session-m0-work",
-  "lane": "session/m0-work-5",
+  "lane": "session/m0-work-1",
   "lanes": [
-    "session/m0-work-1",
-    "session/m0-work-2",
-    "session/m0-work-3",
-    "session/m0-work-4",
-    "session/m0-work-5"
+    "session/m0-work-1"
   ],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-28T16:38:31.000Z",
+  "date": "2026-10-28T12:25:02.000Z",
   "ownsSource": "declared",
   "owns": [
     "plat/docs/build/M0-work.json"
@@ -26,8 +22,8 @@
     {
       "path": "plat/docs/build/M0-work.json",
       "status": "changed",
-      "sha256": "5881df9d248e96cbc38008c55b6b0322bad10d39c9305e8300ecbb06f58eb3b7",
-      "size": 377148
+      "sha256": "ea85ec59e3510f3c3560ffe7f4ee34de589df18967616ee5ac7242b5f6b75553",
+      "size": 377078
     }
   ],
   "appends": []
