@@ -5,10 +5,12 @@
 // takes a root). M-1's crossings: a crossing file attributed by the CrossingRecord appended in its wave, that record
 // and the CLEAN-ROOM.md §2 – §5 rows claimed by the appending seat's lane, a seat that only appended recording without
 // --owns — and a run item landing before its own wave. A ledger row outside §2's table is refused, and a re-landed
-// record keeps its earlier claims. A passed-ownership path is its receiver's under a wave label at or past the hand-over
-// and under a label that names no wave, and the package index's owner claims its own edits there line by line (C-0318).
+// record keeps its earlier claims. A passed-ownership path is its receiver's under a wave label at or past the hand-over,
+// and under a label that names no wave the latest owner's that has a landed record of the label, else the earliest
+// owner's (N-24, J451); the package index's owner claims its own edits there line by line (C-0318).
 // The hardening round S4's pins: a folder owner claims its own barrel line's removal (N-25), a file created after the
-// snapshot and deleted since is listed as deleted (L24), and the pin gaps N-11 – N-14, N-17 and N-20.
+// snapshot and deleted since is listed as deleted (L24), and the pin gaps N-11 – N-14, N-17 and N-20. The session round
+// S6's pins: a receiver without a record never claims under a label naming no wave (N-24, J451).
 // Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments that write
 // nothing.
 import { spawnSync } from 'node:child_process';
@@ -31,8 +33,10 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { CROSSINGS_FILE, PLAT_ROOT, canonicalJson, isCrossingFile, isExcluded, lineHash, takeSnapshot, validLabel, writeSnapshot } from './snapshot.mjs';
 import {
   buildRecord,
+  claimantsAt,
   isRecordRel,
   labelPosition,
+  landedItemsOf,
   lcsDiff,
   LEDGER_RULE,
   ledgerSeat,
@@ -893,42 +897,60 @@ const claimsOf = (r) => ({
 const PASSED = ['plat/bench/src/fusion/index.ts', 'plat/packages/kernel/src/fuse/index.ts'];
 
 describe('a passed-ownership path under any label (L12, C-0013, C-0059, C-0064, C-0318)', () => {
-  it('is the giver\'s under a wave label before the hand-over, and the receiver\'s at or past it and under a label naming no wave', () => {
-    for (const [label, holder] of [['wave-0', 'M0-s-01'], ['wave-2', 'M0-c-06'], ['wave-T', 'M0-c-06'], ['flow-7', 'M0-c-06'], ['session-x', 'M0-c-06']]) {
+  it('is the giver\'s under a wave label before the hand-over and the receiver\'s at or past it; under a label naming no wave the giver\'s until the receiver has a record (N-24)', () => {
+    const ALL = [PASSED[0], 'plat/package.json', 'plat/packages/kernel/src/arena/index.ts', PASSED[1], 'plat/packages/kernel/src/num/index.ts'];
+    const OWN = ['plat/package.json', 'plat/packages/kernel/src/arena/index.ts'];
+    const NUM = [...OWN, 'plat/packages/kernel/src/num/index.ts'];
+    // [label, the giver's claims with no receiver's record, with M0-c-06's record, with M0-c-06's and M0-a-01's]
+    for (const [label, none, c06, both] of [
+      ['wave-0', ALL, ALL, ALL],
+      ['wave-2', OWN, OWN, OWN],
+      ['wave-T', OWN, OWN, OWN],
+      ['flow-7', ALL, NUM, OWN],
+      ['session-x', ALL, NUM, OWN],
+    ]) {
       const root = handOverTree(label);
-      const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
-      const receiver = buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06', write: false });
-      expect(giver.problems, label).toEqual([]);
-      expect(receiver.problems, label).toEqual([]);
-      const g = claimsOf(giver);
-      const c = claimsOf(receiver);
-      // arena/ has no owner in WORK_H, so its index.ts stays the scaffold's at every wave; num/ passes at wave 1.
-      if (holder === 'M0-s-01') {
-        expect(g, label).toEqual({
-          files: [PASSED[0], 'plat/package.json', 'plat/packages/kernel/src/arena/index.ts', PASSED[1], 'plat/packages/kernel/src/num/index.ts'],
-          index: ['fuse'],
-        });
-      } else {
-        expect(g, label).toEqual({ files: ['plat/package.json', 'plat/packages/kernel/src/arena/index.ts'], index: [] });
-        expect(giver.record.appends, label).toEqual([]);
-      }
-      // The receiver claims its files and its line wherever it lands (in wave 0: as at its own wave, C-0121).
-      expect(c, label).toEqual({ files: [...PASSED.slice(0, 1), 'plat/packages/kernel/src/fuse/fuse.ts', PASSED[1]], index: ['fuse'] });
+      const claims = (want, when) => {
+        const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+        const receiver = buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06', write: false });
+        expect(giver.problems, `${label} ${when}`).toEqual([]);
+        expect(receiver.problems, `${label} ${when}`).toEqual([]);
+        // arena/ has no owner in WORK_H, so its index.ts stays the scaffold's at every wave; num/ passes at wave 1.
+        expect(claimsOf(giver), `${label} ${when}`).toEqual({ files: want, index: want.includes(PASSED[1]) ? ['fuse'] : [] });
+        if (!want.includes(PASSED[1])) expect(giver.record.appends, `${label} ${when}`).toEqual([]);
+        // The receiver claims its files and its line wherever it lands (in wave 0: as at its own wave, C-0121).
+        expect(claimsOf(receiver), `${label} ${when}`).toEqual({ files: [...PASSED.slice(0, 1), 'plat/packages/kernel/src/fuse/fuse.ts', PASSED[1]], index: ['fuse'] });
+      };
+      claims(none, 'no receiver\'s record');
+      expect(buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06' }).ok).toBe(true);
+      claims(c06, 'M0-c-06 landed');
+      expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
+      claims(both, 'M0-c-06 and M0-a-01 landed');
     }
   });
 
-  it('says so in a note under a label naming no wave, and the wave\'s close attributes every path once', () => {
+  it('says so in a note under a label naming no wave; the giver holds the passed paths until the receiver lands, and the close attributes every path (N-24)', () => {
     const root = handOverTree('flow-7');
-    const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+    const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', touched: [PASSED[1]] });
+    expect(giver.problems).toEqual([]); // the giver may touch a passed path while its receiver has no record
     expect(giver.notes[0]).toBe(
-      'snapshot flow-7 names no wave of docs/build/M0-work.json; ownership resolved with every wave open: a handed-over path is its latest owner\'s (C-0318)',
+      'snapshot flow-7 names no wave of docs/build/M0-work.json; ownership resolved with every wave open: a handed-over path is its ' +
+        'latest owner\'s that has a landed record of flow-7 (this landing counts), else its earliest owner\'s (N-24)',
     );
-    expect(giver.notes.join('\n')).toContain('plat/packages/kernel/src/fuse/index.ts'); // named as another seat's
+    expect(claimsOf(giver).files).toContain(PASSED[1]);
+    // The giver attributes the passed paths; the receiver's own new file waits for the receiver's record.
+    expect(verifyWave(root, 'flow-7').problems).toEqual(['plat/packages/kernel/src/fuse/fuse.ts: created since flow-7, claimed by no landed record of the wave']);
     expect(buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06' }).ok).toBe(true);
+    const both = verifyWave(root, 'flow-7');
+    expect(both.problems).toEqual([]);
+    expect(both.notes.filter((n) => n.includes('claimed by'))).toEqual(PASSED.map((p) => `${p}: claimed by M0-c-06 and M0-s-01`));
+    // Re-landed after the receiver's record, the giver no longer claims them: every path attributed once.
+    const again = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+    expect(claimsOf(again)).toEqual({ files: ['plat/package.json', 'plat/packages/kernel/src/arena/index.ts', 'plat/packages/kernel/src/num/index.ts'], index: [] });
     const v = verifyWave(root, 'flow-7');
     expect(v.problems).toEqual([]);
     expect(v.notes.filter((n) => n.includes('claimed by'))).toEqual([]); // no path claimed twice
-    // A giver touching a passed path is refused, naming the receiver.
+    // A giver touching a passed path once the receiver has landed is refused, naming the receiver.
     expect(buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', touched: [PASSED[1]], write: false }).problems).toEqual([
       `${PASSED[1]}: outside M0-s-01's owns and the permitted appends (owned by M0-c-06 at flow-7)`,
     ]);
@@ -936,6 +958,7 @@ describe('a passed-ownership path under any label (L12, C-0013, C-0059, C-0064, 
 
   it('never carries a package-index line an earlier landing of the giver claimed in the same wave', () => {
     const root = handOverTree('flow-7');
+    expect(buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06' }).ok).toBe(true); // the receiver has landed (N-24)
     const old = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixy', write: false }).record;
     const stale = { ...old, appends: [{ file: 'plat/packages/kernel/src/index.ts', ids: ['fuse'], lines: [lineHash(FUSE_LINE)], removed: [] }] };
     write(root, 'docs/build/landed/M0-s-01.json', `${JSON.stringify(stale)}\n`);
@@ -973,7 +996,7 @@ describe('a passed-ownership path under any label (L12, C-0013, C-0059, C-0064, 
     expect(ownersAt(work, 'plat/tools/landed/landed.mjs', Number.POSITIVE_INFINITY)).toEqual(['M0-s-01']);
   });
 
-  it('re-landing the scaffold under a flow label on the committed M0-work.json lists its own files only, never a passed index', () => {
+  it('re-landing the scaffold under a flow label on the committed M0-work.json lists its own files only once the receivers have landed, never a passed index (N-24)', () => {
     const real = read(PLAT_ROOT, 'docs/build/M0-work.json');
     const root = fixture({
       'docs/build/M0-work.json': real,
@@ -990,6 +1013,31 @@ describe('a passed-ownership path under any label (L12, C-0013, C-0059, C-0064, 
     }
     write(root, 'packages/testkit/src/edge/index.ts', 'export const e = 1;\n');
     appendFileSync(join(root, 'packages', 'testkit', 'src', 'index.ts'), "export * from './edge/index.js';\n");
+    // Before its receivers have records of flow-7, the scaffold holds every passed path it gave (N-24, J451).
+    const early = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+    expect(early.problems).toEqual([]);
+    expect(early.record.files.filter((f) => f.status !== 'unchanged').map((f) => f.path)).toEqual([
+      'plat/bench/src/fusion/index.ts',
+      'plat/package.json',
+      'plat/packages/layout/src/districts/index.ts',
+      'plat/packages/testkit/src/edge/index.ts',
+      'plat/tools/landed/landed.mjs',
+      'plat/tools/lint/index.mjs',
+    ]);
+    expect(early.record.appends.map((a) => [a.file, a.ids])).toEqual([['plat/packages/testkit/src/index.ts', ['edge']]]);
+    const passed = early.record.files.map((f) => f.path).filter((p) => /\/src\/[^/]+\/index\.ts$/.test(p) || p === 'plat/tools/lint/index.mjs');
+    expect(passed).toEqual([
+      'plat/bench/src/fusion/index.ts',
+      'plat/packages/kernel/src/arena/index.ts',
+      'plat/packages/kernel/src/num/index.ts',
+      'plat/packages/layout/src/districts/index.ts',
+      'plat/packages/testkit/src/edge/index.ts',
+      'plat/tools/lint/index.mjs',
+    ]);
+    const work = loadWork(root);
+    const receivers = [...new Set(passed.flatMap((p) => ownersAt(work, p, Number.POSITIVE_INFINITY)))].sort();
+    expect(receivers).toEqual(['M0-a-01', 'M0-a-02', 'M0-c-06', 'M0-d-07', 'M0-e-04', 'M0-x-06']);
+    for (const id of receivers) expect(buildRecord(root, { item: id, lane: `build/${id.toLowerCase()}` }).ok, id).toBe(true);
     const r = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
     expect(r.problems).toEqual([]);
     expect(r.record.files.filter((f) => f.status !== 'unchanged').map((f) => f.path)).toEqual(['plat/package.json', 'plat/tools/landed/landed.mjs']);
@@ -1009,12 +1057,13 @@ describe('the package index\'s owner claims its own edits line by line (J273 Q2,
       writeSnapshot(root, label);
       seatA02(root);
       replaceIn(root, 'packages/kernel/src/index.ts', '// kernel index\n', `${NEW1}\n`);
+      // The arena folder's owner lands first: under a label naming no wave it claims its line only with a record (N-24).
+      expect(buildRecord(root, { item: 'M0-a-02', lane: 'build/m0-a-02' }).ok).toBe(true);
       const r = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
       expect(r.problems).toEqual([]);
       expect(r.record.appends).toEqual([
         { file: 'plat/packages/kernel/src/index.ts', ids: ['line 1'], lines: [lineHash(NEW1)], removed: [lineHash('// kernel index')] },
       ]);
-      expect(buildRecord(root, { item: 'M0-a-02', lane: 'build/m0-a-02' }).ok).toBe(true);
       expect(verifyWave(root, label).problems).toEqual([]);
       // Without the owner's removal claim, or with it in a record whose item does not own the index, the edit is named.
       const path = join(root, 'docs', 'build', 'landed', 'M0-s-01.json');
@@ -1275,3 +1324,204 @@ describe('the hardening round\'s pins on landed and landed:verify (N-11 – N-14
 function rowIds(lines) {
   return lines.map((l) => splitCells(l)?.[0]).filter((c) => c !== undefined);
 }
+
+// ---------------------------------------------------------------------------------------------------------------
+// The session round S6 (lane build/M0-s-01-fix-s6; N-24, J451): under a label that names no wave a handed-over path is
+// the latest owner's that has a landed record of the label, else the earliest owner's; a receiver without a record
+// never claims, and it takes the path over the moment its own record lands. A wave label's reading is unchanged.
+
+const LIMITS = 'plat/packages/tables/data/limits.json';
+const WORK_N = {
+  waves: [
+    { wave: 0, items: ['M0-s-01'] },
+    { wave: 1, items: ['M0-g-01'] },
+    { wave: 2, items: ['M0-m-01'] },
+    { wave: 3, items: ['M0-r-01'] },
+    { wave: 'T', items: [] },
+  ],
+  items: [
+    { id: 'M0-s-01', wave: 0, owns: ['plat/package.json'] },
+    { id: 'M0-g-01', wave: 1, owns: [`${LIMITS} (created here; handed over to M0-r-01)`, 'plat/packages/tables/src/limits/'] },
+    { id: 'M0-m-01', wave: 2, owns: ['plat/packages/tables/data/other.json'] },
+    { id: 'M0-r-01', wave: 3, owns: [`${LIMITS} (handed over from M0-g-01)`] },
+  ],
+};
+const CHAIN = {
+  waves: WORK_N.waves,
+  items: [
+    { id: 'M0-s-01', wave: 0, owns: ['plat/bench/src/<harness>/index.ts (created empty; passes to the harness\'s owner)'] },
+    { id: 'M0-g-01', wave: 1, owns: ['plat/bench/src/jobs/'] },
+    { id: 'M0-m-01', wave: 2, owns: ['plat/bench/src/jobs/ (handed over from M0-g-01)'] },
+    { id: 'M0-r-01', wave: 3, owns: ['plat/bench/src/jobs/ (handed over from M0-m-01)'] },
+    { id: 'M0-r-02', wave: 3, owns: ['plat/bench/src/jobs/index.ts (co-owned with M0-r-01)'] },
+  ],
+};
+
+/** A tree under WORK_N with its snapshot under `label` and the giver's edit of the handed-over file. */
+function giverTree(label) {
+  const root = fixture({ 'docs/build/M0-work.json': `${JSON.stringify(WORK_N, null, 2)}\n`, 'packages/tables/data/limits.json': '{ "v": 1 }\n' });
+  writeSnapshot(root, label);
+  write(root, 'packages/tables/data/limits.json', '{ "v": 2 }\n');
+  return root;
+}
+const listed = (r) => r.record.files.filter((f) => f.path === LIMITS).map((f) => f.status);
+
+describe('a receiver without a landed record of a label naming no wave never claims (N-24, J451)', () => {
+  it('claimantsAt: the latest owner with a record, else the earliest owner; a wave label as ownersAt whatever the records', () => {
+    const P = 'plat/bench/src/jobs/index.ts';
+    const at = (landed, W = Number.POSITIVE_INFINITY) => claimantsAt(CHAIN, P, W, landed === null ? null : new Set(landed));
+    expect(at([])).toEqual(['M0-s-01']);
+    expect(at(['M0-s-01'])).toEqual(['M0-s-01']);
+    expect(at(['M0-g-01'])).toEqual(['M0-g-01']);
+    expect(at(['M0-s-01', 'M0-m-01'])).toEqual(['M0-m-01']);
+    expect(at(['M0-g-01', 'M0-r-02'])).toEqual(['M0-r-01', 'M0-r-02']); // co-owners of one wave claim together
+    expect(at(['M0-r-01', 'M0-g-01'])).toEqual(['M0-r-01', 'M0-r-02']);
+    expect(at(null)).toEqual(['M0-r-01', 'M0-r-02']); // no record set: ownersAt's reading
+    expect(at(['M0-zz-01'])).toEqual(['M0-s-01']); // a record of no owner changes nothing
+    expect(claimantsAt(CHAIN, 'plat/bench/src/other.ts', Number.POSITIVE_INFINITY, new Set(['M0-g-01']))).toEqual([]);
+    for (const [label, want] of [['wave-0', ['M0-s-01']], ['wave-1', ['M0-g-01']], ['wave-2', ['M0-m-01']], ['wave-3', ['M0-r-01', 'M0-r-02']], ['wave-T', ['M0-r-01', 'M0-r-02']]]) {
+      for (const landed of [[], ['M0-s-01'], ['M0-g-01'], ['M0-r-01']]) expect(at(landed, labelPosition(CHAIN, label)), `${label} ${landed}`).toEqual(want);
+    }
+  });
+
+  it('landedItemsOf: the items whose record names its file and the label, nothing else', () => {
+    const root = fixture();
+    writeSnapshot(root, 'flow-9');
+    write(root, 'docs/build/landed/M0-a-01.json', `${JSON.stringify({ item: 'M0-a-01', wave: 'flow-9' })}\n`);
+    write(root, 'docs/build/landed/M0-a-02.json', `${JSON.stringify({ item: 'M0-a-02', wave: 'wave-1' })}\n`);
+    write(root, 'docs/build/landed/M0-x-01.json', `${JSON.stringify({ item: 'M0-a-03', wave: 'flow-9' })}\n`);
+    write(root, 'docs/build/landed/M0-x-02.json', 'not json\n');
+    write(root, 'docs/build/landed/sub/M0-x-03.json', `${JSON.stringify({ item: 'M0-x-03', wave: 'flow-9' })}\n`);
+    expect([...landedItemsOf(root, 'flow-9')]).toEqual(['M0-a-01']);
+    expect([...landedItemsOf(root, 'wave-1')]).toEqual(['M0-a-02']);
+    expect([...landedItemsOf(fixture(), 'flow-9')]).toEqual([]);
+  });
+
+  for (const label of ['flow-9', 'session-x']) {
+    it(`the giver claims its handed-over file while the receiver has no record, and loses it when the receiver lands (${label})`, () => {
+      const root = giverTree(label);
+      const giver = buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01-fix1', touched: [LIMITS] });
+      expect(giver.problems).toEqual([]);
+      expect(listed(giver)).toEqual(['changed']);
+      expect(verifyWave(root, label).problems).toEqual([]); // the close attributes the giver's edit: no unattributed path
+      expect(verifyWave(root, label, { item: 'M0-g-01' }).problems).toEqual([]);
+      // The receiver landing claims the file (its own landing counts as its record) …
+      const receiver = buildRecord(root, { item: 'M0-r-01', lane: 'build/m0-r-01' });
+      expect(listed(receiver)).toEqual(['changed']);
+      // … and from then on the giver's re-landing no longer lists it, and its touch is refused naming the receiver.
+      const again = buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01-fix2' });
+      expect(listed(again)).toEqual([]);
+      expect(buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01-fix2', touched: [LIMITS], write: false }).problems).toEqual([
+        `${LIMITS}: outside M0-g-01's owns and the permitted appends (owned by M0-r-01 at ${label})`,
+      ]);
+      const v = verifyWave(root, label);
+      expect(v.problems).toEqual([]);
+      expect(v.notes.filter((n) => n.includes('claimed by'))).toEqual([]);
+    });
+  }
+
+  it('a wave label\'s reading is unchanged: the giver\'s before the receiver\'s wave, the receiver\'s at or past it, records or none', () => {
+    for (const [label, giverHolds] of [['wave-1', true], ['wave-2', true], ['wave-3', false], ['wave-T', false]]) {
+      const root = giverTree(label);
+      const before = buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01', write: false });
+      expect(listed(before), label).toEqual(giverHolds ? ['changed'] : []);
+      expect(buildRecord(root, { item: 'M0-r-01', lane: 'build/m0-r-01' }).ok, label).toBe(true);
+      expect(listed(buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01', write: false })), label).toEqual(giverHolds ? ['changed'] : []);
+      if (!giverHolds) {
+        expect(buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01', touched: [LIMITS], write: false }).problems, label).toEqual([
+          `${LIMITS}: outside M0-g-01's owns and the permitted appends (owned by M0-r-01 at ${label})`,
+        ]);
+      }
+    }
+  });
+
+  it('landed:verify: a giver\'s entry lapses once the landed receiver\'s record claims the file; never without that record, never under a wave label', () => {
+    const root = giverTree('flow-9');
+    expect(buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01' }).ok).toBe(true);
+    write(root, 'packages/tables/data/limits.json', '{ "v": 3 }\n'); // the receiver's edit
+    // Before the receiver lands, the giver's entry is a mismatch (and the close names the edit).
+    expect(verifyWave(root, 'flow-9', { item: 'M0-g-01' }).problems).toEqual([
+      `${LIMITS}: the tree no longer matches M0-g-01's record (changed at landing; changed since)`,
+    ]);
+    expect(verifyWave(root, 'flow-9').problems).toEqual([`${LIMITS}: changed since flow-9, claimed by no landed record of the wave (M0-g-01 recorded an earlier state)`]);
+    expect(buildRecord(root, { item: 'M0-r-01', lane: 'build/m0-r-01' }).ok).toBe(true);
+    const lapsed = `${LIMITS}: handed over to M0-r-01, whose record claims it now; M0-g-01's entry has lapsed (N-24)`;
+    const g = verifyWave(root, 'flow-9', { item: 'M0-g-01' });
+    expect([g.problems, g.notes]).toEqual([[], [lapsed]]);
+    const v = verifyWave(root, 'flow-9');
+    expect(v.problems).toEqual([]);
+    expect(v.notes).toContain(lapsed);
+    // A receiver's record that no longer matches the tree takes nothing over: the giver's mismatch stands.
+    write(root, 'packages/tables/data/limits.json', '{ "v": 4 }\n');
+    expect(verifyWave(root, 'flow-9', { item: 'M0-g-01' }).problems).toEqual([
+      `${LIMITS}: the tree no longer matches M0-g-01's record (changed at landing; changed since)`,
+    ]);
+    // Under a wave label the giver's stale entry stays a mismatch, the receiver's record or none.
+    const w = giverTree('wave-1');
+    expect(buildRecord(w, { item: 'M0-g-01', lane: 'build/m0-g-01' }).ok).toBe(true);
+    write(w, 'packages/tables/data/limits.json', '{ "v": 3 }\n');
+    expect(buildRecord(w, { item: 'M0-r-01', lane: 'build/m0-r-01' }).ok).toBe(true);
+    expect(verifyWave(w, 'wave-1', { item: 'M0-g-01' }).problems).toEqual([
+      `${LIMITS}: the tree no longer matches M0-g-01's record (changed at landing; changed since)`,
+    ]);
+  });
+
+  it('a folder\'s index line under a label naming no wave: the giver\'s until the folder\'s owner has a record, in landed and at the close', () => {
+    const root = fixture();
+    writeSnapshot(root, 'flow-9');
+    seatA02(root); // arena/'s index.ts and its package-index line; M0-a-02 has not landed
+    const s01 = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+    expect(s01.record.appends.filter((a) => a.file === 'plat/packages/kernel/src/index.ts')).toEqual([
+      { file: 'plat/packages/kernel/src/index.ts', ids: ['arena'], lines: [lineHash("export * from './arena/index.js';")], removed: [] },
+    ]);
+    expect(s01.record.files.map((f) => f.path)).toContain('plat/packages/kernel/src/arena/index.ts');
+    // A removal of num/'s line is vouched for by the scaffold while M0-a-01 has no record, by M0-a-01 once it has one.
+    replaceIn(root, 'packages/kernel/src/index.ts', `${NUM_LINE}\n`, '');
+    expect(buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' }).record.appends[0].removed).toEqual([lineHash(NUM_LINE)]);
+    expect(verifyWave(root, 'flow-9').problems.filter((p) => p.includes('src/index.ts'))).toEqual([]);
+    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).record.appends).toEqual([
+      { file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash(NUM_LINE)] },
+    ]);
+    putRecord(root, { ...recordOf(root, 'M0-a-01'), appends: [] });
+    // M0-a-01 has a record now, so the scaffold's removal claim on num/'s line no longer vouches for it.
+    expect(verifyWave(root, 'flow-9').problems).toContain("plat/packages/kernel/src/index.ts: line 2 of the snapshot's file removed or edited");
+  });
+
+  it('names the claimant of a chain when it refuses a touch, and keeps a co-owner\'s stale entry a mismatch (N-24)', () => {
+    const root = fixture({ 'docs/build/M0-work.json': `${JSON.stringify(CHAIN, null, 2)}\n`, 'bench/src/jobs/index.ts': '' });
+    writeSnapshot(root, 'flow-9');
+    const JOBS = 'plat/bench/src/jobs/index.ts';
+    write(root, 'bench/src/jobs/index.ts', 'export const j = 1;\n');
+    expect(buildRecord(root, { item: 'M0-g-01', lane: 'build/m0-g-01' }).ok).toBe(true);
+    // M0-g-01 holds the path (M0-m-01 and the co-owners M0-r-01 / M0-r-02 have no record): the scaffold is refused, naming it.
+    expect(buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-s-01', touched: [JOBS], write: false }).problems).toEqual([
+      `${JOBS}: outside M0-s-01's owns and the permitted appends (owned by M0-g-01 at flow-9)`,
+    ]);
+    // Two co-owners of one wave: the one whose entry the other's later edit made stale keeps a mismatch, never a lapse.
+    expect(buildRecord(root, { item: 'M0-r-01', lane: 'build/m0-r-01' }).ok).toBe(true);
+    write(root, 'bench/src/jobs/index.ts', 'export const j = 2;\n');
+    expect(buildRecord(root, { item: 'M0-r-02', lane: 'build/m0-r-02' }).ok).toBe(true);
+    expect(verifyWave(root, 'flow-9', { item: 'M0-r-01' }).problems).toEqual([
+      `${JOBS}: the tree no longer matches M0-r-01's record (changed at landing; changed since)`,
+    ]);
+  });
+
+  it('the committed M0-work.json: the three handed-over paths of N-24 are the giver\'s until the receiver has a record', () => {
+    const work = loadWork(PLAT_ROOT);
+    const inf = Number.POSITIVE_INFINITY;
+    for (const [path, giver, receiver] of [
+      ['plat/packages/tables/data/workLimits.json', 'M0-f-03a', 'M0-f-03b'],
+      ['plat/packages/testkit/baselines/denylist-allow.json', 'M0-k-06', 'M0-k-07'],
+      ['plat/bench/src/tier-jobs/index.ts', 'M0-f-02a', 'M0-f-02b'],
+    ]) {
+      expect(claimantsAt(work, path, inf, new Set([giver])), path).toEqual([giver]);
+      expect(claimantsAt(work, path, inf, new Set([giver, receiver])), path).toEqual([receiver]);
+      expect(claimantsAt(work, path, inf, new Set([receiver])), path).toEqual([receiver]);
+      expect(ownersAt(work, path, inf), path).toEqual([receiver]);
+    }
+    // tier-jobs/index.ts was the scaffold's first (C-0059): with no record at all it is the scaffold's.
+    expect(claimantsAt(work, 'plat/bench/src/tier-jobs/index.ts', inf, new Set())).toEqual(['M0-s-01']);
+    expect(claimantsAt(work, 'plat/bench/src/tier-jobs/index.ts', labelPosition(work, 'wave-12'), new Set())).toEqual(['M0-f-02a']);
+    expect(claimantsAt(work, 'plat/bench/src/tier-jobs/index.ts', labelPosition(work, 'wave-18'), new Set())).toEqual(['M0-f-02b']);
+  });
+});

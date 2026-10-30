@@ -200,3 +200,179 @@ committed one.
 |---|---|---|---|
 | N-32 | **KI (contrived escape, fails visibly elsewhere).** One `handsOver` line can name several receivers and several paths, as in `plat/bench/src/scan/index.ts → M0-k-06, plat/bench/src/parity/index.ts … → M0-k-05`. The rule does not check which receiver each path goes to, so on such a line M0-k-05 taking `bench/src/scan/index.ts` would be excused. On the committed file every such path is a `<harness>` index, so the `<harness>` clause excuses it anyway, and `landed`'s latest-owner reading gives the path to its latest owner either way. | Pair each path with the receiver after its `→`, if a later round splits the lines. | M4 |
 | N-33 | **KI (closing check of S5, lane `check/M0-s-01-close-s5`; equivalent survivor, no test needed).** O-wild-ok (`namesPathOrAbove` returning true on a path through a wildcard segment, in place of skipping it) leaves `tools/scaffold/m0-work.test.mjs` green. Only the scaffold's `<module>`/`<harness>` entries carry wildcard segments in `M0-work.json`, and the `<module>`/`<harness>` clause excuses their overlaps before the hand-over line is read, so the result differs only for a planted receiver entry holding a wildcard. | A planted receiver entry with a `*` segment over a scaffold path, expecting one `O …` line, if receivers ever own wildcard entries. | M4 |
+
+## Session fix round S6 (lane `build/M0-s-01-fix-s6`, 2026-10-25; J451, J468; C-0449)
+
+The session opened this round on two required changes: **N-24** (row 64 above; ruled by J451) and **Q96**
+(`docs/M0-FIX-QUEUE.md`, given to this round by J468). Both are fixed inside M0-s-01's owns, and each has a test that
+pins it.
+
+### N-24: a receiver without a record never claims under a label that names no wave
+
+**The reading.** Under a wave label, ownership is unchanged: `ownersAt`, the latest owner of an open wave. Under a
+label that names no wave (`flow-N`, `session-…`), a handed-over path now goes to the latest owner that has a landed
+record of that label. If no owner has one, it goes to the earliest owner, the first giver. Some details:
+- The landing item counts as having a record, so a receiver takes the path over the moment its own record lands.
+- A receiver with no record never claims, and neither does a middle owner of a chain that has none.
+- Co-owners of one wave claim together, as before.
+- The code is `claimantsAt(work, path, W, landed)` and `landedItemsOf(root, label)` in `tools/landed/landed.mjs`.
+  A record counts when it is `docs/build/landed/<id>.json`, its `item` names its file, and its `wave` is the label.
+
+`landed` uses the reading for a file's claim, a folder's package-index line, and the owner named in a `--touched`
+refusal. `landed:verify` reads it the same way:
+- for a removed folder line (who vouches for it);
+- for a giver's entry on a path whose receiver has landed since and whose receiver's entry matches the tree. That
+  entry has **lapsed**: it is a note ("handed over to …, whose record claims it now; …'s entry has lapsed (N-24)"),
+  not a mismatch. Without the receiver's matching record, or under a wave label, it stays a mismatch. Without this
+  clause, the new reading would give a giver a false red as soon as its receiver lands and edits the file.
+
+**Old tools against new (CONFIRMED).** Each of the 364 flow-7 records on disk was re-landed (write off) with the old
+tools and with the new, using the record's own item, lane and declared owns.
+- **359 re-landings are identical.**
+- 5 differ, each only by **gaining handed-over paths, no file lost and appends identical**:
+  - M0-f-02a: `bench/src/tier-jobs/index.ts`, created
+  - M0-f-03a: `tables/data/workLimits.json`, changed
+  - M0-k-06: `testkit/baselines/denylist-allow.json`, created
+  - M0-s-01: 11 module and harness `index.ts` files whose owners have no flow-7 record, all unchanged:
+    `bench/src/{calibrate,fusion,fusion-ng,host,timing,timing-phase,worklimits}/index.ts`,
+    `kernel/src/{hash,registry,rng}/index.ts` and `testkit/src/fuzz/index.ts`
+  - M0-s-02: 5 table data files whose receivers have no flow-7 record, all unchanged: `tables/data/{bands,cut,granularity,interior,regimes}.json`
+- **All 364 per-item verifications (`--item`) are identical**, problems and notes.
+- N-24's earlier five (M0-a-08's `arr/index.ts` and M0-x-02's `pipeline/index.ts`) are not among the differences: their
+  receivers M0-a-09 and M0-x-04 have flow-7 records.
+
+**The whole-tree close.** In the tree, `corepack pnpm landed:verify -- flow-7` names exactly the three paths this
+reading returns to givers that have not re-landed since. This round does not re-land them; their own rounds do:
+`bench/src/tier-jobs/index.ts` (M0-f-02a), `packages/tables/data/workLimits.json` (M0-f-03a) and
+`packages/testkit/baselines/denylist-allow.json` (M0-k-06). Their records were written with the old tools, which
+dropped the paths. The reading alone cannot attribute them, because the close attributes a file only by a record entry
+that holds its hash. In the lane's mirror (a copy of the tree, the new tools), re-landing those three givers and
+M0-s-01 makes the close **green: "landed:verify flow-7: ok — 364 records, 1638 changed paths, 1638 attributed"**
+(CONFIRMED). So no other cause leaves a path unattributed.
+
+**`tools/flow_stage.mjs`: the edit the session applies at the landing** (outside plat/, not in the owns; checked with
+`node --check` on a scratch copy and never run, since it runs git). Line 24 imports the two new functions and no longer
+needs `ownersAt`:
+
+```js
+import { claimantsAt, landedItemsOf, lcsDiff, ledgerTable, loadWork, ownsMatch } from '../plat/tools/landed/landed.mjs';
+```
+
+Line 51 (`busyOwners`):
+
+```js
+const LANDED = LABEL ? landedItemsOf(PLAT, LABEL) : null; const busyOwners = (path) => claimantsAt(work, path, Infinity, LANDED).filter((id) => BUSY.has(id));
+```
+
+With `--label` given, a busy item holds a path out only when it is the path's claimant under the reading: a busy
+receiver with a record, or a busy giver whose receiver has none. Without `--label` it is the old reading exactly
+(`landed` null gives `ownersAt`).
+
+### Q96: the run seed is printed once, and a re-run with it draws the same cases
+
+**Before.** `fast-check.setup.mjs` set no seed when PLAT_FUZZ_SEED was unset. fast-check then drew a fresh seed for
+every run (`Date.now() ^ Math.random()·2³²`) and printed none of them. So a red reached through counts, not a thrown
+`fc.assert`, could not be replayed.
+
+**The obvious fix breaks a contract between items.** Setting the global seed when PLAT_FUZZ_SEED is unset would break
+two readings of the test kit. `fuzzParams` (M0-k-01) and `replaySeed` (M0-k-03, L18) take a global seed to mean
+"PLAT_FUZZ_SEED replays". Every H32 family seed would then become the run's random seed, and the fixed family seeds of
+L10 and L18 would turn nondeterministic. fast-check's default export has non-configurable getters, so it cannot be
+patched either.
+
+**After.**
+- `tools/vitest/fuzz-seed.global.mjs` is the vitest global setup, wired in `vitest.config.ts` (`test.globalSetup`).
+  It runs once per run in the main process. When PLAT_FUZZ_SEED is unset, it chooses one fresh 32-bit seed, prints
+  `seedLine(seed)` to stderr once, and provides it to the workers (`provide` / `inject`, key `platFuzzRunSeed`).
+- `fast-check.setup.mjs` replaces `fast-check` (`vi.mock`, every test file of every package project) with the library
+  plus wrapped `assert`, `check`, `sample` and `statistics`. These hand the run seed to every run whose parameters and
+  global configuration give no seed: exactly the seed a re-run with PLAT_FUZZ_SEED set to it gives that run. A
+  property with its own seed keeps it.
+- The global configuration keeps no seed, so `fuzzParams` and `replaySeed` read the run as unseeded, as before.
+- With PLAT_FUZZ_SEED set, the global setup provides nothing and the mock returns the library itself. So **no suite's
+  draws change under a set seed.**
+- `PLAT_FUZZ_SEED` is still read back by `fuzzSeed`, which has moved to `fuzz-seed.mjs` and is re-exported from the
+  setup.
+
+The pinned line:
+
+`fast-check: PLAT_FUZZ_SEED is unset; this run's seed is <S> — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=<S> draws the same cases (Q96, C-0057)`
+
+A family with its own seed replays unseeded, as it did before.
+
+**Pins** (`tools/vitest/fuzz-seed.test.mjs`, 6 tests):
+- the line's text;
+- the choice: fresh only when unset, a 32-bit value, a malformed value refused with the setup's message, and the
+  printed seed reads back unchanged;
+- the hand-in rules;
+- the wrapped module: the same draws as the seed given by hand, for all four runners; every other export is the
+  library's own; the global seed stays unset;
+- the workspace configuration: the global setup is wired, and every package project loads the setup;
+- a **nested vitest run** over `fixtures/run-seed/` (two files, two forked workers):
+  - unset: exactly one line is printed, and both files' unseeded `assert` and `sample` draws equal fast-check's at the
+    printed seed. Their own-seed sample is unchanged, the global seed is `null`, and the runners are wrapped.
+  - re-run with PLAT_FUZZ_SEED set to the printed seed: no line is printed, the draws are identical, the global seed is
+    the printed one, and fast-check is the library itself.
+
+A cross-section of the package projects under the new setup ran at PLAT_FUZZ_RUNS=1000, W=1: **24 files, 245/245**.
+It covered the test kit's `fuzz/seeds`, `oracles/budget` and `budget-arm` (`vi.doMock`, `vi.resetModules`);
+`determinism/permute-control` (`vi.mock`); the kernel's `invariants/debug` (`resetModules`), `hash/lanes`,
+`num/bfuzz`, `tx/restore` and `faces/bent` (`vi.mock`); layout's `infill/planner/determinism` and
+`pipeline/base/guard`; bench's `skeleton/runner` (`node:fs` mock); and the tables' `workLimits` and site's `water`
+folders. Every package suite's draws under an unset seed move from fresh per-run seeds to the printed one: the
+milestone-end whole-suite run is the first to see all of them.
+
+### Self-check, gates and refusals
+
+**Mutants.** The mutants ran in the lane's mirror (`/home/user/maps-scratch/waves/selfcheck-build-M0-s-01-fix-s6`,
+isolation shown), with `--maxWorkers=1 --bail=1` over `tools/landed` and `tools/vitest`. Each file was restored from
+the tree and compared byte for byte. **32 targeted mutants: 30 killed, 2 equivalent.** Three first-pass survivors (L8,
+V3, Q15) were each pinned by a new test and then killed.
+
+| mutant | change | killed by |
+|---|---|---|
+| L1 | `claimantsAt` always `ownersAt` (the old reading) | the giver/receiver tests |
+| L2 | no group with a record → the latest group, not the earliest | "the giver claims its handed-over file …" |
+| L3 | a group claims only when **every** member has a record | the co-owner case of `claimantsAt` |
+| L4 | the landing item not counted as having a record | the receiver's first landing (several) |
+| L5 / L6 | `landedItemsOf` ignores the label / the item-names-its-file check | "landedItemsOf: …" |
+| L7 | folder lines by `ownersAt` | "a folder's index line under a label naming no wave …" |
+| L8 | the `--touched` refusal names `ownersAt`'s owner | "names the claimant of a chain when it refuses a touch …" (new) |
+| L9 | the record reading applied under a wave label too | "claimantsAt: … a wave label as ownersAt …" |
+| L10 / L11 | `mine` by `ownersAt` / an empty record set | the giver/receiver tests |
+| V1 | verify's folder vouching ignores the records | "a folder's index line …" |
+| V2 | the lapse accepts a receiver's entry that does not match the tree | "landed:verify: a giver's entry lapses …" |
+| V3 | the lapse taken even when the record's item is still a claimant | "… keeps a co-owner's stale entry a mismatch" (new) |
+| V4 / V6 | no lapse / the lapse reported as a problem | "landed:verify: a giver's entry lapses …" |
+| V5 | the record set also built under a wave label | **equivalent**: under a wave label `claimantsAt` ignores it, and a record built by `landed` at a wave label lists only what its item owns there, so no lapse can arise |
+| Q1 | the mock never wraps | the nested run |
+| Q2 | the mock wraps without checking PLAT_FUZZ_SEED | **equivalent**: with PLAT_FUZZ_SEED set the global setup provides `null`, so the `typeof … === 'number'` check alone already returns the library |
+| Q3 / Q4 | the line printed twice / no seed provided | the nested run |
+| Q5 | the global seed set when unset (the contract-breaking fix) | the nested run (`globalSeed: null`) |
+| Q6 / Q7 | the hand-in ignores the global seed / the run's own seed | the hand-in test |
+| Q8 | the line's text | the pinned line |
+| Q9 / Q12 / Q13 | no `\| 0` on the chosen seed / on PLAT_FUZZ_SEED; the fresh range unsigned | the choice test |
+| Q10 / Q11 / Q14 | `statistics` / `check` / the named exports left unwrapped | the wrapped-module test |
+| Q15 | `globalSetup` dropped from `vitest.config.ts` | "runs fuzz-seed.global.mjs once per run …" (new) |
+
+**Before-code replay.** The new tests were run over the old sources: `landed.mjs`, `verify.mjs`, the setup and the
+config, with the old reading behind the two new names. They are **red on exactly the 13 behaviour-change tests** (11
+in `landed.test.mjs`, 2 in `fuzz-seed.test.mjs`). They stay green on "a wave label's reading is unchanged" and on the
+pure-part tests.
+
+**Refusals (J264 / N-58).** The refusal sites are unchanged: `landed` 17, `landed:verify` 20 + 2 mismatch sites (a
+mismatch becomes a note only when a landed receiver's matching record has taken the path over), and the setup family 2
+throws (`fuzzRuns`; `fuzzSeed`, now in `fuzz-seed.mjs`). Lawful-input refusals stay **0 → 0**. A malformed
+PLAT_FUZZ_SEED is UNLAWFUL input, refused with the same text as before, now in the global setup as well, which fails
+the run before any worker starts.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-34 | **KI (fails safely in the session's tool).** Under the reading, a giver's record can list a handed-over path whose receiver has not landed. Once the receiver lands and edits it, the giver's entry has lapsed. `landed:verify` reads that as a note, but `tools/flow_stage.mjs` stages a record's files only when the tree still matches, so committing that giver's record afterwards reports "the tree no longer matches". The staging refuses; it never stages a wrong file. | In flow_stage's file loop, skip a path whose claimant under the reading (`claimantsAt(work, f.path, Infinity, LANDED)`) does not include the record's item, as a hand-over, in the same way as `busyOwners`. | session |
+| N-35 | **KI (scope of the evidence).** The setup's `vi.mock` of fast-check reaches every package test file. This round ran a 24-file cross-section and its own nested run, not the whole suite (J193). | The milestone-end whole-suite run confirms it. | M0 end |
+| N-36 | **KI (closing check S6, `check/M0-s-01-close-s6`; a test gap on a contrived input).** `landed:verify`'s lapse (`takenOverBy`, `tools/landed/verify.mjs`) is not pinned to the path's *claimant*: the checker's mutant V8 (drop `claimants.includes(r.item)`) survives `tools/landed` and `tools/vitest`. It differs only on a chain of three or more owners under a wave-less label whose file reverted to a middle owner's recorded state after the last receiver landed (the giver's `--item` check then reads a lapse instead of a mismatch); the whole-tree close attributes the file the same either way, and on any two-owner hand-over the mutant is equivalent. | One case in `landed.test.mjs`: chain G → R → R2 under `flow-N`, R and R2 landed, the file reverted to R's hash — G's `--item` verify stays a mismatch. | M4 |
+| N-37 | **KI (closing check S6; a test tightening).** `freshSeed`'s freshness is unpinned: the checker's mutant Q15 (`freshSeed = () => 42`) survives — the choice test checks only the 32-bit range and the read-back. The code is fresh (`randomInt` over 2³²; five runs of this check printed five different seeds: 736504618, -1824331528, -491848320, 182536329, 1923920166). A constant would freeze every PR run's unseeded fuzzing to one seed: deterministic and replayable, so it fails safely. | In `fuzz-seed.test.mjs`: 64 `freshSeed()` draws are not all equal (or two `chooseRunSeed()` calls differ). | M4 |
+| N-38 | **KI (closing check S6; usability of the replay line).** A red in a family-seeded property (`fuzzParams`, M0-k-01) is replayed by a plain re-run, not by `PLAT_FUZZ_SEED=<the printed seed>`: a set PLAT_FUZZ_SEED replaces every family seed (C-0057's "the replay wins"), so that re-run draws other cases and may go green. The pinned line's "every property without a seed of its own" is accurate, but a reader can misapply it. | Say it in the line or in README's test section: "a property with its own (family) seed replays without PLAT_FUZZ_SEED". A line change re-pins `fuzz-seed.test.mjs`. | M4 |
+| N-39 | **KI (closing check S6; contract between items, M0-k-03).** `replaySeed()` (`testkit/src/oracles/refusal.ts`) still reads only fast-check's global seed, so a refusal recorded in an unset run carries `seed: null` although the run now has a printed seed every unseeded property drew from. It fails safely (null was the value before Q96), but the refusal record does not carry the replay. | M0-k-03's owner (or the session): `replaySeed()` falls back to the injected run seed (`platFuzzRunSeed`) when the global seed is unset; one test in the refusal oracle's folder. | M4 |
+| N-40 | **KI (closing check S6; draw diversity).** Under an unset seed every unseeded run in a vitest run now uses the one run seed, as under a set PLAT_FUZZ_SEED. So two unseeded `fc.sample` calls in one test draw from one stream (e.g. `testkit/test/oracles/report.test.ts:166` and `:173`: the tuples' integer components are correlated), where before each call drew its own fresh seed. Every case is deterministic and replayable, so it fails safely, and diversity across runs is unchanged. | If wanted, a deterministic per-call seed (H32 of the run seed and the call's index) keeps the replay law. Otherwise a sentence in C-0057. | M4 |
+| N-41 | **Equivalent survivors (closing check S6).** V1 (verify's record set also counts declared records): a declared record never carries an item id of `M0-work.json`, because `landed` refuses one and verify flags one, so `claimantsAt` never meets it. Q11 (the mock wraps without checking PLAT_FUZZ_SEED): with PLAT_FUZZ_SEED set the global setup provides `null`, so the `typeof … === 'number'` check alone returns the library. | none | — |

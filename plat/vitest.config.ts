@@ -1,7 +1,8 @@
 // The vitest configuration (C-0053: vitest 5 reads its projects from here).
 // One project per package plus `tools` (the scaffold's and the lint's own tests). Every project resolves the
 // `plat-source` export condition first, so a package imported by name runs from its src/ with no build (C-0013), and
-// loads the fast-check setup (PLAT_FUZZ_RUNS, C-0057).
+// loads the fast-check setup (PLAT_FUZZ_RUNS, C-0057). The run's global setup chooses and prints the run seed when
+// PLAT_FUZZ_SEED is unset (Q96; tools/vitest/fuzz-seed.mjs).
 import { defineConfig, type TestProjectInlineConfiguration } from 'vitest/config';
 import { defaultClientConditions, defaultServerConditions } from 'vite';
 
@@ -23,6 +24,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     passWithNoTests: false,
+    globalSetup: fromConfig(['./tools/vitest/fuzz-seed.global.mjs']),
     projects: [
       pkg('kernel', './packages/kernel'),
       {
