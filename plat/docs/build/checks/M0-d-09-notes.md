@@ -176,3 +176,130 @@ None of these fails the round (J162, N-45): each is a fail-safe observation or a
     * `Atomics.wait` throws on a browser's main thread, so the fixture serves the Node legs only. The test asks for
       one Node leg.
     * Suggested handling (M4): widen the budget margin, or retry the un-dilated read once before the run is judged.
+
+## Hardening round S2 (lane `build/M0-d-09-fix-s2`, flow-7, 2026-10-30; the session's fix round on queue row Q124, J601, J615, J637; J183, J263 Q1, Q6, J264, J290 / N-58; choices C-0451) — the builder's row-by-row outcome
+
+One row: **Q124** (`docs/M0-FIX-QUEUE.md`). The address hand-on gives one old id to two fresh entities, undetected.
+The declared red was `bench/test/determinism/pair.test.ts:86` on the design tree. The edits stay inside the item's
+owns: `bench/src/determinism/rederive.ts` (`mintAddresses`, `duplicateIds`, `silentRebinds`, `matchPair`'s `minted`)
+and `bench/test/determinism/pair.test.ts`. No index or barrel export was added, removed or renamed (J263 Q1):
+`bench/src/determinism/index.ts` is unchanged. `@plat/model`'s `match` was read and not edited.
+
+**The reproduction (first, as the brief asks).** The lane's mirror held the tree before this round. In it,
+`corepack pnpm exec vitest run --maxWorkers=1 bench/test/determinism/pair.test.ts` gave 8 of 9 green and exit 1, with
+the one red at `pair.test.ts:86:40`: `junction:6nymg6w713p26: expected true to be false`. A mirror-only probe of the
+seed-1 site pair (test frame) gave:
+
+| old address (S8) | successor (by point) | distance / radius | the fresh entity whose natural address it is | its final address |
+|---|---|---|---|---|
+| `junction:6nymg6w713p26` at (5574, 19624) | `junction:3ab8743sbjpay` at (5584, 19550) | 74.7 cm / 1 m | `junction:6nymg6w713p26`: the same lineage `[236050502, 1794805815]`, at (4132, 14862), outcome `fresh` | `junction:6nymg6w713p26~1` |
+| `block:2skgtzs7hxr50` at (6570, 16693) | `block:cmps09px73p0z` at (6637, 16672) | 70.2 cm / 2 m | `block:2skgtzs7hxr50`: the same lineage `[1327423648, 751704830]`, at (2677, 18712), outcome `fresh` | `block:2skgtzs7hxr50~1` |
+
+The pair's counters before the round read `duplicateIds` 0, `silentRebinds` 0 and `suffixed` 24.
+
+**Which it was: neither the matcher nor the mint's output.**
+* **The matcher.** Both successions follow §6.3's anchor rule as written: "the fresh entity … whose anchor lies
+  nearest within the kind's hysteresis radius succeeds it". So **no defect of `match` (M0-d-05b) is reported**. The
+  natural holder has the old entity's lineage because S8 keys it by the same creation index. §6.3 says "the entities
+  the batch itself replaces are not collisions". Its anchor is about 50 m away, so the routine rightly leaves it `fresh`.
+* **The mint.** Before the round, the mint already gave each natural holder `~1`, by §6.3's one collision rule ("A
+  fresh entity whose natural address equals a live address, a tombstone, or an address its own batch retires takes the
+  suffix `~k`"). So the final addresses held each address once. The counters' 0 was C-0274's count, after the mint.
+* **The test.** The red came from the test's held-set clause, which read the routine's raw `addressOf`. The routine
+  gives a natural holder its own id there, before the mint. The clause had been green at seed 1 only because no `~k`
+  case arose there until c-02 S5 shifted S8's output (C-0274 had met the case at fusion seed 6 and site seed 4).
+
+**The two readings of the row's "never to a successor when a fresh entity minted it":**
+* **Taken.** The mint never lets one address go both to a successor and to a fresh entity that mints it, whichever
+  sorts first.
+* **Not taken.** The natural holder keeps the old id and the anchor's successor loses it. That contradicts §6.3's
+  carry-over and its collision rule, and it would override `match`'s succession (a contract between items, rule (3)).
+  If the session wants that reading, it is a ruling on §6.3, not this round's.
+
+**The pin passes on this tree with the guard alone.** No change to the matcher was needed.
+
+| row | outcome | what changed | pin (test title) | mutants killed |
+|---|---|---|---|---|
+| Q124 (the hand-on's uniqueness) | **fixed** (guard) | `mintAddresses` hands an address on only when the address's old entity has a `succeed` outcome naming that fresh entity, of its kind (`lawfulHandOn`). It reserves every such address before it mints a natural one. A hand-on that no outcome backs is refused: the entity is listed in the new `MintedAddresses.refused` and minted as fresh. So no address is held twice, for any hand-on. | `pair.test.ts` "the hand-on's uniqueness (hardening S2, Q124)" › "a planted succession that hands a held id is refused, minted fresh and counted: a survivor's, another successor's, a fresh entity's own", and "the final addresses are held once for any planted hand-on, and every refusal is counted (fast-check)" | B |
+| Q124 (the counters count the case) | **fixed** | `duplicateIds` adds the refused hand-ons. `silentRebinds` gains an optional `minted` parameter (default: the mint) and checks the final addresses. It counts a successor not at its handed-on address, a fresh entity at an old address it was not handed, a refused hand-on of an address another entity holds, and a kept reference whose successor ends elsewhere. | the same tests, and "a succession handing a natural holder's address: the successor keeps it, the holder takes ~k, whichever sorts first (§6.3)": the routine's raw addresses as the mint's output count 1 duplicate and 1 silent re-bind, and a mint that loses the hand-on counts 1 silent re-bind | C, D, E, F, G |
+| Q124 (pair.test.ts:86, the declared red) | **fixed** (the clause reads the final addresses, C-0274) | The held-set clause reads `r.minted.addressOf` and asserts `r.minted.refused` empty. Wherever a succession hands a fresh entity's natural address to another, the successor ends at that address and the natural holder at `<id>~k`. | `pair.test.ts` "every S1 and S4 entity survives identically; the S5 / S6 / S8 entities match per kind with 0 duplicate ids and 0 silent re-binds" (the seed-1 pair itself) | A |
+
+**Mutant table** (J183: the faults Q124 names, re-introduced in the lane's one scratch mirror,
+`/home/user/maps-scratch/waves/selfcheck-build-M0-d-09-fix-s2/plat`).
+* **Isolation:** proven first. No link resolved into `/home/user/maps-architecture`, and `realpath` of
+  `bench/node_modules/@plat/model` lay inside the mirror.
+* **The run:** each mutant ran
+  `corepack pnpm exec vitest run --maxWorkers=1 --bail=1 bench/test/determinism`. After each, `rederive.ts` was restored
+  by copy and checked with `cmp -s`.
+* **The result: 7 mutants, 7 killed.** The line numbers are those of the run, before G's pin added four lines.
+
+| mutant | the fault (`rederive.ts`) | killed by | exit |
+|---|---|---|---|
+| A | Q124's fault: a natural holder keeps an address a succession hands to another (`taken` starts empty and no hand-on is reserved) | the seed-1 pair: `r.duplicateIds` 2 at `pair.test.ts:77` (the two successions above) | 1 |
+| B | an unbacked hand-on kept as handed (`lawfulHandOn` returns `handedOn`) | the planted pin: `refused` `[]` for "a survivor's address" (:316) | 1 |
+| C | `duplicateIds` blind to the refused hand-ons (`let n = 0`) | the counters' test from before the round, "count a duplicate address and every kind of silent re-bind" (:259, a survivor's address handed on) | 1 |
+| D | `silentRebinds` on the routine's addresses only (the pre-round counter) | the natural-holder pin: the raw map counts 0, not 1 (:303) | 1 |
+| E | `silentRebinds` blind to a refused hand-on of a held id | the planted pin: "a survivor's address" counts 0, not 1 (:322) | 1 |
+| F | `silentRebinds` blind to a fresh entity ending at an old address not handed to it | the natural-holder pin (:303) | 1 |
+| G | `silentRebinds` blind to a successor that does not end at its handed-on address after the mint | the first run SURVIVED (9 files, 60/60, exit 0), because no test passed a mint that loses a hand-on. A pin was added (the "lost" mint in the natural-holder test), and the re-run killed G at :307 | 1 |
+
+One mutant was not run. Removing the canonical-order rebuild of the `addressOf` map is equivalent: no consumer reads the
+map's order, and `toEqual` on a Map ignores it.
+
+**Refusals (J264, N-58).** The item's registered family is the spike city its tests derive: the test frame (400 ha,
+12 ha walled), seeds 1 – 4, both spikes, each as the old run and as the `{ S5: 1 }` re-derivation. That is 16 runs.
+* **Refused 0 before** (the pristine mirror, probe `zz-census.test.ts`, mirror only) **and 0 after** (the same probe on
+  the round's sources). The count did not rise, and no refusal was seen, so nothing has a verdict to class.
+* The pairs' counters were equal before and after: `duplicateIds` 0 and `silentRebinds` 0 at all eight pairs;
+  `suffixed` 24 (site 1), 81 (site 4) and 0 at the others; refused hand-ons 0.
+* The site pair re-drew at seeds 1 and 4, and the other six pairs re-drew nothing (note 11's observation, unchanged).
+
+**Behaviour and formats (no declared shift).** On the matcher's real output every hand-on is lawful, so the final
+addresses and every count are unchanged. No digest, golden, stage root, report field, summary field or terminal line
+moved, and no message text changed. The additions are:
+* `MintedAddresses.refused` (a field of an exported type);
+* `silentRebinds`'s optional fourth parameter;
+* `minted` on `matchPair`'s result, beside `result` (not in `PairResult`, which the report reads).
+
+**Q124's declared red lifts at this landing.** `pair.test.ts` is green on the tree: 12 tests (G's pin sits inside the
+natural-holder test), and the folder `bench/test/determinism` gives 9 files, 60/60.
+
+**Gates** (2026-10-30, W = 1 from `tools/test_budget.py`):
+* install --frozen-lockfile 0; lint 0 (`lint: probe-red ok`; eslint 1257 files, 0 errors, 0 warnings); build 0;
+* NEAR `bench/test/determinism`: 9 files, 60/60, exit 0;
+* RELATED@1000 over `bench/src/determinism/rederive.ts` (PLAT_FUZZ_RUNS=1000): 13 files, 118/118, exit 0;
+* `landed:verify -- flow-7 --item M0-d-09`: ok.
+
+The brief's opening gate (the design branch at 5e32b503 or later) could not be confirmed without git. The local
+`main` and `FETCH_HEAD` name 90a8d0fe, and the declared red reproduced exactly as Q124 describes it.
+
+## Closing check of hardening round S2 (lane `check/M0-d-09-close-s2`, flow-7, 2026-10-30)
+
+None of these fails the round (J162, N-45). Each is a fail-safe observation, a further hardening test, or a process
+note. The verdict is `checks/M0-d-09-s2.md`, and the logs are in `/home/user/maps-scratch/waves/check-M0-d-09/`.
+
+The round's opening gate is confirmed. The GitHub API's commit list names 5e32b50e74 as the parent of the tree's base
+90a8d0fe.
+
+14. **`lawfulHandOn`'s kind check has no pin (checker mutant K4 survives) (M4).**
+    * Dropping `o.kind === f.kind` stays green on `pair.test.ts` and on the whole RELATED set.
+    * The case is reachable only through a planted `MatchResult` whose `succeed` outcome names a fresh entity of
+      another kind. `match` pairs within one kind, so its real output never does this.
+    * Uniqueness holds under the mutant: one old id has one outcome, and that outcome names one fresh entity. So Q124's
+      promise is untouched. Only the doc comment's extra clause ("or one of another kind") goes unpinned.
+    * Suggested handling (M4): add a planted cross-kind `succeed` outcome to the planted pin, and expect it in
+      `refused`.
+15. **`silentRebinds`'s kept-reference check on the minted map is count-only (checker mutant K13 survives) (M4).**
+    * Reading only the raw map in the kept-reference line leaves every test green.
+    * A kept reference's `fresh` is its `succeed` outcome's, so the succession line already counts the same case. The
+      counter stays non-zero and the gate (`=== 0`) is unchanged.
+    * Suggested handling (M4): pin the exact count with a mint that loses a hand-on plus a kept reference, or drop
+      the redundant clause.
+16. **The author's CLEAN-ROOM row L-0706 discloses one non-recursive `ls` of the project root and one of `docs/`
+    (top-level names only).** This is for the session.
+    * The firewall says "never a recursive search, find, du or ls from the project root or from docs/". The seat read
+      it as covering any `ls`, and disclosed the two listings.
+    * Per the row, no listed file or folder outside the brief's was opened. So no forbidden material was read, and this
+      checker does not count it as a breach of rule 1's reading list.
+    * Suggested handling: the session rules whether a top-level name listing is within the firewall's wording, and
+      re-states the rule in the next briefs if it is not.
