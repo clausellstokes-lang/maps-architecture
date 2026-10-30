@@ -26,7 +26,6 @@ backups/
 .claude/*
 # shared harness settings (J177: the workflow concurrent-agent gate) travel with the repository
 !.claude/settings.json
-!.claude/hooks/
 .DS_Store
 **/.DS_Store
 *.lock

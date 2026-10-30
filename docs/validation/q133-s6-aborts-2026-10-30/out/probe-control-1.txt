@@ -1,0 +1,10 @@
+== seed 1 (head-96c17417): S5's last boundary k=3, 662 points, area 249.96 ha; offset d = 5000 cm; attractCm 26, minEdge 25; SUM_TOL 5, OVERLAY_TOL 104
+  settlementPerimeter (offline, no arena): ok, 1575 points  [87 ms]
+  mergeCollinear: 662 → 662 points
+  fast ring 1 (miter, unloop): 1575 pts, simpleCcw true, isSumRing(5 cm) true
+  fast ring 2 (onSegments, unloop): 1575 pts, simpleCcw true, isSumRing(5 cm) true
+  boundary necks under 2d = 10000 cm: vertices 151 (87858, 32985) and 159 (88758, 36136) (8 apart along the ring): 2498 cm; vertices 258 (15660, 96938) and 266 (12649, 96885) (8 apart along the ring): 2501 cm; vertices 375 (-73474, 57396) and 383 (-75603, 54053) (8 apart along the ring): 3235 cm; vertices 106 (84094, 3844) and 114 (84005, 7671) (8 apart along the ring): 3275 cm; vertices 336 (-41763, 79138) and 344 (-45957, 78084) (8 apart along the ring): 3553 cm
+  overlay: booleans('union', [boundary], [full convolution 3397 pts], 'nonzero'): ok, 3 rings; warnings {"W_ATTRACTED":1,"W_STRETCH_SHARED":1,"W_ACUTE_CORNER":1,"W_PLACED":1,"W_WEDGE_ROUTED":1}  [5619 ms]
+      overlay outer ring: 1687 pts, simpleCcw true, isSumRing(104 cm) true
+      why: passes
+  settlementPerimeterByBuffer (the buffer reference form): ok, 1634 pts, simpleCcw true, isSumRing(104) true  [11294 ms]

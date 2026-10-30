@@ -1,0 +1,103 @@
+{
+  "seed": 74,
+  "kind": "integrated",
+  "tree": "head-96c17417",
+  "plat": "/home/user/maps-architecture/plat",
+  "throughS6": false,
+  "wallMs": 173061,
+  "order": [
+    "S1",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S8"
+  ],
+  "invocations": {
+    "S1": 1,
+    "S3": 1,
+    "S4": 1,
+    "S5": 1,
+    "S6": 1,
+    "S8": 1
+  },
+  "stampsMs": {
+    "S1": 236,
+    "S3": 3434,
+    "S4": 645,
+    "S5": 6673,
+    "S6": 968,
+    "S8": 161056
+  },
+  "bugs": [],
+  "bugsAsRecord": [],
+  "refusals": {},
+  "s6Outcome": {
+    "ok": true,
+    "districts": 34,
+    "perimeterPoints": 1638,
+    "landHa": 258.32788024
+  },
+  "s6Report": {
+    "name": "S6",
+    "work": {
+      "grower.turns": 0,
+      "insert.attractQueries": 0,
+      "insert.crossings": 0,
+      "insert.placementCandidates": 0,
+      "insert.points": 0,
+      "tx.facesWalked": 0
+    },
+    "attempts": 0,
+    "warnings": {},
+    "ladderUses": [],
+    "invariants": []
+  },
+  "kernel": {
+    "engine": "plat-arrangement@1",
+    "warnings": {
+      "W_ACUTE_CORNER": 1,
+      "W_ATTRACTED": 10,
+      "W_STRETCH_SHARED": 4220
+    },
+    "downgrades": 0,
+    "workLimitHits": 0
+  },
+  "unplaced": 0,
+  "districts": 34,
+  "rootS5": "4aae7e880b3a11f83ac30b0e09c17a3d",
+  "root": "dbd9b134ad73333df01e1b47c75c97db",
+  "stageRoots": {
+    "S1": "07b06aba63f5e0b62d0fab33a7685704",
+    "S3": "32c63af74f791f8ce28cb9ec45c82098",
+    "S4": "8ceb6e12e0a243ff8a91993eb0e53179",
+    "S5": "4aae7e880b3a11f83ac30b0e09c17a3d",
+    "S6": "76a2621c847b1e25b7be46fb8e4d7d00",
+    "S8": "dbd9b134ad73333df01e1b47c75c97db"
+  },
+  "chunk": {
+    "file": "chunk-0073-0002.json.gz",
+    "bugs": [],
+    "rootS5": "b51cfa08f5037a77de00aedc48802226",
+    "root": "68d61b4f05a6c81da57aa787f953817d",
+    "order": [
+      "S1",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S8"
+    ],
+    "stampsMs": {
+      "S1": 451.600289,
+      "S3": 5072.784831,
+      "S4": 910.3580090000005,
+      "S5": 10572.543999999998,
+      "S6": 1580.0369800000008,
+      "S8": 206095.573717
+    },
+    "rootS5Equal": false,
+    "rootEqual": false,
+    "bugsEqual": true
+  }
+}
