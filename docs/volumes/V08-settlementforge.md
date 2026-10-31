@@ -326,6 +326,7 @@ surfaces and the players' view (W80–W88), the plan and testing (W89–W94), Fi
 | W99 | the final local check's brief (item 125 (d); 3.16 (9)) | this volume | the program's final step — its table of matches, mismatches and fixes; SF0's census; release row R9 at a new line | — |
 | W100 | the frame's minimum size; no map on a phone (item 126; 3.1, 3.16 (10)) | `@plat/bridge-client`'s `mount` and `mountParty`; SettlementForge's own device rule | the frame and the party viewer at no less than 600 × 480 CSS px, the tab scrolling; V09's medium layout inside the frame; T-V8-62 | V09 §4.12; item 126 (a2) |
 | W101 | the host's view commands — `MapSession.setView` (`view.set { week }`, `view.set { select }`) and `MapSession.setLayer` (a logged `setLayer` by `doc.apply`, author `host`) (item 125 (c); 3.16 (4), (6) (g); the client, 2.2) | the host page, in an owner's or editor's frame | the frame's view — §2.9's `week` and the selection — and the document's style state, `LayerSpec.visible` through §7.1's `setLayer` (§8.4); T-V8-61 (b) | §11.3's view commands; §7.1 `setLayer` |
+| W102 | `cultureShares` — the population's culture ratio per epoch (§4.14 (10); §2.6) | the host's population data (the owner's side) | V06 §3.19b's three channels and two thresholds; never generation | §4.14 (10); Q136 (J668) |
 
 **The dossier trace.** Every SettlementForge path the port reads, the `DossierDigest` field it fills, the derivation
 row it feeds and the fallback it takes where the dossier lacks it — or `ignored` with §7.7 item 1's reason — is V08 §2.4's
@@ -954,6 +955,11 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
 * **`cultures`** (`site.culture` → DR29's latitude, degrees north): `germanic` 51, `latin` 43 (`mediterranean` an alias),
   `celtic` 54, `arabic` 30, `norse` 62, `slavic` 54, `east_asian` 35, `mesoamerican` 19, `south_asian` 23, `steppe` 47,
   `greek` 38, `mixed` 50; else 50. Each culture's centre of gravity, rounded (J-V8.26).
+* **`cultureShares`** (`site.cultureShares`, per epoch; §4.14 (10); Q136; J668): the population's culture RATIO the host
+  holds — `{ [culture: CultureKey]: share }` summing to 1, the dominant first — read by V06 §3.19b at each epoch for its
+  three integration channels (new building, new ground, renovation) and never at generation: a settlement is generated in
+  `site.culture` alone (born homogeneous). A dossier without the row → the founding culture at 1 (no mix). The host writes
+  it from its own population data (the owner's side); a change is a staged record like the others (§2.5).
 * **`categories`** (SF grouping → the generic class family DR24 falls back to): `Adventuring` → adventuring; `Crafts` →
   craft; `Criminal` → criminal; `Defense` → garrison; `Economy` → trade; `Entertainment` → entertainment; `Exotic` →
   exotic; `Government` → civic-authority; `Infrastructure` → infrastructure; `Magic` → arcane; `Religious` → worship;

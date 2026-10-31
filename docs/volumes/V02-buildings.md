@@ -2435,6 +2435,26 @@ supplies the one tier construction, so a ruin's tiers and a living temple's nest
   an ordinary land building (V02 §3.16 (2)); the fixture's own bars are V12's (X25). Because the fixture stands at M3a, the tier construction
   and the deck buildings ship with the base outline builder there (V02 §8.5; item 229).
 
+### 3.17b The culture exterior profile — read after class and band (§4.14 (8); Q136; J668)
+
+A building's culture key is its household's or its institution's (§4.14 (10): the founding culture at generation, the
+household's after V06's mix), and V11 §3.25b's `CultureExteriorRow` for that key is read by §3.2's resolution chain
+AFTER the class row and the band, so the footprint, the storey count, the plot and every count law are what they were:
+(a) its `familyWeights` multiply the class row's massing-family weights within the class's family set (§3.3; never a
+family outside the set, never `stepped` except through §3.15's specialisations); (b) its `roof` row sets §5.2's
+roofscape — the pitch band, the form weights, the eaves depth and the gable's orientation to the street; (c) its
+`facade` row sets §3.7's bays — the bay ratio, the ground floor's blind share, the jetty, oriel, loggia, arcade, balcony,
+screen and external-stair shares; (d) it names NO material: the material row stays V11 §3.19's by era and region (the
+owner's rule of 2026-09-26, T-V2-25, and its converse — a culture never selects a material, J662); its `palette` is a
+finish on whatever the region gives, read by §5.3's style rows; (e) its `ornament` keys are decoration instances on
+§8.10's pattern at the treads stop, derived and unstored (§2.9's size test holds); (f) its `signals` are §3.15's
+specialisations for the culture's worship and civic classes (V11 §3.24.3 widened). *Renovation (§4.14 (10) (c)):* a
+household's change of culture re-derives (b), (c), (e) and the interior; the massing stands until a rebuild. *Bars:*
+T-V2-25 (materials never massing) and its converse; the cells-only bar (§4.14 (1)) at the building — two cultures' rows
+held equal give byte-identical buildings; the envelope bar — two cultures' buildings of one seed and class differ above
+a floor in (b)–(c), two seeds of one culture stay inside its envelope; V12 §3.11's per-culture rows calibrate the pitch
+band, the opening rhythm and the arcade and jetty shares against reference plans (measurements, never drawings).
+
 ### 3.18 Edges — every mechanism at its limits (principle (11))
 
 Every mechanism of V02 §2–§5 has a defined outcome at the limits of its inputs, a rung on §5's failure ladder (check,

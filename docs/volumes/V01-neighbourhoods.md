@@ -1193,6 +1193,13 @@ than four portals). In a sky unit run the landings' attach vertices and the deck
 only portals — template portals of kind `landing` and `bridge` (V01 §3.10.3 (4)), never counted in
 `SeamReport.portalsTotal` (V01 §3.11 (6)).
 
+**The urban grammars as town-scale templates (§4.14 (4), (13); Q136; J668).** At M5 the template machine above also
+hosts the culture layer's grammars and core templates: a `CoreTemplateRow` (V11 §3.25b) is a town-scale template whose
+cells are the central pieces about their open space, laid at S3 as a claim; a `CultureLayoutRow`'s grammar (`street`,
+`grid`, `field`, `camp`) is a declared set of stage modes and cells the fabric selection reads before the district
+templates — the `field` grammar's placement mode and the `camp` grammar's rings are template-side procedures of this
+volume, the rest cell values. The four NG templates and the seven compositions stay the `street` grammar's.
+
 ### 3.5 S9b Block dispatch — ordinary, manor, square, green and yard blocks
 
 #### 3.5.1 The step

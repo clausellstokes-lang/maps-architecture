@@ -513,6 +513,11 @@ The `cultureForms` rows multiply the form weights by the dossier's culture profi
 `green`, `latin` and `greek` × 2 on `nucleated`, others 1 — our own reading of regional village forms (own, calibrated at
 the corpus stage; J-V7.6).
 
+*The culture layer (§4.14; J668).* The `cultureForms` factors are the RURAL reading of §4.14 (4)'s four grammars: where
+V11 §3.25b's `CultureLayoutRow` exists for a culture, these factors are derived from it (`field` and `camp` cultures raise
+`dispersed`, `grid` and `street` cultures raise `nucleated`, `street` or `green` by their S5 and S6 cells), and until then the
+rows above stand; the village never reads the exterior profile's materials ((8) (d): the resources decide).
+
 ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)
 
 Item 23 and DEFINITION §5 ("Rules are data"): no rule constant of V07 §3 stands in prose alone. Each is a cell of

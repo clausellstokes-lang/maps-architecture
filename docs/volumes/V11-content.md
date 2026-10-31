@@ -4767,6 +4767,72 @@ that cannot snow has no snow.
 * **Off** — no switch here: V09's **Weather effects** switch (device state; off by default on the low tier and under
   reduced motion) turns the layer off, and the parity presets draw no spell.
 
+### 3.25b The culture layer's rows — `CultureSitingRow`, `CoreTemplateRow`, `CultureLayoutRow`, `WayClassRow`, `CultureExteriorRow` (§4.14; Q136; J668)
+
+The culture layer of §4.14 speaks only through rows of this volume and the cells they value; no law reads the culture.
+One row of each kind per culture key of V08 §2.6's `cultures` row (`mixed` is a weighted blend of its `cultureShares`,
+§4.14 (10)); every cell carries provenance and the calibration register like §2.4's; the first reading of every row is
+§4.14 (11)'s table (provenance `own`, calibrated at M-CAL). Registry rows (§3.1): `culture.siting`, `culture.core`,
+`culture.layout`, `culture.ways`, `culture.exterior`; readers: S3 (siting, the core claim), S4–S10 (the layout row and
+the way-class table, as cells), V02's composition chain (the exterior row), V06 (the mix by time, V06 §3.19b), V07 §2.4
+(`cultureForms` is the rural reading of the same grammars), V10's why, V12's register.
+
+```ts
+type CultureKey = 'germanic'|'latin'|'greek'|'celtic'|'norse'|'slavic'|'arabic'|'east_asian'|'south_asian'|'mesoamerican'|'steppe'|'mixed';
+interface CultureSitingRow {            // §4.14 (2): weights on S3's admitted candidates, never a new admission
+  culture: CultureKey;
+  water: Partial<Record<'river_bank'|'crossing'|'harbour'|'lake_shore'|'spring'|'well_or_cenote'|'tank', number>>;
+  ground: Partial<Record<'plain'|'gentle_slope'|'hill_flank'|'hilltop'|'bluff'|'island'|'shore_terrace', number>>;
+  citadel: 'centre'|'edge_high'|'none';
+  axis: 'free'|'cardinal_south'|'cardinal_sunrise'|'shore_parallel'|'river_parallel';
+  nucleiSeparation: number;              // a factor on §4.2 S3 (6)'s floor
+}
+interface CoreTemplateRow {              // §4.14 (3): the central pieces about their open space; laid as a claim at S3
+  culture: CultureKey;
+  kind: 'market_square'|'market_street'|'piazza_on_grid'|'agora'|'citadel_above_town'|'mosque_souk_citadel'|'axial_precinct'|'temple_and_tank'|'precinct_of_plazas'|'great_tent'|'spine';
+  openSpace: { kind: 'square'|'green'|'plaza'|'maidan'|'tank'|'street'; areaLaw: PLaw /* by rung */ };
+  anchors: { classKey: string /* §3.5's ladder */; place: 'head'|'flank'|'edge'|'within'|'above' }[];
+  axis: boolean;                          // oriented by CultureSitingRow.axis
+  enclosure: 'none'|'town_wall'|'precinct_wall'|'ward_walls';
+  market: 'open'|'covered'|'hall'|'bazaar_street'|'ward_market';
+  terrace: boolean;                       // §4.14 (6) (b)'s operator levels the core (F-TERRACE)
+}
+interface CultureLayoutRow {             // §4.14 (4): a grammar and the stages' cell values; the laws untouched
+  culture: CultureKey;
+  grammar: 'street'|'grid'|'field'|'camp';
+  s4: { organic: number; radial: number; grid: number; causeway: number };          // S4's grammar weights
+  s5: { growth: 'ring'|'polyfocal'|'ward_fill'|'camp_ring'; blockDepthM: PLaw; culDeSacShare: number; compoundWallShare: number };
+  s6: { district: 'ring_quarters'|'walled_wards'|'plaza_barrios'|'trade_quarters'|'camp_rings' };
+  s8: { cut: 'bent'|'grid'|'courtyard_block'|'placement' };
+  s10: { aspect: [number, number]; setbackCm: Cm; placement?: { platformM: PLaw; patioM: PLaw; infieldShare: number } };
+}
+interface WayClassRow {                  // §4.14 (5): the designation of the streets; `WayClass` itself unchanged
+  culture: CultureKey; class: WayClass;
+  widthCm: [Cm, Cm]; sinuosity: number;  // the straightness cap
+  section: 'level'|'raised'|'sunken'|'stair'|'covered';
+  deadEnd: boolean; gateRule: 'none'|'wall_gate'|'quarter_gate'|'ward_gate';
+  depth: number;                          // the class's rank in the culture's hierarchy, 0 the thoroughfare
+}
+interface CultureExteriorRow {           // §4.14 (8): read by V02's chain after class and band (V02 §3.17b)
+  culture: CultureKey;
+  familyWeights: Partial<Record<MassingFamily, number>>;     // multipliers within the class's family set
+  roof: { pitchDeg: [number, number]; forms: Partial<Record<'gable'|'hip'|'half_hip'|'flat_parapet'|'tiered'|'turf', number>>; eavesCm: Cm; gableToStreet: number };
+  facade: { bayRatio: [number, number]; blindGroundShare: number; jetty: number; oriel: number; loggia: number; arcade: number; balcony: number; screen: number; externalStair: number };
+  palette: string;                        // a finish palette on the region's material — never a material (J662)
+  ornament: string[];                     // decoration-instance keys (§8.10), culture × class × band
+  signals: { classKey: string; specialisation: string }[];   // §3.24.3's table widened to every culture
+}
+```
+
+*Compile bars (§3.2's form):* exactly one row of each kind per `CultureKey` but `mixed` (which has none and blends);
+`WayClassRow.widthCm` bands non-increasing with `depth`; a `deadEnd` class only at `depth ≥ 1`; `section: covered` only on
+classes a building may bridge (V02 §3.16), `section: stair` only where S1's slope allows; every `anchors[].classKey` a
+class of §3.5; `CultureLayoutRow.s8.cut === 'placement'` only with `s10.placement` present and only under `grammar: 'field'`
+or `'camp'`. *Compatibility:* the `cultureForms` factors of V07 §2.4 are derived from `CultureLayoutRow` where both
+exist (the village forms are the rural reading of the grammars); until then V07's rows stand. *Tests:* §4.14 (1)'s
+cells-only bar (T-V11 culture 1), the compile bars above (T-V11 culture 2), and §3.24.3's specialisation table widened
+to every culture with a row per `signals[]` entry (T-V11 culture 3; the European cultures keep their 0 for tiers).
+
 ### 3.26 Edges and combinations
 
 Every mechanism this volume owns has a defined outcome at the extremes of its inputs, a rung on §5's ladder (check, repair
