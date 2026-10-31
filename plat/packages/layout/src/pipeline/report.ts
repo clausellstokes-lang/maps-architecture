@@ -10,13 +10,19 @@
 //   key's components; the report renders the textual key, §6.1), its evaluations of declared stage-scope and soft rows,
 //   requested features (§5.1 (7)), auto-resolved parameters, unserved and unplaced entities and bug aborts (§5.1 (8)).
 //   The runner writes the batch side itself: work per counter, kernel warnings, downgrades and work-limit hits from
-//   each commit, the batch-scope hard rows' evaluations, and a bug entry for a stage whose run is refused (C-0224 (5)).
-//   A declared stage-end row the stage never reported is such a refusal, `E_INVARIANT` ('row <name> declared but never
-//   evaluated'), the stage rolled back whole, and the row's line reads pass false with count 0 — the one line a
-//   never-evaluated row can show (C-0316 (1)–(4); §5.3, §5.4).
+//   each commit, the batch-scope hard rows' evaluations (counted only where the batch tells the row's verdict, C-0454),
+//   and a bug entry for a stage whose run is refused (C-0224 (5)). A declared stage-end row the stage never reported, of a
+//   stage that reached its end (C-0316 (4): its run returned ok and it produced something — an output written or a
+//   commit on an arena), is such a refusal, `E_INVARIANT` ('row <name> declared but never evaluated'), the stage rolled
+//   back whole, and the row's line reads pass false with count 0 — the one line a never-evaluated row can show (C-0316
+//   (1)–(4); §5.3, §5.4); so is a declared batch-scope soft row the stage never reported once a batch of it committed
+//   through the batch door (C-0454).
 // * Stage names in the report are the stage-id registry's textual names (`S5`), as the textual stream key spells them
 //   (C-0224 (3)). Every record keyed by a name (`work`, `warnings`, `kernel.warnings`) is written in name order (the
-//   kernel's `compareKeys`), so two derivations of one input give equal reports field for field.
+//   kernel's `compareKeys`), so two derivations of one input give equal reports field for field. The records are plain
+//   objects, so they enumerate in JavaScript's key order: an integer-like name (`'9'`, `'10'`) comes first, in numeric
+//   order, then the other names in `compareKeys` order — still one order for every insertion order (no M0 code or counter
+//   is integer-like; C-0454).
 import { compareKeys, ENGINE_ID, keyText, stageText, type ConcernId, type Handle, type Id, type Invariant, type StageId, type StreamOpts, type Warning } from '@plat/kernel';
 import type { Rung, Seed } from '@plat/model';
 
@@ -263,6 +269,9 @@ export class ReportBuilder {
         countUp(s.warnings, code, count);
       },
       ladderUse: (use: LadderUseInput): void => {
+        if (!(Number.isInteger(use.tier) && use.tier >= 2 && use.tier <= 6)) {
+          throw new RangeError(`report: stage ${s.name}'s ladder use (${use.cause}, rung ${String(use.rung)}) is at tier ${String(use.tier)}: §5.4 records ladder uses from tier 2 up`);
+        }
         const { id, key } = keyOf(use.entity, use.concern, use.opts);
         s.ladderUses.push(use.code === undefined
           ? { cause: use.cause, rung: use.rung, tier: use.tier, entity: id, key }
@@ -303,13 +312,16 @@ export class ReportBuilder {
   }
 
   /**
-   * The declared stage-end rows (§5.3's `stage` scope, hard or soft) the stage has not reported yet, in declaration
-   * order: what the runner's stage-end guard reads when the stage reaches its end (C-0316 (2), (3); §5.3). Batch-scope
-   * rows are evaluated per batch (none on a stage that ran no batch) and save, load and CI rows outside a derivation, so
-   * neither is a stage-end row.
+   * The declared rows the stage has not reported yet that its end requires, in declaration order: what the runner's
+   * stage-end guard reads when the stage reaches its end (C-0316 (2), (3), refined by C-0454; §5.3) — every stage-end row
+   * (§5.3's `stage` scope, hard or soft), and, when `committed` (a batch of the stage committed through the batch door),
+   * every batch-scope soft row, which the stage evaluates per batch. Batch-scope hard rows are the transaction's
+   * (`expect`), and save, load and CI rows are evaluated outside a derivation, so none of them is required here.
    */
-  unevaluated(s: StageState): string[] {
-    return s.rows.filter((r) => r.row.scope === 'stage' && r.evaluations === 0).map((r) => r.row.name);
+  unevaluated(s: StageState, committed = false): string[] {
+    return s.rows
+      .filter((r) => r.evaluations === 0 && (r.row.scope === 'stage' || (committed && r.row.scope === 'batch' && r.row.class === 'soft')))
+      .map((r) => r.row.name);
   }
 
   /**

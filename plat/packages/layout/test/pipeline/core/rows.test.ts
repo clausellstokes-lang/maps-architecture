@@ -1,11 +1,12 @@
-// The runner's stage-end guard (M0-x-02; §5.3, §5.4; C-0316 (1)–(5): a declared stage-end row that no code evaluated
-// never reads as a pass with count 0). A stage that reaches its end — its run returns ok and it wrote an output or
-// committed on an arena — must have reported every declared row of §5.3's `stage` scope through its sink at least once;
-// otherwise the stage is refused E_INVARIANT 'row <name> declared but never evaluated', rolled back whole as any
-// refusal (C-0295), with one bug entry and the row's line pass false with count 0. A stage that met missing inputs and
-// produced nothing has no stage end to check; batch, save, load and CI rows are not stage-end rows; a stage already
+// The runner's stage-end guard (M0-x-02; §5.3, §5.4; C-0316 (1)–(5), the rows refined by C-0454: a declared row that no
+// code evaluated never reads as a pass with count 0). A stage that reaches its end — its run returns ok and it wrote an
+// output or committed on an arena — must have reported every declared row of §5.3's `stage` scope through its sink at
+// least once, and every batch-scope soft row once a batch of it committed through the batch door; otherwise the stage
+// is refused E_INVARIANT 'row <name> declared but never evaluated', rolled back whole as any refusal (C-0295), with one
+// bug entry and the row's line pass false with count 0. A stage that returned ok having produced nothing has no stage
+// end to check (C-0316 (4)); batch-scope hard, save, load and CI rows are not required at a stage end; a stage already
 // refused is judged once, by its own code.
-import { err, ok, STAGES, type Invariant, type KernelResult } from '@plat/kernel';
+import { err, ok, STAGES, type Invariant, type KernelResult, type Warning } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { createRegistry, run, type PipelineContext } from '../../../src/index.js';
 import { neverEvaluatedDetail } from '../../../src/pipeline/runner.js';
@@ -29,13 +30,17 @@ interface Plan {
   readonly write?: boolean;
   readonly report?: Readonly<Record<string, readonly boolean[]>>;
   readonly refuse?: boolean;
+  /** S1's inputsOf gives null (its inputs missing). */
+  readonly missing?: boolean;
+  /** The warnings S1's ok result carries. */
+  readonly warnings?: readonly Warning[];
 }
 
 /** S1 per its plan, then S3 reading S1's output (so a refused S1's output reads missing), each counted in CALLS. */
 function runPlan(plan: Plan | null) {
   CALLS.clear();
   const seen: Inputs[] = [];
-  const s1 = stage({
+  const made = stage({
     id: STAGES.S1,
     outputs: ['land'],
     invariants: plan?.invariants ?? [],
@@ -47,9 +52,10 @@ function runPlan(plan: Plan | null) {
       }
       for (const [row, verdicts] of Object.entries(plan.report ?? {})) for (const v of verdicts) ctx.report.invariant(row, v);
       if (plan.refuse === true) return err('E_DEGENERATE', 'fixture: refused at its end');
-      return ok(plan.write === true ? { land: 1 } : {});
+      return ok(plan.write === true ? { land: 1 } : {}, [...(plan.warnings ?? [])]);
     },
   });
+  const s1 = plan?.missing === true ? { ...made, inputsOf: (): Inputs => null as unknown as Inputs } : made;
   const s3 = stage({ id: STAGES.S3, inputs: ['land'], outputs: ['trace'], run: (i) => (seen.push(i), ok({ trace: 2 })) });
   const r = createRegistry();
   registerAll(r, [s1, s3]);
@@ -135,7 +141,7 @@ describe('the stage-end guard: every declared stage-end row of a stage that reac
   });
 
   it('a stage that met missing inputs and produced nothing has no stage end: its rows stay unevaluated (pass true, count 0), no bug (§5.4 whole report)', () => {
-    const { model, report, calls } = runPlan({ invariants: [END, BAND] });
+    const { model, report, calls } = runPlan({ invariants: [END, BAND], missing: true });
     expect(report.bugs).toEqual([]);
     expect(model.refusals.size).toBe(0);
     expect(report.stages[0].invariants).toEqual([
@@ -151,9 +157,40 @@ describe('the stage-end guard: every declared stage-end row of a stage that reac
     expect(bare.report.bugs).toEqual([]);
     expect(bare.model.data.get('land')).toBe(1);
     expect(bare.report.stages[0].invariants.map((l) => [l.name, l.pass, l.count])).toEqual(rows.map((r) => [r.name, true, 0]));
-    const batched = runPlan({ invariants: [...rows, END], commit: true, write: true, report: { 'fx.end': [true] } });
+    const batched = runPlan({ invariants: [...rows, END], commit: true, write: true, report: { 'fx.end': [true], 'fx.softBatch': [true] } });
     expect(batched.report.bugs).toEqual([]);
-    expect(batched.report.stages[0].invariants.map((l) => [l.name, l.count])).toEqual([['fx.batch', 1], ['fx.softBatch', 0], ['fx.save', 0], ['fx.load', 0], ['fx.ci', 0], ['fx.end', 1]]);
+    expect(batched.report.stages[0].invariants.map((l) => [l.name, l.count])).toEqual([['fx.batch', 1], ['fx.softBatch', 1], ['fx.save', 0], ['fx.load', 0], ['fx.ci', 0], ['fx.end', 1]]);
+  });
+
+  it('a batch-scope soft row is required once a batch committed through the door: left unreported, the stage is refused naming it; with no door commit it is not', () => {
+    const { model, report, ground } = runPlan({ invariants: [SOFT_BATCH, END], commit: true, write: true, report: { 'fx.end': [true] } });
+    expect(model.refusals.get('S1')).toEqual({ code: 'E_INVARIANT', detail: 'row fx.softBatch declared but never evaluated' });
+    expect(report.stages[0].invariants.map((l) => [l.name, l.pass, l.count])).toEqual([['fx.softBatch', false, 0], ['fx.end', true, 1]]);
+    expect(model.data.has('land')).toBe(false);
+    expect(bits(ground)).toBe(bits(runPlan(null).ground));
+    const outputOnly = runPlan({ invariants: [SOFT_BATCH], write: true });
+    expect(outputOnly.model.refusals.size).toBe(0);
+    expect(outputOnly.report.stages[0].invariants.map((l) => [l.name, l.pass, l.count])).toEqual([['fx.softBatch', true, 0]]);
+  });
+
+  it('a stage given an input that returns ok having produced nothing is not judged (C-0316 (4), as recorded): a harness\'s no-op stage keeps its rows unevaluated', () => {
+    // M0-x-05's base chain runs the stages after its cut as `ok({})` on their inputs (testkit src/ladders/chain.ts), so a
+    // wider guard would refuse them; the exemption stays C-0316 (4)'s (notes 25).
+    const idle = runPlan({ invariants: [END] });
+    expect(idle.model.refusals.size).toBe(0);
+    expect(idle.report.bugs).toEqual([]);
+    expect(idle.report.stages[0].invariants).toEqual([{ name: 'fx.end', scope: 'stage', pass: true, count: 0 }]);
+    // Producing is what judges it, whatever its input: an input missing and an output written is refused.
+    expect(runPlan({ invariants: [END], missing: true, write: true }).model.refusals.get('S1')?.detail).toBe('row fx.end declared but never evaluated');
+  });
+
+  it("a stage the guard refuses keeps none of its result's warnings (only what its batches spent stays)", () => {
+    const warn: Warning = { code: 'W_ACUTE_CORNER', count: 2 };
+    const refused = runPlan({ invariants: [END], write: true, warnings: [warn] });
+    expect(refused.model.refusals.get('S1')?.code).toBe('E_INVARIANT');
+    expect(refused.report.kernel.warnings).toEqual({});
+    const honest = runPlan({ invariants: [END], write: true, warnings: [warn], report: { 'fx.end': [true] } });
+    expect(honest.report.kernel.warnings).toEqual({ W_ACUTE_CORNER: 2 });
   });
 
   it('a stage refused by its own run is judged once, by its own code: one bug entry, its detail kept, its unreported row unevaluated (pass true, count 0)', () => {

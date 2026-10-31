@@ -195,3 +195,140 @@ session's cloud scratchpad.
     uncommitted work in the tree) cites "C-0331 (3)" and "C-0331 (3), (4)" for its S8 ≡ S9 boundary tests, while
     C-0331 in `choices.md` is M0-x-02's consolidation row (2026-10-12). The row that test means is not in `choices.md`
     yet; its writer renumbers on append (the id rule; the checker renumbers nothing).
+
+## Hardening round S3 (lane `build/M0-x-02-fix-s3`, 2026-10-30; the M0 hardening phase, J237 (2); inventory rows M0-x-02:6 1 … :187 21; Q99 per RL8, J637)
+
+The builder's row-by-row outcome. Every pin was shown red on its mutant in the lane's scratch mirror
+(`/home/user/maps-scratch/waves/selfcheck-build-M0-x-02-fix-s3`, deleted at the end) with
+`vitest run --maxWorkers=1 --bail=1 test/pipeline/core/`, each mutated file restored by copy from the tree and
+compared (`cmp`) before the next: **21 targeted mutants, 21 KILLED** (G13a and G13b killed the pins of row 13's
+first build, which RELATED then showed to break M0-x-05's harness: the row is REPORTED, note 25, and its code reverted);
+the other 19 re-run on the final sources: **19 / 19 KILLED**, every file restored. A mutant marked *(pre-round)* is the round's
+own pre-fix code, so its pin is red without the fix. The choices row is C-0454.
+
+| row | outcome | what changed | pin (file › test) | mutant(s) |
+|---|---|---|---|---|
+| 1 (:6) U18 | PINNED | nothing in code (`runner.ts` already refused) | runner.test.ts › "a callback stage's batch that hands an empty ops list beside its callback is refused …" — the text verbatim, the callback never called | U18 `spec.ops !== undefined` → `ops.length > 0`: KILLED |
+| 2 (:11) U22 | PINNED | nothing in code | runner.test.ts › "bind gives a minted entity a handle …" — PB's shape (word 3 flipped), the text `run: <id> is bound to another entity key (C-0147: one key per minted entity)` verbatim, the handle keeps its first key | U22 refusal dropped: KILLED |
+| 3 (:17) U23 | PINNED | nothing in code | runner.test.ts › "every stream a stage requests is recorded in the census …" — the drawn set: size 6, reused 0, collisions 0; a second run reuses 6; another seed adds 6 | U23 `createRng({})`: KILLED |
+| 4 (:22) | FIXED + PINNED | `runner.ts` `expectVerdicts`: on a failed expect entry (an expect code whose detail opens with a row's `<name>: `) the rows before the named one held (the kernel's `failures` run in entry order, `tx.ts` `failures`/`failed[0]`), the named one failed, the rows after it are **not evaluated** (no count) — the note's first suggestion; the kernel's "return every failed expect" alternative is M0-a-06's API, not taken | runner.test.ts › "a batch refused by a failed expect entry reports what it tells …" (a, b, c, d: b and c fail → `[a true 1] [b false 1] [c true 0] [d true 0]`) | V4a *(pre-round: every other row a pass)*: KILLED; V4b (rows before uncounted): KILLED |
+| 5 (:31) | FIXED + PINNED | the same function: a batch counts its rows only when it committed a record (`record !== null`: the kernel ran the expectations) or was refused by a failed expect entry; a batch that wrote nothing, or was refused by the work limit, an op, the callback or a kernel row, counts none | runner.test.ts › "a batch refused before its expectations ran — by the work limit, by its callback — or that wrote nothing counts no evaluation; a commit counts one per row" | V5a *(pre-round: a record-less commit counts)*: KILLED; V5b *(pre-round: any refusal counts passes)*: KILLED |
+| 6 (:34) | FIXED + PINNED | `RunOptions.arenas`' doc states the precondition, and `run` refuses an unindexed arena by name before the first stage: `run: the arena ground/1 carries no spatial index: every arena of a run is indexed (attachIndex) before it runs (§3.3)` (before, the kernel's anonymous assertion fired at the first batch or stage end; only a zero-stage run with such an arena succeeded, and now refuses) | runner.test.ts › "refuses an arena without its spatial index by name, before any stage runs …" (no stage called; a zero-stage registry too) | A6 *(pre-round)*: KILLED |
+| 7 (:40) | ladderUse half FIXED + PINNED; warning half **REPORTED** (note 23) | `ReportSink.ladderUse` refuses a tier outside 2 … 6: `report: stage S4's ladder use (F-ROUTE, rung 1) is at tier 1: §5.4 records ladder uses from tier 2 up` (every M0 writer — the river report forwarded by `base.ts` `forwardRiverReport` — writes tiers 2, 3, 4) | runner.test.ts › "refuses a ladder use below tier 2 …" (tiers 0, 1 refused verbatim; 2 recorded) | T7a *(pre-round)*: KILLED; T7b (`>= 1`): KILLED |
+| 8 (:48) | PINNED | nothing in code | runner.test.ts › "rerolls { S5: 1 } changes only the S5 stage streams' draws …" now also compares the edges S6's and S8's chains laid (`district:a`, `way:lane`: end points, levels, rows via `contentPrint`) with and without the reroll, and shows S5's own chain moving | F8 (fixture: S6's bound offset by S5's first draw, S6's own draws unchanged): KILLED |
+| 9 (:61) V04 | PINNED | nothing in code | runner.test.ts › "under rerolls { S5: n } a bound entity whose own reroll r is below n keeps r too: r = 0 under { S5: 1 } …" (PD3's shape: `[entity, town]` = `[0, 1]`, the bound stream = the fresh stream at reroll 0) | V04 `Math.max(n, r)`: KILLED |
+| 10 (:78) | FIXED + PINNED (refines C-0316 (3)) | `ReportBuilder.unevaluated(s, committed)`: once a batch of the stage committed a record through the batch door, a declared batch-scope soft row with no evaluation is required at the stage's end like a stage-end row (refused `E_INVARIANT`, `row <name> declared but never evaluated`) | rows.test.ts › "a batch-scope soft row is required once a batch committed through the door …" and the batched case of "batch, save, load and CI rows are not stage-end rows …" (now reporting `fx.softBatch` once, count 1) | G10a *(pre-round)*: KILLED; G10b (required with no door commit): KILLED |
+| 12 (:100) K19 | PINNED | nothing in code | rows.test.ts › "a stage the guard refuses keeps none of its result's warnings …" (`W_ACUTE_CORNER` ×2 on the result: `kernel.warnings` `{}` refused, `{ W_ACUTE_CORNER: 2 }` honest) | K19: KILLED |
+| 13 (:107) | **REPORTED** (note 25); the recorded rule pinned | built first (the guard judging every stage whose `inputsOf` gave an input), then reverted: RELATED@1000 showed it refusing M0-x-05's base chain, whose stages after the cut run `ok({})` on their inputs (`testkit/src/ladders/chain.ts:261`) — `rungs-growth.test.ts` ×3 and `coverage.test.ts` red with `bugs: 1` (S8's seam-portals row), a rise in x-05's families' refusals; the exemption is that item's contract (C-0316 (4)) | rows.test.ts › "a stage given an input that returns ok having produced nothing is not judged (C-0316 (4), as recorded) …" (and a producing stage on a missing input is judged); the missing-inputs tests give a null input (`missing: true`; runner.test.ts's "… on a stage that ran no batch (on missing inputs)") | G13a/G13b killed the first build's pins; none on the recorded rule (it is the pre-round code) |
+| 15 (:142, with 20) | PINNED | nothing in code | runner.test.ts › "the undeclared-row refusals of the builder name the stage and the row, verbatim" (`evaluate`, `neverEvaluated`: `report: stage S1 declares no invariant 'fx.none'`; the sink: `… (§4.12's StageDecl.invariants)`), and the sink text verbatim in "expect is the stage's batch-scope hard rows …" | R5 (sink pointer dropped): KILLED; R09 (pointer on every site): KILLED |
+| 18 (:163) R04 | PINNED | nothing in code | runner.test.ts › "carries what the stages write through the sink, in order, …": `Object.keys(report.kernel.warnings)` = `['W_ATTRACTED', 'W_DOWNGRADE']` (S3's result gives W_DOWNGRADE first) | R04 (`Object.fromEntries`, insertion order): KILLED |
+| 19 (:172) | TEXT (the session's ruling: the header sentence rides row 21) + an order pin | `report.ts` header: the records enumerate in JavaScript's key order — integer-like names first, numerically, then `compareKeys` order; one order for every insertion order; no M0 code or counter is integer-like | runner.test.ts › "the report's records enumerate in JavaScript's key order …" (`W_B, 10, W_A, 9, 1` and its reverse → `1, 9, 10, W_A, W_B`) | none (the order is the language's; the pin documents it) |
+| 21 (:187) | TEXT | `report.ts` header: "of a stage that reached its end (C-0316 (4): its run returned ok and it produced something …)"; `runner.ts` header and the guard's comment state the rows it now requires (row 10) and C-0316 (4)'s kept scope (row 13) | — | — |
+| Q99 (RL8) | FIXED + PINNED (runner.ts only; a DECLARED shift in M0-x-04's composition pin, note 26) | `run`'s default view is the registered one, `tableView(TABLE_IDS, [s6Table()])` (`s6Table` from `../districts/table.js`, the same package), and `RunOptions.tables` says so; a view handed in is the one every stage reads | runner.test.ts › "the stages read one registered tables view: by default M0's tables and layout's own s6 (Q99), else the view the run is given" (`ctx.tables.table('s6')` is `s6Table()`, the hash is the registered view's and not the bare view's; a bare view handed in carries no s6 — the stage's read throws `TableError`) | Q99 *(pre-round: `tableView()`)*: KILLED |
+
+**Census and shift (J264, N-58).** (The census below ran on the round's first build, row 13 included; the final
+sources differ from it only by row 13's revert, which restores the pre-round guard scope, and the base runs refused
+nothing under either.) Base flat and river fixtures, seeds 1 – 6, `areaHa` 900, `walledHa` 30, the
+pre-round sources (the mirror as copied before the round's edits) against the round's: 12 runs **byte-equal** —
+reports, final roots, stage roots, ranks and `model.refusals` (JSON of each run compared with `cmp`); refusals
+**0 → 0**, `bugs []` on every run. No base stage declares a batch-scope soft row, routes a batch-scope hard row through
+the door (S8's `block-floor` goes straight to `kernel.tx`, Q39), returns ok on an input without reporting its
+stage-end rows, writes a ladder use below tier 2, or hands in an unindexed arena; so the round moves no base output and
+no digest or golden is re-recorded. The fixture families of `test/pipeline/core/` refuse only where a test plants a
+refusal (every drawn run asserts `bugs []`). The behaviour changes are declared in C-0454: the guard's batch-soft rows
+(row 10), the batch-hard rows' counts (rows 4, 5), the up-front arena refusal (row 6), the tier refusal (row 7),
+the default tables view (Q99, a different `TableView.hash`; no source under `packages/*/src` reads a view's hash).
+
+**API.** `pipeline/index.ts` and the barrel are untouched; `expectVerdicts` is private to `runner.ts`; no export added,
+removed or renamed. Every existing message text is unchanged; the new texts are pinned verbatim.
+
+**Gates (W = 1 throughout; `tools/test_budget.py` printed 1 before every run).** `install --frozen-lockfile` 0;
+`lint` 0 (eslint 1 266 files, 0 errors; `lint: probe-red ok`); `build` 0; NEAR `test/pipeline/core/` 5 files 86 / 86;
+RELATED@1000 over `runner.ts` and `report.ts`, run twice: on the first build 253 files 3 213 / 3 221 (8 reds), on the
+final sources 253 files **3 217 / 3 221, exit 1, 4 reds**, each attributed: (a) `layout/test/pipeline/base/run.test.ts`
+'S3's site is the flat fixture's …' — Q99's declared shift (note 26; the mirror's probe shows the S3 site equal to
+`flatFixture`'s once the `tables` view is set aside); (b) `testkit/test/edge/repins.test.ts` 'EP-01/S1/self-touching at
+seed 2651453823' and 'EP-01/S5a/coincident at seed 1658509524' and (c) `testkit/test/edge/ep01-s1-s3-s4.test.ts`
+'EP-01/S1/self-touching' (seed 2893352673 refused on a seed the pin does not name) — foreign (M0-x-06's pins: Q106, and
+M0-e-03 S3's declared shift routed as Q113), red identically in the mirror on the round's functional before-image (the
+round's code reversals of A6, Q99, V4a/V5, G10a and T7a) and on the final sources, `PLAT_FUZZ_SEED=-1693803832`, 1 000
+runs. The first build's four other reds — `testkit/test/ladders/rungs-growth.test.ts` ×3 and `coverage.test.ts` — were
+row 13's (note 25) and are green on the final sources (and on the before-image).
+
+23. **REPORTED for a session ruling (row 7's second half) — `ReportSink.warning` takes §3.1 kernel codes, and a landed
+    stage and a landed pin depend on it.** S8 forwards its run's warning list through the sink
+    (`layout/src/infill/bentCutFabric.ts:1684`, M0-b-03), and that list carries `W_CUT_SLID` (`:1510`, `:1529`), a §3.1
+    code (`kernel/src/num/result.ts` `WarningCode`). `testkit/test/ladders/rungs-s8.test.ts:146 – 148` (M0-x-05) pins it
+    under `stages[S8].warnings` and under no other stage, citing §5.4 ("the warning reaches the generation report
+    through the stage's sink, under S8"); `testkit/src/ladders/readers.ts` `reportWarnings` reads it there. §5.4 says
+    "Every kernel warning (`W_CUT_SLID` among them, F-CUT's foot slide) is counted under `kernel.warnings` by its §3.1
+    code". Refusing a §3.1 code in `warning` would throw on S8's lawful runs (a throw on valid input, N-45 (a)); routing
+    it to `kernel.warnings` at the sink would move M0-x-05's pin — either is a contract between items, so the round
+    leaves the sink as it is. **Needs:** the session's reading of §5.4 for `W_CUT_SLID`; then, if `kernel.warnings`, one
+    round per owner (M0-b-03: S8 returns the code in its result's warnings instead of the sink; M0-x-05: the pin and
+    reader; M0-x-02: the sink refuses a §3.1 code, its text pinned).
+24. **REPORTED for the co-owners of Q99 (RL8's per-owner lines) — the base run's S6 does not read the run's view.**
+    With the runner's default registered, the base S6 still builds its own: `base.ts` `baseS6Input` (`:629`) hands S6
+    no `tables`, so `districts/stage.ts:253` takes `input.tables ?? tableView()` and `s6TableIn` falls back to
+    `s6Table()` — the same cells, so no output moves, but not "the registered view through the context". The lines:
+    M0-x-04 S2 — `baseS6Input` passes `tables: ctx.tables`, and `baseArena`'s default `tableView()` (`base.ts:958`,
+    reached from `runBase` `:976` with `options.tables` undefined) takes the registered view or the run's; M0-e-04 S4 —
+    `s6Batch`'s default (`districts/stage.ts:253`) and `districtCells`' (`districts/table.ts:112`); M0-c-01 S4 —
+    `fixtures/flat.ts:43`. None of them is needed for the runner's line to hold (the runner's pin reads `ctx.tables`).
+25. **REPORTED for a session ruling (row 13) — the guard cannot judge an idle stage with an input without refusing
+    M0-x-05's harness.** The row's fix (judge every stage whose `inputsOf` returned non-null) was built and pinned
+    (mutants G13a, G13b killed), and RELATED@1000 over `runner.ts` then went red in `testkit/test/ladders/rungs-growth.test.ts`
+    ('plain/chain …', 'work/grower …', 'work/fields …': `bugs: 1`) and `coverage.test.ts` ('S6 fields F-WORK work_cut'
+    bugs 1): `runChain` (`testkit/src/ladders/chain.ts:255 – 262`, M0-x-05) keeps the stages after its cut registered with
+    `run: () => ok({})` and their own `inputsOf` and `invariants`, so S8 (its `seam-portals` stage-end row) returned ok on
+    an input, reported nothing and was refused — a refusal of a lawful harness run, so the census of x-05's families
+    would rise (J264). The exemption is C-0316 (4)'s, on which that harness rests, so the round reverted the code and
+    pins the recorded rule. **Needs:** a ruling — keep C-0316 (4) (the escape is a contrived writer's, no M0 stage takes
+    it: S1 and S8 report on every ok path that reaches their end), or judge idle stages with an input and have M0-x-05's
+    chain cut stages without their rows or inputs (x-05's round).
+26. **DECLARED shift for the co-owners of Q99 — M0-x-04's composition pin.** With the runner's default view registered,
+    the base S3 site carries it (`base.ts` `baseSite` hands `ctx.tables` to `flatFixture`, which keeps it as
+    `site.tables`), while `test/pipeline/base/run.test.ts:202 – 211` (M0-x-04) compares that site with
+    `flatFixture(1, …)` built on `fixtures/flat.ts:43`'s bare default: `canonicalText(restA)` ≠ `canonicalText(restB)`,
+    the difference the view (its hash and the `s6` table) alone — the site's terrain, frame, land and draws are equal,
+    and the base reports, roots and refusals are byte-equal (the census). The pin goes green when M0-c-01 S4 gives
+    `flatFixture` the registered default (RL8's c-01 line) or M0-x-04 S2 hands the test's fixture the run's view. The
+    line is RL8's per-owner split arriving in two rounds; no file outside this item's owns was edited.
+
+## Closing check of hardening round S3's notes (lane `check/M0-x-02-close-s3`, 2026-10-31)
+
+None of these fails the round (J162, J202, N-45: each is a further hardening test, a contrived-writer escape or a session
+note). The evidence is in `checks/M0-x-02-s3.md`; the mirrors were `waves/check-M0-x-02/{m0,m1}` (`m0` the seat's own
+functional before-image, `m1` a copy of the tree after the builder's LANDED line).
+
+27. **KI — two of the round's new rules hold on every honest input but are not pinned at their edge (the checker's
+    mutants C04d and C10c survive NEAR, 86 / 86).**
+    * C04d drops the `EXPECT_CODES.has(r.code)` gate of `expectVerdicts`, so any refusal whose detail opens with
+      `<row>: ` names that row. Probe P1 (a callback refusal with a non-expect code and the detail `fx.a: …`): the code
+      counts no row (`fx.a`, `fx.b` count 0); under C04d `fx.a` reads pass false. Only a writer that forges a row's
+      name as its own detail's prefix meets it: the kernel's non-expect details open with their own text (`tx.ts`
+      `workDetail`, the repairer's "the repair of a face …", the kernel rows).
+    * C10c counts an ok batch that wrote nothing (`record === null`) as a door commit for row 10's batch-soft rule.
+      Probe P2 (a stage whose only door batch wrote nothing, a batch-soft row, an output written): the code does not ask
+      for the row; under C10c the stage is refused `E_INVARIANT`. No M0 stage declares a batch-scope soft row (note 10).
+    * **Hardening tests:** P1's and P2's shapes in `runner.test.ts` / `rows.test.ts`. **Milestone:** M4.
+    * Judged equivalent (no test needed): C04e (`findLastIndex` for `findIndex`: two names can both open one detail
+      only if a name holds `': '`, and the registry refuses repeated names), C05c (`E_WORK_LIMIT` added to the expect
+      codes: its detail never opens with a row name), C10d (batch-hard rows added to the guard: a door commit evaluates
+      every batch-hard row, probe P2b `fx.a` count 1).
+28. **KI — a `classFloor` expect row with no floor injected reads as held (probe P4: pass true, count 1).** C-0454 (1)
+    counts one passing evaluation per `expect` row for a batch that committed a record ("the kernel evaluated them all
+    at commit"), but the kernel skips a `classFloor` entry whose class has no floor in `env.floors`
+    (`kernel/src/tx/tx.ts:389 – 390`, `floor === undefined → continue`). The count claims an evaluation that did not
+    run. It fails safe (the report is outside every digest; the floor is S8's own check, note 11) and no base stage
+    routes a `classFloor` row through the door (S8's batches go straight to `kernel.tx`, Q39). **Suggested handling:**
+    count a `classFloor` row only when `options.env?.floors` gives its class a floor, with Q39's round (M0-b-03 / M0-x-04)
+    or M4.
+29. **Session note — the round leaves one red of its own in RELATED, the declared Q99 shift (note 26).**
+    `layout/test/pipeline/base/run.test.ts:211` (M0-x-04's file; `runner.ts` lies on its import path) stays red until
+    M0-c-01 S4 (`fixtures/flat.ts:43`) or M0-x-04 S2 (the test's fixture on the run's view) lands RL8's per-owner line;
+    the seat's probe P3 shows the S3 site equal to `flatFixture`'s built on the registered view, and differing from the
+    bare one in `tables` only. The other three RELATED reds (testkit `edge/repins.test.ts` EP-01/S1/self-touching
+    2651453823 and EP-01/S5a/coincident 1658509524, `edge/ep01-s1-s3-s4.test.ts` EP-01/S1/self-touching 2893352673) are
+    foreign: red identically on the seat's before-image and the tree copy (`PLAT_FUZZ_SEED=959355949`, 1 000 runs).
+    The session's commit of this item should carry the run.test.ts red as declared, or wait for the c-01 / x-04 line.
