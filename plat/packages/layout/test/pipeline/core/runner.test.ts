@@ -4,10 +4,12 @@ import { readFileSync } from 'node:fs';
 import {
   checkIndexState,
   CONCERNS,
+  createPlat,
   createRng,
   ENGINE_ID,
   err,
   isFaceLive,
+  KeyCensus,
   levelDigest,
   levelDigestBuilds,
   ok,
@@ -25,18 +27,21 @@ import {
   type Stream,
 } from '@plat/kernel';
 import { mint } from '@plat/model';
+import { TABLE_IDS, tableView, TableError } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   createRegistry,
   OUTPUT_VERSION,
   REPORT_FIELDS,
   REPORT_LISTS,
+  ReportBuilder,
   run,
+  s6Table,
   type GenerationReport,
   type PipelineContext,
   type RunOptions,
 } from '../../../src/index.js';
-import { ALL, arena, ARENAS, bits, bp, CALLS, contentPrint, COUNTS, drawn, GROUND, LAW, liveFaces, pt, registerAll, SIDE, stage, townStream, type Inputs } from './support.js';
+import { ALL, arena, ARENAS, bits, bp, CALLS, contentPrint, COUNTS, drawn, FRAME, GROUND, LAW, liveFaces, pt, registerAll, SIDE, stage, townStream, type Inputs } from './support.js';
 
 /** A registry holding `stages`. */
 function registryOf(stages: Parameters<typeof registerAll>[1]) {
@@ -108,6 +113,28 @@ describe('the runner: one eager pass in Kahn\'s order (§4.1, §14)', () => {
     const { model } = run(registryOf([stage({ id: STAGES.S4, outputs: ['a', 'b', 'c'], run: () => ok({ a: 1, c: undefined }) })]), bp(1), ALL);
     expect([...model.data.keys()].sort()).toEqual(['a', 'blueprint']);
   });
+
+  it('refuses an arena without its spatial index by name, before any stage runs (RunOptions.arenas: every arena indexed)', () => {
+    CALLS.clear();
+    const bare = (): Plat[] => [arena(), createPlat({ layer: 'ground', part: 1 }, FRAME)];
+    const text = 'run: the arena ground/1 carries no spatial index: every arena of a run is indexed (attachIndex) before it runs (§3.3)';
+    expect(() => run(registryOf([ringStage()]), bp(1), ALL, { arenas: bare })).toThrow(text);
+    expect(CALLS.size).toBe(0);
+    expect(() => run(createRegistry(), bp(1), ALL, { arenas: bare })).toThrow(text);
+  });
+
+  it("the stages read one registered tables view: by default M0's tables and layout's own s6 (Q99), else the view the run is given", () => {
+    const seen: { s6: unknown; hash: string }[] = [];
+    const reader = stage({ id: STAGES.S6, run: (_i, ctx) => (seen.push({ s6: ctx.tables.table('s6'), hash: ctx.tables.hash.join(',') }), ok({})) });
+    run(registryOf([reader]), bp(1), ALL);
+    expect(seen).toHaveLength(1);
+    expect(seen[0].s6).toBe(s6Table());
+    expect(seen[0].hash).toBe(tableView(TABLE_IDS, [s6Table()]).hash.join(','));
+    expect(seen[0].hash).not.toBe(tableView().hash.join(','));
+    // A view handed in is the one every stage reads (a calibration's, a test's): the bare view carries no s6.
+    const bare = tableView();
+    expect(() => run(registryOf([reader]), bp(1), ALL, { tables: bare })).toThrow(TableError);
+  });
 });
 
 describe('the op form per stage (§3.3 *Two op forms*, §4.1)', () => {
@@ -135,6 +162,14 @@ describe('the op form per stage (§3.3 *Two op forms*, §4.1)', () => {
     expect(() => formRun('callback', (ctx) => ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS, ops: [op] }))).toThrow(/callback form/);
     expect(() => formRun('callback', (ctx) => ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS, ops: [] }))).toThrow(/callback form/);
     expect(() => formRun('callback', (ctx) => ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS }))).toThrow(/callback form/);
+  });
+
+  it("a callback stage's batch that hands an empty ops list beside its callback is refused: the form passes no ops at all (§4.1)", () => {
+    let calls = 0;
+    expect(() => formRun('callback', (ctx) => ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS, ops: [] }, (o) => ((calls += 1), ctx.kernel.geom.insertChain(o, ring, [{ role: 'margin', entity: 't' }], 'mandatory', { closed: true }))))).toThrow(
+      'run: stage S3 registered the callback form: its batches pass a callback, never ops (§4.1)',
+    );
+    expect(calls).toBe(0);
   });
 
   it("each batch is the stage's own: its ranked faces are kept from a later stage's clear and cleared by its own (rederivesFrom = the stage, §3.3)", () => {
@@ -235,7 +270,7 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
         ctx.report.invariant('fx.stage', false);
         ctx.report.invariant('fx.stage', true);
         expect(() => ctx.report.invariant('fx.fails', true)).toThrow(/batch-scope hard row/);
-        expect(() => ctx.report.invariant('fx.none', true)).toThrow(/declares no invariant/);
+        expect(() => ctx.report.invariant('fx.none', true)).toThrow("report: stage S1 declares no invariant 'fx.none' (§4.12's StageDecl.invariants)");
         return ok({});
       },
     })]), bp(1), ALL, { arenas: ARENAS, env });
@@ -252,6 +287,45 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
     const { report } = run(registryOf([ringStage({ invariants: [rows[0]] })]), bp(1), ALL, { arenas: ARENAS, env });
     expect(report.bugs).toEqual([]);
     expect(report.stages[0].invariants).toEqual([{ name: 'fx.holds', scope: 'batch', pass: true, count: 1 }]);
+  });
+
+  /** The S1 ring under `invariants`, its batch's outcome kept; `fn` replaces the ring's callback when given. */
+  const lines = (invariants: readonly Invariant[], opts: { counts?: { faces: number }; fn?: (ctx: PipelineContext) => KernelResult<unknown> } = {}) => {
+    let code = '';
+    const { report } = run(registryOf([stage({
+      id: STAGES.S1,
+      invariants,
+      workLimits: [{ counter: LAW.counter, unit: 'faces', perUnit: 1, floor: 0 }],
+      run: (_i, ctx) => {
+        const r = ctx.batch({ level: 0, counter: LAW.counter, counts: opts.counts ?? { faces: 1_000_000 } }, (o) => opts.fn?.(ctx) ?? ctx.kernel.geom.insertChain(o, [pt(0, 0), pt(SIDE, 0), pt(SIDE, SIDE), pt(0, SIDE)], [{ role: 'margin', entity: 't' }], 'mandatory', { closed: true }));
+        code = r.ok ? (r.value.record === null ? 'empty' : 'ok') : `${r.code} ${r.detail}`;
+        return ok({});
+      },
+    })]), bp(1), ALL, { arenas: ARENAS, env });
+    return { code, lines: report.stages[0].invariants.map((l) => [l.name, l.pass, l.count]) };
+  };
+  const hard = (name: string, check: 'holds' | 'fails'): Invariant => ({ name, scope: 'batch', class: 'hard', kind: 'check', check });
+
+  it("a batch refused by a failed expect entry reports what it tells: the rows before the named one held, the named one failed, the rows after it unevaluated", () => {
+    const two = lines([hard('fx.a', 'holds'), hard('fx.b', 'fails'), hard('fx.c', 'fails'), hard('fx.d', 'holds')]);
+    expect(two.code).toBe('E_INVARIANT fx.b: no');
+    expect(two.lines).toEqual([['fx.a', true, 1], ['fx.b', false, 1], ['fx.c', true, 0], ['fx.d', true, 0]]);
+  });
+
+  it('a batch refused before its expectations ran — by the work limit, by its callback — or that wrote nothing counts no evaluation; a commit counts one per row', () => {
+    const rowsAB = [hard('fx.a', 'holds'), hard('fx.b', 'holds')];
+    const work = lines(rowsAB, { counts: { faces: 0 } });
+    expect(work.code).toMatch(/^E_WORK_LIMIT /);
+    expect(work.lines).toEqual([['fx.a', true, 0], ['fx.b', true, 0]]);
+    const refused = lines(rowsAB, { fn: () => err('E_INVARIANT', 'fixture: the callback refused') });
+    expect(refused.code).toBe('E_INVARIANT fixture: the callback refused');
+    expect(refused.lines).toEqual([['fx.a', true, 0], ['fx.b', true, 0]]);
+    const empty = lines(rowsAB, { fn: () => ok(0) });
+    expect(empty.code).toBe('empty');
+    expect(empty.lines).toEqual([['fx.a', true, 0], ['fx.b', true, 0]]);
+    const committed = lines(rowsAB);
+    expect(committed.code).toBe('ok');
+    expect(committed.lines).toEqual([['fx.a', true, 1], ['fx.b', true, 1]]);
   });
 });
 
@@ -344,12 +418,31 @@ describe("the stage's streams (§6.1, §14 StageContext.stream; C-0147)", () => 
       seen = { first: ctx.stream(CONCERNS['plot.width'], h, opts).u32(), reroll: opts.reroll, again: ctx.bind(m), h };
       const fresh: Stream = createRng().stream(m.entityKey, STAGES.S10, CONCERNS['plot.width'], { reroll: 4, attempt: 0, epoch: 0, salt: 0 });
       expect(seen.first).toBe(fresh.u32());
+      // One key per minted entity (C-0147, C-0224 (6)): the same address under another entity key is refused, and the
+      // handle keeps its first key.
+      const flipped = { ...m, entityKey: [m.entityKey[0], m.entityKey[1], m.entityKey[2], (m.entityKey[3] ^ 1) >>> 0] as unknown as typeof m.entityKey };
+      expect(() => ctx.bind(flipped)).toThrow(`run: ${m.identity.id} is bound to another entity key (C-0147: one key per minted entity)`);
+      expect(ctx.stream(CONCERNS['plot.width'], h, opts)).toBe(ctx.stream(CONCERNS['plot.width'], ctx.bind(m), opts));
       return ok({});
     } })]), bp(3), ALL);
     expect(seen?.reroll).toBe(4);
     expect(seen?.h).toBe(1);
     expect(seen?.again).toBe(seen?.h);
     expect(model.town.identity.id).toMatch(/^town:/);
+  });
+});
+
+describe("the run's census option (§6.1's distinctness harness; C-0224 (6), M0-d-09)", () => {
+  it('every stream a stage requests is recorded in the census: the drawn set\'s six town streams, distinct; a second run into it reuses them', () => {
+    const census = new KeyCensus();
+    runDrawn(5, { census });
+    expect(census.size).toBe(6);
+    expect([census.reused, census.collisions]).toEqual([0, 0]);
+    runDrawn(5, { census });
+    expect([census.size, census.reused, census.collisions]).toEqual([6, 6, 0]);
+    runDrawn(6, { census });
+    expect(census.size).toBe(12);
+    expect(census.collisions).toBe(0);
   });
 });
 
@@ -384,6 +477,14 @@ describe('per-stage rerolls (C-0090; §6.1 the reroll component)', () => {
     }
     expect(drawsOf(re.model.data, 'network')).not.toEqual(drawsOf(base.model.data, 'network'));
     for (const s of ['S1', 'S3', 'S4']) expect(re.model.stageRoots.get(s)?.join(','), s).toBe(base.model.stageRoots.get(s)?.join(','));
+    // The digest is cumulative, so S6's and S8's roots move with S5's: their own geometry is compared instead — the edges
+    // their chains laid, end points and rows, equal with and without the reroll; S5's own chains move.
+    const chains = (p: Plat | undefined, entity: string): string[] => (p === undefined ? [] : contentPrint(p).split('\n').filter((l) => l.startsWith('e ') && l.includes(`/${entity}/`)));
+    for (const entity of ['district:a', 'way:lane']) {
+      expect(chains(re.model.plats.get('ground/0'), entity), entity).toEqual(chains(base.model.plats.get('ground/0'), entity));
+      expect(chains(re.model.plats.get('ground/0'), entity).length, entity).toBeGreaterThan(0);
+    }
+    expect(chains(re.model.plats.get('ground/0'), 'way:g0')).not.toEqual(chains(base.model.plats.get('ground/0'), 'way:g0'));
     expect(re.model.stageRoots.get('S5')?.join(',')).not.toBe(base.model.stageRoots.get('S5')?.join(','));
     // The reroll is the stream key's reroll component (§6.1's mixer: stage and reroll keyed together).
     const fresh = createRng().stream(re.model.town.entityKey, STAGES.S5, CONCERNS['growth.heading'], { reroll: 1, attempt: 0, epoch: 0, salt: 0 });
@@ -434,6 +535,26 @@ describe('per-stage rerolls (C-0090; §6.1 the reroll component)', () => {
     expect(seen?.first).toBe(fresh);
     const townFresh = createRng().stream(model.town.entityKey, STAGES.S5, c, { reroll: N, attempt: 0, epoch: 0, salt: 0 });
     expect(seen?.townFirst).toBe(townFresh.u32());
+  });
+
+  it("under rerolls { S5: n } a bound entity whose own reroll r is below n keeps r too: r = 0 under { S5: 1 } (C-0090, C-0224 (6))", () => {
+    const c = CONCERNS['growth.heading'];
+    let seen: { entity: number; town: number; first: number; fresh: number } | undefined;
+    run(registryOf([stage({ id: STAGES.S5, streamKeys: ['growth.heading'], run: (_i, ctx) => {
+      const [m] = mint([{ kind: 'plot', key: { arena: { layer: 'ground', part: 0 }, unit: null, stage: STAGES.S5, epoch: 0, index: 7, reroll: 0 }, reroll: 0 }], [], [], ctx.seedKey);
+      const h = ctx.bind(m);
+      const opts = ctx.streamOpts(c, h);
+      seen = {
+        entity: opts.reroll,
+        town: ctx.streamOpts(c, 0).reroll,
+        first: ctx.stream(c, h, opts).u32(),
+        fresh: createRng().stream(m.entityKey, STAGES.S5, c, { reroll: 0, attempt: 0, epoch: 0, salt: 0 }).u32(),
+      };
+      return ok({});
+    } })]), bp(13), ALL, { rerolls: { S5: 1 } });
+    expect(seen).toBeDefined();
+    expect([seen?.entity, seen?.town]).toEqual([0, 1]);
+    expect(seen?.first).toBe(seen?.fresh);
   });
 
   it('a rerolls entry naming no stage of the order, or a count that is no u16, is refused', () => {
@@ -488,9 +609,10 @@ describe("the generation report's schema (§5.4: a whole report with [] lists wh
     expect(model.order).toEqual([]);
   });
 
-  it('every declared row and counter appears, unevaluated, on a stage that ran no batch', () => {
+  it('every declared row and counter appears, unevaluated, on a stage that ran no batch (on missing inputs)', () => {
     const inv: Invariant = { name: 'fx', scope: 'stage', class: 'soft', kind: 'check', check: 'x' };
-    const { report } = run(registryOf([stage({ id: STAGES.S2, invariants: [inv], workLimits: [{ counter: 'b', unit: 'faces', perUnit: 0, floor: 1 }, { counter: 'a', unit: 'faces', perUnit: 0, floor: 1 }] })]), bp(1), ALL);
+    const idle = { ...stage({ id: STAGES.S2, invariants: [inv], workLimits: [{ counter: 'b', unit: 'faces', perUnit: 0, floor: 1 }, { counter: 'a', unit: 'faces', perUnit: 0, floor: 1 }] }), inputsOf: (): Inputs => null as unknown as Inputs };
+    const { report } = run(registryOf([idle]), bp(1), ALL);
     expect(report.stages[0]).toEqual({ name: 'S2', work: { a: 0, b: 0 }, attempts: 0, warnings: {}, ladderUses: [], invariants: [{ name: 'fx', scope: 'stage', pass: true, count: 0 }] });
     expect(Object.keys(report.stages[0].work)).toEqual(['a', 'b']);
   });
@@ -527,6 +649,39 @@ describe("the generation report's schema (§5.4: a whole report with [] lists wh
     expect(report.stages[1].ladderUses).toEqual([{ cause: 'F-ROUTE', code: 'unserved', rung: 2, tier: 6, entity: town, key: `S4/route@${town}` }]);
     expect(report.stages[1].attempts).toBe(0);
     expect(report.kernel).toEqual({ engine: ENGINE_ID, warnings: { W_ATTRACTED: 1, W_DOWNGRADE: 3 }, downgrades: 3, workLimitHits: 0 });
+    // Name order, not the order the codes arrived in (S3's result gives W_DOWNGRADE first).
+    expect(Object.keys(report.kernel.warnings)).toEqual(['W_ATTRACTED', 'W_DOWNGRADE']);
+  });
+
+  it("refuses a ladder use below tier 2: §5.4 records ladder uses from tier 2 up", () => {
+    const at = (tier: 0 | 1 | 2) => run(registryOf([stage({ id: STAGES.S4, streamKeys: ['route'], run: (_i, ctx) => {
+      ctx.report.ladderUse({ cause: 'F-ROUTE', rung: 1, tier, entity: 0, concern: CONCERNS.route, opts: ctx.streamOpts(CONCERNS.route, 0) });
+      return ok({});
+    } })]), bp(1), ALL).report;
+    expect(() => at(0)).toThrow("report: stage S4's ladder use (F-ROUTE, rung 1) is at tier 0: §5.4 records ladder uses from tier 2 up");
+    expect(() => at(1)).toThrow("report: stage S4's ladder use (F-ROUTE, rung 1) is at tier 1: §5.4 records ladder uses from tier 2 up");
+    expect(at(2).stages[0].ladderUses.map((u) => u.tier)).toEqual([2]);
+  });
+
+  it("the report's records enumerate in JavaScript's key order: integer-like names first, numerically, then name order — one order for every insertion order", () => {
+    const keysOf = (codes: readonly string[]) => {
+      const { report } = run(registryOf([stage({ id: STAGES.S3, run: (_i, ctx) => {
+        for (const c of codes) ctx.report.warning(c);
+        return ok({});
+      } })]), bp(1), ALL);
+      return Object.keys(report.stages[0].warnings);
+    };
+    const codes = ['W_B', '10', 'W_A', '9', '1'];
+    expect(keysOf(codes)).toEqual(['1', '9', '10', 'W_A', 'W_B']);
+    expect(keysOf([...codes].reverse())).toEqual(['1', '9', '10', 'W_A', 'W_B']);
+  });
+
+  it('the undeclared-row refusals of the builder name the stage and the row, verbatim', () => {
+    const b = new ReportBuilder('v', { seed: 1, rung: 'CITY' }, () => 'town:x');
+    const s = b.openStage(STAGES.S1, [], []);
+    expect(() => b.evaluate(s, 'fx.none', true)).toThrow(new RangeError("report: stage S1 declares no invariant 'fx.none'"));
+    expect(() => b.neverEvaluated(s, 'fx.none')).toThrow(new RangeError("report: stage S1 declares no invariant 'fx.none'"));
+    expect(() => b.sinkFor(s, STAGES.S1).invariant('fx.none', true)).toThrow(new RangeError("report: stage S1 declares no invariant 'fx.none' (§4.12's StageDecl.invariants)"));
   });
 });
 
