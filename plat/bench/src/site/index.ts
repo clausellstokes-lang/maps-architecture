@@ -22,6 +22,7 @@ import { SITE_FIXTURES, type SiteFixture, type SpikeSize } from './fixtures.js';
 import { runSpikeTasks, type SpikeTask } from './pool.js';
 import { BAR_NAMES, foldReport, receiptsOf, type SiteSpikeReport } from './report.js';
 import { foldTimes, timeSpike, type TimingBlock } from './timing.js';
+import { anchorOf, type SummaryAnchor } from './anchor.js';
 
 export { coarseRiverStrategy, composedS6Run, deriveSpike, GATE_STAGES, SPIKE_STAGES, spikeRegistry, type BatchSeen, type RunCapture, type SpikeConfig, type SpikeDerivation, type SpikeRegistryOptions } from './compose.js';
 export { fixtureNamed, RELIEF_3000, RELIEF_60, riverOn, SITE_FIXTURES, sized, TEST_SIZE, type SiteFixture, type SpikeSize } from './fixtures.js';
@@ -160,18 +161,23 @@ export function spikeTasks(a: SiteArgs): SpikeTask[] {
   return out;
 }
 
-/** The numbers-only summary (C-0067, C-0091, C-0084): the receipts' numbers and verdicts, the work, the stage p50s. */
-export function summaryOf(report: SiteSpikeReport, timing: readonly TimingBlock[]): Record<string, unknown> {
+/**
+ * The numbers-only summary (C-0067, C-0091, C-0084): the receipts' numbers and verdicts, the work, the stage p50s; per
+ * group the refusal classes with their seeds (Q122) and the per-stage work blocks (Q118); and, given, the content anchor
+ * (Q36: anchor.ts) as its first field after the item.
+ */
+export function summaryOf(report: SiteSpikeReport, timing: readonly TimingBlock[], anchor?: SummaryAnchor): Record<string, unknown> {
   const r = receiptsOf(report);
   return {
     item: r.item,
+    ...(anchor === undefined ? {} : { anchor }),
     size: r.size,
     seeds: r.seeds,
     fixtures: r.fixtures,
     configs: r.configs,
     pass: r.pass,
     verdicts: r.verdicts,
-    groups: r.groups.map((g) => ({ fixture: g.fixture, config: g.config, runs: g.runs, stages: g.stages, bars: g.bars, work: g.work, batches: g.batches })),
+    groups: r.groups.map((g) => ({ fixture: g.fixture, config: g.config, runs: g.runs, stages: g.stages, refusals: g.refusals, bars: g.bars, work: g.work, batches: g.batches, stageWork: g.stageWork })),
     timing: timing.map((t) => ({
       fixture: t.fixture,
       config: t.config,
@@ -226,7 +232,9 @@ export async function run(args: string[], ctx: SiteContext): Promise<number> {
   if (a.summary) {
     const summaryPath = ctx.summary ?? SUMMARY_PATH;
     mkdirSync(dirname(summaryPath), { recursive: true });
-    writeFileSync(summaryPath, `${JSON.stringify(summaryOf(report, timing), null, 2)}\n`);
+    const tree = process.env['PLAT_TREE'];
+    const anchor = anchorOf(PLAT_ROOT, report.records, tree === undefined || tree === '' ? undefined : tree);
+    writeFileSync(summaryPath, `${JSON.stringify(summaryOf(report, timing, anchor), null, 2)}\n`);
     say(`site: summary ${relative(PLAT_ROOT, summaryPath)}`);
   }
   for (const g of report.groups) {

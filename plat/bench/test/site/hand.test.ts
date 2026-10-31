@@ -85,7 +85,7 @@ function commitOf(gates: readonly Gate[]): { commit: S3Commit; slice: S3Slice } 
 
 /** A record carrying only the water-gate receipt (every other receipt absent), for the fold's verdict. */
 function recordOf(w: WaterGateReceipt): RunRecord {
-  return { fixture: 'hand', config: 'default', seed: 1, stages: {}, bugs: [], hydro: null, rivers: [], riverRequested: [], relief: null, waterGates: w, bridges: null, districts: null, fields: null, corpus: null, work: {}, batches: {} };
+  return { fixture: 'hand', config: 'default', seed: 1, stages: {}, bugs: [], hydro: null, rivers: [], riverRequested: [], relief: null, waterGates: w, bridges: null, districts: null, fields: null, corpus: null, work: {}, batches: {}, refusals: {}, kernelBatches: [], stageRows: {} };
 }
 const verdict = (w: WaterGateReceipt): string => foldGroup('hand', 'default', [recordOf(w)]).bars.waterGates.verdict;
 
