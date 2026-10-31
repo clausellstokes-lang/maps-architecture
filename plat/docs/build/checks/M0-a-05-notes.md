@@ -733,3 +733,230 @@ DEADPOS) each turn exactly their form's pins red, and FB turns every form red. C
 | id | observation | suggested handling | milestone |
 |---|---|---|---|
 | N-s11c-1 | **The cut back on a closed ring's interior corner is right but unpinned.** Mutant SEAMOFF (`let result = passes(dec.runs.some((r) => r.closed) ? null : 'watch')`: the watch off for any chain with a closed run) survives the whole step3-5 folder at 10³ (302 / 302). It is not equivalent. This seat's probe (`/home/user/maps-scratch/waves/check-M0-a-05/s11/probe/zzs11probe.test.ts`, mirror only) used the S9 arrangement with the corner V (2 000, 2 000) at a ring's interior index: L0 `way` (2 030, 2 000)–(3 500, 2 000) with the closed mandatory chain (2 500, 2 400) → (2 000, 2 000) → (2 500, 1 600); the same with W west, (500, 2 000)–(1 970, 2 000) and (1 500, 2 400) → V → (1 500, 1 600); and the four-point ring (2 500, 2 400) → V → (2 500, 1 600) → (3 000, 2 000). Now each commits as a simple ring (`W_ATTRACTED ×1` @ V, every own-row vertex of degree 2), and under `way` the transaction commits. Under SEAMOFF each branches (W of degree 3, V of degree 1, `W_STRETCH_SHARED ×1`) and is refused `(way, way:c1) branches`. No fixture in `reentry.test.ts` has a closed chain whose retrace is away from the seam. | add the three probe rings to `reentry.test.ts` as pins (simple ring under `invisible`; the transaction commits under `way`), killing SEAMOFF | M4 (or the next round touching insertChain) |
+
+## Fix round S12 (lane `build/M0-a-05-fix-s12`, 2026-10-27 – 2026-10-28; the session's round — Q104 (N-63 (2)) with Q58's partner draw 1 524, notBuilt #3's forms (N-64, J515), the routed row Q112 (J532); C-0456)
+
+Three lines and one routed row, all inside the item's owns (insert/ and test/insert/step3-5/); a-09's kerb, corridorUnion
+and bandUnion and its bands harness were read and run, never edited. The lane ran across four Claude Code cloud
+containers in turn (three restarts: 19:4x, 22:47 and 23:43 on 2026-10-27; the mirror rebuilt or kept, isolation proven
+each time; every gate, the mutant table, the census and the bands gate re-run on the final engine on the last container;
+the CONTINUE RULE).
+
+### Row-by-row outcome
+
+| line | outcome | evidence |
+|---|---|---|
+| Q104 (N-63 (2)), Q58's draws 8 897 / 1 524 | **FIXED where a lawful seat exists (sub-class W); sub-classes A and B REFUSED with the proof that none exists (notBuilt #4, REPORTED).** Q104's cases read in this lane's mirror: a kerb piece's contact on F's boundary edge E where E runs within `minEdge` of other geometry, so the placement rule seats no vertex on E within `attractCm` and falls back onto E's far end; the fidelity bound refuses that route and the in-bound passes put the piece's end at a free spot 25 – 26 cm into F (the dangling tip). Sub-class W (the contact on a wedge side: case (b)) — the end rule W (`endLanding`) keeps the end on the edge it meets within the bound: commits. Sub-classes A (the end segment along E: case (a), seed 4 draw 9 373) and B (a way's centreline within `minEdge` of the frame over metres, met by another way's kerb: seed 1 draw 8 419, seed 3 draw 7 294, seed 14 draw 8 616; Q58's partner 1 524 at the kerb's read) — no vertex can stand on F's boundary within the fidelity bound of the contact (`seatsNear`, from §3.6's placement tests and §3.10's clearance); every route ends at a vertex, so no insertion can make it succeed within the bound: REFUSE, typed (N-57 (2)'s code; UNLAID_DEEP at the read), its alternative another item's (N-57 (2)'s contract for a contact with no lawful seat, or the network's sub-`minFaceAngle` T-junction), REPORTED. The round's first engine committed sub-class A by a second end rule (A, `endHugs`); census run 3 found it moving a mandatory chain's end 166 cm, beyond the bound (below), so it is withdrawn. | `q104.test.ts` (new): case (b) and Q58's 8 897 commit — healthy, tiling, no spur, every closing by kerb(F), F's blocks within the fidelity bound of kerb(F) (case (b)); the end rule W stays on the edge it meets (the widened 20261011 network, the chord seed-4 network); sub-classes A and B's five draws and 1 524 pinned refused with the no-seat proof (the control: case (b) has a seat); the retry's two census chains committed as on S11; the census-7307 chain committed within the bound |
+| notBuilt #3's forms (3) – (5) (C-0424 (3) as C-0425 amended it) | **BUILT.** (3) the seam re-walk (`walk`, `SEAM`: the ring walked again from its last point, then the point before it); (4) the cut back's routes along an edge at x (`ChainCtx.cutStretch`; stretch.ts, snapRound.ts); (5) a removed candidate re-landed at its position read before the rollback | `reentry.test.ts`: the S11 refusal pins turned into commit pins on the same fixtures — the four seam arrangements (a simple ring under `invisible`; the transaction commits under `way`), the six constructive replays from `register/s12-forms.json` (the S11 arenas dumped: the earlier chains of those sequences now commit otherwise, so each step is pinned on the arena S11 left) committed with no vertex of degree 3 in their own rows, and through M0-a-06's transaction committing (823 490 252 refused 'branches' for its own self-crossing only — a vertex of degree 4 at (2 427, 2 893), split into simple runs by step 1 — the branch at the wedge vertex gone); N-s11c-1's three interior-corner rings pinned |
+| notBuilt #3's forms (1) – (2) | **Form (1) BUILT within the corner bound** (a tip of at most 90°, the cut back within 2 · √2 · `attractCm`, §3.6 *Existing geometry wins*); **(1′) and (2) KEPT with J238 (1)'s proof** in C-0456 (3): (1′) beyond the corner bound — moving the corner breaks the fidelity bound, keeping it needs step 3 to ignore the chain's own path (which §3.6's preamble forbids) and measured a census rise at 20261013 (random 2 → 13, constructive 1 → 8): the design's call on that conflict and M4's thin-face handling; (2) commits under every key (a re-ordered simple run, no refusal). Both listed for re-check at M1's first towns | `reentry.test.ts`: form (1) commit pins (W 40 cm from the corner: A–W–B, the transaction commits); `crossings.test.ts`'s 'through' V cut back onto its crossing (61 cm); (1′) kept pins (W 80 cm: W of degree 3, refused '(way, way:c1) branches' under a linear key); (2) kept pins (committed, a simple run under every key) |
+| Q112 (routed, J532, N-65 (6)) | **RE-RECORDED.** `sliver.test.ts`'s Q53 pins (kernel + kernel-tiny) against the landed kerb of a-09 S14 – S17: face 0's kerb way:0 read faithfully 29.9 → 5.0 cm deep, so L1 f1 is band whole; the pin stays the three-chord sliver committed and healthy three ways; C-0349's premise guard text unchanged | `sliver.test.ts` green on the tree (NEAR); the same classes on the S11 model in the mirror |
+
+### What the round's own measures found and fixed (CONFIRMED)
+
+- The census's first run (31 seeds × 10⁴, 2026-10-27 14:54 – 16:55) met two rises (constructive 6521 1 → 1 + 1,
+  fidelity −6421 0 → 1): an open chain's end the end rule landed whose route then kept nothing in bound. Fixed by the
+  retry (`inBound`: a pass the end rule led to a refusal runs again without it); both chains pinned committed exactly as
+  S11 committed them (`q104.test.ts`).
+- The bands measure (20:49) found the widened family at 20261011 rise kerb / corridorUnion insertChain 7 / 7 → 8 / 8: the
+  end rule W's vertex alternative landed a dead end's kerb part on the antenna's tip vertex 67.6 cm off (KEPT_DEEP).
+  Fixed: W's vertex alternative counts only a vertex on the piece the end meets (`onPiece`).
+- The S11 model's bands measure (21:49) found chord seed 4 corridorUnion insertChain 8 → 9 on the round's first engine:
+  W's edge landing taken before the first reading's strip seat. Fixed: the first reading's order across, nearest,
+  onEdge, free. Both networks pinned (`q104.test.ts`; mutants O and V kill them).
+- After those changes the engine routes `register/s9-register.json`'s passover-rescue case (5309) exactly as S9
+  recorded it, so that case's earlier re-record by this round is undone (router.test.ts 166 / 166).
+- **Census run 3 (2026-10-27 23:02 – 2026-10-28 02:38, resumed after the third restart) red at 7307** (the constructive property, fast-check path 2026, generator
+  seed 1 102 909 027): the end rule A absorbed the mandatory collinear chain way:4's first point (3 265, 30) into its
+  second's landing on the frame at (3 431, 30), 166 cm off — the route vertices (3 431, 30) and (3 414, 57) beyond
+  73.54 cm of every segment, the first segment 139.8 cm from its route: a silently wrong commit (bfuzz's fidelity judge).
+  Read in the mirror with the round's features switched off one at a time: only the end rules' switch changes it. With A
+  bounded to the fidelity bound it fired 0 times at 7307 and 5101 at 10⁴ (2 absorptions rejected at 7307), and the two
+  networks it was built for (case (a), seed 4 draw 9 373) need the out-of-bound absorption (the no-seat proof holds on
+  both), so A is withdrawn (`endHugs` and its two sites removed) and those two join sub-class B's refusal. The chain is
+  pinned committed within the bound as on S11 (its first point at (3 265, 75), W_PLACED); mutant A-BACK (the earlier
+  engine) turns it and the two refusal pins red. The census was then run again whole on the final engine (run 4).
+
+### The round's mutant table (J169, J183; the lane's mirror, `PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest run --maxWorkers=1 --bail=1 packages/kernel/test/insert/step3-5/` (kernel and kernel-tiny), the mutated file restored from the tree and `cmp`-equal after each; the final engine, 2026-10-28)
+
+BASE (no mutant): 28 files, 656 / 656 green.
+
+| id | line | file | mutant | result | killed by |
+|---|---|---|---|---|---|
+| A-BACK | Q104 | insertChain.ts | the round's earlier engine (the end rule A, unbounded) | killed (3 pins) | `q104.test.ts`: case (a) and seed 4 draw 9 373 refusal pins; the census-7307 chain |
+| Q104-W | Q104 | insertChain.ts | `stepTwoStrip`'s `onEdge` returns null (the end rule W off) | killed | `q104.test.ts` case (b) commits |
+| RETRY | Q104 | insertChain.ts | `inBound` without the retry | killed | `q104.test.ts` the retry's constructive 6521 chain |
+| O | Q104 | insertChain.ts | the first reading's order onEdge, across, nearest, free | killed | `q104.test.ts` the chord seed-4 network |
+| V | Q104 | insertChain.ts | `endLanding(…, false)` (any vertex within the bound, not only on the met piece) | killed | `q104.test.ts` the widened 20261011 network |
+| BOUNDW | Q104 | insertChain.ts | `endLanding`'s edge landing taken without its own within-the-bound test | survives — net-covered: a landing beyond the bound fails `inFidelity` on its route and the pass's retry runs as before (bfuzz's fidelity judge holds the result) | — |
+| SEAM | form (3) | insertChain.ts | no seam re-walk (`turn <= 0`) | killed | `reentry.test.ts` the seam ring, V the first point |
+| SEAM1 | form (3) | insertChain.ts | one re-walk only | killed | `reentry.test.ts` the seam ring, V the last point |
+| SEAMROT | form (3) | insertChain.ts | S11's check model: the ring walked from its second point | killed | `reentry.test.ts` the seam ring, V the second point |
+| CUTEND | form (4) | insertChain.ts | `cutStretch = 'end'` → null | killed | `reentry.test.ts` form (4) −5203 / 1 880 377 805 |
+| CUTSTART | form (4) | insertChain.ts | `cutStretch = 'start'` → null | killed | `reentry.test.ts` form (4) 5101 / 1 300 412 224 |
+| STR-END | form (4) | stretch.ts | `atEnd` off | killed | as CUTEND |
+| STR-START | form (4) | stretch.ts | `atStart` off | killed | as CUTSTART |
+| SR-END | form (4) | snapRound.ts | `leavesAtEnd` off | killed | as CUTEND |
+| SR-START | form (4) | snapRound.ts | `joinsAtStart` off | killed | as CUTSTART |
+| PRECM | form (4) | insertChain.ts | S11's check model: the cut back's route to x under the mandatory class | survives — equivalent: a differential probe over the constructive and random families (mirror only, deleted) found 0 outcome differences; form (4)'s cut backs pass the precision rules by `cutStretch` | — |
+| RELAND | form (5) | insertChain.ts | a removed candidate passed over, not landed again (S11's DEADPOS inverted) | killed | `reentry.test.ts` form (5) 8101 / 823 490 252 |
+| FAR | form (1) | insertChain.ts | no corner-bound tier | killed | `reentry.test.ts` form (1) W 40 cm |
+| ACUTE | form (1) | insertChain.ts | the corner-bound tier at every corner, not only a tip of at most 90° | survives — plausible equivalent: a corner both of whose arms pass within `attractCm` of a vertex beyond √2 · `attractCm` stands at most 90° wide (each arm within 45° of the line to it), so the test never cuts a candidate | — |
+| FB | S11 check | insertChain.ts | `result = back` (the as-before fallback removed) | killed | `bfuzz.test.ts` the random family |
+| Q14 | S9 register | crossings.ts | `passOver` ends the search with null | killed | `router.test.ts` passover-rescue 5309 |
+| CUTLOCAL | S9 register | snapRound.ts | the cut back routes on at once, not by restart | killed | `router.test.ts` cut-to-end 6101 |
+
+19 killed; BOUNDW net-covered, PRECM equivalent, ACUTE plausible equivalent (one line each, J169). S11's DEADPOS is
+the built form (5) itself; its inverse is RELAND.
+
+### Gates and census
+
+All on the last container (linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, Node 24.12.0), on the final engine:
+
+- `corepack pnpm install --frozen-lockfile` exit 0 ("Already up to date").
+- `corepack pnpm lint` exit 0 — eslint 1 185 files, 0 errors, 0 warnings; `lint: probe-red ok` (the probe's ten lines red
+  as required); 9 whole-tree checks ok (kernel-boundary, bench-boundary among them).
+- `corepack pnpm build` exit 0 (tsc -b ok; the six packages' esbuild bundles).
+- NEAR (the item's folder `packages/kernel/test/insert/step3-5/`, kernel and kernel-tiny, PR size 10⁴, W = 1): exit 0 — 28 files, 656 / 656, 1 018 s (2026-10-28 10:33, the final tree; the run before the caps ratchet and the comment edits, 03:18, 878 s, likewise 656 / 656).
+- RELATED (`PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run` over insertChain.ts, stretch.ts, snapRound.ts,
+  J499's full 1 000, W = 1): exit 1 — 474 files (6 failed | 468 passed), 6 500 tests (8 failed | 6 492 passed), 7 329 s. The eight reds: `testkit` `test/edge/repins.test.ts` EP-01/S5a/coincident 1 658 509 524 and `kernel` `test/arr/booleans-buffers/booleans.test.ts` s6 — S9's declared shifts (red at S11's closing check too; its PROPOSED re-pins stand); six of a-09's `test/arr/bands/` pins, read in the mirror with the round's features switched off one at a time (below, *RELATED's bands reds*): three are this round's declared shifts with every outcome law holding, three are red on the S11 model too (foreign to this round). No J176 bench red appeared in the selection's failures.
+- The census (J238 (2) – (3): `bfuzz.test.ts` and `fidelity.test.ts`, `PLAT_FUZZ_SEED` each of caps.ts's 31 seeds and
+  20261013, 10⁴ per property, `PLAT_FUZZ_COUNTS` read, W = 1, the tree; run 4, 2026-10-28): every seed exit 0;
+
+  | family | S11 (caps.ts before) | S12 (run 4) | cells changed |
+  |---|---|---|---|
+  | random | 55 + 48 = 103 | 55 + 48 = 103 | none |
+  | constructive | 31 + 14 = 45 | 30 + 13 = 43 | 6907 0 + 2 → 0 + 1, 7507 2 → 1 (falls) |
+  | mandatory-only | 47 + 2 = 49 | 47 + 2 = 49 | none |
+  | fidelity | 3 | 3 | none |
+  | 20261013 | 0 + 2 / 0 + 1 / 2 + 0 / 0 | 0 + 2 / 0 + 1 / 2 + 0 / 0 | none |
+
+  No cell rose. `caps.ts`'s constructive row lowered to the measure (J207's ratchet; cap per 10⁴ 2.10 → 2.02, the PR
+  and 10³ caps 8 and 3 unchanged, nightly 256 → 247) and `router.test.ts`'s caps pin re-recorded (6 / 6).
+- The bands gate (a-09's `test/arr/bands/bfuzz.test.ts`, read-only, `PLAT_FUZZ_SEED` 20261011 / 1012 / 1 / 2 / 3 / 4,
+  10⁴ chord + 2 000 widened, the tree), against the S11 model (the round's features switched off in the mirror):
+
+  | seed | chord kerb / corridorUnion / bandUnion insertChain, corridorUnion own | widened kerb / corridorUnion insertChain, corridorUnion own |
+  |---|---|---|
+  | 20261011 | 5 / 11 / 6, 0 (= before) | 7 / 7, 3 (= before) |
+  | 1012 | 7 / 10 / 2, 0 (=) | 10 / 10, 2 (=) |
+  | 1 | 2 / 6 / 1, 1 (=; sub-class B) | 8 / 8, 0 (=) |
+  | 2 | 5 / 8 / 1, 0 (=) | 2 / 2, 4 (=) |
+  | 3 | 3 / 8 / 3, 1 (=; sub-class B) | 12 / 12, 2 (=; kerb own 1 =) |
+  | 4 | 5 / 8 / 1, 1 (=; sub-class A) | 12 / 12 → 11 / 11, 1 (=) |
+
+  No cell rose; one fell (the end rule W).
+
+### RELATED's bands reds (a-09's pins, read in the lane's mirror; PROPOSED re-pins, not edited)
+
+a-09's S14 – S17 pins (`packages/kernel/test/arr/bands/`) were recorded on a branch whose base predates M0-a-05's
+S9 – S11 landing (dcf05e0c; the branch's choices ids C-0423 – C-0426 were renumbered C-0428 – C-0431 at its landing,
+9f631a41), and no seat had run them against S9 – S11's engine before this round's RELATED. Each red was read with
+`S12F` switches in the mirror (E the end rule W, S the seam re-walk, F the corner-bound tier, R the re-landing, C
+`cutStretch`; ESFRC = the S11 model):
+
+| test | red on S12 | red on the S11 model | cause | outcome on S12 | handling |
+|---|---|---|---|---|---|
+| `closing.test.ts` 'seed 20261011 draw 1109' | yes | no (E alone restores it) | the end rule W | committed, healthy, tiling; `bandClosings` [] (no along closing to (0, 1 631) now); `closingsBeyond` [] | DECLARED SHIFT of this round — PROPOSED re-pin for a-09: closings [] , kerb(0) `272,0 4000,0 4000,4000 0,4000 0,1631 15,887` |
+| `dryrun.test.ts` 'draws 389 and 1109' | yes | no (E restores it) | the end rule W | face 1 reads EMPTY, no block in it (S8 ≡ S9 holds), committed as band through a wedge: wholeBand [2], band [3, 1, 0], wedges [1], 1 block | DECLARED SHIFT — PROPOSED re-pin: `wholeBand` [2] (face 1 in `band` and `wedges`) |
+| `restage.test.ts` 'N2' | yes | no (F or R off restores it) | forms (1) and (5) built (the cut back's corner-bound tier, the re-landing) | face 0's kerb the same outline with way:1's strip-edge vertices kept (3 972, 150) … (3 947, 3 330) and (3 482, 3 932); 4 savepoints, census `faithful: 'taken'`; `clear`, no sliver kept, the other faces EMPTY, S8 ≡ S9, wholeBand [1, 2], 1 block, the band | DECLARED SHIFT — PROPOSED re-pin of the kerb string, `saves` 4 and `faithful: 'taken'` |
+| `hardening-s15.test.ts` 'network 561' | yes | yes | S9 – S11's engine against S8's pin (PLAUSIBLE: the S11 model reproduces N-7's 3e8ec437, not every S11 byte) | `k.kerb.length` 2 (pinned 3) | foreign to S12 — REPORTED (N-s12-4) |
+| `closing.test.ts` "fast-check's shrunk counterexample of seed 20261011" | yes | yes | as above | face 1's kerb string differs past (2 935, 3 961) | foreign to S12 — REPORTED (N-s12-4) |
+| `restage.test.ts` 'N1' | yes | yes | as above | face 2's kerb `2482,0 4000,0 4000,2553 447,69 448,15 2390,92 2425,85 2455,65 2475,35` (pinned `449,0 712,0 2390,92 … 447,72`) | foreign to S12 — REPORTED (N-s12-4) |
+
+### Refusal verdicts (J290 / N-58)
+
+| class | input kind | verdict | where |
+|---|---|---|---|
+| Q104 W (the end's fallback beyond the bound, a seat within it) | LAWFUL | MAKE-IT-SUCCEED — fixed | the end rule W, C-0456 (1) |
+| Q104 A and B (no seat on F's boundary within the bound, §3.10) and Q58's 1 524 | LAWFUL networks; the request (a contact pinned within `attractCm` on F's boundary) unsatisfiable under §3.10 and the fidelity bound | REFUSE, typed (N-57 (2)'s code, UNLAID_DEEP at the read), the proof pinned; the alternative layer is a-09's contract or the family's generator — REPORTED (notBuilt #4) | C-0456 (2) |
+| notBuilt #3 (1), (3) – (5) | LAWFUL | MAKE-IT-SUCCEED — built | C-0456 (3) |
+| notBuilt #3 (1′) | LAWFUL | MAKE-IT-SUCCEED, kept with J238 (1)'s proof (the design's call; M4's thin-face handling); re-check at M1's first towns | C-0456 (3), C-0424 (3) |
+| notBuilt #3 (2) | LAWFUL | commits (no refusal); its drawn order kept as (1′) | C-0456 (3) |
+| the widened family's own refusals (all at the input dead end's own tip) | LAWFUL | a-09's class (not the placement) — unchanged, noted | the bands gate above |
+
+### Notes (not failing lines)
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s12-1 | **Q104's residual (notBuilt #4) for the session.** corridorUnion's own refusals on a-09's measurement seeds re-measure 0 / 0 / 1 / 0 / 1 / 1 (seeds 20261011 / 1012 / 1 / 2 / 3 / 4), not 0: seeds 1, 3 and 4 are sub-classes B and A, where no vertex can stand on F's boundary within the fidelity bound of the contact (`q104.test.ts`'s proof). No insert/ change can seat one or commit beyond the bound. | a ruling: N-57 (2)'s contract for a contact with no lawful seat (a-09), or the bands family's generator (a T-junction below `minFaceAngle`) | the session (a-09's next touch) |
+| N-s12-2 | **PRECM equivalent on the final engine.** The S11 check's PRECM changes no pin and no outcome (the differential probe above). | none (an equivalent survivor, one line) | — |
+| N-s12-4 | **a-09's S14 – S17 pins against M0-a-05's S9 – S11 engine.** Three bands pins (`hardening-s15.test.ts` network 561, `closing.test.ts`'s shrunk counterexample of 20261011, `restage.test.ts` N1) are red on the lane's S11 model as on S12: the two items landed in an order no seat had tested together (above). | the session: a-09's next touch re-pins them on the landed engine (or a ruling that M0-a-05 restores S8's reads there) | the session |
+| N-s12-3 | **The end rule A's lesson.** A rule that lands an input point onto another vertex must hold that vertex within the fidelity bound of the point; bfuzz's fidelity judge caught it only at 10⁴ on one seed of 31. | none now (A withdrawn); a KI row for the hardening pass if a later end rule absorbs points | hardening |
+
+## Closing check of S12 (lane `check/M0-a-05-close-s12`, 2026-10-28 – 2026-10-30; verdict FAIL in `checks/M0-a-05-s12.md` — notBuilt #3's form (1) at an obtuse tip within the corner bound neither built nor kept with J238 (1)'s proof; Q104, forms (3) – (5), (1′), (2) and Q112 confirmed; gates green; census held)
+
+Q104's fix (the end rule W) is confirmed with this seat's own no-seat proof over the six residual networks (0 seats; the
+control 417) and a-09's harness re-run read-only at 7 seeds (corridorUnion own 0 / 0 / 0 / 1 / 0 / 1 / 1, no cell rose, seed
+4's widened 12 / 12 → 11 / 11); forms (3) – (5) are confirmed by the commit pins, this seat's S11 model (the five features
+off reproduces N-7's `3e8ec437…` exactly) and its mutants (SEAMROT killed by 4, PRECM equivalent by a differential of
+9 · 10⁴ cases, 0 changes); Q112's re-pin is green under `kernel` and `kernel-tiny`. The failing line: the round's claim
+that a retrace within the corner bound stands at most 90° wide is false — this seat's targeted family T found lawful
+V-chains beside a junction whose cut back reaches the corner-bound tier at an obtuse tip (seed 503 740: V 41 cm from W,
+the corner 99°, committed with W of degree 3 and refused `(way, way:c1) branches`; under the far tier at every corner it
+commits A–W–B simple), and the registered families reach the same decision point (bfuzz at 20261013: 718 far-tier cut backs,
+39 at an obtuse tip). The class is neither built nor kept with a proof (N-64 (4)). Four rows:
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s12c-1 | **Q104's three residual own refusals, routed to the session (ZERO REFUSALS, J264).** On a-09's chord family at PLAT_FUZZ_SEED 1 (draw 8 419, the pinned contact (20, 2 116)), 3 (draw 7 294) and 4 (draw 9 373) corridorUnion refuses one lawful network each under N-57 (2)'s clause texts; the harness does not re-measure to 0. This seat's probe P2, written from §3.6's placement tests (i) – (iii) and §3.10's clearance without the code under test, finds no seat on F's boundary within 2 · √2 · `attractCm` of the contact in any of the six residual networks (the control, case (b), 417 seats), so no insert/ change can commit them within the fidelity bound: the round's REFUSE with the proof (notBuilt #4, C-0456 (2), N-s12-1) is the lawful outcome of the request as made. | the session's ruling: N-57 (2)'s contract for a contact with no lawful seat (a-09), or C-0177 (2)'s sub-`minFaceAngle` T-junction in the bands generator; until then a-09's gates keep N-63 (3)'s known class under notBuilt #4's text | the session (a-09's next touch) |
+| N-s12c-2 | **kernel-tiny `fidelity.test.ts` E_INVARIANT 2 > cap 1 at a random seed (RELATED@1000's one new red).** The fidelity property's cap at 10³ is 1 (`refusalCap`: Poisson 99.9 % of 0.026, at least 1) and its refusals come in clusters — this seat's scan of 2 · 10⁵ case seeds (1 000 001 …, `kernel-tiny`, the mirror) met 5 refusing cases carrying 8 E_INVARIANT (1 014 918 ×3, 1 084 572 ×2, 1 062 924, 1 189 337, 1 192 055), each identical digest for digest on S12 and on this seat's S11 model — the pre-existing KI-1 residual at 0.40 per 10⁴ at random seeds (caps.ts's 0.10 over the 31 seeds), not the round's. A RELATED run at a random seed can meet one refusing case with two refusals and go red on a count the 31-seed measure never saw. | the session (J207: raising a cap is the session's call, never a seat's): count refusing cases rather than refusals against the 10³ cap, or set the fidelity property's 10³ cap to 2; otherwise a KI row for the hardening pass | the session; M4 |
+| N-s12c-3 | **a-09's three foreign bands pins (N-s12-4): attribution CONFIRMED.** On this seat's S11 model (the round's features Q1 + F3b + F1 + F5 + F4a switched off in the mirror; it reproduces N-7's `3e8ec437…` exactly) `hardening-s15.test.ts` network 561, `closing.test.ts`'s shrunk counterexample of 20261011 and `restage.test.ts` N1 stay red while the round's three declared shifts (`closing.test.ts` 1109, `dryrun.test.ts` 389 / 1109, `restage.test.ts` N2) go green: the three are S9 – S11's engine against pins recorded on S8's, foreign to S12. A soft run of the three shifted pins on S12 fails only their exact kerb / closing / class lines; every outcome law after them holds. | a-09's next touch re-pins all six on the landed engine (the round's PROPOSED re-pins for its three; the other three need a-09's own reading) | the session (a-09's next touch) |
+| N-s12c-4 | **A targeted family for notBuilt #3's class (this seat's T; `/home/user/maps-scratch/waves/check-M0-a-05/s12/zzs12t.test.ts`, mirror only, C-0106).** V-chains and small rings beside a `way` whose end, bend or junction W stands within the corner bound of the corner V (37 – 73 cm), the arms aimed within asin(`attractCm` / |VW|) of W, existing geometry planted near the first arm's start: on the tree 441 of 19 998 lawful chains commit with a vertex of degree 3 in their own rows and are refused `branches` under a linear key (open 3-point 66, closed 132, open 4-point 243; mandatory 329, optional 112; 153 with the branch at W itself; 16 with an obtuse input corner — the retraces the cut back does not route, notBuilt #3's class by C-0424 (3)'s rule, (1′) and (2) among them); the optional class's 537 refusals are its own precision rules (453 a wedge beyond `attractCm`, 84 a corner below `minFaceAngle`: the generator's degenerate corners); no `allProblems`, no mandatory refusal. A fit register for the class's re-check at M1's first towns and for M4's hardening; its generator is in the lane's scratch, not the tree. | add T (or its arrangements) as a counted family of the class at M4, with the per-form counts; the re-check at M1's first towns counts the same forms in the towns' ways | M4 (and the re-check at M1's first towns) |
+
+## Fix round S13 (lane `build/M0-a-05-fix-s13`, 2026-10-30; the S12 closing check's failing line — notBuilt #3's form (1) at an obtuse tip within the corner bound; N-64 (3) – (4), J238 (1) – (3), J264, J290 / N-58, J499; C-0455)
+
+One line, inside the item's owns (insert/insertChain.ts and test/insert/step3-5/reentry.test.ts); a-09's kerb,
+corridorUnion and bandUnion and its bands harness were run read-only, never edited. One Claude Code cloud container
+(linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, Node 24.12.0), no restart.
+
+### Row-by-row outcome
+
+| line | outcome | evidence |
+|---|---|---|
+| notBuilt #3's form (1) at a tip wider than 90° within the corner bound (the S12 check's family T seed 503 740; F1b not equivalent) | **BUILT** (C-0455) — the cut back's corner-bound tier (candidates beyond √2 · `attractCm`, within 2 · √2 · `attractCm` of the corner's input point) at every corner after the √2 · `attractCm` tier, the S12 check's F1b; `acute` removed; a declared deviation from §3.6 *Existing geometry wins*'s "at an acute tip", every placed vertex still within the fidelity bound (`tryCuts` bound `FIDELITY_SQ`). The "at most 90° wide" claim struck from C-0456 (3)'s premise (in place), insertChain.ts's comments above `near` / `far` and the passes' header, and reentry.test.ts's form (1) comment; C-0424 (3)'s list amended in place (form (1″) BUILT) | `reentry.test.ts` § form (1″) (new, three cases × kernel and kernel-tiny): seed 503 740's arrangement (the four existing ways, W (1 635, 2 421) a junction; the mandatory open chain A (1 445, 2 274) → V (1 644, 2 461) → B (2 135, 2 081)) — the corner 99° and within the corner bound (41.0 cm); under `invisible` placed (1 461, 2 257) · (1 635, 2 421) · (2 126, 2 067), no vertex of degree ≥ 3, W of degree 2, V gone; through M0-a-06's transaction under `way` the batch commits. Red on the S12 engine (placed V kept at (1 644, 2 461); the transaction refused `E_INVARIANT (way, way:c1) branches`), exactly the S12 check's tree row; green now |
+
+### Self-check (J183; the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-05-fix-s13`, isolation proven — no link into the tree, the workspace dependency's realpath inside the mirror)
+
+| id | the fault re-introduced | result |
+|---|---|---|
+| ACUTE (the S12 engine; F1b's inverse) | `cutBack`'s far tier gated again on the corner at prev's input point being at most a right angle (`dot(pp − at, next − at) ≥ 0 ? far : []`) | **KILLED** by the form (1″) pin — `reentry.test.ts` alone and on the item's folder (`PLAT_FUZZ_RUNS=1000 … vitest run --maxWorkers=1 --bail=1 packages/kernel/test/insert/step3-5/`: 1 failed, the `invisible` pin); insertChain.ts restored from the tree and `cmp`-equal after |
+
+### Gates and census (the tree, this container, the final engine)
+
+- `corepack pnpm install --frozen-lockfile` exit 0; `corepack pnpm lint` exit 0 (`lint: probe-red ok`, 9 whole-tree checks);
+  `corepack pnpm build` exit 0.
+- NEAR (the item's folder, kernel and kernel-tiny, PR size 10⁴, W = 1): exit 0 — 28 files, 662 / 662 (S12's 656 and the
+  new pin's 3 × 2), 870 s.
+- RELATED (`PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1` over insertChain.ts, J499's full
+  1 000): exit 1 — 472 files (6 failed | 466 passed), 6 470 tests (8 failed | 6 462 passed), 6 331 s. The eight reds are exactly S12's set (§ Fix round S12, *Gates and census*; the S12 closing check): `testkit` `test/edge/repins.test.ts` EP-01/S5a/coincident 1 658 509 524 and `kernel` `test/arr/booleans-buffers/booleans.test.ts` s6 (S9's declared shifts), and a-09's six `test/arr/bands/` pins (closing ×2, dryrun, hardening-s15, restage ×2: three S12's declared shifts with PROPOSED re-pins, three red on the S11 model too — foreign, REPORTED). No new red; the kernel-tiny fidelity KI-1 red the S12 check met at a random seed did not appear at this run's seed. No J176 bench red in the selection's failures.
+- The census (J238 (2) – (3): `bfuzz.test.ts` and `fidelity.test.ts`, `PLAT_FUZZ_SEED` each of caps.ts's 31 seeds and
+  20261013, 10⁴ per property, `PLAT_FUZZ_COUNTS` read, W = 1, the tree): every seed exit 0; all 124 cells equal to
+  `caps.ts`'s table cell for cell — random 55 + 48 = 103, constructive 30 + 13 = 43, mandatory-only 47 + 2 = 49,
+  fidelity 3 (S12 → S13: no rise, no fall); 20261013 0 + 2 / 0 + 1 / 2 + 0 / 0 held, N-7's golden digest (045e8cc2…)
+  unchanged in the same runs. `caps.ts` unchanged.
+- The bands gate (a-09's `test/arr/bands/bfuzz.test.ts`, read-only, `--silent=false` to read its counts,
+  `PLAT_FUZZ_SEED` 20261011 / 1012 / 1 / 2 / 3 / 4, 10⁴ chord + 2 000 widened): every seed exit 0, every cell equal to
+  C-0456 (4)'s S12 column (chord kerb / corridorUnion / bandUnion insertChain, own: 5 / 11 / 6, 0; 7 / 10 / 2, 0;
+  2 / 6 / 1, 1; 5 / 8 / 1, 0; 3 / 8 / 3, 1; 5 / 8 / 1, 1 — widened kerb / corridorUnion insertChain, own: 7 / 7, 3;
+  10 / 10, 2; 8 / 8, 0; 2 / 2, 4; 12 / 12, 2 (kerb own 1); 11 / 11, 1).
+
+### Refusal verdicts (J290 / N-58; the counts BEFORE → AFTER the round)
+
+| class | input | verdict | count |
+|---|---|---|---|
+| notBuilt #3 form (1″) — an obtuse corner within the corner bound re-entering a vertex of its own path (T seed 503 740) | LAWFUL | **MAKE-IT-SUCCEED: built** (C-0455) | the S12 check's family T: 1 refused 'branches' → 0 on its replay (pinned); the registered families' counted cells unchanged (no counted refusal was of this class) |
+| the census's counted cells (random, constructive, mandatory, fidelity) | LAWFUL | KI-1's residual, notBuilt #2 (M4, C-0423), unchanged | 103 / 43 / 49 / 3 → 103 / 43 / 49 / 3 (198 → 198) |
+| notBuilt #3 (1′), (2) | LAWFUL | KEPT with J238 (1)'s proof (C-0456 (3)), re-check at M1's first towns | unchanged |
+| corridorUnion's own (bands chord family; Q104's sub-classes A and B, notBuilt #4) | LAWFUL networks, no seat within the bound | REFUSE with the proof, REPORTED (C-0456 (2), N-s12c-1) | 0 / 0 / 1 / 0 / 1 / 1 → the same |
+
+## Closing check of S13 (lane `check/M0-a-05-close-s13`, 2026-10-31; verdict PASS in `checks/M0-a-05-s13.md` — notBuilt #3's form (1″) BUILT, confirmed)
+
+The S12 closing check's one failing line is fixed: on the S13 engine the S12 seat's family T (19 998 lawful cases) equals
+that seat's mutant F1b case for case and differs from the S12 engine only at seed 503 740 (refused `branches` → commits
+A′–W–B simple), pinned in `reentry.test.ts`; the census (32 seeds × 4 cells at 10⁴) and the bands gate (7 seeds) held cell
+for cell; RELATED@1000's eight reds are the S12 round's declared / foreign set. Two rows:
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s13c-1 | **FAR1 survives — the corner-bound tier's breadth is unpinned.** This seat's mutant FAR1 (`far … .slice(0, 1)`: only the nearest candidate beyond √2 · `attractCm` tried) changes no pin, no NEAR test at the PR size and no RELATED@1000 test (its reds the known eight); on family T it changes one case, seed 516 267 (an acute 25.5° open chain beside a junction W 59 cm from V: the tree cuts V back through the second far candidate and commits simple; the mutant commits W of degree 3 and the transaction refuses `(way, way:c1) branches` — fail-safe). Not equivalent; it bears on S12's acute-tip tier, not on this round's change. | pin T 516 267's arrangement in `reentry.test.ts` (commit, a simple path, under `invisible` and a `way` key) so the "at most 8 per bound" breadth is held | next a-05 round, else M4 |
+| N-s13c-2 | **LOOSE equivalent.** Gathering cut-back candidates within 4 · `FIDELITY_SQ` changes one T case (506 010) whose moved vertex stays within the fidelity bound (71.2 cm < 73.5 cm): the landing's bound check holds the promise. | none (an equivalent survivor, one line) | — |

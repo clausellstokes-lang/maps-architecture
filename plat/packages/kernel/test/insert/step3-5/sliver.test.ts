@@ -50,8 +50,12 @@ describe('a first L2 edge inside an L1 face thinner than the hot pixel: its reco
     const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
     expect(r.ok).toBe(true);
     if (!r.ok) return;
-    // the band / blocks classes the diagnosis states for the committed batch (its §7)
-    expect(r.value.value).toEqual({ band: [4, 1, 3, 5, 2, 7], strips: [1, 3], wedges: [4, 5, 2, 7], blocks: [0, 6], whole: [], wholeBand: [3, 2] });
+    // the band / blocks classes of the committed batch: the diagnosis's §7 read { band: [4, 1, 3, 5, 2, 7], strips: [1,
+    // 3], wedges: [4, 5, 2, 7], blocks: [0, 6], whole: [], wholeBand: [3, 2] } on the kerb before M0-a-09's rounds S14 –
+    // S17; re-recorded by round S12 (queue row Q112, J532, C-0456) against the landed kerb (9f631a41), a DECLARED SHIFT of
+    // that kerb — face 0's kerb way:0 read faithfully, 29.9 → 5.0 cm deep (N-65 (2)), so L1 f1 is band whole and no block
+    // or wedge 6 / 7 is cut — the same on S11's and S12's insertion engines; the sliver's records below are as before
+    expect(r.value.value).toEqual({ band: [4, 1, 3, 5, 2], strips: [1, 3], wedges: [4, 5, 2], blocks: [0], whole: [], wholeBand: [1, 3, 2] });
     healthy(p);
     expect(checkIndexState(p)).toEqual([]);
     expect(tilesExactly(p, 2, faces)).toEqual([]);

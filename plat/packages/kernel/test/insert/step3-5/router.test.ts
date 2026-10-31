@@ -1200,21 +1200,23 @@ describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C
     expect(poissonCap(10)).toBe(21);
   });
 
-  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds (S9\'s measure, C-0423): 4.30 (random), 2.10 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
+  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds (S9\'s measure, C-0423; constructive S12\'s, C-0456): 4.30 (random), 2.02 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
-    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.3, 2.1, 2.26, 0.26]);
+    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.3, 2.02, 2.26, 0.26]);
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBe(MEASURED_COUNT[f] / 31);
   });
 
-  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (8, 3, 4, 2); 4, 3, 3 and 1 at 10³; 496, 256, 274 and 44 nightly', () => {
+  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (8, 3, 4, 2); 4, 3, 3 and 1 at 10³; 496, 247, 274 and 44 nightly', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
     expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([12, 8, 8, 3]);
     expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([4, 3, 3, 1]);
-    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([496, 256, 274, 44]);
+    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([496, 247, 274, 44]);
     const most = [8, 3, 4, 2];
-    // J207's ratchet: S9's counts never rise over S6's (C-0221: 107, 46, 49, 3).
-    expect(fams.map((f) => MEASURED_COUNT[f])).toEqual([103, 45, 49, 3]);
+    // J207's ratchet: S9's counts never rise over S6's (C-0221: 107, 46, 49, 3), nor S12's over S9's (C-0423: 103, 45,
+    // 49, 3; C-0456 lowered the constructive family's).
+    expect(fams.map((f) => MEASURED_COUNT[f])).toEqual([103, 43, 49, 3]);
     fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([107, 46, 49, 3][i]));
+    fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([103, 45, 49, 3][i]));
     fams.forEach((f, i) => expect(refusalCap(f, 10_000)).toBeGreaterThan(most[i]));
     // The target stays 1 per 10⁴ (KI-1): every measured mean is above it, none is below 0.
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBeGreaterThan(0);
