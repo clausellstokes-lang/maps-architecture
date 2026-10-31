@@ -5,11 +5,12 @@
 // the wall's edge between the banks lies across the water. Where the boundary only runs along a bank, the trace follows
 // the shore there (a graze, C-0226 (7)) and no gate is written.
 import { describe, expect, it } from 'vitest';
-import type { GateSite } from '@plat/model';
+import { generatedLifecycle, type GateSite } from '@plat/model';
 import { commitOuterRing, crossWater, GRAZE_RATIO, siteContext, traceBase, waterGates, waterRings } from '../../src/index.js';
 import { STAGES, type StageId } from '@plat/kernel';
 import { closedChain, densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, RIVER, riverCommitted, ringDist, smallSite, verticesWith, WALL } from './support.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
+import { generated } from '../../src/enceinte/water.js';
 
 const SEEDS = [1, 4];
 
@@ -299,4 +300,35 @@ describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7
       for (let i = 1; i < 20; i += 1) expect(wet({ x: e[0].a.x + (i / 20) * (e[0].b.x - e[0].a.x), y: e[0].a.y + (i / 20) * (e[0].b.y - e[0].a.y) })).toBe(true);
     }
   }, 120_000);
+});
+
+describe('the generated lifecycle stamp is @plat/model\'s one builder (Q87, c-02\'s copy; m-01 S1\'s L30)', () => {
+  it('generated(epoch) deep-equals generatedLifecycle(epoch) at epoch 0 and a later epoch, a fresh object per call', () => {
+    for (const epoch of [0, 7, 2 ** 40]) {
+      expect(generated(epoch)).toEqual(generatedLifecycle(epoch));
+      expect(generated(epoch)).not.toBe(generated(epoch));
+    }
+    // −0 is written as 0, as the builder writes it.
+    expect(Object.is(generated(-0).since.epoch, 0)).toBe(true);
+  });
+
+  it('an unlawful epoch is refused as the builder refuses it (the same RangeError)', () => {
+    for (const epoch of [-1, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 2 ** 53]) {
+      let theirs = '';
+      try {
+        generatedLifecycle(epoch);
+      } catch (e) {
+        theirs = `${(e as Error).name}: ${(e as Error).message}`;
+      }
+      expect(theirs).toMatch(/^RangeError: generatedLifecycle: epoch/);
+      expect(() => generated(epoch)).toThrow(RangeError);
+      let ours = '';
+      try {
+        generated(epoch);
+      } catch (e) {
+        ours = `${(e as Error).name}: ${(e as Error).message}`;
+      }
+      expect(ours).toBe(theirs);
+    }
+  });
 });

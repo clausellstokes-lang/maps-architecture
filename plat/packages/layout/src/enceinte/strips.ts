@@ -39,7 +39,7 @@
 // setback vertex lies inside the frame or on its border, before the batch and inside it; one beyond it refuses the
 // strips E_INVARIANT, nothing written.
 import { buffer, err, isHalfEdgeLive, LATTICE, orient2d, rowKey, rowsOn, STAGES, type HalfEdgeId, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
-import type { Enceinte, Id } from '@plat/model';
+import type { Enceinte, Id, Way } from '@plat/model';
 import type { Row } from '@plat/tables';
 import { insideRing, quot } from '../siting/geom.js';
 import { area2, ccw, clipOutside, crossParams, d2, dist, distToRing, footOn, inside, lat, openRing, unitOf, type Piece } from './plane.js';
@@ -72,6 +72,13 @@ export interface LayStripsOptions {
    * corridors (`intrudes`); default none.
    */
   readonly corridors?: readonly Extract<StripStop, { kind: 'way' }>[];
+  /**
+   * The arena's Way records (§2.4: each with its width, a scalar or a `width_knot` profile on its spine): an arena way
+   * read as a stop takes its own half-width where the strips meet it — the profile read along the way, each stretch of
+   * one width its own corridor (Q132; C-0454) — never the widest given way stop's. A way with no record here takes
+   * `wayHalfWidthCm` (or the widest given way stop's) as before; default none.
+   */
+  readonly ways?: readonly Pick<Way, 'id' | 'width'>[];
 }
 
 /**
@@ -424,13 +431,24 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
   // The corridors beside the stops (RQ5): each given corridor and each of the arena's other ways (no gate of this
   // enceinte on it) is a stop where it runs inside a strip's band beyond the stops' corridors.
   const extras: Extract<StripStop, { kind: 'way' }>[] = [...(opts.corridors ?? [])];
-  if (widest !== undefined) {
+  // The arena's own ways read as stops: no gate of this enceinte stands at the end of their runs, so `whyNot`'s
+  // gate-vertex clause never reads a run's end as a gate's vertex (Q131; C-0454: a lawful way ending inside a strip's band
+  // was refused "… is way:<id>'s gate vertex").
+  const arenaExtras = new Set<Extract<StripStop, { kind: 'way' }>>();
+  const records = new Map<Id, Pick<Way, 'id' | 'width'>>((opts.ways ?? []).map((w) => [w.id, w]));
+  if (widest !== undefined || records.size > 0) {
     const gateAt = new Set<string>();
     for (const s of stops) if (s.kind === 'way') gateAt.add(keyOf(s.at));
     for (const w of arenaWays(k, key)) {
+      const rec = records.get(w);
       for (const run of runPoints(k, key, { role: 'way', entity: w })) {
         if (run.some((q) => gateAt.has(keyOf(q)))) continue;
-        extras.push({ kind: 'way', gate: w, at: run[0], path: run, halfWidthCm: widest });
+        const stretches = rec === undefined ? (widest === undefined ? [] : [{ path: run, halfWidthCm: widest }]) : localStretches(k, key, rec, run);
+        for (const st of stretches) {
+          const x: Extract<StripStop, { kind: 'way' }> = { kind: 'way', gate: w, at: st.path[0], path: st.path, halfWidthCm: st.halfWidthCm };
+          arenaExtras.add(x);
+          extras.push(x);
+        }
       }
     }
   }
@@ -639,7 +657,13 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
     const touched = new Set<string>(trace.map((q) => keyOf(q)));
     for (const c of laid) {
       const r = k.geom.insertChain(o, c.points, [row], 'mandatory', { closed: c.closed });
-      if (!r.ok) return err(r.code, r.detail);
+      if (!r.ok) {
+        // A chain the insertion's attraction lands whole on one existing vertex (§3.6 step 2: fewer than two distinct
+        // points; refused E_DEGENERATE `empty`, nothing written — the op is atomic) adds no edge and bounds nothing: it is
+        // not laid (Q122's S3 class; C-0454), as the pre-filter's chains below the attraction distance are not (R-31).
+        if (r.code === 'E_DEGENERATE' && r.detail === 'empty') continue;
+        return err(r.code, r.detail);
+      }
       const pl = k.plat(key);
       for (const v of r.value.placed) {
         const q = { x: pl.vertices.x[v], y: pl.vertices.y[v] };
@@ -666,7 +690,7 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
         if (dt > widthCm + 100) return `vertex ${at} lies ${cm(dt)} cm from the trace, beyond the strip's ${cm(widthCm)} cm`;
         for (const c of wayCorridors) {
           const st = c.stop;
-          if (v.x === st.at.x && v.y === st.at.y) return `vertex ${at} is ${st.gate}'s gate vertex (the face crosses its corridor)`;
+          if (!arenaExtras.has(st) && v.x === st.at.x && v.y === st.at.y) return `vertex ${at} is ${st.gate}'s gate vertex (the face crosses its corridor)`;
           for (const r of c.rings) {
             if (!inside(r, v)) continue;
             const depth = distToRing(v, r);
@@ -773,6 +797,56 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
     },
     warnings: committed.warnings,
   };
+}
+
+/**
+ * An arena way's run cut into stretches of one corridor half-width (Q132; C-0454): a scalar width is one stretch at half
+ * of it; a `width_knot` profile (§2.4; S4's class runs, two knots on the vertex where a run's class changes) is read
+ * along the run by arc length — linear between consecutive knots, its first value before the first knot and its last
+ * after the last — each side of the run taking the widest value the profile reaches on it, and consecutive sides of one
+ * half-width joined. A knot not found on the run gives the profile's widest value to the whole run (fail-safe: the
+ * corridor never narrower than the way anywhere).
+ */
+export function localStretches(k: Kernel, key: PlatKey, way: Pick<Way, 'id' | 'width'>, run: readonly XY[]): { path: XY[]; halfWidthCm: number }[] {
+  const w = way.width;
+  if (typeof w === 'number') return [{ path: [...run], halfWidthCm: w * 0.5 }];
+  const values = w.values as readonly number[];
+  if (values.length === 0) return [];
+  const along: number[] = [0];
+  for (let i = 0; i + 1 < run.length; i += 1) along.push(along[i] + dist(run[i], run[i + 1]));
+  const p = k.plat(key);
+  const knots: { t: number; v: number }[] = [];
+  let lost = false;
+  for (let i = 0; i < values.length && !lost; i += 1) {
+    const r = k.resolve({ role: w.knotRole, entity: way.id, ordinal: i }, key);
+    const v = r.view === 'vertices' && r.vertices.length === 1 ? r.vertices[0] : -1;
+    const at = v < 0 ? -1 : run.findIndex((q) => q.x === p.vertices.x[v] && q.y === p.vertices.y[v]);
+    if (at < 0 || (knots.length > 0 && along[at] < knots[knots.length - 1].t)) lost = true;
+    else knots.push({ t: along[at], v: values[i] });
+  }
+  if (lost) return [{ path: [...run], halfWidthCm: Math.max(...values) * 0.5 }];
+  // The profile's value at t approached from the right (into the side after t) or from the left.
+  const valueAt = (t: number, fromRight: boolean): number => {
+    if (fromRight ? t < knots[0].t : t <= knots[0].t) return knots[0].v;
+    for (let i = 0; i + 1 < knots.length; i += 1) {
+      const a = knots[i];
+      const b = knots[i + 1];
+      if (fromRight ? a.t <= t && t < b.t : a.t < t && t <= b.t) return a.v + quot((b.v - a.v) * (t - a.t), b.t - a.t, 'length', 'width profile');
+    }
+    return knots[knots.length - 1].v;
+  };
+  const out: { path: XY[]; halfWidthCm: number }[] = [];
+  for (let i = 0; i + 1 < run.length; i += 1) {
+    const t0 = along[i];
+    const t1 = along[i + 1];
+    let top = Math.max(valueAt(t0, true), valueAt(t1, false));
+    for (const kn of knots) if (kn.t > t0 && kn.t < t1) top = Math.max(top, kn.v);
+    const half = top * 0.5;
+    const last = out[out.length - 1];
+    if (last !== undefined && last.halfWidthCm === half) last.path.push(run[i + 1]);
+    else out.push({ path: [run[i], run[i + 1]], halfWidthCm: half });
+  }
+  return out;
 }
 
 /** Does every side of the open piece lie within a centimetre of the trace or of one of the lines (its middle and its ends)? */

@@ -3,9 +3,13 @@
 // closing by the band's radius, C-0226 (6)), then the topology-preserving union-simplify rung, each reached by its own
 // fixture and reported; a trace neither repairs is refused (the later rungs are M1's). A notch twice the band or wider
 // takes no rung.
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import type { CostField, GateSite } from '../../src/index.js';
-import { commitOuterRing, defectOf, rungVerdict, selfTouches, siteContext, traceBase } from '../../src/index.js';
+import type { LatticePoint } from '@plat/kernel';
+import type { CostField, GateSite, Pulled } from '../../src/index.js';
+import { commitOuterRing, defectOf, outwardNormals, rungVerdict, selfTouches, siteContext, traceBase, wetSides } from '../../src/index.js';
+import { touchPairs } from '../../src/enceinte/plane.js';
+import { smoothKeptSimple, untangle } from '../../src/enceinte/pull.js';
 import { closedChain, densify, kernelFor, maxDeparture, P, smallSite, verticesWith } from './support.js';
 
 type Corner = readonly [number, number];
@@ -76,7 +80,22 @@ describe('F-WALL\'s trace rungs (C-0085)', () => {
     expect(r.ok).toBe(false);
     if (!r.ok) {
       expect(r.code).toBe('E_SELF_INTERSECT');
-      expect(r.detail).toMatch(/crosses the core/);
+      // The residual class, F-WALL's later rungs (RL2's proof, C-0454): pinned verbatim (J263 Q6). The pull untangled and
+      // the boundary as given cross the core as well, so the round's re-run of steps (2) – (3) cannot hold.
+      expect(r.detail).toBe("F-WALL: the trace crosses the core after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)");
+    }
+    expect(() => closedChain(plat, { role: 'wall', entity: 'enceinte:1' })).toThrow();
+  }, 60_000);
+
+  it('a boundary as given that touches itself (a slot 20 cm wide, a gate on its wall) is the later rungs\' class: refused, the message naming notBuilt(\'M1\') verbatim (RL2; C-0454)', () => {
+    // The re-offset closes the slot over the gate (pin_lost); the union keeps the slot (its walls do not overlap); the pull
+    // untangled and the boundary unpulled are the boundary itself, so no line of the round's re-run holds either.
+    const slot: Corner[] = [[10, 30000], [10, 20000], [-10, 20000], [-10, 30000]];
+    const { r, plat } = run(square(slot), [[-30000, 0], [30000, 0], [10, 25000]]);
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.code).toBe('E_SELF_INTERSECT');
+      expect(r.detail).toBe("F-WALL: the trace touches itself after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)");
     }
     expect(() => closedChain(plat, { role: 'wall', entity: 'enceinte:1' })).toThrow();
   }, 60_000);
@@ -115,4 +134,64 @@ describe('F-WALL\'s trace rungs (C-0085)', () => {
     expect(rungVerdict([P(0, 0), P(10000, 10000), P(10000, 0), P(0, 10000)], boundary, 4000, [])).toBe('self_touch');
     expect(rungVerdict(within, boundary, 4000, [[P(70000, 70000), P(71000, 70000), P(71000, 71000)]])).toBe('core');
   });
+});
+
+describe('the pull\'s own crossings undone (Q122, Q88 / Q46; C-0454)', () => {
+  /** A spiky star: `n` corners alternating `outer` and `inner` cm from the origin, counter-clockwise, its sides densified at 10 m. */
+  const star = (n: number, outer: number, inner: number, jitter: (i: number) => number = () => 0): LatticePoint[] =>
+    densify(Array.from({ length: n }, (_, i) => {
+      const a = (2 * Math.PI * i) / n;
+      const r = (i % 2 === 0 ? outer : inner) + jitter(i);
+      return [Math.round(r * Math.cos(a)), Math.round(r * Math.sin(a))] as const;
+    }));
+  const pulledBy = (ring: readonly LatticePoint[], offsets: readonly number[]): Pulled => {
+    const nm = outwardNormals(ring);
+    return { line: ring.map((p, i) => ({ x: p.x + offsets[i] * nm[i].x, y: p.y + offsets[i] * nm[i].y })), offsetsCm: [...offsets], moved: offsets.filter((o) => o !== 0).length, maxOffsetCm: Math.max(...offsets.map((o) => Math.abs(o))) };
+  };
+  const dry = wetSides([], 0);
+
+  it('a 10 m notch whose walls the pull moves 8 m into it crosses itself; untangled, no two sides touch and every offset is the pull\'s halved or none', () => {
+    const ring = densify(square(TOP(1000)));
+    expect(selfTouches(ring)).toBe(false);
+    // The notch's walls (|x| = 5 m, below its mouth): their outward normals face each other across the notch.
+    const offsets = ring.map((q) => (Math.abs(q.x) === 500 && q.y > 21000 && q.y < 29000 ? 800 : 0));
+    const pulled = pulledBy(ring, offsets);
+    expect(touchPairs(pulled.line).length).toBeGreaterThan(0);
+    const u = untangle(ring, pulled, dry);
+    expect(touchPairs(u.line)).toEqual([]);
+    expect(u.moved).toBeGreaterThan(0);
+    u.offsetsCm.forEach((s, i) => {
+      expect(Math.abs(s)).toBeLessThanOrEqual(Math.abs(offsets[i]));
+      if (s !== 0) expect(Math.sign(s)).toBe(Math.sign(offsets[i]));
+      if (s === 0) expect(u.line[i]).toEqual(ring[i]);
+    });
+  });
+
+  it('property: on a simple ring, any pull along the normals untangles to a line no two sides of which touch (fast-check)', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 8, max: 40 }).map((h) => h * 2), fc.array(fc.integer({ min: -3974, max: 3974 }), { minLength: 80, maxLength: 80 }), fc.array(fc.integer({ min: -800, max: 800 }), { minLength: 80, maxLength: 80 }), (n, offs, jit) => {
+        const ring = star(n, 20000, 13000, (i) => jit[i]);
+        fc.pre(!selfTouches(ring));
+        const pulled = pulledBy(ring, ring.map((_, i) => offs[i % offs.length]));
+        expect(touchPairs(untangle(ring, pulled, dry).line)).toEqual([]);
+      }),
+      { numRuns: 100 },
+    );
+  }, 600_000);
+
+  it('property: the smoothing kept simple leaves a simple line simple, its pins exact (fast-check)', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 4, max: 12 }).map((h) => h * 2), fc.array(fc.integer({ min: -2000, max: 2000 }), { minLength: 24, maxLength: 24 }), fc.integer({ min: 0, max: 7 }), (n, jit, every) => {
+        const ring = star(n, 20000, 6000, (i) => jit[i]);
+        fc.pre(!selfTouches(ring));
+        const pinned = Uint8Array.from(ring.map((_, i) => (every > 0 && i % (every + 1) === 0 ? 1 : 0)));
+        const out = smoothKeptSimple(ring, pinned, 3, ring, 4000, [], dry);
+        expect(selfTouches(out)).toBe(false);
+        ring.forEach((p, i) => {
+          if (pinned[i] === 1) expect(out[i]).toEqual(p);
+        });
+      }),
+      { numRuns: 40 },
+    );
+  }, 600_000);
 });
