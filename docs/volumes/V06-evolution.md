@@ -375,6 +375,7 @@ the base hook it plugs into. Rendering, labels, exports and persistence are V06 
 | W92 | `frontierFor` — the growth frontier as a query (item 122 (a); V06 §3.22 (2)) | the model the view draws (the head, or a history frame, V06 §3.15.2); the roster's next ordinals (§10.2); the growth decision's rules and `growth.*` rows (V06 §3.6); S5a's boundary rule on `T` (§4.4); `overflow.tentBeltM` (V06 §2.2) | §10.2's refugee-camp placement, which ranks V01's `campLand` faces by their distance to the answer; T-V6-75 | §10.2 (the crisis look table's placement); §4.4 S5a |
 | W93 | the crisis hand-over — the aftermath through the next epoch and `crisisLookYields` (item 122 (a); V06 §3.22 (1), (3)) | the dossier's calamities (DR28: `EpochInputs.events`), population (the epoch's target) and conditions (`ConditionOverlay`, its `sinceWeek`; the `reconstruction` archetype's Works share, V08's archetype row); a building's Works and their weeks (`Building.works`, §2.6; the lifecycle once a record retires, §4.11 *Works* (9)) | the `hazards`, `siting`, `growth` and `works` phases (the model's real aftermath); §8.2's disaster look row, V02's ruined exterior and V03's look damage (the yield); T-V6-75 | §2.7 `ConditionOverlay`; §7.7 DR28, DR44; §4.11 *Works* (10) |
 | W94 | `decayLevel` and `decayPeak` — the decay level of a building lineage (item 123 (b); V06 §3.23) | the lineage's lifecycle events (§2.8) at the weeks their changes show — the start weeks of the Works they started (`Building.works`, §2.6; the lifecycle once a record retires, §4.11 *Works* (9)), else their effective weeks (V06 §2.11); each element's entry week into the plan (V03 §5.6's `since`); a restoring `repair` Works' progress (§4.11 *Works* (2)); `Building.material.walls` (§2.6); V11's decay rates by material and default age (item 123) | V03's damage layer — the plan, its drawing, its exports, the panel lines; V02's exterior; V04's cellars, crypts and underground buildings; §8.6's drawing and §11.1's battle maps; V09's and V10's lines; a ruined district's look, drawn at the higher of its `lookLevel` and this level (item 122 (d)); T-V6-76 | §2.6 step 7; §6.3's `plan.damage` thresholds |
+| W95 | the culture integration by epoch — `cultureShares` read, the three channels, the two thresholds, the `cultures` block of the epoch report (§4.14 (10); V06 §3.19b) | V08 §2.6's `cultureShares` per epoch; V11 §3.25b's rows | §3.6's growth, §3.8's regrowth, §3.9's moves, §3.5's decay runs; V02 §3.17b; the quarter identities (V11 §3.10) | §4.14 (10); Q136 (J668) |
 
 **The dossier trace** — every dossier fact the engine reads, with its field and derivation row (§7.7's table; the engine
 never writes one and never asks for one):
@@ -3135,6 +3136,30 @@ met (never a factor on the chance), each SIZE member raising the aqueduct cap an
 bound `conduit_house` the terminal — and never forces arches where no source is in reach (`pMax` holds; a miss is
 reported `aqueduct_no_source`); landmarks on high ground (DR35) and the era and culture rows are factors (the dossier
 trace, V06 §1b). The clearing never touches a dossier-listed building (impassable, (5)).
+
+### 3.19b Culture integration by epoch — born homogeneous, mixed by time (§4.14 (10); Q136; J668)
+
+A settlement is generated in one culture (`site.culture`) and every stage reads that key. Each epoch the host gives the
+population's culture ratio, `cultureShares` (V08 §2.6; the owner's host side), and the engine integrates it through
+three channels and no other, each in the phase that already does the work (§3.2's order): (a) NEW BUILDING — a building
+founded in the epoch (§3.6's fill, crowd and spread; §3.8's regrowth on a ruin) draws its culture by the ratio of the
+households that fill it (S10b's allocation carries the household's culture), so the new fabric carries the mix; (b) NEW
+GROUND — an expansion ring, a new nucleus or a new quarter (§3.6's spread, the `encroach` and `newNucleus` rows) is laid
+with the `CultureLayoutRow` cells of the culture whose households it is for (V11 §3.25b), so a minority that clusters
+gets a quarter in its own street form while the built streets persist as they stand (never a retrofit of a street);
+(c) RENOVATION — a standing building whose household changes culture (§3.9's moves, §3.14's succession), or that reaches
+a renovation event of §3.5's decay runs, re-derives its facade, ornament and interior under the new culture's rows (V02
+§3.17b) while its massing and plot stand until a rebuild. Two cells of the evolution table (§2.2): `culture.quarterThreshold`
+— below it a minority is dispersed households renovating, above it the epoch founds or converts a quarter for it (the
+quarter identity of V11 §3.10 keyed by the culture) — and `culture.signalThreshold`, above which its own worship or civic
+building is founded in its culture's signal form (V11 §3.25b `signals`). The town-level fabric — walls, gates, towers,
+bridges, the civic core, the market — stays the founding culture's until a rebuild event of its own (§3.7, §3.8).
+*Report:* the epoch report (§2.10) gains a `cultures` block — the ratio given, the ratio built, the quarters founded or
+converted, the renovations — and the chronicle names them. *Bars (T-V6 culture 1–5):* a founded building's culture is
+distributed as the epoch's ratio within tolerance over an epoch; new ground is laid with the right culture's cells and
+no built way changes class, width or section; a renovation changes facade, ornament and interior and never massing or
+plot; a quarter or a signal building appears only above its threshold; replay = session (§3.16) with the ratios in the
+history.
 
 ### 3.20 The history replay at generation (item 113)
 
