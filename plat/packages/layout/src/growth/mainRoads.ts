@@ -6,10 +6,11 @@
 //        the existing ways with the boundary on ground part 0 (M0 has no raised way); when N_k > c, N_k − c radial
 //        destinations on the boundary by sequential nested picks — largest angular gaps first, terrain-scored like S3's
 //        gates (one uniform per candidate per pick from the `growth.mainroad` stream, so a smaller count is a prefix of a
-//        larger one) — each routed by S4's router (`routeLadder`, F-ROUTE's M0 rungs) from the nearest junction it can
-//        reach on an existing main road outside the previous enceinte (never through an inner wall nor its strips) to
-//        the destination, then outside the stage to the frame at its bearing; committed in one declared L1 batch, the new
-//        roads re-settling T (`resettleT`);
+//        larger one; a walled stage's destinations keep a gate square from every crossing and from each other, §4.2
+//        S3 (7)'s "two routes that cross the boundary at one point cannot both be gates", C-0454 (1)) — each routed by
+//        S4's router (`routeLadder`, F-ROUTE's M0 rungs) from the nearest junction it can reach on an existing main road
+//        outside the previous enceinte (never through an inner wall nor its strips) to the destination, then outside the
+//        stage to the frame at its bearing; committed in one declared L1 batch, the new roads re-settling T (`resettleT`);
 //   S5a's trace (walled stages): every crossing a gate (./boundary.ts `traceStage`).
 // Stage 1 is S3's: its boundary S3's contour, its trace S3's (committed with S3's batch, `commitS3Slice`, or by
 // `traceStage1`), no S5b. The between-stage prune and trim and S5c / S5d are M0-c-05's; their order between stages is
@@ -123,6 +124,17 @@ export interface SpawnOptions {
   readonly outerMask?: Uint8Array;
   /** Is the lattice edge from the inside node to the outside node open (no way crosses it)? Default: every edge. */
   readonly edgeOpen?: (u: number, v: number) => boolean;
+  /**
+   * A walled stage's gate square (C-0454 (1)): no destination within `cm` of one of `from` (the crossings' points) or of
+   * an earlier pick — two gates that near would cross the boundary at one point (§4.2 S3 (7)). A candidate inside it
+   * still draws its uniform, so the draws never depend on it; it is only never taken. Absent: none.
+   */
+  readonly apart?: { readonly cm: number; readonly from: readonly XY[] };
+}
+
+/** Does `at` lie within `cm` of one of `points` (strictly nearer)? A walled stage's gate square (C-0454 (1)). */
+export function withinOf(at: XY, points: readonly XY[], cm: number): boolean {
+  return points.some((q) => (q.x - at.x) * (q.x - at.x) + (q.y - at.y) * (q.y - at.y) < cm * cm);
 }
 
 /** The candidates a pick keeps in score order for S5b's re-draws (those an earlier road of the batch blocks are passed). */
@@ -170,6 +182,8 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
   const taken: number[] = crossings.map((c) => c.bearingCdeg);
   const picks: MainRoadPick[] = [];
   const used = new Set<number>();
+  const apart = opts.apart;
+  const near: XY[] = apart === undefined ? [] : apart.from.slice();
   for (let k = 0; k < want; k += 1) {
     const scored: { c: number; score: number }[] = [];
     for (let c = 0; c < cands.length; c += 1) {
@@ -181,7 +195,7 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
         gap = g / 18_000;
       }
       let score = gap + PICK_JITTER * u - PICK_SLOPE_WEIGHT * lattice.slope[cands[c].u];
-      if (used.has(c)) score = -Infinity;
+      if (used.has(c) || (apart !== undefined && withinOf(cands[c].at, near, apart.cm))) score = -Infinity;
       scored.push({ c, score });
     }
     scored.sort((a, b) => b.score - a.score || cands[a.c].u - cands[b.c].u || cands[a.c].v - cands[b.c].v);
@@ -189,6 +203,7 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
     const best = cands[scored[0].c];
     used.add(scored[0].c);
     taken.push(best.bearing);
+    near.push(best.at);
     const top = scored.filter((s) => s.score > -Infinity).map((s) => cands[s.c]);
     picks.push({
       ordinal: k,
@@ -220,11 +235,14 @@ export interface MainRoad {
   readonly level: 0 | 1 | 2;
 }
 
-/** A destination S5b could not serve (reported; F-ROUTE's `unserved`). */
+/**
+ * A destination S5b could not serve (reported; F-ROUTE's `unserved`); `apart`: every candidate left lay in the gate
+ * square of another gate of its walled stage (C-0454 (1)).
+ */
 export interface Unserved {
   readonly stage: number;
   readonly pick: number;
-  readonly why: 'no_source' | 'inner' | 'outer' | 'invalid';
+  readonly why: 'no_source' | 'inner' | 'outer' | 'invalid' | 'apart';
   /** For `invalid`: each level's fault (smoothed, simplified, lattice). */
   readonly faults?: readonly RoadFault[];
 }
@@ -744,6 +762,7 @@ function courses(
   ctx: Routing,
   unserved: Unserved[],
   outlineOf: (pins: readonly LatticePoint[]) => readonly XY[],
+  apart: { readonly cm: number; readonly from: readonly XY[] } | null,
 ): { courses: Course[]; pins: LatticePoint[] } {
   const slice = state.slice;
   const site = slice.site;
@@ -868,6 +887,12 @@ function courses(
     for (let a = 0; a < pick.alternatives.length && tries <= GATE_REDRAWS; a += 1) {
       const alt = pick.alternatives[a];
       if (a > 0 && out.some((x) => x.pick.edge[0] === alt.edge[0] && x.pick.edge[1] === alt.edge[1])) continue;
+      // In the gate square of a crossing or of a destination routed before it: passed over, no re-draw counted
+      // (C-0454 (1); §4.2 S3 (7): two routes that cross the boundary at one point cannot both be gates).
+      if (apart !== null && withinOf(alt.at, [...apart.from, ...out.map((x) => x.pick.at)], apart.cm)) {
+        miss ??= { why: 'apart' };
+        continue;
+      }
       if (!edgeOpenNow(alt.edge[0], alt.edge[1])) {
         miss = { why: 'invalid', faults: ['way'] };
         continue;
@@ -1050,13 +1075,17 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
     for (let d = 0; d < 6; d += 1) if (lat.adjacency[6 * u + d] === v) return lat.slot[6 * u + d] !== -1 && ctx.weights[lat.slot[6 * u + d]] < Infinity;
     return false;
   };
-  const picks = spawnPrimaries(b0, rec.count.n, c0, stream, { centre, mask: ctx.innerReach, outerMask: ctx.outerReach, edgeOpen });
+  // A walled stage's gates keep a gate square apart (C-0454 (1)): the outer strip's width on either side of each, the
+  // reach over which the trace squares a gate to its way (`squareGates`). Every meeting of a way with the boundary is a
+  // gate (`traceStep`), so each is a point the destinations keep that far from, as they keep it from each other.
+  const apart = walled ? { cm: 2 * stripWidths(site.tables.table('walls').row('era.default')).outer, from: boundaryCrossings(b0.set.outline, lines, centre).map((x) => x.at) } : null;
+  const picks = spawnPrimaries(b0, rec.count.n, c0, stream, { centre, mask: ctx.innerReach, outerMask: ctx.outerReach, edgeOpen, ...(apart === null ? {} : { apart }) });
   rec.picks = picks;
   rec.short = Math.max(0, rec.count.n - c0.length) - picks.length;
   // The boundary with the destinations kept as outline vertices (the selection unchanged).
   const b1 = picks.length === 0 ? b0 : withPins(b0, picks.map((p) => p.at));
   rec.boundary = b1;
-  const routed = courses(state, k, b1, walled, picks, ctx, rec.unserved, (pins) => withPins(b0, pins).set.outline);
+  const routed = courses(state, k, b1, walled, picks, ctx, rec.unserved, (pins) => withPins(b0, pins).set.outline, apart);
   const cs = routed.courses;
   // A re-drawn destination is kept as an outline vertex too (the selection unchanged).
   if (routed.pins.length > picks.length) rec.boundary = withPins(b0, routed.pins);

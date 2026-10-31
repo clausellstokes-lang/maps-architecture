@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import type { Stream } from '@plat/kernel';
 import { flatFixture, s3Slice, type S3Slice } from '../../../src/index.js';
 import { HA_CM2, stageBoundary, type StageBoundary } from '../../../src/growth/boundary.js';
-import { mainRoadCount, mainRoadStream, spawnPrimaries, stageWalled } from '../../../src/growth/mainRoads.js';
+import { mainRoadCount, mainRoadStream, spawnPrimaries, stageWalled, withinOf } from '../../../src/growth/mainRoads.js';
 
 let cached: { s: S3Slice; b2: StageBoundary; b3: StageBoundary } | null = null;
 function city(): { s: S3Slice; b2: StageBoundary; b3: StageBoundary } {
@@ -163,5 +163,40 @@ describe('spawnPrimaries', () => {
     for (const p of open) expect(closed.has(`${String(p.edge[0])},${String(p.edge[1])}`)).toBe(false);
     // No candidate left: no pick (the shortfall is the caller's to report).
     expect(spawnPrimaries(b2, 12, SEVEN, mainRoadStream(s), { mask: new Uint8Array(L.points.length) })).toEqual([]);
+  });
+
+  it('the gate square (C-0454 (1)): no destination within apart.cm of a crossing\'s point or of an earlier pick; the draws unchanged', { timeout: 60_000 }, () => {
+    const { s, b2 } = city();
+    const centre = s.site.centre;
+    const free = spawnPrimaries(b2, 10, SEVEN, mainRoadStream(s), { centre });
+    expect(free.length).toBe(3);
+    // A crossing's point on the free run's first pick: that destination and every candidate within the square of it is
+    // never taken, nor offered as an alternative; the others keep the square from it and from each other.
+    const cm = 3000;
+    const from = [free[0].at];
+    const used: Stream = mainRoadStream(s);
+    const kept = spawnPrimaries(b2, 10, SEVEN, used, { centre, apart: { cm, from } });
+    expect(kept.length).toBe(3);
+    const d = (a: { x: number; y: number }, b: { x: number; y: number }): number => Math.hypot(a.x - b.x, a.y - b.y);
+    for (const p of kept) {
+      expect(d(p.at, from[0])).toBeGreaterThanOrEqual(cm);
+      for (const a of p.alternatives) expect(d(a.at, from[0])).toBeGreaterThanOrEqual(cm);
+    }
+    for (let i = 0; i < kept.length; i += 1) for (let j = 0; j < i; j += 1) expect(d(kept[i].at, kept[j].at)).toBeGreaterThanOrEqual(cm);
+    expect(kept[0].at).not.toEqual(free[0].at);
+    // Every candidate draws its uniform still: exactly picks × candidates, as without the square.
+    const n = candidates(b2, centre).length;
+    const fresh = mainRoadStream(s);
+    for (let i = 0; i < 3 * n; i += 1) fresh.float01();
+    expect(used.float01()).toBe(fresh.float01());
+    // A square the far side of the frame excludes nothing: the free picks, byte for byte.
+    expect(spawnPrimaries(b2, 10, SEVEN, mainRoadStream(s), { centre, apart: { cm, from: [{ x: 1e9, y: 1e9 }] } })).toEqual(free);
+    // The earlier picks are squares too: a square wide enough to hold the whole boundary leaves room for one pick only.
+    const one = spawnPrimaries(b2, 10, SEVEN, mainRoadStream(s), { centre, apart: { cm: 1e9, from: [] } });
+    expect(one.length).toBe(1);
+    expect(one[0].at).toEqual(free[0].at);
+    // withinOf: strictly nearer than cm.
+    expect(withinOf({ x: 0, y: 0 }, [{ x: 3000, y: 0 }], 3000)).toBe(false);
+    expect(withinOf({ x: 0, y: 0 }, [{ x: 2999, y: 0 }], 3000)).toBe(true);
   });
 });

@@ -174,6 +174,20 @@ export function violations(g: Grown): string[] {
         const onWay = x.way === null ? [] : (wayEdges.get(x.way) ?? []);
         if (!onWay.some(([a, q]) => (a.x === p.x && a.y === p.y) || (q.x === p.x && q.y === p.y))) say(`${x.id}: not a vertex of its way ${String(x.way)}`);
       });
+      // (6b) The gate square (C-0454 (1); §4.2 S3 (7)): each S5b road's gate stands twice the outer strip (read from the
+      // tables) from every other gate of its stage, less the two gates' snaps to their ways' vertices (2 × 53 cm).
+      const square = 2 * (walls.num('era.default', 'thicknessM') / 2 + walls.num('era.default', 'outerSetbackGlacisM')) * 100;
+      const spawned = new Set(st.roads.map((r) => r.way.id));
+      mains.forEach((x, i) => {
+        const p = gatePts[i];
+        if (p === null || x.way === null || !spawned.has(x.way)) return;
+        mains.forEach((y, j) => {
+          const q = gatePts[j];
+          if (j === i || q === null) return;
+          const d = Math.hypot(p.x - q.x, p.y - q.y);
+          if (d < square - 106) say(`${x.id} (${x.way}, spawned): ${String(Math.round(d))} cm from ${y.id}, inside the gate square ${String(square)} cm`);
+        });
+      });
       let meet = 0;
       for (const [, edges] of wayEdges) {
         for (const p of meetings(edges, line)) {
