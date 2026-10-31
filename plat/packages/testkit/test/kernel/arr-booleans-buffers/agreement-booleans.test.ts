@@ -8,11 +8,12 @@
 // vacuity guard asserts min(10⁵, ⌈⅒ × runs⌉) unattracted draws per operation (C-0196 (7), the spec note N-14); the
 // refusals are classified by step and bounded as N-39 / N-40 rule (`verdict`). The agreement runs in three files —
 // booleans, buffer, the face services — so a test project's workers share it (C-0206). The placement is C-0122's: the
-// one package test project that sees the oracles.
-import fc from 'fast-check';
+// one package test project that sees the oracles. Each operation's seed is `arr/agreement/<op>`'s fixed H32 seed unless
+// PLAT_FUZZ_SEED replays another, printed with its replay command in the verdict's line and messages; the counted
+// oracle refusals are capped at max(1, ⌈0.001 × runs⌉) per size (L18; Q97; `runAgreement`, `agreementParams`, `agreementRefusalCap`).
 import { beforeAll, describe, it } from 'vitest';
 import { loadOracles } from '../../../src/oracles/index.js';
-import { booleanCaseArb, judgeBoolean, newHarness, RUNS, TIMEOUT, verdict } from './support.js';
+import { booleanCaseArb, judgeBoolean, runAgreement, TIMEOUT } from './support.js';
 
 beforeAll(async () => {
   await loadOracles();
@@ -21,14 +22,7 @@ beforeAll(async () => {
 describe('booleans agree with both oracles, split by attraction (§3.7, §13.1)', () => {
   for (const op of ['union', 'intersection', 'difference', 'xor'] as const) {
     it(`${op}: nonzero and evenodd over M0-k-01's families and M0-k-02's empty case`, { timeout: TIMEOUT }, () => {
-      const h = newHarness();
-      fc.assert(
-        fc.property(booleanCaseArb(op), (c) => {
-          judgeBoolean(h, c);
-        }),
-        { numRuns: RUNS },
-      );
-      verdict(h, op);
+      runAgreement(op, booleanCaseArb(op), judgeBoolean);
     });
   }
 });

@@ -477,47 +477,120 @@ function windingAt(ring: readonly LatticePoint[], x: number, y: number): number 
   return w;
 }
 
-describe('a retraced spur on a segment row nets nothing (the spec note N-41 (3); C-0196 (1))', () => {
-  // The seven-segment ring of C-0205 (3): its seventh segment s6, A (−48140, 46382) → B (−48863, 44833),
-  // commits through the endpoint route as A–P–Q–P–R–B: out along P–Q, an edge s4 also carries, and back. The winding
-  // walk reads a segment's row as the one path from its first vertex to its last, so the spur nets 0 for s6 — a row
-  // that traverses an edge out and back is lawful (N-41 (3)), and the region is the one s6's plain path A–P–R–B bounds.
+describe('the seven-segment ring of C-0205 (3) under RQ1: s6 commits without a spur, and a spur planted on its row nets nothing (N-41 (3); RQ1, N-61 (1))', () => {
+  // The seven-segment ring of C-0205 (3): its seventh segment s6, A (−48140, 46382) → B (−48863, 44833), committed
+  // through the endpoint route as A–P–Q–P–R–B until M0-a-05's hardening round S9 — out along P–Q, an edge s4 also
+  // carries, and back. RQ1 (rulings-hardening-1.md §1; N-61 (1); item 130 (d)) rules a retrace UNLAWFUL for a chain: the
+  // router cuts the route back to the vertex it would re-enter, so s6 now commits as the simple path A–P–R–B and P–Q
+  // carries s4 alone (M0-a-05's `router.test.ts` 'RQ1 …' pins the router's side). This describe is RQ1's fixture in
+  // M0-a-08's file (rulings §8 (3); Q74; C-0104's form in this round's choices row) and Q106's re-pin of the old
+  // fixture against the landed router (a-05 S9's declared shift, re-pinned by its owner): (1) the CONTROL that no spur
+  // exists — before S9 it read s6's degrees P 3, Q 1 and the spur edge carrying s6; now P 2, no s6 row at Q, and the
+  // net and labels as before; (2) N-41 (3)'s robustness KEPT on a hand-built overlay row — the same overlay built stage by
+  // stage with s6's row planted back on P–Q (the pre-S9 form) — whose net, labels and traced region equal the plain
+  // overlay's: the winding walk reads a segment's row as the one path from its first vertex to its last, so a row that
+  // traverses an edge out and back adds nothing (the walk's defence in depth, rulings §8 (6)).
   const RING = R([-48863, 44833], [-48080, 46354], [-48522, 45607], [-48031, 46325], [-48468, 45739], [-47267, 47616], [-48140, 46382]);
   const P = pt(-48450, 45728);
   const Q = pt(-48389, 45801);
+  const role = roleIdOf('invisible');
+  const key = (x: number, y: number): string => `${String(x)},${String(y)}`;
+  /** The edge pair joining P and Q (−1 when none), the entities (`arr:s<i>` handles) of its scratch rows, and s6's degree at each vertex. */
+  function readOverlay(p: Plat): { spur: number; spurRows: number[]; s6Degree: Map<string, number> } {
+    const O = p.halfEdges.origin;
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    const at = (v: number, q: LatticePoint): boolean => X[v] === q.x && Y[v] === q.y;
+    let spur = -1;
+    let spurRows: number[] = [];
+    const s6Degree = new Map<string, number>();
+    for (let e = 0; e < p.slots.pair.top; e += 1) {
+      if (!isHalfEdgeLive(p, 2 * e)) continue;
+      const rows = [...rowsOn(p, 'edge', 2 * e)].filter((r) => p.roles.kind[r] === role).map((r) => p.roles.entity[r]);
+      if ((at(O[2 * e], P) && at(O[2 * e + 1], Q)) || (at(O[2 * e], Q) && at(O[2 * e + 1], P))) {
+        spur = e;
+        spurRows = rows;
+      }
+      if (!rows.includes(handleOf(p, 'arr:s6'))) continue;
+      for (const v of [O[2 * e], O[2 * e + 1]]) s6Degree.set(key(X[v], Y[v]), (s6Degree.get(key(X[v], Y[v])) ?? 0) + 1);
+    }
+    return { spur, spurRows, s6Degree };
+  }
 
-  it('s6 walks out along P–Q and back; that edge carries s4’s flow alone and the labels stay consistent', () => {
+  it('s6 commits as a simple path: P–Q carries s4’s row and flow alone, P is of degree 2 on s6’s row, Q not on it, and the labels stay consistent (RQ1’s control; Q106)', () => {
     const ov = buildOverlay([[RING]]);
     expect(ov.ok).toBe(true);
     if (!ov.ok) return;
     const p = ov.value.plat;
-    const O = p.halfEdges.origin;
-    const X = p.vertices.x;
-    const Y = p.vertices.y;
-    const role = roleIdOf('invisible');
-    const rowsOfPair = (e: number): number[] =>
-      [...rowsOn(p, 'edge', 2 * e)].filter((r) => p.roles.kind[r] === role).map((r) => p.roles.entity[r]);
-    const at = (v: number, q: LatticePoint): boolean => X[v] === q.x && Y[v] === q.y;
-    let spur = -1;
-    const s6Degree = new Map<string, number>();
-    for (let e = 0; e < p.slots.pair.top; e += 1) {
-      if (!isHalfEdgeLive(p, 2 * e)) continue;
-      const rows = rowsOfPair(e);
-      if (!rows.includes(handleOf(p, 'arr:s6'))) continue;
-      for (const v of [O[2 * e], O[2 * e + 1]]) s6Degree.set(`${String(X[v])},${String(Y[v])}`, (s6Degree.get(`${String(X[v])},${String(Y[v])}`) ?? 0) + 1);
-      if ((at(O[2 * e], P) && at(O[2 * e + 1], Q)) || (at(O[2 * e], Q) && at(O[2 * e + 1], P))) {
-        spur = e;
-        expect(rows).toContain(handleOf(p, 'arr:s4'));
-      }
-    }
-    // the precondition (C-0205 (3)): s6's edges form a path with a spur — Q is a dead end of s6's row
+    const { spur, spurRows, s6Degree } = readOverlay(p);
+    // the edge P–Q stands (s4's), and s6 has no row on it: the route was cut back to P (RQ1)
     expect(spur).toBeGreaterThanOrEqual(0);
-    expect(s6Degree.get(`${String(Q.x)},${String(Q.y)}`)).toBe(1);
-    expect(s6Degree.get(`${String(P.x)},${String(P.y)}`)).toBe(3);
-    // s4 runs P → Q once; s6's out-and-back adds nothing (counting both traversals would add ±2, or ±1 for one)
-    const sgn = at(O[2 * spur], P) ? 1 : -1;
+    expect(spurRows).toContain(handleOf(p, 'arr:s4'));
+    expect(spurRows).not.toContain(handleOf(p, 'arr:s6'));
+    // the ruled form (item 130 (d)): s6's edges form a simple path — its two ends of degree 1, every other vertex 2
+    expect(s6Degree.get(key(Q.x, Q.y))).toBeUndefined();
+    expect(s6Degree.get(key(P.x, P.y))).toBe(2);
+    expect([...s6Degree.values()].filter((d) => d === 1)).toHaveLength(2);
+    expect([...s6Degree.values()].every((d) => d === 1 || d === 2)).toBe(true);
+    // s4 runs P → Q once
+    const sgn = p.vertices.x[p.halfEdges.origin[2 * spur]] === P.x && p.vertices.y[p.halfEdges.origin[2 * spur]] === P.y ? 1 : -1;
     expect(sgn * ov.value.net[spur]).toBe(1);
     expect(windingLabels(ov.value).consistent).toBe(true);
+  });
+
+  it('a hand-built overlay row retracing P–Q on s6 nets nothing: the net, the labels and the traced region equal the plain overlay’s (N-41 (3) kept)', () => {
+    const plain = buildOverlay([[RING]]);
+    expect(plain.ok).toBe(true);
+    if (!plain.ok) return;
+    /** The overlay of RING built stage by stage as `buildOverlay` builds it (C-0196 (1)); with `plantSpur`, s6's row is laid back on P–Q before the walk reads it. */
+    const byHand = (plantSpur: boolean): { tx: InsertTx; net: Int32Array } => {
+      const plat = createPlat({ layer: 'ground', part: 0 }, { widthCm: (2 * LATTICE.rangeCm) as Cm, heightCm: (2 * LATTICE.rangeCm) as Cm, aspect: 1, marginShare: 0 });
+      // buildOverlay's index cell for these seven segments over their 1 597 × 2 784 cm box: 1 024 cm
+      attachIndex(plat, { gridCellCm: 1024 });
+      const tx = insertTx(plat, 0);
+      const frame = [pt(-48863 - 4096, 44833 - 4096), pt(-47267 + 4096, 44833 - 4096), pt(-47267 + 4096, 47616 + 4096), pt(-48863 - 4096, 47616 + 4096)];
+      expect(insertChain(tx, frame, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
+      const segments: Segment[] = RING.map((a, i) => ({ a, b: RING[(i + 1) % RING.length], mult: Int32Array.of(1) }));
+      const starts: VertexId[] = [];
+      const ends: VertexId[] = [];
+      segments.forEach((sg, i) => {
+        const r = insertChain(tx, [sg.a, sg.b], [{ role: 'invisible', entity: `arr:s${String(i)}` }], 'mandatory');
+        if (!r.ok) throw new Error(`s${String(i)} refused: ${r.code} ${r.detail}`);
+        starts.push(r.value.placed[0]);
+        ends.push(r.value.placed[r.value.placed.length - 1]);
+      });
+      const walks: Walk[] = [{ operand: 0, steps: segments.map((_, i) => i + 1) }];
+      expect(bridgeGaps(tx, segments, walks, starts, ends, 1)).toBeNull();
+      if (plantSpur) {
+        // the pre-S9 form, by hand: s6's row laid on the existing edge P–Q (out and back: the edge adds no geometry)
+        const r = insertChain(tx, [P, Q], [{ role: 'invisible', entity: 'arr:s6' }], 'mandatory');
+        if (!r.ok) throw new Error(`the planted spur refused: ${r.code} ${r.detail}`);
+      }
+      const net = orientSegments(tx.plat, segments, starts, ends, 1);
+      glueWalks(tx.plat, walks, starts, ends, 1, net);
+      balanceFlow(tx.plat, 1, net);
+      return { tx, net };
+    };
+    // the stage-by-stage overlay is buildOverlay's: the same net, edge for edge
+    expect([...byHand(false).net]).toEqual([...plain.value.net]);
+    const { tx, net } = byHand(true);
+    const p = tx.plat;
+    const { spur, spurRows, s6Degree } = readOverlay(p);
+    // the plant took: P–Q carries s4's row and s6's, P is of degree 3 on s6's row and Q its dead end (C-0205 (3)'s form)
+    expect(spurRows).toEqual(expect.arrayContaining([handleOf(p, 'arr:s4'), handleOf(p, 'arr:s6')]));
+    expect(s6Degree.get(key(Q.x, Q.y))).toBe(1);
+    expect(s6Degree.get(key(P.x, P.y))).toBe(3);
+    // no edge was added, and the walk reads the spur as nothing: s4 runs P → Q once, the net equal to the plain overlay's
+    expect(p.slots.pair.top).toBe(plain.value.plat.slots.pair.top);
+    expect([...net]).toEqual([...plain.value.net]);
+    const sgn = p.vertices.x[p.halfEdges.origin[2 * spur]] === P.x && p.vertices.y[p.halfEdges.origin[2 * spur]] === P.y ? 1 : -1;
+    expect(sgn * net[spur]).toBe(1);
+    const planted = { plat: p, operands: 1, net, warnings: [] };
+    const labels = windingLabels(planted);
+    expect(labels.consistent).toBe(true);
+    for (const keep of [(w: readonly number[]) => w[0] !== 0, (w: readonly number[]) => (w[0] & 1) !== 0]) {
+      expect(traceKept(planted, labels, keep)).toEqual(traceKept(plain.value, windingLabels(plain.value), keep));
+    }
   });
 
   it('the ring’s region under either fill rule: valid rings within §3.7’s attracted bound of the ring as drawn', () => {

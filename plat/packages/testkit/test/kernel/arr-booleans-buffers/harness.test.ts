@@ -5,12 +5,21 @@
 // case and our result passes the hard ring checks; cases every oracle refused on its own operands are capped at 1 % of
 // their family; the far-stretch measure is the farthest vertex of ours from the oracle's boundary. The oracle answers
 // here are planted (a refused result; a measuring xor made to refuse through a mock of M0-k-03's `symDiffArea`), so
-// each rule meets the input that reaches it.
+// each rule meets the input that reaches it. The agreement runs' seed, size and cap per size, and the seed every
+// verdict line, message and logged refusal carries (L18's test half; Q97), are pinned in the last describe.
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import fc from 'fast-check';
 import { faceEdges, insetRing, type Cm, type KernelResult, type LatticePoint } from '@plat/kernel';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { compareSplit, loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
+import { replaySeed } from '../../../src/oracles/refusal.js';
+import { seedFamily } from '../../../src/fuzz/index.js';
 import {
+  agreementParams,
+  agreementRefusalCap,
   arenaFace,
   classifyRefusal,
   farthestVertexCm,
@@ -28,7 +37,10 @@ import {
   REFUSAL_MEASURE,
   refusalCapPer1e4,
   replayOverlay,
+  replayTag,
   ringsOfEdges,
+  RUNS,
+  runAgreement,
   separateRefusal,
   touchMergedFaceCount,
   verdict,
@@ -501,5 +513,104 @@ describe('the refusal caps (N-44 (3); N-46 (4), (5); C-0231)', () => {
     expect(run(0, 2)).toThrow(/refusals caused in arr\/ \(or without a replay\) in buffer/);
     // a refused case is a case of the run: left out of the accounting, the sum misses it
     expect(run(1, 0, 10_000)).toThrow(/expected 10001 to be 10000/);
+  });
+});
+
+describe('the agreement runs replay from their seed and cap refusals per size (L18’s test half; Q97)', () => {
+  /** Runs `fn` with fast-check's global seed set to `seed` (as PLAT_FUZZ_SEED sets it), the configuration restored after. */
+  function withGlobalSeed<T>(seed: number, fn: () => T): T {
+    const before = fc.readConfigureGlobal();
+    fc.configureGlobal({ ...before, seed });
+    try {
+      return fn();
+    } finally {
+      fc.configureGlobal(before);
+    }
+  }
+  const OPS = ['union', 'intersection', 'difference', 'xor', 'buffer', 'offsetFace', 'insetRing'] as const;
+  /** Each operation's fixed H32 seed, `arr/agreement/<op>` (M0-k-01's seedFamily, read as fast-check's 32-bit integer). */
+  const FIXED: Record<(typeof OPS)[number], number> = {
+    union: 97_611_058,
+    intersection: 282_201_358,
+    difference: 1_687_073_738,
+    xor: 1_396_134_398,
+    buffer: 1_944_718_479,
+    offsetFace: 1_708_969_334,
+    insetRing: 1_915_370_055,
+  };
+
+  it('each operation’s seed: PLAT_FUZZ_SEED’s when set, else its fixed H32 seed; the size PLAT_FUZZ_RUNS', () => {
+    for (const op of OPS) {
+      expect(seedFamily(`arr/agreement/${op}`, 0) | 0, op).toBe(FIXED[op]);
+      expect(agreementParams(op), op).toEqual({ numRuns: RUNS, seed: replaySeed() ?? FIXED[op] });
+      expect(withGlobalSeed(1595, () => agreementParams(op)), op).toEqual({ numRuns: RUNS, seed: 1595 });
+    }
+    expect(new Set(OPS.map((op) => FIXED[op])).size).toBe(OPS.length);
+  });
+
+  it('caps the counted oracle refusals at max(1, ⌈0.001 × runs⌉): 1 at 10³, 10 at 10⁴, 1 000 at 10⁶', () => {
+    expect([1_000, 10_000, 1_000_000, 12_345, 1, 0].map(agreementRefusalCap)).toEqual([1, 10, 1_000, 13, 1, 1]);
+  });
+
+  it('a run hands its seed to fast-check with its size: the same seed draws the same cases, another seed others', () => {
+    /** The cases one planted run draws (each settled, so only the vacuity guard can fail its verdict) and its verdict's message. */
+    const drawn = (seed: number): { cases: number[]; message: string } => {
+      const cases: number[] = [];
+      let message = '';
+      try {
+        runAgreement('op', fc.integer(), (h, c) => {
+          cases.push(c);
+          h.settled.planted = (h.settled.planted ?? 0) + 1;
+        }, { numRuns: 20, seed });
+      } catch (e) {
+        message = (e as Error).message;
+      }
+      return { cases, message };
+    };
+    const a = drawn(1595);
+    expect(a.cases).toHaveLength(20);
+    expect(drawn(1595).cases).toEqual(a.cases);
+    expect(drawn(1596).cases).not.toEqual(a.cases);
+    // the planted run draws no unattracted case: its verdict fails on the guard alone, the message naming the seed
+    expect(a.message).toBe('arr/op (seed 1595; replay with PLAT_FUZZ_SEED=1595): the vacuity guard: expected 0 to be greater than or equal to 2');
+  });
+
+  it('a refusal line carries the seed that replays it: a planted refusal through the harness, the line and the message pinned', () => {
+    const h = newHarness(1595);
+    // clipper2 refuses on its own operands and polygon-clipping's measuring xor refuses: two counted refusals, one case
+    plant.measureRefuses = 'polygon-clipping';
+    judge(h, 'op', 'fam', [SQUARE], (e) => (e === 'clipper2' ? refuse(e) : answer(e)), [], () => 'case');
+    expect(h.refusalsCounted).toBe(2);
+    const lines: string[] = [];
+    const spy = vi.spyOn(console, 'info').mockImplementation((m: string) => {
+      lines.push(m);
+    });
+    try {
+      expect(() => {
+        verdict(h, 'op', 1);
+      }).toThrow('arr/op (seed 1595; replay with PLAT_FUZZ_SEED=1595): counted oracle refusals against the cap 1 at 1 cases: expected 2 to be less than or equal to 1');
+    } finally {
+      spy.mockRestore();
+    }
+    expect(lines).toEqual([
+      'arr/op: seed 1595 — 1 cases — drawn 0 (unattracted 0, share 0.000; attracted 0, share 0.000); passed 0 + 0; refusals {"clipper2":1,"polygon-clipping":1} by step {"clipper2/own":1,"polygon-clipping/measure":1} (counted 2 of cap 1, excluded 0, every oracle on its own operands {}); unjudged 1; settled {}; W_PLACED cases 0 (failed 0); stretch beyond √2·attractCm 0 (failed 0, farthest 0.0 cm); snap-rounded {}; sources {"fam":1}; guard 1; refused by our engine: insertChain\'s 0 (setup 0; cap 1), own 0 (cap 1) {} (seed 1595; replay with PLAT_FUZZ_SEED=1595)',
+    ]);
+    expect(replayTag(null)).toBe('seed none (an unseeded harness)');
+  });
+
+  it('a refused case logged for the register carries the harness’s seed (PLAT_REFUSALS_OUT)', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'a08-s5-'));
+    const file = join(dir, 'refused.jsonl');
+    vi.stubEnv('PLAT_REFUSALS_OUT', file);
+    try {
+      const noRoute = { ok: false, code: 'E_INVARIANT', detail: 'insert: no route from (0, 0) to (10, 0) keeps clearance (§3.10) within the fidelity bound (N-43)' } as KernelResult<LatticePoint[][]>;
+      expect(separateRefusal(newHarness(1595), 'buffer', 'fam', noRoute, () => null, { case: 1 })).toBe(true);
+      const logged = readFileSync(file, 'utf8').trim().split('\n').map((l) => JSON.parse(l) as { seed: string | null; op: string; cls: string });
+      expect(logged).toHaveLength(1);
+      expect(logged[0]).toMatchObject({ op: 'buffer', cls: 'own', seed: '1595' });
+    } finally {
+      vi.unstubAllEnvs();
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
