@@ -13,9 +13,11 @@
 // committed, the level digests re-attached and the arena re-registered with the model digest), and the derivation goes
 // on with the next stage. A stage that reaches its end — its run returns ok and it produced something (a declared output
 // written, or a commit on an arena) — must have reported every declared stage-end row (§5.3's `stage` scope) through its
-// sink at least once: a declared stage-end row the stage never reported is a refusal `E_INVARIANT` ('row <name> declared
-// but never evaluated'), the stage rolled back whole as above, its row's line pass false with count 0, so no declared
-// row reads as a pass that no code evaluated (C-0316 (1)–(4); §5.3, §5.4). The runner has no loop back, no retry and no
+// sink at least once, and every declared batch-scope soft row once a batch of it committed through the batch door: a
+// declared row the stage so never reported is a refusal `E_INVARIANT` ('row <name> declared but never evaluated'), the
+// stage rolled back whole as above, its row's line pass false with count 0, so no declared row reads as a pass that no
+// code evaluated (C-0316 (1)–(4), the rows refined by C-0453; §5.3, §5.4). A stage that returned ok having produced
+// nothing has no stage end to judge (C-0316 (4)). The runner has no loop back, no retry and no
 // restart above a stage (§5.1 (1); its retries are the stage's own ladder, on its keyed streams). Lazy stages run
 // eagerly too: the eager part of the laziness contract is the whole of M0 (the pool and the lazy tiers are M1's, §4b),
 // and an eager run of a lazy stage gives the model the contract promises.
@@ -57,7 +59,8 @@ import {
 } from '@plat/kernel';
 import { mintTownRoot, ModelDigest, type DataKey, type Minted, type Rung, type Scope, type Seed } from '@plat/model';
 import { TOWN_ROOT } from '@plat/site';
-import { rungProfile, tableView, workLimitOf, type TableView } from '@plat/tables';
+import { rungProfile, TABLE_IDS, tableView, workLimitOf, type TableView } from '@plat/tables';
+import { s6Table } from '../districts/table.js';
 import { stageOrder } from './order.js';
 import type { ModelView, PipelineContext, PipelineStage, StrategyRegistry } from './registry.js';
 import { ReportBuilder, type GenerationReport } from './report.js';
@@ -82,13 +85,21 @@ export interface RunOptions {
    * or a count that is no u16, is refused.
    */
   readonly rerolls?: Readonly<Record<string, number>>;
-  /** The arenas the run's kernel holds, made for the blueprint (each under its own key); none by default. */
+  /**
+   * The arenas the run's kernel holds, made for the blueprint (each under its own key); none by default. Each carries its
+   * spatial index (`attachIndex`, §3.3: every batch and every stage end reads it): an arena without one is refused by
+   * name before the first stage runs.
+   */
   readonly arenas?: (blueprint: RunBlueprint) => readonly Plat[];
   /** The transactions' injected services (class floors, checks, the repairer, the invariant suite); ranks and the digest listener are the runner's. */
   readonly env?: Omit<TxEnv, 'rankOf' | 'onCommit'>;
   /** The spines' width declarations `kerb` and `corridorUnion` read (§3.7; C-0212 (1)). */
   readonly spineWidths?: SpineWidths;
-  /** The tables' view (default: every table, `tableView()`). */
+  /**
+   * The tables' view every stage reads through its context (default: the registered view — M0's shipped tables and
+   * layout's own `s6`, `tableView(TABLE_IDS, [s6Table()])`, so S6 reads the registered table and the view's hash covers
+   * it; docs/M0-FIX-QUEUE.md Q99, C-0416).
+   */
   readonly tables?: TableView;
   /** The report's `outputVersion` (default OUTPUT_VERSION). */
   readonly outputVersion?: string;
@@ -216,6 +227,20 @@ function rollBack(images: readonly Savepoint[], digest: ModelDigest): void {
 const EXPECT_CODES: ReadonlySet<string> = new Set(['E_INVARIANT', 'E_BELOW_MIN_WIDTH', 'E_BELOW_MIN_AREA', 'E_BELOW_MIN_ANGLE']);
 
 /**
+ * What one batch tells of each row of its `expect` (§3.3 *Expectations*; C-0224 (5), refined by C-0453): a batch that
+ * committed a record held every row (the kernel evaluated them all at commit); a batch refused by a failed expect entry —
+ * an expect code whose detail opens with a row's `<name>: ` (the kernel names its first failure, in entry order) — held
+ * every row before that one, failed that one, and tells nothing of the rows after it; any other outcome — a batch that
+ * wrote nothing (no expectation ran), a refusal by an op, the callback, the work limit or a kernel row — tells nothing
+ * of any row. Each entry is the row's verdict, or null for a row the batch does not count.
+ */
+function expectVerdicts(expect: readonly { readonly name: string }[], r: { readonly ok: true; readonly value: { readonly record: unknown } } | { readonly ok: false; readonly code: string; readonly detail: string }): (boolean | null)[] {
+  if (r.ok) return expect.map(() => (r.value.record === null ? null : true));
+  const named = EXPECT_CODES.has(r.code) ? expect.findIndex((row) => r.detail.startsWith(`${row.name}: `)) : -1;
+  return expect.map((_, i) => (named < 0 || i > named ? null : i < named));
+}
+
+/**
  * Derives the base product (§4.1, §14): every registered stage once, in Kahn's order, eagerly; returns the model and the
  * whole generation report (§5.4). `scope` is `{ kind: 'all' }` at M0.
  */
@@ -230,7 +255,7 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
   const names = new Map<string, StageId>(order.map((id) => [stageText(id), id]));
   const rerolls = rerollsOf(options.rerolls, names);
 
-  const tables = options.tables ?? tableView();
+  const tables = options.tables ?? tableView(TABLE_IDS, [s6Table()]);
   const rung = rungProfile(blueprint.size.rung);
   const seedKey = seedKeyOf(blueprint.seed);
   const town = mintTownRoot(seedKey);
@@ -244,6 +269,9 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
 
   const digest = new ModelDigest();
   const arenas = options.arenas?.(blueprint) ?? [];
+  for (const p of arenas) {
+    if (p.index === undefined) throw new RangeError(`run: the arena ${platKeyText(p.key)} carries no spatial index: every arena of a run is indexed (attachIndex) before it runs (§3.3)`);
+  }
   const arenaMap = new Map<PlatKey, Plat>();
   const plats: Record<string, Plat> = {};
   const platsByName = new Map<string, Plat>();
@@ -271,6 +299,8 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     const rng = createRng(options.census === undefined ? {} : { census: options.census });
     const reads = new Set<string>(stage.streamKeys);
     const expect = stage.invariants.filter((r) => r.scope === 'batch' && r.class === 'hard');
+    // The batches of this stage that committed a record through the door (its batch-scope soft rows are judged once one has).
+    let doorCommits = 0;
     const keyOf = (entity: Handle): { readonly key: Readonly<Hash128>; readonly reroll: number } => {
       const k = keys.get(entity);
       if (k === undefined) throw new Error(`run: stage ${name} draws for handle ${String(entity)}, which no entity of this derivation is bound to (bind it first, C-0147)`);
@@ -332,11 +362,13 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
           workLimit,
         };
         const r = kernel.tx(tx, fn);
-        const failed = r.ok || !EXPECT_CODES.has(r.code) ? null : r.detail;
-        for (const row of expect) builder.evaluate(state, row.name, failed === null || !failed.startsWith(`${row.name}: `));
+        expectVerdicts(expect, r).forEach((pass, i) => {
+          if (pass !== null) builder.evaluate(state, expect[i].name, pass);
+        });
         if (r.ok) {
           const rec = r.value.record;
           if (rec !== null) {
+            doorCommits += 1;
             // §3.3: every face records the rank of the stage whose batch created it (the kept-content input).
             const p = kernel.plat(rec.key);
             for (const lv of rec.faces) for (const f of lv.created) p.faces[lv.level].stage[f] = rank;
@@ -356,12 +388,14 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     const images = arenas.map((p) => takeSavepoint(p));
     const r = stage.run(input, ctx);
     const written = r.ok ? outputsOf(stage, r.value) : [];
-    // The stage-end guard (C-0316 (1)–(4); §5.3, §5.4): a stage that reached its end — ok, and it wrote an output or
-    // committed on an arena — and never reported a declared stage-end row is refused `E_INVARIANT`, rolled back whole,
-    // each such row's line pass false with count 0. A stage that met missing inputs and produced nothing has no stage end
-    // to check (its rows stay unevaluated, §5.4's whole report); a stage its own run refused is judged by its own code.
+    // The stage-end guard (C-0316 (1)–(4), the rows refined by C-0453; §5.3, §5.4): a stage that reached its end — ok,
+    // and it wrote an output or committed on an arena — and never reported a declared stage-end row (or a batch-scope soft
+    // row, once a batch of it committed through the door) is refused `E_INVARIANT`, rolled back whole, each such row's
+    // line pass false with count 0. A stage that returned ok having produced nothing — on missing inputs, or a harness's
+    // no-op stage — has no stage end to check (its rows stay unevaluated, §5.4's whole report; C-0316 (4)); a stage its
+    // own run refused is judged by its own code.
     const produced = written.length > 0 || images.some((image) => image.plat.version !== image.version);
-    const unreported = r.ok && produced ? builder.unevaluated(state) : [];
+    const unreported = r.ok && produced ? builder.unevaluated(state, doorCommits > 0) : [];
     if (r.ok && unreported.length === 0) {
       for (const [key, value] of written) data.set(key, value);
       builder.kernelWarnings(r.warnings);
