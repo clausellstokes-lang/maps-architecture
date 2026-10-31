@@ -441,3 +441,150 @@ session (the blocker rule, J162; N-45). The evidence is in `checks/M0-e-04-s3.md
 | N-s3c-1 | **KI — the roster's B through the run's `s6` is unpinned (this seat's T4e survives).** Row 4's fix reads `s6` from the run's tables for three things: `typingCells`, the face graph's `minBarrierClass`, and `rosterBuildings` (C-0388 (3); `stage.ts`). Note 4 and the inventory row name only the first two, and both are pinned (T4a – T4d killed). T4e puts `rosterBuildings(input.rung)` back on this folder's table. It survives `stage.test`, `integration.test` and `land.test` (37/37). This seat's probe shows the code is right and T4e is live. On town 4, an `s6` with `roster` `buildings.CITY` = 100, handed in through `withS6`, moves N_q from 13 to 5 and changes the quarters. Under T4e, N_q stays 13. CONFIRMED (survival; probe). | One `stage.test.ts` case: the run's `s6` with a smaller `buildings.<rung>`, and S6's quarters (or the report's N_q) differ from the shipped run's. | M4 |
 | N-s3c-2 | **KI — the merge rule's fall-through to the next neighbour is unpinned (this seat's H6d survives).** Row 6's rule (C-0388 (5); `grow.ts`'s module comment) is: take the neighbour with the longest shared edge whose union with the district encloses no hole. H6d stops at the first neighbour that would enclose a hole (`break` for `continue`). It survives `grow.test` and `stage.test` (48/48), because the row's pin district has only one neighbour. This seat's probe: a 3 × 4 grid with the centre (1, 2) reserved and a primary line under columns 0 and 2 between rows 0 and 1. S at (1, 1) is cut at turn limit 0. Its longest neighbour, the seven-cell run (200 m shared), would ring the reservation. Its next neighbour, the bottom row (100 m), would not. The round's code merges S into the bottom row, and every district keeps one boundary loop. Under H6d, S stays below the floor. Over this seat's census probe (towns 1 – 100, `land:0` towns 1 – 6, CITY 1, 2 and 4, growth 1 and 2), H6d's output is byte-identical to the round's (192 lines), so no registered family reaches the difference. CONFIRMED (survival; probe; census). | The probe as a `grow.test.ts` case. | M4 |
 | N-s3c-3 | **For the session — a variant `s6` now changes S6's output without changing the view's hash.** Since row 4, S6 reads a TableView's `s6` when the view carries one. The view's `hash` does not cover `s6` (the registry does not list it; the support's `withS6` keeps `base.hash`). Two runs that differ only in their `s6` therefore have one table hash. No honest run reaches this: no registry view carries `s6`, and `pipeline/base.ts` (another item's) calls `siteFeatures` and S6 with the default tables. A future composer that hands a run `s6` must also pass it to `siteFeatures` (its optional `tables`), or the bridge class and the edge test would read two tables. CONFIRMED (reading; `view.ts` `table()` throws `TableError` only for "not in this view"). | Row 4's REPORTED half (register `s6` with `@plat/tables`, so its cells enter the hash). Then the composer's owner threads one view through `siteFeatures` and S6. | session (the tables' owner); M1 at the roster |
+
+## Hardening round S4 (lane `build/M0-e-04-fix-s4`, 2026-10-31): Q133, Q122's S6 class, Q86, Q99's e-04 half
+
+The session's round S4 (J670; J186, J192) on four queue rows. The round's choices row is C-0454. The work spanned two
+sittings on one container (the first stopped on a usage limit at 03:32); the second re-ran every gate, the census,
+the perimeter probe and all ten mutants. Probes and mutants ran only in the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-e-04-fix-s4/` (isolation checked: no link out, `@plat/kernel`'s
+realpath inside) and in the seat's scratchpad. Every timing below is from this container, contended, and informative
+only.
+
+**Edited (all inside the owns).** Sources: `src/districts/perimeter.ts` (Q133 A / B1 / B2, Q122), `stage.ts` (the
+report line), `types.ts` (Q86). Tests: `test/districts/perimeter.test.ts`, `stage.test.ts`, `support.ts` (Q99's
+`withS6`), and the new `q133.test.ts` with its fixture `fixtures/q133-inputs.json`. Also
+`packages/testkit/test/layout/districts/collinear-chain.test.ts` (in the owns): its coincident 2708765650 clause now
+expects S6 to commit. No folder index or barrel export
+changed (J263 Q1): `districts/index.ts` and `src/index.ts` are byte-identical. Three file-level exports are new and no
+index lists them: `settlementPerimeterRung` and `PerimeterRung` (perimeter.ts), and `W_PERIMETER_BUFFER` (stage.ts).
+`runS6`'s signature and `settlementPerimeter`'s signature are unchanged.
+
+**The perimeter's constructions after the round (C-0454).** `settlementPerimeterRung` tries these in order. The first
+that stands gives the ring:
+
+1. `fast`: the mitred curve, its folds cut (`unloop`). It is held to `simpleCcw` and to `isSumRing` at 5 cm.
+2. `onSegments`: the curve mitred only where the miter lies on both offset segments. It is held to the same checks.
+3. `overlay`: the boundary united with its full convolution through one `booleans` union. It is held to `simpleCcw` and
+   to `isSumRing` at 104 cm.
+4. `buffer` (NEW; the declared fallback rung): §3.4's buffer of the closed ring (round joins and ends) united with the
+   boundary. It is held to the overlay's two checks. It is taken only when the overlay refused or its ring failed a
+   check, and only for a boundary with a region reading (`regionLoops`). S6 writes `W_PERIMETER_BUFFER` to its report
+   once for each run that takes this rung, so the rung is never silent. A ring that no rung stands is refused with the
+   overlay's code and text, followed by `; the buffer rung: <its text>`. That text is pinned verbatim.
+
+Per-construction timings on the captured inputs (ms, contended; the `timing.mts` probe):
+
+| input | vertices | fast | onSegments | overlay | buffer | whole (rung) |
+|---|---|---|---|---|---|---|
+| integrated 73 | 676 | 83 ✗ | 50 ✗ | 2 484 refused | 13 885 ✓ | 15 052 (buffer) |
+| integrated 195 | 676 | 54 ✗ | 48 ✗ | 6 140 ✓ | 11 670 ✓ | 5 812 (overlay) |
+| integrated 243 | 687 | 68 ✗ | 65 ✗ | 3 446 refused | 11 494 ✓ | 14 838 (buffer) |
+| integrated 253 | 676 | 44 ✗ | 46 ✗ | 5 650 ✗ (sum) | 11 616 ✓ | 17 128 (buffer) |
+| integrated 310 | 670 | 54 ✗ | 45 ✗ | 1 994 refused | 11 157 ✓ | 14 400 (buffer) |
+| integrated 476 | 655 | 42 ✗ | 42 ✗ | 4 620 ✗ (sum) | 10 236 ✓ | 14 263 (buffer) |
+| integrated 751 | 683 | 61 ✗ | 58 ✗ | 5 439 refused | 11 597 ✓ | 17 666 (buffer) |
+| integrated 999 | 704 | 43 ✗ | 47 ✗ | 2 404 refused | 11 912 ✓ | 13 961 (buffer) |
+| relief-60 172 | 703 | 43 ✗ | 45 ✗ | 4 716 ✓ | 11 416 ✓ | 5 276 (overlay) |
+| relief-60 183 default | 355 | 77 ✗ | 79 ✗ | 1 061 refused | 8 853 ✓ | 10 434 (buffer) |
+| relief-60 183 coarse | 355 | 80 ✗ | 84 ✗ | 905 refused | 9 567 ✓ | 11 387 (buffer) |
+| relief-3000 77 | 613 | 39 ✗ | 37 ✗ | 1 425 refused | 11 527 ✓ | 13 009 (buffer) |
+| x-06 plant 3009257304 | 111 | 9 ✗ | 12 ✗ | 418 ✗ (sum) | 1 198 ✓ | 1 820 (buffer) |
+
+The buffer rung costs about 2 to 5 overlays here. It runs only on the rung. On every input that stood before the round
+it never runs, so no committed run pays for it.
+
+| row | outcome | the change | the pin (red without the fix or on its mutant) | mutant(s), killed |
+|---|---|---|---|---|
+| Q133 (A: 73 243 310 751 999; B2: 253 476) | fixed | The buffer rung, the alternative the brief offers as a declared fallback rung. The design supports it: §4.5 says the perimeter is the boundary "offset outward … and rounded", and §3.4's round buffer is that form; C-0245's `settlementPerimeterByBuffer` reference builds the same region. Two alternatives were not taken. Cutting the folds before the union (closing `unloop`'s windowed cut) would be new fold geometry, and the overlay's interior-fold refusal belongs to the router (R-06). Unioning in pieces would also be new design. | `perimeter.test.ts` › 'the buffer rung …' (the overlay refused: the rung stands, equals the reference's region (xor 0), and `settlementPerimeter` returns the same ring; a buffer 2 m short is refused with the pinned text; the fast rings and the overlay come first; note 15's retrace test extended). `q133.test.ts` › the captured inputs of 253 and 751 and of the site's A seeds stand on the buffer rung. The eight seeds derive through S6 and commit, with 7 buffered. | R1-norung, R4-bufnocheck, R5-buffirst (the note-15 pin); W-noreport (q133's derivation: no `W_PERIMETER_BUFFER` lines) |
+| Q133 B1 (195) | fixed | `isSumRing`'s upper bound now reads the boundary as a whole. A ring edge whose ends are not both near one boundary edge is halved, up to `NEAR_HALVINGS` = 32 times. A piece passes when one edge is near both its ends, or when its midpoint's distance plus its half-length is within d + tol. It fails when its midpoint lies beyond the bound. The lower bound and the crossing test are unchanged. | `perimeter.test.ts` › 'the sum check's upper bound reads the boundary as a whole' (a near-collinear block: a correct ring passes; a ring with two notches 3 m out and one 2 m too far or bowed are refused). `q133.test.ts` › B1: 195's and 172's captured inputs stand on the overlay. | B1-edgeonly, B1-nohalve (the near-collinear pin); B1-midonly (the notch pin) |
+| Q133 x-06 S1's 3009257304 | fixed (REPAIR) | This is not class A. The input is x-06's planted self-touching boundary (UNLAWFUL): S5's ring visits (3680, −17496) twice, with two counter-clockwise lobes. The overlay's ring fails the sum check at 104 cm and passes it at 200 cm, a B2-like sliver. The rung's gate `regionLoops` reads such a pinched ring as the union of its lobes. The repair is deterministic and documented, and it is reported through `W_PERIMETER_BUFFER`. An antenna (a two-point lobe), a clockwise lobe, or a touch at a point that is not a vertex has no region reading and keeps the typed refusal. | `perimeter.test.ts` › 'a boundary pinched …' (the pinched C takes the rung; the antenna and the clockwise lobe keep the overlay's text). `q133.test.ts` › the plant stands on the buffer rung. The edge fixture probe: EP-01/S6/self-touching 3009257304 is now absorbed. | R3-oldgate (pinched pin), R2-nogate (the touch pin) |
+| Q133 pin | pinned | `q133.test.ts` (C-0454 (4)) has two parts. (a) `deriveThroughS6`: the eight seeds through the base pipeline with S8 dropped. Each run has no bug, more than 20 districts, 0 unowned, more than 200 ha of land and a simple perimeter, and the buffered list is exactly [73 243 253 310 476 751 999]. This part costs about 250 s at W=1. (b) The fixture `fixtures/q133-inputs.json` holds S5's last boundary and the frame as S6 received them, for all 13 runs and the plant (captured by an instrumented copy of perimeter.ts in the mirror). This part costs about 90 s. The file takes about 340 s, the slowest in the folder. | itself | W-noreport (a), R1 to R5 (b) |
+| Q122's S6 class | fixed (all in Q133's family) | The S6 messages of `summaries/M0-e-06.json` are 5 runs at 3 seeds. relief-60 default 172 is B1 (the sum check refused the overlay's correct ring) and now stands on the overlay. relief-60 183 (default and coarse) and relief-3000 77 (default and coarse) are A (the router finds no route for the full convolution's interior fold) and now stand on the buffer rung. The seeds join line 1's pin as the fixture's `site-*` inputs. Census per class: A 4 → 0 runs, B1 1 → 0. | `q133.test.ts` › the B1 and site-A cases | B1-edgeonly (172), R1-norung (183, 77) |
+| Q86 | fixed | `types.ts` imports `QuarterNode` from `@plat/model` and re-exports it (`export type { QuarterNode }`). The folder's structural copy is gone, and `districts/index.ts`'s re-export line stays. There is no behaviour change. | the build (`tsc -b` 0). The folder has no types test, so the row adds none, as the row says. | — (type-only; no runtime test can tell two structurally equal types apart) |
+| Q99 (e-04's half) | fixed | `withS6(variant?)` is now `tableView(TABLE_IDS, [variant])`, or `tableView()` with no variant. The view carries the registered `s6`, and its hash covers it. The helper loses its unused `base` parameter (no caller passed one). x-02's `runner.ts`, x-04's `base.ts` and c-01's `fixtures/flat.ts` were not touched, and the helper needs none of them. | `stage.test.ts` › 'the test helper's view registers S6's own table': the hash differs from the registry view's with a variant and between variants, equals it with none, and the shipped tables read as the registry's | Q99-basehash |
+
+**Refusal census (J264; N-58), before → after.** "Before" is the lane mirror before any edit. "After" is the tree.
+
+* e-04's census (`census.mts`, 365 lines): S6 over the stage tests' towns 1 to 100, `cityRun` 1 2 4 and `growthRun` 1 2;
+  the perimeter alone on the towns' boundaries at 50 m and 180 m; the flat fixture's S3 outlines 1 to 30 at 50 m and
+  180 m. Refused 6 → 0: Q64's six flat outlines at 180 m (3 8 9 10 11 16), class A, now stand on the buffer rung.
+  Every other line is byte-identical: S6's perimeter, districts, seams, quarters, typing and report, and every ring.
+* Q133's eight integrated seeds: 8 → 0 (the derivation pin). Q122's site runs: 5 → 0. The fixture pins them, and the site
+  spike's derivations on the tree (`deriveSpike`, the `capture.mts` probe) end with no bug and S6 ok: relief-60 172 and
+  183 default (48 districts each), 183 coarse (48), relief-3000 77 default and coarse (100 each).
+* The perimeter probe (`perim.mts`) on 65 captured inputs: the integrated seeds 1 to 40, the 13 runs and x-06's 12
+  S6-plant calls. 46 are byte-identical: every input whose perimeter stood before, including all 40 integrated seeds.
+  16 that were refused now stand. 3 are still refused, and these are the zero-area plant's antenna (3899199413), the
+  same calls before and after.
+* M0-x-06's EP-01/S6 plants (the edge fixture probe, unlawful input): self-touching 4101706098, 2461000155 and
+  3009257304, and coincident 2708765650 and 14238338, go from refused-safe to absorbed. Three of them stand on the
+  overlay because B1's bound now passes their correct rings; 3009257304 and 2708765650 stand on the buffer rung through
+  `regionLoops`. zero-area 3899199413 stays refused-safe (REFUSE: an antenna has no region reading, and a repair would
+  have to guess whether the spike is land; the plant is a test injection, and no user reaches it through §11.4's doors).
+
+**Declared shift (J676, the session's ruling of 2026-10-31 08:09Z).** No committed golden moves: every ring that stood
+before is byte-identical (the census and the probe above), and output moves only where S6 refused before: the 13 runs,
+Q64's six at 180 m, and the five x-06 plants above. One pinned verdict moves, and it is DECLARED. x-06's EP-01/S6 replays
+in `testkit/test/edge/repins.test.ts`, **'EP-01/S6/self-touching at seed 4101706098'** and **'EP-01/S6/coincident at
+seed 2708765650'**, go from the old verdict `refused-safe` to the new verdict `absorbed`. J676 (1) rules this a declared
+shift and not a block. S6's input is S5's boundary, OUR OWN INTERMEDIATE under N-58, so the verdict for a pinched or
+self-touching boundary reaching the perimeter is (b) REPAIR, and the buffer rung and B1's whole-boundary bound do that
+repair: the plant commits, repaired and reported (`W_PERIMETER_BUFFER`). x-06's N-56 (2) reading still holds for the
+kernel's EP-01/S1 plants and no longer holds for the S6 rows. The two pins are stale pins of this shift. Their owner
+x-06 re-pins them (Q106's pattern): the session applies the two-row seam (expected `absorbed`) and re-lands x-06's
+record at this round's landing (queue row Q140, which `ep01.ts`'s stale S6 pins join). This round edits neither
+`repins.test.ts` nor `ep01.ts`.
+
+**Reported, not built (another item's files).**
+
+* To Q64 / R-06 (M0-a-05's router, insertChain), as evidence rows: the overlay's union still refuses the full
+  convolution's interior fold on integrated 73 243 310 751 999, relief-60 183 (both configurations), relief-3000 77
+  (both), x-06's coincident 2708765650 and the flat outlines 3 8 9 10 11 16 at 180 m. e-04 now commits every one of
+  them on the buffer rung, and the router's refusal is a-05's to fix. B2's sliver (253, 476 and the plant 3009257304:
+  the overlay's ring lies 106 to 108 cm inside, past the 104 cm tolerance) is the overlay's (booleans / winding, read
+  only).
+* To M0-x-06 and the session, a RELATED red this round cannot clear inside its owns. `testkit/src/edge/ep01.ts`'s S6
+  pins for self-touching [4101706098, 2461000155] and coincident [2708765650, 14238338] (and x-06 S1's 3009257304 on
+  its branch) now absorb. The cells' judge allows `absorbed`, so `ep01-s6-s8.test.ts` stays green, but the pins'
+  `share` and `seeds` are stale. `testkit/test/edge/repins.test.ts` (x-06's, which "fails the day the stage changes")
+  replays two of these seeds and expects refused-safe: **'EP-01/S6/self-touching at seed 4101706098'** and
+  **'EP-01/S6/coincident at seed 2708765650'** are red after the round and green on the before image. That was checked
+  by a fresh lane mirror with the three round sources put back: there, repins and `ep01-s1-s3-s4.test.ts` show exactly
+  the three foreign reds below. The first red comes from B1's whole-boundary bound, which this row requires: the
+  overlay's ring is correct and now passes. The second comes from the rung's region reading, which line 1's 3009257304
+  requires. Both turn N-56 (2)'s "self-touching/coincident pins stay (lawful)" from refused-safe to absorbed for S6.
+  The re-pin is x-06's file. The first sitting reported this for the session's ruling and stopped at a CHECKPOINT
+  BLOCKED. **J676 resolved it: a declared shift (above), re-pinned by x-06 through the session's seam, queue row
+  Q140.** The round is no longer blocked on it.
+
+**Gates (this container, W=1).** install --frozen-lockfile 0; lint 0 (eslint 1268 files, probe-red ok, 9 whole-tree
+checks); build 0. RELATED@1000 over `districts/{perimeter,stage,types}.ts`: 254 files, 3 232 passed and 6 failed in 3
+files (9 808 s). Three of the reds are foreign and are red on the before image too: repins 'EP-01/S1/self-touching at
+seed 2651453823', repins 'EP-01/S5a/coincident at seed 1658509524' (Q106), and `ep01-s1-s3-s4` 'EP-01/S1/self-touching'.
+These are S1 and S5a cells, judged before any S6 code runs; M0-c-04 S4 found the same on 2026-10-30. The other three
+reds are this round's. Two are the repins above (REPORTED). The third was the owned `collinear-chain.test.ts`'s
+coincident clause, now updated. Under J676 the closing checker reads RELATED's two declared reds (the S6 repins) and
+three foreign reds as stated. NEAR (`packages/layout/test/districts/` and `packages/testkit/test/layout/districts/` at
+full strength): 15 files, 135 of 135 passed, exit 0 (638 s, W=1). `landed:verify flow-7 --item M0-e-04`: ok.
+
+**Reported rows, summarised (J676 (3)).** (a) To Q64 / R-06, for a-05's router round: the interior-fold seeds above
+(integrated 73 243 310 751 999; relief-60 183 default and coarse; relief-3000 77 default and coarse; x-06's coincident
+2708765650; flat outlines 3 8 9 10 11 16 at 180 m), with B2's sliver (253, 476, 3009257304) for the overlay. (b) To
+x-06 and the session: the stale S6 pins, `repins.test.ts`'s two replays and `ep01.ts`'s S6 `share` and `seeds`,
+declared above and carried by Q140. (c) N-s4-1: the buffer rung's cost, 10 to 14 s on most rung inputs here (up to
+18 s), in the table below. (d) N-s4-2: the upper bound's halving has no bound on its recursion width, in the table
+below.
+
+**Self-check (J183).** Ten targeted mutants ran in the lane mirror, one at a time (`--maxWorkers=1 --bail=1`, over
+`packages/layout/test/districts/` and `packages/testkit/test/layout/districts/`). All ten were killed, each by its
+row's pin: R1-norung (the rung removed), R2-nogate (the region gate removed), R3-oldgate (the gate back to
+simple-only), R4-bufnocheck (the buffer's ring unchecked), R5-buffirst (the buffer before the overlay), B1-edgeonly
+(the whole-boundary bound removed), B1-midonly (the midpoint without its half-length), B1-nohalve (no halving),
+W-noreport (no report line) and Q99-basehash (the view keeps base's hash). Each mutated file was restored from the tree
+and was cmp-equal afterwards.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s4-1 | **KI — the buffer rung is slow.** On the rung, a perimeter of 650 to 700 vertices takes 10 to 18 s here, against 2 to 6 s for the overlay. The rung runs only where the overlay fails: 8 of 1 000 integrated seeds, 3 of 200 site seeds, Q64's six at 180 m. It fails safely and commits right. | When the router absorbs the interior fold (Q64 / R-06), the A class leaves the rung. Measure again then. | M4 |
+| N-s4-2 | **KI — the upper bound's halving has no bound on its width.** `nearAlong` recurses on both halves up to 32 levels. On every input here it stays near linear: only pieces that straddle a distance ridge keep splitting. A contrived ring that lies exactly on d + tol along a long ridge could split widely. | Make the recursion iterative with a piece budget, and refuse when the budget is spent. | M4 |

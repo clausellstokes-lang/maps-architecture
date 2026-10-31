@@ -83,13 +83,13 @@ describe('S6 on a boundary with collinear vertices (N-56 (2))', () => {
     expect(a.perimeter.length).toBe(313);
   });
 
-  it('self-touching 2191303060 was the collinear defect (its outline carries two collinear vertices): now absorbed; coincident 2708765650 stays refused before any batch (lawful)', { timeout: 300_000 }, () => {
+  it('self-touching 2191303060 was the collinear defect (its outline carries two collinear vertices): now absorbed; coincident 2708765650 (the ring given twice) absorbed on the buffer rung since round S4', { timeout: 300_000 }, () => {
     // N-56 (2) read the ruling's two other cells as lawful refusals of non-simple rings. Replayed here: 2191303060's
     // natural S5 outline carries two exactly collinear vertices, and its self-touching ring (a 5 m loop at the first
     // vertex) went to the overlay, whose union merged them — the Q21 defect. With the merge S6 commits a simple
     // perimeter (sum-checked inside settlementPerimeter) and grows its districts, EP-01's 'absorbed' outcome. The
-    // coincident ring (the ring given twice) is still refused by the kernel's union (no route keeps clearance), typed,
-    // with nothing committed.
+    // coincident ring (the ring given twice) is still refused by the kernel's union (no route keeps clearance); since
+    // M0-e-04 round S4 (C-0454) the perimeter's buffer rung reads it as its lobes' union (the ring once) and S6 commits.
     const plant = (seed: number, kind: 'self-touching' | 'coincident'): { run: ReturnType<typeof edgeChain>; simple: boolean; coll: number } => {
       let simple = true;
       let coll = -1;
@@ -120,7 +120,13 @@ describe('S6 on a boundary with collinear vertices (N-56 (2))', () => {
     expect(o.districts.length).toBeGreaterThan(0);
     const co = plant(2708765650, 'coincident');
     expect([co.coll, co.simple]).toEqual([0, false]);
-    expect(co.run.refusals.get('S6')?.code).toBe('E_INVARIANT');
-    expect(co.run.model.data.get('s6')).toBeUndefined();
+    const cref = co.run.refusals.get('S6');
+    expect(cref === undefined ? 'none' : `${cref.code} ${cref.detail}`).toBe('none');
+    const c = co.run.model.data.get('s6') as S6Output | undefined;
+    expect(c).toBeDefined();
+    if (c === undefined) return;
+    expect(simpleCcw(c.perimeter)).toBe(true);
+    expect(c.report.unowned).toBe(0);
+    expect(c.districts.length).toBeGreaterThan(0);
   });
 });

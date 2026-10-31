@@ -13,6 +13,7 @@
 // hinterland's.
 import { CONCERNS, createRng, entityKey, faceKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint, type LineageHash } from '@plat/kernel';
 import { addressOf, lineageHash, TOWN_ROOT, type District, type Id } from '@plat/model';
+import { tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { boundaryLoops, faceGraph, faceLineage, runS6, s6Stage, s6Table, settlementPerimeter, textLineage, typingCells, type S6Input, type S6Output } from '../../src/index.js';
 import { bySeed, edgesL1, GROUND, gridArena, hullArea, insidePoly, layChain, liveL1, ownerAt, ownerOfL1, P, s6Run, s6With, tableWith, town, townS6, wayRecord, withS6, type Town } from './support.js';
@@ -600,5 +601,23 @@ describe('an outside region cut off from the frame is the hinterland’s (C-0245
     }
     expect(between).toBeGreaterThan(1000);
     expect(out.report.unowned).toBe(0);
+  });
+});
+
+describe('the test helper’s view registers S6’s own table (Q99, RL8; M0-e-04 round S4)', () => {
+  it('withS6(variant) carries the registered `s6` and its hash covers it: the hash differs from the registry view’s with a variant and between variants, and equals it with none', () => {
+    const base = tableView();
+    const shipped = withS6(s6With([]));
+    const secondary = withS6(s6With([['edge', 'minBarrierClass', 'secondary']]));
+    expect(shipped.table('s6').rows).toEqual(s6Table().rows);
+    expect(secondary.table('s6').cell('edge', 'minBarrierClass').value).toBe('secondary');
+    expect(String(shipped.hash)).not.toBe(String(base.hash));
+    expect(String(secondary.hash)).not.toBe(String(shipped.hash));
+    expect(String(withS6().hash)).toBe(String(base.hash));
+    expect(String(withS6(s6With([['edge', 'minBarrierClass', 'secondary']])).hash)).toBe(String(secondary.hash));
+    // every shipped table reads as the registry view's
+    expect(secondary.table('district').hash).toEqual(base.table('district').hash);
+    // and with no variant the view lists no `s6` (S6 then reads its folder's own table, `s6TableIn`)
+    expect(() => withS6().table('s6')).toThrow();
   });
 });

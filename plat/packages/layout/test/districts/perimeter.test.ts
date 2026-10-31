@@ -6,6 +6,7 @@
 import type { Kernel, LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { convolution, isSumRing, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop } from '../../src/index.js';
+import { settlementPerimeterRung } from '../../src/districts/perimeter.js';
 import { area2Of, fixtureRandom, insidePoly, kernel, P, ringDist, tableWith, town } from './support.js';
 
 /** The area of the symmetric difference of two rings (cm²). */
@@ -400,18 +401,19 @@ describe('the frame clip keeps the largest piece; the others’ land lies outsid
 });
 
 describe('the overlay’s ring is held to simplicity before the sum check (note 15)', () => {
-  it('an overlay handing back a ring that retraces an edge is refused E_INVARIANT, never returned', () => {
+  it('an overlay handing back a ring that retraces an edge is never returned: the buffer rung stands, or with its ring retraced too the perimeter is refused E_INVARIANT', () => {
     const k = kernel();
     let unions = 0;
-    let retrace = false;
-    // the kernel as settlementPerimeter reads it, its union's largest ring retracing one edge when asked
+    let retrace = 0;
+    // the kernel as settlementPerimeter reads it, the largest ring of its first `retrace` unions retracing one edge
     const wrapped = {
       geom: {
+        buffer: (...args: Parameters<Kernel['geom']['buffer']>) => k.geom.buffer(...args),
         booleans: (...args: Parameters<Kernel['geom']['booleans']>) => {
           const r = k.geom.booleans(...args);
           if (args[0] !== 'union' || !r.ok) return r;
           unions += 1;
-          if (!retrace) return r;
+          if (unions > retrace) return r;
           let best = 0;
           r.value.forEach((q, i) => {
             if (area2Of(q) > area2Of(r.value[best])) best = i;
@@ -422,16 +424,230 @@ describe('the overlay’s ring is held to simplicity before the sum check (note 
         },
       },
     } as unknown as Kernel;
-    const plain = settlementPerimeter(C_SHAPE, wrapped);
+    const plain = settlementPerimeterRung(C_SHAPE, wrapped);
     expect(plain.ok).toBe(true);
     expect(unions).toBe(1);
-    if (plain.ok) expect(simpleCcw(plain.value)).toBe(true);
-    retrace = true;
+    if (plain.ok) {
+      expect(plain.value.rung).toBe('overlay');
+      expect(simpleCcw(plain.value.ring)).toBe(true);
+    }
+    // the overlay's ring retraced: the buffer rung's union (the second) stands
+    unions = 0;
+    retrace = 1;
+    const rung = settlementPerimeterRung(C_SHAPE, wrapped);
+    expect(unions).toBe(2);
+    expect(rung.ok).toBe(true);
+    if (rung.ok) {
+      expect(rung.value.rung).toBe('buffer');
+      expect(simpleCcw(rung.value.ring)).toBe(true);
+      expect(isSumRing(C_SHAPE, rung.value.ring, 5000, OVERLAY_TOLERANCE_CM)).toBe(true);
+    }
+    // both retraced: refused, the overlay's text with the buffer rung's appended (C-0454; pinned verbatim)
+    unions = 0;
+    retrace = 2;
     const bad = settlementPerimeter(C_SHAPE, wrapped);
+    expect(unions).toBe(2);
     expect(bad.ok).toBe(false);
     if (!bad.ok) {
       expect(bad.code).toBe('E_INVARIANT');
-      expect(bad.detail).toBe("settlementPerimeter: the overlay's outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)");
+      expect(bad.detail).toBe("settlementPerimeter: the overlay's outer ring is not a simple counter-clockwise ring (the sum check reads a simple one); the buffer rung: the buffer's outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)");
     }
+  });
+});
+
+/**
+ * The kernel as settlementPerimeter reads it, its first union (the overlay's) refused as the router refuses Q133's
+ * interior fold (the text family of KI-1) and its buffer `shrinkCm` short when asked.
+ */
+function refusingOverlay(k: Kernel, shrinkCm = 0): { kernel: Kernel; calls: string[] } {
+  const calls: string[] = [];
+  let unions = 0;
+  const kernel = {
+    geom: {
+      buffer: (...args: Parameters<Kernel['geom']['buffer']>) => {
+        calls.push('buffer');
+        const [rings, d, ...rest] = args;
+        return k.geom.buffer(rings, typeof d === 'number' ? d - shrinkCm : d, ...rest);
+      },
+      booleans: (...args: Parameters<Kernel['geom']['booleans']>) => {
+        calls.push(args[0]);
+        if (args[0] === 'union') {
+          unions += 1;
+          if (unions === 1) return { ok: false as const, code: 'E_INVARIANT' as const, detail: 'insert: no route from (1, 2) to (3, 4) keeps clearance (§3.10) within the fidelity bound (N-43)' };
+        }
+        return k.geom.booleans(...args);
+      },
+    },
+  } as unknown as Kernel;
+  return { kernel, calls };
+}
+
+describe('the buffer rung: where the overlay of the full convolution fails, §3.4’s buffer form stands, checked (Q133; C-0454)', () => {
+  it('the overlay refused (Q133 A): the buffer’s ring of the boundary united with it stands — the sum by its check, the reference form’s region', () => {
+    const k = kernel();
+    const w = refusingOverlay(k);
+    const r = settlementPerimeterRung(C_SHAPE, w.kernel);
+    expect(w.calls).toEqual(['union', 'buffer', 'union']);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.rung).toBe('buffer');
+    expect(simpleCcw(r.value.ring)).toBe(true);
+    expect(isSumRing(C_SHAPE, r.value.ring, 5000, OVERLAY_TOLERANCE_CM)).toBe(true);
+    const ref = settlementPerimeterByBuffer(C_SHAPE, k);
+    expect(ref.ok).toBe(true);
+    if (ref.ok) expect(xorArea(k, r.value.ring, ref.value)).toBe(0);
+    // settlementPerimeter hands back the same ring
+    const plain = settlementPerimeter(C_SHAPE, refusingOverlay(k).kernel);
+    expect(plain.ok && plain.value).toEqual(r.value.ring);
+  });
+
+  it('the buffer’s ring is held to the sum check too: a buffer 2 m short is refused, the overlay’s text with the buffer rung’s appended (pinned verbatim)', () => {
+    const k = kernel();
+    const r = settlementPerimeter(C_SHAPE, refusingOverlay(k, 200).kernel);
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.code).toBe('E_INVARIANT');
+    expect(r.detail).toBe("settlementPerimeter: the union: insert: no route from (1, 2) to (3, 4) keeps clearance (§3.10) within the fidelity bound (N-43); the buffer rung: the buffer's outer ring is not the boundary's offset (the sum check failed)");
+  });
+
+  it('a boundary with a vertex given twice (the same region) takes the rung; one that touches itself keeps the overlay’s refusal, no buffer built', () => {
+    const k = kernel();
+    const twice = [...C_SHAPE.slice(0, 2), C_SHAPE[1], ...C_SHAPE.slice(2)];
+    expect(simpleCcw(twice)).toBe(false);
+    const w = refusingOverlay(k);
+    const r = settlementPerimeterRung(twice, w.kernel);
+    expect(r.ok && r.value.rung).toBe('buffer');
+    expect(w.calls).toContain('buffer');
+    // the C's lower arm pulled up until its corner touches the upper arm's underside: one point of the ring on another edge
+    const touching = C_SHAPE.map((q) => (q.x === 50_000 && q.y === 25_500 ? P(50_000, 34_500) : q.x === 60_000 && q.y === 25_500 ? P(60_000, 30_000) : q));
+    expect(simpleCcw(touching)).toBe(false);
+    const t = refusingOverlay(k);
+    const u = settlementPerimeterRung(touching, t.kernel);
+    if (t.calls.includes('union')) {
+      expect(u.ok).toBe(false);
+      expect(t.calls).not.toContain('buffer');
+      if (!u.ok) expect(u.detail).toBe('settlementPerimeter: the union: insert: no route from (1, 2) to (3, 4) keeps clearance (§3.10) within the fidelity bound (N-43)');
+    } else {
+      // the fast rings stood on it: no overlay, no rung
+      expect(u.ok && u.value.rung).not.toBe('buffer');
+    }
+  });
+
+  it('a boundary pinched at a vertex it visits twice into counter-clockwise lobes (x-06’s self-touching plant) takes the rung, read as the lobes’ union; an antenna or a clockwise lobe keeps the overlay’s refusal', () => {
+    const k = kernel();
+    // the C (whose fast rings fail) with a 100 m square lobe at its corner (600 m, 600 m), the ring visiting that corner
+    // twice: both lobes counter-clockwise
+    const withLobe = (lobe: LatticePoint[]): LatticePoint[] => [...C_SHAPE.slice(0, 11), ...lobe, C_SHAPE[10], C_SHAPE[11]];
+    const pinched = withLobe([P(70_000, 60_000), P(70_000, 70_000), P(60_000, 70_000)]);
+    expect(simpleCcw(pinched)).toBe(false);
+    const w = refusingOverlay(k);
+    const r = settlementPerimeterRung(pinched, w.kernel);
+    expect(w.calls).toEqual(['union', 'buffer', 'union']);
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.value.rung).toBe('buffer');
+      expect(simpleCcw(r.value.ring)).toBe(true);
+      expect(isSumRing(pinched, r.value.ring, 5000, OVERLAY_TOLERANCE_CM)).toBe(true);
+      // the sum of the lobes' union: both squares' centres inside, every ring vertex 50 m from the boundary
+      for (const q of [P(5000, 5000), P(65_000, 65_000)]) expect(insidePoly(r.value.ring, q)).toBe(true);
+      for (const q of r.value.ring) expect(Math.abs(ringDist(pinched, q) - 5000)).toBeLessThanOrEqual(OVERLAY_TOLERANCE_CM);
+    }
+    // an antenna: from the corner a spike 100 m out and back (a lobe of two points), no region reading
+    const antenna = withLobe([P(70_000, 70_000)]);
+    const a = refusingOverlay(k);
+    const ra = settlementPerimeterRung(antenna, a.kernel);
+    expect(a.calls).toEqual(['union']);
+    expect(ra.ok).toBe(false);
+    if (!ra.ok) expect(ra.detail).toBe('settlementPerimeter: the union: insert: no route from (1, 2) to (3, 4) keeps clearance (§3.10) within the fidelity bound (N-43)');
+    // a clockwise lobe at the corner (a hole touching the boundary), no region reading: the overlay's refusal kept
+    const cwLobe = withLobe([P(62_000, 70_000), P(70_000, 70_000), P(70_000, 62_000)]);
+    expect(area2Of(cwLobe)).toBeGreaterThan(0);
+    const c = refusingOverlay(k);
+    const rc = settlementPerimeterRung(cwLobe, c.kernel);
+    expect(c.calls).toEqual(['union']);
+    expect(rc.ok).toBe(false);
+  });
+
+  it('the fast rings and the overlay come first: on the C (whose fast rings fail) the overlay stands and no buffer is built; on the square the fast ring stands', () => {
+    const k = kernel();
+    const calls: string[] = [];
+    const spy = {
+      geom: {
+        buffer: (...args: Parameters<Kernel['geom']['buffer']>) => {
+          calls.push('buffer');
+          return k.geom.buffer(...args);
+        },
+        booleans: (...args: Parameters<Kernel['geom']['booleans']>) => {
+          calls.push(args[0]);
+          return k.geom.booleans(...args);
+        },
+      },
+    } as unknown as Kernel;
+    const c = settlementPerimeterRung(C_SHAPE, spy);
+    expect(c.ok && c.value.rung).toBe('overlay');
+    expect(calls).toEqual(['union']);
+    calls.length = 0;
+    const sq = settlementPerimeterRung(SQUARE, spy);
+    expect(sq.ok && sq.value.rung).toBe('fast');
+    expect(calls).toEqual([]);
+    const none = settlementPerimeterRung(SQUARE, spy, { offsetCm: 0 });
+    expect(none.ok && none.value.rung).toBe('none');
+  });
+});
+
+describe('the sum check’s upper bound reads the boundary as a whole (Q133 B1; note 10’s near-collinear form; C-0454)', () => {
+  // a 800 m × 400 m block whose bottom side is four near-collinear edges (turns of a few thousandths of a degree,
+  // never exactly collinear, so mergeCollinear keeps every vertex), and the sum's outer ring with ONE straight edge
+  // 50 m below the whole side: each end of that edge is near a different boundary edge, no single edge near both
+  const BLOCK = [P(0, 0), P(20_000, -3), P(40_000, -4), P(60_000, -3), P(80_000, 0), P(80_000, 40_000), P(0, 40_000)];
+  // the sum's outer ring drawn directly: quarter arcs of 50 m about the block's corners (64 chords each, a sagitta
+  // under 0.4 cm), the bottom run one straight edge from (0, y) to (800 m, y)
+  const arc = (cx: number, cy: number, from: number): LatticePoint[] => {
+    const out: LatticePoint[] = [];
+    for (let s = 0; s <= 64; s += 1) {
+      const t = ((from + (s * 90) / 64) * Math.PI) / 180;
+      out.push(P(Math.round(cx + 5000 * Math.cos(t)), Math.round(cy + 5000 * Math.sin(t))));
+    }
+    return out;
+  };
+  const ringBelow = (y: number): LatticePoint[] => {
+    const r = [P(0, y), P(80_000, y), ...arc(80_000, 0, 270), ...arc(80_000, 40_000, 0), ...arc(0, 40_000, 90), ...arc(0, 0, 180)];
+    return r.filter((q, i) => i === 0 || q.x !== r[i - 1].x || q.y !== r[i - 1].y).filter((q, i, a) => i < a.length - 1 || q.x !== a[0].x || q.y !== a[0].y);
+  };
+
+  it('a ring edge beside a near-collinear run, every point of it within the bound of the boundary, passes; no single boundary edge is near both its ends', () => {
+    const ring = ringBelow(-5000);
+    expect(simpleCcw(ring)).toBe(true);
+    // the precondition: the long edge's two ends are each near a different end edge, and no boundary edge is near both
+    const near = (q: LatticePoint, i: number) => ringDist([BLOCK[i], BLOCK[(i + 1) % BLOCK.length]], q) <= 5000 + SUM_TOLERANCE_CM;
+    expect([0, 1, 2, 3, 4, 5, 6].filter((i) => near(P(0, -5000), i) && near(P(80_000, -5000), i))).toEqual([]);
+    // every point of it lies 49.96 – 50.00 m from the boundary as a whole (sampled each metre)
+    for (let x = 0; x <= 80_000; x += 100) {
+      const dd = ringDist(BLOCK, { x, y: -5000 });
+      expect(dd).toBeGreaterThanOrEqual(5000 - SUM_TOLERANCE_CM);
+      expect(dd).toBeLessThanOrEqual(5000 + SUM_TOLERANCE_CM);
+    }
+    expect(isSumRing(BLOCK, ring, 5000, SUM_TOLERANCE_CM)).toBe(true);
+    expect(isSumRing(BLOCK, ring, 5000, OVERLAY_TOLERANCE_CM)).toBe(true);
+  });
+
+  it('an edge whose middle lies near the boundary but whose quarters stray 3 m past it (two shallow notches) is refused: the halving reads every piece', () => {
+    const NOTCHED = [P(0, 0), P(10_000, 0), P(20_000, 300), P(30_000, 0), P(50_000, 0), P(60_000, 300), P(70_000, 0), P(80_000, 0), P(80_000, 40_000), P(0, 40_000)];
+    const r = [P(0, -5000), P(80_000, -5000), ...arc(80_000, 0, 270), ...arc(80_000, 40_000, 0), ...arc(0, 40_000, 90), ...arc(0, 0, 180)];
+    const ring = r.filter((q, i) => i === 0 || q.x !== r[i - 1].x || q.y !== r[i - 1].y).filter((q, i, a) => i < a.length - 1 || q.x !== a[0].x || q.y !== a[0].y);
+    expect(simpleCcw(ring)).toBe(true);
+    expect(ringDist(NOTCHED, { x: 40_000, y: -5000 })).toBe(5000);
+    expect(ringDist(NOTCHED, { x: 20_000, y: -5000 })).toBeGreaterThan(5000 + OVERLAY_TOLERANCE_CM);
+    expect(isSumRing(NOTCHED, ring, 5000, OVERLAY_TOLERANCE_CM)).toBe(false);
+  });
+
+  it('the same edge 2 m too far, or bowed 2 m out at its middle, is refused: a point of it lies beyond the bound', () => {
+    expect(isSumRing(BLOCK, ringBelow(-5200), 5000, SUM_TOLERANCE_CM)).toBe(false);
+    const bowed = ringBelow(-5000);
+    const j = bowed.findIndex((q) => q.x === 80_000 && q.y === -5000);
+    bowed.splice(j, 0, P(40_000, -5204));
+    expect(simpleCcw(bowed)).toBe(true);
+    expect(isSumRing(BLOCK, bowed, 5000, SUM_TOLERANCE_CM)).toBe(false);
+    expect(isSumRing(BLOCK, bowed, 5000, OVERLAY_TOLERANCE_CM)).toBe(false);
   });
 });

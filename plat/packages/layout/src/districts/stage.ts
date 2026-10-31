@@ -69,7 +69,7 @@ import { HA_CM2, insideRing } from '../siting/geom.js';
 import { BARRIER, faceGraph, s6Takes, type FaceGraph } from './faces.js';
 import { grow } from './grow.js';
 import { countLaw, quarterCount } from './law.js';
-import { settlementPerimeter } from './perimeter.js';
+import { settlementPerimeterRung } from './perimeter.js';
 import { quarterTree, type QuarterAdjacency } from './quarters.js';
 import { seamEdges, seamRuns } from './seams.js';
 import { faceInRing, placeSeeds } from './seeds.js';
@@ -462,10 +462,29 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
 
 /** S6 (see the module comment): the perimeter, then the batch through the façade's tx. */
 export function runS6(input: S6Input): KernelResult<S6Output> {
+  return runS6Reporting(input);
+}
+
+/**
+ * S6's own warning (C-0454): the perimeter stood on its buffer rung (`settlementPerimeterRung`: the fast rings and the
+ * overlay of the full convolution failed, §3.4's buffer of the closed ring united with the boundary stood) — a declared
+ * fallback, never silent: one per run that takes it, in the stage's report.
+ */
+export const W_PERIMETER_BUFFER = 'W_PERIMETER_BUFFER';
+
+/** The report sink of a stage's context (§5.4; M0-x-02's), where the runner hands one (a bare call in a test may not). */
+function warningSink(ctx: StageContext | undefined): { warning(code: string, count?: number): void } | undefined {
+  const r = (ctx as { report?: unknown } | null | undefined)?.report as { warning?: unknown } | null | undefined;
+  return r !== null && r !== undefined && typeof r.warning === 'function' ? (r as { warning(code: string, count?: number): void }) : undefined;
+}
+
+/** `runS6`, the perimeter's buffer rung written to `sink` (the stage's report) as `W_PERIMETER_BUFFER`. */
+function runS6Reporting(input: S6Input, sink?: { warning(code: string, count?: number): void }): KernelResult<S6Output> {
   const key = input.key ?? GROUND_KEY;
-  const per = settlementPerimeter(input.boundary, input.kernel, { ...(input.frame === undefined ? {} : { frame: input.frame }), ...(input.tables === undefined ? {} : { tables: input.tables }) });
+  const per = settlementPerimeterRung(input.boundary, input.kernel, { ...(input.frame === undefined ? {} : { frame: input.frame }), ...(input.tables === undefined ? {} : { tables: input.tables }) });
   if (!per.ok) return err(per.code, per.detail);
-  const b = s6Batch(input.kernel.plat(key), input, per.value);
+  if (per.value.rung === 'buffer') sink?.warning(W_PERIMETER_BUFFER);
+  const b = s6Batch(input.kernel.plat(key), input, per.value.ring);
   const r = input.kernel.tx(b.spec, b.fn);
   if (!r.ok) return err(r.code, r.detail);
   input.kernel.index.rebuildAtStageEnd(key);
@@ -517,8 +536,8 @@ export function s6Stage(opts: { workLimits?: WorkLimitsTable } = {}): Stage<S6In
       }
       return rec as S6Input;
     },
-    run(input: S6Input, _ctx: StageContext): KernelResult<S6Output> {
-      return runS6(input);
+    run(input: S6Input, ctx: StageContext): KernelResult<S6Output> {
+      return runS6Reporting(input, warningSink(ctx));
     },
   });
 }
