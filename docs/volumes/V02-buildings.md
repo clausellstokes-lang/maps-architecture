@@ -2448,7 +2448,10 @@ screen and external-stair shares; (d) it names NO material: the material row sta
 owner's rule of 2026-09-26, T-V2-25, and its converse — a culture never selects a material, J662); its `palette` is a
 finish on whatever the region gives, read by §5.3's style rows; (e) its `ornament` keys are decoration instances on
 §8.10's pattern at the treads stop, derived and unstored (§2.9's size test holds); (f) its `signals` are §3.15's
-specialisations for the culture's worship and civic classes (V11 §3.24.3 widened). *Renovation (§4.14 (10) (c)):* a
+specialisations for the culture's worship and civic classes (V11 §3.24.3 widened). *Variation (§4.14 (15); J669):* the profile's
+cells are bands drawn once per town and its weights are drawn again per building from the building's stream, so a street
+of one culture is a family of houses and never a row of copies, and a culture's signal building is drawn from a weighted
+pool with its own composition bands — recognisably the culture's, never the same temple twice. *Renovation (§4.14 (10) (c)):* a
 household's change of culture re-derives (b), (c), (e) and the interior; the massing stands until a rebuild. *Bars:*
 T-V2-25 (materials never massing) and its converse; the cells-only bar (§4.14 (1)) at the building — two cultures' rows
 held equal give byte-identical buildings; the envelope bar — two cultures' buildings of one seed and class differ above

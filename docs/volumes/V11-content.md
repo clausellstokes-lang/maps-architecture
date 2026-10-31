@@ -4779,6 +4779,7 @@ the way-class table, as cells), V02's composition chain (the exterior row), V06 
 
 ```ts
 type CultureKey = 'germanic'|'latin'|'greek'|'celtic'|'norse'|'slavic'|'arabic'|'east_asian'|'south_asian'|'mesoamerican'|'steppe'|'mixed';
+type Band = { floor: number; ceiling: number; weights?: number[] };   // §4.14 (15): every numeric cell below is a Band, drawn once per town from the town's stream (the `culture` concern); a bare number in a row is the band's centre with the default weights
 interface CultureSitingRow {            // §4.14 (2): weights on S3's admitted candidates, never a new admission
   culture: CultureKey;
   water: Partial<Record<'river_bank'|'crossing'|'harbour'|'lake_shore'|'spring'|'well_or_cenote'|'tank', number>>;
@@ -4823,6 +4824,15 @@ interface CultureExteriorRow {           // §4.14 (8): read by V02's chain afte
   signals: { classKey: string; specialisation: string }[];   // §3.24.3's table widened to every culture
 }
 ```
+
+*Variation (§4.14 (15); J669).* The rows are DISTRIBUTIONS: every numeric cell is a `Band` drawn once per town from
+the town's stream (deterministic by seed; New random on the town re-rolls it); `CoreTemplateRow` is read as a weighted set
+of VARIANTS (a `variants[]` of weighted partial rows over the fields above — the plaza sequence, the head anchor's place, the
+flanks, the open space's proportions), one drawn per town; `CultureExteriorRow.signals[]` carries a `weight` per entry and
+its specialisation's composition cells are bands (tiers, stairs, proportions); `familyWeights`, `roof.forms` and the
+`facade` shares are drawn per building inside the town's draw (V02 §3.17b). The bars are §4.14 (15)'s: the recognition bar,
+the within-culture dispersion floor (no two towns of one culture share a signal building's parameters or a core variant's
+full draw in a 50-seed fixture), the within-town dispersion floor, and (1)'s envelope as the ceiling.
 
 *Compile bars (§3.2's form):* exactly one row of each kind per `CultureKey` but `mixed` (which has none and blends);
 `WayClassRow.widthCm` bands non-increasing with `depth`; a `deadEnd` class only at `depth ≥ 1`; `section: covered` only on

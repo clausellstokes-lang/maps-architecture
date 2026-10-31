@@ -9847,6 +9847,7 @@ rows' regional shift (V11 §3.19) is keyed by region, not culture, which stays s
    culture's values changes no digest. *Bar (the envelope bars, §16's M1 dispersion form):* two cultures' towns of one
    seed differ above a floor in layout and in buildings; two seeds of one culture stay inside the culture's envelope;
    "subtly" means the envelopes overlap — a germanic and a slavic town share most of their fabric and differ in the tells.
+   And the envelope is WIDE (15): a culture is a distribution of towns, never one town repeated.
 2. **Siting is universal; the culture weights it** (`CultureSitingRow`, V11 §3.25b). S1–S3 run one algorithm for
    every culture — terrain, water, demand, the site, the centre, the nuclei, the claims — and the culture gives S3's
    candidate scoring WEIGHTS only: `water` (a river bank, a harbour, a lake shore, a well or cenote, a tank), `ground` (a
@@ -9986,7 +9987,35 @@ rows' regional shift (V11 §3.19) is keyed by region, not culture, which stays s
     culture glyph rows (V03; Q121 (14)–(15)). M6-E adds the mix by time (V06 §3.19b). M-CAL calibrates every row. The
     order of cost: `street` is built; `grid` and `camp` are cells and one ring rule; `field` is the three pieces; the
     way-class table and the core templates are two bounded generalisations that every grammar then shares.
-14. **Rejected (J660–J668, vetoable).** A pipeline per culture (twelve pipelines cannot be kept honest); culture-specific
+15. **Variation within a culture — bands and weighted rolls, never identical features** (THE OWNER, 2026-10-31,
+    J669: "make sure there's enough variation … I don't want every single germanic city looking the same, nor every
+    single Greek or Celtic or Mesoamerican. Random numbers and bands, and weighted rolls rather than identical obvious
+    features. They should recognise that this is Aztec, but they should not recognise the same Aztec temple or layout in
+    every city"). The pattern is Q121 (13)'s bands, applied to the town: (a) every numeric cell of (2)–(8)'s rows is a
+    BAND — a floor, a ceiling and authored weights between them — drawn ONCE per town from the town's stream (§6.1's
+    `culture` concern; deterministic by seed, re-rolled only by New random on the town), never a constant: the cul-de-sac
+    share, the plot aspect, the block depth, the grammar weights, the roof pitch, the opening rhythm, the arcade share, the
+    axis orientation within its allowed arc; (b) every core template is a WEIGHTED SET OF VARIANTS, not one composition —
+    the plaza sequence's length, the head anchor's position (at the axis's end, offset, on a rise), which flank takes the
+    palace and which the ballcourt, the open space's proportions, whether the market has its own square — each a draw
+    inside the template's bands, so no two towns of one culture carry the same precinct, agora or market square; (c) every
+    signal building is drawn from a WEIGHTED POOL with its own composition bands (a stepped temple's tier count, stair
+    placement and platform proportions; a dome's rise and drum; a spire's height class; a stave roof's tiers), so the
+    temple is recognisably the culture's and never the same temple; (d) the exterior profile's weights are per-town and
+    per-household draws (V02 §3.17b: the roof form drawn per building from the culture's weights, the facade rhythm
+    drawn per building inside the band), so a street of one culture is a family of houses, never a row of copies; (e) the
+    layout draws vary per quarter where the grammar allows it (a district's cut mode drawn among the culture's admitted
+    modes by weight; a ward's lane pattern), so one town is not uniform either. *Bars:* THE RECOGNITION BAR — a culture
+    classifier trained on the rows' tells (the renderer-independent features: grammar, core template kind, roof forms,
+    facade shares, signal buildings) names the culture of a held-out town above a floor; THE WITHIN-CULTURE DISPERSION
+    FLOOR (§16's M1 form, between seeds of one culture) — two towns of one culture differ above a floor in layout (the
+    core template variant, the drawn cells) and in buildings (the drawn forms), and no two towns of one culture share a
+    signal building's composition parameters or a core template variant's full draw within a fixture of 50 seeds; THE
+    WITHIN-TOWN DISPERSION FLOOR — two quarters of one town differ above a floor where (e) applies; and the envelope bar of
+    (1) stands as the ceiling of variation (a town never leaves its culture). *Rejected (vetoable):* fixed cells (a
+    constant per culture); one composition per template; one silhouette per signal class; a per-building re-roll that
+    ignores the town's draw (the town draws first, the buildings inside it, Q121 (13)'s rung-then-roll order).
+16. **Rejected (J660–J669, vetoable).** A pipeline per culture (twelve pipelines cannot be kept honest); culture-specific
     kernel operations (the kernel stays blind); a siting law per culture (weights only); culture-keyed materials (the
     resources decide); a mix drawn at creation (a town is born of one people); a culture per plot (a patchwork town);
     culture-keyed footprint or count laws (the laws stay, the cells move); new massing families per culture (the class
