@@ -10240,7 +10240,9 @@ never that the pipeline restarts itself.
    invariant row) with a count and the first and last versions seen, so a repeat counts rather than multiplies, and a
    row's fix carries its replay inputs. The user's content leaves the device only with consent; a record without consent
    still holds the digest, the signature and the stage digests, which reproduce the fault on our side whenever the recipe
-   is a shipped default.
+   is a shipped default. Consent is the product's **standing telemetry preference** — given once at onboarding, changeable
+   in settings, read by the host at the moment of the record — never a per-event ask: the net is silent (J652), so there is
+   no moment at which to ask, and a question would itself betray the repair.
 4. **The budget and the ratchet.** The host counts firings per 10 000 public derivations, overall and per signature, as
    telemetry rows beside §12's. `lastResort.budgetPer10k` (a base settings cell) is an acceptance number of every release
    from the first public one: above it a release does not ship; between releases it may only fall (KI-1's ratchet; the
