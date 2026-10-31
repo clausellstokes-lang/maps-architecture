@@ -2446,7 +2446,8 @@ roofscape — the pitch band, the form weights, the eaves depth and the gable's 
 `facade` row sets §3.7's bays — the bay ratio, the ground floor's blind share, the jetty, oriel, loggia, arcade, balcony,
 screen and external-stair shares; (d) it names NO material: the material row stays V11 §3.19's by era and region (the
 owner's rule of 2026-09-26, T-V2-25, and its converse — a culture never selects a material, J662); its `palette` is a
-finish on whatever the region gives, read by §5.3's style rows; (e) its `ornament` keys are decoration instances on
+finish on whatever the region gives, read by §5.3's style rows, and the region's material family clips the culture's
+form bands to the forms its materials carry (§4.14 (8) (d); V11 §3.19's region row), reported in the why; (e) its `ornament` keys are decoration instances on
 §8.10's pattern at the treads stop, derived and unstored (§2.9's size test holds); (f) its `signals` are §3.15's
 specialisations for the culture's worship and civic classes (V11 §3.24.3 widened). *Variation (§4.14 (15); J669):* the profile's
 cells are bands drawn once per town and its weights are drawn again per building from the building's stream, so a street

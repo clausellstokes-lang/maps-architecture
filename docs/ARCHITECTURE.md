@@ -9921,7 +9921,10 @@ rows' regional shift (V11 §3.19) is keyed by region, not culture, which stays s
    the opening rhythm (window proportion and count per bay, the ground floor's blind share), jetties, oriels, loggias and
    arcades, balconies and screens, external stairs, the street wall's blankness; (d) MATERIALS — none (J662): the
    resources at hand decide, through V11 §3.19's era and region rows; a culture row carries only a finish PALETTE applied
-   to whatever the region gives (a limewash, a stain, a painted motif); (e) permanent ornament — carved boards, brackets,
+   to whatever the region gives (a limewash, a stain, a painted motif) — and the converse holds too (J669's addendum): the
+   region's material family CLIPS the culture's form bands, a stave roof only where the region gives timber, a flat parapet
+   roof only where it gives mud brick or stone — V11 §3.19's region row names the form families its materials carry, and a
+   culture band outside them is clipped to the nearest admitted form and reported in the composition's why; (e) permanent ornament — carved boards, brackets,
    string courses, relief, tilework, finials and ridge beasts, painted motifs — as decoration instances on §8.10's pattern
    (derived, unstored, drawn at the treads stop), keyed culture × class × band; (f) the signal buildings — each culture's
    one or two unmistakable silhouettes on its worship and civic classes through V11 §3.24.3's specialisation table
