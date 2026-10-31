@@ -147,6 +147,66 @@ export function degenerateRing(ring: readonly { x: number; y: number }[], kind: 
   }
 }
 
+const same = (p: { x: number; y: number }, q: { x: number; y: number }): boolean => p.x === q.x && p.y === q.y;
+
+/**
+ * Does a closed ring (its closing vertex not repeated) carry the kind's shape (M0-x-06 hardening round S1, note 12 — the
+ * shape, never a vertex count alone; exact on the lattice): zero-length — two consecutive vertices coincide (a
+ * zero-length edge); zero-area — a spike out and back (a vertex whose next-but-one is itself, an antenna of area 0);
+ * self-touching — one vertex visited twice at non-adjacent places with a loop of non-zero area between (a pinch, never a
+ * spike); collinear — a vertex strictly between its two neighbours on their line; coincident — every vertex coincident
+ * with another (the ring given twice round). Null when it does, else the reason.
+ */
+export function ringKindProblem(ring: readonly { x: number; y: number }[], kind: DegenerateKind): string | null {
+  const n = ring.length;
+  const at = (i: number): { x: number; y: number } => ring[((i % n) + n) % n];
+  if (n < 3) return `the ring has ${String(n)} vertices`;
+  switch (kind) {
+    case 'zero-length':
+      for (let i = 0; i < n; i += 1) if (same(at(i), at(i + 1))) return null;
+      return 'no zero-length edge (no two consecutive vertices coincide)';
+    case 'zero-area':
+      for (let i = 0; i < n; i += 1) if (same(at(i), at(i + 2)) && !same(at(i), at(i + 1))) return null;
+      return 'no spike out and back (no antenna of area 0)';
+    case 'self-touching':
+      for (let i = 0; i < n; i += 1) {
+        for (let j = i + 2; j < n; j += 1) {
+          if ((i === 0 && j === n - 1) || !same(at(i), at(j))) continue;
+          if (ringArea2(ring.slice(i, j)) !== 0) return null;
+        }
+      }
+      return 'no vertex visited twice with a loop of non-zero area between (no pinch)';
+    case 'collinear':
+      for (let i = 0; i < n; i += 1) {
+        const a = at(i - 1);
+        const b = at(i);
+        const c = at(i + 1);
+        if (same(a, b) || same(b, c)) continue;
+        const cross = (b.x - a.x) * (c.y - b.y) - (b.y - a.y) * (c.x - b.x);
+        const dot = (b.x - a.x) * (c.x - b.x) + (b.y - a.y) * (c.y - b.y);
+        if (cross === 0 && dot > 0) return null;
+      }
+      return 'no vertex strictly between its neighbours on their line';
+    case 'coincident':
+      for (let i = 0; i < n; i += 1) {
+        let twin = false;
+        for (let j = 0; j < n && !twin; j += 1) twin = j !== i && same(at(i), at(j));
+        if (!twin) return `vertex (${String(at(i).x)}, ${String(at(i).y)}) coincides with no other (the ring is not given twice round)`;
+      }
+      return null;
+  }
+}
+
+/**
+ * Was the kind laid on the ring (S6's cell, note 12)? The ring after carries more vertices than before (every kind adds
+ * some) and the kind's shape (`ringKindProblem`). Null when it was, else the reason.
+ */
+export function kindLaidProblem(before: readonly { x: number; y: number }[], after: readonly { x: number; y: number }[], kind: DegenerateKind): string | null {
+  if (after.length <= before.length) return `the boundary was not made ${kind} (no vertex added: no edge to carry the kind)`;
+  const shape = ringKindProblem(after, kind);
+  return shape === null ? null : `the boundary was not made ${kind}: ${shape}`;
+}
+
 function gcd(a: number, b: number): number {
   let x = a;
   let y = b;

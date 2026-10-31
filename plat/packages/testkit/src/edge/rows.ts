@@ -29,7 +29,7 @@ import {
   type S3Slice,
   type S6Output,
 } from '@plat/layout';
-import type { Terrain, Way } from '@plat/model';
+import { generatedLifecycle, type Terrain, type Way } from '@plat/model';
 import { terrainSampler } from '@plat/site';
 import { loadTable } from '@plat/tables';
 import { insetIn, ringBox } from './arena.js';
@@ -276,7 +276,7 @@ function runEp06Degenerate(seed: number): EdgeOutcome {
       const id = `way:grid${String(i)}`;
       const r = kernel.geom.insertChain(o, lines[i], [{ role: 'way', entity: id }], 'mandatory');
       if (!r.ok) return r;
-      ways.push({ id, class: 'secondary', spine: { role: 'way', entity: id }, width: 600 as Cm, from: { kind: 'junction', id: 'junction:a' }, to: { kind: 'junction', id: 'junction:b' }, growthStage: 1, epoch: 0, provisional: false, lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } } } as Way);
+      ways.push({ id, class: 'secondary', spine: { role: 'way', entity: id }, width: 600 as Cm, from: { kind: 'junction', id: 'junction:a' }, to: { kind: 'junction', id: 'junction:b' }, growthStage: 1, epoch: 0, provisional: false, lifecycle: generatedLifecycle(0) } as Way);
     }
     return { ok: true as const, value: undefined, warnings: [] };
   });

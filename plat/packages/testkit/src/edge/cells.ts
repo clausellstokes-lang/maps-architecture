@@ -16,10 +16,9 @@
 // Each cell runs on the first of its seed's states that stands (./standing.ts, C-0278 (2)): the stages before its home
 // unrefused, its water body or frame arc present; the home's outcome on that state is never retried.
 import { checkCI, type Plat } from '@plat/kernel';
-import type { Bridge } from '@plat/model';
+import type { Bridge, Terrain } from '@plat/model';
 import { routeGraph, stripWidths, type S3Slice } from '@plat/layout';
-import { hydroGridOver, hydroParams, rasterGeom, type S1Output } from '@plat/site';
-import { tableView } from '@plat/tables';
+import { rasterGeom, type S1Output } from '@plat/site';
 import { deckEnds, inBox, insetIn, liveEdges, liveVertices, marginBox, ringBox, roleVertices } from './arena.js';
 import { edgeChain, SMALL_RIVER } from './chain.js';
 import { bugsOf, chainCheck, groundOf, refusalDetail } from './observe.js';
@@ -27,9 +26,6 @@ import type { PlantCall } from './plant.js';
 import { EP20_BLUEPRINT, RELIEF_3000 } from './rows.js';
 import { firstStanding, type Attempt, type AttemptRefusal } from './standing.js';
 import { outcome, type EdgeFixture, type EdgeOutcome } from './types.js';
-
-/** The shipped tables (S1 reads the same view). */
-const TABLES = tableView();
 
 /** The frame's half side (cm) of the 30 ha frame the relief and river fixtures stand on: √30 ha ÷ 2, to the metre. */
 const HALF_30HA_CM = 27_386;
@@ -56,6 +52,36 @@ function recorded(calls: PlantCall[]): { kind: 'zero-length'; select: (c: PlantC
       return false;
     },
   };
+}
+
+/** A grid's extent: origin, cell and counts (cm). */
+interface GridExtent {
+  readonly originX: number;
+  readonly originY: number;
+  readonly cellCm: number;
+  readonly cols: number;
+  readonly rows: number;
+}
+
+/**
+ * cliff × frame's raster clause (C-0118; §2.3 "the rasters over frame + margin"): the height raster and the hydrology grid
+ * S1 STORED with the terrain (`terrain.hydro`, the grid S1 (3) filled — and may have coarsened, R12-5 — never one this
+ * fixture derives again; M0-x-06 hardening round S1, note 4) each cover frame + margin and store no cell beyond the outer
+ * ring (less than one cell past it on each side). The problems, one sentence each; exported for its unit test.
+ */
+export function frameRasterProblems(t: Terrain, box: { readonly x0: number; readonly y0: number; readonly x1: number; readonly y1: number }): string[] {
+  const out: string[] = [];
+  const grids: readonly (readonly [string, GridExtent])[] = [
+    ['the height raster', rasterGeom(t)],
+    ['the hydrology grid', t.hydro],
+  ];
+  for (const [name, g] of grids) {
+    const x1 = g.originX + g.cols * g.cellCm;
+    const y1 = g.originY + g.rows * g.cellCm;
+    if (!(g.originX <= box.x0 && g.originY <= box.y0 && x1 >= box.x1 && y1 >= box.y1)) out.push(`${name} [${String(g.originX)}, ${String(x1)}] × [${String(g.originY)}, ${String(y1)}] does not cover frame + margin`);
+    if (!(g.originX > box.x0 - g.cellCm && g.originY > box.y0 - g.cellCm && x1 < box.x1 + g.cellCm && y1 < box.y1 + g.cellCm)) out.push(`${name} stores a cell beyond the outer ring`);
+  }
+  return out;
 }
 
 /** cliff × frame's M0 part (see the header). */
@@ -95,14 +121,7 @@ function cliffAttempt(seed: number): Attempt {
   if (box === null) return { outcome: outcome('off', 'no outer ring', [...problems, 'the arena holds no margin ring']), unmet, lawful };
   // the rasters: frame + margin, and nothing beyond (less than one cell past the ring on each side)
   const t = s1.terrain;
-  const r = rasterGeom(t);
-  const hy = hydroGridOver(r, hydroParams(TABLES, 'CITY').hydroCellCm);
-  for (const [name, g] of [['the height raster', r], ['the hydrology grid', hy]] as const) {
-    const x1 = g.originX + g.cols * g.cellCm;
-    const y1 = g.originY + g.rows * g.cellCm;
-    if (!(g.originX <= box.x0 && g.originY <= box.y0 && x1 >= box.x1 && y1 >= box.y1)) problems.push(`${name} [${String(g.originX)}, ${String(x1)}] × [${String(g.originY)}, ${String(y1)}] does not cover frame + margin`);
-    if (!(g.originX > box.x0 - g.cellCm && g.originY > box.y0 - g.cellCm && x1 < box.x1 + g.cellCm && y1 < box.y1 + g.cellCm)) problems.push(`${name} stores a cell beyond the outer ring`);
-  }
+  problems.push(...frameRasterProblems(t, box));
   // the cliff across the frame's edge (the fixture's precondition): the ground east of the edge stands above the west
   const at = (x: number, y: number): number => {
     const i = Math.floor((x - t.originX) / t.cellCm);
@@ -174,24 +193,47 @@ function bridgeAttempt(seed: number): Attempt {
   const rg = routeGraph(slice.lattice);
   const routable = new Set<string>();
   for (let e = 0; e < rg.deckOf.length; e += 1) if (rg.deckOf[e] >= 0) routable.add(rg.decks[rg.deckOf[e]].id);
-  for (const d of rg.decks) if (routable.has(d.id) && (!inBox(d.a, frame) || !inBox(d.b, frame))) problems.push(`the deck ${d.id}, which S4 can span, has an end outside the frame`);
+  const sites = bridges.map((b) => ({ id: b.id, state: b.state, ends: deckEnds(run.model.kernel, { layer: 'ground', part: 0 }, b) }));
+  const j = bridgeFrameJudge(sites, rg.decks, routable, frame);
+  problems.push(...j.problems);
+  if (j.beyond === 0) unmet.push("no crossing site's deck end lies beyond the frame (the fixture's precondition: the river crosses the margin)");
+  return { outcome: outcome('defined', 'bridge × frame: a site beyond the frame never spanned; every deck S4 can span, and every built span, inside the frame', problems, { sites: bridges.length, beyond: j.beyond, routable: routable.size, built: j.built, builtInside: j.builtInside }), unmet, lawful };
+}
+
+/**
+ * bridge × frame's judge (see the header; exported for its unit test — the hardening round S1's note 5: the "every built
+ * span inside the frame" half, which the committed stages meet only inside, held on fabricated sites): every deck S4's
+ * router can span has both ends inside the frame; every crossing site resolves to its two deck ends; a site with an end
+ * beyond the frame is neither spannable nor built. Returns the problems and the counts (sites beyond, built, built with
+ * both ends inside).
+ */
+export function bridgeFrameJudge(
+  sites: readonly { readonly id: string; readonly state: string; readonly ends: readonly { readonly x: number; readonly y: number }[] | null }[],
+  decks: readonly { readonly id: string; readonly a: { readonly x: number; readonly y: number }; readonly b: { readonly x: number; readonly y: number } }[],
+  routable: ReadonlySet<string>,
+  frame: { readonly x0: number; readonly y0: number; readonly x1: number; readonly y1: number },
+): { problems: string[]; beyond: number; built: number; builtInside: number } {
+  const problems: string[] = [];
+  for (const d of decks) if (routable.has(d.id) && (!inBox(d.a, frame) || !inBox(d.b, frame))) problems.push(`the deck ${d.id}, which S4 can span, has an end outside the frame`);
   let beyond = 0;
   let built = 0;
-  for (const b of bridges) {
-    const ends = deckEnds(run.model.kernel, { layer: 'ground', part: 0 }, b);
-    if (ends === null) {
+  let builtInside = 0;
+  for (const b of sites) {
+    if (b.ends === null) {
       problems.push(`${b.id}'s deck ends resolve to no two vertices`);
       continue;
     }
     if (b.state === 'built') built += 1;
-    const out = ends.some((q) => !inBox(q, frame));
-    if (!out) continue;
+    const out = b.ends.some((q) => !inBox(q, frame));
+    if (!out) {
+      if (b.state === 'built') builtInside += 1;
+      continue;
+    }
     beyond += 1;
     if (b.state === 'built') problems.push(`${b.id} (built): a deck end lies outside the frame`);
     if (routable.has(b.id)) problems.push(`${b.id}: a deck end lies outside the frame, yet S4 can span it`);
   }
-  if (beyond === 0) unmet.push("no crossing site's deck end lies beyond the frame (the fixture's precondition: the river crosses the margin)");
-  return { outcome: outcome('defined', 'bridge × frame: a site beyond the frame never spanned; every deck S4 can span, and every built span, inside the frame', problems, { sites: bridges.length, beyond, routable: routable.size, built }), unmet, lawful };
+  return { problems, beyond, built, builtInside };
 }
 
 /** wall × frame (see the header). */

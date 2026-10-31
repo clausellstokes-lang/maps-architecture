@@ -3,13 +3,21 @@
 // driver and the unplanted façade — leave the base's run unchanged (the fixtures run the real stages, no mock stage).
 import { describe, expect, it } from 'vitest';
 import { edgeSeeds, judgeEdgeOutcome, type EdgeFixture, type EdgeOutcome } from '../../src/edge/index.js';
-import { edgeChain, restartFree, type ChainRun } from '../../src/edge/chain.js';
+import { edgeChain, MID_FLAT, restartFree, SMALL_FLAT, type ChainRun } from '../../src/edge/chain.js';
+import { EP20_BLUEPRINT } from '../../src/edge/rows.js';
+import type { BaseBlueprint } from '@plat/layout';
 import { liveVertices } from '../../src/edge/arena.js';
 import { arenaProblems, chainCheck, chainProblems } from '../../src/edge/observe.js';
 import { s8State } from '../../src/edge/s8.js';
 import { builtOf, edgeShard, inShard, mergeSummary, runFixture, SEEDS, summaryWanted, type EdgeSummary, type FixtureRun } from './support.js';
 
 const [EP16] = builtOf('EP-16/');
+
+/** The driver's parity seeds on the mid flat frame — S5c grows streets on both (2 and 3, one pruned on seed 1), so the
+ * driver's step-insert hook meets the stage's default insert there (SMALL_FLAT's seeds 11 and 12 grow none) — and on
+ * EP-20's capped frame, stages 2 and 3 folded into stage 1 and S5d skipped as capped (probed in the round's mirror). */
+const PARITY_MID: readonly number[] = [1, 2];
+const PARITY_EP20: readonly number[] = [1, 2];
 const ok: EdgeOutcome = { handling: 'defined', rung: 'x', problems: [], facts: {} };
 
 describe('the negative controls', () => {
@@ -134,20 +142,34 @@ describe("every run's fail-safety checks (EP-01: never an invalid output; the pr
 
 describe("the harness's pieces leave the base's run unchanged (the real stages, no mock stage)", () => {
   const roots = (r: ChainRun): Record<string, string> => Object.fromEntries([...r.model.stageRoots].map(([k, v]) => [k, JSON.stringify(v)]));
-  it("the S5 driver reproduces the registered S5 adapter: the same stage-end digests, report and S5 outputs", { timeout: 300_000 }, () => {
-    for (const seed of [11, 12]) {
-      const a = edgeChain(seed, { upTo: 'S6' });
-      const b = edgeChain(seed, { upTo: 'S6', registeredS5: true });
-      expect(a.ran).toEqual(['S1', 'S3', 'S4', 'S5', 'S6']);
-      expect(roots(a)).toEqual(roots(b));
-      expect(JSON.stringify(a.model.root)).toBe(JSON.stringify(b.model.root));
-      expect(JSON.stringify(a.report.stages)).toBe(JSON.stringify(b.report.stages));
-      // the whole report, the kernel's warning counts among them (every sub-stage's and the prune's warnings forwarded)
-      expect(JSON.stringify(a.report.kernel)).toBe(JSON.stringify(b.report.kernel));
-      expect(JSON.stringify(a.report)).toBe(JSON.stringify(b.report));
-      expect(a.report.bugs).toEqual(b.report.bugs);
-      for (const key of ['ways', 'junctions', 'gates', 's5']) expect(JSON.stringify(a.model.data.get(key)), key).toBe(JSON.stringify(b.model.data.get(key)));
-      expect(restartFree(a, 'S6')).toBeNull();
+  // the S5 driver's parity on every frame its fixtures run S5 on (the hardening round S1, note 9): the small flat frame,
+  // the mid flat frame (S5b's main roads, S5c's and S5d's growth — the driver's insert hook among them) and EP-20's capped
+  // frame (the folded stages)
+  const PARITY: readonly [string, BaseBlueprint, readonly number[]][] = [
+    ['SMALL_FLAT', SMALL_FLAT, [11, 12]],
+    ['MID_FLAT', MID_FLAT, PARITY_MID],
+    ['EP-20', EP20_BLUEPRINT, PARITY_EP20],
+  ];
+  it("the S5 driver reproduces the registered S5 adapter: the same stage-end digests, report and S5 outputs", { timeout: 900_000 }, () => {
+    for (const [frame, blueprint, seeds] of PARITY) {
+      for (const seed of seeds) {
+        const a = edgeChain(seed, { blueprint, upTo: 'S6' });
+        const b = edgeChain(seed, { blueprint, upTo: 'S6', registeredS5: true });
+        expect(a.report.bugs, `${frame} ${String(seed)}`).toEqual([]);
+        expect(a.ran).toEqual(['S1', 'S3', 'S4', 'S5', 'S6']);
+        expect(roots(a), `${frame} ${String(seed)}`).toEqual(roots(b));
+        expect(JSON.stringify(a.model.root), `${frame} ${String(seed)}`).toBe(JSON.stringify(b.model.root));
+        expect(JSON.stringify(a.report.stages), `${frame} ${String(seed)}`).toBe(JSON.stringify(b.report.stages));
+        // the whole report, the kernel's warning counts among them (every sub-stage's and the prune's warnings forwarded)
+        expect(JSON.stringify(a.report.kernel)).toBe(JSON.stringify(b.report.kernel));
+        expect(JSON.stringify(a.report)).toBe(JSON.stringify(b.report));
+        expect(a.report.bugs).toEqual(b.report.bugs);
+        for (const key of ['ways', 'junctions', 'gates', 's5']) expect(JSON.stringify(a.model.data.get(key)), key).toBe(JSON.stringify(b.model.data.get(key)));
+        expect(restartFree(a, 'S6')).toBeNull();
+        // the frame's own part is met: streets grown through the hook (MID_FLAT), the later stages folded (EP-20)
+        if (frame === 'MID_FLAT') expect(a.s5.growth.reduce((n, g) => n + g.streets.length, 0), `${frame} ${String(seed)}`).toBeGreaterThan(0);
+        if (frame === 'EP-20') expect(a.s5.state?.stages.filter((g) => g.foldedInto !== null).length, `${frame} ${String(seed)}`).toBeGreaterThan(0);
+      }
     }
     expect(() => edgeChain(1, { upTo: 'S5', registeredS5: true, s5: {} })).toThrow(/registered S5/);
   });

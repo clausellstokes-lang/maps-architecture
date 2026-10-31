@@ -25,13 +25,13 @@ import { simpleCcw, type S5cRecord, type S6Output, type S8Output, type StreetGro
 import { loadTable, type WorkLimitsTable } from '@plat/tables';
 import type { S1Output } from '@plat/site';
 import { s8Stage } from '@plat/layout';
-import { restoreSavepoint, takeSavepoint } from '@plat/kernel';
+import { restoreSavepoint, takeSavepoint, type KernelResult } from '@plat/kernel';
 import { arenaDigest } from '../determinism/print.js';
 import { edgeChain, MID_FLAT, restored, SMALL_FLAT, SMALL_RIVER, type ChainOptions, type ChainRun, type ChainStage, type S5Sub } from './chain.js';
-import { DEGENERATE_KINDS, degenerateRing, type DegenerateKind } from './kinds.js';
+import { DEGENERATE_KINDS, degenerateRing, kindLaidProblem, type DegenerateKind } from './kinds.js';
 import { arenaProblems, bugsOf, chainCheck, refusalDetail } from './observe.js';
 import type { PlantCall } from './plant.js';
-import { s8KindProblem, s8State } from './s8.js';
+import { s8KindProblem, s8State, type S8State } from './s8.js';
 import { firstStanding, type Attempt, type AttemptRefusal } from './standing.js';
 import { outcome, type EdgeFixture, type EdgeHandling, type EdgeOutcome } from './types.js';
 
@@ -135,6 +135,32 @@ export function refusalHandling(run: ChainRun, code: string, bugs: number, lawfu
   return { handling: lawful ? 'refused-lawful' : 'refused-safe', rung: code, facts };
 }
 
+/**
+ * S5c's or S5d's answer to the planted step's refused insert, read from the growth record against the planted insert
+ * itself (M0-x-06 hardening round S1, note 3: never any F-NUM rung of the record): the planted step is the proposal and
+ * attempt the S5 driver's insert hook recorded when the plant fired (`firedStep`). Laddered when the record holds that
+ * proposal's F-NUM rung for that attempt with the planted insert's code — `re_propose` after a first attempt (§5.2's
+ * F-NUM: re-propose from the next attempt stream), `reject` after the retry (then reject with a report line) — named
+ * with the proposal's F-NUM rungs from it on; left out when a first attempt's refusal is not F-NUM's and the record counts
+ * it in `refused` (the step left out, reported); null otherwise (the record names no rung for the planted step).
+ * Exported for its unit tests.
+ */
+export function plantedStepRung(rec: S5cRecord, plant: Pick<ChainRun['plant'], 'insert' | 'firedStep'>): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } | null {
+  const ins = plant.insert;
+  const at = plant.firedStep;
+  if (ins === null || ins.ok || at === null) return null;
+  const code = ins.code ?? 'refused';
+  const want = at.attempt === 0 ? 're_propose' : 'reject';
+  const fnum = rec.rungs.filter((r): r is Extract<S5cRecord['rungs'][number], { cause: 'F-NUM' }> => r.cause === 'F-NUM' && r.proposal === at.proposal);
+  const i = fnum.findIndex((r) => r.rung === want && r.code === code);
+  if (i >= 0) {
+    const named = fnum.slice(i);
+    return { handling: 'laddered', rung: `F-NUM ${named.map((r) => r.rung).join(' → ')} (proposal ${String(at.proposal)}, ${code})`, facts: { fnum: named.length, proposal: at.proposal, attempt: at.attempt } };
+  }
+  if (at.attempt === 0 && (rec.refused[code] ?? 0) > 0) return { handling: 'left-out', rung: `the planted step left out, reported refused ${code}`, facts: { refused: rec.refused[code] ?? 0, proposal: at.proposal } };
+  return null;
+}
+
 /** How a chain stage handled its plant (see the header); exported for its unit tests. */
 export function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun, kind: DegenerateKind | null = null): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean>; problem?: string } {
   const name = SITES[stage].stage;
@@ -167,12 +193,12 @@ export function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: Chain
     case 'S5d': {
       const rec = growthRecordOf(stage, run);
       if (rec === null) return { handling: 'off', rung: `${stage} wrote no growth record`, facts: {} };
-      const fnum = rec.rungs.filter((r) => r.cause === 'F-NUM');
       const whole = (rec as S5cRecord & { batchRefused?: { code: string } }).batchRefused;
       if (whole !== undefined) return { handling: 'left-out', rung: `${stage}: the growth batch left out, reported batchRefused ${whole.code}`, facts: { batchRefused: whole.code } };
-      if (insertRefused && fnum.length > 0) return { handling: 'laddered', rung: `${stage}: F-NUM ${fnum.map((r) => r.rung).join(' → ')}`, facts: { fnum: fnum.length } };
       if (!refused && !insertRefused) return { handling: 'absorbed', rung: `${stage}: the step committed`, facts: { streets: rec.streets.length } };
-      return { handling: 'off', rung: `${stage}: the plant was refused and the record names no rung`, facts: {} };
+      const own = insertRefused ? plantedStepRung(rec, run.plant) : null;
+      if (own !== null) return { ...own, rung: `${stage}: ${own.rung}` };
+      return { handling: 'off', rung: `${stage}: the plant was refused and the record names no rung for the planted step`, facts: {} };
     }
     default:
       if (!refused) return { handling: 'absorbed', rung: `${stage}: the batch committed`, facts: {} };
@@ -233,7 +259,8 @@ export function runEp01(stage: Ep01Stage, kind: DegenerateKind, seed: number, ex
  * when the arena is bit-identical to S6's start.
  */
 function s6Attempt(kind: DegenerateKind, seed: number): Attempt {
-  let degraded = 0;
+  // the kind laid (the precondition): checked on the ring's shape, not on its vertex count alone (note 12)
+  let laid: string | null = 'the boundary was not made degenerate (no stage with land)';
   const run = edgeChain(seed, {
     blueprint: SMALL_FLAT,
     upTo: 'S6',
@@ -242,9 +269,10 @@ function s6Attempt(kind: DegenerateKind, seed: number): Attempt {
       after: (state) => {
         const b = state.stages[state.lastWithLand - 1]?.boundary;
         if (b === null || b === undefined) return;
-        const before = b.set.outline.length;
-        (b.set as { outline: unknown }).outline = degenerateRing(b.set.outline, kind);
-        degraded = b.set.outline.length - before;
+        const before = b.set.outline;
+        const after = degenerateRing(before, kind);
+        laid = kindLaidProblem(before, after, kind);
+        (b.set as { outline: unknown }).outline = after;
       },
     },
   });
@@ -252,8 +280,7 @@ function s6Attempt(kind: DegenerateKind, seed: number): Attempt {
   const problems = [...c.problems];
   const unmet = [...c.unmet];
   const lawful: AttemptRefusal[] = [...c.lawful];
-  // every kind adds vertices to the ring (zero-length one, coincident the ring again): none added, the kind was not laid
-  if (degraded === 0) unmet.push('the boundary was not made degenerate (no stage with land, or no edge to carry the kind)');
+  if (laid !== null) unmet.push(laid);
   const bugs = bugsOf(run.report, 'S6');
   if (bugs.length > 0) {
     if (unmet.length === 0) {
@@ -286,6 +313,21 @@ function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): E
   const reached = s8KindProblem(st, kind);
   const stage = s8Stage(extra.s8WorkLimits === undefined ? {} : { workLimits: extra.s8WorkLimits });
   const input = extra.s8WorkLimits === undefined ? st.input : { ...st.input, tables: { ...st.input.tables, workLimits: extra.s8WorkLimits } };
+  return s8CellRun(st, stage, input, kind, seed, reached);
+}
+
+/** The part of S8's Stage the cell runs (M0-b-03's `s8Stage`, or a test's fabricated stage). */
+export interface S8StageLike {
+  inputsOf(model: unknown, scope: { readonly kind: 'all' }): unknown;
+  run(input: unknown, ctx: never): KernelResult<unknown>;
+}
+
+/**
+ * S8's cell run and judgement on the prepared state (see runS8Cell; exported for its unit test — the hardening round S1's
+ * row c2-2: the rollback branch, met by no seed of the committed stage, held on a fabricated refusal): `reached` is the
+ * precondition's problem (null when the kind reached S8's faces).
+ */
+export function s8CellRun(st: S8State, stage: S8StageLike, input: unknown, kind: DegenerateKind, seed: number, reached: string | null): EdgeOutcome {
   // the stage image the runner takes (M0-x-02 s1, N-55 (6)): S8 runs here on the fixture's own arena outside the runner,
   // so its refusal is put back by the runner's own rule — the kernel's savepoint, restored when the version moved — and
   // judged on the print, as every refusal is (C-0342 (1))
@@ -331,7 +373,7 @@ function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): E
  * A cell's pinned refusal of an UNLAWFUL plant (C-0273 (6), C-0278 (4), C-0342 (4)): the stage refuses the planted kind
  * whole — typed, one bugs entry, the arena bit-identical to the stage's start — where its ladder has no rung for it at M0
  * (fail-safe, N-45; a known shortfall for the hardening pass). `cause` says where the refusal falls and `share` how often
- * the cell met it at 1 000 seeds on the committed tree (the builder's 1 000-seed run of round 2); `rolledBack` marks the
+ * the cell met it at 1 000 seeds on the committed tree (the 1 000-seed runs of round 2 and of the hardening round S1); `rolledBack` marks the
  * cells whose planted batch COMMITS before the stage refuses at its own later check, so only the runner's rollback
  * (M0-x-02 s1, N-55 (6)) takes it back — C-0278 (1)'s six residue cells, retired as residue by C-0342 (1).
  */
@@ -351,10 +393,10 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
     'zero-area': { codes: ['E_INVARIANT'], cause: "the kernel takes the zero-area shore as one shared stretch and the water batch commits; S1's stage-end row references-resolve refuses (the crossings' deck_end references find no geometry)", share: '1 000 of 1 000', route: 'M0-e-03', rolledBack: true },
     'self-touching': {
       codes: ['E_INVARIANT'],
-      cause: "the planted bow-tie's water batch is refused at commit by §3.10 role consistency ((shore, water:river:0) branches) and S1's slow-path ring is refused too — no rung left (Q20 class B: a typed refusal of unlawful input; the other 967 seeds are laddered on S1's retry)",
-      share: '33 of 1 000',
+      cause: "the planted bow-tie's water batch is refused at commit by §3.10 role consistency ((shore, water:river:0) branches) and S1's slow-path ring is refused too (its fast ring refused near the edge) — no rung left (Q20 class B: a typed refusal of unlawful input; the other 996 seeds are laddered on S1's retry since M0-e-03 S3's Q45 shift, C-0434 — 33 refused before it)",
+      share: '4 of 1 000',
       route: 'M0-e-03',
-      seeds: [2651453823, 1314904401, 1678415323, 3167842014, 2971082141, 3304403312, 2888684200, 3555639978, 186973829, 382546462, 2404580103, 51085648, 4262830701, 1667441873, 3262212432, 2000156265, 4201122819, 2126400094, 324075617, 1021881361, 2437700535, 1957119914, 89011141, 1117762784, 170584166, 1719444287, 4230160953, 3189663188, 1136020876, 3078956148, 344172974, 3992530332, 2287195388],
+      seeds: [2893352673, 3167842014, 2971082141, 382546462],
     },
     collinear: { codes: ['E_INVARIANT'], cause: "the kernel takes the folded shore as one shared stretch and the water batch commits; S1's stage-end row references-resolve refuses (the crossings' deck_end references find no geometry)", share: '1 000 of 1 000', route: 'M0-e-03', rolledBack: true },
   },
@@ -369,16 +411,9 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
     'zero-area': { codes: ['E_INVARIANT'], cause: "the kernel takes the zero-area trace as one shared stretch and its batch commits (999 seeds; 1 refused at commit); the stage's check refuses: a gate is not on the committed trace at its point (§4.2 S3 (9))", share: '1 000 of 1 000', route: 'M0-c-02 / M0-c-04', rolledBack: true },
     'self-touching': { codes: ['E_INVARIANT'], cause: "the self-touching trace's batch is refused at commit by §3.10 role consistency ((wall, enceinte:2) branches) and S5a refuses stage 2's trace", share: '1 000 of 1 000', route: 'M0-c-02 / M0-c-04' },
     collinear: { codes: ['E_INVARIANT'], cause: "the kernel takes the folded trace as one shared stretch and its batch commits (999 seeds; 1 refused at commit); the stage's check refuses: a gate is not on the committed trace at its point (§4.2 S3 (9))", share: '1 000 of 1 000', route: 'M0-c-02 / M0-c-04', rolledBack: true },
-    // Q22's strips refusal ('closed no strip face') is gone with M0-c-02 s3 (768601ff); what is left is the kernel refusing
-    // the doubled trace's batch at commit — a different cause, the planted batch never committed (Q37's three seeds are
-    // the unplanted state's, J264's census)
-    coincident: {
-      codes: ['E_INVARIANT'],
-      cause: "the kernel takes the doubled trace's insert (W_ATTRACTED, W_STRETCH_SHARED) but refuses its batch at commit by §3.10 role consistency ((wall, enceinte:2) branches: the second copy, attracted, does not lie wholly on the first) and S5a refuses stage 2's trace",
-      share: '5 of 1 000',
-      route: 'M0-c-02 / M0-c-04 (F-WALL); M0-a-05 (the coincident chain absorbed whole, §3.11)',
-      seeds: [1658509524, 3650193777, 3114039644, 2262416935, 57196073],
-    },
+    // coincident: no pin since the hardening round S1 (Q106) — M0-a-05 S9's declared shift (RQ3, item 130 (e), R-42): the
+    // doubled trace is absorbed as its run; at 1 000 seeds every one absorbed on its first state (the five once refused,
+    // 1658509524, 3650193777, 3114039644, 2262416935, 57196073, among them; repins.test.ts)
   },
   S5b: {
     'zero-length': { codes: ['E_DEGENERATE'], cause: "the kernel refuses the zero-length main road (empty) and S5b refuses stage 2's main roads", share: '1 000 of 1 000', route: 'M0-c-04' },
@@ -386,7 +421,7 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
   },
   S6: {
     'zero-area': { codes: ['E_INVARIANT'], cause: "S6 refuses the boundary with an antenna before its batch: settlementPerimeter's sum check (the overlay's outer ring is not the boundary's offset)", share: '996 of 1 000', route: 'M0-e-04' },
-    'self-touching': { codes: ['E_INVARIANT'], cause: "S6 refuses the looped boundary before its batch: settlementPerimeter's sum check (the other 998 seeds absorbed; seed 2191303060, N-56 (2)'s collinear class, now absorbed)", share: '2 of 1 000', route: 'M0-e-04', seeds: [4101706098, 2461000155] },
+    'self-touching': { codes: ['E_INVARIANT'], cause: "S6 refuses the looped boundary before its batch: settlementPerimeter's sum check (the other 997 seeds absorbed; seed 2191303060, N-56 (2)'s collinear class, now absorbed; 3009257304 refused since round 2 — the hardening round S1's 1 000-seed run, the same cause)", share: '3 of 1 000', route: 'M0-e-04', seeds: [4101706098, 2461000155, 3009257304] },
     coincident: { codes: ['E_INVARIANT'], cause: "S6 refuses the boundary given twice round before its batch: settlementPerimeter's union finds no route within the fidelity bound (Q21: a typed refusal of unlawful input)", share: '2 of 1 000', route: 'M0-e-04', seeds: [2708765650, 14238338] },
   },
 };

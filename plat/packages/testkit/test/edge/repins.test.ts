@@ -10,7 +10,11 @@
 //     ('closed no strip face', the state replaced and the refusal carried), now commit on their first state — M0-c-02 s5
 //     (C-0448, J601) made those lawful inputs succeed, so they are re-pinned to the committed outcome (tries 1, lawful
 //     []); S8's seam-portals finding (Q41, N-57 (1)) retired — M0-b-03 s4 (C-0329) fixed it, so its seed is pinned to the
-//     committed outcome (laddered) and no cell names a finding.
+//     committed outcome (laddered) and no cell names a finding;
+//   * the hardening round S1 (lane build/M0-x-06-fix-s1): every named seed of the rare pins replayed at the PR size
+//     (c2-1); the declared shifts re-pinned by their owner — M0-e-03 S3's Q45 shift (C-0434; Q113: EP-01/S1/self-touching
+//     refuses on 4 of 1 000, 2651453823 now laddered) and M0-a-05 S9's RQ3 shift (Q106: EP-01/S5a/coincident absorbed on
+//     all 1 000, its pin retired); bridge × frame on seeds where S4 builds a span (note 5).
 import { describe, expect, it } from 'vitest';
 import { EDGE_FIXTURES, judgeEdgeOutcome, type EdgeOutcome } from '../../src/edge/index.js';
 import { ep01Findings, ep01Pin, type Ep01Stage } from '../../src/edge/ep01.js';
@@ -24,12 +28,15 @@ function replay(id: string, seed: number): EdgeOutcome {
   return o;
 }
 
+/** The named seeds of the rare pins (S1 self-touching 4, S6 self-touching 3, S6 coincident 2): c2-1's replay count. */
+const RARE_SEEDS = 9;
+
 /** One seed per refused-safe cell (the first seed of its family where the cell refuses on every seed), with the words
  * the stage's refusal carries. */
 const REFUSED: readonly [string, number, string, string][] = [
   ['EP-01/S1/zero-length', 218369345, 'E_DEGENERATE', 'empty'],
   ['EP-01/S1/zero-area', 492415066, 'E_INVARIANT', 'references-resolve'],
-  ['EP-01/S1/self-touching', 2651453823, 'E_INVARIANT', "the river's ring was refused on the kernel's polygons"],
+  ['EP-01/S1/self-touching', 2893352673, 'E_INVARIANT', "the river's ring was refused on the kernel's polygons"],
   ['EP-01/S1/collinear', 3531121151, 'E_INVARIANT', 'references-resolve'],
   ['EP-01/S3/zero-length', 2376620364, 'E_DEGENERATE', 'empty'],
   ['EP-01/S3/zero-area', 642402145, 'E_INVARIANT', 'is not on the committed trace at its point'],
@@ -39,7 +46,6 @@ const REFUSED: readonly [string, number, string, string][] = [
   ['EP-01/S5a/zero-area', 2829448911, 'E_INVARIANT', 'is not on the committed trace at its point'],
   ['EP-01/S5a/self-touching', 3380957245, 'E_INVARIANT', 'branches: a linear role forms simple chains or rings'],
   ['EP-01/S5a/collinear', 716606205, 'E_INVARIANT', 'is not on the committed trace at its point'],
-  ['EP-01/S5a/coincident', 1658509524, 'E_INVARIANT', '(wall, enceinte:2) branches'],
   ['EP-01/S5b/zero-length', 3504584308, 'E_DEGENERATE', "stage 2's main roads were refused"],
   ['EP-01/S5b/self-touching', 1745954339, 'E_INVARIANT', "stage 2's main roads were refused"],
   ['EP-01/S6/zero-area', 3899199413, 'E_INVARIANT', "settlementPerimeter: the overlay's outer ring is not the boundary's offset"],
@@ -69,7 +75,24 @@ describe('every refused-safe cell, re-pinned on a named seed of the committed tr
       expect(pin.seeds.length, f.id).toBe(Number((m?.[1] ?? '').replace(/ /g, '')));
       expect(new Set(pin.seeds).size, f.id).toBe(pin.seeds.length);
     }
-    expect(rare.sort()).toEqual(['EP-01/S1/self-touching', 'EP-01/S5a/coincident', 'EP-01/S6/coincident', 'EP-01/S6/self-touching']);
+    expect(rare.sort()).toEqual(['EP-01/S1/self-touching', 'EP-01/S6/coincident', 'EP-01/S6/self-touching']);
+  });
+  // c2-1 (the hardening round S1): a rare pin's seed list checked at the PR size, seed by seed — a named seed that is
+  // wrong but keeps the count (the closing check's mutant X12) fails here, not only at the nightly 1 000
+  it('every named seed of every rare pin refuses with the pin\'s code on its first state, the arena put back (c2-1)', { timeout: 900_000 }, () => {
+    let replayed = 0;
+    for (const f of EDGE_FIXTURES) {
+      const [ep, stage, kind] = f.id.split('/') as [string, Ep01Stage, DegenerateKind];
+      const pin = ep === 'EP-01' ? ep01Pin(stage, kind) : undefined;
+      if (pin?.seeds === undefined) continue;
+      for (const seed of pin.seeds) {
+        const o = replay(f.id, seed);
+        expect([o.handling, o.rung, o.facts.arenaRestored, o.facts.stateSeed], `${f.id} at ${String(seed)}`).toEqual(['refused-safe', o.rung, true, seed]);
+        expect(pin.codes, `${f.id} at ${String(seed)}`).toContain(o.rung);
+        replayed += 1;
+      }
+    }
+    expect(replayed).toBe(RARE_SEEDS);
   });
   for (const [id, seed, code, words] of REFUSED) {
     it(`${id} at seed ${String(seed)}: refused-safe ${code}, the arena bit-identical to the stage's start`, { timeout: 300_000 }, () => {
@@ -90,7 +113,16 @@ describe('every refused-safe cell, re-pinned on a named seed of the committed tr
   }
 });
 
+
 describe('the outcomes the round names, re-pinned to the committed stages (N-56 (6), J267, Q22)', () => {
+  it("EP-01/S1/self-touching at 2651453823 is laddered on S1's retry (M0-e-03 S3's declared Q45 shift, C-0434; Q113 — refused-safe before it)", { timeout: 300_000 }, () => {
+    const o = replay('EP-01/S1/self-touching', 2651453823);
+    expect(o.handling).toBe('laddered');
+    expect(o.rung).toBe("S1: the water batch re-run on the kernel's polygons (report.retried)");
+    expect(o.facts.tries).toBe(1);
+    expect(o.lawful).toEqual([]);
+    expect(ep01Pin('S1', 'self-touching')?.seeds).not.toContain(2651453823);
+  });
   it('EP-01/S6/self-touching at 2191303060 is absorbed (M0-e-04 s2: the collinear ring N-56 (2) read as a refusal)', { timeout: 300_000 }, () => {
     const o = replay('EP-01/S6/self-touching', 2191303060);
     expect(o.handling).toBe('absorbed');
@@ -106,6 +138,18 @@ describe('the outcomes the round names, re-pinned to the committed stages (N-56 
     expect(o.facts.sharedEdges).toBeGreaterThan(0);
     expect(o.lawful).toEqual([]);
   });
+  it("EP-01/S5a/coincident at the five seeds once pinned refused-safe is absorbed on its first state (M0-a-05 S9's declared shift, RQ3, item 130 (e); Q106)", { timeout: 300_000 }, () => {
+    for (const seed of [1658509524, 3650193777, 3114039644, 2262416935, 57196073]) {
+      const o = replay('EP-01/S5a/coincident', seed);
+      expect(o.handling).toBe('absorbed');
+      expect(o.rung).toBe('S5a: the batch committed');
+      expect(o.facts.tries).toBe(1);
+      expect(o.lawful).toEqual([]);
+    }
+    // the pin is retired, not loosened: the cell allows no refusal now
+    expect(ep01Pin('S5a', 'coincident')).toBeUndefined();
+    expect(EDGE_FIXTURES.find((f) => f.id === 'EP-01/S5a/coincident')?.expect.allowed).not.toContain('refused-safe');
+  });
   it("EP-01/S5a/coincident at Q22's seeds 3443032966 and 2300104848 is absorbed on its first state (M0-c-02 s3)", { timeout: 300_000 }, () => {
     for (const seed of [3443032966, 2300104848]) {
       const o = replay('EP-01/S5a/coincident', seed);
@@ -114,6 +158,25 @@ describe('the outcomes the round names, re-pinned to the committed stages (N-56 
       expect(o.lawful).toEqual([]);
     }
   });
+});
+
+describe("bridge × frame where S4 builds a span (the hardening round S1, note 5)", () => {
+  // the "every built span has both deck ends inside the frame" half met live: seeds of the cell where S4 lays a span on
+  // the first state (22 and 3418200249 are M0-c-03's frame.test.ts span seeds; 2148998138 is the cell family's 58th),
+  // with a crossing site beyond the frame on the same state (the cell's precondition) — the judge's other branches are
+  // held on fabricated sites (hardening.test.ts)
+  for (const seed of [22, 3418200249, 2148998138]) {
+    it(`cell/bridge×frame at ${String(seed)}: a span built, both deck ends inside the frame, a site beyond it never spanned`, { timeout: 300_000 }, () => {
+      const o = replay('cell/bridge×frame', seed);
+      expect(o.handling).toBe('defined');
+      expect(o.problems).toEqual([]);
+      expect(o.facts.tries).toBe(1);
+      expect(o.facts.built).toBeGreaterThanOrEqual(1);
+      expect(o.facts.builtInside).toBe(o.facts.built);
+      expect(o.facts.beyond).toBeGreaterThanOrEqual(1);
+      expect(o.lawful).toEqual([]);
+    });
+  }
 });
 
 describe("J264's census on the named lawful-input refusals (C-0342 (2), (3))", () => {

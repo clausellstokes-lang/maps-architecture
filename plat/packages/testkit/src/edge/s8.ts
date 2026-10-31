@@ -10,7 +10,7 @@
 //   collinear      a way along the ring road's south side and on past its corner, folded back on itself;
 //   coincident     the west half of the ring road laid again as a way of its own (one shared stretch, merged rows).
 import { attachIndex, createKernel, createPlat, dest, err, faceWalk, ok, pointLocate, rowKey, rowsOn, seedKey, STAGES, type Cm, type FaceId, type Frame, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
-import { lineageHash, mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
+import { generatedLifecycle, lineageHash, mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
 import { granularityBands, spineWidthsOf, type S8District, type S8Input } from '@plat/layout';
 import { rungProfile } from '@plat/tables';
 import { lp, type DegenerateKind } from './kinds.js';
@@ -31,10 +31,6 @@ export function fixtureRandom(seed: number): () => number {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-}
-
-function generated(): Way['lifecycle'] {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
 }
 
 /** One way of the fixture. */
@@ -148,12 +144,12 @@ export function s8State(seed: number, kind: DegenerateKind | null, opts: { reado
     growthStage: 1,
     epoch: 0,
     provisional: false,
-    lifecycle: generated(),
+    lifecycle: generatedLifecycle(0),
   }));
   const profile = rungProfile('CITY');
   const prosperity = 0.2 + 0.6 * rand();
   const districts: S8District[] = minted.map((m) => {
-    const d: District = { id: m.identity.id, kind: 'craft', quarter: 'quarter:q', faces: { owner: m.identity.id, level: 1 }, seams: [], growthStage: 1, fabric: 'bent-cut', fabricParams: {}, lifecycle: generated() } as District;
+    const d: District = { id: m.identity.id, kind: 'craft', quarter: 'quarter:q', faces: { owner: m.identity.id, level: 1 }, seams: [], growthStage: 1, fabric: 'bent-cut', fabricParams: {}, lifecycle: generatedLifecycle(0) } as District;
     return { district: d, lineage: m.identity.lineage, prosperity, density: 0.5, bands: granularityBands(prosperity, profile), walled: false };
   });
   const pair = [minted[0].identity.id, minted[1].identity.id].sort();

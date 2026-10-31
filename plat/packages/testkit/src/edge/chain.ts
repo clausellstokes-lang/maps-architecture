@@ -188,7 +188,24 @@ function s5Driver(base: PipelineStage, opts: ChainOptions, log: S5Log, plog: Pla
       const sctx = ctx as never;
       const K = i.slice.site.land.stagesHa.length;
       const warnings: Warning[] = [];
-      const grow = opts.s5?.grow ?? {};
+      // S5c's and S5d's step insert, watched (M0-x-06 hardening round S1, note 3): the step's proposal and attempt are
+      // recorded around its insert, so a plant firing inside it names the proposal whose F-NUM rungs answer it. The insert
+      // is the options' own, else the stage's default — the step as one optional way, every point pinned, with its knots
+      // (growth/proposals.ts's `insertDefault`) — so the run is the registered S5's (control.test.ts's parity holds it).
+      const given: StreetGrowOptions = opts.s5?.grow ?? {};
+      const insertOf: NonNullable<StreetGrowOptions['insert']> =
+        given.insert ?? ((o, points, wayId, knots) => kernel.geom.insertChain(o, points, [{ role: 'way', entity: wayId }], 'optional', { pinned: points.map((_, j) => j), knots }));
+      const grow: StreetGrowOptions = {
+        ...given,
+        insert: (o, points, wayId, knots, at) => {
+          plog.step = at;
+          try {
+            return insertOf(o, points, wayId, knots, at);
+          } finally {
+            plog.step = null;
+          }
+        },
+      };
       const stop = opts.s5?.stopAfter;
       const step = <T>(sub: S5Sub, k: number, f: () => KernelResult<T>): KernelResult<T> => {
         opts.s5?.before?.(sub, k, state);

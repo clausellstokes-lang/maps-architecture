@@ -55,7 +55,7 @@ export const EP_ROWS: readonly { readonly id: string; readonly mechanism: string
   { id: 'EP-17', mechanism: 'S12c: pseudo-districts, undercity and underground neighbourhoods, unit runs', milestone: 'M6-U' },
   { id: 'EP-18', mechanism: '§10.2 – §10.4: an empty or contradictory table row; a pack with no names; every rung; save, undo, migrate', milestone: 'M4b' },
   { id: 'EP-19', mechanism: 'II.7.1 – II.7.6: each edge the underground sections state', milestone: 'M6-U' },
-  { id: 'EP-20', mechanism: 'S3 (6), S5a, S5d: less reachable land than a stage asks', milestone: 'M1', later: 'the island-town, fjord-site and narrow-valley METROPOLIS fixtures (coast and islands)' },
+  { id: 'EP-20', mechanism: 'S3 (6), S5a, S5d: less reachable land than a stage asks', milestone: 'M1', later: "the island-town, fjord-site and narrow-valley METROPOLIS fixtures (coast and islands); the leave-out-and-report rung's `requestedVsBuilt` list under F-BUDGET-STAGE (its writer M1's: [] in every M0 derivation, C-0224 (7) — the M0 fixture reads the shortfall from S3's report and S5d's record)" },
   { id: 'EP-21', mechanism: 'S3 (4), (7), (9); S5a: a barrier closing the arcs a gate falls on, or every arc', milestone: 'M1' },
   { id: 'EP-22', mechanism: "S3 (10); S5a's outer moats: a wet moat with no water within reach or on sloping ground", milestone: 'M3a' },
   { id: 'EP-23', mechanism: 'S3 (5), S4, S5b, S5c: the steepest ground', milestone: 'M1', later: "the S5b / S5c part (S5 on relief with B-CITY) and S3 (5)'s own grade limit (ways.crossing's rampMaxGrade, V11's row)" },

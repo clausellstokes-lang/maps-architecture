@@ -49,11 +49,17 @@ export interface PlantLog {
   calls: number;
   /** Is the plant armed (a switch a driver may hold off while other sub-stages run)? */
   armed: boolean;
+  /** The growth step whose insert is running now — S5c's (or S5d's rim's) proposal and attempt, set by the S5 driver's
+   * insert hook around each step's insert (./chain.ts); null outside one. */
+  step: { readonly proposal: number; readonly attempt: number } | null;
+  /** The growth step the plant fired in (the `step` at the planted call), or null: the proposal whose F-NUM rungs answer
+   * the planted insert (M0-x-06 hardening round S1, note 3). */
+  firedStep: { readonly proposal: number; readonly attempt: number } | null;
 }
 
 /** A fresh log, armed. */
 export function plantLog(armed = true): PlantLog {
-  return { fired: null, insert: null, batch: null, after: [], batches: [], calls: 0, armed };
+  return { fired: null, insert: null, batch: null, after: [], batches: [], calls: 0, armed, step: null, firedStep: null };
 }
 
 type InsertArgs = Parameters<Kernel['geom']['insertChain']>;
@@ -85,6 +91,7 @@ export function plantKernel(kernel: Kernel, plant: Plant | null, log: PlantLog):
     log.calls += 1;
     if (plant === null || !log.armed || log.fired !== null || !plant.select(call)) return kernel.geom.insertChain(...args);
     log.fired = call;
+    log.firedStep = log.step;
     firedHere = true;
     let r: ReturnType<Kernel['geom']['insertChain']>;
     switch (plant.kind) {
