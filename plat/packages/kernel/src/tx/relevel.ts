@@ -85,6 +85,7 @@ import { comparePoints, insideDoubledRing } from '../num/exact.js';
 import { area2, orient2d } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { chargeTx, check, noteRow, type OpenTx } from './state.js';
+import { setFacesOuter, setFacesParent, setFacesStage, setHalfEdgesLevel, setHalfEdgesNext, setHalfEdgesOrigin, setHalfEdgesPrev, setVerticesFlags, setVerticesLevel, setVerticesOut } from '../arena/write.js';
 
 const LV: readonly Level[] = [0, 1, 2, 3, 4];
 
@@ -287,15 +288,15 @@ function deletePair(p: Plat, e: number): void {
   const x2 = T.prev[g];
   const y2 = T.next[h];
   if (x !== g) {
-    T.next[x] = y;
-    T.prev[y] = x;
+    setHalfEdgesNext(p, x, y);
+    setHalfEdgesPrev(p, y, x);
   }
   if (x2 !== h) {
-    T.next[x2] = y2;
-    T.prev[y2] = x2;
+    setHalfEdgesNext(p, x2, y2);
+    setHalfEdgesPrev(p, y2, x2);
   }
-  if (p.vertices.out[a] === h) p.vertices.out[a] = x === g ? -1 : y;
-  if (p.vertices.out[b] === g) p.vertices.out[b] = x2 === h ? -1 : y2;
+  if (p.vertices.out[a] === h) setVerticesOut(p, a, x === g ? -1 : y);
+  if (p.vertices.out[b] === g) setVerticesOut(p, b, x2 === h ? -1 : y2);
   freeEdgePair(p, h);
 }
 
@@ -594,13 +595,13 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     if ((p.vertices.flags[v] & VERTEX_PINNED) === 0) continue;
     const left = rowsOn(p, 'vertex', v).some((r) => !roleInfo(R.kind[r]).knot);
     if (lostNonKnot && !left) {
-      p.vertices.flags[v] &= ~VERTEX_PINNED;
+      setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_PINNED);
       t.log.unflagged.push(v);
     }
   }
   // (a) edges, then the deletions.
   for (const [e, nl] of demoted) {
-    T.level[e] = nl;
+    setHalfEdgesLevel(p, e, nl);
     const a = T.origin[2 * e];
     const b = T.origin[2 * e + 1];
     t.log.demotedEdges.push(compareVertices(p, a, b) <= 0 ? 2 * e : 2 * e + 1);
@@ -652,7 +653,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     const survives = before.some(([x, y]) => isHalfEdgeLive(p, 2 * x) && isHalfEdgeLive(p, 2 * y) && T.level[x] === T.level[y]
       && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])) && isOn(v, x, y));
     if (!survives) {
-      p.vertices.flags[v] &= ~VERTEX_SPLIT;
+      setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
       t.log.unflagged.push(v);
     }
   }
@@ -680,10 +681,10 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       let lowest = lv;
       for (const h of inc) lowest = Math.min(lowest, T.level[h >> 1]);
       for (const r of vr) lowest = Math.min(lowest, R.level[r]);
-      L[v] = lowest;
-      p.vertices.flags[v] &= ~VERTEX_STEINER;
+      setVerticesLevel(p, v, lowest);
+      setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_STEINER);
       if ((p.vertices.flags[v] & VERTEX_SPLIT) !== 0) {
-        p.vertices.flags[v] &= ~VERTEX_SPLIT;
+        setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
         t.log.unflagged.push(v);
       }
       t.log.promoted.push(v);
@@ -696,7 +697,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       freeVertex(p, v);
       continue;
     }
-    L[v] = lowest;
+    setVerticesLevel(p, v, lowest);
     t.log.demotedVertices.push(v);
   }
   // The dissolution rule, then split restoration.
@@ -731,7 +732,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       if (fixed.has(k) || !isFaceLive(p, level, f)) return;
       fixed.add(k);
       const F = p.faces[level];
-      F.outer[f] = follow(F.outer[f]);
+      setFacesOuter(p, level, f, follow(F.outer[f]));
       const hs = faceHoles(p, level, f);
       if (hs.some((h) => moved.has(h))) setFaceHoles(p, level, f, hs.map(follow));
     };
@@ -994,7 +995,6 @@ function facePass(
 
   // Coarsest level first: write the records.
   for (const l of LV) {
-    const F = p.faces[l];
     // The own-child ancestors left with no child: freed, listed and tombstoned like any freed record (C-0219), in key order.
     for (const r of [...ancestors[l].values()].sort(keyCmp)) {
       if (survives[l].get(r.f) !== false) continue;
@@ -1022,7 +1022,7 @@ function facePass(
         if (sv !== null && l < 4) {
           const up = (l + 1) as Level;
           const Fu = p.faces[up];
-          for (const c of r.children) if (isFaceLive(p, up, c) && Fu.parent[c] === r.f) Fu.parent[c] = sv.f;
+          for (const c of r.children) if (isFaceLive(p, up, c) && Fu.parent[c] === r.f) setFacesParent(p, up, c, sv.f);
         }
         t.log.removedKeys.set(`${l}:${r.f}`, r.key);
         freeFace(p, l, r.f);
@@ -1030,14 +1030,14 @@ function facePass(
         writes.push({ level: l, f: r.f, keep: false });
       }
       if (sv === null) return;
-      F.outer[sv.f] = lowestHalf(p, f.outer);
+      setFacesOuter(p, l, sv.f, lowestHalf(p, f.outer));
       setFaceHoles(p, l, sv.f, f.holes.map((c) => lowestHalf(p, c)));
       for (const c of [f.outer, ...f.holes]) for (const g of c) coveredBy[l].set(g, sv.f);
       if (clear !== undefined && clear[l].has(sv.f)) {
         // A cleared record a face must keep (kept finer content beside it): emptied of its owner and re-ranked to the
         // batch's stage (C-0185 (10)).
         setFaceOwner(p, l, sv.f, -1);
-        F.stage[sv.f] = t.stageRank;
+        setFacesStage(p, l, sv.f, t.stageRank);
       }
       t.log.faces[l].changed.push(sv.f);
       noteOwner(t, l, sv.f);
@@ -1250,22 +1250,22 @@ function dissolve(
   const after = T.next[d];
   const before = T.prev[d ^ 1];
   if (after === (d ^ 1)) {
-    T.next[k] = k ^ 1;
-    T.prev[k ^ 1] = k;
+    setHalfEdgesNext(p, k, k ^ 1);
+    setHalfEdgesPrev(p, k ^ 1, k);
   } else {
-    T.next[k] = after;
-    T.prev[after] = k;
-    T.next[before] = k ^ 1;
-    T.prev[k ^ 1] = before;
+    setHalfEdgesNext(p, k, after);
+    setHalfEdgesPrev(p, after, k);
+    setHalfEdgesNext(p, before, k ^ 1);
+    setHalfEdgesPrev(p, k ^ 1, before);
   }
-  T.origin[k ^ 1] = y;
-  if (p.vertices.out[y] === (d ^ 1)) p.vertices.out[y] = k ^ 1;
+  setHalfEdgesOrigin(p, k ^ 1, y);
+  if (p.vertices.out[y] === (d ^ 1)) setVerticesOut(p, y, k ^ 1);
   moved.set(d, k);
   moved.set(d ^ 1, k ^ 1);
   for (const r of rowsOn(p, 'edge', k)) noteRow(t, p.roles.kind[r], p.roles.entity[r], p.roles.ordinal[r]);
   for (const r of rowsOn(p, 'edge', d)) removeRoleRow(p, r);
   freeEdgePair(p, d);
-  p.vertices.out[v] = -1;
+  setVerticesOut(p, v, -1);
   freeVertex(p, v);
   t.log.edgesRemoved += 1;
   if ((flags & VERTEX_STEINER) !== 0) t.log.steinerDissolved += 1;
@@ -1320,7 +1320,7 @@ function restoreSplit(
   for (const r of rowsOn(p, 'edge', coarse[1])) if (R.level[r] > lv && !ra.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
   if (finer === 5) return;
   for (const a of near) if (a.level >= lv && a.level < finer) changedFaces.push(a);
-  p.vertices.level[v] = finer;
-  if (finer > m) p.vertices.flags[v] |= VERTEX_STEINER;
+  setVerticesLevel(p, v, finer);
+  if (finer > m) setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_STEINER);
   t.log.demotedVertices.push(v);
 }

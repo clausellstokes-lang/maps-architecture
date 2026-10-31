@@ -34,6 +34,7 @@ import { chargeTx, check, noteRow, type OpenTx } from '../tx/state.js';
 import type { Overlay } from '../tx/types.js';
 import type { Cm, Level } from '../types/index.js';
 import { compareFaceKeys, comparePairs, enter, faceArea2, faceWidth, lp, overLimit, pairLength, refuse } from './common.js';
+import { setFacesKind } from '../arena/write.js';
 
 /** The face kind a sliver retyped by absorbSliver takes (§3.6: "a face of kind `residue`"); 0 is an ordinary face (C-0192). */
 export const FACE_KIND_RESIDUE = 1;
@@ -165,7 +166,7 @@ export function absorbSliver(o: Overlay, face: FaceId, floor: { minWidthCm: Cm |
   const warnings: Warning[] = [];
   warn(t, warnings, 'W_SLIVER_RETYPED', at);
   if (F.owner[face] >= 0) t.log.owners.add(idOf(p, F.owner[face]));
-  F.kind[face] = FACE_KIND_RESIDUE;
+  setFacesKind(p, n, face, FACE_KIND_RESIDUE);
   t.log.faces[n].changed.push(face);
   if (near.length > 0 && F.owner[near[0].face] >= 0) {
     // The setOwner door: the owner, the batch's stage rank and the face's index item (§3.3).

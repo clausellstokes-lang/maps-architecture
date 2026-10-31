@@ -5,6 +5,18 @@
 // backward shift (no tombstones). Lookups only — nothing iterates a table — so its layout never reaches an output, and
 // the tables travel inside a frozen copy as plain typed arrays (no `Map` rebuilt per pool worker, §2.2 *Size*). M0-a-02.
 import { check, tinyTables } from './debug.js';
+import {
+  replaceOwnerHeadHead,
+  replaceOwnerHeadOwner,
+  replaceRoleHeadFirst,
+  replaceRoleHeadK0,
+  replaceRoleHeadK1,
+  setOwnerHeadHead,
+  setOwnerHeadOwner,
+  setRoleHeadFirst,
+  setRoleHeadK0,
+  setRoleHeadK1,
+} from './write.js';
 
 /** (role, entity, ordinal) → first role-row slot (§2.2). `first` −1 marks an empty slot. */
 export interface RoleHeadTable {
@@ -87,15 +99,15 @@ export function roleHeadGet(t: RoleHeadTable, k0: number, k1: number): number {
 function roleHeadGrow(t: RoleHeadTable): void {
   const { k0, k1, first } = t;
   const cap = first.length * 2;
-  t.k0 = new Int32Array(cap);
-  t.k1 = new Int32Array(cap);
-  t.first = new Int32Array(cap).fill(-1);
+  replaceRoleHeadK0(t, new Int32Array(cap));
+  replaceRoleHeadK1(t, new Int32Array(cap));
+  replaceRoleHeadFirst(t, new Int32Array(cap).fill(-1));
   for (let s = 0; s < first.length; s++) {
     if (first[s] === -1) continue;
     const i = roleHeadSlot(t, k0[s], k1[s]);
-    t.k0[i] = k0[s];
-    t.k1[i] = k1[s];
-    t.first[i] = first[s];
+    setRoleHeadK0(t, i, k0[s]);
+    setRoleHeadK1(t, i, k1[s]);
+    setRoleHeadFirst(t, i, first[s]);
   }
 }
 
@@ -108,11 +120,11 @@ export function roleHeadSet(t: RoleHeadTable, k0: number, k1: number, firstSlot:
       roleHeadGrow(t);
       i = roleHeadSlot(t, k0, k1);
     }
-    t.k0[i] = k0;
-    t.k1[i] = k1;
+    setRoleHeadK0(t, i, k0);
+    setRoleHeadK1(t, i, k1);
     t.count++;
   }
-  t.first[i] = firstSlot;
+  setRoleHeadFirst(t, i, firstSlot);
 }
 
 /** Removes the key (absent: nothing) by backward shift; returns whether it was present. */
@@ -132,15 +144,15 @@ export function roleHeadDelete(t: RoleHeadTable, k0: number, k1: number): boolea
     const home = hash2(t.k0[j], t.k1[j]) & mask;
     // The entry at j may fill the hole at i only when i lies on its probe path, cyclically in [home, j).
     if (((j - home) & mask) >= ((j - i) & mask)) {
-      t.k0[i] = t.k0[j];
-      t.k1[i] = t.k1[j];
-      t.first[i] = t.first[j];
+      setRoleHeadK0(t, i, t.k0[j]);
+      setRoleHeadK1(t, i, t.k1[j]);
+      setRoleHeadFirst(t, i, t.first[j]);
       i = j;
     }
   }
-  t.first[i] = -1;
-  t.k0[i] = 0;
-  t.k1[i] = 0;
+  setRoleHeadFirst(t, i, -1);
+  setRoleHeadK0(t, i, 0);
+  setRoleHeadK1(t, i, 0);
   t.count--;
   return true;
 }
@@ -170,13 +182,13 @@ export function ownerGet(t: OwnerTable, owner: number): number {
 function ownerGrow(t: OwnerTable): void {
   const { owner, head } = t;
   const cap = head.length * 2;
-  t.owner = new Int32Array(cap);
-  t.head = new Int32Array(cap).fill(-1);
+  replaceOwnerHeadOwner(t, new Int32Array(cap));
+  replaceOwnerHeadHead(t, new Int32Array(cap).fill(-1));
   for (let s = 0; s < head.length; s++) {
     if (head[s] === -1) continue;
     const i = ownerSlot(t, owner[s]);
-    t.owner[i] = owner[s];
-    t.head[i] = head[s];
+    setOwnerHeadOwner(t, i, owner[s]);
+    setOwnerHeadHead(t, i, head[s]);
   }
 }
 
@@ -189,10 +201,10 @@ export function ownerSet(t: OwnerTable, owner: number, firstFace: number): void 
       ownerGrow(t);
       i = ownerSlot(t, owner);
     }
-    t.owner[i] = owner;
+    setOwnerHeadOwner(t, i, owner);
     t.count++;
   }
-  t.head[i] = firstFace;
+  setOwnerHeadHead(t, i, firstFace);
 }
 
 /** Removes the owner (absent: nothing) by backward shift; returns whether it was present. */
@@ -209,13 +221,13 @@ export function ownerDelete(t: OwnerTable, owner: number): boolean {
   for (let j = (i + 1) & mask; j !== end; j = (j + 1) & mask) {
     const home = hash1(t.owner[j]) & mask;
     if (((j - home) & mask) >= ((j - i) & mask)) {
-      t.owner[i] = t.owner[j];
-      t.head[i] = t.head[j];
+      setOwnerHeadOwner(t, i, t.owner[j]);
+      setOwnerHeadHead(t, i, t.head[j]);
       i = j;
     }
   }
-  t.head[i] = -1;
-  t.owner[i] = 0;
+  setOwnerHeadHead(t, i, -1);
+  setOwnerHeadOwner(t, i, 0);
   t.count--;
   return true;
 }

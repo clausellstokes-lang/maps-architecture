@@ -14,7 +14,7 @@ const KEYS = /compareVertices|compareKeys|comparePoints|keyCmp|byKey|\bcmp\b|ran
 describe('src/tx: every tie-break reads a canonical key, never a slot', () => {
   const files = readdirSync(DIR).filter((f) => f.endsWith('.ts'));
   it('the folder holds the item\'s modules', () => {
-    expect(files.sort()).toEqual(['chains.ts', 'index.ts', 'ops.ts', 'profile.ts', 'relevel.ts', 'savepoint.ts', 'state.ts', 'tx.ts', 'types.ts', 'writers.ts']);
+    expect(files.sort()).toEqual(['chains.ts', 'frames.ts', 'index.ts', 'ops.ts', 'profile.ts', 'relevel.ts', 'savepoint.ts', 'state.ts', 'tx.ts', 'types.ts', 'writers.ts']);
   });
 
   for (const f of files) {

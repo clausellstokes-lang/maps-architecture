@@ -10,6 +10,16 @@ import { compareHandleIds, compareHandleToId, handleOfId, idOfHandle, internId }
 import { FREE_KIND, growRoleRows, isHalfEdgeLive, isLevel, isVertexLive, type HalfEdgeId, type Plat, type VertexId } from './plat.js';
 import { compareRoleRank, roleIdOf, roleInfo, type RoleKind } from './registry.js';
 import { roleHeadDelete, roleHeadGet, roleHeadSet } from './tables.js';
+import {
+  setRolesEdgeFirst,
+  setRolesEntity,
+  setRolesKind,
+  setRolesLevel,
+  setRolesNextInSet,
+  setRolesNextSameKey,
+  setRolesOrdinal,
+  setRolesVertexFirst,
+} from './write.js';
 
 /** A row a writer adds (§2.2); its level is always the adding batch's (rules 3, 7). */
 export type RoleRow = { role: RoleName; entity: Id; ordinal?: number };
@@ -38,8 +48,8 @@ function firstOf(p: Plat, kind: RoleKind, element: number): number {
 }
 
 function setFirst(p: Plat, kind: RoleKind, element: number, row: number): void {
-  if (kind === 'edge') p.roles.edgeFirst[element] = row;
-  else p.roles.vertexFirst[element] = row;
+  if (kind === 'edge') setRolesEdgeFirst(p, element, row);
+  else setRolesVertexFirst(p, element, row);
 }
 
 /** The set's element a role kind names: an edge role's rows sit on the pair of the half-edge given, a vertex role's on the vertex. */
@@ -127,14 +137,14 @@ function placeRow(p: Plat, element: HalfEdgeId | VertexId, role: number, entity:
 function writeRow(p: Plat, at: RowPlace, role: number, entity: Handle, level: Level, ordinal: number): number {
   const r = allocRow(p);
   const t = p.roles;
-  t.kind[r] = role;
-  t.entity[r] = entity;
-  t.level[r] = level;
-  t.ordinal[r] = ordinal;
-  t.nextInSet[r] = at.cur >= 0 ? at.cur : -2 - at.e;
+  setRolesKind(p, r, role);
+  setRolesEntity(p, r, entity);
+  setRolesLevel(p, r, level);
+  setRolesOrdinal(p, r, ordinal);
+  setRolesNextInSet(p, r, at.cur >= 0 ? at.cur : -2 - at.e);
   if (at.prev === -1) setFirst(p, at.kind, at.e, r);
-  else t.nextInSet[at.prev] = r;
-  t.nextSameKey[r] = at.first;
+  else setRolesNextInSet(p, at.prev, r);
+  setRolesNextSameKey(p, r, at.first);
   roleHeadSet(t.head, entity, roleKeyWord(role, ordinal), r);
   return r;
 }
@@ -197,18 +207,18 @@ export function removeRoleRow(p: Plat, r: number): void {
       check(++steps <= top, `the chain of role row ${r}'s key does not end`);
     }
   }
-  if (keyPrev !== -1) t.nextSameKey[keyPrev] = t.nextSameKey[r];
+  if (keyPrev !== -1) setRolesNextSameKey(p, keyPrev, t.nextSameKey[r]);
   else if (t.nextSameKey[r] === -1) roleHeadDelete(t.head, t.entity[r], k1);
   else roleHeadSet(t.head, t.entity[r], k1, t.nextSameKey[r]);
   if (setPrev === -1) setFirst(p, kind, e, t.nextInSet[r] >= 0 ? t.nextInSet[r] : -1);
-  else t.nextInSet[setPrev] = t.nextInSet[r];
+  else setRolesNextInSet(p, setPrev, t.nextInSet[r]);
   const s = p.slots.role;
-  t.kind[r] = FREE_KIND;
-  t.entity[r] = -1;
-  t.level[r] = 0;
-  t.ordinal[r] = 0;
-  t.nextInSet[r] = -1;
-  t.nextSameKey[r] = s.free;
+  setRolesKind(p, r, FREE_KIND);
+  setRolesEntity(p, r, -1);
+  setRolesLevel(p, r, 0);
+  setRolesOrdinal(p, r, 0);
+  setRolesNextInSet(p, r, -1);
+  setRolesNextSameKey(p, r, s.free);
   s.free = r;
   s.live--;
 }

@@ -47,6 +47,7 @@ import { chainLevel, cutKnot, JOIN_TOLERANCE_CM, knotLines, profileOut, routeLin
 import { recordLeftOf, rewriteRows, type AddRow } from './relevel.js';
 import { asOp, chargeTx, check, enterWriter, noteRole, overLimit, roleId, type OpenTx } from './state.js';
 import type { Conflict, Overlay, ProfileOut, ProfileValue, RemoveResult, RetypeResult } from './types.js';
+import { setFacesStage, setVerticesFlags } from '../arena/write.js';
 
 /** Is the record at `level` left of h kept content of the batch (a stage ranked before `rederivesFrom`'s)? */
 function keptLeft(t: OpenTx, level: Level, h: HalfEdgeId): boolean {
@@ -339,7 +340,7 @@ function promoteEnds(t: OpenTx, span: Span, n: Level, warnings: Warning[]): void
     promote(t, v, n, warnings);
     t.log.promoted.push(v);
     if ((p.vertices.flags[v] & VERTEX_SPLIT) !== 0) {
-      p.vertices.flags[v] &= ~VERTEX_SPLIT;
+      setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
       t.log.unflagged.push(v);
     }
   }
@@ -632,7 +633,7 @@ function setOwnerIn(o: Overlay, faces: readonly FaceId[], owner: Id): KernelResu
     const was = F.owner[f];
     if (was >= 0) t.log.owners.add(idOf(p, was));
     setFaceOwner(p, l, f, handle);
-    F.stage[f] = t.stageRank;
+    setFacesStage(p, l, f, t.stageRank);
     const item: ItemRef = { kind: ITEM_FACE, level: l, slot: f };
     const home = homeOf(p, item);
     indexChange(p, item);

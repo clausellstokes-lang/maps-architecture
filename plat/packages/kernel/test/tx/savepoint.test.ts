@@ -4,15 +4,23 @@
 // back sets the version back, so maintained level digests are re-attached afterwards (the consumer's protocol, pinned).
 // Session round S5 (N-56 (5), C-0299): a restore across committed batches bumps the arena's restore generation, which a
 // state keyed on the version alone (M0-d-04's level digests) keys on too; a rejected, thrown or empty batch never moves it.
-import { describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import * as kernel from '../../src/index.js';
+import { entryCounts, hasRecorder, markArena } from '../../src/arena/write.js';
+import { buildOverlay } from '../../src/arr/index.js';
+import { kerb } from '../../src/arr/kerb.js';
 import { attachLevelDigests, levelDigest, recomputeLevelDigest, updateLevelDigests } from '../../src/digest/index.js';
+import { opSave, rollback } from '../../src/faces/common.js';
+import { splitFace } from '../../src/faces/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { err } from '../../src/num/index.js';
-import { opInsertChain, removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type TxEnv } from '../../src/tx/index.js';
-import type { Level } from '../../src/types/index.js';
+import { err, type KernelResult } from '../../src/num/index.js';
+import { opInsertChain, removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type Overlay, type TxEnv } from '../../src/tx/index.js';
+import type { OpenTx } from '../../src/tx/state.js';
+import type { Cm, Level } from '../../src/types/index.js';
+import { warp } from '../../src/warp/index.js';
+import { faceAt } from '../faces/support.js';
 import { rng } from './fuzzgen.js';
-import { bits, commit, contentPrint, declared, framed, healthy, lin, pt, spec, state } from './support.js';
+import { bits, churn, commit, contentPrint, declared, frameStats, framed, healthy, installFrameObserver, lin, pt, resetFrameStats, spec, state, uninstallFrameObserver, type FrameKind } from './support.js';
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
 const hex = (h: ArrayLike<number>): string => Array.from(h).join(',');
@@ -392,4 +400,180 @@ describe('S7 (N-23, N-24 / L17, N-25): an image is put back once, last-taken fir
     expect(crossCommit).toBeGreaterThan(50);
     expect(refusedDead).toBeGreaterThan(20);
   }, 300_000);
+});
+
+// ---- hardening round S8, line 4 (d): the frame observer's named pins (each in both modes: this folder runs in kernel and
+// kernel-tiny). With the observer on, every put-back of a marked image is preceded by the door's undo to its mark (CHECK
+// B) and followed by the whole comparison (CHECK A); each pin reads the observer's counts and failures.
+describe('S8 line 4 (d): the frame observer over named frame shapes (observer on)', () => {
+  beforeAll(() => installFrameObserver());
+  afterAll(() => uninstallFrameObserver());
+  beforeEach(() => resetFrameStats());
+
+  /** The observer saw no failure and compared at least `n` marks of `kind`. */
+  const clean = (kind: FrameKind, n = 1): void => {
+    expect(frameStats().failures).toEqual([]);
+    expect(frameStats().compared[kind]).toBeGreaterThanOrEqual(n);
+  };
+  const way = (o: Overlay, id: string, a: [number, number], b: [number, number]): KernelResult<unknown> => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: id }], 'mandatory');
+  const refusal = err('E_INVARIANT', 'pin: rolled back');
+
+  it('an inner op frame writes slot s and is rolled back, then the outer writes s and is rolled back', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const before = bits(p);
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const outer = opSave(t);
+      const inner = opSave(t);
+      expect(setOwner(o, [faceAt(p, 1, 1000, 1000)], 'block:inner').ok).toBe(true);
+      rollback(t, inner, refusal);
+      expect(setOwner(o, [faceAt(p, 1, 1000, 1000)], 'block:outer').ok).toBe(true);
+      rollback(t, outer, refusal);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    expect(bits(p)).toBe(before);
+    clean('op', 2);
+    clean('batch');
+  });
+
+  it('an inner frame dropped, then the outer rolled back (the outer\'s undo replays the dropped frame\'s stores)', () => {
+    const p = framed();
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const outer = opSave(t);
+      opSave(t); // dropped: committed into the outer frame implicitly
+      expect(way(o, 'way:1', [0, 1000], [4000, 1200]).ok).toBe(true);
+      rollback(t, outer, refusal);
+      return way(o, 'way:2', [1000, 0], [1200, 4000]);
+    });
+    expect(r.ok).toBe(true);
+    clean('op');
+  });
+
+  it('a kerb read inside an op that commits, and inside one that rolls back', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    commit(p, 1, (o) => way(o, 'way:1', [2000, 0], [2000, 4000]));
+    const widths = (c: { role: string }): { halfWidthCm: number } | null => (c.role === 'way' ? { halfWidthCm: 80 } : null);
+    const f = faceAt(p, 1, 1000, 1000);
+    const g = faceAt(p, 1, 3000, 3000);
+    expect(tx(p, spec(1), (o) => {
+      expect(kerb(o, f, widths).ok).toBe(true);
+      return setOwner(o, [f], 'block:k1');
+    }).ok).toBe(true);
+    expect(tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const s = opSave(t);
+      expect(kerb(o, g, widths).ok).toBe(true);
+      expect(setOwner(o, [g], 'block:k2').ok).toBe(true);
+      rollback(t, s, refusal);
+      return setOwner(o, [g], 'block:k3');
+    }).ok).toBe(true);
+    clean('dry-run', 2);
+    clean('op');
+  });
+
+  it('an op frame its caller drops on success (splitFace), then the batch\'s reject', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const before = bits(p);
+    const r = tx(p, spec(1), (o) => {
+      const s = splitFace(o, faceAt(p, 1, 1000, 1000), [pt(0, 1000), pt(4000, 1000)], { rows: [{ role: 'district_bound', entity: 'd:1' }] });
+      expect(s.ok).toBe(true);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    expect(bits(p)).toBe(before);
+    clean('batch');
+  });
+
+  it('a batch rejected with dropped frames above its frame', () => {
+    const p = framed();
+    const before = bits(p);
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      opSave(t);
+      expect(way(o, 'way:1', [0, 1000], [4000, 1200]).ok).toBe(true);
+      opSave(t);
+      expect(way(o, 'way:2', [1000, 0], [1200, 4000]).ok).toBe(true);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    expect(bits(p)).toBe(before);
+    clean('batch');
+  });
+
+  it('a frame that grows the vertex, pair, face and role-row tables, rehashes roles.head, an ownerHead and handles.slots and compacts a hole pool, then is rolled back', () => {
+    const p = framed();
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const s = opSave(t);
+      churn(p);
+      rollback(t, s, refusal);
+      return way(o, 'way:1', [0, 1000], [4000, 1200]);
+    });
+    expect(r.ok).toBe(true);
+    clean('op');
+    const u = frameStats().undone;
+    for (const k of ['grow vertices', 'grow pairs', 'grow role rows', 'grow faces[1]', 'rehash roles.head', 'rehash faces[1].ownerHead', 'rehash handles.slots', 'compact faces[1].holes']) expect(u.get(k) ?? 0, k).toBeGreaterThan(0);
+  });
+
+  it('a warp step committed in a batch the test then rejects (warp.ts commitStep\'s coordinate stores)', () => {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(1060, 2000), pt(1140, 2000), pt(1200, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    const before = bits(p);
+    let moved = 0;
+    const r = tx(p, spec(1, { rederivesFrom: 0 as never }), (o) => {
+      const w = warp(o, { displacement: () => ({ x: 0, y: 30 }) }, 1, [{ x: 1050 as Cm, y: 1990 as Cm }, { x: 1150 as Cm, y: 1990 as Cm }, { x: 1150 as Cm, y: 2010 as Cm }, { x: 1050 as Cm, y: 2010 as Cm }]);
+      expect(w.ok).toBe(true);
+      if (w.ok) moved = w.value.moves.length;
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    expect(moved).toBeGreaterThan(0);
+    expect(bits(p)).toBe(before);
+    clean('batch');
+  });
+
+  it('a batch on one arena whose callback rejects a batch on a second arena, and a scratch arena written inside a batch: each arena\'s log holds only its own stores', () => {
+    const p = framed();
+    const q = framed();
+    const r = tx(p, spec(1), (o) => {
+      const m = markArena(p);
+      const inner = tx(q, spec(1), (oq) => {
+        expect(way(oq, 'way:q', [0, 1000], [4000, 1000]).ok).toBe(true);
+        return err('E_INVARIANT', 'pin: the inner batch rejected');
+      });
+      expect(inner.ok).toBe(false);
+      const ov = buildOverlay([[[pt(0, 0), pt(100, 0), pt(100, 100), pt(0, 100)]]]);
+      expect(ov.ok).toBe(true);
+      expect(entryCounts(p, m)).toEqual({ column: 0, replacement: 0 });
+      expect(hasRecorder(q)).toBe(false);
+      return way(o, 'way:p', [1000, 0], [1000, 4000]);
+    });
+    expect(r.ok).toBe(true);
+    clean('batch');
+    expect(hasRecorder(p)).toBe(false);
+  });
+
+  it('a direct store a test plants into a slot the frame never wrote through the door: CHECK B names its column and slot', () => {
+    const p = framed();
+    let v = -1;
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const s = opSave(t);
+      v = p.slots.vertex.top - 1;
+      p.vertices.x[v] += 1; // planted: past the door, so the log cannot see it
+      rollback(t, s, refusal);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    const f = frameStats().failures;
+    expect(f).toHaveLength(1);
+    expect(f[0]).toContain('CHECK B (op frame)');
+    expect(f[0]).toContain(`column vertices.x slot ${v}:`);
+    resetFrameStats();
+  });
 });

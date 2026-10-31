@@ -13,6 +13,7 @@ import { compareVertices, faceWalk, isFaceLive, isHalfEdgeLive, isLevel, isVerte
 import { lp } from '../num/exact.js';
 import { area2 } from '../num/index.js';
 import type { Level } from '../types/index.js';
+import { setIndexHomeEdge, setIndexHomeFace, setIndexHomeVertex } from '../arena/write.js';
 
 /** A structural precondition of the index (a programming error: it throws in every build, as the arena's `check`). */
 export function check(condition: boolean, message: string): asserts condition {
@@ -307,9 +308,9 @@ export function homeOf(p: Plat, item: ItemRef): number {
 
 /** Writes an item's home entry (the index's only writer of the column; the arena resets it when a slot is allocated). */
 export function setHome(p: Plat, item: ItemRef, partition: number): void {
-  if (item.kind === ITEM_VERTEX) p.indexHome.vertex[item.slot] = partition;
-  else if (item.kind === ITEM_EDGE) p.indexHome.edge[item.slot] = partition;
-  else p.indexHome.face[item.level][item.slot] = partition;
+  if (item.kind === ITEM_VERTEX) setIndexHomeVertex(p, item.slot, partition);
+  else if (item.kind === ITEM_EDGE) setIndexHomeEdge(p, item.slot, partition);
+  else setIndexHomeFace(p, item.level, item.slot, partition);
 }
 
 /** Every live item of a level: its vertices, its route edges (each by its handle pair, once) and its face records. */

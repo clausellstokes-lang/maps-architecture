@@ -22,6 +22,51 @@ import {
   type OwnerTable,
   type RoleHeadTable,
 } from './tables.js';
+import {
+  replaceFacesHoles,
+  replaceFacesHolesStart,
+  replaceFacesKind,
+  replaceFacesNextOfOwner,
+  replaceFacesOuter,
+  replaceFacesOwner,
+  replaceFacesParent,
+  replaceFacesStage,
+  replaceHalfEdges,
+  replaceIndexHomeEdge,
+  replaceIndexHomeFace,
+  replaceIndexHomeVertex,
+  replaceRolesEdgeFirst,
+  replaceRolesEntity,
+  replaceRolesKind,
+  replaceRolesLevel,
+  replaceRolesNextInSet,
+  replaceRolesNextSameKey,
+  replaceRolesOrdinal,
+  replaceRolesVertexFirst,
+  replaceVertices,
+  setFacesHoles,
+  setFacesHolesStart,
+  setFacesKind,
+  setFacesNextOfOwner,
+  setFacesOuter,
+  setFacesOwner,
+  setFacesParent,
+  setFacesStage,
+  setHalfEdgesLevel,
+  setHalfEdgesNext,
+  setHalfEdgesOrigin,
+  setHalfEdgesPrev,
+  setIndexHomeEdge,
+  setIndexHomeFace,
+  setIndexHomeVertex,
+  setRolesEdgeFirst,
+  setRolesVertexFirst,
+  setVerticesFlags,
+  setVerticesLevel,
+  setVerticesOut,
+  setVerticesX,
+  setVerticesY,
+} from './write.js';
 
 /** Arena slots: kernel-internal, valid within one batch (rule 5). twin(h) = h ^ 1; an edge pair is h >> 1. */
 export type VertexId = number;
@@ -174,7 +219,7 @@ export interface Plat {
  * table or column read before one is a dead copy once it grows, and a write to it is lost — and a writer that needs
  * several slots allocates them all before it writes any, then reads the tables once. The tiny-tables mode (debug.ts)
  * makes every allocation of a new slot (one not taken from a free list) a growth, so every writer meets the rule in the
- * tests.
+ * tests. Every write goes through arena/write.ts, which writes the column the arena holds now.
  */
 export interface PlatCapacity {
   vertices: number;
@@ -357,42 +402,42 @@ function growU8(a: Uint8Array, cap: number, fill: number): Uint8Array {
 function growVertices(p: Plat): void {
   const cap = grownCap(p.vertices.x.length);
   const v = p.vertices;
-  p.vertices = { x: grow32(v.x, cap, 0), y: grow32(v.y, cap, 0), out: grow32(v.out, cap, -1), level: growU8(v.level, cap, 0), flags: growU8(v.flags, cap, VERTEX_FREE) };
-  p.roles.vertexFirst = grow32(p.roles.vertexFirst, cap, -1);
-  p.indexHome.vertex = grow16(p.indexHome.vertex, cap, -1);
+  replaceVertices(p, { x: grow32(v.x, cap, 0), y: grow32(v.y, cap, 0), out: grow32(v.out, cap, -1), level: growU8(v.level, cap, 0), flags: growU8(v.flags, cap, VERTEX_FREE) });
+  replaceRolesVertexFirst(p, grow32(p.roles.vertexFirst, cap, -1));
+  replaceIndexHomeVertex(p, grow16(p.indexHome.vertex, cap, -1));
 }
 
 function growPairs(p: Plat): void {
   const cap = grownCap(p.halfEdges.level.length);
   const h = p.halfEdges;
-  p.halfEdges = { origin: grow32(h.origin, 2 * cap, -1), next: grow32(h.next, 2 * cap, -1), prev: grow32(h.prev, 2 * cap, -1), level: growU8(h.level, cap, 0) };
-  p.roles.edgeFirst = grow32(p.roles.edgeFirst, cap, -1);
-  p.indexHome.edge = grow16(p.indexHome.edge, cap, -1);
+  replaceHalfEdges(p, { origin: grow32(h.origin, 2 * cap, -1), next: grow32(h.next, 2 * cap, -1), prev: grow32(h.prev, 2 * cap, -1), level: growU8(h.level, cap, 0) });
+  replaceRolesEdgeFirst(p, grow32(p.roles.edgeFirst, cap, -1));
+  replaceIndexHomeEdge(p, grow16(p.indexHome.edge, cap, -1));
 }
 
 function growFaces(p: Plat, level: Level): void {
   const f = p.faces[level];
   const cap = grownCap(f.outer.length);
-  f.outer = grow32(f.outer, cap, -1);
-  f.holesStart = grow32(f.holesStart, cap, -1);
-  f.kind = growU16(f.kind, cap, FREE_KIND);
-  f.owner = grow32(f.owner, cap, -1);
-  f.parent = grow32(f.parent, cap, -1);
-  f.stage = growU8(f.stage, cap, 0);
-  f.nextOfOwner = grow32(f.nextOfOwner, cap, -1);
-  p.indexHome.face[level] = grow16(p.indexHome.face[level], cap, -1);
+  replaceFacesOuter(p, level, grow32(f.outer, cap, -1));
+  replaceFacesHolesStart(p, level, grow32(f.holesStart, cap, -1));
+  replaceFacesKind(p, level, growU16(f.kind, cap, FREE_KIND));
+  replaceFacesOwner(p, level, grow32(f.owner, cap, -1));
+  replaceFacesParent(p, level, grow32(f.parent, cap, -1));
+  replaceFacesStage(p, level, growU8(f.stage, cap, 0));
+  replaceFacesNextOfOwner(p, level, grow32(f.nextOfOwner, cap, -1));
+  replaceIndexHomeFace(p, level, grow16(p.indexHome.face[level], cap, -1));
 }
 
 /** Grows the role-row columns — doubles them, or one row more in the tiny-tables mode (rows.ts allocates; the table is the arena's). */
 export function growRoleRows(p: Plat): void {
   const r = p.roles;
   const cap = grownCap(r.kind.length);
-  r.kind = growU16(r.kind, cap, FREE_KIND);
-  r.entity = grow32(r.entity, cap, -1);
-  r.level = growU8(r.level, cap, 0);
-  r.ordinal = growU16(r.ordinal, cap, 0);
-  r.nextInSet = grow32(r.nextInSet, cap, -1);
-  r.nextSameKey = grow32(r.nextSameKey, cap, -1);
+  replaceRolesKind(p, growU16(r.kind, cap, FREE_KIND));
+  replaceRolesEntity(p, grow32(r.entity, cap, -1));
+  replaceRolesLevel(p, growU8(r.level, cap, 0));
+  replaceRolesOrdinal(p, growU16(r.ordinal, cap, 0));
+  replaceRolesNextInSet(p, grow32(r.nextInSet, cap, -1));
+  replaceRolesNextSameKey(p, grow32(r.nextSameKey, cap, -1));
 }
 
 // ---- liveness -----------------------------------------------------------------------------------------------------
@@ -453,14 +498,13 @@ export function allocVertex(p: Plat, at: LatticePoint, level: Level, flags = 0):
     if (s.top === p.vertices.x.length) growVertices(p);
     v = s.top++;
   }
-  const t = p.vertices;
-  t.x[v] = at.x;
-  t.y[v] = at.y;
-  t.out[v] = -1;
-  t.level[v] = level;
-  t.flags[v] = flags;
-  p.roles.vertexFirst[v] = -1;
-  p.indexHome.vertex[v] = -1;
+  setVerticesX(p, v, at.x);
+  setVerticesY(p, v, at.y);
+  setVerticesOut(p, v, -1);
+  setVerticesLevel(p, v, level);
+  setVerticesFlags(p, v, flags);
+  setRolesVertexFirst(p, v, -1);
+  setIndexHomeVertex(p, v, -1);
   s.live++;
   return v;
 }
@@ -470,9 +514,9 @@ export function freeVertex(p: Plat, v: VertexId): void {
   check(isVertexLive(p, v), `vertex ${v} is not live`);
   check(p.roles.vertexFirst[v] === -1, `vertex ${v} still carries role rows`);
   const s = p.slots.vertex;
-  p.vertices.flags[v] = VERTEX_FREE;
-  p.vertices.out[v] = s.free;
-  p.vertices.level[v] = 0;
+  setVerticesFlags(p, v, VERTEX_FREE);
+  setVerticesOut(p, v, s.free);
+  setVerticesLevel(p, v, 0);
   s.free = v;
   s.live--;
 }
@@ -495,16 +539,15 @@ export function allocEdgePair(p: Plat, a: VertexId, b: VertexId, level: Level): 
     e = s.top++;
   }
   const h = 2 * e;
-  const t = p.halfEdges;
-  t.origin[h] = a;
-  t.origin[h + 1] = b;
-  t.next[h] = -1;
-  t.next[h + 1] = -1;
-  t.prev[h] = -1;
-  t.prev[h + 1] = -1;
-  t.level[e] = level;
-  p.roles.edgeFirst[e] = -1;
-  p.indexHome.edge[e] = -1;
+  setHalfEdgesOrigin(p, h, a);
+  setHalfEdgesOrigin(p, h + 1, b);
+  setHalfEdgesNext(p, h, -1);
+  setHalfEdgesNext(p, h + 1, -1);
+  setHalfEdgesPrev(p, h, -1);
+  setHalfEdgesPrev(p, h + 1, -1);
+  setHalfEdgesLevel(p, e, level);
+  setRolesEdgeFirst(p, e, -1);
+  setIndexHomeEdge(p, e, -1);
   s.live++;
   return h;
 }
@@ -515,14 +558,13 @@ export function freeEdgePair(p: Plat, h: HalfEdgeId): void {
   const e = h >> 1;
   check(p.roles.edgeFirst[e] === -1, `edge pair ${e} still carries role rows`);
   const s = p.slots.pair;
-  const t = p.halfEdges;
-  t.origin[2 * e] = -1;
-  t.origin[2 * e + 1] = -1;
-  t.next[2 * e] = s.free;
-  t.next[2 * e + 1] = -1;
-  t.prev[2 * e] = -1;
-  t.prev[2 * e + 1] = -1;
-  t.level[e] = 0;
+  setHalfEdgesOrigin(p, 2 * e, -1);
+  setHalfEdgesOrigin(p, 2 * e + 1, -1);
+  setHalfEdgesNext(p, 2 * e, s.free);
+  setHalfEdgesNext(p, 2 * e + 1, -1);
+  setHalfEdgesPrev(p, 2 * e, -1);
+  setHalfEdgesPrev(p, 2 * e + 1, -1);
+  setHalfEdgesLevel(p, e, 0);
   s.free = e;
   s.live--;
 }
@@ -563,14 +605,14 @@ export function allocFace(p: Plat, level: Level, init: FaceInit): FaceId {
     if (s.top === t.outer.length) growFaces(p, level);
     f = s.top++;
   }
-  t.outer[f] = init.outer;
-  t.holesStart[f] = -1;
-  t.kind[f] = init.kind;
-  t.owner[f] = -1;
-  t.parent[f] = init.parent;
-  t.stage[f] = init.stage;
-  t.nextOfOwner[f] = -1;
-  p.indexHome.face[level][f] = -1;
+  setFacesOuter(p, level, f, init.outer);
+  setFacesHolesStart(p, level, f, -1);
+  setFacesKind(p, level, f, init.kind);
+  setFacesOwner(p, level, f, -1);
+  setFacesParent(p, level, f, init.parent);
+  setFacesStage(p, level, f, init.stage);
+  setFacesNextOfOwner(p, level, f, -1);
+  setIndexHomeFace(p, level, f, -1);
   s.live++;
   if (init.owner !== -1) setFaceOwner(p, level, f, init.owner);
   return f;
@@ -581,13 +623,12 @@ export function freeFace(p: Plat, level: Level, f: FaceId): void {
   check(isFaceLive(p, level, f), `face ${f} is not live at L${level}`);
   setFaceOwner(p, level, f, -1);
   const s = p.slots.face[level];
-  const t = p.faces[level];
-  t.outer[f] = -1;
-  t.holesStart[f] = -1;
-  t.kind[f] = FREE_KIND;
-  t.parent[f] = -1;
-  t.stage[f] = 0;
-  t.nextOfOwner[f] = s.free;
+  setFacesOuter(p, level, f, -1);
+  setFacesHolesStart(p, level, f, -1);
+  setFacesKind(p, level, f, FREE_KIND);
+  setFacesParent(p, level, f, -1);
+  setFacesStage(p, level, f, 0);
+  setFacesNextOfOwner(p, level, f, s.free);
   s.free = f;
   s.live--;
 }
@@ -632,14 +673,14 @@ export function setFaceOwner(p: Plat, level: Level, f: FaceId, owner: Handle): v
       }
       pred = g;
     }
-    if (pred !== -1) t.nextOfOwner[pred] = t.nextOfOwner[f];
+    if (pred !== -1) setFacesNextOfOwner(p, level, pred, t.nextOfOwner[f]);
     else if (t.nextOfOwner[f] === -1) ownerDelete(t.ownerHead, old);
     else ownerSet(t.ownerHead, old, t.nextOfOwner[f]);
   }
   // The old owner's entry and the new one's are distinct keys, so the unlink leaves `newFirst` current; and the new
   // owner's slot, found above or freed by the delete, is found again by `ownerSet` without refusal.
-  t.owner[f] = owner;
-  t.nextOfOwner[f] = newFirst;
+  setFacesOwner(p, level, f, owner);
+  setFacesNextOfOwner(p, level, f, newFirst);
   if (owner !== -1) ownerSet(t.ownerHead, owner, f);
 }
 
@@ -688,8 +729,8 @@ function compactHoles(p: Plat, level: Level, skip: FaceId): number {
     for (const h of run) packed[n++] = h;
     packed[n++] = -1;
   }
-  t.holesStart.set(starts);
-  t.holes = packed;
+  for (let f = 0; f < top; f++) if (t.holesStart[f] !== starts[f]) setFacesHolesStart(p, level, f, starts[f]);
+  replaceFacesHoles(p, level, packed);
   p.slots.holesTop[level] = n;
   return n;
 }
@@ -705,7 +746,7 @@ export function setFaceHoles(p: Plat, level: Level, f: FaceId, holes: readonly H
   for (const h of holes) check(isHalfEdgeLive(p, h) && p.halfEdges.level[h >> 1] <= level, 'a hole half-edge is live and of the face\'s level or coarser');
   const t = p.faces[level];
   if (holes.length === 0) {
-    t.holesStart[f] = -1;
+    setFacesHolesStart(p, level, f, -1);
     return;
   }
   const need = holes.length + 1;
@@ -716,12 +757,12 @@ export function setFaceHoles(p: Plat, level: Level, f: FaceId, holes: readonly H
       // doubled until the run fits — or exactly the run's room in the tiny-tables mode (C-0286)
       let cap = tinyTables() ? top + need : t.holes.length * 2;
       while (cap < top + need) cap *= 2;
-      t.holes = grow32(t.holes, cap, -1);
+      replaceFacesHoles(p, level, grow32(t.holes, cap, -1));
     }
   }
-  t.holesStart[f] = top;
-  for (let i = 0; i < holes.length; i++) t.holes[top + i] = holes[i];
-  t.holes[top + holes.length] = -1;
+  setFacesHolesStart(p, level, f, top);
+  for (let i = 0; i < holes.length; i++) setFacesHoles(p, level, top + i, holes[i]);
+  setFacesHoles(p, level, top + holes.length, -1);
   p.slots.holesTop[level] = top + need;
 }
 

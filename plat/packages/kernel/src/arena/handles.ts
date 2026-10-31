@@ -7,6 +7,16 @@
 import type { Handle, Id } from '../types/index.js';
 import { check, tinyTables } from './debug.js';
 import { MIN_TABLE_CAPACITY, mix32, tableCapacityFor } from './tables.js';
+import {
+  replaceHandlesHash,
+  replaceHandlesSlots,
+  replaceHandlesStart,
+  replaceHandlesUnits,
+  setHandlesHash,
+  setHandlesSlots,
+  setHandlesStart,
+  setHandlesUnits,
+} from './write.js';
 
 /** An address id ↔ handle table. */
 export interface HandleTable {
@@ -67,12 +77,12 @@ export function handleOfId(t: HandleTable, id: Id): Handle {
 
 function growSlots(t: HandleTable): void {
   const cap = t.slots.length * 2;
-  t.slots = new Int32Array(cap).fill(-1);
+  replaceHandlesSlots(t, new Int32Array(cap).fill(-1));
   const mask = cap - 1;
   for (let h = 0; h < t.count; h++) {
     let i = (t.hash[h] >>> 0) & mask;
     while (t.slots[i] !== -1) i = (i + 1) & mask;
-    t.slots[i] = h;
+    setHandlesSlots(t, i, h);
   }
 }
 
@@ -87,10 +97,10 @@ export function internId(t: HandleTable, id: Id): Handle {
   if (h + 1 >= t.start.length) {
     const start = new Int32Array(t.start.length * 2);
     start.set(t.start);
-    t.start = start;
+    replaceHandlesStart(t, start);
     const hashes = new Int32Array(start.length - 1);
     hashes.set(t.hash);
-    t.hash = hashes;
+    replaceHandlesHash(t, hashes);
   }
   const at = t.start[h];
   if (at + id.length > t.units.length) {
@@ -98,17 +108,17 @@ export function internId(t: HandleTable, id: Id): Handle {
     while (cap < at + id.length) cap *= 2;
     const units = new Uint16Array(cap);
     units.set(t.units);
-    t.units = units;
+    replaceHandlesUnits(t, units);
   }
-  for (let k = 0; k < id.length; k++) t.units[at + k] = id.charCodeAt(k);
-  t.start[h + 1] = at + id.length;
-  t.hash[h] = hash | 0;
+  for (let k = 0; k < id.length; k++) setHandlesUnits(t, at + k, id.charCodeAt(k));
+  setHandlesStart(t, h + 1, at + id.length);
+  setHandlesHash(t, h, hash | 0);
   t.count = h + 1;
   if (t.count * 2 > t.slots.length) {
     growSlots(t);
     i = slotOf(t, id, hash);
   }
-  t.slots[i] = h;
+  setHandlesSlots(t, i, h);
   return h;
 }
 

@@ -71,6 +71,7 @@ import {
   type InsertTx,
 } from './classes.js';
 import { placePoint } from './placement.js';
+import { setHalfEdgesNext, setHalfEdgesOrigin, setHalfEdgesPrev, setVerticesOut } from '../arena/write.js';
 
 /** A vertex role row as the op will write it: its ordinal decided (an anchor's allocated). */
 export interface PlannedRow {
@@ -281,23 +282,23 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   const T = p.halfEdges;
   const after = T.next[g];
   const before = T.prev[g ^ 1];
-  T.next[g] = h;
-  T.prev[h] = g;
-  T.next[h ^ 1] = g ^ 1;
-  T.prev[g ^ 1] = h ^ 1;
+  setHalfEdgesNext(p, g, h);
+  setHalfEdgesPrev(p, h, g);
+  setHalfEdgesNext(p, h ^ 1, g ^ 1);
+  setHalfEdgesPrev(p, g ^ 1, h ^ 1);
   if (after === (g ^ 1)) {
     // t ended the edge (degree 1): the walk turns round at t on the new pair.
-    T.next[h] = h ^ 1;
-    T.prev[h ^ 1] = h;
+    setHalfEdgesNext(p, h, h ^ 1);
+    setHalfEdgesPrev(p, h ^ 1, h);
   } else {
-    T.next[h] = after;
-    T.prev[after] = h;
-    T.next[before] = h ^ 1;
-    T.prev[h ^ 1] = before;
+    setHalfEdgesNext(p, h, after);
+    setHalfEdgesPrev(p, after, h);
+    setHalfEdgesNext(p, before, h ^ 1);
+    setHalfEdgesPrev(p, h ^ 1, before);
   }
-  T.origin[g ^ 1] = v;
-  p.vertices.out[v] = h;
-  if (p.vertices.out[t0] === (g ^ 1)) p.vertices.out[t0] = h ^ 1;
+  setHalfEdgesOrigin(p, g ^ 1, v);
+  setVerticesOut(p, v, h);
+  if (p.vertices.out[t0] === (g ^ 1)) setVerticesOut(p, t0, h ^ 1);
   const R = p.roles;
   for (const r of rowsOn(p, 'edge', g)) addRoleRow(p, h, R.kind[r], R.entity[r], R.level[r] as Level, R.ordinal[r]);
   // The index (§3.3 "No item changes in place"): a same-level split's two runs, the vertex, the faces whose own-level
