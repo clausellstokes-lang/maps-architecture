@@ -136,3 +136,253 @@ None of these fails the round (the blocker rule; N-45). Evidence lives in `/home
 | 19 | **Note 5's CITY case covers relief-60 coarse only.** No test compares CITY relief-3000 or CITY default across thread counts. The law holds in the evidence: the long run (four chunked processes) and the checker's single-thread `bench -- site` runs (seeds 184, 200 × both fixtures × both configurations) give JSON-equal records. That is evidence, not a test. | `spot/run184.log`, `run200.log`; `probes/spotcmp.mjs` | M4 (a hardening test) | CONFIRMED |
 | 20 | **The 3 000 m fixture's river degrades on 27 – 32 % of seeds at CITY.** On relief-3000 the river fits on 144 of 199 default seeds and 137 of 200 coarse seeds. The rest are F-RIVER's degraded course, with beds of 2 – 3 cells. On relief-60 it fits on 199 of 200 in each configuration. This is a degrade, not a refusal: the bed bar now reports these courses apart, as row 9 asked. The rate is a property of S1 (M0-e-02 / M0-e-03), and note 9 already routes the short rivers there. | committed summary `bedMonotone.numbers` (`fits`, `degraded`) | the session (M0-e-02 / M0-e-03) | CONFIRMED |
 | 21 | **The builder's listing slip (L-0697, rule 8).** The builder ran `ls` once on `docs/` and once on the project root, which printed names only. No file was opened and nothing was used. The checker judges that no work needs redoing: no line of the round's code, tests or text draws on a listed name. The session decides whether the slip is recorded further. | `CLEAN-ROOM.md` L-0697, Disclosures | the session | CONFIRMED (by reading) |
+
+## Hardening round S3 (lane `build/M0-e-06-fix-s3`, 2026-10-30; the session's round J637: a BENCH-ONLY round on the queue rows Q122 (the per-class seed lists), Q118 (the per-stage work blocks) and Q36 (the content anchor); J264 / N-58, J290, J263 Q1 / Q6, N-45; choices C-0449). The builder's row-by-row outcome
+
+The round stayed inside the item's owns (`bench/src/site/`, `bench/test/site/`, `docs/build/summaries/M0-e-06.json`).
+It read the stages the spike derives through and edited none of them. The tree the round opened on and reports is HEAD
+`90a8d0fe3ef7` (J637 part 1; its parent `5e32b50e`, J636, is how the builder read the brief's gate "5e32b503 or
+later"). No other seat's edit landed in the derivation's sources during the round. The long run's mirror equalled the
+tree under `diff -rq` over `bench/src` and `packages` at the start, after the container restart of 19:16Z and at the
+fold.
+
+Sources changed:
+
+* `receipts.ts`: the record's new fields `refusals` (the runner's code and detail per refused stage), `kernelBatches`
+  (every façade batch with its per-counter counts, population and units) and `stageRows` (route.nodes at S3, S4 and S5;
+  growth.* per S5c record).
+* `compose.ts`: the watched façade reads each batch's per-counter tally and the population before it.
+* `report.ts`: `refusalClasses`, `stageWorkOf` and `STAGE_WORK`.
+* `index.ts`: the summary writes the refusal classes, the per-stage blocks and the anchor.
+* `anchor.ts`: new. The index does not re-export it.
+
+`fixtures.ts`, `pool.ts`, `timing.ts` and `worker.ts` are unchanged. No folder-index or barrel export was added, removed
+or renamed (J263 Q1). No message text changed (J263 Q6). Tests:
+
+* `summary.test.ts`: 4 → 12 tests.
+* `fold.test.ts`: the classes, the blocks (the no-op batch case included), the units read back and the canary.
+* `compose.test.ts`: as before, it holds the watched façade's stage roots equal to `runBase`'s.
+
+Mirrors used: the long run's `/home/user/maps-scratch/waves/longrun-M0-e-06-s3` (driver, store and fold outside
+`plat/`) and the self-check's `/home/user/maps-scratch/waves/selfcheck-build-M0-e-06-fix-s3` (isolation proven,
+removed at the end).
+
+### Row-by-row outcome
+
+| row | outcome | what changed | the pin (test) | mutants (red on it) |
+|---|---|---|---|---|
+| Q122 (the census's seeds) | **FIXED** | Each group's `refusals`: one class per stage × code, in stage then code order. Each class gives its count, its sorted seeds, the runner's detail text for the class's lowest seed (`message`) and the number of distinct texts (`messages`). The record carries each refused stage's code and detail (`refusals`). The fixture × configuration is the group. | `summary.test.ts` "every refusal class of every group …": the classes are the stages' `refused` counts class by class, each count equals the length of its seed list, the seeds are sorted, distinct and within the run, and the message appears once. `fold.test.ts`: the classes on hand records, the lowest seed's text, a record with no detail. | R122a, R122b, R122c, R36d |
+| Q118 (the per-stage work blocks) | **FIXED in the summary. The reader's read is REPORTED (M0-f-03b's file)** | Each group's `stageWork[stage][counter]` is in M0-f-03b's block form `{ stage, unit, units, unitsTotal, perUnit }` plus `charged`. Every stage that ran gets a block for every counter that `STAGE_CHARGES` gives it: the five kernel counters at S1, S3, S4, S5 and S6 (one sample per batch committed or refused), route.nodes at S3, S4 and S5, S1's hydro.cells, S5's growth.proposals and growth.candidates, and S6's grower.turns and field.cells. Each kernel batch's units are read back from its limit by the five kernel laws, summed. | `summary.test.ts` "STAGE_WORK is M0-f-03b's STAGE_CHARGES …", "every stage that ran … has a block of n > 0 … with the table's unit" (a kernel block's n is the stage's committed + refused batches) and "read in M0-f-03b's reader form, one stage per group, … no e-06 row unbounded" (`fitWorkLimits` on the committed summaries). `fold.test.ts`: the blocks on hand records, the no-op batch, the units read back. | R118a – R118f, R36d |
+| Q36 (the content anchor) | **FIXED: the harness is strict and the canary is behavioural. The source digest's scope is REPORTED for the session's ruling** | `anchor`: `tree` (the commit), `harness` (sha256 over `bench/src/site`, compared byte for byte), `canary` (one CITY record of the run, re-derived on the tree and compared by sha256) and `sources` (sha256 over the packages the spike derives through, recorded and reported, never failed on). C-0449 states the scope and the re-run rule. | `summary.test.ts` "the harness … is byte for byte …", "the canary CITY record re-derived on this tree is the run's …" and "the derivation's sources: recorded and reported …". `fold.test.ts` "the canary is a record that ends every stage ok …". | R36a, R36b, R36c, R36d, R118d, R122c |
+
+### The re-run (the 200-seed CITY summary on this tree) and its comparison with S2
+
+The run covered CITY, seeds 1 – 200, relief-60 and relief-3000 × default and coarse: 800 derivations. It used S2's
+resumable driver and store: four processes, each result stored as v8 bytes, a done-file, and a resume after the
+container restart at 19:16Z, which found 394 of 800 stored and lost none. It ran 14:31Z – 22:45Z. The fold used
+`foldReport`, `foldTimes` ('informative') and `summaryOf` with `anchorOf`, exactly as `run()` folds. The output is the
+committed `summaries/M0-e-06.json` (sha256 `c751bf8e…`; S2's file was `6ba690c9…`). The canary is relief-60 coarse
+seed 46 (`eb2046dd…`).
+
+**Bar verdicts: unchanged.** `countLaw`, `gateWards` and `corpus` fail as in S2, which are the exit bars' standing
+failures, and every other bar passes. **Stage counts and classes, S2 → S3** (each move is the stages' own, not the
+round's; see the census below):
+
+| group | refused derivations | moves |
+|---|---|---|
+| relief-60 default | 78 → 77 | S3 `E_INVARIANT` 1 → 0 (S3 ok 167 → 168); S5 `E_SELF_INTERSECT` 41 → 42, `E_INVARIANT` 2 → 1; S6 unchanged (2) |
+| relief-60 coarse | 77 → 76 | S3 `E_INVARIANT` 1 → 0; S5 `E_SELF_INTERSECT` 40 → 41, `E_INVARIANT` 3 → 2; S6 unchanged (1) |
+| relief-3000 default | 48 → 57 | S3 `E_INVARIANT` 13 → 0, `E_SELF_INTERSECT` 5 → 4, **`E_DEGENERATE` 0 → 25 (new; detail `empty`)**; S4 `E_INVARIANT` 4 → 1; S5 `E_SELF_INTERSECT` 18 → 20, `E_INVARIANT` 5 → 3, **`E_DEGENERATE` 0 → 2 (new; `empty`)**; S6 `E_INVARIANT` 2 → 1; S1 unchanged (seed 184) |
+| relief-3000 coarse | 48 → 57 | S3 `E_INVARIANT` 13 → 0, `E_SELF_INTERSECT` 5 → 4, `E_DEGENERATE` 0 → 25; S4 4 → 1; S5 `E_SELF_INTERSECT` 19 → 21, `E_INVARIANT` 5 → 3, `E_DEGENERATE` 0 → 2; S6 2 → 1 |
+
+Attribution, by the lane log: the only landing in the derivation's package sources since S2's run is
+`build/M0-c-02-fix-s5` (`layout/src/enceinte/{commit,plane,pull,strips,trace,types,water}.ts`, 2026-10-28 07:30 /
+07:47; its declared shift is the strip faces). The moved classes are the enceinte's: S3's commit and trace, and S5's
+walls through F-WALL. S4's and S6's counts also move because their reach changes (notReached S4 19 → 30 and S6 46 → 56 on
+relief-3000 default). S2's per-seed lists are gone with its container (`census.txt`), so the attribution is by stage and code, not
+seed by seed, and it is not bisected. Work numbers in S2's `work` block: 382 of the 1 172 numbers common to both files
+moved. Its samples are the derivations that reached each stage, and the reach moved (for example `grower.turns` p999
+2.584 → 2.578 per face on relief-60 default). The `work` block keeps S2's form.
+
+### The refusal classes with their seeds (Q122; the committed summary's `groups[].refusals`)
+
+Every class is a typed refusal of another item's stage, on geometry our own earlier stages made from the fixtures'
+lawful parameters. Input kind: OUR OWN INTERMEDIATE. Verdict: MAKE-IT-SUCCEED. Each class is routed to its owner's round
+with the seeds below (rule (1): reported, not built). "texts" is the number of distinct detail texts in the class.
+
+| fixture × configuration | stage | code | count | seeds (sorted) | texts | the message (the class's lowest seed) | owner's round |
+|---|---|---|---|---|---|---|---|
+| relief-60 default | S3 | `E_SELF_INTERSECT` | 32 | 16, 19, 20, 21, 31, 33, 35, 41, 43, 45, 48, 61, 67, 69, 73, 77, 82, 85, 86, 90, 112, 116, 117, 121, 128, 131, 143, 146, 163, 173, 194, 197 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6) |
+| relief-60 default | S5 | `E_INVARIANT` | 1 | 118 | 1 | (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-04 (c-04 S5) |
+| relief-60 default | S5 | `E_SELF_INTERSECT` | 42 | 1, 11, 12, 13, 14, 15, 18, 23, 25, 30, 34, 39, 42, 44, 47, 62, 64, 65, 70, 72, 74, 75, 81, 84, 91, 95, 108, 109, 113, 133, 142, 153, 154, 156, 162, 175, 178, 184, 190, 193, 196, 198 | 2 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-04 (c-04 S4, BX in flight) |
+| relief-60 default | S6 | `E_INVARIANT` | 2 | 172, 183 | 2 | settlementPerimeter: the overlay's outer ring is not the boundary's offset (the sum check failed) | M0-e-04 (e-04 S4; Q133, J636) |
+| relief-60 coarse | S3 | `E_SELF_INTERSECT` | 32 | 16, 19, 20, 21, 33, 35, 41, 44, 45, 48, 62, 67, 69, 73, 76, 82, 84, 85, 86, 90, 112, 116, 117, 121, 128, 131, 143, 146, 149, 153, 163, 194 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6) |
+| relief-60 coarse | S5 | `E_INVARIANT` | 2 | 118, 151 | 2 | (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-04 (c-04 S5) |
+| relief-60 coarse | S5 | `E_SELF_INTERSECT` | 41 | 1, 9, 12, 13, 14, 15, 18, 23, 30, 31, 34, 38, 39, 42, 47, 65, 70, 72, 74, 81, 88, 97, 108, 109, 113, 114, 133, 142, 154, 162, 169, 173, 175, 178, 184, 188, 193, 196, 197, 198, 199 | 2 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-04 (c-04 S4, BX in flight) |
+| relief-60 coarse | S6 | `E_INVARIANT` | 1 | 183 | 1 | settlementPerimeter: the union: insert: no route from (84990, 17737) to (85614, 18940) keeps clearance (§3.10) within the fidelity bound (N-43); class W (notBuilt #2, M4): the design route's farthest vertex (85442, 18765), 82.7 cm off | M0-e-04 (e-04 S4; Q133, J636) |
+| relief-3000 default | S1 | `E_INVARIANT` | 1 | 184 | 1 | S1 water: the river's ring was refused on the kernel's polygons (the fast ring: offset: a pocket inside a pocket); no further rung — the kernel's ring not clear (rings meet) | M0-e-03 (e-03 S4) |
+| relief-3000 default | S3 | `E_DEGENERATE` | 25 | 6, 7, 10, 12, 13, 23, 25, 38, 50, 58, 60, 69, 78, 91, 100, 127, 138, 158, 165, 166, 179, 180, 189, 194, 199 | 1 | empty | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6; new since S2) |
+| relief-3000 default | S3 | `E_SELF_INTERSECT` | 4 | 4, 49, 54, 168 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6) |
+| relief-3000 default | S4 | `E_INVARIANT` | 1 | 109 | 1 | S4: the spines' batch was refused (E_INVARIANT: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency)); on the lattice courses too: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-03 (c-03 S5) |
+| relief-3000 default | S5 | `E_DEGENERATE` | 2 | 21, 59 | 1 | empty | M0-c-04 (c-04 S5; new since S2) |
+| relief-3000 default | S5 | `E_INVARIANT` | 3 | 32, 81, 188 | 1 | (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-04 (c-04 S5) |
+| relief-3000 default | S5 | `E_SELF_INTERSECT` | 20 | 9, 17, 33, 70, 80, 85, 88, 96, 99, 104, 106, 121, 136, 144, 150, 157, 162, 171, 183, 196 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-04 (c-04 S4, BX in flight) |
+| relief-3000 default | S6 | `E_INVARIANT` | 1 | 77 | 1 | settlementPerimeter: the union: insert: no route from (57479, 80625) to (57861, 82606) keeps clearance (§3.10) within the fidelity bound (N-43); class D (notBuilt #2, M4): the design route's farthest vertex (57520, 81408), 108.0 cm off | M0-e-04 (e-04 S4; Q133, J636) |
+| relief-3000 coarse | S3 | `E_DEGENERATE` | 25 | 6, 7, 10, 12, 13, 23, 25, 38, 50, 58, 60, 69, 78, 91, 100, 127, 138, 158, 165, 166, 179, 180, 189, 194, 199 | 1 | empty | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6; new since S2) |
+| relief-3000 coarse | S3 | `E_SELF_INTERSECT` | 4 | 4, 49, 54, 168 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-01 / M0-c-02 (c-01 S4, c-02 S6) |
+| relief-3000 coarse | S4 | `E_INVARIANT` | 1 | 109 | 1 | S4: the spines' batch was refused (E_INVARIANT: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency)); on the lattice courses too: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-03 (c-03 S5) |
+| relief-3000 coarse | S5 | `E_DEGENERATE` | 2 | 21, 59 | 1 | empty | M0-c-04 (c-04 S5; new since S2) |
+| relief-3000 coarse | S5 | `E_INVARIANT` | 3 | 32, 81, 188 | 1 | (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) | M0-c-04 (c-04 S5) |
+| relief-3000 coarse | S5 | `E_SELF_INTERSECT` | 21 | 9, 17, 33, 70, 80, 85, 88, 96, 99, 104, 106, 121, 136, 144, 150, 157, 162, 171, 183, 184, 196 | 1 | F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085) | M0-c-04 (c-04 S4, BX in flight) |
+| relief-3000 coarse | S6 | `E_INVARIANT` | 1 | 77 | 1 | settlementPerimeter: the union: insert: no route from (57479, 80625) to (57861, 82606) keeps clearance (§3.10) within the fidelity bound (N-43); class D (notBuilt #2, M4): the design route's farthest vertex (57520, 81408), 108.0 cm off | M0-e-04 (e-04 S4; Q133, J636) |
+
+### The per-stage work blocks (Q118) and the worklimits dry run
+
+**Before the round** (S2's summary, `corepack pnpm bench -- worklimits --date 2026-10-30`, exit 1): 29 rows unbounded,
+20 of them e-06's. Every e-06 stage row lacked blocks, for example "M0-e-06 groups/0 (relief-60/default) S3: 535
+batches, E_WORK_LIMIT before 0, after UNBOUNDED — no block for insert.points, insert.attractQueries,
+insert.placementCandidates, insert.crossings, tx.facesWalked, route.nodes (never counted as 0)".
+
+**After, read as the committed reader reads it** (the same command on the regenerated summaries, exit 1): still 29 rows
+unbounded and the same 20 e-06 rows, for example "M0-e-06 groups/0 (relief-60/default) S3: 536 batches, E_WORK_LIMIT
+before 0, after UNBOUNDED — no block for insert.points, …, route.nodes". The reason is that `e06Groups` in
+`bench/src/worklimits/fit.ts` reads `groups[i].work[counter]` with one `stage` per counter. The five kernel counters are
+charged at five stages, so one entry per counter cannot carry them, and that block's shape is S2's committed format.
+The new blocks are in `groups[i].stageWork[stage][counter]`. **REPORTED (M0-f-03b's file):** the reader's one-loop
+change is to read `stageWork[stage]` as the stage's blocks where a group has it, and `work` otherwise.
+
+**After, read in the reader's form one stage per group** (`fitWorkLimits` on the committed summaries with each e-06
+group's `stageWork[stage]` as a group of its own; `summary.test.ts` pins it, and the probe `longrun-M0-e-06-s3/probe/wl-perstage.mts`
+printed it): **20 e-06 rows, 0 unbounded**. Every row is "after ≤ 0 = 0.000 per 1 000" except "groups/8 (relief-60/coarse
+S5) S5: 1300 batches, after ≤ 2 = 1.538 per 1 000". That is above the 1 per 1 000 target at v2's coefficients, which is
+f-03b's re-fit to judge. The 9 rows left unbounded are M0-c-06's (Q118's other owner).
+
+A fault the fold met and fixed in this round: S5 issues **declared batches with no op** (137 on relief-60 default: the
+kernel returns ok with no record, no work and no counts). The first fold counted them as kernel samples, giving n 1 435
+against the stage's batches row of 1 298. A kernel block's samples are now the batches committed or refused, which is
+the reader's population. The `fold.test.ts` case pins it, and mutant R118f puts the old count back.
+
+**N-s2-2 restated with the new units** (the floor law's thin-sample warning stays). route.nodes per stage, n samples
+(of which charged), on relief-60 default / coarse / relief-3000 default / coarse:
+
+* S3: 168 (168) / 168 (168) / 170 (170) / 171 (171).
+* S4: 168 (51) / 168 (48) / 169 (2) / 170 (1).
+* S5: 125 (125) / 125 (125) / 144 (144) / 144 (144).
+
+S3's and S5's blocks rest on every derivation that reached the stage. S4's rests on the same few charged derivations
+as S2's (50 / 48 / 2 / 1 units then). Its p999 (1.017 / 1.168 / 1.736 / 0.408 per lattice node) is still the maximum
+of a handful on relief-3000. growth.* at S5 is one sample per S5c record (375 / 375 / 432 / 432). Its relief-60 coarse
+p999 is 98.9 per hectare against 2.7 – 3.6 elsewhere, an outlier for f-03b's fit to read.
+
+### The anchor's scope and the re-run rule (Q36; C-0449)
+
+* **Strict: `harness`.** Any edit under `bench/src/site` makes `summary.test.ts` red until the summary is re-derived
+  and re-folded. The harness is the code that derives, reads and folds the records.
+* **Behavioural: `canary`.** One CITY derivation (relief-60 coarse seed 46, chosen without a clock as the least-work
+  record that ends every stage ok) is re-derived and compared by sha256 of its record. A landing in any package the
+  spike derives through that moves this record (an outcome, a batch's work or limit, a receipt) is red. That is the Q36
+  class caught by behaviour, at the cost of one derivation per NEAR or RELATED run that selects the file (about 2 – 5
+  minutes at W=1).
+* **Reported: `sources` and `tree`.** sha256 over `bench/src/skeleton`, `packages/{kernel,layout,model,site,tables}/src`
+  and `packages/tables/data` (348 files). A move prints a warning naming the file counts and is never failed on.
+* **The trade-off, REPORTED for the session's ruling.** A strict source digest would be red at every landing of every
+  stage item, whether or not the summary moved, and that item could not clear it (the summary is this item's file). The
+  canary misses a landing that moves only seeds other than 46: for example a fix of S3's `E_DEGENERATE` class on
+  relief-3000 changes the census and leaves seed 46 equal. The builder proposes the harness strict plus the canary
+  behavioural plus `sources` reported as the anchor's scope, with **Q36's standing re-run procedure kept as the rule
+  for every other landing in `sources`** (the session re-runs the 200-seed summary after a stage landing that can move
+  an outcome). One cheap widening is open to the session: a second canary chosen among the refused records (one more
+  derivation). The builder did not build it, because which refusal class should be held is the session's routing.
+* **A consequence the session should weigh.** `summary.test.ts` imports `bench/src/site`, which imports every package
+  the spike derives through, so any stage item's RELATED run selects it (it did in S2 too). A landing that moves the
+  canary is then red in that item's RELATED run on a file it cannot edit. The red is sound (the committed summary is
+  stale), and its remedy is this item's re-run, which the landing item reports.
+
+### The refusal census (J264 (4), N-58) and verdicts (J290)
+
+The registered family is the spike's seed sweep (800 derivations). **Before → after the round on this tree: 267 → 267
+refused derivations.** The round changed no code that derives. The watched façade only reads the overlay's tally and the
+population, and `compose.test.ts` holds its stage roots equal to `runBase`'s. A probe without the harness, `runBase` at
+CITY on relief-3000 default seeds 6, 127 and 199 (the new S3 `E_DEGENERATE` class) and 21 (S5 `E_DEGENERATE`), refuses
+the same stages with the same codes (`longrun-M0-e-06-s3/probe/base.mts`). **Against S2's committed file the census
+rose 251 → 267** (relief-60 78 / 77 → 77 / 76; relief-3000 48 / 48 → 57 / 57). The rise belongs to the tree, from the
+landing named above, not to this round. Every class is OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED, and is routed with its
+seeds to its owner (the table above). This item's own code refuses nothing in the family: no bug and no throw, and the
+harness ran all 800 to a record.
+
+### The round's mutant table (J169, J183)
+
+13 targeted mutants (R36d swaps the summary file), run in the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-e-06-fix-s3`. Isolation was proven: no link out of the mirror, and
+`@plat/*` resolves inside it. Each mutated file was restored from the tree and checked `cmp`-equal after each run. The
+evidence (`sweep/mutants.json`, `results*.txt`, `<id>.log`, `p2-<id>.log`, `p3-<id>.log`) was removed with the mirror,
+and its lines are quoted here.
+
+* **Pass 1** (J183's form: `vitest run --maxWorkers=1 --bail=1 bench/test/site`, the whole folder): **13 of 13 red.**
+* **Pass 2** (the harness mutants on `fold.test.ts`, `summary.test.ts` and `compose.test.ts`, with the harness digest's
+  test excluded by `-t`, to name each row's content pin; the unmutated base ran 76 passed and 1 skipped): R122c
+  survived. The record's runner detail had no content pin, because the canary record is all-ok and carries no refusal.
+  The round added the pin "relief-60 default seed 2 (test size) refuses at S5 …" and the record-rows pin to
+  `compose.test.ts`.
+* **Pass 3** (`compose.test.ts` alone, after the new pins): R122c, R118d and R118e red. **No survivor.**
+
+| id | aimed at | mutation | pass 1: first red (folder) | the content pin (pass 2 / 3) |
+|---|---|---|---|---|
+| R122a | Q122: the seeds sorted | a class's seeds left in record order | summary "the harness … is byte for byte …" | fold "a class per stage and code: its seeds sorted, …" |
+| R122b | Q122: the message once | `message: null` | the harness digest | fold "a class per stage and code: …, the lowest seed's message" |
+| R122c | Q122: the record carries the runner's detail | the record's `refusals` left empty | the harness digest | compose "relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner's code and its detail text …" (pass 3; pass 2 survived) |
+| R118a | Q118: a kernel counter's samples are the stage's batches | the kernel samples dropped | the harness digest | fold "a stage's blocks: a kernel counter one sample per batch …" |
+| R118b | Q118: the block's unit is the table's | every block's unit `vertices` | the harness digest | fold "a stage's blocks …" |
+| R118c | Q118: the units read back from the limit | units = the limit | the harness digest | fold "the five kernel laws summed over one count, inverted …"; the canary |
+| R118d | Q118: route.nodes at S3 | S3's stage row dropped | the harness digest | compose "relief-60 default seed 1 (test size): every façade batch in kernelBatches …" (pass 3); the canary |
+| R118e | Q118: the batch's counts read from its overlay | `counts: {}` | the harness digest | compose (pass 3, as R118d); the canary |
+| R118f | Q118: no-op batches are no samples (n = committed + refused) | the `committed \|\| code` filter dropped | the harness digest | fold "a stage's blocks …" (the no-op case) |
+| R36a | Q36: the canary ends every stage ok | the canary's key ignores the outcomes | the harness digest | fold "the canary is a record that ends every stage ok …" |
+| R36b | Q36: a changed harness makes the summary stale | a comment edited in `compose.ts` | summary "the harness (bench/src/site) is byte for byte …" | (the pin itself) |
+| R36c | Q36: a stage change that moves the canary makes the summary red | S6's batch limit +1 vertex (`layout/src/districts/stage.ts`) | summary "the canary CITY record re-derived on this tree is the run's …" (89.9 s) | (the pin itself) |
+| R36d | Q122 / Q118 / Q36: S2's summary (counts only, no blocks, no anchor) | the S2 summary restored | summary "every refusal class of every group …" | (also: the blocks, the anchor) |
+
+Equivalent survivors: none.
+
+### Gates
+
+Every gate exits 0 on the final tree at W=1 (Node 24.12.0, machine id `linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib`):
+
+* `corepack pnpm install --frozen-lockfile`: 0.
+* `lint`: 0 (`lint: probe-red ok`, `lint: bench-boundary ok`).
+* `build`: 0.
+* NEAR `vitest run --maxWorkers=1 bench/test/site`: 7 files, 98 tests, exit 0 (1387 s). The two `compose.test.ts`
+  pins were added after it. `compose.test.ts` alone then ran 12 of 12, exit 0 (149 s).
+* RELATED@1000 `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1
+  bench/src/site/{anchor,compose,index,receipts,report}.ts`: 11 files (the 7 of `bench/test/site` and the 4 of
+  `bench/test/timing-phase`, which reaches `compose.ts` through `gate-stages.ts` and `workloads.ts`), 158 tests, exit 0
+  (1411 s). No file under `packages/*/src/` changed.
+* The item's here-bar is the harness: the 200-seed run above, every bar verdict reported. `countLaw`, `gateWards` and
+  `corpus` fail as before, which are the exit bars' standing failures and not this round's.
+* The worklimits dry run is quoted in the Q118 section. It exits 1, as before the round, for the reader's reason
+  REPORTED there.
+
+### Notes for the session (no row of this round; each with its evidence)
+
+* **N-s3-1 (new classes since S2):** relief-3000's S3 `E_DEGENERATE` with detail `empty` (25 seeds in both
+  configurations) and S5 `E_DEGENERATE` `empty` (seeds 21 and 59) are new, and S3's `E_INVARIANT` class of 13 is gone.
+  The bare detail `empty` names no rung. The likely source is the enceinte's rungs (`layout/src/enceinte/rungs.ts`
+  refuses `E_DEGENERATE` `empty` when the re-offset leaves nothing), which the builder read and did not trace. This
+  goes to c-01 S4 / c-02 S6 (S3) and c-04 S5 (S5) with the seeds above.
+* **N-s3-2 (the reader):** the worklimits reader reads one stage per counter (`e06Groups`, and `c06Groups` alike).
+  f-03b's re-fit reads e-06's blocks only after the one-loop change above. Until then the committed dry run stays exit
+  1 on e-06's 20 rows, whatever this summary carries.
+* **N-s3-3 (the hit rate at v2):** read per stage, relief-60 coarse S5 is 1.538 per 1 000 batches at the shipped
+  coefficients, over the target of 1. This is for f-03b's re-fit.
+
+## Closing check of hardening round S3 (lane `check/M0-e-06-close-s3`, 2026-10-31): notes 22 – 25
+
+None of these fails the round (the blocker rule; N-45). Verdict: `checks/M0-e-06-s3.md`. Evidence lives in
+`/home/user/maps-scratch/waves/check-M0-e-06/` (`mut/results.txt` and `mut/<id>.log`, `probe/`, `out/`).
+
+| # | note | evidence | route | label |
+|---|---|---|---|---|
+| 22 | **`fold.test.ts` holds the refusal class's key (stage × code) only indirectly.** No hand record set has two codes at one stage, so the checker's mutant C3 (the class keyed by the stage alone, codes merged) passes `fold.test.ts` 55 / 55. It is still killed twice: by the harness digest (any edit under `bench/src/site` is red until the summary is re-run) and, with the summary re-folded under it, by `summary.test.ts`'s class check (relief-60 default S5 merged into one class of 43 against `refused` E_INVARIANT 1 + E_SELF_INTERSECT 42). A direct pin is one hand case: two records refused at one stage with different codes give two classes. | `mut/C3.log` (exit 0), `mut/C3b.log` (exit 1, the re-folded summary) | M4 (a hardening test) | CONFIRMED |
+| 23 | **The S2 → S3 attribution names one landing; the lane log shows two after S2's run began.** The notes say "the only landing in the derivation's package sources since S2's run is `build/M0-c-02-fix-s5`". S2's 800-run started 2026-10-27 17:00 in its own mirror, and `build/M0-x-04-fix-s1` landed `layout/src/pipeline/base.ts` at 21:19 that day (its S6 soft check, S8 and registration order; f-03b's 00:00 landing left `workLimits.json` byte-identical). Whether S2's mirror carried x-04's edit is not recorded. The moved classes are the enceinte's (S3 and S5 F-WALL, the new `E_DEGENERATE` `empty`), so the c-02 S5 attribution is plausible, but it is not bisected. The owners' briefs should cite the seeds, not the attribution. | `docs/lane-events.log` lines of `build/M0-e-06-fix-s2` (17:00 start, 03:18 done), `build/M0-x-04-fix-s1` LANDED 21:19, `build/M0-c-02-fix-s5` LANDED 07:30 / 07:47 | the session | PLAUSIBLE |
+| 24 | **The new `E_DEGENERATE` classes are the stages' own, confirmed by fresh derivations.** relief-3000 default seed 6 (S3, detail `empty`) and seed 21 (S5, `empty`) re-derived at CITY on the tree equal the store's records, and `runBase` without the harness on seed 6 gives the same stage roots S1 – S6 and the same bug (`S3 E_DEGENERATE`). Lawful-input refusals (OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED): S3 ×25 per configuration to c-01 / c-02, S5 seeds 21 and 59 to c-04, with the seed lists of the round's table. The bare detail `empty` names no rung (the builder's N-s3-1). | `out/d0.log`, `out/d2.log` (`EQUAL to store`; `BASE … roots S1:eq … BUGS-EQ`) | the session (c-01 / c-02, c-04) | CONFIRMED |
+| 25 | **A class's `message` is the lowest seed's text only; a class with two texts hides the second failure site.** relief-60 coarse S5 `E_INVARIANT` (seeds 118, 151; `messages` 2) carries seed 118's "(wall, enceinte:2) branches: a linear role forms simple chains or rings …"; seed 151, re-derived, refuses with "S5a: the gate vertices could not be put on their ways …", a different site under the same code. relief-60 default S5 `E_SELF_INTERSECT` and S6 `E_INVARIANT` also carry 2 texts. The brief asked for the message once per class, which is met; an owner routed by the message alone would miss the second site. A tightening: each distinct text with its seeds. | `out/d0.log` (relief-60 coarse 151); the committed summary's `messages` | M4, or the owners' rounds (c-04 S5, e-04 S4) reading the seeds | CONFIRMED |

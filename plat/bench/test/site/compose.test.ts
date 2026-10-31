@@ -9,7 +9,7 @@ import { hydroParams } from '@plat/site';
 import { stageText, type Hash128 } from '@plat/kernel';
 import { parseTable, tableView, type TableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { corpusReceipt, deriveSpike, districtReceipt, fieldsReceipt, fixtureNamed, GATE_STAGES, hydroReceipt, riverReceipts, runRecord, sized, SPIKE_STAGES, spikeFaces, spikeRegistry, stageOutcomes, type RunCapture, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
+import { corpusReceipt, deriveSpike, districtReceipt, fieldsReceipt, fixtureNamed, foldGroup, GATE_STAGES, hydroReceipt, riverReceipts, runRecord, sized, SPIKE_STAGES, spikeFaces, spikeRegistry, stageOutcomes, type RunCapture, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
 import type { Plat } from '@plat/kernel';
 import type { S3Slice } from '@plat/layout';
 import type { Terrain, WaterSet } from '@plat/model';
@@ -259,3 +259,40 @@ describe('the receipts on a derivation, each with its negative control (relief-6
   });
 });
 
+
+describe('hardening round S3: a refused stage\'s record carries the runner\'s code and detail (Q122)', () => {
+  it('relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner\'s code and its detail text, and the class carries it once', { timeout: HEAVY }, () => {
+    const d = deriveSpike(F60, 2, 'default', 'test');
+    const stages = stageOutcomes(d);
+    const refused = Object.entries(stages).filter(([, o]) => o.startsWith('refused '));
+    expect(refused.length).toBe(1);
+    const [stage, outcome] = refused[0];
+    const runner = d.model.refusals.get(stage);
+    expect(runner?.code).toBe(outcome.slice('refused '.length));
+    expect((runner?.detail ?? '').length).toBeGreaterThan(0);
+    const rec = runRecord(d);
+    expect(rec.refusals).toEqual({ [stage]: { code: runner?.code, detail: runner?.detail } });
+    const g = foldGroup('relief-60', 'default', [rec]);
+    expect(g.refusals).toEqual([{ stage, code: runner?.code, count: 1, seeds: [2], message: runner?.detail, messages: 1 }]);
+    // an all-ok derivation carries no refusal
+    expect(runRecord(derive('default')).refusals).toEqual({});
+  });
+});
+
+describe('hardening round S3: the record\'s per-stage work rows (Q118)', () => {
+  it('relief-60 default seed 1 (test size): every façade batch in kernelBatches with its overlay\'s counts; route.nodes at S3 and S4 from the slice\'s and S4\'s reports over the lattice', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const rec = runRecord(d);
+    expect(rec.kernelBatches.map((b) => [b.stage, b.committed, b.code])).toEqual(d.capture.batches.map((b) => [b.stage, b.committed, b.code]));
+    // a committed batch that charged work has its overlay's tally by counter (never an empty tally)
+    const charged = d.capture.batches.filter((b) => b.committed && b.work > 0);
+    expect(charged.length).toBeGreaterThan(0);
+    for (const b of charged) expect(Object.values(b.counts).some((n) => n > 0), `${b.stage} level ${String(b.level)}`).toBe(true);
+    expect(rec.kernelBatches.filter((b) => b.committed && Object.values(b.counts).some((n) => n > 0)).length).toBe(charged.length);
+    const slice = d.model.data.get('s3.slice') as S3Slice;
+    const lattice = slice.lattice.points.length;
+    expect(rec.stageRows['S3']?.['route.nodes']).toEqual([{ work: slice.report.work['route.nodes'], units: lattice }]);
+    expect(rec.stageRows['S4']?.['route.nodes']).toEqual([{ work: (d.model.data.get('s4') as { report: { work: Record<string, number> } }).report.work['route.nodes'], units: lattice }]);
+    expect(Object.keys(rec.stageRows['S5'] ?? {}).sort()).toEqual(['growth.candidates', 'growth.proposals', 'route.nodes']);
+  });
+});

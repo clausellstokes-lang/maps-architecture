@@ -8,7 +8,7 @@
 // terrain's warnings (the carve and clamp receipts). R12-5's coarsening switch (C-0080) is the configuration `coarse`:
 // the RiverStrategy with `hydroCoarsen` (25 → 32 m at CITY) and S6's second half with `fieldsCoarsen` (32 → 48 m) —
 // nothing else changes; the default configuration is the base's own registration, untouched.
-import { CONCERNS, err, ok, stageText, STAGES, type CommitRecord, type Committed, type Kernel, type KernelResult, type KernelTx, type Overlay, type Seed, type Warning } from '@plat/kernel';
+import { CONCERNS, err, ok, stageText, STAGES, type CommitRecord, type Committed, type Kernel, type KernelResult, type KernelTx, type Overlay, type PlatKey, type Seed, type Warning } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import {
   baseArena,
@@ -54,6 +54,15 @@ export interface BatchSeen {
   readonly committed: boolean;
   /** The refusal's code (a batch the kernel refused), else null. */
   readonly code: string | null;
+  /**
+   * The batch's charged work by counter (the open overlay's own tally, read when the kernel hands the batch back; sorted
+   * by name; M0-e-06 S3, Q118): what the per-stage work blocks fold. Empty for a batch whose overlay the harness never
+   * saw (a declared batch with no op).
+   */
+  readonly counts: Readonly<Record<string, number>>;
+  /** The arena's live vertices and its live faces at the batch's level when the batch opened (its population, §13.2; −1 unread). */
+  readonly vertices: number;
+  readonly faces: number;
 }
 
 /** What the harness captured beside the model during one derivation. */
@@ -78,12 +87,53 @@ function newCapture(): RunCapture {
   return { preHeights: null, terrainWarnings: [], river: null, stageMs: new Map(), batches: [], s6Faces: 0, commits: new Map() };
 }
 
-/** The façade with its `tx` watched: each batch's work, limit and outcome recorded under the running stage. */
+/** An overlay's charged work by counter, sorted by name (the counts of a counter charged 0 kept). */
+function countsOf(o: Overlay | null): Record<string, number> {
+  const out: Record<string, number> = {};
+  if (o === null) return out;
+  for (const c of [...o.work.counts.keys()].sort()) out[c] = o.work.counts.get(c) as number;
+  return out;
+}
+
+/**
+ * The façade with its `tx` watched: each batch's work, limit, outcome and charged work by counter recorded under the
+ * running stage. The overlay is seen by passing the batch through: the callback wrapped, or each declared op's `apply`
+ * and `prepare` wrapped with its kind, lineage and index kept (the canonical order unchanged) — the batch's ops, order,
+ * charges and result are the stage's own (M0-e-06 S3, Q118; byte identity held by the composition and entry tests).
+ */
 function watchedKernel(kernel: Kernel, stage: string, cap: RunCapture): Kernel {
   const tx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>> => {
-    const r = kernel.tx(spec, fn);
+    // The population read before the batch; a key the façade does not know is the batch's own refusal, never the harness's.
+    let vertices = -1;
+    let faces = -1;
+    try {
+      const at = kernel.plat(spec.key as PlatKey);
+      vertices = at.slots.vertex.live;
+      faces = at.slots.face[spec.level].live;
+    } catch {
+      // the batch below refuses or throws as the stage's own
+    }
+    let seen: Overlay | null = null;
+    const watch = (o: Overlay): void => {
+      seen = o;
+    };
+    const ops = spec.ops.map((op) => Object.freeze({
+      ...op,
+      apply: (o: Overlay) => {
+        watch(o);
+        return op.apply(o);
+      },
+      ...(op.prepare === undefined ? {} : { prepare: (o: Overlay) => {
+        watch(o);
+        (op.prepare as (o: Overlay) => void)(o);
+      } }),
+    }));
+    const r = (fn === undefined ? kernel.tx(spec.ops.length === 0 ? spec : { ...spec, ops }) : kernel.tx(spec, (o: Overlay) => {
+      watch(o);
+      return fn(o);
+    })) as KernelResult<Committed<T | KernelResult<unknown>[]>>;
     const rec: CommitRecord | null = r.ok ? r.value.record : null;
-    cap.batches.push({ stage, level: spec.level, work: rec === null ? 0 : rec.work, limit: spec.workLimit, committed: rec !== null, code: r.ok ? null : r.code });
+    cap.batches.push({ stage, level: spec.level, work: rec === null ? 0 : rec.work, limit: spec.workLimit, committed: rec !== null, code: r.ok ? null : r.code, counts: countsOf(seen), vertices, faces });
     if (rec !== null) cap.commits.set(stage, (cap.commits.get(stage) ?? 0) + 1);
     return r;
   };

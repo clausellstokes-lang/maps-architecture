@@ -9,7 +9,8 @@ import { quantile7 } from '@plat/testkit';
 import { CORPUS_BAR } from '../skeleton/runner.js';
 import type { SpikeConfig } from './compose.js';
 import type { SpikeSize } from './fixtures.js';
-import type { CorpusCounts, EnceinteWaterReceipt, RunRecord } from './receipts.js';
+import { loadWorkLimits } from '@plat/tables';
+import { KERNEL_COUNTERS, type CorpusCounts, type EnceinteWaterReceipt, type RunRecord, type WorkRow } from './receipts.js';
 
 /** A quantile block (C-0091): Hyndman and Fan's type 7 over the values. */
 export interface Quantiles {
@@ -77,7 +78,57 @@ export interface GroupReport {
   readonly work: Readonly<Record<string, { readonly stage: string; readonly unit: string; readonly units: Quantiles; readonly unitsTotal: number; readonly perUnit: Quantiles }>>;
   /** Per stage, its batches: committed, refused, and the largest share of a batch's limit its work reached. */
   readonly batches: Readonly<Record<string, { committed: number; refused: number; maxShare: number }>>;
+  /**
+   * The refusal census by class (M0-e-06 S3, Q122): per stage and code, the refusals' count, their seeds (sorted) and the
+   * runner's detail text of the class's lowest seed with the number of distinct texts in the class; in stage, then code
+   * order. Each count equals its seed list's length and the stage's `refused[code]`.
+   */
+  readonly refusals: readonly RefusalClass[];
+  /**
+   * The per-stage work blocks (M0-e-06 S3, Q118), by stage and counter: for every stage that ran in the group, every counter
+   * STAGE_WORK gives it, in M0-f-03b's reader's block form `{ stage, unit, units, unitsTotal, perUnit }` with `charged`
+   * (the samples with work > 0) beside it. A kernel counter's sample is one batch the stage committed or refused (the
+   * `batches` row's population; its charged work over the population its limit was set for, KernelBatchRow's `units`);
+   * route.nodes' one derivation's stage (its searches' nodes over the lattice's); growth.*'s one S5c record; hydro.cells',
+   * grower.turns' and field.cells' as `work`'s rows.
+   */
+  readonly stageWork: Readonly<Record<string, Readonly<Record<string, StageWorkBlock>>>>;
 }
+
+/** One refusal class of a group (Q122). */
+export interface RefusalClass {
+  readonly stage: string;
+  readonly code: string;
+  readonly count: number;
+  readonly seeds: readonly number[];
+  /** The runner's detail text of the class's lowest seed (null where the record carries none). */
+  readonly message: string | null;
+  /** The distinct detail texts in the class. */
+  readonly messages: number;
+}
+
+/** One per-stage work block (Q118): M0-f-03b's reader's form, with the charged samples beside it. */
+export interface StageWorkBlock {
+  readonly stage: string;
+  readonly unit: string;
+  readonly units: Quantiles;
+  readonly unitsTotal: number;
+  readonly perUnit: Quantiles;
+  readonly charged: number;
+}
+
+/**
+ * The counters each spike stage charges (M0-f-03b's STAGE_CHARGES for the stages the spike runs, C-0446; the stage test
+ * holds the two equal): the five kernel counters at every stage, and S1's hydro.cells, route.nodes at S3, S4 and S5,
+ * S5's growth.proposals and growth.candidates, S6's grower.turns and field.cells.
+ */
+export const STAGE_WORK: Readonly<Record<string, readonly string[]>> = Object.freeze({
+  S1: Object.freeze([...KERNEL_COUNTERS, 'hydro.cells']),
+  S3: Object.freeze([...KERNEL_COUNTERS, 'route.nodes']),
+  S4: Object.freeze([...KERNEL_COUNTERS, 'route.nodes']),
+  S5: Object.freeze([...KERNEL_COUNTERS, 'growth.proposals', 'growth.candidates', 'route.nodes']),
+  S6: Object.freeze([...KERNEL_COUNTERS, 'grower.turns', 'field.cells']),
+});
 
 /** SiteSpikeReport — the interface M0-e-06 lists: the receipts of every derivation, folded; no time in it. */
 export interface SiteSpikeReport {
@@ -337,10 +388,85 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     config,
     runs: rs.length,
     stages,
+    refusals: refusalClasses(rs),
+    stageWork: stageWorkOf(rs, stages),
     bars: { d8, bedMonotone: bed, carve, noClamp: clamp, reliefAsNamed: reliefNamed, waterGates, spans, containment, countLaw, gateWards: wardsBar, fieldBands, weightZero, corpus },
     work,
     batches,
   };
+}
+
+/** The group's refusal classes (Q122): by stage and code, the seeds sorted, the lowest seed's detail. */
+export function refusalClasses(rs: readonly RunRecord[]): RefusalClass[] {
+  interface Row {
+    stage: string;
+    code: string;
+    seeds: number[];
+    texts: Map<number, string | null>;
+  }
+  const by = new Map<string, Row>();
+  for (const r of rs) {
+    for (const [s, o] of Object.entries(r.stages)) {
+      if (!o.startsWith('refused ')) continue;
+      const code = o.slice('refused '.length);
+      const key = `${s} ${code}`;
+      const row: Row = by.get(key) ?? { stage: s, code, seeds: [], texts: new Map<number, string | null>() };
+      row.seeds.push(r.seed);
+      const at = r.refusals[s];
+      row.texts.set(r.seed, at !== undefined && at.code === code ? at.detail : null);
+      by.set(key, row);
+    }
+  }
+  const out: RefusalClass[] = [];
+  for (const key of [...by.keys()].sort()) {
+    const row = by.get(key) as Row;
+    const seeds = [...row.seeds].sort((a, b) => a - b);
+    const texts = new Set([...row.texts.values()].filter((t): t is string => t !== null));
+    out.push({ stage: row.stage, code: row.code, count: seeds.length, seeds, message: row.texts.get(seeds[0]) ?? null, messages: texts.size });
+  }
+  return out;
+}
+
+function block(stage: string, unit: string, rows: readonly WorkRow[]): StageWorkBlock {
+  return { stage, unit, units: quantiles(rows.map((w) => w.units)), unitsTotal: rows.reduce((t, w) => t + w.units, 0), perUnit: quantiles(rows.map((w) => (w.units > 0 ? w.work / w.units : 0))), charged: rows.filter((w) => w.work > 0).length };
+}
+
+/** A counter's samples at a stage over the group's records (StageWorkBlock's rows). */
+function stageSamples(rs: readonly RunRecord[], stage: string, counter: string): WorkRow[] {
+  const out: WorkRow[] = [];
+  for (const r of rs) {
+    if (KERNEL_COUNTERS.includes(counter)) {
+      // a batch the kernel neither committed nor refused (a declared batch with no op: ok, no record, no work) is no
+      // sample — the stage's `batches` row (committed + refused) is the population the reader charges the blocks to
+      for (const b of r.kernelBatches) if (b.stage === stage && (b.committed || b.code !== null)) out.push({ work: b.counts[counter] ?? 0, units: b.units });
+      continue;
+    }
+    const staged = r.stageRows[stage]?.[counter];
+    if (staged !== undefined) {
+      out.push(...staged);
+      continue;
+    }
+    const w = r.work[counter];
+    if (w !== undefined && COUNTERS[counter]?.stage === stage && counter !== 'route.nodes') out.push(w);
+  }
+  return out;
+}
+
+/** The group's per-stage work blocks (Q118): every stage that ran, every counter STAGE_WORK gives it with a sample. */
+export function stageWorkOf(rs: readonly RunRecord[], stages: Readonly<Record<string, { ok: number; refused: Readonly<Record<string, number>> }>>): Record<string, Record<string, StageWorkBlock>> {
+  const wl = loadWorkLimits();
+  const out: Record<string, Record<string, StageWorkBlock>> = {};
+  for (const stage of Object.keys(STAGE_WORK).sort()) {
+    const o = stages[stage];
+    if (o === undefined || o.ok + Object.values(o.refused).reduce((t, n) => t + n, 0) === 0) continue;
+    const row: Record<string, StageWorkBlock> = {};
+    for (const counter of STAGE_WORK[stage]) {
+      const samples = stageSamples(rs, stage, counter);
+      if (samples.length > 0) row[counter] = block(stage, wl.law(counter).unit, samples);
+    }
+    out[stage] = row;
+  }
+  return out;
 }
 
 /** Folds every record into the report (the groups in fixture, then configuration order; the records in task order). */

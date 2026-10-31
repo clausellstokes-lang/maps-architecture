@@ -25,10 +25,13 @@ import {
   WARD_SHARE_MIN,
   type RunRecord,
 } from '../../src/site/index.js';
-import { tableView } from '@plat/tables';
+import { loadWorkLimits, tableView } from '@plat/tables';
 import { attachIndex, createKernel, createPlat, type PlatKey } from '@plat/kernel';
 import { fieldsCells, type S6Output } from '@plat/layout';
 import { districtReceipt, stageOutcomes, withoutSoftRows } from '../../src/site/index.js';
+import { STAGE_WORK } from '../../src/site/report.js';
+import { canaryIndex, chargedWork, recordDigest } from '../../src/site/anchor.js';
+import { KERNEL_COUNTERS, kernelUnits, lawUnits } from '../../src/site/receipts.js';
 
 /** No downgrade: every cause 0 (the runner's names, in its order). */
 const NO_CAUSES = {
@@ -84,6 +87,9 @@ function good(seed: number, over: Partial<RunRecord> = {}): RunRecord {
     corpus: { district: { roof: C0, spine: C0 }, water: { roof: C0, spine: C0 } },
     work: { 'hydro.cells': { work: 100, units: 100 }, 'grower.turns': { work: 30, units: 60 + seed }, 'field.cells': { work: 300, units: 100 } },
     batches: { S1: { committed: 2, refused: 0, maxShare: 0.1 } },
+    refusals: {},
+    kernelBatches: [],
+    stageRows: {},
     ...over,
   };
 }
@@ -444,3 +450,92 @@ describe('stageOutcomes: a refused stage by its bug\'s code, every later stage n
   });
 });
 
+
+describe('hardening round S3: the refusal classes (Q122) and the per-stage work blocks (Q118)', () => {
+  const refusedAt = (seed: number, stage: string, code: string, detail: string): RunRecord => {
+    const order = ['S1', 'S3', 'S4', 'S5', 'S6'];
+    const i = order.indexOf(stage);
+    const stages = Object.fromEntries(order.map((s, j) => [s, j < i ? 'ok' : j === i ? `refused ${code}` : 'not reached'])) as RunRecord['stages'];
+    return good(seed, { stages, refusals: { [stage]: { code, detail } } });
+  };
+
+  it('a class per stage and code: its seeds sorted, its count theirs, the lowest seed\'s message once with the distinct texts counted', () => {
+    const rs = [refusedAt(9, 'S5', 'E_SELF_INTERSECT', 'F-WALL: b'), refusedAt(3, 'S5', 'E_SELF_INTERSECT', 'F-WALL: a'), refusedAt(5, 'S3', 'E_INVARIANT', 'gate x'), refusedAt(7, 'S5', 'E_SELF_INTERSECT', 'F-WALL: a'), good(1), good(2)];
+    const g = foldGroup('relief-60', 'default', rs);
+    expect(g.refusals).toEqual([
+      { stage: 'S3', code: 'E_INVARIANT', count: 1, seeds: [5], message: 'gate x', messages: 1 },
+      { stage: 'S5', code: 'E_SELF_INTERSECT', count: 3, seeds: [3, 7, 9], message: 'F-WALL: a', messages: 2 },
+    ]);
+    for (const c of g.refusals) expect(g.stages[c.stage].refused[c.code]).toBe(c.count);
+    // a record with no runner detail for its refused stage names the seed with no message
+    const bare = foldGroup('relief-60', 'default', [good(4, { stages: { S1: 'refused E_INVARIANT', S3: 'not reached', S4: 'not reached', S5: 'not reached', S6: 'not reached' } })]);
+    expect(bare.refusals).toEqual([{ stage: 'S1', code: 'E_INVARIANT', count: 1, seeds: [4], message: null, messages: 0 }]);
+    // the summary carries the classes per group
+    const sum = summaryOf(foldReport('test', 1, 6, ['relief-60'], ['default'], rs), []) as { groups: { refusals: unknown }[] };
+    expect(sum.groups[0].refusals).toEqual(g.refusals);
+  });
+
+  it('a stage\'s blocks: a kernel counter one sample per batch (its count over the batch\'s units), route.nodes and growth.* from the stage rows, every charged counter', () => {
+    const kb = (stage: string, units: number, counts: Record<string, number>): RunRecord['kernelBatches'][number] => ({ stage, level: 1, limit: 0, units, committed: true, code: null, vertices: 0, faces: 0, counts });
+    const r1 = good(1, {
+      kernelBatches: [kb('S1', 10, { 'insert.points': 20 }), kb('S3', 100, { 'insert.points': 5, 'tx.facesWalked': 1 }), kb('S4', 10, {}), kb('S5', 50, { 'insert.points': 50 }), kb('S5', 50, {}), kb('S6', 10, { 'insert.points': 1 })],
+      stageRows: { S3: { 'route.nodes': [{ work: 300, units: 100 }] }, S4: { 'route.nodes': [{ work: 0, units: 100 }] }, S5: { 'route.nodes': [{ work: 50, units: 100 }], 'growth.proposals': [{ work: 8, units: 4 }, { work: 2, units: 4 }], 'growth.candidates': [{ work: 1, units: 1 }] } },
+    });
+    const g = foldGroup('relief-60', 'default', [r1]);
+    expect(Object.keys(g.stageWork)).toEqual(['S1', 'S3', 'S4', 'S5', 'S6']);
+    for (const [st, row] of Object.entries(g.stageWork)) expect([st, Object.keys(row)]).toEqual([st, [...STAGE_WORK[st]]]);
+    expect(g.stageWork['S1']['insert.points']).toEqual({ stage: 'S1', unit: 'vertices', units: quantiles([10]), unitsTotal: 10, perUnit: quantiles([2]), charged: 1 });
+    expect(g.stageWork['S1']['insert.crossings'].perUnit).toEqual(quantiles([0]));
+    expect(g.stageWork['S1']['hydro.cells'].perUnit).toEqual(quantiles([1]));
+    expect(g.stageWork['S3']['tx.facesWalked']).toMatchObject({ unit: 'faces', perUnit: quantiles([0.01]), charged: 1 });
+    expect(g.stageWork['S3']['route.nodes']).toMatchObject({ stage: 'S3', unit: 'latticeNodes', perUnit: quantiles([3]), charged: 1 });
+    expect(g.stageWork['S4']['route.nodes']).toMatchObject({ perUnit: quantiles([0]), charged: 0 });
+    expect(g.stageWork['S5']['insert.points']).toMatchObject({ perUnit: quantiles([1, 0]), charged: 1, unitsTotal: 100 });
+    expect(g.stageWork['S5']['growth.proposals']).toMatchObject({ unit: 'landHa', perUnit: quantiles([2, 0.5]), charged: 2 });
+    expect(g.stageWork['S5']['route.nodes'].perUnit).toEqual(quantiles([0.5]));
+    expect(g.stageWork['S6']['grower.turns'].perUnit).toEqual(quantiles([30 / 61]));
+    // a batch neither committed nor refused (S5's declared batches with no op: ok, no record) is no sample: a kernel
+    // block's n is the stage's batches row, committed + refused (the reader's population; 137 such S5 batches at CITY)
+    const empty: RunRecord['kernelBatches'][number] = { ...kb('S5', 50, {}), committed: false, code: null };
+    const refusedBatch: RunRecord['kernelBatches'][number] = { ...kb('S5', 50, { 'insert.points': 25 }), committed: false, code: 'E_WORK_LIMIT' };
+    const ge = foldGroup('relief-60', 'default', [good(1, { kernelBatches: [kb('S5', 50, { 'insert.points': 50 }), empty, refusedBatch, empty] })]);
+    expect(ge.stageWork['S5']['insert.points']).toMatchObject({ perUnit: quantiles([1, 0.5]), charged: 2, unitsTotal: 100 });
+    // a stage that made no batch has no kernel sample: its kernel counters have no block (unbounded at the reader)
+    const noBatch = foldGroup('relief-60', 'default', [good(3)]);
+    expect(noBatch.stageWork['S4']).toEqual({});
+    // a stage that never ran in the group has no blocks
+    const early = foldGroup('relief-60', 'default', [refusedAt(2, 'S3', 'E_SELF_INTERSECT', 'x')]);
+    expect(Object.keys(early.stageWork)).toEqual(['S1', 'S3']);
+  });
+});
+
+describe('hardening round S3: a batch\'s units read back from its limit (Q118)', () => {
+  it('the five kernel laws summed over one count, inverted: floor + perUnit × u gives u back; at least 1; growth.* by its own law', () => {
+    const wl = loadWorkLimits();
+    let floor = 0;
+    let per = 0;
+    for (const c of KERNEL_COUNTERS) {
+      floor += wl.law(c).floor;
+      per += wl.law(c).perUnit;
+    }
+    expect(KERNEL_COUNTERS).toEqual(['insert.points', 'insert.attractQueries', 'insert.placementCandidates', 'insert.crossings', 'tx.facesWalked']);
+    expect(kernelUnits(floor + per * 37)).toBe(37);
+    expect(kernelUnits(floor)).toBe(1);
+    expect(kernelUnits(0)).toBe(1);
+    const g = wl.law('growth.proposals');
+    expect(lawUnits('growth.proposals', g.floor + g.perUnit * 12)).toBe(12);
+  });
+});
+
+describe('hardening round S3: the anchor\'s canary (Q36)', () => {
+  it('the canary is a record that ends every stage ok, the least charged work among them, ties to the lower seed; else the most stages ok', () => {
+    const kb = (n: number): RunRecord['kernelBatches'][number] => ({ stage: 'S1', level: 0, limit: 0, units: 1, committed: true, code: null, vertices: 0, faces: 0, counts: { 'insert.points': n } });
+    const cut: RunRecord['stages'] = { S1: 'ok', S3: 'ok', S4: 'ok', S5: 'refused E_SELF_INTERSECT', S6: 'not reached' };
+    const rs = [good(1, { kernelBatches: [kb(500)] }), good(2, { stages: cut, kernelBatches: [kb(1)] }), good(3, { kernelBatches: [kb(40)] }), good(4, { kernelBatches: [kb(40)] })];
+    expect(canaryIndex(rs)).toBe(2);
+    expect(chargedWork(rs[2])).toBe(40 + 100 + 30 + 300);
+    expect(canaryIndex([rs[1], good(5, { stages: { ...cut, S4: 'refused E_INVARIANT', S5: 'not reached' } })])).toBe(0);
+    expect(recordDigest(rs[2])).not.toBe(recordDigest(rs[3]));
+    expect(recordDigest(good(3, { kernelBatches: [kb(40)] }))).toBe(recordDigest(rs[2]));
+  });
+});

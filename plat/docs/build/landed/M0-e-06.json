@@ -1,43 +1,44 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-e-06",
-  "lane": "build/M0-e-06-fix-s2",
-  "lanes": ["build/M0-e-06", "build/M0-e-06-fix1", "build/M0-e-06-fix-s1", "build/M0-e-06-fix-s2"],
+  "lane": "build/M0-e-06-fix-s3",
+  "lanes": ["build/M0-e-06", "build/M0-e-06-fix1", "build/M0-e-06-fix-s1", "build/M0-e-06-fix-s2", "build/M0-e-06-fix-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-28T06:14:38.057Z",
+  "date": "2026-10-31T01:01:02.062Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/site/", "plat/bench/test/site/", "plat/docs/build/summaries/M0-e-06.json"],
-  "counts": { "created": 15, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 16, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/bench/src/site/compose.ts", "status": "created", "sha256": "9cb6cd3324b191a86bb5f51a77d7c588dbf7ee7e2f301270b409c744c193544d", "size": 13521 },
+    { "path": "plat/bench/src/site/anchor.ts", "status": "created", "sha256": "f2d9162d5677435698c21913434cd40b7ff36fc804360a402922cbcd15b764d1", "size": 6939 },
+    { "path": "plat/bench/src/site/compose.ts", "status": "created", "sha256": "4d066d753126cbbaa9a86c5f1f7ca8bd54ba432943693864f84126e4aae12337", "size": 15840 },
     { "path": "plat/bench/src/site/fixtures.ts", "status": "created", "sha256": "e63992d57012541dabc943116d15fa5f39f44bb4d3cfc98987c2e928472cfb38", "size": 3020 },
-    { "path": "plat/bench/src/site/index.ts", "status": "changed", "sha256": "d61e6695a06ecc67b036ff515ec36ece7d1cd58ad5deb389a5c9f907f612a2bb", "size": 12706 },
+    { "path": "plat/bench/src/site/index.ts", "status": "changed", "sha256": "be53d505074f28dca1b89e94197d3e8232b3660c30738320ff909bdf88c52b2e", "size": 13231 },
     { "path": "plat/bench/src/site/pool.ts", "status": "created", "sha256": "fe698d8b630cb867825136ff367c71658649611568d629bf8b2c908e8ef9e02e", "size": 3602 },
-    { "path": "plat/bench/src/site/receipts.ts", "status": "created", "sha256": "af6a94465407f3b097fa5f95e0b47482e4a7965dcd695e4d0568f61d177cf7cc", "size": 42876 },
-    { "path": "plat/bench/src/site/report.ts", "status": "created", "sha256": "dd05bc455ca62e8fcff0d6ed690643c4aeeb40aa4781675a49cd6e7f473b4170", "size": 20476 },
+    { "path": "plat/bench/src/site/receipts.ts", "status": "created", "sha256": "cb87b85592eaca99a041a420053443d5b7154921ade553385b33ca2455535c14", "size": 47491 },
+    { "path": "plat/bench/src/site/report.ts", "status": "created", "sha256": "b78778925a07d7d9d1718c5d628ae8e7a9ee34cb115cd4281adcf04531ffd80e", "size": 26751 },
     { "path": "plat/bench/src/site/timing.ts", "status": "created", "sha256": "bc81ab7079d6b91e20628f3c0a2d1a031459563f4598f6e037eb2f0405ff3149", "size": 8713 },
     { "path": "plat/bench/src/site/worker.ts", "status": "created", "sha256": "b57c62ffc17bade2fd178b39a2e132b6fa38cd62e9e8d5bd38e83545a642a0f5", "size": 405 },
-    { "path": "plat/bench/test/site/compose.test.ts", "status": "created", "sha256": "c346c2e2b91fa5ca8aa040f0a1925956397a21fc92bd898e26b1d820d33748f9", "size": 16420 },
+    { "path": "plat/bench/test/site/compose.test.ts", "status": "created", "sha256": "65b0fe38c2ad37db728c38a4291dfaa0e74cf5702a6c7a70c1e8a6d68bb34076", "size": 19130 },
     { "path": "plat/bench/test/site/entry.test.ts", "status": "created", "sha256": "f4041e6312206b8a2529ddf66d0697786890859ef2aa2860810667138ef56b98", "size": 10428 },
-    { "path": "plat/bench/test/site/fold.test.ts", "status": "created", "sha256": "3818dd87e13b9eaf77ab0e0c851e21150ce02d514a37670bfb4081465ee05f4d", "size": 32450 },
-    { "path": "plat/bench/test/site/hand.test.ts", "status": "created", "sha256": "c84e6d0cf569de5be5e767402511aeace49c708f4295e134b19a7dfdff70745a", "size": 15166 },
+    { "path": "plat/bench/test/site/fold.test.ts", "status": "created", "sha256": "54cf2abb367de8cbb24bde69a85f13b0fe025a393103459498d5f6eb05c62d3c", "size": 40135 },
+    { "path": "plat/bench/test/site/hand.test.ts", "status": "created", "sha256": "cc01991523a113186143d211ff9455cd6abcfe470dde5f8944c07be7bf5ff94f", "size": 15214 },
     { "path": "plat/bench/test/site/spike.test.ts", "status": "created", "sha256": "f609ef3e8a05f9339a0e37e64787abaa5fc9405970b412d30d54410f0e82e679", "size": 35517 },
-    { "path": "plat/bench/test/site/summary.test.ts", "status": "created", "sha256": "7262ce090235dbccec3983b7244c27bc6e2eb4f8f6215e33acd1254631dad0c5", "size": 4925 },
+    { "path": "plat/bench/test/site/summary.test.ts", "status": "created", "sha256": "d9e25872ba5ec6cec446dd900fb7006320733c72d9c5ba7405f15f5d0e718337", "size": 12809 },
     { "path": "plat/bench/test/site/timing.test.ts", "status": "created", "sha256": "6e8446426606f3b697350408067362e300fb7df1cfbe563bb39a8ef467399c9c", "size": 3702 },
-    { "path": "plat/docs/build/summaries/M0-e-06.json", "status": "created", "sha256": "6ba690c92b4b14e95c6fb93caa76ad3d4571feacf76698737ecbfd0232273613", "size": 51060 }
+    { "path": "plat/docs/build/summaries/M0-e-06.json", "status": "created", "sha256": "c751bf8ee64fbe2bda50167ac3d5448150b8811319d81bcd30e6fa729b1fae3a", "size": 144815 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0334", "L-0340", "L-0369", "L-0697"],
-      "lines": ["59f895c03f9be4c4", "9526a16dde8b0c88", "96aa9bb0e6b30ef2", "467397cb86d520da"],
+      "ids": ["L-0334", "L-0340", "L-0369", "L-0697", "L-0702"],
+      "lines": ["59f895c03f9be4c4", "9526a16dde8b0c88", "96aa9bb0e6b30ef2", "467397cb86d520da", "08eb16d73e9904bf"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0271", "C-0275", "C-0291", "C-0447"],
-      "lines": ["3beaee8c152efd0a", "bde7776016f4f104", "a7fe1677ba8ac9a0", "eb225b0e83fcb5bf"],
+      "ids": ["C-0271", "C-0275", "C-0291", "C-0447", "C-0449"],
+      "lines": ["3beaee8c152efd0a", "bde7776016f4f104", "a7fe1677ba8ac9a0", "eb225b0e83fcb5bf", "627d994ddb562e19"],
       "removed": []
     }
   ]
