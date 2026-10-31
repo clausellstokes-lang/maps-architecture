@@ -633,7 +633,11 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     if (!jl.ok) return passOn(jl);
     const kl0 = planLanding(tx, ob.piece, ob.leave.x, ob.leave.y);
     if (!kl0.ok) return passOn(kl0);
-    if ((jl.value.kind === 'vertex' && onPath(jl.value.vertex)) || (kl0.value.kind === 'vertex' && onPath(kl0.value.vertex))) {
+    // Under the cut back's routes a stretch may leave at the routed segment's own end b, or join at its own start a
+    // (`ChainCtx.cutStretch`, round S12).
+    const leavesAtEnd = ctx.cutStretch === 'end' && b === (trail?.end ?? -1) && kl0.value.kind === 'vertex' && kl0.value.vertex === b;
+    const joinsAtStart = ctx.cutStretch === 'start' && a === (trail?.order[0] ?? -1) && jl.value.kind === 'vertex' && jl.value.vertex === a;
+    if ((jl.value.kind === 'vertex' && onPath(jl.value.vertex) && !joinsAtStart) || (kl0.value.kind === 'vertex' && onPath(kl0.value.vertex) && !leavesAtEnd)) {
       skip.add(ob.piece.edge);
       continue;
     }

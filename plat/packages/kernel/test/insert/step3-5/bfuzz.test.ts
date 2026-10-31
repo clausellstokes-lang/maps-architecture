@@ -452,9 +452,13 @@ describe('§13.1: mandatory chains never rejected for precision over 10⁶ rando
 // golden digest of a fixed B-FUZZ slice under the insert code: 400 cases of the random family's draw and 200 constructive
 // sequences, at fixed seeds, each insertion's outcome (its code and detail, or its warnings and placed points) and the
 // arena's content print after it, hashed (sha-256). Any change of what insertChain commits or refuses on the slice moves
-// it; it is re-recorded only with a choices row naming the shift (the first record: round S9, C-0423).
+// it; it is re-recorded only with a choices row naming the shift (the first record: round S9, C-0423; re-recorded by round
+// S12, C-0456: the slice's retracing chains now commit by the cut back's built forms — a ring's seam walked again, the
+// cut back within the corner bound at a tip, its routes along an edge at x, a removed candidate landed again — and an
+// open chain's end whose placement falls back beyond the bound stays on the edge it meets, the end rule W; S9's was
+// 3e8ec437…).
 describe('N-7: the golden digest of a fixed B-FUZZ slice (re-recorded only with a choices row)', () => {
-  const GOLDEN = '3e8ec437c4c90c6596b03f429ace77b7a64fb2f1f8de0ddf906f2ede69345d7d';
+  const GOLDEN = '045e8cc2c427ffc2248274f9a587bfb6394130ac1011d4a7263ffebf1fe5d712';
   it('400 random cases (seed 4242) and 200 constructive sequences (seeds 1 – 200): the digest of every outcome and arena', () => {
     const h = createHash('sha256');
     const one = (p: Plat, c: Case, entity: string): void => {
