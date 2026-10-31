@@ -1,12 +1,17 @@
 // bench/src/tier-jobs — the three tiers' job lists (§13.8; C-0027, C-0069, C-0079, C-0088, C-0097, C-0099, C-0113,
-// C-0121). M0-f-02a fills the PR list and DECLARES the nightly and milestone lists, every entry staged to the item that
-// completes it; the folder is handed over to M0-f-02b, which fills those lists and the PR tier's spike stand-ins
-// (M0.md §2's hand-over chain). Every status is derived at run time (bench/src/tiers/status.ts), never written here: a
-// job flips to `built` when its item lands, with no edit of this file. The budgets are §13.8's and never raised here
-// ("the answer is to split the job or make it faster, never to raise the cap").
-import { readFileSync } from 'node:fs';
+// C-0121). M0-f-02a filled the PR list and DECLARED the nightly and milestone lists, every entry staged to the item that
+// completes it; the folder was handed over to M0-f-02b (M0.md §2's hand-over chain), which fills those lists and the PR
+// tier's spike stand-ins, complete for M0 (the readings it took: C-0447). Every status is derived at run time
+// (bench/src/tiers/status.ts), never written here: a job flips to `built` when its item lands, with no edit of this file.
+// The budgets are §13.8's and never raised here ("the answer is to split the job or make it faster, never to raise the
+// cap"). The sizes are the design's (J238): no job cut, no size narrowed; an empty suite fails naming it (§13.8 Edges).
+import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { Job, TierManifest, TierName, Unit } from '../tiers/types.js';
+import { fileURLToPath } from 'node:url';
+import type { Job, Suite, TierManifest, TierName, Unit } from '../tiers/types.js';
+
+/** plat/ (this file is bench/src/tier-jobs/index.ts): the tree the lists read when no root is given. */
+const HERE_ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 
 /** The PR tier's B-FUZZ size (§13.8: 10⁴ random inputs per primitive) and the constructive set's draws per M0 case. */
 export const PR_FUZZ_RUNS = 10_000;
@@ -152,10 +157,11 @@ export function prJobs(root: string): Job[] {
       source: 'bench/src/fusion/',
       inputs: [],
       item: 'M0-c-06',
-      stagedTo: 'M0-f-02b',
       size: { kind: 'seeds', n: PR_SEEDS },
-      // declared here, filled by M0-f-02b (its arguments and its 10-seed blocks, C-0097)
-      units: (n) => [{ name: `seeds 0–${String((n ?? PR_SEEDS) - 1)}`, argv: harness('fusion', '--seeds', String(n ?? PR_SEEDS)) }],
+      // the flat CITY fixture (C-0016) is the family the seeds draw from: missing or empty, the job fails naming it (N-6)
+      suites: [FUSION_FIXTURE],
+      // the stand-in per 10-seed block (C-0097), seeds from 1 as the gate's own run (fusion's --from default)
+      units: (n) => seedBlocks(1, n ?? PR_SEEDS).map((b) => ({ name: blockName(b), argv: harness('fusion', '--from', String(b.from), '--seeds', String(b.count)) })),
     },
     {
       name: 'B-CITY-lite stand-in: site spike',
@@ -163,54 +169,227 @@ export function prJobs(root: string): Job[] {
       source: 'bench/src/site/',
       inputs: [],
       item: 'M0-e-06',
-      stagedTo: 'M0-f-02b',
       size: { kind: 'seeds', n: PR_SEEDS },
-      units: (n) => [{ name: `seeds 0–${String((n ?? PR_SEEDS) - 1)}`, argv: harness('site', '--seeds', String(n ?? PR_SEEDS)) }],
+      suites: [SITE_FIXTURES],
+      units: (n) => seedBlocks(1, n ?? PR_SEEDS).map((b) => ({ name: blockName(b), argv: harness('site', '--first', String(b.from), '--seeds', String(b.count)) })),
     },
   ];
 }
 
-/** A declared entry (C-0099): its source and owning item named, its arguments M0-f-02b's — staged until then. */
-function declared(name: string, kind: Job['kind'], source: string, item: string, extra: Partial<Job> = {}): Job {
-  return {
-    name,
-    kind,
-    source,
-    inputs: [],
-    item,
-    stagedTo: 'M0-f-02b',
-    units: () => {
-      throw new Error(`tier job ${name}: declared by M0-f-02a, filled by ${extra.stagedTo ?? 'M0-f-02b'}`);
-    },
-    ...extra,
-  };
+/** The seeds per block of a spike job's units (C-0097: "the spike stand-ins per 10-seed block"). */
+export const SEED_BLOCK = 10;
+
+/** A block of consecutive seeds. */
+export interface SeedBlock {
+  from: number;
+  count: number;
 }
 
-/** The nightly tier's jobs, declared (§13.8's nightly contents at M0; filled by M0-f-02b). */
-export function nightlyJobs(): Job[] {
+/** `n` seeds from `first` in blocks of SEED_BLOCK, the last block holding the remainder; none for n < 1 (an empty family). */
+export function seedBlocks(first: number, n: number, block: number = SEED_BLOCK): SeedBlock[] {
+  const out: SeedBlock[] = [];
+  for (let from = first; from < first + n; from += block) out.push({ from, count: Math.min(block, first + n - from) });
+  return out;
+}
+
+const blockName = (b: SeedBlock): string => `seeds ${String(b.from)}–${String(b.from + b.count - 1)}`;
+
+/** The suites the spike jobs read (N-6): the fixture each seed family is drawn on; missing or empty fails naming it. */
+export const FUSION_FIXTURE = { kind: 'fixtures', path: 'packages/layout/src/fixtures/flat.ts' } as const satisfies Suite;
+export const SITE_FIXTURES = { kind: 'fixtures', path: 'bench/src/site/fixtures.ts' } as const satisfies Suite;
+export const BENTCUT_FACES = { kind: 'fixtures', path: 'bench/src/bentcut/faces.ts' } as const satisfies Suite;
+export const CROSSHOST_KERNEL = { kind: 'fixtures', path: 'bench/src/crosshost/fixtures/kernel.json' } as const satisfies Suite;
+
+/** The full seed sets of the spike harnesses (their bars' sizes: fusion's 1 000, §16 M0 (c); the site spike's 200). */
+export const FUSION_SEEDS = 1_000;
+export const SITE_SEEDS = 200;
+/** B-FUZZ's nightly size (§13.8: 10⁶ random inputs per primitive; §16 M0 (a)). */
+export const NIGHTLY_FUZZ_RUNS = 1_000_000;
+/** The bent cut's F-CUT bar size (§4.6 step 8: 10⁵ random concave and holed faces; the milestone tier's job). */
+export const FCUT_FACES = 100_000;
+
+/** The edge suite (M0-x-06; C-0100): its vitest folder, its nightly seed count, the run judged a hang (support.ts). */
+export const EDGE_FOLDER = 'packages/testkit/test/edge/';
+export const EDGE_NIGHTLY_SEEDS = 1000;
+export const EDGE_HANG_MS = 120_000;
+/**
+ * A unit of the edge suite stopped and failed when it outlasts the milestone tier's whole budget (12 h): a run that
+ * never returns is caught here, the hang then attributed by the post-hoc unit (the x-06 notes' row 10; C-0447).
+ */
+export const EDGE_DEADLINE_MS = 12 * 3_600_000;
+
+/** The ladder-coverage bench's committed summary, reproduced byte for byte by a second process (the x-05 notes' row 5). */
+export const LADDER_SUMMARY = 'docs/build/summaries/M0-x-05.json';
+/** The parity report's our side: the phase-a run item's summary carrying `parityOurs` (M0-c-07a; C-0121). */
+export const PARITY_OURS = 'docs/build/summaries/M0-c-07a.json';
+
+/** The tier jobs' own command (bench/src/tier-jobs/cli.ts, run through tsx from plat/ like the dispatcher). */
+export const TIER_CLI = 'bench/src/tier-jobs/cli.ts';
+export const tierCli = (...args: string[]): string[] => pnpm('exec', 'tsx', '--conditions=plat-source', TIER_CLI, ...args);
+/**
+ * A harness run through the tier command, which hands it a summary path under PLAT_BENCH_OUT, so a harness that writes
+ * its numbers-only summary on a bar run (the cross-host run, the determinism spike, the ladder-coverage bench) writes
+ * nothing tracked into plat/ (C-0411 (4)'s reading of C-0241 (8); C-0447).
+ */
+export const redirected = (name: string, ...args: string[]): string[] => tierCli('harness', name, ...args);
+
+/** The vitest command of one edge-suite test file: the testkit project, that file (the tree's own form). */
+export const edgeVitest = (file: string): string[] => pnpm('exec', 'vitest', 'run', '--project', 'testkit', `${EDGE_FOLDER}${file}`);
+
+/** The edge suite's test files in the tree now, in code-unit order (a folder of none gives no unit: the job fails). */
+export function edgeFiles(root: string): string[] {
+  let names: string[];
+  try {
+    names = readdirSync(join(root, EDGE_FOLDER));
+  } catch {
+    return [];
+  }
+  return names.filter((n) => /\.test\.ts$/.test(n)).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
+/**
+ * The edge suite at 1 000 seeds (B-EDGE's nightly form at M0, C-0100): one unit per test file (C-0097's "the edge suite
+ * per fixture" at the grain vitest takes), each the file's vitest run with PLAT_EDGE_SEEDS=1000 under the tier
+ * command's watch (its outcomes logged under PLAT_BENCH_OUT, stopped at EDGE_DEADLINE_MS), then the post-hoc hang
+ * attribution over those logs (x-06's row 10).
+ */
+export function edgeUnits(root: string): Unit[] {
+  const env = { PLAT_EDGE_SEEDS: String(EDGE_NIGHTLY_SEEDS) };
+  const files = edgeFiles(root);
+  if (files.length === 0) return [];
   return [
-    declared('B-FUZZ (10⁶ per primitive)', 'harness', 'bench/src/fuzz-bar/', 'M0-k-04', { size: { kind: 'fuzz', n: 1_000_000 } }),
-    declared('fusion spike (full seed set)', 'harness', 'bench/src/fusion/', 'M0-c-06'),
-    declared('site spike (full seed set)', 'harness', 'bench/src/site/', 'M0-e-06'),
-    declared('bent-cut F-CUT harness', 'harness', 'bench/src/bentcut/', 'M0-b-04'),
-    declared('cross-host run', 'harness', 'bench/src/crosshost/', 'M0-d-06'),
-    declared('determinism spike', 'harness', 'bench/src/determinism/', 'M0-d-09'),
-    declared('edge-suite (1 000 seeds)', 'vitest', 'packages/testkit/test/edge/', 'M0-x-06'),
-    declared('ladder-coverage bench', 'harness', 'bench/src/ladder-coverage/', 'M0-x-05'),
-    // pending until baselines.json is committed and both phase-a run items' summaries name its sha256 (C-0068, C-0121)
-    declared('parity report', 'harness', 'bench/src/parity/', 'M0-k-05', { inputs: [BASELINES], reviewedBy: ['M0-b-05a', 'M0-c-07a'] }),
-    // last and alone: §13.8's four nightly timing-phase contents, all M1's; never bench:timing-phase (C-0088)
-    declared('timing-phase (nightly contents)', 'command', 'bench/src/tier-jobs/nightly-timing-phase.ts', 'M1', { stagedTo: 'M1' }),
+    ...files.map((f) => ({ name: f, argv: tierCli('edge', '--deadline-ms', String(EDGE_DEADLINE_MS), '--', ...edgeVitest(f)), env })),
+    { name: 'hang attribution (post-hoc)', argv: tierCli('edge-hangs', '--hang-ms', String(EDGE_HANG_MS)), env },
   ];
 }
 
-/** The milestone tier's jobs, declared: the nightly set and the F-CUT 10⁵-face bar (filled by M0-f-02b). */
-export function milestoneJobs(): Job[] {
-  return [...nightlyJobs().filter((j) => j.stagedTo !== 'M1'), declared('F-CUT (10⁵ faces)', 'harness', 'bench/src/bentcut/', 'M0-b-04')];
+/** The nightly tier's jobs over the tree at `root` (§13.8's nightly contents that exist at M0; §16 M0 (f)). */
+export function nightlyJobs(root: string = HERE_ROOT): Job[] {
+  return [
+    {
+      name: 'B-FUZZ (10⁶ per primitive)',
+      kind: 'harness',
+      source: 'bench/src/fuzz-bar/',
+      inputs: [],
+      item: 'M0-k-04',
+      size: { kind: 'fuzz', n: NIGHTLY_FUZZ_RUNS },
+      units: (n) => fuzzUnits(n ?? NIGHTLY_FUZZ_RUNS),
+    },
+    {
+      name: 'fusion spike (full seed set)',
+      kind: 'harness',
+      source: 'bench/src/fusion/',
+      inputs: [],
+      item: 'M0-c-06',
+      size: { kind: 'seeds', n: FUSION_SEEDS },
+      suites: [FUSION_FIXTURE],
+      units: (n) => seedBlocks(1, n ?? FUSION_SEEDS).map((b) => ({ name: blockName(b), argv: harness('fusion', '--from', String(b.from), '--seeds', String(b.count)) })),
+    },
+    {
+      name: 'site spike (full seed set)',
+      kind: 'harness',
+      source: 'bench/src/site/',
+      inputs: [],
+      item: 'M0-e-06',
+      size: { kind: 'seeds', n: SITE_SEEDS },
+      suites: [SITE_FIXTURES],
+      units: (n) => seedBlocks(1, n ?? SITE_SEEDS).map((b) => ({ name: blockName(b), argv: harness('site', '--first', String(b.from), '--seeds', String(b.count)) })),
+    },
+    {
+      name: 'bent-cut F-CUT harness',
+      kind: 'harness',
+      source: 'bench/src/bentcut/',
+      inputs: [],
+      item: 'M0-b-04',
+      suites: [BENTCUT_FACES],
+      // its nightly parts at their bar sizes (1 000 districts judged with F-CUT, the signature's 100 faces a kind,
+      // T34-1's 10 000-draw mean nightly, §13.8's schedule); F-CUT on 10⁵ faces is the milestone tier's job
+      units: () => [{ name: 'residue, signature, T34-1 mean', argv: harness('bentcut', '--only', 'residue,signature,t34') }],
+    },
+    {
+      name: 'cross-host run',
+      kind: 'harness',
+      source: 'bench/src/crosshost/',
+      inputs: [],
+      item: 'M0-d-06',
+      suites: [CROSSHOST_KERNEL],
+      // the full run: all five legs, workers off and on (a leg blocked on a host exits 3: incomplete, never a pass)
+      units: () => [{ name: 'kernel fixture, five legs, workers off and on', argv: redirected('crosshost', 'run', 'kernel') }],
+    },
+    {
+      name: 'determinism spike',
+      kind: 'harness',
+      source: 'bench/src/determinism/',
+      inputs: [],
+      item: 'M0-d-09',
+      // its bar run: 100 seeds of the spike city at CITY on the five legs, workers off and on
+      units: () => [{ name: 'spike city, 100 seeds', argv: redirected('determinism') }],
+    },
+    {
+      name: 'edge-suite (1 000 seeds)',
+      kind: 'vitest',
+      source: EDGE_FOLDER,
+      inputs: [],
+      item: 'M0-x-06',
+      units: () => edgeUnits(root),
+    },
+    {
+      name: 'ladder-coverage bench',
+      kind: 'harness',
+      source: 'bench/src/ladder-coverage/',
+      inputs: [],
+      item: 'M0-x-05',
+      // the committed summary is the baseline the second process reproduces: missing or empty fails naming it
+      suites: [{ kind: 'baseline', path: LADDER_SUMMARY }],
+      units: () => [
+        { name: 'whole run (the plain flat fixture at seed 1, the kernel at its own draws)', argv: redirected('ladder-coverage') },
+        { name: 'the summary reproduced byte for byte in a second process', argv: tierCli('same-summary', 'M0-x-05') },
+      ],
+    },
+    {
+      name: 'parity report',
+      kind: 'harness',
+      source: 'bench/src/parity/',
+      // pending until baselines.json is committed and both phase-a run items' summaries name its sha256 (C-0068, C-0121)
+      inputs: [BASELINES],
+      reviewedBy: ['M0-b-05a', 'M0-c-07a'],
+      item: 'M0-k-05',
+      suites: [{ kind: 'seeds', path: PARITY_OURS }],
+      units: () => [{ name: 'parity report over our side (M0-c-07a)', argv: harness('parity', '--ours', PARITY_OURS) }],
+    },
+    // last and alone: §13.8's four nightly timing-phase contents, all M1's; never bench:timing-phase (C-0088)
+    {
+      name: 'timing-phase (nightly contents)',
+      kind: 'command',
+      source: 'bench/src/tier-jobs/nightly-timing-phase.ts',
+      inputs: [],
+      item: 'M1',
+      stagedTo: 'M1',
+      units: () => {
+        throw new Error('tier job timing-phase (nightly contents): not built: M1 (§13.8\'s four nightly timing-phase contents, C-0088)');
+      },
+    },
+  ];
+}
+
+/** The milestone tier's jobs: the nightly set less its timing-phase entry, plus the F-CUT 10⁵-face bar (§16 M0 (b)). */
+export function milestoneJobs(root: string = HERE_ROOT): Job[] {
+  return [
+    ...nightlyJobs(root).filter((j) => j.stagedTo !== 'M1'),
+    {
+      name: 'F-CUT (10⁵ faces)',
+      kind: 'harness',
+      source: 'bench/src/bentcut/',
+      inputs: [],
+      item: 'M0-b-04',
+      suites: [BENTCUT_FACES],
+      units: () => [{ name: 'F-CUT on 10⁵ random concave and holed faces', argv: harness('bentcut', '--only', 'fcut', '--fcut', String(FCUT_FACES)) }],
+    },
+  ];
 }
 
 /** The tier's manifest over the tree at `root`. */
 export function manifest(tier: TierName, root: string): TierManifest {
-  const jobs = tier === 'pr' ? prJobs(root) : tier === 'nightly' ? nightlyJobs() : milestoneJobs();
+  const jobs = tier === 'pr' ? prJobs(root) : tier === 'nightly' ? nightlyJobs(root) : milestoneJobs(root);
   return { tier, budget: { ...BUDGETS[tier] }, jobs };
 }

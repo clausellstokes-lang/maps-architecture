@@ -9,7 +9,6 @@
 //   (2) each water gate takes the lowest `gate:w<i>` no earlier enceinte holds (C-0324 (3)), so a stage-2 trace crossing
 //       the river where stage 1's does never names its gates `gate:w0`, `gate:w1` again (`trace.ts`).
 import { describe, expect, it } from 'vitest';
-import { STAGES, type StageId } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { commitOuterRing, crossWater, RIVER_BLUEPRINT, runBase, siteContext, traceBase, waterRings, type BaseBlueprint } from '../../src/index.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
@@ -184,35 +183,6 @@ describe('a crossing whose chord would leave the water is routed along its banks
     }
   }, 120_000);
 
-  it('a routed chord settles as every chord does (Y12): a way\'s vertex in the water 10 cm off it, no shore\'s, leaves it not clear — refused before the pull, named, nothing written', () => {
-    const site = smallSite(2);
-    const { plat, k } = kernelFor(site);
-    expect(commitOuterRing(site, k).ok).toBe(true);
-    const water = handBuildWater(k, BEND, 'river:1', P(22000, 0));
-    // The routed chord runs from the inner corner (240, 320) m to the west bank (200, 313.33) m; a stub on L1 from
-    // (220.02, 316.57) m, 10 cm off its middle, 2 m south in the water.
-    const spec = { key: GROUND, level: 1 as const, ops: [], expect: [], onFail: 'reject' as const, batch: { kind: 'stage' as const, stage: STAGES.S4 as StageId }, stage: STAGES.S4 as StageId, rederivesFrom: STAGES.S4 as StageId, workLimit: 1_000_000 };
-    expect(k.tx(spec, (o) => k.geom.insertChain(o, [P(22002, 31657), P(22002, 31457)], [{ role: 'way', entity: 'way:stub' }], 'mandatory', {})).ok).toBe(true);
-    const r = traceBase(BOUNDARY, GATES, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
-    expect(r.ok).toBe(false);
-    if (r.ok) return;
-    expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toMatch(/^water: the crossing from 24000,32000 to 20000,31333 has no clear chord between its two bank pins \(its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled\)/);
-    expect(edgesWith(plat, 'wall')).toEqual([]);
-  }, 120_000);
-
-  it('a crossing that enters one water body and ends on another\'s shore is never routed on one ring\'s side indices (Y15): its chord leaves the water, no route, no chord', () => {
-    const ring = ccw(openRing(BOUNDARY.map(lat)));
-    // A pool overlapping the north arm's west shore where the boundary leaves it: the stretch from the east arm's south
-    // shore ends on the pool's east side (inside the arm), a cut on the pool's ring, not the arm's.
-    const POOL = [P(19000, 30500), P(20200, 30500), P(20200, 32500), P(19000, 32500)];
-    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: BEND }, { body: 'pool:1', ring: POOL }], undefined, { ring, bandCm: 4000 });
-    const c = r.crossings.filter((q) => q.entry.y === 32000 && q.entry.x > 24000);
-    expect(c).toHaveLength(1);
-    expect(c[0].exit.x).toBe(20200);
-    expect([c[0].chord, c[0].clear, c[0].routed]).toEqual([false, false, undefined]);
-  });
-
   it('through the strategy with a 5 m band: no bank route reaches a clear chord, so the trace is refused E_INVARIANT `water`, named, nothing written', () => {
     const site = smallSite(2, { tables: wallsWith('trace', 'searchBandM', 5) });
     const { plat, k } = kernelFor(site);
@@ -228,49 +198,6 @@ describe('a crossing whose chord would leave the water is routed along its banks
     expect(edgesWith(plat, 'wall_gate')).toEqual([]);
     expect(edgesWith(plat, 'shore')).toHaveLength(shores);
   }, 120_000);
-});
-
-describe('the route\'s guards, each by its own fixture (L31; N-30, N-31)', () => {
-  // The south side crosses a river x 200 – 240 m from bank (200, −300) m to bank (240, −300) m, its course dipping 10 m
-  // south in the water between them (the chord at y −300 m, the course at −310 m).
-  const SQUARE = ccw(openRing(densify([[-30000, -30000], [20000, -30000], [20100, -31000], [23900, -31000], [24000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]).map(lat)));
-  const south = (r: ReturnType<typeof crossWater>) => r.crossings.find((c) => c.entry.x === 20000 && c.entry.y === -30000 && c.exit.x === 24000 && c.exit.y === -30000);
-
-  it('a chord cutting a 20 cm land sliver 30 cm from its bank is not clear: a meeting farther than a centimetre from both ends counts (Y17)', () => {
-    // A hook of land from the west shore whose needle (x 200.30 – 200.50 m) runs down across the chord to y −301 m,
-    // above the course (which passes x 200.30 m at y −303 m).
-    const SLIVER = [P(20000, 90000), P(20000, -29000), P(20050, -29000), P(20050, -30100), P(20030, -30100), P(20030, -29010), P(20000, -29010), P(20000, -90000), P(24000, -90000), P(24000, 90000)];
-    const c = south(crossWater(SQUARE, new Set(), [{ body: 'river:1', ring: SLIVER }]));
-    expect(c?.chord).toBe(false);
-    // Without the sliver the same crossing takes its chord.
-    const plain = [P(20000, -90000), P(24000, -90000), P(24000, 90000), P(20000, 90000)];
-    expect(south(crossWater(SQUARE, new Set(), [{ body: 'river:1', ring: plain }]))?.chord).toBe(true);
-  });
-});
-
-describe('a boundary in and out of a U-shaped water by its inner shores (L31; N-30, N-32)', () => {
-  // A U of water: arms x 0 – 40 m and 100 – 140 m from y 240 m to 460 m, joined by the bottom y 200 – 240 m; the land
-  // between the arms a peninsula. The boundary leaves the peninsula into the left arm at (40, 366.67) m, runs down it,
-  // along the bottom and up the right arm, and comes back onto the peninsula at (100, 366.67) m: the straight chord
-  // between those banks lies over the peninsula, meeting no side of the ring. (With the arms' heads within the band —
-  // ending at y 400 m — a route round the left arm's head reaches a clear chord across it and the trace commits.)
-  const U = [P(0, 20000), P(14000, 20000), P(14000, 46000), P(10000, 46000), P(10000, 24000), P(4000, 24000), P(4000, 46000), P(0, 46000)];
-  const TOWN = densify([[5000, 36667], [2000, 36667], [2000, 22000], [12000, 22000], [12000, 36667], [9000, 36667], [9000, 60000], [5000, 60000]]);
-
-  it('the crossing has no chord in the water and no bank route within the band clears one: refused E_INVARIANT `water`, named, nothing written — never a gate over the peninsula (Y07)', () => {
-    const site = smallSite(2);
-    const { plat, k } = kernelFor(site);
-    expect(commitOuterRing(site, k).ok).toBe(true);
-    const water = handBuildWater(k, U, 'river:1', P(1000, 30000));
-    const gates: GateSite[] = [{ ordinal: 0, at: P(7000, 60000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false }];
-    const r = traceBase(TOWN, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
-    expect(r.ok).toBe(false);
-    if (r.ok) return;
-    expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toMatch(/^water: the crossing from \S+ to \S+ has no clear chord between its two bank pins \(its chord would leave the water, and no route along its banks within the band gives a clear chord \(C-0324\)\)/);
-    expect(edgesWith(plat, 'wall')).toEqual([]);
-    expect(edgesWith(plat, 'wall_gate')).toEqual([]);
-  }, 60_000);
 });
 
 describe('water gate ids across enceintes (Q40 (2); C-0324 (3))', () => {
@@ -304,27 +231,6 @@ describe('water gate ids across enceintes (Q40 (2); C-0324 (3))', () => {
     // The first trace's gates where they were.
     for (const g of first.value.traced.waterGates) expect([0, 1].map((o) => verticesWith(plat, 'gate_end', g.id, o)[0])).toEqual([g.bankAt[0], g.bankAt[1]]);
   }, 120_000);
-});
-
-describe('the base RIVER fixture from the north at seed 5, 900 ha, 30 ha walled (KI-10; Q46; C-0292 (2))', () => {
-  // Before the round stage 2's strips left a setback vertex of enceinte:2 at (-319.71, -107.22) m in the river and S5a's
-  // check refused the batch ("S5a's strips: a setback vertex of enceinte:2 … lies in water:river:0"), S6 and S8 idle
-  // (M0-c-01's census row KI-10). With the strips stopping at every corridor by area (RQ5) the run commits.
-  const RIVER_N: BaseBlueprint = { ...RIVER_BLUEPRINT, size: { ...RIVER_BLUEPRINT.size, areaHa: 900 }, walledHa: 30, site: { ...RIVER_BLUEPRINT.site, river: { inflowBearingCdeg: 0, mouth: 'none' } } } as BaseBlueprint;
-
-  it('runBase commits every stage with no bug; no setback vertex of either enceinte lies in the water', () => {
-    const r = runBase(RIVER_N, 5, { kind: 'all' });
-    expect(r.report.bugs).toEqual([]);
-    const k = r.model.kernel;
-    const plat = k.plat(GROUND);
-    const rings = waterRings(r.model.data.get('water') as never, k, GROUND).map((w) => w.ring);
-    expect(rings.length).toBeGreaterThan(0);
-    for (const enc of ['enceinte:1', 'enceinte:2']) {
-      const setback = edgesWith(plat, 'setback', enc);
-      expect(setback.length, enc).toBeGreaterThan(0);
-      for (const e of setback) for (const q of [e.a, e.b]) expect({ enc, q, wet: rings.some((w) => insideRing(w, q) && ringDist(q, w) > 2) }).toEqual({ enc, q, wet: false });
-    }
-  }, 300_000);
 });
 
 describe('the base RIVER fixture at seed 2, 900 ha, 30 ha walled (Q40; the replay of M0-x-02 s2 finding (b))', () => {

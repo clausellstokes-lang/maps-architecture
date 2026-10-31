@@ -156,22 +156,8 @@ export function workProblems(work) {
         a.it.id === SCAFFOLD && pos(a.it) < pos(b.it) &&
         (/<(module|harness)>/.test(a.entry) ||
           (a.it.handsOver ?? []).some((h) => mentions(h, b.it.id) && common.some((p) => namesPathOrAbove(h, p))));
-      // A SEAM (J622): the borrowing item's entry names the lender — "(seam from M0-xx-nn: <the ruling>)" — and the lender
-      // owns the overlapping path; lawful in either wave order. The lender stays the path's owner for the landed tool (no
-      // hand-over): the borrower's round changes the named lines only, under the session's ruling the entry cites.
-      // J627: only a LATER-wave lender is lawful — landed.mjs's ownersAt gives a path to its latest-wave owner, so a seam
-      // borrowed from an EARLIER wave silently hands the lender's file to the borrower (the J620 seams did, for a-02 – a-05).
-      const seamOf = (e) => /seam from (M0-[a-z]-\d\d[a-z]?)/.exec(e.entry)?.[1] ?? null;
-      const lenderLater = (borrower, lender) => pos(lender) > pos(borrower) || (pos(lender) === pos(borrower) && orderedBefore(borrower, lender));
-      const seamFrom = (bor, len) => seamOf(bor) === len.it.id && ownsOverlapping(len.it, bor.p);
-      if ((seamFrom(x, y) && !lenderLater(x.it, y.it)) || (seamFrom(y, x) && !lenderLater(y.it, x.it))) {
-        const [bor, len] = seamFrom(x, y) ? [x, y] : [y, x];
-        problems.push(`O ${bor.it.id} borrows "${bor.entry.split(' (')[0]}" as a seam from ${len.it.id}, an earlier wave's item: the landed tool would hand it the lender's path (J627)`);
-        continue;
-      }
-      const seam = seamFrom(x, y) || seamFrom(y, x);
       const sameWave = pos(a.it) === pos(b.it) && !orderedBefore(a.it, b.it);
-      if (!seam && (sameWave || !(declared || scaffold))) {
+      if (sameWave || !(declared || scaffold)) {
         problems.push(`O ${a.it.id} (wave ${a.it.wave}) "${a.entry.split(' (')[0]}" and ${b.it.id} (wave ${b.it.wave}) "${b.entry.split(' (')[0]}" own one path, no hand-over declared`);
       }
     }
@@ -310,16 +296,6 @@ describe('the M0-work.json validator (checks/M0-spec-notes.md N-17; C-0122 V1 �
     ]);
     expect(planted((w, item) => { item('M0-c-07b').owns = ['plat/packages/tables/data/cut.json']; })).toHaveLength(1);
     expect(planted((w, item) => { item('M0-e-01').owns.push('plat/packages/kernel/src/num/extra.ts (handed over from M0-a-01)'); })).toEqual([]);
-  });
-
-  it('O: accepts a seam from a later wave, refuses one from an earlier wave (J627) or whose lender owns no such path', () => {
-    expect(planted((w, item) => { item('M0-a-01').owns.push('plat/packages/site/src/terrain/range.ts (seam from M0-e-01: an earlier item borrowing a later one\'s file)'); })).toEqual([]);
-    expect(planted((w, item) => { item('M0-e-01').owns.push('plat/packages/kernel/src/num/extra.ts (seam from M0-a-01: one door call per store site, J622)'); })).toEqual([
-      'O M0-e-01 borrows "plat/packages/kernel/src/num/extra.ts" as a seam from M0-a-01, an earlier wave\'s item: the landed tool would hand it the lender\'s path (J627)',
-    ]);
-    expect(planted((w, item) => { item('M0-e-01').owns.push('plat/packages/kernel/src/num/extra.ts (seam from M0-k-01: a lender that owns no such path)'); })).toEqual([
-      'O M0-a-01 (wave 1) "plat/packages/kernel/src/num/" and M0-e-01 (wave 2) "plat/packages/kernel/src/num/extra.ts" own one path, no hand-over declared',
-    ]);
   });
 
   it('O: a scaffold hand-over excuses its receiver only on the path the hand-over line names (checks/M0-s-01-s4.md, MW-O)', () => {

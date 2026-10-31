@@ -6,11 +6,9 @@
 //     committed first and rolled back whole (Q14's rolled-back pins);
 //   * the outcomes the brief names: S6 self-touching 2191303060 absorbed (M0-e-04 s2), river × frame 1595424233
 //     committing on its first state (M0-e-03 s1), Q22's coincident seeds committing (M0-c-02 s3);
-//   * J264's census on the named lawful-input refusals: Q37's three seeds, once refused at S5 on the unplanted state
-//     ('closed no strip face', the state replaced and the refusal carried), now commit on their first state — M0-c-02 s5
-//     (C-0448, J601) made those lawful inputs succeed, so they are re-pinned to the committed outcome (tries 1, lawful
-//     []); S8's seam-portals finding (Q41, N-57 (1)) retired — M0-b-03 s4 (C-0329) fixed it, so its seed is pinned to the
-//     committed outcome (laddered) and no cell names a finding.
+//   * J264's census on the named lawful-input refusals: Q37's three seeds (the unplanted state's strips refused, the
+//     state replaced and the refusal carried); S8's seam-portals finding (Q41, N-57 (1)) retired — M0-b-03 s4 (C-0329)
+//     fixed it, so its seed is pinned to the committed outcome (laddered) and no cell names a finding.
 import { describe, expect, it } from 'vitest';
 import { EDGE_FIXTURES, judgeEdgeOutcome, type EdgeOutcome } from '../../src/edge/index.js';
 import { ep01Findings, ep01Pin, type Ep01Stage } from '../../src/edge/ep01.js';
@@ -117,12 +115,14 @@ describe('the outcomes the round names, re-pinned to the committed stages (N-56 
 });
 
 describe("J264's census on the named lawful-input refusals (C-0342 (2), (3))", () => {
-  it("Q37's three seeds 957349493, 2306189499 and 4102748823: EP-01/S5a/coincident commits on its first state (M0-c-02 s5)", { timeout: 300_000 }, () => {
+  it("Q37's three seeds: the unplanted state's strips are refused (S5, 'closed no strip face'), counted, the state replaced", { timeout: 300_000 }, () => {
     for (const seed of [957349493, 2306189499, 4102748823]) {
       const o = replay('EP-01/S5a/coincident', seed);
       expect(o.handling).toBe('absorbed');
-      expect(o.facts.tries).toBe(1);
-      expect(o.lawful).toEqual([]);
+      expect(o.facts.tries).toBe(2);
+      expect(o.lawful).toHaveLength(1);
+      expect(o.lawful?.[0]).toMatchObject({ stateSeed: seed, stage: 'S5', code: 'E_INVARIANT', where: 'control' });
+      expect(o.lawful?.[0]?.detail).toContain("closed no strip face");
     }
   });
   it("EP-01/S8/zero-length at 2521534151 ladders: S8's seam-portals refusal of the lawful arterial is gone (Q41 fixed by M0-b-03 s4, C-0329)", { timeout: 300_000 }, () => {

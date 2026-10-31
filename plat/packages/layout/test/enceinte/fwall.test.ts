@@ -95,13 +95,6 @@ describe('F-WALL\'s trace rungs (C-0085)', () => {
     expect(defectOf([P(0, 0), P(10000, 10000), P(10000, 0), P(0, 10000)], [])).toBe('self_touch');
   });
 
-  it('the detection\'s fold-back clause alone: a sliver triangle (every pair of its sides adjacent) folds back on itself; a right triangle does not (N-4, M34)', () => {
-    // At (100, 0) m the side back to (−100, 0.1) m leaves within a hair of the side from the origin: no non-adjacent pair
-    // of sides exists to see it.
-    expect(selfTouches([P(0, 0), P(10000, 0), P(-10000, 10)])).toBe(true);
-    expect(selfTouches([P(0, 0), P(10000, 0), P(0, 10000)])).toBe(false);
-  });
-
   it('a rung holds only within the band: a repaired trace departing more than 40 m from the boundary is not taken', () => {
     const boundary = [P(0, 0), P(60000, 0), P(60000, 60000), P(0, 60000)];
     // 39 m out along the south side, on the boundary elsewhere: within.

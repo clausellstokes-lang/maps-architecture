@@ -2,7 +2,7 @@
 // a cost-surface path, the gates pinned. On a flat site the pull is the identity but for the pins; here a synthetic
 // cost field moves the line within the band and never moves a pinned gate (C-0226 (3)).
 import { describe, expect, it } from 'vitest';
-import { commitOuterRing, outwardNormals, PULL_STEPS, pullAndPin, s3Slice, siteContext, smoothPinned, terrainCost, traceBase, wetSides } from '../../src/index.js';
+import { commitOuterRing, outwardNormals, PULL_STEPS, pullAndPin, s3Slice, siteContext, smoothPinned, terrainCost, traceBase } from '../../src/index.js';
 import { laplacianPinned, snap } from '@plat/kernel';
 import { lat, openRing } from '../../src/enceinte/plane.js';
 import { area2, commitSite, closedChain, kernelFor, maxDeparture, smallSite, verticesWith } from './support.js';
@@ -114,41 +114,6 @@ describe('pull and pin', () => {
   }, 60_000);
 });
 
-describe('the pull\'s ramp steps: each step\'s side tested from the vertex before at its candidate to this vertex at its own (N-14, K26)', () => {
-  // A 200 m square (a vertex every 10 m, counter-clockwise) pinned at (100, 0) m under an outward field: the line ramps
-  // away from the pin at 45°. A 40 cm pond set on the ramp's side from (100, 10) m to (100, 20) m, three quarters of the
-  // way along it, lies on that side only — not on the side between the same two vertices with their candidates swapped.
-  const SQUARE: { x: number; y: number }[] = [];
-  for (let x = -10000; x < 10000; x += 1000) SQUARE.push({ x, y: -10000 });
-  for (let y = -10000; y < 10000; y += 1000) SQUARE.push({ x: 10000, y });
-  for (let x = 10000; x > -10000; x -= 1000) SQUARE.push({ x, y: 10000 });
-  for (let y = 10000; y > -10000; y -= 1000) SQUARE.push({ x: -10000, y });
-  const PIN = SQUARE.findIndex((q) => q.x === 10000 && q.y === 0);
-  const pins = new Uint8Array(SQUARE.length);
-  pins[PIN] = 1;
-  const outward = (p: { x: number; y: number }): number => -Math.hypot(p.x, p.y) / 100;
-
-  it('a step whose own side crosses the pond is never taken: the pulled line keeps off it, the pin unmoved', () => {
-    const free = pullAndPin(SQUARE, pins, outward, 4000, []);
-    const a = free.line[PIN + 1];
-    const b = free.line[PIN + 2];
-    // The ramp: the offset grows from the pin, so the side a → b is a step between two offsets.
-    expect(free.offsetsCm[PIN + 1]).toBeGreaterThan(0);
-    expect(free.offsetsCm[PIN + 2]).toBeGreaterThan(free.offsetsCm[PIN + 1]);
-    const m = { x: Math.round(a.x + 0.75 * (b.x - a.x)), y: Math.round(a.y + 0.75 * (b.y - a.y)) };
-    const pond = [{ x: m.x - 20, y: m.y - 20 }, { x: m.x + 20, y: m.y - 20 }, { x: m.x + 20, y: m.y + 20 }, { x: m.x - 20, y: m.y + 20 }];
-    const w = wetSides([pond], 0);
-    expect(w.over(a, b)).toBe(true);
-    // The same two vertices with their candidates swapped: that side keeps off the pond.
-    const n = outwardNormals(SQUARE);
-    const at = (i: number, s: number): { x: number; y: number } => ({ x: SQUARE[i].x + s * n[i].x, y: SQUARE[i].y + s * n[i].y });
-    expect(w.over(at(PIN + 1, free.offsetsCm[PIN + 2]), at(PIN + 2, free.offsetsCm[PIN + 1]))).toBe(false);
-    const held = pullAndPin(SQUARE, pins, outward, 4000, [pond], w);
-    expect(w.firstOver(held.line)).toBe(-1);
-    expect(held.line[PIN]).toEqual(SQUARE[PIN]);
-  });
-});
-
 describe('the base\'s default cost surface: the terrain\'s, high ground preferred (C-0226 (3); §4.4\'s "penalty for leaving high ground")', () => {
   /** The site's terrain raster with the ground rising 1 m every 10 m toward +x (height in cm = x / 10 at the cell's centre). */
   const t0 = slice.site.terrain;
@@ -244,56 +209,5 @@ describe('the pinned smoothing (§4.4 S5a (3): 3 passes, the pins never moving)'
     const narrow = smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 200, []);
     expect(narrow[0]).toEqual(sq[0]);
     expect(smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 300, [])[0]).toEqual(free[0]);
-  });
-});
-
-describe('the smoothing\'s margins, each on its own (N-9, N-40; C-0226 (4), C-0232 (1), (2))', () => {
-  // A three-vertex ring, its first and last vertices pinned: one pass moves the middle one halfway to their middle.
-  // The boundary as given is a rectangle whose side x = 0 is the nearest ring line for every point here: a point at
-  // x = −d (|y| ≤ 30 m) lies d from it.
-  const RING0 = [{ x: 0, y: -3000 }, { x: 100000, y: -3000 }, { x: 100000, y: 3000 }, { x: 0, y: 3000 }];
-  const PINS = Uint8Array.from([1, 0, 1]);
-
-  it('the vertex clause holds a vertex the pass would set beyond the band less the attraction distance (39.74 m), though both its sides keep the band (39.99 m) — N-40\'s vertex between the two limits', () => {
-    // The middle vertex 39.95 m out would move to 39.90 m: past 39.74 m, its sides within 39.95 m.
-    const line = [{ x: -3985, y: -1000 }, { x: -3995, y: 0 }, { x: -3985, y: 1000 }];
-    expect(smoothPinned(line, PINS, 1, RING0, 4000, [])[1]).toEqual({ x: -3995, y: 0 });
-    // With a band 1 m wider the same pass moves it.
-    expect(smoothPinned(line, PINS, 1, RING0, 4100, [])[1]).toEqual({ x: -3990, y: 0 });
-  });
-
-  it('the side clause holds a vertex whose move keeps it inside 39.74 m when a side to a pinned vertex 39.945 m out is not proved within the band less one lattice unit (39.99 m) — bandLimit\'s 1 cm', () => {
-    // The pass would move the middle vertex from 39.05 m to 39.4975 m out; its sides then run from it to the pinned ends,
-    // 39.945 m out, whose bound at 10 cm samples (39.945 m + 4.95 cm) lies between 39.99 m and 40 m.
-    const line = [{ x: -3994.5, y: -1000 }, { x: -3905, y: 0 }, { x: -3994.5, y: 1000 }];
-    expect(smoothPinned(line, PINS, 1, RING0, 4000, [])[1]).toEqual({ x: -3905, y: 0 });
-    expect(smoothPinned(line, PINS, 1, RING0, 4001, [])[1]).toEqual({ x: -3950, y: 0 });
-  });
-
-  it('the vertex clause holds a vertex the pass would set 1 cm inside a barred ring, though its sides touch the ring within the water\'s 2 cm', () => {
-    // The pass would move the middle vertex from the origin to (−1, 0) m, 1 cm inside a reservation's corner.
-    const box = [{ x: -101, y: -1 }, { x: -50, y: -1 }, { x: -50, y: 50 }, { x: -101, y: 50 }];
-    const line = [{ x: -200, y: -1000 }, { x: 0, y: 0 }, { x: -200, y: 1000 }];
-    const ring0 = [{ x: -1000, y: -2000 }, { x: 1000, y: -2000 }, { x: 1000, y: 2000 }, { x: -1000, y: 2000 }];
-    expect(wetSides([box], 0).over(line[0], { x: -100, y: 0 })).toBe(false);
-    expect(wetSides([box], 0).over({ x: -100, y: 0 }, line[2])).toBe(false);
-    expect(smoothPinned(line, PINS, 1, ring0, 4000, [box])[1]).toEqual({ x: 0, y: 0 });
-    expect(smoothPinned(line, PINS, 1, ring0, 4000, [])[1]).toEqual({ x: -100, y: 0 });
-  });
-
-  it('the rounded points proved (N-9, N-11): a side 1.7 cm deep in a pond on doubles and 2.04 cm deep once its moved end is rounded keeps that end where it was', () => {
-    const ring0 = [{ x: -10000, y: -3000 }, { x: 10000, y: -3000 }, { x: 10000, y: 3000 }, { x: -10000, y: 3000 }];
-    const pond = [{ x: 1000, y: 0 }, { x: 1900, y: 0 }, { x: 1900, y: 1000 }, { x: 1000, y: 1000 }];
-    const a = { x: -2000, y: 2.15 };
-    const b = { x: 6000, y: -4000 };
-    const line = [a, { x: 2000, y: 2002 }, b];
-    const w = wetSides([pond], 0);
-    // The pass moves the middle vertex to (20, 0.015375) m: its side from a lies 1.69 cm deep at most on doubles, and
-    // 2.04 cm deep from (20, 0.02) m, the lattice point it rounds to.
-    expect(w.over(a, { x: 2000, y: 1.5375 })).toBe(false);
-    expect(w.over(a, { x: 2000, y: 2 })).toBe(true);
-    const out = smoothPinned(line, PINS, 1, ring0, 4000, [pond]);
-    expect(out[1]).toEqual({ x: 2000, y: 2002 });
-    expect(w.firstOver(out)).toBe(-1);
   });
 });

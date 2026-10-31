@@ -1,0 +1,217 @@
+{
+  "item": "M0-f-02b",
+  "tiers": {
+    "pr": {
+      "run": {
+        "source": "corepack pnpm tier:pr (the runner's TierReport)",
+        "at": "2026-10-28T13:48:07.947Z",
+        "mode": "plain",
+        "reportSha256": "aee36053bdf44fe98c2e4cbea980e298f16886ce7b6583ccd86dfa6cf9e22c3f",
+        "manifestDigest": "c1caf9515c06b9013393727a6e311520d7f0aeaccac689a920ec107b4a69c467"
+      },
+      "receipt": "whole",
+      "partial": null,
+      "verdict": "fail",
+      "endToEnd": true,
+      "counts": {
+        "jobs": 10,
+        "run": 9,
+        "passed": 5,
+        "failed": 4,
+        "overBudget": 0,
+        "pending": 1,
+        "notBuilt": 0
+      },
+      "wallMs": 32185827,
+      "cpuMs": 85283940,
+      "elapsedMs": 32185857,
+      "budget": {
+        "ms": 900000,
+        "cores": 8,
+        "basis": "wall-clock",
+        "figureMs": 32185827,
+        "verdict": "unjudged",
+        "gating": false
+      },
+      "authority": "contended",
+      "jobs": [
+        {
+          "name": "lint",
+          "item": "M0-d-07",
+          "status": "built",
+          "outcome": "pass",
+          "size": null,
+          "unitsRun": 1,
+          "failedUnits": [],
+          "wallMs": 77929,
+          "cpuMs": 142620
+        },
+        {
+          "name": "type check",
+          "item": "M0-s-01",
+          "status": "built",
+          "outcome": "pass",
+          "size": null,
+          "unitsRun": 14,
+          "failedUnits": [],
+          "wallMs": 56831,
+          "cpuMs": 97820
+        },
+        {
+          "name": "unit and contract tests",
+          "item": "M0-s-01",
+          "status": "built",
+          "outcome": "fail",
+          "size": null,
+          "unitsRun": 9,
+          "failedUnits": [
+            {
+              "unit": "kernel",
+              "code": 1
+            },
+            {
+              "unit": "kernel-tiny",
+              "code": 1
+            },
+            {
+              "unit": "testkit",
+              "code": 1
+            },
+            {
+              "unit": "bench",
+              "code": 1
+            }
+          ],
+          "wallMs": 7647133,
+          "cpuMs": 18362740
+        },
+        {
+          "name": "B-FUZZ (10⁴ per primitive and the constructive set)",
+          "item": "M0-k-04",
+          "status": "built",
+          "outcome": "fail",
+          "size": 10000,
+          "unitsRun": 25,
+          "failedUnits": [
+            {
+              "unit": "kerb",
+              "code": 1
+            }
+          ],
+          "wallMs": 3230299,
+          "cpuMs": 3449590
+        },
+        {
+          "name": "licence check",
+          "item": "M0-d-07",
+          "status": "built",
+          "outcome": "pass",
+          "size": null,
+          "unitsRun": 1,
+          "failedUnits": [],
+          "wallMs": 91,
+          "cpuMs": 90
+        },
+        {
+          "name": "notices check",
+          "item": "M0-s-01",
+          "status": "built",
+          "outcome": "pass",
+          "size": null,
+          "unitsRun": 1,
+          "failedUnits": [],
+          "wallMs": 546,
+          "cpuMs": 600
+        },
+        {
+          "name": "vendor check",
+          "item": "M0-s-01",
+          "status": "built",
+          "outcome": "pass",
+          "size": null,
+          "unitsRun": 1,
+          "failedUnits": [],
+          "wallMs": 492,
+          "cpuMs": 550
+        },
+        {
+          "name": "deny-list scan",
+          "item": "M0-k-06",
+          "status": "after-M-1: denylist.json",
+          "outcome": "not run",
+          "size": null,
+          "unitsRun": 0,
+          "failedUnits": [],
+          "wallMs": 0,
+          "cpuMs": 0
+        },
+        {
+          "name": "B-CITY-lite stand-in: fusion spike",
+          "item": "M0-c-06",
+          "status": "built",
+          "outcome": "fail",
+          "size": 50,
+          "unitsRun": 5,
+          "failedUnits": [
+            {
+              "unit": "seeds 11–20",
+              "code": 1
+            },
+            {
+              "unit": "seeds 21–30",
+              "code": 1
+            },
+            {
+              "unit": "seeds 31–40",
+              "code": 1
+            }
+          ],
+          "wallMs": 12299283,
+          "cpuMs": 36957430
+        },
+        {
+          "name": "B-CITY-lite stand-in: site spike",
+          "item": "M0-e-06",
+          "status": "built",
+          "outcome": "fail",
+          "size": 50,
+          "unitsRun": 5,
+          "failedUnits": [
+            {
+              "unit": "seeds 1–10",
+              "code": 1
+            },
+            {
+              "unit": "seeds 11–20",
+              "code": 1
+            },
+            {
+              "unit": "seeds 21–30",
+              "code": 1
+            },
+            {
+              "unit": "seeds 31–40",
+              "code": 1
+            },
+            {
+              "unit": "seeds 41–50",
+              "code": 1
+            }
+          ],
+          "wallMs": 8873222,
+          "cpuMs": 26272500
+        }
+      ],
+      "pending": [
+        {
+          "name": "deny-list scan",
+          "status": "after-M-1: denylist.json",
+          "file": "packages/testkit/baselines/denylist.json"
+        }
+      ],
+      "notBuilt": []
+    },
+    "nightly": null,
+    "milestone": null
+  }
+}
