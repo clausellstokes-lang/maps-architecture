@@ -5,12 +5,12 @@
   "lanes": ["check/M0-x-04", "check/M0-x-04-close-r1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-28T02:08:55.224Z",
+  "date": "2026-10-07T21:48:46.708Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-x-04.md", "plat/docs/build/checks/M0-x-04-notes.md"],
   "counts": { "created": 2, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-x-04-notes.md", "status": "created", "sha256": "c10864f6ddde22a10d2d5d67bfea53118584bb53d6e221b3e3aff56cf656287d", "size": 27054 },
+    { "path": "plat/docs/build/checks/M0-x-04-notes.md", "status": "created", "sha256": "0f45674567e09400cd61d3611a17a1c6c2b3d85ccef93f953b43b9a10dc4e111", "size": 7504 },
     { "path": "plat/docs/build/checks/M0-x-04.md", "status": "created", "sha256": "65f0a684ff90f5d984238058b18be911bf3612d4fc15c9bdbe6de304d9d3ad8f", "size": 29468 }
   ],
   "appends": [

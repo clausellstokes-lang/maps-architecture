@@ -11,7 +11,7 @@
 // The bank points are pinned through the pull, the smoothing and the simplify, so the pull keeps each crossing where
 // the boundary crosses (C-0087). Each crossing writes a `Gate` of kind `water` with `way` null and `banks` set, not
 // counted in N and carrying no route.
-// The one-chord rule (C-0300 (3); N-54 (1)): a water gate's wet side is ONE edge between its two bank pins. The
+// The one-chord rule (C-0300 (1); N-54 (1)): a water gate's wet side is ONE edge between its two bank pins. The
 // insertion routes a segment through every existing vertex it passes within `attractCm` (§3.6 step 3), so a shore
 // vertex standing that close to a chord near its bank would split it into a short shore edge and a wet side ending on
 // one pin only (the registered replay test/enceinte/fixtures/relief60-s9-stage2.json holds such a bank).
@@ -19,8 +19,7 @@
 // the banks' landing vertices passes an existing vertex, the bank nearer it moves onto it when it is a shore vertex
 // (an L0 shore vertex where the trace attracted, as C-0087 allows), until the chord passes none (`clear`); a chord
 // still passing a vertex that is not on a shore, or leaving the water once settled, is not clear, and the strategy
-// refuses it (C-0300). A chord keeps inside the water when no side of the water's rings, its islands' among them, meets it
-// farther than a centimetre from its ends and its middle lies in the water (`chordInWater`, exact; N-10).
+// refuses it (C-0300).
 // The band hand-in (C-0324): the strategy hands in its band of the committed boundary, and a crossing whose straight
 // chord would leave the water — a river bend between the banks, which is lawful input (C-0324) — is ROUTED ALONG ITS
 // BANKS: the trace follows the shore from each bank point (on a shore the trace is attracted onto the outline, §4.4 S5a
@@ -33,15 +32,13 @@
 import { LATTICE, orient2d, type Kernel, type LatticePoint, type PlatKey, type Polygon } from '@plat/kernel';
 import type { Id, Lifecycle, WaterSet } from '@plat/model';
 import { GROUND_KEY } from '@plat/site';
-import { bandLimit, ccw, crossParams, d2, dist, distToRing, inside, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
+import { bandLimit, ccw, crossParams, d2, dist, inside, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
 import type { WaterGate, XY } from './types.js';
-import { WET_TOL_CM } from './wet.js';
 
-/** A water face's outer ring with its body, and its holes (islands; none when absent). */
+/** A water face's outer ring with its body. */
 export interface WaterRing {
   readonly body: Id;
   readonly ring: readonly LatticePoint[];
-  readonly holes?: readonly (readonly LatticePoint[])[];
 }
 
 /** One crossing of the boundary over water, in boundary order. */
@@ -91,7 +88,7 @@ export function arenaVertices(k: Kernel, key: PlatKey): VerticesIn {
 function ringVertices(waters: readonly WaterRing[]): VerticesIn {
   return (box) => {
     const out: XY[] = [];
-    for (const w of waters) for (const ring of [w.ring, ...(w.holes ?? [])]) for (const q of ring) if (q.x >= box.minX && q.x <= box.maxX && q.y >= box.minY && q.y <= box.maxY) out.push(q);
+    for (const w of waters) for (const q of w.ring) if (q.x >= box.minX && q.x <= box.maxX && q.y >= box.minY && q.y <= box.maxY) out.push(q);
     return out;
   };
 }
@@ -144,62 +141,11 @@ function contactOn(a: XY, b: XY, near: VerticesIn): { v: XY; nearA: boolean } | 
   return best;
 }
 
-/**
- * Does the chord ab keep inside the water (N-10, exact): its middle in the water (inside the outer ring, in no hole),
- * and, cut at every point where it meets a side of the water's rings — its outer ring and its holes (the islands) — each
- * piece of it wholly in the water or wholly out of it (no side meets it inside); a piece out of the water (its middle
- * outside the outer ring or inside a hole) leaves the water when a point of it lies farther than `WET_TOL_CM` from the
- * shore — the side test's own tolerance (wet.ts: the shore crossings are lattice roundings, up to √½ cm off the shore),
- * found to a quarter centimetre by halving. So a chord across a spit, over an island or along a shore is no chord in the
- * water, while one cutting a shore's corner by a rounding's depth, or touching it at a vertex, is.
- */
-function chordInWater(w: Pick<WaterRing, 'ring' | 'holes'>, a: XY, b: XY): boolean {
-  const l = dist(a, b);
-  if (l < 1) return false;
-  const x0 = Math.min(a.x, b.x);
-  const x1 = Math.max(a.x, b.x);
-  const y0 = Math.min(a.y, b.y);
-  const y1 = Math.max(a.y, b.y);
-  const holes = w.holes ?? [];
-  const rings = [w.ring, ...holes];
-  const cuts: number[] = [0, 1];
-  for (const ring of rings) {
-    const n = ring.length;
-    for (let i = 0; i < n; i += 1) {
-      const c = ring[i];
-      const d = ring[i + 1 === n ? 0 : i + 1];
-      if (Math.max(c.x, d.x) < x0 || Math.min(c.x, d.x) > x1 || Math.max(c.y, d.y) < y0 || Math.min(c.y, d.y) > y1) continue;
-      const m = crossParams(a, b, c, d);
-      if (m !== null) cuts.push(m.t);
-    }
-  }
-  cuts.sort((p, q) => p - q);
-  const at = (t: number): XY => ({ x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) });
-  const middle = at(0.5);
-  if (!inside(w.ring, middle) || holes.some((h) => inside(h, middle))) return false;
-  const shore = (q: XY): number => {
-    let best = Infinity;
-    for (const ring of rings) best = Math.min(best, distToRing(q, ring));
-    return best;
-  };
-  for (let i = 0; i + 1 < cuts.length; i += 1) {
-    const t0 = cuts[i];
-    const t1 = cuts[i + 1];
-    if (t1 - t0 <= 0) continue;
-    const mid = at((t0 + t1) * 0.5);
-    if (inside(w.ring, mid) && !holes.some((h) => inside(h, mid))) continue;
-    // Out of the water: farther than the tolerance from the shore anywhere along it?
-    const stack: number[] = [t0, t1];
-    while (stack.length > 0) {
-      const s1 = stack.pop() as number;
-      const s0 = stack.pop() as number;
-      const sm = (s0 + s1) * 0.5;
-      const dm = shore(at(sm));
-      if (dm > WET_TOL_CM) return false;
-      const half = (s1 - s0) * l * 0.5;
-      if (dm + half <= WET_TOL_CM || half < 0.25) continue;
-      stack.push(s0, sm, sm, s1);
-    }
+/** Does the chord ab keep inside the ring (sampled at its nine tenths, as the crossing's chord test)? */
+function chordInside(ring: readonly XY[], a: XY, b: XY): boolean {
+  for (let q = 1; q < 10; q += 1) {
+    const t = q * 0.1;
+    if (!inside(ring, { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) })) return false;
   }
   return true;
 }
@@ -230,6 +176,27 @@ function shoreWalk(ring: readonly LatticePoint[], start: XY, j: number, dir: 1 |
   return { pts, len };
 }
 
+/**
+ * Does the chord ab keep inside the water ring: no side of the ring met by it farther than a centimetre from both of its
+ * ends (a touch at a ring vertex counts as a meeting), and its nine samples inside (`chordInside`)?
+ */
+function chordClear(ring: readonly XY[], a: XY, b: XY): boolean {
+  const l = dist(a, b);
+  if (l < 1) return false;
+  const x0 = Math.min(a.x, b.x);
+  const x1 = Math.max(a.x, b.x);
+  const y0 = Math.min(a.y, b.y);
+  const y1 = Math.max(a.y, b.y);
+  const n = ring.length;
+  for (let i = 0; i < n; i += 1) {
+    const c = ring[i];
+    const d = ring[i + 1 === n ? 0 : i + 1];
+    if (Math.max(c.x, d.x) < x0 || Math.min(c.x, d.x) > x1 || Math.max(c.y, d.y) < y0 || Math.min(c.y, d.y) > y1) continue;
+    const m = crossParams(a, b, c, d);
+    if (m !== null && m.t * l > 1 && (1 - m.t) * l > 1) return false;
+  }
+  return chordInside(ring, a, b);
+}
 
 /**
  * A crossing routed along its banks (see the module comment; C-0324): the entry (on side `ja` of the water ring) and
@@ -238,8 +205,7 @@ function shoreWalk(ring: readonly LatticePoint[], start: XY, j: number, dir: 1 |
  * pair with the least shore walked. Returns the shore points walked from the entry (in trace order, the last the
  * crossing's bank 0) and from the exit (in walking order, the last its bank 1), or null when no pair holds.
  */
-function bankRoute(water: WaterRing, entry: LatticePoint, ja: number, exit: LatticePoint, jb: number, band: BankRouteBand): { into: LatticePoint[]; from: LatticePoint[] } | null {
-  const ring = water.ring;
+function bankRoute(ring: readonly LatticePoint[], entry: LatticePoint, ja: number, exit: LatticePoint, jb: number, band: BankRouteBand): { into: LatticePoint[]; from: LatticePoint[] } | null {
   const limit = bandLimit(band.bandCm);
   type End = { walk: LatticePoint[]; count: number; len: number };
   const endsOf = (p: LatticePoint, j: number): End[] => {
@@ -267,7 +233,7 @@ function bankRoute(water: WaterRing, entry: LatticePoint, ja: number, exit: Latt
     let shared = walked.has(k(exit));
     for (let i = 0; i < eb.count && !shared; i += 1) shared = walked.has(k(eb.walk[i]));
     if (shared) continue;
-    if (!sideHolds(a, b, band.ring, limit) || !chordInWater(water, a, b)) continue;
+    if (!sideHolds(a, b, band.ring, limit) || !chordClear(ring, a, b)) continue;
     return { into: ea.walk.slice(0, ea.count), from: eb.walk.slice(0, eb.count) };
   }
   return null;
@@ -278,7 +244,7 @@ function bankRoute(water: WaterRing, entry: LatticePoint, ja: number, exit: Latt
  * landings is tested for a contact; a contact on a shore (`shore`, the water rings' vertex keys) takes the nearer bank,
  * any other contact, a chord leaving the water or SETTLE_ROUNDS rounds leave it not clear.
  */
-function settleChord(entry: LatticePoint, exit: LatticePoint, water: WaterRing, shore: ReadonlySet<string>, near: VerticesIn): { entry: LatticePoint; exit: LatticePoint; clear: boolean } {
+function settleChord(entry: LatticePoint, exit: LatticePoint, ring: readonly XY[], shore: ReadonlySet<string>, near: VerticesIn): { entry: LatticePoint; exit: LatticePoint; clear: boolean } {
   let e = entry;
   let x = exit;
   for (let round = 0; round <= SETTLE_ROUNDS; round += 1) {
@@ -288,7 +254,7 @@ function settleChord(entry: LatticePoint, exit: LatticePoint, water: WaterRing, 
     const v = lat(c.v);
     if (c.nearA) e = v;
     else x = v;
-    if ((e.x === x.x && e.y === x.y) || !chordInWater(water, e, x)) break;
+    if ((e.x === x.x && e.y === x.y) || !chordInside(ring, e, x)) break;
   }
   return { entry: e, exit: x, clear: false };
 }
@@ -365,10 +331,7 @@ export function waterRings(water: WaterSet, k: Kernel, key: PlatKey = GROUND): W
     const r = k.resolve(body.face, key);
     if (r.view !== 'faces') continue;
     const view = k.view(key, body.face.level);
-    for (const f of r.faces) {
-      const rings = view.rings(f);
-      out.push(rings.length > 1 ? { body: body.id, ring: rings[0], holes: rings.slice(1) } : { body: body.id, ring: rings[0] });
-    }
+    for (const f of r.faces) out.push({ body: body.id, ring: view.rings(f)[0] });
   }
   return out;
 }
@@ -403,7 +366,7 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
     return { x: a.x + c.t * (b.x - a.x), y: a.y + c.t * (b.y - a.y) };
   };
   const waterAt = (p: XY): WaterRing | null => {
-    for (const w of waters) if (inside(w.ring, p) && !(w.holes ?? []).some((h) => inside(h, p))) return w;
+    for (const w of waters) if (inside(w.ring, p)) return w;
     return null;
   };
   const out: LatticePoint[] = [];
@@ -470,10 +433,16 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
       }
     }
     const pinnedInside = between.some((v) => pins.has(`${String(v.x)},${String(v.y)}`));
-    const chord = !pinnedInside && chordInWater(w, entry, end);
+    let chord = !pinnedInside;
+    if (chord) {
+      for (let q = 1; q < 10 && chord; q += 1) {
+        const t = q * 0.1;
+        if (!inside(w.ring, { x: entry.x + t * (end.x - entry.x), y: entry.y + t * (end.y - entry.y) })) chord = false;
+      }
+    }
     // A chord leaving the water, no main gate between the banks: routed along its banks within the band (C-0324).
     if (!chord && !pinnedInside && band !== undefined && waters[a.w] === w && waters[b.w] === w && (entry.x !== end.x || entry.y !== end.y)) {
-      const route = bankRoute(w, entry, a.j, end, b.j, band);
+      const route = bankRoute(w.ring, entry, a.j, end, b.j, band);
       if (route !== null) {
         const kept = [entry, ...route.into, ...[...route.from].reverse(), end];
         for (const v of kept) keep.add(`${String(v.x)},${String(v.y)}`);
@@ -506,13 +475,13 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
   }
   // Each chord's banks settled on the existing vertices, so the insertion lays it as one edge between them (N-54 (1)).
   const shore = new Set<string>();
-  for (const w of waters) for (const ring of [w.ring, ...(w.holes ?? [])]) for (const q of ring) shore.add(`${String(q.x)},${String(q.y)}`);
+  for (const w of waters) for (const q of w.ring) shore.add(`${String(q.x)},${String(q.y)}`);
   const src = near ?? ringVertices(waters);
   const moved = new Map<string, LatticePoint>();
   const k = (q: XY): string => `${String(q.x)},${String(q.y)}`;
   const settled = crossings.map((c, i): WaterCrossing => {
     if (!c.chord) return c;
-    const s = settleChord(c.entry, c.exit, ringOf[i], shore, src);
+    const s = settleChord(c.entry, c.exit, ringOf[i].ring, shore, src);
     if (s.entry !== c.entry) moved.set(k(c.entry), s.entry);
     if (s.exit !== c.exit) moved.set(k(c.exit), s.exit);
     return { body: c.body, entry: s.entry, exit: s.exit, chord: true, course: [s.entry, s.exit], clear: s.clear, ...(c.routed === true ? { routed: true } : {}) };

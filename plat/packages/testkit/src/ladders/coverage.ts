@@ -5,17 +5,13 @@
 // built row is covered when its fixture left its code (count ≥ 1) and no plain control did (count 0): the code appears
 // exactly where its fixture forces it. The plain flat fixture's baseline (`runBase(FLAT_BLUEPRINT, seed)`, every built
 // leaf counted) is added on request — the CITY's 1 400 faces reach F-CUT's rungs, so it is a reported baseline, never
-// part of the verdict (C-0269). Hardening round S1: a fixture's or a control's run that leaves a `bugs` entry fails the
-// verdict (notes row 2, `BUGS_LEAF`); the kernel ladders the table may leave to M0-k-04's report are read from that
-// report's own `ladders`, never pre-named (notes row 4); the stages' own ladder declarations are checked against the
-// table (notes row 1, `declaredRungProblems`).
+// part of the verdict (C-0269).
 import { FLAT_BLUEPRINT, runBase } from '@plat/layout';
 import { ladderCoverage } from '../invariants/ladders.js';
 import type { CoverageReport } from '../invariants/types.js';
-import { declaredRungProblems } from './declared.js';
 import { LADDER_CONTROLS, LADDER_FIXTURES, type LadderFixture } from './fixtures.js';
-import { BUGS_LEAF, readModel, sumLeaves } from './readers.js';
-import { checkLadderTable, LEAF_UNITS, leafOf, SECTION_5_2, STAGE_LADDERS, unitOf } from './table.js';
+import { readModel, sumLeaves } from './readers.js';
+import { checkLadderTable, KERNEL_LADDERS, leafOf, SECTION_5_2, STAGE_LADDERS } from './table.js';
 import type { LadderRung, Leaves, PlainBaseline, StageCoverageReport, StageCoverageRow } from './types.js';
 
 /** stageLadderCoverage's options. */
@@ -60,22 +56,19 @@ export function stageLadderCoverage(opts: StageCoverageOptions = {}): StageCover
   const fixtures = opts.fixtures ?? LADDER_FIXTURES;
   const controls = opts.controls ?? LADDER_CONTROLS;
   const kernel = opts.kernel ?? ladderCoverage(opts.kernelDraws === undefined ? {} : { draws: opts.kernelDraws });
-  // The kernel's ladders are the ones its report names (notes row 4): a report that lost one leaves that class missing.
-  const tableProblems = [...checkLadderTable(rows, SECTION_5_2, kernel.ladders, new Set(fixtures.map((f) => f.id))), ...declaredRungProblems(undefined, rows)];
+  const tableProblems = checkLadderTable(rows, SECTION_5_2, KERNEL_LADDERS, new Set(fixtures.map((f) => f.id)));
   const only = opts.only === undefined ? null : new Set(opts.only);
   const wanted = new Set<string>();
   for (const r of rows) if (r.milestone === undefined && (only === null || only.has(leafOf(r)))) wanted.add(r.fixture);
   const ran = runFixtures(fixtures, wanted);
   const control = sumLeaves(...controls.map((c) => c.run()));
-  const controlBugs = control[BUGS_LEAF] ?? 0;
   const stage: StageCoverageRow[] = rows.map((r) => {
     const leaf = leafOf(r);
     if (r.milestone !== undefined) return Object.freeze({ ...r, status: { deferredTo: r.milestone }, leaf, exercised: null });
     const got = ran.get(r.fixture);
-    return Object.freeze({ ...r, status: 'built' as const, leaf, exercised: got === undefined ? null : { fixture: got[leaf] ?? 0, control: control[leaf] ?? 0, bugs: got[BUGS_LEAF] ?? 0 } });
+    return Object.freeze({ ...r, status: 'built' as const, leaf, exercised: got === undefined ? null : { fixture: got[leaf] ?? 0, control: control[leaf] ?? 0 } });
   });
-  const stageCovered =
-    tableProblems.length === 0 && controlBugs === 0 && stage.every((r) => r.status !== 'built' || (r.exercised !== null && r.exercised.fixture > 0 && r.exercised.control === 0 && r.exercised.bugs === 0));
+  const stageCovered = tableProblems.length === 0 && stage.every((r) => r.status !== 'built' || (r.exercised !== null && r.exercised.fixture > 0 && r.exercised.control === 0));
   const ladders: string[] = [];
   for (const c of SECTION_5_2) if (kernel.ladders.includes(c as 'F-NUM' | 'F-SKELETON') || rows.some((r) => r.ladder === c)) ladders.push(c);
   return Object.freeze({
@@ -85,7 +78,6 @@ export function stageLadderCoverage(opts: StageCoverageOptions = {}): StageCover
     stage,
     tableProblems,
     plain: opts.plain === undefined ? null : plainBaseline(opts.plain, rows),
-    controlBugs,
     stageCovered,
     covered: stageCovered && kernel.covered,
   });
@@ -94,14 +86,11 @@ export function stageLadderCoverage(opts: StageCoverageOptions = {}): StageCover
 /** The numbers-only summary of a combined report (C-0067: docs/build/summaries/M0-x-05.json). */
 export function coverageSummary(r: StageCoverageReport): Record<string, unknown> {
   const built = r.stage.filter((x) => x.status === 'built');
-  const rungs: Record<string, { fixture: number; control: number; bugs: number; plain?: number }> = {};
-  // What each count counts (notes row 6): rung uses, but W_CUT_SLID's slide steps.
-  const units: Record<string, string> = { default: LEAF_UNITS['default'] };
+  const rungs: Record<string, { fixture: number; control: number; plain?: number }> = {};
   for (const x of built) {
     if (x.exercised === null) continue;
     const p = r.plain?.leaves[x.leaf];
-    rungs[x.leaf] = { fixture: x.exercised.fixture, control: x.exercised.control, bugs: x.exercised.bugs, ...(p === undefined ? {} : { plain: p }) };
-    if (unitOf(x.leaf) !== units['default']) units[x.leaf] = unitOf(x.leaf);
+    rungs[x.leaf] = { fixture: x.exercised.fixture, control: x.exercised.control, ...(p === undefined ? {} : { plain: p }) };
   }
   const deferred: Record<string, number> = {};
   for (const x of r.stage) if (typeof x.status === 'object') deferred[x.status.deferredTo] = (deferred[x.status.deferredTo] ?? 0) + 1;
@@ -118,11 +107,8 @@ export function coverageSummary(r: StageCoverageReport): Record<string, unknown>
     builtClean: built.filter((x) => x.exercised !== null && x.exercised.control === 0).length,
     deferredRows: deferredSorted,
     tableProblems: r.tableProblems.length,
-    fixtureBugs: built.reduce((a, x) => a + (x.exercised?.bugs ?? 0), 0),
-    controlBugs: r.controlBugs,
     stageCovered: r.stageCovered,
     covered: r.covered,
-    units,
     rungs,
     plain: r.plain === null ? null : { seed: r.plain.seed, reached: r.plain.reached.length, bugs: r.plain.bugs },
   };

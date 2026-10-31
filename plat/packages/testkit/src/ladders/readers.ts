@@ -10,13 +10,6 @@ import type { Leaves } from './types.js';
 /** A mutable tally of leaves. */
 export type Tally = Record<string, number>;
 
-/**
- * The reserved leaf a fixture run's `bugs` entries are counted under (§5.1 (8), §13.1 *`bugs` empty*; hardening round
- * S1, notes row 2): never a registry leaf (those read `stage ladder code`), absent when the run left no bug, so a clean
- * run's leaves are its rungs alone; `stageLadderCoverage()` carries it per fixture and fails a row whose run left one.
- */
-export const BUGS_LEAF = 'bugs';
-
 export function bump(t: Tally, leaf: string, by = 1): void {
   if (by === 0) return;
   t[leaf] = (t[leaf] ?? 0) + by;
@@ -98,10 +91,7 @@ export function readFields(t: Tally, fields: { readonly report: { readonly workC
   if (fields !== null && fields !== undefined && fields.report.workCut !== null && fields.report.workCut !== undefined) bump(t, 'S6 fields F-WORK work_cut');
 }
 
-/**
- * S8: F-CUT's rungs where they took, W_CUT_SLID's count (§4.6 step 8 (c): "reported as `W_CUT_SLID` with its step
- * count", so the leaf counts slide steps, not slid cuts — `LEAF_UNITS`), F-WORK's `work_cut` records.
- */
+/** S8: F-CUT's rungs where they took, W_CUT_SLID's count, F-WORK's `work_cut` records. */
 export function readS8(t: Tally, out: Pick<S8Output, 'infill'> | null | undefined): void {
   if (out === null || out === undefined) return;
   for (const d of out.infill.report.districts) {
@@ -133,16 +123,6 @@ export function readModel(model: Pick<PipelineModel, 'data'>): Leaves {
   readS6(t, d.get('s6') as S6Output | undefined);
   readFields(t, d.get('fields') as { report: { workCut: unknown } } | undefined);
   if (d.has('infill')) readS8(t, { infill: d.get('infill') as S8Output['infill'] });
-  return sumLeaves(t);
-}
-
-/**
- * A chain (or runBase) run's leaves with its bugs (hardening round S1, notes row 2): `readModel` over its records and the
- * report's `bugs` entries counted under `BUGS_LEAF` — absent when there are none.
- */
-export function readRun(run: { readonly model: Pick<PipelineModel, 'data'>; readonly report: Pick<GenerationReport, 'bugs'> }): Leaves {
-  const t: Tally = { ...readModel(run.model) };
-  bump(t, BUGS_LEAF, run.report.bugs.length);
   return sumLeaves(t);
 }
 

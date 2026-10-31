@@ -106,21 +106,15 @@ function bar(observed: number, of: string, failing: readonly number[], numbers: 
 }
 
 function sumCorpus(rs: readonly CorpusCounts[]): CorpusCounts {
-  const contract: Record<string, number> = {};
-  const validator: Record<string, number> = {};
-  const o = { faces: 0, skeletons: 0, downgrades: 0, workLimitHits: 0, failures: 0, causes: { contract, validator, workLimit: 0 } };
+  const o = { faces: 0, skeletons: 0, downgrades: 0, workLimitHits: 0, failures: 0 };
   for (const r of rs) {
     o.faces += r.faces;
     o.skeletons += r.skeletons;
     o.downgrades += r.downgrades;
     o.workLimitHits += r.workLimitHits;
     o.failures += r.failures;
-    // the downgrades' causes summed by name, in the runner's order (M0-e-06 S2, note 4)
-    for (const [k, n] of Object.entries(r.causes.contract)) contract[k] = (contract[k] ?? 0) + n;
-    for (const [k, n] of Object.entries(r.causes.validator)) validator[k] = (validator[k] ?? 0) + n;
-    o.causes.workLimit += r.causes.workLimit;
   }
-  return o as CorpusCounts;
+  return o;
 }
 
 function corpusPass(c: CorpusCounts): boolean {
@@ -166,23 +160,13 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     landShare: land === 0 ? null : landDefined / land,
     share: cells === 0 ? null : defined / cells,
   });
-  // The bed (M0-e-06 S2, note 9): every river's bed is judged (a rising bed fails, fitting or not), but only a fitting
-  // river observes the clause — a course that does not fit is F-RIVER's degraded one, cut back to as few as two
-  // vertices (a bed of 2 – 3 cells, on which "never rises" is near trivially true), and is reported apart.
   const rivers = rs.flatMap((r) => r.rivers.map((v) => ({ seed: r.seed, v })));
-  const fitting = rivers.filter((x) => x.v.fits);
-  const degraded = rivers.filter((x) => !x.v.fits);
-  const bed = bar(fitting.length, 'fitting rivers', rivers.filter((x) => !x.v.bedMonotone).map((x) => x.seed), {
+  const bed = bar(rivers.length, 'rivers', rivers.filter((x) => !x.v.bedMonotone).map((x) => x.seed), {
     rivers: rivers.length,
-    fits: fitting.length,
+    fits: rivers.filter((x) => x.v.fits).length,
     frameOutfall: rivers.filter((x) => x.v.outfall === 'frame').length,
     reachesCore: rivers.filter((x) => x.v.reachesCore).length,
     minBedCells: rivers.length === 0 ? null : Math.min(...rivers.map((x) => x.v.bedCells)),
-    fittingMonotone: fitting.filter((x) => x.v.bedMonotone).length,
-    minFittingBedCells: fitting.length === 0 ? null : Math.min(...fitting.map((x) => x.v.bedCells)),
-    degraded: degraded.length,
-    degradedMonotone: degraded.filter((x) => x.v.bedMonotone).length,
-    minDegradedBedCells: degraded.length === 0 ? null : Math.min(...degraded.map((x) => x.v.bedCells)),
   });
   const rl = rs.filter((r) => r.relief !== null);
   const relief = (r: RunRecord): NonNullable<RunRecord['relief']> => r.relief as NonNullable<RunRecord['relief']>;
@@ -225,7 +209,6 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     enceintes: wg.reduce((s, r) => s + W(r).enceintes.length, 0),
     laterGates: wg.reduce((s, r) => s + W(r).enceintes.filter((e) => e.stage !== 1).reduce((t, e) => t + e.gates, 0), 0),
     unrecordedWallOverWater: wg.reduce((s, r) => s + W(r).enceintes.filter((e) => !e.recorded).reduce((t, e) => t + e.wallOverWater, 0), 0),
-    sharedWallOverWater: wg.reduce((s, r) => s + W(r).sharedWallOverWater, 0),
   });
 
   // S4: the spans (observed where a bridge was built; the clear sites and dry routes on every S4 run).
@@ -301,10 +284,6 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     corpusNumbers[`${k}.downgrades`] = v.downgrades;
     corpusNumbers[`${k}.workLimitHits`] = v.workLimitHits;
     corpusNumbers[`${k}.failures`] = v.failures;
-    // each downgrade's cause (M0-e-06 S2, note 4): `<set>.contract.<refusal>`, `<set>.validator.<check>`, `<set>.workLimit`
-    for (const [c, n] of Object.entries(v.causes.contract)) corpusNumbers[`${k}.contract.${c}`] = n;
-    for (const [c, n] of Object.entries(v.causes.validator)) corpusNumbers[`${k}.validator.${c}`] = n;
-    corpusNumbers[`${k}.workLimit`] = v.causes.workLimit;
   }
   const corpus: BarReceipt = {
     verdict: corpusFaces === 0 ? 'unobserved' : Object.values(sets).every(corpusPass) ? 'pass' : 'fail',

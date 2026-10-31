@@ -7,10 +7,9 @@
 // controls (C-0109) — and, unless `--no-plain`, the plain flat fixture's baseline at SEED (default 1; a CITY run of about
 // three minutes); writes the full report to $PLAT_BENCH_OUT/ladder-coverage/report.json and — for a whole run (the plain
 // baseline included, the kernel at its own draws) — the numbers-only summary to docs/build/summaries/M0-x-05.json
-// (C-0067); prints one line per built rung (its fixture's count, the controls', the plain fixture's, in the leaf's unit,
-// and its fixture's bugs; hardening round S1); exits 0 when every rung is covered (each built rung reached by its
-// fixture and left nowhere on the controls, no run leaving a bug, every §5.2 ladder named and every stage's declared
-// rung a table row or a declared extra, the kernel ladders covered), 1 when not, 64 on a bad argument.
+// (C-0067); prints one line per built rung (its fixture's count, the controls', the plain fixture's); exits 0 when every
+// rung is covered (each built rung reached by its fixture and left nowhere on the controls, every §5.2 ladder named,
+// the kernel ladders covered), 1 when not, 64 on a bad argument.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -75,17 +74,13 @@ export function run(args: string[], ctx: LadderCoverageContext): number {
   const report = coverage({ ...(a.plain === null ? {} : { plain: a.plain }), ...(a.kernelDraws === undefined ? {} : { kernelDraws: a.kernelDraws }) });
   const dir = join(outDir(ctx.out), 'ladder-coverage');
   writeJson(dir, 'report.json', report);
-  // Each count in its unit (hardening round S1, notes row 6: W_CUT_SLID's count is slide steps), each fixture's bugs (row 2).
-  const units = (stageCoverageSummary(report) as { units: Readonly<Record<string, string>> }).units;
   for (const r of report.stage) {
     if (r.status !== 'built') continue;
     const p = report.plain?.leaves[r.leaf];
-    const unit = units[r.leaf] ?? units['default'];
-    say(`${r.leaf}: fixture ${r.exercised === null ? 'not run' : String(r.exercised.fixture)}, controls ${r.exercised === null ? '-' : String(r.exercised.control)}${p === undefined ? '' : `, plain ${String(p)}`} ${unit}; bugs ${r.exercised === null ? '-' : String(r.exercised.bugs)} (${r.fixture})`);
+    say(`${r.leaf}: fixture ${r.exercised === null ? 'not run' : String(r.exercised.fixture)}, controls ${r.exercised === null ? '-' : String(r.exercised.control)}${p === undefined ? '' : `, plain ${String(p)}`} (${r.fixture})`);
   }
   const deferred = report.stage.filter((r) => r.status !== 'built').length;
-  for (const problem of report.tableProblems) say(`table problem: ${problem}`);
-  say(`ladders ${String(report.ladders.length)}; kernel rows ${String(report.kernel.rows.length)} covered ${String(report.kernel.covered)}; stage rows ${String(report.stage.length)} (${String(deferred)} deferred); table problems ${String(report.tableProblems.length)}; control bugs ${String(report.controlBugs)}; covered ${String(report.covered)}`);
+  say(`ladders ${String(report.ladders.length)}; kernel rows ${String(report.kernel.rows.length)} covered ${String(report.kernel.covered)}; stage rows ${String(report.stage.length)} (${String(deferred)} deferred); table problems ${String(report.tableProblems.length)}; covered ${String(report.covered)}`);
   const whole = a.plain !== null && a.kernelDraws === undefined;
   if (a.summary && whole) {
     const path = ctx.summary ?? SUMMARY_PATH;

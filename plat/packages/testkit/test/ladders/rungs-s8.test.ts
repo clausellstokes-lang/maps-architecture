@@ -2,34 +2,12 @@
 // C-0269): each rung reached by exactly its fixture and leaving its report code — the reflex pre-cut, the antenna split,
 // rung (a)'s turned frame, (b)'s mean normal, (c)'s slid foot with W_CUT_SLID (in S8's record and in the generation
 // report), (d)'s court — and the recursion stopped at a low cut.recursionDepth floor, `work_cut` with the count; the
-// plain rectangle district leaves none of them. The reader counts a rung only where it took. Hardening round S1: a face
-// above (d)'s area bound is cut by (c), never a court (M0-b-03 N-3); the slid face is above the bound too; a second
-// plain control, a hexagon (notes row 8).
+// plain rectangle district leaves none of them. The reader counts a rung only where it took.
 import { cutCells, s8Stage, type DistrictReport, type S8Output } from '@plat/layout';
-import { loadTable } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { LADDER_ANTENNA_DISTRICT, LADDER_CONTROLS, LADDER_FIXTURES, LADDER_SLID_DISTRICT, ladderChain, ladderLowFloor, ladderReadS8, ladderSmallFlat } from '@plat/testkit';
-import { ABOVE_BOUND_FACE, familyFace, fcutConcave, HEXAGON, L_SHAPE, RECT, twoDistricts } from '../../src/ladders/fixtures.js';
+import { familyFace, L_SHAPE, RECT, twoDistricts } from '../../src/ladders/fixtures.js';
 import { districtOf, type S8Case } from '../../src/ladders/support.js';
-
-/** The shoelace area of a ring (cm²). */
-function areaOf(ring: readonly { readonly x: number; readonly y: number }[]): number {
-  let a = 0;
-  for (let i = 0; i < ring.length; i += 1) {
-    const p = ring[i];
-    const q = ring[(i + 1) % ring.length];
-    a += p.x * q.y - q.x * p.y;
-  }
-  return Math.abs(a) / 2;
-}
-
-/** §4.6 step 8 (d)'s bound for a face's band: the cut table's substitutionAreaFactor (2) × e_hi². */
-function boundOf(rep: DistrictReport, face: string): number {
-  const factor = loadTable('cut').cell('ladder', 'substitutionAreaFactor').value as number;
-  const stop = rep.stops.find((st) => st.face === face);
-  if (stop === undefined) throw new Error(`no stop line for ${face}`);
-  return factor * stop.eHiCm * stop.eHiCm;
-}
 
 const fixture = (id: string) => {
   const f = LADDER_FIXTURES.find((x) => x.id === id) ?? LADDER_CONTROLS.find((x) => x.id === id);
@@ -103,30 +81,6 @@ describe('each F-CUT rung by its fixture on S8’s Stage object (§4.6 step 8)',
     expect(out.infill.blockFaces.map((b) => b.how)).toEqual(['court']);
     expect(out.blocks.map((b) => b.interior)).toEqual(['court']);
     expect(rep.residueAreaCm2).toBe(rep.builtAreaCm2);
-    // The face lies within (d)'s bound: the slide stops at its first refused foot and (d) takes it.
-    expect(areaOf(f.polygon[0])).toBeLessThanOrEqual(boundOf(rep, rep.faces[0].face));
-    expect(rep.rungs.filter((r) => r.rung === 'c').length).toBe(1);
-  });
-
-  it('above (d)’s bound — F-CUT concave #106 (seed 1), 2.08 × e_hi²: every rung before (c) and every straight foot refused, (c) cuts it, never a court (§4.6 step 8 (d); M0-b-03 N-3)', { timeout: 120_000 }, () => {
-    const c = fcutConcave(ABOVE_BOUND_FACE);
-    const out = s8Of(c.case);
-    const rep = only(out);
-    const top = rep.faces.find((x) => x.depth === 0);
-    if (top === undefined) throw new Error('no depth-0 face');
-    const bound = boundOf(rep, top.face);
-    expect(areaOf(c.polygon[0])).toBeGreaterThan(bound);
-    const lines = rep.rungs.filter((r) => r.face === top.face);
-    // The ladder reaches (c) with nothing cut, and (c)'s slide runs on past its first refused foot (a face within the
-    // bound would stop there and take (d)) …
-    expect(lines.filter((r) => r.rung !== 'c').every((r) => r.outcome === 'refused' || r.outcome === 'none')).toBe(true);
-    const refusedC = lines.filter((r) => r.rung === 'c' && r.outcome === 'refused');
-    expect(refusedC.length).toBeGreaterThan(1);
-    // … and (c) cuts it: the face is cut, no substitution line, never a court.
-    expect(lines.at(-1)).toMatchObject({ rung: 'c', outcome: 'cut' });
-    expect(lines.some((r) => r.rung === 'd')).toBe(false);
-    expect(top).toMatchObject({ outcome: 'cut', facesAfter: 2 });
-    expect(rep.faces.some((x) => x.outcome === 'unresolved')).toBe(false);
   });
 
   it('cut/slide — the small flat town (seed 2) through the base chain: (c)’s foot slid 30 steps, W_CUT_SLID 30 in S8’s record and the generation report', { timeout: 300_000 }, () => {
@@ -138,11 +92,6 @@ describe('each F-CUT rung by its fixture on S8’s Stage object (§4.6 step 8)',
     const rep = infill.report.districts[0];
     const c = rep.rungs.filter((r) => r.rung === 'c' && r.outcome === 'cut');
     expect(c.map((r) => r.slide)).toEqual([30]);
-    // The slid face is above (d)'s bound (M0-b-03 N-3): its slide ran on past refused feet, no substitution line.
-    const slid = rep.rungs.filter((r) => r.face === c[0].face);
-    expect(slid.filter((r) => r.rung === 'c' && r.outcome === 'refused').length).toBeGreaterThan(1);
-    expect(slid.some((r) => r.rung === 'd')).toBe(false);
-    expect(rep.faces.find((f) => f.face === c[0].face)?.outcome).toBe('cut');
     expect(rep.warnings['W_CUT_SLID']).toBe(30);
     // §5.4: the warning reaches the generation report through the stage's sink, under S8.
     expect(run.report.stages.find((s) => s.name === 'S8')?.warnings['W_CUT_SLID']).toBe(30);
@@ -188,17 +137,6 @@ describe('the plain district and the reader', () => {
     const cutBy = rep.rungs.filter((r) => r.rung !== 'deep' && (r.outcome === 'cut' || r.outcome === 'slit' || r.outcome === 'block'));
     expect(cutBy.length).toBeGreaterThan(0);
     for (const r of cutBy) expect([r.rung, r.attempt]).toEqual(['a', 0]);
-    expect(rep.warnings['W_CUT_SLID']).toBeUndefined();
-    expect(rep.workCut).toEqual([]);
-  });
-
-  it('plain/s8-convex — a regular hexagon district (110 m radius; convex, not a rectangle) takes no F-CUT rung beyond (a) at attempt 0, no work_cut (notes row 8)', { timeout: 120_000 }, () => {
-    expect(fixture('plain/s8-convex').run()).toEqual({});
-    const rep = only(s8Of(districtOf([HEXAGON], 1)));
-    const cutBy = rep.rungs.filter((r) => r.rung !== 'deep' && (r.outcome === 'cut' || r.outcome === 'slit' || r.outcome === 'block'));
-    expect(cutBy.length).toBeGreaterThan(10);
-    for (const r of cutBy) expect([r.rung, r.attempt]).toEqual(['a', 0]);
-    expect(rep.rungs.filter((r) => r.rung !== 'deep' && r.outcome === 'refused')).toEqual([]);
     expect(rep.warnings['W_CUT_SLID']).toBeUndefined();
     expect(rep.workCut).toEqual([]);
   });

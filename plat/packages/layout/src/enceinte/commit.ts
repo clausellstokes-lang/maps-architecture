@@ -183,36 +183,28 @@ export function traceWithStrips(
   // The stops: each main gate's way along its route's lattice edge at the gate, each water gate's water.
   const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
   const stops: StripStop[] = [];
-  const corridors: Extract<StripStop, { kind: 'way' }>[] = [];
-  // A route ending at the rim runs on to the frame's edge (S4's through-road to the margin): the corridor follows it there.
-  const toRim = (path: XY[]): void => {
-    if (path.length < 2) return;
-    const a = path[path.length - 2];
-    const b = path[path.length - 1];
-    const d = unitOf({ x: b.x - a.x, y: b.y - a.y });
-    const f = d === null ? null : toFrame(b, d, site.frameRing);
-    if (f !== null && (f.x !== b.x || f.y !== b.y)) path.push(lat(f));
-  };
   slice.gates.forEach((g, i) => {
     // The way's centreline near the gate: its route's lattice nodes within WAY_SPAN_NODES of the gate's edge on each
     // side (the route S4 commits, C-0226 (10)).
     const route = slice.routes.find((r) => r.ordinal === g.ordinal);
     const nodes = route === undefined ? [g.edge[0], g.edge[1]] : route.nodes.slice(Math.max(0, g.routeIndex - WAY_SPAN_NODES), g.routeIndex + 2 + WAY_SPAN_NODES);
     const path: XY[] = nodes.map((n) => slice.lattice.points[n]);
-    if (route !== undefined && nodes[nodes.length - 1] === route.nodes[route.nodes.length - 1]) toRim(path);
-    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path, halfWidthCm: half });
-    // The way along its whole length (RQ5; §4.8: the strips stop at a way's corridor wherever it runs inside their width).
-    if (route !== undefined) {
-      const whole: XY[] = route.nodes.map((n) => slice.lattice.points[n]);
-      toRim(whole);
-      corridors.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path: whole, halfWidthCm: half });
+    // A route ending at the rim within the span runs on to the frame's edge (S4's through-road to the margin): the
+    // corridor follows it there.
+    if (route !== undefined && nodes[nodes.length - 1] === route.nodes[route.nodes.length - 1] && path.length >= 2) {
+      const a = path[path.length - 2];
+      const b = path[path.length - 1];
+      const d = unitOf({ x: b.x - a.x, y: b.y - a.y });
+      const f = d === null ? null : toFrame(b, d, site.frameRing);
+      if (f !== null && (f.x !== b.x || f.y !== b.y)) path.push(lat(f));
     }
+    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path, halfWidthCm: half });
   });
   const rings = waterRings(water, k, arena);
   // Every water face stops the strips (the river is a water gate's corridor, C-0087; a shore the trace follows carries
   // no strip on its water side): the stop names the body.
   for (const r of rings) stops.push({ kind: 'water', gate: r.body, ring: r.ring });
-  const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), k, { key: arena, stops, frame: site.frameRing, corridors });
+  const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), k, { key: arena, stops, frame: site.frameRing });
   if (!strips.ok) return err(strips.code, strips.detail);
   return {
     ok: true,

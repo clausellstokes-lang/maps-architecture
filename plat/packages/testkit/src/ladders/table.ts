@@ -145,18 +145,6 @@ export const STAGE_LADDERS: readonly LadderRung[] = Object.freeze([
   later('F-SKY-HANDOVER', 'SKY', 'V05 §3.17’s', 'reported', 'V05 §3.17', 'V05'),
 ]);
 
-/**
- * What a leaf's count counts (hardening round S1, notes row 6): a rung's uses where it took — `rung_uses`, the default —
- * but for (c)'s `W_CUT_SLID`, whose count is the slide's steps (§4.6 step 8 (c): "reported as `W_CUT_SLID` with its step
- * count"; one cut slid 30 steps counts 30).
- */
-export const LEAF_UNITS: Readonly<Record<string, string>> = Object.freeze({ default: 'rung_uses', 'S8 F-CUT W_CUT_SLID': 'slide_steps' });
-
-/** A leaf's unit (`LEAF_UNITS`). */
-export function unitOf(leaf: string): string {
-  return LEAF_UNITS[leaf] ?? LEAF_UNITS['default'];
-}
-
 /** A row's leaf key: what its fixture's (and the plain fixtures') records are counted under. */
 export function leafOf(row: Pick<LadderRung, 'stage' | 'ladder' | 'code'>): string {
   return `${row.stage} ${row.ladder} ${row.code}`;

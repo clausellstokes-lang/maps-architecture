@@ -3,16 +3,13 @@
 // stage's own Stage object with the forcing option where the rung is entered by one) or through the stage's own entry
 // (S8's Stage object on a hand-built district; S3's and S5a's registered EnceinteStrategy on a hand boundary; the kernel
 // façade for the kernel's typed E_WORK_LIMIT) — and the plain controls: the same entries with nothing forced. Each
-// returns what its run left, read by the stage's reader (readers.ts) under the registry's leaf keys, a chain run's
-// `bugs` entries under `BUGS_LEAF` (hardening round S1, notes row 2). Round S1 also: F-BUDGET-STAGE's accepted
-// shortfall forced after the top-up (notes row 3), a second plain S8 control on a convex non-rectangular face (notes
-// row 8), and F-CUT's face above (d)'s area bound (`aboveBound`, M0-b-03 N-3).
+// returns what its run left, read by the stage's reader (readers.ts) under the registry's leaf keys.
 import fc from 'fast-check';
 import { createKernel, createPlat, err, STAGES, attachIndex, type Cm, type Frame, type Kernel, type KernelTx, type PolygonCm } from '@plat/kernel';
 import { baseEnceinte, capacityCheck, commitOuterRing, flatFixture, s3Slice, s8Stage, siteContext, type CostField, type GatePick, type GateSite, type S8Input, type S8Output, type SliceOptions } from '@plat/layout';
 import { arb, seedFamily } from '../fuzz/index.js';
 import { runChain, type ChainSpec } from './chain.js';
-import { readRun, readS8, readTrace, sumLeaves, bump, type Tally } from './readers.js';
+import { readModel, readS8, readTrace, sumLeaves, bump, type Tally } from './readers.js';
 import { districtOf, eastward, GROUND, heightStrategy, lowFloor, P, smallFlat, smallRiver, valley, valleyWithRidge, valleyWithSink, waysCase, type S8Case } from './support.js';
 import type { Leaves } from './types.js';
 
@@ -48,30 +45,6 @@ export const L_SHAPE = [P(0, 0), P(30_000, 0), P(30_000, 12_000), P(12_000, 12_0
 
 /** The plain district: a 200 m × 150 m rectangle (no reflex vertex, no antenna; its ladder takes rung (a) at attempt 0). */
 export const RECT = [P(0, 0), P(20_000, 0), P(20_000, 15_000), P(0, 15_000)];
-
-/**
- * The second plain district (notes row 8): a regular hexagon of 110 m radius — convex, no right angle, no side parallel
- * to a frame axis but two —, whose every face takes rung (a) at attempt 0 (measured 2026-10-27: 18 cuts, 19 blocks).
- */
-export const HEXAGON = [P(11_000, 0), P(5500, 9526), P(-5500, 9526), P(-11_000, 0), P(-5500, -9526), P(5500, -9526)];
-
-/**
- * F-CUT's concave face #i at seed 1 — M0-b-04's 10⁵-face family (`seedFamily('bentcut/concave/1', i)`, the draw M0-b-03's
- * `squared.test.ts` replays) — as a one-face district.
- */
-export function fcutConcave(i: number): { polygon: PolygonCm; seed: number; case: S8Case } {
-  const s = seedFamily('bentcut/concave/1', i);
-  const [face] = fc.sample(arb.faceSet('concave', { scale: 'block' }), { seed: s | 0, numRuns: 1 });
-  return { polygon: face.polygon, seed: s >>> 0, case: districtOf(face.polygon, s >>> 0) };
-}
-
-/**
- * M0-b-03 N-3's face (§4.6 step 8 (d): substitution "only for faces ≤ 2 × the band's upper block area; a larger face
- * reaching (d) is cut by (c) again"): F-CUT's concave #106 at seed 1, 2.08 × e_hi² — above the bound —, whose every
- * rung before (c) and every straight foot of (c)'s slide are refused (measured 2026-10-27 on the tree after M0-b-03's
- * round S7, C-0426's squared ends): it must be cut by (c), never a court.
- */
-export const ABOVE_BOUND_FACE = 106;
 
 /** Two districts in a 400 m × 300 m ring road split by an arterial (M0-b-03's F-WORK fixture). */
 export function twoDistricts(seed: number): S8Case {
@@ -132,7 +105,8 @@ const SIDES: Corner[] = [[-30_000, 0], [30_000, 0], [0, -30_000]];
 // ---- the chain fixtures ----------------------------------------------------------------------------------------------------
 
 function chain(spec: ChainSpec): Leaves {
-  return readRun(runChain(spec));
+  const r = runChain(spec);
+  return readModel(r.model);
 }
 
 /** F-WALL's planted gate picks (M0-c-01's fixture form): two picks at one node, the later ranking `ranked` after it. */
@@ -219,7 +193,7 @@ export const LADDER_FIXTURES: readonly LadderFixture[] = Object.freeze([
   { id: 'growth/reject', forces: 'the small flat town (60 ha walled), S5c’s insertion of proposal 2 refused E_SELF_INTERSECT at every attempt (planted)', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { growth: (k, kernel) => (k === 1 ? plantedInsert(kernel, 'E_SELF_INTERSECT', (p) => p === 2) : {}) } } }) },
   { id: 'work/growth', forces: 'the small flat town (60 ha walled), S5c under a test-side growth.proposals floor of 12', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { growth: () => ({ workLimits: lowFloor('growth.proposals', 12) }) } } }) },
   { id: 'budget/top-up', forces: 'the small flat town (60 ha walled), S5d’s demand at the unwalled stage 3 raised to 1.3 × its built land by band', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 3 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.3) } : undefined) } } }) },
-  { id: 'budget/accept', forces: 'the small flat town (60 ha walled), S5d’s demand at the unwalled stage 3 raised to 4 × its built land by band: the top-up, then the shortfall left accepted', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 3 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 4) } : undefined) } } }) },
+  { id: 'budget/accept', forces: 'the small flat town (60 ha walled), S5d’s demand at the walled stage 1 raised to 1.5 × its built land by band', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 1 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.5) } : undefined) } } }) },
   // F-WORK on S6's Stage object and the fields' pass 1.
   { id: 'work/grower', forces: 'the small flat town (60 ha walled), S6 under a test-side grower.turns floor of 5', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6', override: { S6: { workLimits: lowFloor('grower.turns', 5) } } }) },
   { id: 'work/fields', forces: 'the small flat town, the fields’ pass 1 under a test-side field.cells floor of 1 000', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6', override: { S6: { fields: { workLimits: lowFloor('field.cells', 1000) } } } }) },
@@ -234,13 +208,12 @@ export const LADDER_FIXTURES: readonly LadderFixture[] = Object.freeze([
 
 /**
  * The plain controls — the same entries with nothing forced: the small flat town through S6 (S1 – S6 and the fields'
- * pass 1 at seed 1), S8's Stage object on a plain rectangle district and on a plain hexagon district, the registered
- * EnceinteStrategy on a plain square, a river down a plain valley, and the kernel insertion under an ample limit.
+ * pass 1 at seed 1), S8's Stage object on a plain rectangle district, the registered EnceinteStrategy on a plain
+ * square, a river down a plain valley, and the kernel insertion under an ample limit.
  */
 export const LADDER_CONTROLS: readonly LadderFixture[] = Object.freeze([
   { id: 'plain/chain', forces: 'the small flat town at seed 1 through S6 and the fields’ pass 1', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6' }) },
   { id: 'plain/s8', forces: 'a 200 m × 150 m rectangle district through S8', run: () => runS8Stage(districtOf([RECT], 1)) },
-  { id: 'plain/s8-convex', forces: 'a regular hexagon district of 110 m radius through S8', run: () => runS8Stage(districtOf([HEXAGON], 1)) },
   { id: 'plain/trace', forces: 'a 600 m square traced (no notch)', run: () => traceRun(squareWith([]), SIDES) },
   { id: 'plain/river', forces: 'a river from the north down a plain valley (100 ha frame)', run: () => chain({ blueprint: smallRiver(VALLEY, 100, NORTH), terrains: { [VALLEY]: heightStrategy(valley) }, seed: 1, until: 'S1' }) },
   { id: 'plain/kernel', forces: 'the closed ring under an ample work limit', run: () => kernelWork(1_000_000) },

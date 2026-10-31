@@ -3,7 +3,7 @@
   "size": "city",
   "seeds": {
     "first": 1,
-    "count": 200
+    "count": 8
   },
   "fixtures": [
     "relief-60",
@@ -33,78 +33,67 @@
     {
       "fixture": "relief-60",
       "config": "default",
-      "runs": 200,
+      "runs": 8,
       "stages": {
         "S1": {
-          "ok": 200,
+          "ok": 8,
           "refused": {},
           "notReached": 0
         },
         "S3": {
-          "ok": 167,
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S5": {
+          "ok": 7,
           "refused": {
-            "E_SELF_INTERSECT": 32,
             "E_INVARIANT": 1
           },
           "notReached": 0
         },
-        "S4": {
-          "ok": 167,
-          "refused": {},
-          "notReached": 33
-        },
-        "S5": {
-          "ok": 124,
-          "refused": {
-            "E_SELF_INTERSECT": 41,
-            "E_INVARIANT": 2
-          },
-          "notReached": 33
-        },
         "S6": {
-          "ok": 122,
-          "refused": {
-            "E_INVARIANT": 2
-          },
-          "notReached": 76
+          "ok": 7,
+          "refused": {},
+          "notReached": 1
         }
       },
       "bars": {
         "d8": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "cells": 20480000,
-            "defined": 20480000,
-            "landCells": 20446550,
-            "landDefined": 20446550,
+            "cells": 819200,
+            "defined": 819200,
+            "landCells": 818057,
+            "landDefined": 818057,
             "landShare": 1,
             "share": 1
           }
         },
         "bedMonotone": {
           "verdict": "pass",
-          "observed": 199,
-          "of": "fitting rivers",
+          "observed": 8,
+          "of": "rivers",
           "failing": [],
           "numbers": {
-            "rivers": 200,
-            "fits": 199,
-            "frameOutfall": 199,
-            "reachesCore": 55,
-            "minBedCells": 2,
-            "fittingMonotone": 199,
-            "minFittingBedCells": 626,
-            "degraded": 1,
-            "degradedMonotone": 1,
-            "minDegradedBedCells": 2
+            "rivers": 8,
+            "fits": 8,
+            "frameOutfall": 8,
+            "reachesCore": 2,
+            "minBedCells": 751
           }
         },
         "carve": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -115,7 +104,7 @@
         },
         "noClamp": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -125,64 +114,63 @@
         },
         "reliefAsNamed": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
             "floorCm": 2000,
-            "minReliefCm": 3617,
-            "maxReliefCm": 5027
+            "minReliefCm": 4159,
+            "maxReliefCm": 4593
           }
         },
         "waterGates": {
           "verdict": "pass",
-          "observed": 36,
+          "observed": 1,
           "of": "derivations whose trace meets the river",
           "failing": [],
           "numbers": {
-            "traced": 167,
-            "gates": 88,
-            "wallOverWater": 88,
-            "wallOverWaterGated": 88,
-            "endsOnShore": 176,
-            "endsAtRecordedBank": 165,
+            "traced": 8,
+            "gates": 2,
+            "wallOverWater": 2,
+            "wallOverWaterGated": 2,
+            "endsOnShore": 4,
+            "endsAtRecordedBank": 4,
             "stripVerticesInWater": 0,
-            "nUnchanged": 167,
-            "enceintes": 291,
-            "laterGates": 34,
-            "unrecordedWallOverWater": 0,
-            "sharedWallOverWater": 0
+            "nUnchanged": 8,
+            "enceintes": 15,
+            "laterGates": 0,
+            "unrecordedWallOverWater": 0
           }
         },
         "spans": {
           "verdict": "pass",
-          "observed": 37,
+          "observed": 1,
           "of": "derivations with a built bridge",
           "failing": [],
           "numbers": {
-            "s4Runs": 167,
-            "sites": 5117,
-            "built": 52,
-            "builtWithSpan": 52,
-            "sitesClear": 5065,
+            "s4Runs": 8,
+            "sites": 248,
+            "built": 3,
+            "builtWithSpan": 3,
+            "sitesClear": 245,
             "wayOverWaterOffSpan": 0
           }
         },
         "containment": {
           "verdict": "pass",
-          "observed": 122,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "samples": 139197,
-            "samplesContained": 139197,
-            "samplesInDistricts": 127037,
+            "samples": 7934,
+            "samplesContained": 7934,
+            "samplesInDistricts": 7245,
             "unownedByStage": 0
           }
         },
         "countLaw": {
           "verdict": "fail",
-          "observed": 122,
+          "observed": 7,
           "of": "derivations",
           "failing": [
             2,
@@ -191,35 +179,22 @@
             5,
             6,
             7,
-            8,
-            9,
-            10,
-            17,
-            22,
-            24,
-            26,
-            27,
-            28,
-            29,
-            32,
-            36,
-            37,
-            38
+            8
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 17,
-            "maxOffBy": 60,
+            "minOffBy": 30,
+            "maxOffBy": 35,
             "medianNd": 18,
-            "medianDistricts": 49,
-            "leftovers": 4210,
-            "belowFloor": 4378,
-            "merges": 319
+            "medianDistricts": 51,
+            "leftovers": 247,
+            "belowFloor": 254,
+            "merges": 19
           }
         },
         "gateWards": {
           "verdict": "fail",
-          "observed": 122,
+          "observed": 7,
           "of": "derivations with a gate or bridgehead ward",
           "failing": [
             2,
@@ -228,116 +203,59 @@
             5,
             6,
             7,
-            8,
-            9,
-            10,
-            17,
-            22,
-            24,
-            26,
-            27,
-            28,
-            29,
-            32,
-            36,
-            37,
-            38
+            8
           ],
           "numbers": {
             "below": 0,
             "share": 0,
             "shareMin": 0.9,
-            "medianWardHa": 10.619713025,
-            "medianTownHa": 2.9322654275
+            "medianWardHa": 10.758424855,
+            "medianTownHa": 2.9043017125
           }
         },
         "fieldBands": {
           "verdict": "pass",
-          "observed": 122,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.9429999999999836,
-            "minLandCells": 2503,
+            "maxErrorCells": 0.8849999999999909,
+            "minLandCells": 2529,
             "cellCm": 3200
           }
         },
         "weightZero": {
           "verdict": "pass",
-          "observed": 122,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "identical": 122,
-            "recomputedEqual": 122
+            "identical": 7,
+            "recomputedEqual": 7
           }
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 9398,
+          "observed": 522,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 9198,
-            "districtRoof.downgrades": 325,
+            "districtRoof.faces": 514,
+            "districtRoof.downgrades": 16,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtRoof.contract.empty": 0,
-            "districtRoof.contract.degenerate": 0,
-            "districtRoof.contract.notSimple": 33,
-            "districtRoof.contract.sharpCorner": 289,
-            "districtRoof.contract.holeContact": 0,
-            "districtRoof.contract.holeOutside": 0,
-            "districtRoof.validator.planarity": 0,
-            "districtRoof.validator.faces": 3,
-            "districtRoof.validator.heights": 0,
-            "districtRoof.validator.topology": 0,
-            "districtRoof.workLimit": 0,
-            "districtSpine.faces": 9198,
-            "districtSpine.downgrades": 325,
+            "districtSpine.faces": 514,
+            "districtSpine.downgrades": 16,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
-            "districtSpine.contract.empty": 0,
-            "districtSpine.contract.degenerate": 0,
-            "districtSpine.contract.notSimple": 33,
-            "districtSpine.contract.sharpCorner": 289,
-            "districtSpine.contract.holeContact": 0,
-            "districtSpine.contract.holeOutside": 0,
-            "districtSpine.validator.planarity": 0,
-            "districtSpine.validator.faces": 3,
-            "districtSpine.validator.heights": 0,
-            "districtSpine.validator.topology": 0,
-            "districtSpine.workLimit": 0,
-            "waterRoof.faces": 200,
-            "waterRoof.downgrades": 29,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 7,
             "waterRoof.workLimitHits": 0,
             "waterRoof.failures": 0,
-            "waterRoof.contract.empty": 0,
-            "waterRoof.contract.degenerate": 0,
-            "waterRoof.contract.notSimple": 0,
-            "waterRoof.contract.sharpCorner": 4,
-            "waterRoof.contract.holeContact": 0,
-            "waterRoof.contract.holeOutside": 0,
-            "waterRoof.validator.planarity": 3,
-            "waterRoof.validator.faces": 22,
-            "waterRoof.validator.heights": 0,
-            "waterRoof.validator.topology": 0,
-            "waterRoof.workLimit": 0,
-            "waterSpine.faces": 200,
-            "waterSpine.downgrades": 29,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 7,
             "waterSpine.workLimitHits": 0,
             "waterSpine.failures": 0,
-            "waterSpine.contract.empty": 0,
-            "waterSpine.contract.degenerate": 0,
-            "waterSpine.contract.notSimple": 0,
-            "waterSpine.contract.sharpCorner": 4,
-            "waterSpine.contract.holeContact": 0,
-            "waterSpine.contract.holeOutside": 0,
-            "waterSpine.validator.planarity": 3,
-            "waterSpine.validator.faces": 22,
-            "waterSpine.validator.heights": 0,
-            "waterSpine.validator.topology": 0,
-            "waterSpine.workLimit": 0,
             "downgradesMax": 0.005,
             "workLimitHitsMax": 0.001
           }
@@ -348,15 +266,15 @@
           "stage": "S1",
           "unit": "frameCells",
           "units": {
-            "n": 200,
+            "n": 8,
             "p50": 102400,
             "p99": 102400,
             "p999": 102400,
             "max": 102400
           },
-          "unitsTotal": 20480000,
+          "unitsTotal": 819200,
           "perUnit": {
-            "n": 200,
+            "n": 8,
             "p50": 1,
             "p99": 1,
             "p999": 1,
@@ -367,53 +285,53 @@
           "stage": "S4",
           "unit": "latticeNodes",
           "units": {
-            "n": 50,
-            "p50": 46200,
-            "p99": 46214.53,
-            "p999": 46215.853,
-            "max": 46216
+            "n": 2,
+            "p50": 46200.5,
+            "p99": 46208.83,
+            "p999": 46208.983,
+            "max": 46209
           },
-          "unitsTotal": 2309962,
+          "unitsTotal": 92401,
           "perUnit": {
-            "n": 50,
-            "p50": 0.25440753130383675,
-            "p99": 0.9230056052113311,
-            "p999": 1.0512007271625514,
-            "max": 1.0654446296015756
+            "n": 2,
+            "p50": 0.14205375946111562,
+            "p99": 0.2521266657676775,
+            "p999": 0.2541484130263694,
+            "max": 0.25437305161066853
           }
         },
         "grower.turns": {
           "stage": "S6",
           "unit": "faces",
           "units": {
-            "n": 122,
-            "p50": 111,
-            "p99": 157.6899999999999,
-            "p999": 162.637,
-            "max": 163
+            "n": 7,
+            "p50": 106,
+            "p99": 120.39999999999999,
+            "p999": 120.94,
+            "max": 121
           },
-          "unitsTotal": 13723,
+          "unitsTotal": 749,
           "perUnit": {
-            "n": 122,
-            "p50": 1.2663347309573725,
-            "p99": 2.3834044570886674,
-            "p999": 2.5840405405405416,
-            "max": 2.611111111111111
+            "n": 7,
+            "p50": 1.2727272727272727,
+            "p99": 1.8344500936580144,
+            "p999": 1.8497816430291678,
+            "max": 1.8514851485148516
           }
         },
         "field.cells": {
           "stage": "S6",
           "unit": "frameCells",
           "units": {
-            "n": 122,
+            "n": 7,
             "p50": 62500,
             "p99": 62500,
             "p999": 62500,
             "max": 62500
           },
-          "unitsTotal": 7625000,
+          "unitsTotal": 437500,
           "perUnit": {
-            "n": 122,
+            "n": 7,
             "p50": 3,
             "p99": 3,
             "p999": 3,
@@ -423,107 +341,96 @@
       },
       "batches": {
         "S1": {
-          "committed": 400,
+          "committed": 16,
           "refused": 0,
-          "maxShare": 0.04451378783903056
+          "maxShare": 0.04381363485301671
         },
         "S3": {
-          "committed": 534,
-          "refused": 1,
-          "maxShare": 0.0010052
+          "committed": 24,
+          "refused": 0,
+          "maxShare": 0.0007785
         },
         "S4": {
-          "committed": 167,
+          "committed": 8,
           "refused": 0,
-          "maxShare": 0.044794072363356426
+          "maxShare": 0.04241174103035879
         },
         "S5": {
-          "committed": 1122,
-          "refused": 169,
-          "maxShare": 0.043666483047835665
+          "committed": 60,
+          "refused": 8,
+          "maxShare": 0.04222294332158971
         },
         "S6": {
-          "committed": 122,
+          "committed": 7,
           "refused": 0,
-          "maxShare": 0.0264241213091261
+          "maxShare": 0.013453843290526707
         }
       }
     },
     {
       "fixture": "relief-60",
       "config": "coarse",
-      "runs": 200,
+      "runs": 8,
       "stages": {
         "S1": {
-          "ok": 200,
+          "ok": 8,
           "refused": {},
           "notReached": 0
         },
         "S3": {
-          "ok": 167,
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S5": {
+          "ok": 7,
           "refused": {
-            "E_SELF_INTERSECT": 32,
             "E_INVARIANT": 1
           },
           "notReached": 0
         },
-        "S4": {
-          "ok": 167,
-          "refused": {},
-          "notReached": 33
-        },
-        "S5": {
-          "ok": 124,
-          "refused": {
-            "E_SELF_INTERSECT": 40,
-            "E_INVARIANT": 3
-          },
-          "notReached": 33
-        },
         "S6": {
-          "ok": 123,
-          "refused": {
-            "E_INVARIANT": 1
-          },
-          "notReached": 76
+          "ok": 7,
+          "refused": {},
+          "notReached": 1
         }
       },
       "bars": {
         "d8": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "cells": 12500000,
-            "defined": 12500000,
-            "landCells": 12479864,
-            "landDefined": 12479864,
+            "cells": 500000,
+            "defined": 500000,
+            "landCells": 499256,
+            "landDefined": 499256,
             "landShare": 1,
             "share": 1
           }
         },
         "bedMonotone": {
           "verdict": "pass",
-          "observed": 199,
-          "of": "fitting rivers",
+          "observed": 8,
+          "of": "rivers",
           "failing": [],
           "numbers": {
-            "rivers": 200,
-            "fits": 199,
-            "frameOutfall": 199,
-            "reachesCore": 54,
-            "minBedCells": 3,
-            "fittingMonotone": 199,
-            "minFittingBedCells": 607,
-            "degraded": 1,
-            "degradedMonotone": 1,
-            "minDegradedBedCells": 3
+            "rivers": 8,
+            "fits": 8,
+            "frameOutfall": 8,
+            "reachesCore": 2,
+            "minBedCells": 929
           }
         },
         "carve": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -534,7 +441,7 @@
         },
         "noClamp": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -544,64 +451,63 @@
         },
         "reliefAsNamed": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
             "floorCm": 2000,
-            "minReliefCm": 3617,
-            "maxReliefCm": 5027
+            "minReliefCm": 4159,
+            "maxReliefCm": 4593
           }
         },
         "waterGates": {
           "verdict": "pass",
-          "observed": 29,
+          "observed": 1,
           "of": "derivations whose trace meets the river",
           "failing": [],
           "numbers": {
-            "traced": 167,
-            "gates": 76,
-            "wallOverWater": 76,
-            "wallOverWaterGated": 76,
-            "endsOnShore": 152,
-            "endsAtRecordedBank": 146,
+            "traced": 8,
+            "gates": 2,
+            "wallOverWater": 2,
+            "wallOverWaterGated": 2,
+            "endsOnShore": 4,
+            "endsAtRecordedBank": 4,
             "stripVerticesInWater": 0,
-            "nUnchanged": 167,
-            "enceintes": 291,
-            "laterGates": 22,
-            "unrecordedWallOverWater": 0,
-            "sharedWallOverWater": 0
+            "nUnchanged": 8,
+            "enceintes": 15,
+            "laterGates": 0,
+            "unrecordedWallOverWater": 0
           }
         },
         "spans": {
           "verdict": "pass",
-          "observed": 30,
+          "observed": 1,
           "of": "derivations with a built bridge",
           "failing": [],
           "numbers": {
-            "s4Runs": 167,
-            "sites": 5029,
-            "built": 48,
-            "builtWithSpan": 48,
-            "sitesClear": 4981,
+            "s4Runs": 8,
+            "sites": 261,
+            "built": 3,
+            "builtWithSpan": 3,
+            "sitesClear": 258,
             "wayOverWaterOffSpan": 0
           }
         },
         "containment": {
           "verdict": "pass",
-          "observed": 123,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "samples": 140187,
-            "samplesContained": 140187,
-            "samplesInDistricts": 127970,
+            "samples": 7934,
+            "samplesContained": 7934,
+            "samplesInDistricts": 7244,
             "unownedByStage": 0
           }
         },
         "countLaw": {
           "verdict": "fail",
-          "observed": 123,
+          "observed": 7,
           "of": "derivations",
           "failing": [
             2,
@@ -610,35 +516,22 @@
             5,
             6,
             7,
-            8,
-            10,
-            11,
-            17,
-            22,
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            32,
-            36,
-            37
+            8
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 16,
-            "maxOffBy": 74,
+            "minOffBy": 26,
+            "maxOffBy": 35,
             "medianNd": 18,
-            "medianDistricts": 49,
-            "leftovers": 4224,
-            "belowFloor": 4393,
-            "merges": 319
+            "medianDistricts": 50,
+            "leftovers": 239,
+            "belowFloor": 246,
+            "merges": 18
           }
         },
         "gateWards": {
           "verdict": "fail",
-          "observed": 123,
+          "observed": 7,
           "of": "derivations with a gate or bridgehead ward",
           "failing": [
             2,
@@ -647,116 +540,59 @@
             5,
             6,
             7,
-            8,
-            10,
-            11,
-            17,
-            22,
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            32,
-            36,
-            37
+            8
           ],
           "numbers": {
             "below": 0,
             "share": 0,
             "shareMin": 0.9,
-            "medianWardHa": 10.5956463975,
-            "medianTownHa": 2.920524735
+            "medianWardHa": 11.15802488,
+            "medianTownHa": 2.9043017125
           }
         },
         "fieldBands": {
           "verdict": "pass",
-          "observed": 123,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.9130000000000109,
-            "minLandCells": 1100,
+            "maxErrorCells": 0.907999999999987,
+            "minLandCells": 1117,
             "cellCm": 4800
           }
         },
         "weightZero": {
           "verdict": "pass",
-          "observed": 123,
+          "observed": 7,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "identical": 123,
-            "recomputedEqual": 123
+            "identical": 7,
+            "recomputedEqual": 7
           }
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 9411,
+          "observed": 516,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 9211,
-            "districtRoof.downgrades": 335,
+            "districtRoof.faces": 508,
+            "districtRoof.downgrades": 16,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtRoof.contract.empty": 0,
-            "districtRoof.contract.degenerate": 0,
-            "districtRoof.contract.notSimple": 37,
-            "districtRoof.contract.sharpCorner": 294,
-            "districtRoof.contract.holeContact": 0,
-            "districtRoof.contract.holeOutside": 0,
-            "districtRoof.validator.planarity": 0,
-            "districtRoof.validator.faces": 4,
-            "districtRoof.validator.heights": 0,
-            "districtRoof.validator.topology": 0,
-            "districtRoof.workLimit": 0,
-            "districtSpine.faces": 9211,
-            "districtSpine.downgrades": 335,
+            "districtSpine.faces": 508,
+            "districtSpine.downgrades": 16,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
-            "districtSpine.contract.empty": 0,
-            "districtSpine.contract.degenerate": 0,
-            "districtSpine.contract.notSimple": 37,
-            "districtSpine.contract.sharpCorner": 294,
-            "districtSpine.contract.holeContact": 0,
-            "districtSpine.contract.holeOutside": 0,
-            "districtSpine.validator.planarity": 0,
-            "districtSpine.validator.faces": 4,
-            "districtSpine.validator.heights": 0,
-            "districtSpine.validator.topology": 0,
-            "districtSpine.workLimit": 0,
-            "waterRoof.faces": 200,
-            "waterRoof.downgrades": 27,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 3,
             "waterRoof.workLimitHits": 0,
             "waterRoof.failures": 0,
-            "waterRoof.contract.empty": 0,
-            "waterRoof.contract.degenerate": 0,
-            "waterRoof.contract.notSimple": 0,
-            "waterRoof.contract.sharpCorner": 1,
-            "waterRoof.contract.holeContact": 0,
-            "waterRoof.contract.holeOutside": 0,
-            "waterRoof.validator.planarity": 7,
-            "waterRoof.validator.faces": 19,
-            "waterRoof.validator.heights": 0,
-            "waterRoof.validator.topology": 0,
-            "waterRoof.workLimit": 0,
-            "waterSpine.faces": 200,
-            "waterSpine.downgrades": 27,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 3,
             "waterSpine.workLimitHits": 0,
             "waterSpine.failures": 0,
-            "waterSpine.contract.empty": 0,
-            "waterSpine.contract.degenerate": 0,
-            "waterSpine.contract.notSimple": 0,
-            "waterSpine.contract.sharpCorner": 1,
-            "waterSpine.contract.holeContact": 0,
-            "waterSpine.contract.holeOutside": 0,
-            "waterSpine.validator.planarity": 7,
-            "waterSpine.validator.faces": 19,
-            "waterSpine.validator.heights": 0,
-            "waterSpine.validator.topology": 0,
-            "waterSpine.workLimit": 0,
             "downgradesMax": 0.005,
             "workLimitHitsMax": 0.001
           }
@@ -767,15 +603,15 @@
           "stage": "S1",
           "unit": "frameCells",
           "units": {
-            "n": 200,
+            "n": 8,
             "p50": 62500,
             "p99": 62500,
             "p999": 62500,
             "max": 62500
           },
-          "unitsTotal": 12500000,
+          "unitsTotal": 500000,
           "perUnit": {
-            "n": 200,
+            "n": 8,
             "p50": 1,
             "p99": 1,
             "p999": 1,
@@ -786,53 +622,53 @@
           "stage": "S4",
           "unit": "latticeNodes",
           "units": {
-            "n": 48,
-            "p50": 46198.5,
-            "p99": 46215.53,
-            "p999": 46215.953,
-            "max": 46216
+            "n": 3,
+            "p50": 46209,
+            "p99": 46209,
+            "p999": 46209,
+            "max": 46209
           },
-          "unitsTotal": 2217566,
+          "unitsTotal": 138610,
           "perUnit": {
-            "n": 48,
-            "p50": 0.22020453370977205,
-            "p99": 1.0897666335270928,
-            "p999": 1.1993740143460876,
-            "max": 1.2115526122148639
+            "n": 3,
+            "p50": 0.08803479841589301,
+            "p99": 0.2537406925045146,
+            "p999": 0.25678427015104033,
+            "max": 0.2571224454450987
           }
         },
         "grower.turns": {
           "stage": "S6",
           "unit": "faces",
           "units": {
-            "n": 123,
-            "p50": 111,
-            "p99": 150,
-            "p999": 184.24200000000002,
-            "max": 189
+            "n": 7,
+            "p50": 110,
+            "p99": 116.64,
+            "p999": 116.964,
+            "max": 117
           },
-          "unitsTotal": 13739,
+          "unitsTotal": 753,
           "perUnit": {
-            "n": 123,
-            "p50": 1.2555555555555555,
-            "p99": 2.3548684210526316,
-            "p999": 2.581502923976608,
-            "max": 2.611111111111111
+            "n": 7,
+            "p50": 1.205128205128205,
+            "p99": 1.8344500936580144,
+            "p999": 1.8497816430291678,
+            "max": 1.8514851485148516
           }
         },
         "field.cells": {
           "stage": "S6",
           "unit": "frameCells",
           "units": {
-            "n": 123,
+            "n": 7,
             "p50": 27889,
             "p99": 27889,
             "p999": 27889,
             "max": 27889
           },
-          "unitsTotal": 3430347,
+          "unitsTotal": 195223,
           "perUnit": {
-            "n": 123,
+            "n": 7,
             "p50": 3,
             "p99": 3,
             "p999": 3,
@@ -842,111 +678,99 @@
       },
       "batches": {
         "S1": {
-          "committed": 400,
+          "committed": 16,
           "refused": 0,
-          "maxShare": 0.04426319648093842
+          "maxShare": 0.04417497396220801
         },
         "S3": {
-          "committed": 535,
-          "refused": 1,
-          "maxShare": 0.0010052
+          "committed": 24,
+          "refused": 0,
+          "maxShare": 0.0007785
         },
         "S4": {
-          "committed": 167,
+          "committed": 8,
           "refused": 0,
-          "maxShare": 0.04531856403622251
+          "maxShare": 0.04241174103035879
         },
         "S5": {
-          "committed": 1123,
-          "refused": 169,
-          "maxShare": 0.04368039461825673
+          "committed": 60,
+          "refused": 8,
+          "maxShare": 0.04233907051664479
         },
         "S6": {
-          "committed": 123,
+          "committed": 7,
           "refused": 0,
-          "maxShare": 0.026974765369708945
+          "maxShare": 0.013471984673743753
         }
       }
     },
     {
       "fixture": "relief-3000",
       "config": "default",
-      "runs": 200,
+      "runs": 8,
       "stages": {
         "S1": {
-          "ok": 199,
-          "refused": {
-            "E_INVARIANT": 1
-          },
+          "ok": 8,
+          "refused": {},
           "notReached": 0
         },
         "S3": {
-          "ok": 181,
+          "ok": 6,
           "refused": {
-            "E_INVARIANT": 13,
-            "E_SELF_INTERSECT": 5
+            "E_INVARIANT": 1,
+            "E_SELF_INTERSECT": 1
           },
-          "notReached": 1
+          "notReached": 0
         },
         "S4": {
-          "ok": 177,
+          "ok": 5,
           "refused": {
-            "E_INVARIANT": 4
+            "E_INVARIANT": 1
           },
-          "notReached": 19
+          "notReached": 2
         },
         "S5": {
-          "ok": 154,
-          "refused": {
-            "E_SELF_INTERSECT": 18,
-            "E_INVARIANT": 5
-          },
-          "notReached": 23
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
         },
         "S6": {
-          "ok": 152,
-          "refused": {
-            "E_INVARIANT": 2
-          },
-          "notReached": 46
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
         }
       },
       "bars": {
         "d8": {
           "verdict": "pass",
-          "observed": 199,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "cells": 20377600,
-            "defined": 20377600,
-            "landCells": 20373707,
-            "landDefined": 20373707,
+            "cells": 819200,
+            "defined": 819200,
+            "landCells": 819075,
+            "landDefined": 819075,
             "landShare": 1,
             "share": 1
           }
         },
         "bedMonotone": {
           "verdict": "pass",
-          "observed": 144,
-          "of": "fitting rivers",
+          "observed": 8,
+          "of": "rivers",
           "failing": [],
           "numbers": {
-            "rivers": 199,
-            "fits": 144,
-            "frameOutfall": 144,
+            "rivers": 8,
+            "fits": 6,
+            "frameOutfall": 6,
             "reachesCore": 0,
-            "minBedCells": 2,
-            "fittingMonotone": 144,
-            "minFittingBedCells": 257,
-            "degraded": 55,
-            "degradedMonotone": 55,
-            "minDegradedBedCells": 2
+            "minBedCells": 119
           }
         },
         "carve": {
           "verdict": "pass",
-          "observed": 199,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -957,7 +781,7 @@
         },
         "noClamp": {
           "verdict": "pass",
-          "observed": 199,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -967,13 +791,13 @@
         },
         "reliefAsNamed": {
           "verdict": "pass",
-          "observed": 199,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
             "floorCm": 290000,
-            "minReliefCm": 302652,
-            "maxReliefCm": 317773
+            "minReliefCm": 304736,
+            "maxReliefCm": 312378
           }
         },
         "waterGates": {
@@ -982,204 +806,129 @@
           "of": "derivations whose trace meets the river",
           "failing": [],
           "numbers": {
-            "traced": 181,
+            "traced": 6,
             "gates": 0,
             "wallOverWater": 0,
             "wallOverWaterGated": 0,
             "endsOnShore": 0,
             "endsAtRecordedBank": 0,
             "stripVerticesInWater": 0,
-            "nUnchanged": 181,
-            "enceintes": 335,
+            "nUnchanged": 6,
+            "enceintes": 11,
             "laterGates": 0,
-            "unrecordedWallOverWater": 0,
-            "sharedWallOverWater": 0
+            "unrecordedWallOverWater": 0
           }
         },
         "spans": {
-          "verdict": "pass",
-          "observed": 2,
+          "verdict": "unobserved",
+          "observed": 0,
           "of": "derivations with a built bridge",
           "failing": [],
           "numbers": {
-            "s4Runs": 177,
-            "sites": 2860,
-            "built": 2,
-            "builtWithSpan": 2,
-            "sitesClear": 2858,
+            "s4Runs": 5,
+            "sites": 67,
+            "built": 0,
+            "builtWithSpan": 0,
+            "sitesClear": 67,
             "wayOverWaterOffSpan": 0
           }
         },
         "containment": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "samples": 171268,
-            "samplesContained": 171268,
-            "samplesInDistricts": 162620,
+            "samples": 5639,
+            "samplesContained": 5639,
+            "samplesInDistricts": 5309,
             "unownedByStage": 0
           }
         },
         "countLaw": {
           "verdict": "fail",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [
             2,
             3,
             5,
             6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
+            7
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 49,
-            "maxOffBy": 104,
+            "minOffBy": 68,
+            "maxOffBy": 94,
             "medianNd": 18,
-            "medianDistricts": 91,
-            "leftovers": 11793,
-            "belowFloor": 11694,
-            "merges": 417
+            "medianDistricts": 108,
+            "leftovers": 442,
+            "belowFloor": 434,
+            "merges": 19
           }
         },
         "gateWards": {
           "verdict": "fail",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations with a gate or bridgehead ward",
           "failing": [
             2,
             3,
             5,
             6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
+            7
           ],
           "numbers": {
-            "below": 5,
-            "share": 0.03289473684210526,
+            "below": 0,
+            "share": 0,
             "shareMin": 0.9,
-            "medianWardHa": 0.39304889499999995,
-            "medianTownHa": 0.06291287000000001
+            "medianWardHa": 0.293996285,
+            "medianTownHa": 0.032165875
           }
         },
         "fieldBands": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.9790000000000418,
-            "minLandCells": 2546,
+            "maxErrorCells": 0.708000000000002,
+            "minLandCells": 2558,
             "cellCm": 3200
           }
         },
         "weightZero": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "identical": 152,
-            "recomputedEqual": 152
+            "identical": 5,
+            "recomputedEqual": 5
           }
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 16402,
+          "observed": 598,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 16203,
-            "districtRoof.downgrades": 1192,
+            "districtRoof.faces": 590,
+            "districtRoof.downgrades": 43,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtRoof.contract.empty": 0,
-            "districtRoof.contract.degenerate": 0,
-            "districtRoof.contract.notSimple": 374,
-            "districtRoof.contract.sharpCorner": 813,
-            "districtRoof.contract.holeContact": 0,
-            "districtRoof.contract.holeOutside": 0,
-            "districtRoof.validator.planarity": 3,
-            "districtRoof.validator.faces": 2,
-            "districtRoof.validator.heights": 0,
-            "districtRoof.validator.topology": 0,
-            "districtRoof.workLimit": 0,
-            "districtSpine.faces": 16203,
-            "districtSpine.downgrades": 1192,
+            "districtSpine.faces": 590,
+            "districtSpine.downgrades": 43,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
-            "districtSpine.contract.empty": 0,
-            "districtSpine.contract.degenerate": 0,
-            "districtSpine.contract.notSimple": 374,
-            "districtSpine.contract.sharpCorner": 813,
-            "districtSpine.contract.holeContact": 0,
-            "districtSpine.contract.holeOutside": 0,
-            "districtSpine.validator.planarity": 3,
-            "districtSpine.validator.faces": 2,
-            "districtSpine.validator.heights": 0,
-            "districtSpine.validator.topology": 0,
-            "districtSpine.workLimit": 0,
-            "waterRoof.faces": 199,
-            "waterRoof.downgrades": 7,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 1,
             "waterRoof.workLimitHits": 0,
             "waterRoof.failures": 0,
-            "waterRoof.contract.empty": 0,
-            "waterRoof.contract.degenerate": 0,
-            "waterRoof.contract.notSimple": 0,
-            "waterRoof.contract.sharpCorner": 1,
-            "waterRoof.contract.holeContact": 0,
-            "waterRoof.contract.holeOutside": 0,
-            "waterRoof.validator.planarity": 2,
-            "waterRoof.validator.faces": 4,
-            "waterRoof.validator.heights": 0,
-            "waterRoof.validator.topology": 0,
-            "waterRoof.workLimit": 0,
-            "waterSpine.faces": 199,
-            "waterSpine.downgrades": 7,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 1,
             "waterSpine.workLimitHits": 0,
             "waterSpine.failures": 0,
-            "waterSpine.contract.empty": 0,
-            "waterSpine.contract.degenerate": 0,
-            "waterSpine.contract.notSimple": 0,
-            "waterSpine.contract.sharpCorner": 1,
-            "waterSpine.contract.holeContact": 0,
-            "waterSpine.contract.holeOutside": 0,
-            "waterSpine.validator.planarity": 2,
-            "waterSpine.validator.faces": 4,
-            "waterSpine.validator.heights": 0,
-            "waterSpine.validator.topology": 0,
-            "waterSpine.workLimit": 0,
             "downgradesMax": 0.005,
             "workLimitHitsMax": 0.001
           }
@@ -1190,72 +939,53 @@
           "stage": "S1",
           "unit": "frameCells",
           "units": {
-            "n": 199,
+            "n": 8,
             "p50": 102400,
             "p99": 102400,
             "p999": 102400,
             "max": 102400
           },
-          "unitsTotal": 20377600,
+          "unitsTotal": 819200,
           "perUnit": {
-            "n": 199,
+            "n": 8,
             "p50": 1,
             "p99": 1,
             "p999": 1,
             "max": 1
           }
         },
-        "route.nodes": {
-          "stage": "S4",
-          "unit": "latticeNodes",
-          "units": {
-            "n": 2,
-            "p50": 46206.5,
-            "p99": 46209.93,
-            "p999": 46209.993,
-            "max": 46210
-          },
-          "unitsTotal": 92413,
-          "perUnit": {
-            "n": 2,
-            "p50": 1.1105948559864174,
-            "p99": 2.0342551777949067,
-            "p999": 2.0512203673791443,
-            "max": 2.0531053884440595
-          }
-        },
         "grower.turns": {
           "stage": "S6",
           "unit": "faces",
           "units": {
-            "n": 152,
-            "p50": 136.5,
-            "p99": 163.49,
-            "p999": 165.69799999999998,
-            "max": 166
+            "n": 5,
+            "p50": 150,
+            "p99": 171.48,
+            "p999": 171.948,
+            "max": 172
           },
-          "unitsTotal": 20681,
+          "unitsTotal": 743,
           "perUnit": {
-            "n": 152,
-            "p50": 0.8800889877641824,
-            "p99": 1.52701717557252,
-            "p999": 1.7478784351145016,
-            "max": 1.7786259541984732
+            "n": 5,
+            "p50": 0.936,
+            "p99": 1.1718553726022747,
+            "p999": 1.179394839585809,
+            "max": 1.180232558139535
           }
         },
         "field.cells": {
           "stage": "S6",
           "unit": "frameCells",
           "units": {
-            "n": 152,
+            "n": 5,
             "p50": 62500,
             "p99": 62500,
             "p999": 62500,
             "max": 62500
           },
-          "unitsTotal": 9500000,
+          "unitsTotal": 312500,
           "perUnit": {
-            "n": 152,
+            "n": 5,
             "p50": 3,
             "p99": 3,
             "p999": 3,
@@ -1265,109 +995,99 @@
       },
       "batches": {
         "S1": {
-          "committed": 399,
+          "committed": 16,
           "refused": 0,
-          "maxShare": 0.04429191763552318
+          "maxShare": 0.04202810548230396
         },
         "S3": {
-          "committed": 574,
-          "refused": 13,
-          "maxShare": 0.0007683
+          "committed": 21,
+          "refused": 1,
+          "maxShare": 0.0006547
         },
         "S4": {
-          "committed": 177,
-          "refused": 9,
-          "maxShare": 0.04708098520680286
+          "committed": 5,
+          "refused": 2,
+          "maxShare": 0.0441233903314334
         },
         "S5": {
-          "committed": 1270,
-          "refused": 181,
-          "maxShare": 0.04736104253368131
+          "committed": 40,
+          "refused": 5,
+          "maxShare": 0.042629167113302606
         },
         "S6": {
-          "committed": 152,
+          "committed": 5,
           "refused": 0,
-          "maxShare": 0.02435627796148609
+          "maxShare": 0.012955132445116382
         }
       }
     },
     {
       "fixture": "relief-3000",
       "config": "coarse",
-      "runs": 200,
+      "runs": 8,
       "stages": {
         "S1": {
-          "ok": 200,
+          "ok": 8,
           "refused": {},
           "notReached": 0
         },
         "S3": {
-          "ok": 182,
+          "ok": 6,
           "refused": {
-            "E_INVARIANT": 13,
-            "E_SELF_INTERSECT": 5
+            "E_INVARIANT": 1,
+            "E_SELF_INTERSECT": 1
           },
           "notReached": 0
         },
         "S4": {
-          "ok": 178,
+          "ok": 5,
           "refused": {
-            "E_INVARIANT": 4
+            "E_INVARIANT": 1
           },
-          "notReached": 18
+          "notReached": 2
         },
         "S5": {
-          "ok": 154,
-          "refused": {
-            "E_SELF_INTERSECT": 19,
-            "E_INVARIANT": 5
-          },
-          "notReached": 22
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
         },
         "S6": {
-          "ok": 152,
-          "refused": {
-            "E_INVARIANT": 2
-          },
-          "notReached": 46
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
         }
       },
       "bars": {
         "d8": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "cells": 12500000,
-            "defined": 12500000,
-            "landCells": 12498657,
-            "landDefined": 12498657,
+            "cells": 500000,
+            "defined": 500000,
+            "landCells": 499895,
+            "landDefined": 499895,
             "landShare": 1,
             "share": 1
           }
         },
         "bedMonotone": {
           "verdict": "pass",
-          "observed": 137,
-          "of": "fitting rivers",
+          "observed": 8,
+          "of": "rivers",
           "failing": [],
           "numbers": {
-            "rivers": 200,
-            "fits": 137,
-            "frameOutfall": 137,
+            "rivers": 8,
+            "fits": 7,
+            "frameOutfall": 7,
             "reachesCore": 0,
-            "minBedCells": 3,
-            "fittingMonotone": 137,
-            "minFittingBedCells": 268,
-            "degraded": 63,
-            "degradedMonotone": 63,
-            "minDegradedBedCells": 3
+            "minBedCells": 3
           }
         },
         "carve": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -1378,7 +1098,7 @@
         },
         "noClamp": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
@@ -1388,13 +1108,13 @@
         },
         "reliefAsNamed": {
           "verdict": "pass",
-          "observed": 200,
+          "observed": 8,
           "of": "derivations",
           "failing": [],
           "numbers": {
             "floorCm": 290000,
-            "minReliefCm": 302652,
-            "maxReliefCm": 317773
+            "minReliefCm": 304736,
+            "maxReliefCm": 312378
           }
         },
         "waterGates": {
@@ -1403,18 +1123,17 @@
           "of": "derivations whose trace meets the river",
           "failing": [],
           "numbers": {
-            "traced": 182,
+            "traced": 6,
             "gates": 0,
             "wallOverWater": 0,
             "wallOverWaterGated": 0,
             "endsOnShore": 0,
             "endsAtRecordedBank": 0,
             "stripVerticesInWater": 0,
-            "nUnchanged": 182,
-            "enceintes": 336,
+            "nUnchanged": 6,
+            "enceintes": 11,
             "laterGates": 0,
-            "unrecordedWallOverWater": 0,
-            "sharedWallOverWater": 0
+            "unrecordedWallOverWater": 0
           }
         },
         "spans": {
@@ -1423,184 +1142,110 @@
           "of": "derivations with a built bridge",
           "failing": [],
           "numbers": {
-            "s4Runs": 178,
-            "sites": 2248,
+            "s4Runs": 5,
+            "sites": 70,
             "built": 0,
             "builtWithSpan": 0,
-            "sitesClear": 2248,
+            "sitesClear": 70,
             "wayOverWaterOffSpan": 0
           }
         },
         "containment": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "samples": 171277,
-            "samplesContained": 171277,
-            "samplesInDistricts": 162622,
+            "samples": 5639,
+            "samplesContained": 5639,
+            "samplesInDistricts": 5309,
             "unownedByStage": 0
           }
         },
         "countLaw": {
           "verdict": "fail",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [
             2,
             3,
             5,
             6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
+            7
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 49,
-            "maxOffBy": 104,
+            "minOffBy": 68,
+            "maxOffBy": 94,
             "medianNd": 18,
-            "medianDistricts": 91,
-            "leftovers": 11802,
-            "belowFloor": 11704,
-            "merges": 416
+            "medianDistricts": 108,
+            "leftovers": 442,
+            "belowFloor": 434,
+            "merges": 19
           }
         },
         "gateWards": {
           "verdict": "fail",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations with a gate or bridgehead ward",
           "failing": [
             2,
             3,
             5,
             6,
-            7,
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
+            7
           ],
           "numbers": {
-            "below": 5,
-            "share": 0.03289473684210526,
+            "below": 0,
+            "share": 0,
             "shareMin": 0.9,
-            "medianWardHa": 0.39304889499999995,
-            "medianTownHa": 0.062680445
+            "medianWardHa": 0.293996285,
+            "medianTownHa": 0.032165875
           }
         },
         "fieldBands": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.964999999999975,
-            "minLandCells": 1133,
+            "maxErrorCells": 0.8050000000000068,
+            "minLandCells": 1140,
             "cellCm": 4800
           }
         },
         "weightZero": {
           "verdict": "pass",
-          "observed": 152,
+          "observed": 5,
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "identical": 152,
-            "recomputedEqual": 152
+            "identical": 5,
+            "recomputedEqual": 5
           }
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 16415,
+          "observed": 598,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 16215,
-            "districtRoof.downgrades": 1193,
+            "districtRoof.faces": 590,
+            "districtRoof.downgrades": 43,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtRoof.contract.empty": 0,
-            "districtRoof.contract.degenerate": 0,
-            "districtRoof.contract.notSimple": 375,
-            "districtRoof.contract.sharpCorner": 813,
-            "districtRoof.contract.holeContact": 0,
-            "districtRoof.contract.holeOutside": 0,
-            "districtRoof.validator.planarity": 3,
-            "districtRoof.validator.faces": 2,
-            "districtRoof.validator.heights": 0,
-            "districtRoof.validator.topology": 0,
-            "districtRoof.workLimit": 0,
-            "districtSpine.faces": 16215,
-            "districtSpine.downgrades": 1193,
+            "districtSpine.faces": 590,
+            "districtSpine.downgrades": 43,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
-            "districtSpine.contract.empty": 0,
-            "districtSpine.contract.degenerate": 0,
-            "districtSpine.contract.notSimple": 375,
-            "districtSpine.contract.sharpCorner": 813,
-            "districtSpine.contract.holeContact": 0,
-            "districtSpine.contract.holeOutside": 0,
-            "districtSpine.validator.planarity": 3,
-            "districtSpine.validator.faces": 2,
-            "districtSpine.validator.heights": 0,
-            "districtSpine.validator.topology": 0,
-            "districtSpine.workLimit": 0,
-            "waterRoof.faces": 200,
-            "waterRoof.downgrades": 8,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 0,
             "waterRoof.workLimitHits": 0,
             "waterRoof.failures": 0,
-            "waterRoof.contract.empty": 0,
-            "waterRoof.contract.degenerate": 0,
-            "waterRoof.contract.notSimple": 0,
-            "waterRoof.contract.sharpCorner": 1,
-            "waterRoof.contract.holeContact": 0,
-            "waterRoof.contract.holeOutside": 0,
-            "waterRoof.validator.planarity": 1,
-            "waterRoof.validator.faces": 6,
-            "waterRoof.validator.heights": 0,
-            "waterRoof.validator.topology": 0,
-            "waterRoof.workLimit": 0,
-            "waterSpine.faces": 200,
-            "waterSpine.downgrades": 8,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 0,
             "waterSpine.workLimitHits": 0,
             "waterSpine.failures": 0,
-            "waterSpine.contract.empty": 0,
-            "waterSpine.contract.degenerate": 0,
-            "waterSpine.contract.notSimple": 0,
-            "waterSpine.contract.sharpCorner": 1,
-            "waterSpine.contract.holeContact": 0,
-            "waterSpine.contract.holeOutside": 0,
-            "waterSpine.validator.planarity": 1,
-            "waterSpine.validator.faces": 6,
-            "waterSpine.validator.heights": 0,
-            "waterSpine.validator.topology": 0,
-            "waterSpine.workLimit": 0,
             "downgradesMax": 0.005,
             "workLimitHitsMax": 0.001
           }
@@ -1611,72 +1256,53 @@
           "stage": "S1",
           "unit": "frameCells",
           "units": {
-            "n": 200,
+            "n": 8,
             "p50": 62500,
             "p99": 62500,
             "p999": 62500,
             "max": 62500
           },
-          "unitsTotal": 12500000,
+          "unitsTotal": 500000,
           "perUnit": {
-            "n": 200,
+            "n": 8,
             "p50": 1,
             "p99": 1,
             "p999": 1,
             "max": 1
           }
         },
-        "route.nodes": {
-          "stage": "S4",
-          "unit": "latticeNodes",
-          "units": {
-            "n": 1,
-            "p50": 46210,
-            "p99": 46210,
-            "p999": 46210,
-            "max": 46210
-          },
-          "unitsTotal": 46210,
-          "perUnit": {
-            "n": 1,
-            "p50": 0.49091105821250813,
-            "p99": 0.49091105821250813,
-            "p999": 0.49091105821250813,
-            "max": 0.49091105821250813
-          }
-        },
         "grower.turns": {
           "stage": "S6",
           "unit": "faces",
           "units": {
-            "n": 152,
-            "p50": 135,
-            "p99": 160.49,
-            "p999": 162.69799999999998,
-            "max": 163
+            "n": 5,
+            "p50": 155,
+            "p99": 167.64,
+            "p999": 167.964,
+            "max": 168
           },
-          "unitsTotal": 20548,
+          "unitsTotal": 744,
           "perUnit": {
-            "n": 152,
-            "p50": 0.8788505224897774,
-            "p99": 1.52701717557252,
-            "p999": 1.7478784351145016,
-            "max": 1.7786259541984732
+            "n": 5,
+            "p50": 0.936,
+            "p99": 1.1988321167883211,
+            "p999": 1.2073832116788321,
+            "max": 1.2083333333333333
           }
         },
         "field.cells": {
           "stage": "S6",
           "unit": "frameCells",
           "units": {
-            "n": 152,
+            "n": 5,
             "p50": 27889,
             "p99": 27889,
             "p999": 27889,
             "max": 27889
           },
-          "unitsTotal": 4239128,
+          "unitsTotal": 139445,
           "perUnit": {
-            "n": 152,
+            "n": 5,
             "p50": 3,
             "p99": 3,
             "p999": 3,
@@ -1686,29 +1312,29 @@
       },
       "batches": {
         "S1": {
-          "committed": 400,
-          "refused": 1,
-          "maxShare": 0.043347361016784706
+          "committed": 16,
+          "refused": 0,
+          "maxShare": 0.04281316509577379
         },
         "S3": {
-          "committed": 577,
-          "refused": 13,
-          "maxShare": 0.0007683
+          "committed": 21,
+          "refused": 1,
+          "maxShare": 0.0006547
         },
         "S4": {
-          "committed": 178,
-          "refused": 9,
-          "maxShare": 0.04708098520680286
+          "committed": 5,
+          "refused": 2,
+          "maxShare": 0.0441233903314334
         },
         "S5": {
-          "committed": 1275,
-          "refused": 182,
-          "maxShare": 0.04736104253368131
+          "committed": 40,
+          "refused": 5,
+          "maxShare": 0.042629167113302606
         },
         "S6": {
-          "committed": 152,
+          "committed": 5,
           "refused": 0,
-          "maxShare": 0.02509180309801014
+          "maxShare": 0.013964631236726881
         }
       }
     }
@@ -1718,43 +1344,43 @@
       "fixture": "relief-60",
       "config": "default",
       "mode": "informative",
-      "runs": 200,
+      "runs": 8,
       "stageP50": {
-        "S1": 6247.200402500001,
-        "S3": 38757.813976000005,
-        "S4": 657.0566595,
-        "S5": 33993.699164000005,
-        "S6": 873.58044
+        "S1": 8134.2723005,
+        "S3": 37867.5697255,
+        "S4": 1128.5809,
+        "S5": 50765.767271000004,
+        "S6": 1371.9050515
       },
-      "gateP50": 8879.5237505,
-      "gateRuns": 200,
+      "gateP50": 12741.431636000001,
+      "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 6247.200402500001,
+          "p50": 8134.2723005,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 38757.813976000005,
+          "p50": 37867.5697255,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 657.0566595,
+          "p50": 1128.5809,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 873.58044,
+          "p50": 1371.9050515,
           "exceeds": true
         }
       ],
@@ -1768,43 +1394,43 @@
       "fixture": "relief-60",
       "config": "coarse",
       "mode": "informative",
-      "runs": 200,
+      "runs": 8,
       "stageP50": {
-        "S1": 5347.1861095,
-        "S3": 37252.668101,
-        "S4": 607.245044,
-        "S5": 33243.461735,
-        "S6": 800.1809745
+        "S1": 8477.3266535,
+        "S3": 43898.322191,
+        "S4": 892.9254209999999,
+        "S5": 54099.482569,
+        "S6": 1214.535272
       },
-      "gateP50": 7585.048897000001,
-      "gateRuns": 200,
+      "gateP50": 10805.722707500001,
+      "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 5347.1861095,
+          "p50": 8477.3266535,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 37252.668101,
+          "p50": 43898.322191,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 607.245044,
+          "p50": 892.9254209999999,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 800.1809745,
+          "p50": 1214.535272,
           "exceeds": true
         }
       ],
@@ -1818,43 +1444,43 @@
       "fixture": "relief-3000",
       "config": "default",
       "mode": "informative",
-      "runs": 200,
+      "runs": 8,
       "stageP50": {
-        "S1": 6088.232393,
-        "S3": 29614.1144695,
-        "S4": 972.5407355,
-        "S5": 51513.6543695,
-        "S6": 882.8636134999999
+        "S1": 10260.415285,
+        "S3": 68367.02203650001,
+        "S4": 2657.0938075000004,
+        "S5": 108536.31586500001,
+        "S6": 1908.1560605
       },
-      "gateP50": 8389.6334275,
-      "gateRuns": 200,
+      "gateP50": 14213.6144975,
+      "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 6088.232393,
+          "p50": 10260.415285,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 29614.1144695,
+          "p50": 68367.02203650001,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 972.5407355,
+          "p50": 2657.0938075000004,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 882.8636134999999,
+          "p50": 1908.1560605,
           "exceeds": true
         }
       ],
@@ -1868,43 +1494,43 @@
       "fixture": "relief-3000",
       "config": "coarse",
       "mode": "informative",
-      "runs": 200,
+      "runs": 8,
       "stageP50": {
-        "S1": 3581.0335205,
-        "S3": 27756.235885000002,
-        "S4": 898.4628275,
-        "S5": 49240.4707115,
-        "S6": 768.2269865000001
+        "S1": 7307.5859315,
+        "S3": 65943.8133455,
+        "S4": 2397.76457,
+        "S5": 108649.169796,
+        "S6": 1700.5332225
       },
-      "gateP50": 5850.492103999999,
-      "gateRuns": 200,
+      "gateP50": 10945.476091999999,
+      "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 3581.0335205,
+          "p50": 7307.5859315,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 27756.235885000002,
+          "p50": 65943.8133455,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 898.4628275,
+          "p50": 2397.76457,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 768.2269865000001,
+          "p50": 1700.5332225,
           "exceeds": true
         }
       ],

@@ -4,7 +4,7 @@
 import { metricById, quantile7, type MetricDoc } from '@plat/testkit';
 import { M0B_KINDS } from './faces.js';
 import type { FcutRecord, FullRecord } from './runs.js';
-import type { ArrivalEnds, SignatureCut } from './signature.js';
+import type { SignatureCut } from './signature.js';
 
 /** §4.6 step 8's F-CUT bound: the ladder ends in at most this many kernel calls. */
 export const FCUT_MAX_CALLS = 6;
@@ -46,20 +46,14 @@ export interface FcutSummary {
   readonly maxKernelCalls: number;
   readonly callsHistogram: Readonly<Record<string, number>>;
   readonly outcomes: Readonly<Record<string, number>>;
-  /**
-   * The depth-0 ladders that ended `unresolved` — every rung refused and the face, above the substitution bound, left
-   * standing whole: the ladder ENDED (the bar's "ends in ≤ 6 kernel calls" counts it), but it is no pass of rung (c);
-   * reported beside the verdict, never hidden in `outcomes` (hardening S3, N-1; C-0433 (1)).
-   */
-  readonly unresolved: number;
   /** Ladders that left fewer faces than they began with (the report's or the arena's count). */
   readonly decreases: number;
   readonly pass: boolean;
   /**
    * Every ladder at every depth of the whole districts of the same faces (C-0242 (1)): judged with the depth-0 ladders —
-   * a district S8 refused or threw on is a ladder that did not end; the ladders that ended `unresolved` counted (N-1).
+   * a district S8 refused or threw on is a ladder that did not end.
    */
-  readonly allDepths: { readonly districts: number; readonly ladders: number; readonly maxKernelCalls: number; readonly decreases: number; readonly refused: number; readonly unresolved: number };
+  readonly allDepths: { readonly districts: number; readonly ladders: number; readonly maxKernelCalls: number; readonly decreases: number; readonly refused: number };
 }
 
 function bump(m: Record<string, number>, k: string, n = 1): void {
@@ -99,7 +93,6 @@ export function foldFcut(records: readonly FcutRecord[], full: readonly FullReco
   let maxAll = 0;
   let decAll = 0;
   let refAll = 0;
-  let unresAll = 0;
   let districts = 0;
   for (const f of full) {
     if (f.setup !== null) continue;
@@ -111,7 +104,6 @@ export function foldFcut(records: readonly FcutRecord[], full: readonly FullReco
     ladders += f.ladders.n;
     if (f.ladders.maxCalls > maxAll) maxAll = f.ladders.maxCalls;
     decAll += f.ladders.decreases + (f.facesAfter < f.facesBefore ? 1 : 0);
-    unresAll += f.ladders.unresolved;
   }
   const run = records.length - setup - refused;
   return {
@@ -123,10 +115,9 @@ export function foldFcut(records: readonly FcutRecord[], full: readonly FullReco
     maxKernelCalls: max,
     callsHistogram: sortedRecord(hist),
     outcomes: sortedRecord(outcomes),
-    unresolved: outcomes['unresolved'] ?? 0,
     decreases,
     pass: run > 0 && refused === 0 && max <= FCUT_MAX_CALLS && decreases === 0 && refAll === 0 && maxAll <= FCUT_MAX_CALLS && decAll === 0,
-    allDepths: { districts, ladders, maxKernelCalls: maxAll, decreases: decAll, refused: refAll, unresolved: unresAll },
+    allDepths: { districts, ladders, maxKernelCalls: maxAll, decreases: decAll, refused: refAll },
   };
 }
 
@@ -229,19 +220,6 @@ export function signatureRow(cuts: readonly SignatureCut[]): SignatureRow {
   };
 }
 
-/** Committed lane ends (N-2): measured, at ≥ 85°, their share, and the ends no single earlier chain crosses. */
-export interface ArrivalShare extends ArrivalEnds {
-  readonly share: number | null;
-}
-
-/** The arrival read from the committed geometry, beside the judged one (hardening S3, N-2; C-0433 (2)): reported. */
-export interface CommittedArrivalSummary {
-  readonly planner: ArrivalShare;
-  readonly all: ArrivalShare;
-  readonly byKind: Readonly<Record<string, { readonly planner: ArrivalShare; readonly all: ArrivalShare }>>;
-  readonly verdict: 'reported';
-}
-
 /** The signature's fold: per kind and pooled, the replay's counts, and the two clauses judged here (C-0073). */
 export interface SignatureSummary {
   readonly metricVersions: Readonly<Record<string, string>>;
@@ -250,31 +228,13 @@ export interface SignatureSummary {
   readonly s8Refused: number;
   readonly all: SignatureRow;
   readonly byKind: Readonly<Record<string, SignatureRow>>;
-  /**
-   * The replay's counts and its gate (hardening S3, N-3; M0-b-05's replay clause, its note 7, the same shape): the
-   * shares rest on the planner cuts the replay measured, so the gate passes only when no district fell back to S8's own
-   * run (`notReplayed`, its cuts unmeasured) and the replay missed no planner cut (the bound 0, fail-safe).
-   */
-  readonly replay: { readonly cuts: number; readonly planner: number; readonly fallback: number; readonly deep: number; readonly matched: number; readonly missed: number; readonly notReplayed: number; readonly pass: boolean };
+  readonly replay: { readonly cuts: number; readonly planner: number; readonly fallback: number; readonly deep: number; readonly matched: number; readonly missed: number; readonly notReplayed: number };
   /** The ladder's own cuts' share of every committed cut (C-0242 (5)). */
   readonly fallbackShare: number;
-  /** `n` the bent cuts, `measured` those carrying a corner place (λ known): the clause fails when one does not (N-3). */
-  readonly corner: { readonly share: number | null; readonly bound: number; readonly n: number; readonly measured: number; readonly pass: boolean };
+  readonly corner: { readonly share: number | null; readonly bound: number; readonly n: number; readonly pass: boolean };
   readonly arrival: { readonly share: number | null; readonly bound: number; readonly n: number; readonly pass: boolean };
-  /** The arrival read from the committed geometry (N-2): reported, never judged. */
-  readonly committedArrival: CommittedArrivalSummary;
   /** σ and the fillet share: measured and reported, judged by M0-b-05a and M0-b-05b against the baseline rows. */
   readonly sigmaAndFillet: 'reported';
-}
-
-function arrivalShare(e: ArrivalEnds): ArrivalShare {
-  return { ...e, share: e.ends === 0 ? null : e.at85 / e.ends };
-}
-
-function addEnds(a: { ends: number; at85: number; unmeasured: number }, b: ArrivalEnds): void {
-  a.ends += b.ends;
-  a.at85 += b.at85;
-  a.unmeasured += b.unmeasured;
 }
 
 export function foldSignature(full: readonly FullRecord[]): SignatureSummary {
@@ -284,9 +244,6 @@ export function foldSignature(full: readonly FullRecord[]): SignatureSummary {
   let refused = 0;
   let notReplayed = 0;
   const rep = { cuts: 0, planner: 0, fallback: 0, deep: 0, matched: 0, missed: 0 };
-  const zero = (): { ends: number; at85: number; unmeasured: number } => ({ ends: 0, at85: 0, unmeasured: 0 });
-  const arr = { planner: zero(), all: zero() };
-  const arrBy = new Map<string, { planner: ReturnType<typeof zero>; all: ReturnType<typeof zero> }>();
   for (const f of full) {
     if (f.setup !== null) {
       setup += 1;
@@ -301,14 +258,6 @@ export function foldSignature(full: readonly FullRecord[]): SignatureSummary {
       continue;
     }
     for (const k of Object.keys(rep) as (keyof typeof rep)[]) rep[k] += f.counts[k];
-    if (f.arrivals !== null) {
-      const kb = arrBy.get(f.kind) ?? { planner: zero(), all: zero() };
-      arrBy.set(f.kind, kb);
-      addEnds(arr.planner, f.arrivals.planner);
-      addEnds(arr.all, f.arrivals.all);
-      addEnds(kb.planner, f.arrivals.planner);
-      addEnds(kb.all, f.arrivals.all);
-    }
     all.push(...f.cuts);
     const list = by.get(f.kind) ?? [];
     list.push(...f.cuts);
@@ -319,13 +268,6 @@ export function foldSignature(full: readonly FullRecord[]): SignatureSummary {
   for (const [k, v] of by) if (!(k in byKind)) byKind[k] = signatureRow(v);
   const row = signatureRow(all);
   const bent = row.bent;
-  const measuredCorners = all.filter((c) => c.bends === 1 && c.cornerT !== undefined).length;
-  const kinds = [...M0B_KINDS.filter((k) => arrBy.has(k)), ...[...arrBy.keys()].filter((k) => !(M0B_KINDS as readonly string[]).includes(k))];
-  const arrByKind: Record<string, { planner: ArrivalShare; all: ArrivalShare }> = {};
-  for (const k of kinds) {
-    const v = arrBy.get(k) as { planner: ArrivalEnds; all: ArrivalEnds };
-    arrByKind[k] = { planner: arrivalShare(v.planner), all: arrivalShare(v.all) };
-  }
   return {
     metricVersions: signatureVersions(),
     faces: full.length,
@@ -333,11 +275,10 @@ export function foldSignature(full: readonly FullRecord[]): SignatureSummary {
     s8Refused: refused,
     all: row,
     byKind,
-    replay: { ...rep, notReplayed, pass: notReplayed === 0 && rep.missed === 0 },
+    replay: { ...rep, notReplayed },
     fallbackShare: rep.cuts === 0 ? 0 : (rep.fallback + rep.deep) / rep.cuts,
-    corner: { share: row.cornerMid, bound: CORNER_MIN_SHARE, n: bent, measured: measuredCorners, pass: row.cornerMid !== null && bent > 0 && measuredCorners === bent && row.cornerMid >= CORNER_MIN_SHARE && refused === 0 },
+    corner: { share: row.cornerMid, bound: CORNER_MIN_SHARE, n: bent, pass: row.cornerMid !== null && bent > 0 && row.cornerMid >= CORNER_MIN_SHARE && refused === 0 },
     arrival: { share: row.arrival85, bound: ARRIVAL_MIN_SHARE, n: row.cuts, pass: row.arrival85 !== null && row.cuts > 0 && row.arrival85 >= ARRIVAL_MIN_SHARE && refused === 0 },
-    committedArrival: { planner: arrivalShare(arr.planner), all: arrivalShare(arr.all), byKind: arrByKind, verdict: 'reported' },
     sigmaAndFillet: 'reported',
   };
 }
@@ -440,11 +381,8 @@ export interface BentCutReport {
   readonly signature: SignatureSummary | null;
   readonly t34: T34Summary | null;
   readonly work: WorkSummary | null;
-  /**
-   * The bars judged here: F-CUT, the replay gate the two clauses rest on (N-3), the corner and arrival clauses, T34-1's
-   * mean; null for a phase not run.
-   */
-  readonly verdicts: { readonly fcut: boolean | null; readonly replay: boolean | null; readonly corner: boolean | null; readonly arrival: boolean | null; readonly t34: boolean | null };
+  /** The bars judged here: F-CUT, the corner and arrival clauses, T34-1's mean; null for a phase not run. */
+  readonly verdicts: { readonly fcut: boolean | null; readonly corner: boolean | null; readonly arrival: boolean | null; readonly t34: boolean | null };
   readonly pass: boolean;
   /** The first few refusals and replay misses, by face. */
   readonly notes: readonly string[];

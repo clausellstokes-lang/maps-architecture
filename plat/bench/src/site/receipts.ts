@@ -150,11 +150,6 @@ export interface WaterGateReceipt {
   readonly gateSites: number;
   /** Per enceinte (the records' order, then any enceinte only the arena names, by id). */
   readonly enceintes: readonly EnceinteWaterReceipt[];
-  /**
-   * Wall edges over water whose `wall` rows name two or more enceintes (a side shared by nested walls, C-0244), each
-   * once — reported so a run shows whether the shared-side attribution (M0-e-06 S2, note 16) ever applies.
-   */
-  readonly sharedWallOverWater: number;
 }
 
 /** The crossing sites and spans (C-0076; §4.2 S1 (5)). */
@@ -219,11 +214,6 @@ export interface CorpusCounts {
   readonly downgrades: number;
   readonly workLimitHits: number;
   readonly failures: number;
-  /**
-   * The downgrades by cause, as the runner counts them (`CorpusReport.causes`): each contract refusal, each validator
-   * check, E_WORK_LIMIT — so the report tells a `sharpCorner` sliver from a validator failure (M0-e-06 S2, note 4).
-   */
-  readonly causes: CorpusReport['causes'];
 }
 
 /** One counter's charged work and its law's unit count (C-0091). */
@@ -564,28 +554,9 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     recs.push(o);
   }
 
-  // Each wet edge's enceintes (M0-e-06 S2, note 16): those its `wall` rows name — but a side two walls share (stage k's
-  // wall on stage k − 1's, C-0244's union) that carries a `wall_gate` row of a water gate of one of them is that gate's
-  // enceinte's alone, so the other's row does not read it ungated. A shared wet side no such gate names stays in every
-  // enceinte its rows name (fail-closed).
-  const gateEnceinte = new Map<string, string>();
-  for (const g of waterOf) if (!gateEnceinte.has(g.id)) gateEnceinte.set(g.id, g.enceinte);
-  const overOf = new Map<string, EdgeRow[]>();
-  let shared = 0;
-  for (const e of over) {
-    const walls = [...new Set(e.rows.filter((r) => r.role === 'wall').map((r) => r.entity))];
-    if (walls.length > 1) shared += 1;
-    const gatedBy = walls.length < 2 ? [] : walls.filter((id) => e.rows.some((r) => r.role === 'wall_gate' && gateEnceinte.get(r.entity) === id));
-    for (const id of gatedBy.length > 0 ? gatedBy : walls) {
-      const list = overOf.get(id) ?? [];
-      list.push(e);
-      overOf.set(id, list);
-    }
-  }
-
   const rows: EnceinteWaterReceipt[] = [];
   for (const rec of recs) {
-    const mineOver = overOf.get(rec.id) ?? [];
+    const mineOver = over.filter((e) => e.rows.some((r) => r.role === 'wall' && r.entity === rec.id));
     const ids = new Set(rec.gates.map((g) => g.id));
     const ends = new Map<string, LatticePoint[]>();
     let resolved = 0;
@@ -649,7 +620,6 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     mainGates: mains,
     gateSites: slice.gateSites.length,
     enceintes: rows,
-    sharedWallOverWater: shared,
   };
 }
 
@@ -836,14 +806,7 @@ export function fieldsReceipt(d: SpikeDerivation, p: Plat, fields: FieldsPass1, 
 // ---- the skeleton corpus on the district and water faces ------------------------------------------------------------------
 
 function counts(r: CorpusReport): CorpusCounts {
-  return {
-    faces: r.faces,
-    skeletons: r.skeletons,
-    downgrades: r.downgrades,
-    workLimitHits: r.workLimitHits,
-    failures: r.failures,
-    causes: { contract: { ...r.causes.contract }, validator: { ...r.causes.validator }, workLimit: r.causes.workLimit },
-  };
+  return { faces: r.faces, skeletons: r.skeletons, downgrades: r.downgrades, workLimitHits: r.workLimitHits, failures: r.failures };
 }
 
 /** The district faces (each L1 face a district owns) and the water faces (each L0 face a water body owns), as rings. */
