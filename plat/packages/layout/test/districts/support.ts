@@ -35,7 +35,7 @@ import {
   type StageId,
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
-import { parseTable, tableView, type Table, type TableView } from '@plat/tables';
+import { parseTable, TABLE_IDS, tableView, type Table, type TableView } from '@plat/tables';
 import { commitOuterRing, commitS3Slice, faceGraph, flatFixture, runS4, runS5ab, runS6, s3Slice, s6Table, settlementPerimeter, siteFeatures, spineWidthsOf, type FaceGraph, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
@@ -806,18 +806,12 @@ export function tableWith(id: string, row: string, cell: string, value: unknown,
 }
 
 /**
- * A TableView carrying S6's own table `s6` (which the registry's view does not list) as `variant`, every other table
- * `base`'s: how a calibration's or a test's `s6` reaches S6 through the run's tables.
+ * A TableView carrying S6's own table `s6` registered as `variant` (`tableView(TABLE_IDS, [variant])`, C-0416): the
+ * view carries the table and its hash covers it, as a calibration's or a test's `s6` reaches S6 through the run's
+ * tables (Q99, RL8; M0-e-04 round S4). With no variant, the registry's view (`tableView()`), which lists no `s6`.
  */
-export function withS6(variant: Table, base: TableView = tableView()): TableView {
-  return {
-    hash: base.hash,
-    version: (x) => (x === 's6' ? String(variant.version) : base.version(x)),
-    get: (x, key) => (x === 's6' ? variant.rows.get(key) : base.get(x, key)),
-    rows: (x) => (x === 's6' ? variant.rows : base.rows(x)),
-    slice: (x, kind, key) => base.slice(x, kind, key),
-    table: (x) => (x === 's6' ? variant : base.table(x)),
-  };
+export function withS6(variant?: Table): TableView {
+  return variant === undefined ? tableView() : tableView(TABLE_IDS, [variant]);
 }
 
 /** S6's table `s6` with the cells `edits` ([row, cell, value]) replaced, checked by `parseTable` like the shipped one. */
