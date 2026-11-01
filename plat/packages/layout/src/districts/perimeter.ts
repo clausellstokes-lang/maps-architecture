@@ -53,14 +53,42 @@ function largestOuter(rings: readonly (readonly LatticePoint[])[]): LatticePoint
  * area and drops the others: their land lies outside the perimeter, so it is the hinterland's (C-0245 (2)). A boundary
  * inside the frame — every stage's is — gives one piece: the frame is convex, so every point of the sum inside it is
  * joined to the boundary by a segment inside both; only a boundary that leaves the frame and re-enters it splits.
+ * The construction that stood is `settlementPerimeterRung`'s (S6 reports the buffer rung, C-0454).
  */
 export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel, opts: PerimeterOptions = {}): KernelResult<LatticePoint[]> {
+  const r = settlementPerimeterRung(boundary, k, opts);
+  return r.ok ? ok(r.value.ring, r.warnings) : err(r.code, r.detail);
+}
+
+/**
+ * Which construction gave the perimeter's ring (C-0454): the mitred curve with its folds cut (`fast`), the curve mitred
+ * on its segments (`onSegments`), the overlay of the full convolution (`overlay`), §3.4's buffer of the closed ring
+ * united with the boundary (`buffer`, the declared fallback rung), or none (`offset` 0: the boundary itself).
+ */
+export type PerimeterRung = 'none' | 'fast' | 'onSegments' | 'overlay' | 'buffer';
+
+/**
+ * `settlementPerimeter` with the construction that stood (`PerimeterRung`). The rungs, in order: the two fast rings,
+ * each standing only when `isSumRing` finds it the sum's outer ring at `SUM_TOLERANCE_CM`; the overlay of the full
+ * convolution, its ring held to `simpleCcw` and `isSumRing` at `OVERLAY_TOLERANCE_CM`; then — only where the overlay
+ * refused or its ring failed a check, and only for a boundary with a region reading (`regionLoops`: a simple
+ * counter-clockwise ring once its repeated vertices are dropped — §4.5's input —, or one pinched at vertices it visits
+ * twice into counter-clockwise lobes, read as their union, a deterministic repair of that unlawful input; an antenna, a
+ * clockwise lobe or a touch at no vertex has none and keeps the overlay's typed refusal) — the BUFFER RUNG: §3.4's
+ * buffer of the closed ring (round joins and ends) united with the boundary, the form §4.5 names, held to the same two
+ * checks. It costs about five overlays, so it is a rung, never the first construction (Q133: the overlay refuses an
+ * interior swallowtail fold of the full convolution at a concave bay narrower than the offset, or leaves a sliver past
+ * its tolerance; the buffer's arcs never fold there). A ring no rung stands is refused with the overlay's code and
+ * text, the buffer rung's refusal appended.
+ */
+export function settlementPerimeterRung(boundary: readonly LatticePoint[], k: Kernel, opts: PerimeterOptions = {}): KernelResult<{ ring: LatticePoint[]; rung: PerimeterRung }> {
   if (boundary.length < 3 || area2(boundary as LatticePoint[]) <= 0) return err('E_DEGENERATE', 'settlementPerimeter: the boundary is no counter-clockwise ring of area above zero');
   const offsetCm = opts.offsetCm ?? Math.round(districtCells(opts.tables).perimeterOffsetM * 100);
   if (!(offsetCm >= 0 && Number.isFinite(offsetCm))) throw new RangeError(`settlementPerimeter: the offset is a finite length ≥ 0, got ${String(offsetCm)}`);
   // The boundary as a region: its exactly collinear vertices merged (a copy, unchanged, when it has none).
   const b = mergeCollinear(boundary);
   let ring: LatticePoint[] = b;
+  let rung: PerimeterRung = 'none';
   if (offsetCm > 0) {
     const raw = convolution(b, offsetCm, 'miter');
     if (raw === null) return err('E_DEGENERATE', 'settlementPerimeter: the boundary has fewer than three distinct points');
@@ -68,24 +96,30 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
     // its local folds cut, then the curve mitred only where a miter lies on both its offset segments (the reflex arc
     // elsewhere), its folds cut; else (a fold the cut did not resolve, a curve that runs too near another part of the
     // boundary) the sum's outer ring through one overlay of the full convolution, itself checked — a ring that fails is
-    // refused, never committed (C-0245 (1)).
+    // never committed (C-0245 (1)) — and, where it fails, the buffer rung.
     let fast = unloop(raw);
+    rung = 'fast';
     if (!(simpleCcw(fast) && isSumRing(b, fast, offsetCm, SUM_TOLERANCE_CM))) {
       fast = unloop(convolution(b, offsetCm, 'onSegments') as LatticePoint[]);
+      rung = 'onSegments';
       if (!(simpleCcw(fast) && isSumRing(b, fast, offsetCm, SUM_TOLERANCE_CM))) fast = [];
     }
     if (fast.length > 0) ring = fast;
     else {
-      const full = convolution(b, offsetCm, 'arc') as LatticePoint[];
-      const u = k.geom.booleans('union', [b.slice()], [full], 'nonzero');
-      if (!u.ok) return err(u.code, `settlementPerimeter: the union: ${u.detail}`);
-      const outer = largestOuter(u.value);
-      if (outer === null) return err('E_DEGENERATE', 'settlementPerimeter: the offset has no outer ring');
-      // the sum check reads a simple ring (a simple ring in the shell enclosing the boundary is the sum's outer one), so
-      // the overlay's ring is held to `simpleCcw` like the fast rings, not trusted to the overlay's contract
-      if (!simpleCcw(outer)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)');
-      if (!isSumRing(b, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not the boundary\'s offset (the sum check failed)');
-      ring = outer;
+      const o = overlayRing(b, k, offsetCm);
+      if (o.ok) {
+        ring = o.value;
+        rung = 'overlay';
+      } else {
+        // the declared fallback rung (C-0454): a boundary with a region reading only (`regionLoops`: simple once its
+        // repeated vertices are dropped, or pinched into counter-clockwise lobes at vertices it visits twice) — an
+        // antenna, a clockwise lobe or a touch at no vertex has none (unlawful input) and keeps the overlay's refusal
+        if (regionLoops(b) === null) return err(o.code, o.detail);
+        const f = bufferRing(b, k, offsetCm);
+        if (!f.ok) return err(o.code, `${o.detail}; the buffer rung: ${f.detail}`);
+        ring = f.value;
+        rung = 'buffer';
+      }
     }
   }
   if (opts.frame !== undefined && !within(ring, opts.frame)) {
@@ -95,7 +129,82 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
     if (outer === null) return err('E_DEGENERATE', 'settlementPerimeter: the perimeter lies outside the frame');
     ring = outer;
   }
-  return ok(ring);
+  return ok({ ring, rung });
+}
+
+/**
+ * The boundary's region reading for the buffer rung (C-0454), or null where it has none: its consecutive repeated
+ * vertices dropped (`withoutRepeats`), then cut at every vertex it visits twice into lobes (a pinch: lobes meeting at
+ * one point, or a ring given twice round); the reading stands when every lobe is a simple counter-clockwise ring of area
+ * above zero — the region is then the lobes' union, and §3.4's buffer of the closed ring united with the boundary
+ * (nonzero) is its sum. An antenna (a lobe of two points), a clockwise lobe (a hole touching the boundary), a crossing,
+ * or a touch at a point that is no vertex of both edges leaves none: null. The same ring gives the same lobes.
+ */
+function regionLoops(ring: readonly LatticePoint[]): LatticePoint[][] | null {
+  const lobes: LatticePoint[][] = [];
+  const stack: LatticePoint[] = [];
+  const at = new Map<string, number>();
+  for (const q of withoutRepeats(ring)) {
+    const key = `${String(q.x)},${String(q.y)}`;
+    const i = at.get(key);
+    if (i === undefined) {
+      at.set(key, stack.length);
+      stack.push(q);
+      continue;
+    }
+    // q closes the lobe from its first visit: the lobe is that vertex and every vertex after it; q's first visit stays
+    const tail = stack.splice(i + 1);
+    for (const p of tail) at.delete(`${String(p.x)},${String(p.y)}`);
+    lobes.push([stack[i], ...tail]);
+  }
+  lobes.push(stack);
+  return lobes.every((l) => simpleCcw(l)) ? lobes : null;
+}
+
+/** The ring with its consecutive repeated vertices dropped (cyclically): the same point set, every edge of length > 0. */
+function withoutRepeats(ring: readonly LatticePoint[]): LatticePoint[] {
+  const out: LatticePoint[] = [];
+  for (const q of ring) {
+    const last = out[out.length - 1];
+    if (last === undefined || last.x !== q.x || last.y !== q.y) out.push(q);
+  }
+  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
+  return out;
+}
+
+/**
+ * The overlay rung: the outer ring of the boundary united with its full convolution (the reflex arcs run backwards, so
+ * every swallowtail fold is in the curve) through one overlay of the kernel's `booleans`, held to `simpleCcw` (the sum
+ * check reads a simple ring) and to `isSumRing` at `OVERLAY_TOLERANCE_CM`.
+ */
+function overlayRing(b: readonly LatticePoint[], k: Kernel, offsetCm: number): KernelResult<LatticePoint[]> {
+  const full = convolution(b, offsetCm, 'arc') as LatticePoint[];
+  const u = k.geom.booleans('union', [b.slice()], [full], 'nonzero');
+  if (!u.ok) return err(u.code, `settlementPerimeter: the union: ${u.detail}`);
+  return checkedOuter(b, u.value, offsetCm, 'settlementPerimeter: the overlay\'s', 'settlementPerimeter: the offset');
+}
+
+/**
+ * The buffer rung (C-0454): the outer ring of the boundary united with §3.4's buffer of its closed ring (round joins and
+ * ends) — `settlementPerimeterByBuffer`'s region before its clip — held to the overlay's two checks.
+ */
+function bufferRing(b: readonly LatticePoint[], k: Kernel, offsetCm: number): KernelResult<LatticePoint[]> {
+  const buf = k.geom.buffer([[...b, b[0]]], offsetCm, 'round', 'round');
+  if (!buf.ok) return err(buf.code, `the buffer: ${buf.detail}`);
+  const u = k.geom.booleans('union', [b.slice()], buf.value, 'nonzero');
+  if (!u.ok) return err(u.code, `the union: ${u.detail}`);
+  return checkedOuter(b, u.value, offsetCm, 'the buffer\'s', 'the buffer');
+}
+
+/** The largest outer ring of an overlay's rings, held to `simpleCcw` and `isSumRing` at `OVERLAY_TOLERANCE_CM`. */
+function checkedOuter(b: readonly LatticePoint[], rings: readonly (readonly LatticePoint[])[], offsetCm: number, whose: string, what: string): KernelResult<LatticePoint[]> {
+  const outer = largestOuter(rings);
+  if (outer === null) return err('E_DEGENERATE', `${what} has no outer ring`);
+  // the sum check reads a simple ring (a simple ring in the shell enclosing the boundary is the sum's outer one), so
+  // the ring is held to `simpleCcw` like the fast rings, not trusted to the overlay's contract
+  if (!simpleCcw(outer)) return err('E_INVARIANT', `${whose} outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)`);
+  if (!isSumRing(b, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', `${whose} outer ring is not the boundary's offset (the sum check failed)`);
+  return ok(outer);
 }
 
 /** A point in cm. */
@@ -228,17 +337,23 @@ function miterOnBoth(a: Pt, v: Pt, b: Pt, njx: number, njy: number, nix: number,
 export const SUM_TOLERANCE_CM = 5;
 export const OVERLAY_TOLERANCE_CM = 4 * LATTICE.attractCm;
 
+/** How many times the sum check halves one ring edge in its whole-boundary nearness test before it refuses the edge. */
+const NEAR_HALVINGS = 32;
+
 /**
  * Is `ring` the outer ring of the boundary's Minkowski sum with a disc of radius d (within `tolCm`)? The
  * check (C-0245 (1)): no ring edge comes nearer the boundary than d less the tolerance (so it crosses no boundary edge
- * and runs through no land of the sum's interior), each ring edge has both ends within d plus the tolerance of one
- * boundary edge (the distance to a segment is convex, so the whole edge does), and the boundary's first vertex lies
- * inside the ring (the boundary is connected and the ring meets it nowhere, so all of it does). A simple ring in that
- * shell enclosing the boundary is the sum's outer boundary. The boundary is read as a region: its exactly collinear
- * vertices are merged first (`mergeCollinear`), else a ring edge spanning two halves of one straight boundary side —
- * the overlay's union merges such vertices — would be near neither half alone (N-56 (2)). Edges are bucketed on a grid
- * of cells of d; the distances are siting's `distToSegment2` (the foot clamped to the segment), the crossing test its
- * `segmentsMeet`.
+ * and runs through no land of the sum's interior), every point of each ring edge lies within d plus the tolerance of the
+ * boundary as a whole, and the boundary's first vertex lies inside the ring (the boundary is connected and the ring
+ * meets it nowhere, so all of it does). A simple ring in that shell enclosing the boundary is the sum's outer boundary.
+ * The upper bound is tested edge by edge: an edge whose two ends lie within d plus the tolerance of ONE boundary edge
+ * holds it whole (the distance to a segment is convex); else the edge is halved (C-0454; Q133's B1 — a ring edge beside
+ * a near-collinear run of boundary edges, each end near a different one), a piece passing when one boundary edge is near
+ * both its ends or its midpoint's distance to the boundary plus its half-length is within the bound, and failing when
+ * its midpoint lies beyond the bound (a ring point outside the shell) or after `NEAR_HALVINGS` halvings. The boundary
+ * is read as a region: its exactly collinear vertices are merged first (`mergeCollinear`; N-56 (2)). Edges are bucketed
+ * on a grid of cells of d; the distances are siting's `distToSegment2` (the foot clamped to the segment), the crossing
+ * test its `segmentsMeet`.
  */
 export function isSumRing(given: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
   const boundary = mergeCollinear(given);
@@ -265,6 +380,36 @@ export function isSumRing(given: readonly LatticePoint[], ring: readonly Lattice
       }
     }
   }
+  // The boundary edges in the cells of the box of p and q grown by hi (each once, in grid order).
+  const around = (p: Pt, q: Pt): number[] => {
+    const out: number[] = [];
+    const had = new Set<number>();
+    for (let cx = cellOf(Math.min(p.x, q.x) - hi); cx <= cellOf(Math.max(p.x, q.x) + hi); cx += 1) {
+      for (let cy = cellOf(Math.min(p.y, q.y) - hi); cy <= cellOf(Math.max(p.y, q.y) + hi); cy += 1) {
+        const l = grid.get(`${String(cx)},${String(cy)}`);
+        if (l === undefined) continue;
+        for (const i of l) {
+          if (had.has(i)) continue;
+          had.add(i);
+          out.push(i);
+        }
+      }
+    }
+    return out;
+  };
+  // The upper bound on the piece pq of a ring edge against the boundary as a whole (see the header).
+  const nearAlong = (p: Pt, q: Pt, halvings: number): boolean => {
+    const ids = around(p, q);
+    for (const i of ids) if (distToSegment2(p, boundary[i], boundary[(i + 1) % n]) <= hi2 && distToSegment2(q, boundary[i], boundary[(i + 1) % n]) <= hi2) return true;
+    const mid = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
+    let dm2 = Infinity;
+    for (const i of ids) dm2 = Math.min(dm2, distToSegment2(mid, boundary[i], boundary[(i + 1) % n]));
+    if (!(dm2 <= hi2)) return false;
+    const half = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y)) / 2;
+    if (Math.sqrt(dm2) + half <= hi) return true;
+    if (halvings >= NEAR_HALVINGS) return false;
+    return nearAlong(p, mid, halvings + 1) && nearAlong(mid, q, halvings + 1);
+  };
   const seen = new Int32Array(n).fill(-1);
   for (let r = 0; r < m; r += 1) {
     const p = ring[r];
@@ -288,7 +433,7 @@ export function isSumRing(given: readonly LatticePoint[], ring: readonly Lattice
         }
       }
     }
-    if (!near) return false;
+    if (!near && !nearAlong(p, q, 0)) return false;
   }
   return true;
 }

@@ -1,7 +1,7 @@
 // S6's types (M0-e-04; §4.5 *Perimeter*, *Grower*, *Quarters*, *Typing*; §4.1's S6 row; §6.1 `district.seed`,
 // `district.type`; §6.3; §9.1 `QuarterNode`; C-0035, C-0046, C-0085; readings C-0245). Types only.
 import type { LatticePoint, LineageHash } from '@plat/kernel';
-import type { District, Id, NameRef, Seam } from '@plat/model';
+import type { District, Id, QuarterNode, Seam } from '@plat/model';
 
 /** A point in cm (values, not arena slots). */
 export interface XY {
@@ -127,17 +127,10 @@ export interface DistrictTyping {
 }
 
 /**
- * §9.1's QuarterNode (built by S6, §4.5): its district members, its two children (null for a leaf), its name and
- * label spine (S13a's; empty at M0, C-0245 (14)), and whether it is one of the city cut's nodes.
+ * §9.1's QuarterNode (built by S6, §4.5): @plat/model's record (`records/districts.ts`; C-0245 (14)), one type with the
+ * model's, re-exported here under the folder's name (Q86; this folder declared a structural copy until round S4).
  */
-export interface QuarterNode {
-  id: Id;
-  members: Id[];
-  children: [Id, Id] | null;
-  name: NameRef;
-  spine: LatticePoint[];
-  cityCut: boolean;
-}
+export type { QuarterNode };
 
 /** S6's report (§5.4's rows it fills). */
 export interface S6Report {
