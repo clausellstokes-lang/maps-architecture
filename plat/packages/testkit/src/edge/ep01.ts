@@ -421,8 +421,10 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
   },
   S6: {
     'zero-area': { codes: ['E_INVARIANT'], cause: "S6 refuses the boundary with an antenna before its batch: settlementPerimeter's sum check (the overlay's outer ring is not the boundary's offset)", share: '996 of 1 000', route: 'M0-e-04' },
-    'self-touching': { codes: ['E_INVARIANT'], cause: "S6 refuses the looped boundary before its batch: settlementPerimeter's sum check (the other 997 seeds absorbed; seed 2191303060, N-56 (2)'s collinear class, now absorbed; 3009257304 refused since round 2 — the hardening round S1's 1 000-seed run, the same cause)", share: '3 of 1 000', route: 'M0-e-04', seeds: [4101706098, 2461000155, 3009257304] },
-    coincident: { codes: ['E_INVARIANT'], cause: "S6 refuses the boundary given twice round before its batch: settlementPerimeter's union finds no route within the fidelity bound (Q21: a typed refusal of unlawful input)", share: '2 of 1 000', route: 'M0-e-04', seeds: [2708765650, 14238338] },
+    // self-touching and coincident: RETIRED by the session at the hardening round S1's landing (session/x06-seam-2;
+    // Q140, J691): on the tree with M0-e-04 S4's buffer rung (C-0458) both cells absorb 1 000 of 1 000 — the once-pinned
+    // seeds 4101706098, 2461000155, 3009257304 (self-touching) and 2708765650, 14238338 (coincident) are re-pinned
+    // ABSORBED in repins.test.ts; a refusal on any seed is a finding again (no pin, so no refused-safe pass).
   },
 };
 

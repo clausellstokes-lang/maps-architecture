@@ -14,7 +14,10 @@
 //   * the hardening round S1 (lane build/M0-x-06-fix-s1): every named seed of the rare pins replayed at the PR size
 //     (c2-1); the declared shifts re-pinned by their owner — M0-e-03 S3's Q45 shift (C-0434; Q113: EP-01/S1/self-touching
 //     refuses on 4 of 1 000, 2651453823 now laddered) and M0-a-05 S9's RQ3 shift (Q106: EP-01/S5a/coincident absorbed on
-//     all 1 000, its pin retired); bridge × frame on seeds where S4 builds a span (note 5).
+//     all 1 000, its pin retired); bridge × frame on seeds where S4 builds a span (note 5);
+//   * the session's seam at the hardening round S1's landing (session/x06-seam-2; Q140, J691): M0-e-04 S4's buffer
+//     rung (C-0458) absorbs EP-01/S6/self-touching and EP-01/S6/coincident on all 1 000 seeds of each — both pins
+//     retired, their once-named seeds re-pinned absorbed on their first state.
 import { describe, expect, it } from 'vitest';
 import { EDGE_FIXTURES, judgeEdgeOutcome, type EdgeOutcome } from '../../src/edge/index.js';
 import { ep01Findings, ep01Pin, type Ep01Stage } from '../../src/edge/ep01.js';
@@ -28,8 +31,8 @@ function replay(id: string, seed: number): EdgeOutcome {
   return o;
 }
 
-/** The named seeds of the rare pins (S1 self-touching 4, S6 self-touching 3, S6 coincident 2): c2-1's replay count. */
-const RARE_SEEDS = 9;
+/** The named seeds of the rare pins (S1 self-touching 4; the S6 pins retired by the seam of 2026-11-02): c2-1's replay count. */
+const RARE_SEEDS = 4;
 
 /** One seed per refused-safe cell (the first seed of its family where the cell refuses on every seed), with the words
  * the stage's refusal carries. */
@@ -49,8 +52,6 @@ const REFUSED: readonly [string, number, string, string][] = [
   ['EP-01/S5b/zero-length', 3504584308, 'E_DEGENERATE', "stage 2's main roads were refused"],
   ['EP-01/S5b/self-touching', 1745954339, 'E_INVARIANT', "stage 2's main roads were refused"],
   ['EP-01/S6/zero-area', 3899199413, 'E_INVARIANT', "settlementPerimeter: the overlay's outer ring is not the boundary's offset"],
-  ['EP-01/S6/self-touching', 4101706098, 'E_INVARIANT', "settlementPerimeter: the overlay's outer ring is not the boundary's offset"],
-  ['EP-01/S6/coincident', 2708765650, 'E_INVARIANT', 'settlementPerimeter: the union'],
 ];
 
 describe('every refused-safe cell, re-pinned on a named seed of the committed tree (B4, Q14)', () => {
@@ -62,7 +63,7 @@ describe('every refused-safe cell, re-pinned on a named seed of the committed tr
     }
     expect(REFUSED.map((r) => r[0]).sort()).toEqual(pinned.sort());
   });
-  it("a rare pin names every seed its share counts at 1 000 (the four rare cells, and only they); a share's count is the run's", () => {
+  it("a rare pin names every seed its share counts at 1 000 (the one rare cell, and only it); a share's count is the run's", () => {
     const rare: string[] = [];
     for (const f of EDGE_FIXTURES) {
       const [ep, stage, kind] = f.id.split('/');
@@ -75,7 +76,7 @@ describe('every refused-safe cell, re-pinned on a named seed of the committed tr
       expect(pin.seeds.length, f.id).toBe(Number((m?.[1] ?? '').replace(/ /g, '')));
       expect(new Set(pin.seeds).size, f.id).toBe(pin.seeds.length);
     }
-    expect(rare.sort()).toEqual(['EP-01/S1/self-touching', 'EP-01/S6/coincident', 'EP-01/S6/self-touching']);
+    expect(rare.sort()).toEqual(['EP-01/S1/self-touching']);
   });
   // c2-1 (the hardening round S1): a rare pin's seed list checked at the PR size, seed by seed — a named seed that is
   // wrong but keeps the count (the closing check's mutant X12) fails here, not only at the nightly 1 000
@@ -128,7 +129,21 @@ describe('the outcomes the round names, re-pinned to the committed stages (N-56 
     expect(o.handling).toBe('absorbed');
     expect(o.facts.tries).toBe(1);
     expect(o.lawful).toEqual([]);
-    expect(ep01Pin('S6', 'self-touching')?.seeds).not.toContain(2191303060);
+    expect(ep01Pin('S6', 'self-touching')).toBeUndefined();
+  });
+  it("EP-01/S6/self-touching at 4101706098, 2461000155 and 3009257304 and EP-01/S6/coincident at 2708765650 and 14238338 — the seeds once pinned refused-safe — are absorbed on their first state (M0-e-04 S4's buffer rung C-0458; Q140, J691: both cells 1 000 of 1 000 on the landed tree)", { timeout: 600_000 }, () => {
+    for (const [id, seeds] of [['EP-01/S6/self-touching', [4101706098, 2461000155, 3009257304]], ['EP-01/S6/coincident', [2708765650, 14238338]]] as const) {
+      for (const seed of seeds) {
+        const o = replay(id, seed);
+        expect(o.handling, `${id} at ${String(seed)}`).toBe('absorbed');
+        expect(o.facts.tries, `${id} at ${String(seed)}`).toBe(1);
+        expect(o.lawful, `${id} at ${String(seed)}`).toEqual([]);
+      }
+      // the pins are retired, not loosened: neither cell allows a refusal now
+      const [, stage, kind] = id.split('/') as [string, Ep01Stage, DegenerateKind];
+      expect(ep01Pin(stage, kind), id).toBeUndefined();
+      expect(EDGE_FIXTURES.find((f) => f.id === id)?.expect.allowed, id).not.toContain('refused-safe');
+    }
   });
   it('cell/river×frame at 1595424233 commits on its first state: one edge both roles (M0-e-03 s1)', { timeout: 300_000 }, () => {
     const o = replay('cell/river×frame', 1595424233);
