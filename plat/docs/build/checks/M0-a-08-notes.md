@@ -494,3 +494,74 @@ verdict).**
   seat's sort gives `02f75da8…` on both sides. The set identity this seat relies on is its own before/after
   comparison, line for line. The difference is in how the digest was taken, not in the set.
 * *RELATED's reds.* RELATED at 1 000 had none (334 files, 4 114 / 4 114, exit 0). Neither of the session note's foreign reds appeared in this run.
+
+## Hardening round S5 — the builder (lane `build/M0-a-08-fix-s5`, 2026-10-31 – 11-01): row-by-row outcome
+
+The session's round S5 for this item (J672; J237 (2), J264, J290 / N-58, J263 Q1 / Q6): the queue rows Q106 (a-08's
+half), Q97 (L18's test half), Q74's RQ1 touch, and one evidence line for RL1 (Q83). Choices row C-0458; CLEAN-ROOM row
+L-0718. **No source file changed** (`packages/*/src/` untouched; `arr/index.ts` and the barrel unchanged): the round's
+seven files are test files of the item's two folders. The seat was relaunched once (CONTINUE RULE, 2026-11-01): the
+first sitting's edits (2026-10-31) were found in the tree, read and kept, and its BEFORE census (lane line 09:08) kept;
+its mirror and scratch did not exist on this machine, so the mirror was rebuilt and every mutant run afresh. Mutant ids
+M01 – M09 are this section's; each ran in the lane's `cp -a` mirror (isolated: no link back into the tree; testkit's
+`@plat/kernel` resolves inside it) against both item folders (`--bail=1`, `PLAT_FUZZ_RUNS=300`,
+`PLAT_FUZZ_SEED=9511`) after a green base run of the same set (12 files, 217/217), then against its own pin alone; the
+mutated file restored from the tree and compared (`cmp -s`) after each.
+
+| row | outcome | evidence (pin; mutant) |
+|---|---|---|
+| Q106 (a-08's half; a-05 S9's declared shift) | **re-pinned** against the landed router (a-05 S13's tree), the test's intent kept and re-stated against S9's rule (RQ1; a-05 notes 'PROPOSED' (1), the declared-shift row of `checks/M0-a-05-s9.md`); no source change | `booleans.test.ts` describe 'the seven-segment ring of C-0205 (3) under RQ1 …', test 's6 commits as a simple path … (RQ1's control; Q106)'. **Before** (the old `booleans.test.ts:295 – 336`, red on the tree since S9 at :329, `expected -1 to be greater than or equal to 0`): s6's rows found on P–Q, s6's degree P 3 and Q 1 (the retrace A–P–Q–P–R–B), the net and labels as below. **After**: the edge P–Q stands and carries s4's row and not s6's; s6's degrees: Q absent, P 2, exactly two ends of degree 1, every vertex 1 or 2 (a simple path); s4 runs P → Q once (`sgn · net[spur]` = 1); labels consistent. Green on the tree. M01 (snapRound's `reenters` → false: the in-segment cut back of S9 off) red, first in the folder, by this pin. M01x (insertChain's cut back ACROSS segments off) survives: s6's retrace lies inside one segment, so that cut never reaches this fixture (equivalent here; a-05's `reentry.test.ts` pins it) |
+| Q74's RQ1 touch (rulings-hardening-1.md §8 (3); N-61) | **pinned**; the a-08 side asserted, the router's side **reported** (it is a-05's, pinned there) | The same describe is RQ1's fixture in this file, cross-referenced to RQ1 in its comment and in C-0458 (C-0104's form). The ruling's fixture: C-0205 (3)'s seven-segment ring; the router's side (s6 commits A–P–R–B, P–Q carries s4 alone) is the control above, red without RQ1's cut (M01); a-08's side is N-41 (3)'s robustness, kept for the winding walk (rulings §8 (6)): test 'a hand-built overlay row retracing P–Q on s6 nets nothing …' builds the overlay stage by stage, plants s6's row back on P–Q (the pre-S9 form: P 3, Q 1, no edge added) and asserts the oriented net before `glueWalks` / `balanceFlow` equal to the unplanted one's, the final net, labels and traced region (both fill rules) equal to the plain overlay's. M02 (`orientSegments` gives off-path edges flow) red by this pin — after a strengthening this sitting: the first form compared only the final net, which `balanceFlow` repairs (it joins the spur's source and sink back along P–Q), so M02 survived it; the pin now also reads the net before the repair. M02 also reddens S4's `orientSegments` pin. Q74's a-08 touch is **closed**; the router's side needs no seed (a constructive fixture) |
+| Q97 (L18's test half; J470) | **fixed + pinned** in the item's testkit folder (k-03's `agreement.test.ts` / `support.ts` the model, read only) | `support.ts`: `agreementParams(op)` (size PLAT_FUZZ_RUNS; seed PLAT_FUZZ_SEED's when set, else `arr/agreement/<op>`'s fixed H32 seed via `fuzzParams`), `runAgreement` hands both to `fc.assert` and judges on a harness carrying the seed, `replayTag` puts "seed N; replay with PLAT_FUZZ_SEED=N" in the verdict's line and every assertion message, `agreementRefusalCap(runs)` = max(1, ⌈0.001 × runs⌉): 1 at 10³, 10 at 10⁴, 1 000 at 10⁶, its rationale (C-0150's share at every size, judged at 10³ on the family seed's fixed draw) in the trio's headers and here. **The bar did not change**: the old cap ⌈0.001 × runs⌉ gives the same 1 / 10 / 1 000 at every size ≥ 1 (only a 0-case run differs, 0 → 1). The trio (`agreement-{booleans,buffer,faces}.test.ts`) calls `runAgreement`. The declared test-side shift: an unseeded PR run now draws each operation's fixed family set (as k-03's and k-01's families do) instead of the run seed's draw. Pins in `harness.test.ts` 'the agreement runs replay from their seed and cap refusals per size …' (5 tests): M03 (constant seed) red; M04 (`fc.assert` without the seed: L10's class) red; M05 (tag without the replay command) red; M06 (cap 1 at every size) red; M07 (a logged refusal takes the env seed, not the harness's) red; M08 (the verdict's cap at the configured size, not the run's; run at `PLAT_FUZZ_RUNS=2000`, equivalent at 300 where both caps are 1) red by 'a refusal line carries the seed …' (the planted refusal through the harness: clipper2 refusing on its own operands and polygon-clipping's measure, two counted at cap 1, the line and message pinned verbatim); M09 (the report line without its tag) red. `register.test.ts`'s comment corrected to the truth: `oracleHang` (H-offsetFace-6101) is not run by this file, k-03's `test/oracles/budget.test.ts` runs it under the step budget since k-03 S1 (KI-6; C-0414); the second hang is agreement-buffer's case at `PLAT_FUZZ_SEED=1595` (1 000 runs), pinned in k-03's `test/oracles/fixtures/hang-1595-buffer.json` (comment-only: no pin). No behaviour change in the operations |
+| RL1 evidence (J637; Q83) | **REPORTED** (no fix; the owner is the router, M0-a-05) | See *RL1's measurement* below |
+
+**RL1's measurement (Q83's trio at seed 8611 × 1 000, this tree).** Command, in the mirror (= the tree's files, compared
+by `cmp` before the run): `PLAT_FUZZ_SEED=8611 PLAT_FUZZ_RUNS=1000 PLAT_REFUSALS_OUT=<file> PLAT_FUZZ_COUNTS=<file>
+corepack pnpm exec vitest run --maxWorkers=1` over `agreement-booleans`, `agreement-buffer`, `agreement-faces`,
+`register` and `pins` (N-s4c-4's set): 5 files, 96/96, exit 0 (538 s). The refusal file is kept at
+`/tmp/claude-0/-home-user-maps-architecture/a3e81ad8-5b2a-5ebd-a8f2-9e56533903b1/scratchpad/a08s5/rl1-refused.jsonl` (88 lines; counts in `rl1-counts.jsonl` beside it).
+
+| | N-s4c-4 (a-08 S4, 2026-10-18) | this tree (a-05 S13 landed) |
+|---|---|---|
+| refused lines, total | 93 (sorted SHA-256 `02f75da8…`) | **88** (sorted SHA-256 `897f3852…`) |
+| fuzz draws: buffer | 10 | 10 (notBuilt #2 class D 3, E 1, S 4, W 2) |
+| fuzz draws: offsetFace | 6 | **5** (class E 2, S 3) |
+| fuzz draws: union, intersection, difference, xor, insetRing | 0 | 0 |
+| the register's replays | 77 (by difference, PLAUSIBLE) | **73** (buffer 35: D 4, E 6, S 22, W 3; offsetFace 38: C 1, D 3, E 4, S 29, W 1) — every `refused` entry of `register.json` (73), none of its 9 `pending` |
+| code and message | every one `E_INVARIANT` "insert: no route from (…) to (…) keeps clearance (§3.10) within the fidelity bound (N-43)" | every one the same `E_INVARIANT` and text, now followed by the router's class: "; class S/E/D/W (notBuilt #2, M4): the design route's farthest vertex (…), N cm off" (87) or "; class C (notBuilt #2, M4): the design route breaks clearance — the vertex (…) stands within minEdge of the edge (…)–(…)" (1) |
+| own (arr/), setup | 0, 0 | 0, 0 |
+| M0-k-04's B-FUZZ (2 000 each) | offsetFace 7, buffer 1 `E_INVARIANT` | offsetFace 7, buffer **2** (the first sitting's probe, lane line 2026-10-31 09:08, on the same sources: this round changed none) |
+
+Class OUR OWN INTERMEDIATE (an insertChain refusal on a part of our construction from lawful input), verdict
+MAKE-IT-SUCCEED, owner the router (M0-a-05, notBuilt #2, M4): this round reports and fixes nothing (the session rules RL1
+on this number with a-05 S12 / S13's landing figures).
+
+**Refusals (J264, N-58).** The registered families at seed 8611 × 1 000 (the set above), BEFORE (the first sitting,
+the pre-round mirror, 2026-10-31 09:08) and AFTER (this sitting): identical — 88 lines, the same sorted SHA-256
+`897f3852…`, the same per-operation counts (buffer 10, offsetFace 5, every other 0; own 0; setup 0). The round changed
+no operation, so the census could not move; it did not rise.
+
+**Gates (on the tree, W = 1).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1 268 files, 0 errors, 0 warnings;
+"lint: probe-red ok"); `build` 0 (`tsc -b ok`); the two test tsconfigs typecheck 0; NEAR at the PR size (`PLAT_FUZZ_RUNS` unset; run seed 656402070) over both item
+folders: 12 files, 217/217, exit 0 (4 071 s). The round changed no `packages/*/src/` file, so RELATED at 1 000 ran
+over the seven changed test files (`vitest related --run`, the import graph of the item's own test support): 9 files,
+173/173, exit 0 (518 s; run seed 1145861986); no J176 bench red and no foreign red in the selection. No git run; the
+mirror deleted.
+
+## Hardening round S5 — the closing checker (lane `check/M0-a-08-close-s5`, 2026-11-01): N-s5c-1 – N-s5c-4
+
+The closing check of round S5 (verdict PASS, `checks/M0-a-08-s5.md`): the four lines confirmed with this seat's own
+evidence, thirteen own mutants (twelve killed each by its own pin, one judged equivalent), the census re-measured
+before and after at seed 8611 × 1 000 (88 = 88), the gates, NEAR at the PR size and RELATED at 1 000. New findings, none a
+blocker; each a row for the hardening pass (M4) unless it belongs earlier.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s5c-1 | **The RQ1 fixture exercises one of the router's two cut sites and none of the cross-segment cut.** Mutant Z03 (the `via` cut at `snapRound.ts:585` removed, the contact-landing cut at `:647` kept) is red at the control's `:529` like Z01, so this fixture's re-entry is cut at the `via` site; Z13 (`insertChain.ts` `reentered` → false, the cross-segment cut back of C-0423 (1) off) survives the file 30 / 30 — s6 is a two-point chain, so the cross-segment cut has nothing to act on here. Equivalent on the stated promise (the C-0205 (3) ring); the landing-site and cross-segment classes are the router's and pinned there (`test/insert/step3-5/{router,reentry}.test.ts`), read, not re-run by this seat. | none for a-08; a-05's hardening pass may want one a-08-side fixture (an overlay whose segment re-enters at a contact landing) if the walk's reading of that class is ever in doubt | M4 |
+| N-s5c-2 | **The verdict's line is invisible on a passing run under the default reporter.** Vitest 5's default reporter, writing to a file, prints no `console.info` of a passing test: the NEAR log (12 files, 217 / 217) and both census logs hold no `arr/<op>: seed …` line, so the seed and the replay tag the round put in the line (Q97) reach a reader only on a red (the assertion messages carry it — the pins show that) or with `--reporter=verbose` (this seat's 1595 replay) or through `PLAT_FUZZ_COUNTS` (its `seed` field). The trio's headers say the seed is "printed in the verdict's line": true of the line, not of every log of a green run. | a one-line note in the trio's headers or in C-0458's successor ("read the line with `--reporter=verbose` or from `PLAT_FUZZ_COUNTS`"); or the tools' vitest config forwarding console output in CI logs — the session's call, not the item's | M4 |
+| N-s5c-3 | **One Q97 pin writes under `os.tmpdir()`.** `harness.test.ts` 'a refused case logged for the register carries the harness's seed (PLAT_REFUSALS_OUT)' makes `mkdtempSync(join(tmpdir(), 'a08-s5-'))`, writes one JSON line through `separateRefusal` and reads it back, then removes the directory. An output path outside `plat/`, read back in the same test; the same pattern stands in nine other test files of `plat/` (`testkit/test/edge/support.ts`, `test/parity/{check,ngfaces,parity}.test.ts`, `test/oracles/isolation.test.ts`, `kernel/test/invariants/debug.test.ts`, `layout/test/growth/s5ab/guards.test.ts`, the two `kat-hosts.mjs`). Not a C-0067 input path; not a blocker. | if the session wants every path inside `plat/`, a shared scratch helper under `plat/` (coverage- and snapshot-excluded) for these ten files, in one small round | M4 |
+| N-s5c-4 | **At seed 8611 the register's 73 `refused` cases all still refuse and none of its 9 `pending` cases does** (88 lines = fuzz 15 + register 73, counted by `PLAT_FUZZ_COUNTS` and the register's size). The router's class text is now on every line (S 58, E 13, D 10, W 6, C 1 — notBuilt #2, M4). A `refused` entry that a later router round turns into a commit passes `cleanOutcome` as a judged commit and "its row then leaves the register" (the file's header) — no row has left yet, so the register and the fuzz count move together as RL1's measure; the author's REPORTED row and this seat's count agree (88). | RL1's ruling (the session, J637) reads these numbers; when the router round lands, a-08's next touch re-records `register.json` (the rows that commit leave) — a declared change of the register, stated | M4 (or the router round's successor) |
+
+Process: the seat's mirror `/home/user/maps-scratch/waves/check-M0-a-08/mirror` (a `cp -a` of `plat/`, isolated), its
+mutant scripts under `…/mutants/`, the census files under `…/census/{after,before}/` (kept; the mirror's `node_modules`
+deleted at the end). One test process at a time; nothing stopped for being slow. No git run.
