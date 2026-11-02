@@ -68,6 +68,7 @@ import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
 import { placePoint, type Crossing } from './placement.js';
 import { applySplitPlan, footOnSegment, nearerVertex, type SplitPlan } from './splitThrough.js';
+import { setHalfEdgesNext, setHalfEdgesOrigin, setHalfEdgesPrev, setVerticesFlags, setVerticesLevel, setVerticesOut } from '../arena/write.js';
 
 /** The foot of p on a segment, and the nearer of two vertices: steps 1 – 2's exported originals (C-0321 (1)). */
 export { footOnSegment, nearerVertex };
@@ -567,12 +568,12 @@ export function promote(tx: InsertTx, v: VertexId, level: Level, own: Warning[] 
   const vertexHome = p.indexHome.vertex[v];
   const oldFlags = p.vertices.flags[v];
   undo?.push(() => {
-    p.vertices.level[v] = old;
-    p.vertices.flags[v] = oldFlags;
+    setVerticesLevel(p, v, old);
+    setVerticesFlags(p, v, oldFlags);
   });
-  L[v] = level;
-  if (level > m) p.vertices.flags[v] |= VERTEX_STEINER;
-  else p.vertices.flags[v] &= ~VERTEX_STEINER;
+  setVerticesLevel(p, v, level);
+  if (level > m) setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_STEINER);
+  else setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_STEINER);
   indexRelevel(p, { kind: ITEM_VERTEX, level, slot: v }, old);
   journal.changed.push({ item: { kind: ITEM_VERTEX, level: old, slot: v }, homeBefore: vertexHome, successor: { kind: ITEM_VERTEX, level, slot: v } });
   if (oldHandle >= 0) {
@@ -686,7 +687,7 @@ export function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): voi
   for (const r of rowsOn(p, 'edge', sub)) {
     if (p.roles.level[r] !== ctx.n || !own.has(`${p.roles.kind[r]}/${idOf(p, p.roles.entity[r])}/${p.roles.ordinal[r]}`)) return;
   }
-  p.vertices.flags[v] &= ~VERTEX_SPLIT;
+  setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
 }
 
 /**
@@ -708,19 +709,19 @@ function unsplit(p: Plat, g: HalfEdgeId, h: HalfEdgeId, v: VertexId): void {
   const after = T.next[h];
   const before = T.prev[h ^ 1];
   if (after === (h ^ 1)) {
-    T.next[g] = g ^ 1;
-    T.prev[g ^ 1] = g;
+    setHalfEdgesNext(p, g, g ^ 1);
+    setHalfEdgesPrev(p, g ^ 1, g);
   } else {
-    T.next[g] = after;
-    T.prev[after] = g;
-    T.next[before] = g ^ 1;
-    T.prev[g ^ 1] = before;
+    setHalfEdgesNext(p, g, after);
+    setHalfEdgesPrev(p, after, g);
+    setHalfEdgesNext(p, before, g ^ 1);
+    setHalfEdgesPrev(p, g ^ 1, before);
   }
-  T.origin[g ^ 1] = t;
-  if (p.vertices.out[t] === (h ^ 1)) p.vertices.out[t] = g ^ 1;
+  setHalfEdgesOrigin(p, g ^ 1, t);
+  if (p.vertices.out[t] === (h ^ 1)) setVerticesOut(p, t, g ^ 1);
   for (const r of rowsOn(p, 'edge', h)) removeRoleRow(p, r);
   for (const r of rowsOn(p, 'vertex', v)) removeRoleRow(p, r);
-  p.vertices.out[v] = -1;
+  setVerticesOut(p, v, -1);
   freeEdgePair(p, h);
   freeVertex(p, v);
 }

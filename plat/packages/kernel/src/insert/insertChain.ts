@@ -111,6 +111,7 @@ import {
   type Provenance,
 } from './stretch.js';
 import { chainCorner, wedgeOutcome } from './wedge.js';
+import { setVerticesOut } from '../arena/write.js';
 
 const ATTRACT = LATTICE.attractCm;
 const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
@@ -170,7 +171,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       v = allocVertex(p, l.at, n, 0);
       const fresh = v;
       ctx.undo.push(() => {
-        p.vertices.out[fresh] = -1;
+        setVerticesOut(p, fresh, -1);
         freeVertex(p, fresh);
       });
       indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });
@@ -258,7 +259,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
   }
   const v = allocVertex(p, pt, n, 0);
   ctx.undo.push(() => {
-    p.vertices.out[v] = -1;
+    setVerticesOut(p, v, -1);
     freeVertex(p, v);
   });
   indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });
