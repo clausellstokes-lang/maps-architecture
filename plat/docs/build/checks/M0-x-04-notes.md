@@ -146,3 +146,74 @@ each is a hardening row or a note for the session. Evidence in `/home/user/maps-
 | 13 | **The soft check's water-parent clause is never exercised.** Mutant C17 (the clause "an L1 face whose L0 parent is a water body's is water" dropped) survives NEAR (46/46) and the 18-run census (byte-identical output): on every fixture an L1 face under a body inherits the body as owner (§2.2 rule 4), so the owner clause already skips it. Redundant in practice, kept for a face whose owner was cleared. Suggested handling: a fixture with an unowned L1 face under a water L0 face, or drop the clause with a comment. | `m-C17.log`, `m-C17-near.log`, `census-C17.jsonl` = `census-final.jsonl` | M0-x-04 at M4 | CONFIRMED |
 | 14 | **RELATED@1000's reds are foreign (round S1's N-s1-4 class).** See the verdict's RELATED line for this run's list. `testkit/test/edge/repins.test.ts` 'EP-01/S5a/coincident at seed 1658509524' reads `absorbed` for `refused-safe` (an S3/S5a outcome no change of this round reaches; red on the pre-round file per the builder's 17:13 line and in the seat's first, cut run). | `related/f179.log` (the per-file RELATED@1000 of 2026-10-28: 225 files, 2818 / 2819, this the one red; the bench scan K6-6 timeout of the cut runs green alone), `related.log`, `related.cut-2237.log` | the session (M0-x-06's re-pin) | CONFIRMED |
 | 15 | **Disclosures.** The seat's context ended once (22:37) and was resumed in the same container from its CHECKPOINT lines and scratch logs; the RELATED run was re-run whole, cut again at 23:06 by a container restart, and run per test file (the managing seat's ruling of 2026-10-28) in a new container. The notes file (holding the builder's section) was read in the seat's first context; its mutants C1 – C20 are its own shapes, and several re-make the round's named mutants (C1 = M39, C2 = M41, C4 ≈ O1, C7 ≈ D1, C8 ≈ D2, C13 ≈ L1, C18 = F9) on purpose, as the brief asks a closing checker to re-kill each pin's mutant. In the resumed context a grep of the lane log for the item also showed the builder's CHECKPOINT lines, after this seat's mutants and census had run. | the lane log | the session (seat discipline) | CONFIRMED |
+
+## Hardening round S2 (lane `build/M0-x-04-fix-s2`, 2026-11-02)
+
+The session's fix round S2 of M0-x-04 (J704, vetoable): the integration fix of stage group 15's check
+(`checks/integration-g15.md`, verdict FAIL on B-1) and RL8's per-owner x-04 line of Q99 (J637; x-02 note 24), with Q138
+(x-02 S3's declared shift in this item's pin; x-02 notes 26 and 29). Gate: the g15 FAIL record landed
+(`check/integration-flow-7-g15 LANDED` 05:21). Choices row C-0464 names both lines. The source file changed is
+`packages/layout/src/pipeline/base.ts` (pre-round sha256 `d1c9d7d6…` = the landed record); `pipeline/index.ts` is
+untouched, `base.ts`'s 31 export lines are identical (J263 Q1); `runner.ts` (M0-x-02), `fixtures/flat.ts` (M0-c-01),
+`districts/stage.ts` and `districts/table.ts` (M0-e-04) and `@plat/tables` were read, never edited.
+
+| line | source | outcome | the change | pin (red without the fix) | mutant |
+|---|---|---|---|---|---|
+| LINE 1 — Q138 / g15 B-1 | integration-g15.md B-1; x-02 notes 26, 29; Q138, Q99 | FIXED + PINNED (the test re-pinned against the landed runner; the composition's intent kept) | `run.test.ts`'s composition test builds its expected fixture on the run's view, `flatFixture(1, { frameAreaHa, walledHa, tables: REGISTERED })` with `REGISTERED = tableView(TABLE_IDS, [s6Table()])` — the runner's registered default (`runner.ts:258`), the view `baseSite` hands the site (`base.ts:438`, `tables: ctx.tables`). The registered view, not the site's own, so the test also holds what the run hands S3: new assertions that `site.tables.hash` is the registered view's, is not the bare `tableView()`'s, and carries `s6` (`s6Table()`'s hash). The tail (lines 214 – 242: slice, S4 ways, S5 growth / prune / capacity, ways, gates against the items' own `s3Slice` → `commitS3Slice` → `runS4` → `runS5`) now runs and holds; the test stays at seed 1, so "at least one S5c street" is claimed at seed 1 only (g15 N-2) | **Before** (the tree since x-02 S3, NEAR 45/46): `run.test.ts:211` `canonicalText(restA) !== canonicalText(restB)`, the texts equal but for `"tables":{"hash":…}` — received (the site, registered view) `[3583497132,961889844,1541159756,447780439]`, expected (the bare fixture) `[3142915123,597354915,394476638,1383838904]`. **After**: the composition test green (NEAR 49/49) | X1: the fixture's view reverted to the bare default → the composition test red at the `canonicalText` comparison, the same two hashes (`m-X1.log`) |
+| LINE 2 — Q99's x-04 line | x-02 note 24; Q99 (RL8, J637); g15 N-1 | FIXED + PINNED, NO-SHIFT proven | (a) `baseS6Input` takes `ctx.tables` (its context `Pick` gains `'tables'`; every caller already passes the full `PipelineContext` or a test object) and passes it to S6's input (`tables: ctx.tables`) and to `siteFeatures` (`tables: ctx.tables`, whose edge class is read through `s6TableIn`) — Q99's "one registered view threaded through siteFeatures and S6" (J480); `districts/stage.ts:253`'s fallback is no longer reached from the base. (b) `baseArena`'s default view is the registered one, `tableView(TABLE_IDS, [s6Table()])` (the runner's model); `runBase` hands it `options.tables` when given (unchanged), so the arena's frame and the stages read one view | `run.test.ts` *flat: S6's input …*: the context carries `REGISTERED` and `inp.tables` is that very view. `view.test.ts` (new; `siteFrame`, `s6Stage`'s `inputsOf` and `siteFeatures` wrapped by `vi.mock` to record the view each is handed): `baseArena(BP)` reads the registered view (hash, `s6`), `baseArena(BP, BARE)` the view handed; `runBase(FLAT 900/30, 1)` with no view — every frame read, S6's input and its sited features carry the registered view's hash; handed a view — each is that very view. Red on the pre-round `base.ts` (T1, T2, A1 are its three differences) | T1 (S6 input's `tables` dropped) → `run.test.ts` S6-input pin; T2 (`siteFeatures`'s `tables` dropped) → `view.test.ts` (no view); A1 (`baseArena`'s bare default restored) → `view.test.ts` (baseArena); A2 (`runBase` not handing `options.tables` to the arena) → `view.test.ts` (handed a view) |
+
+**NO-SHIFT (J263) and the refusal census (J264 (4), N-58).** The family: the base runs on the 900 ha frame, 30 ha walled
+— flat, river from the west (27 000 cdeg, `RIVER_BLUEPRINT`), river from the north (0 cdeg) × seeds 1 – 6, the 18 runs
+of round S1's census. The pre-round tree (the mirror before any edit) against the final tree, one probe
+(`census.mts`: `runBase` per run, the model root, every stage root, the whole report's canonical text and every data
+key's canonical text, hashed): `census-pre.jsonl` and `census-post.jsonl` are byte-equal (18 runs, 27 data keys each,
+`cmp` exit 0). No output moved: the bare and the registered view hold the same cells for every table S6 and the frame
+read (S6 fell back to `s6Table()` itself), so the change is the view's identity and hash alone, and no stage's output
+reads the hash. Refusals 2 → 2, identical: river N seeds 1 and 6, S5 `E_SELF_INTERSECT` (M0-c-04's S5a trace across the
+river, note 1's class, KI-10: input LAWFUL, geometry OUR OWN INTERMEDIATE, verdict MAKE-IT-SUCCEED in M0-c-04's round;
+foreign, unchanged by this round). Round S1 counted 3 on the same family; river N seed 5's `E_INVARIANT` has since been
+absorbed by a dependency's round (it commits in both images here). The round adds no refusal.
+
+**Self-check (J183).** One mirror, `/home/user/maps-scratch/waves/selfcheck-build-M0-x-04-fix-s2/plat` (a `cp -a` of
+`plat/` taken before the first edit; `find … -lname '/home/user/maps-architecture*'` printed nothing and
+`@plat/kernel`'s realpath lay inside the mirror). The mirror served first as the pre-round image for the census, then
+held the final files; each mutant was applied to the mirror only, run as `vitest run --maxWorkers=1 --bail=1
+packages/layout/test/pipeline/base/`, and restored from the tree with `cmp -s` before the next. 5 mutants, 5 killed,
+each by its line's own pin; no survivor, no equivalent. The mirror was removed when done.
+
+| mutant | line | the fault | killed by |
+|---|---|---|---|
+| X1 | 1 | the composition fixture on the bare `tableView()` (the pre-round test) | `run.test.ts` *S3's site is the flat fixture's …* (`canonicalText`, `tables.hash`) |
+| T1 | 2 | `baseS6Input` drops S6's `tables` | `run.test.ts` *flat: S6's input …* (`inp.tables`) |
+| T2 | 2 | `baseS6Input` drops `siteFeatures`'s `tables` | `view.test.ts` *runBase with no view …* |
+| A1 | 2 | `baseArena`'s default back to the bare `tableView()` | `view.test.ts` *baseArena's frame …* |
+| A2 | 2 | `runBase` builds the arena on the default, not the run's view | `view.test.ts` *runBase handed a view …* |
+
+**Reported (not built; other items' lines).** `fixtures/flat.ts:43`'s own default (`opts.tables ?? tableView()`) stays
+M0-c-01 S4's RL8 line: this round re-pins the test instead (the narrower owner note 26 names); changing the fixture's
+default would move `site.tables` for every other caller. `districts/stage.ts:253` and `districts/table.ts:112` are
+M0-e-04's (done in e-04 S4, J686). Callers outside the owns that compose the same pieces — `testkit/src/ladders/chain.ts`
+(M0-x-05) and `bench/src/site/compose.ts` (M0-e-06) call `baseS6Input` with the runner's full context and so read the
+run's view too (the same cells; no output moves), and every harness calling `baseArena(bp)` now builds its frame on
+the registered view (the same frame).
+
+**Gates on the final file** (W = 1 throughout): `install --frozen-lockfile` 0; `lint` 0 (eslint 1277 files, 0 errors,
+`probe-red ok`); `build` 0; NEAR (PR size, seed 204415723) `packages/layout/test/pipeline/base/` 5 files 49/49 exit 0;
+RELATED@1000 over `pipeline/base.ts` (fast-check seed -353090509; 9 613 s at W = 1, informative) 259 files 3310/3310
+exit 0 — no red, the g15 run's foreign edge reds (N-5) included; `install`, `lint` and `build` re-run 0 after the last edit.
+Logs and the probe in
+`/home/user/maps-scratch/session-fix/x04-s2/`.
+
+## Closing check of hardening round S2 (lane `check/M0-x-04-close-s2`, 2026-11-02)
+
+New findings of the closing check (`checks/M0-x-04-s2.md`, verdict PASS). None is a blocker (the rule of the brief):
+each is a hardening row or a note for the session. Evidence in `/home/user/maps-scratch/waves/check-M0-x-04/close-s2/`.
+
+| # | note | evidence | route | label |
+|---|---|---|---|---|
+| 16 | **S6's second-half test recomputes pass 1 on the bare view.** `run.test.ts`'s *S6's second half …* test (`:499`, `:510`) recomputes `fieldsPass1(…, tableView(), stream)` on the bare view, while the base hands pass 1 the run's view (`base.ts:794`, `ctx.tables`, the registered one since x-02 S3). The cells are equal today, so the comparison holds; if a field cell ever entered the registered view differently, this test would go red for the test's own view, not the base's. Suggested handling: recompute on `REGISTERED`, as the composition test now does. | `run.test.ts:499`, `:510`; `base.ts:794` | M0-x-04 at M4 | CONFIRMED (read; the test is green in NEAR) |
+| 17 | **Two tests hand `baseS6Input` a context without a view.** The bridgehead-order test (`run.test.ts:392`, `ctx = { seedKey, streamOpts }` cast `as never`) calls `baseS6Input` with no `tables`, so S6's input and `siteFeatures` take `undefined` and fall back to `s6TableIn`'s own table — the very path LINE 2 closes for the base run. The cast hides the type the round widened. Only bridgehead ids are compared (the same cells), so the result is right. Suggested handling: give the test's context `tables: REGISTERED`, as the S6-input test at `:321` does. | `run.test.ts:392 – 394` | M0-x-04 at M4 | CONFIRMED (read) |
+| 18 | **The base family's two refusals remain (routed again, with seeds).** River from 0 cdeg (900 ha / 30 ha walled), seeds 1 and 6: S5 `E_SELF_INTERSECT` (F-WALL after the re-offset and union-simplify rungs). Input LAWFUL, geometry OUR OWN INTERMEDIATE (M0-c-04's S5a trace of a later stage across the river; row 1, C-0264 (13)), verdict MAKE-IT-SUCCEED. Identical before and after this round (2 → 2). | `census-pre.log`, `census-post.log` | the session (M0-c-04's round) | CONFIRMED |
+| 19 | **Harnesses that call M0-x-02's `run` directly build the arena on `baseArena`'s default.** `bench/src/fusion/runs.ts:350`, `fusion-ng/hoods.ts:208`, `site/compose.ts:304`, `testkit/src/edge/chain.ts:342`, `ladders/chain.ts:275` and several layout tests pass `arenas: () => [baseArena(bp)]` and no `tables`; since this round the arena and the runner's stages read the same registered view there (before, the arena read the bare one; the frame is equal on both). A caller that handed `run` a variant view while keeping `baseArena(bp)` would read two views; none does today (grep of every call site). Suggested handling: route such harnesses through `runBase`, or pass the same view to both. | the call-site grep (this check) | the session (M0-x-05 / bench owners), M4 | CONFIRMED (grep) / PLAUSIBLE (the variant case) |
+| 20 | **`baseS6Input`'s context type widened (informative, API accounting).** Its `ctx` parameter is now `Pick<PipelineContext, 'seedKey' \| 'streamOpts' \| 'tables'>`. No export was added, removed or renamed (31 `^export` lines before and after, J263 Q1), and the row asks for the view through the context; the callers outside the owns (`testkit/src/ladders/chain.ts:196`, `bench/src/site/compose.ts:235`) pass a full `PipelineContext`, and `build` is green. | `base.ts:634`; `corepack pnpm build` exit 0 | none (recorded) | CONFIRMED |
+| 21 | **Disclosures.** The RESUME rule's grep of the lane log for the item showed the builder's CHECKPOINT and LANDED lines before this seat planned its probes; the seat's mutants K1 – K11 and its census probe are its own shapes (K1, K4, K5, K6 and K7 re-make the round's X1, T1, T2, A1 and A2 on purpose, as the brief asks a closing checker to re-kill each pin's mutant). The round's notes section was read after the probes were planned. The pre-round image is a behavioural reconstruction (the round's four code lines reverted; its doc comments kept), sha256 `81cb3d89…` rather than the record's `d1c9d7d6…`, since no seat runs git. Harness-injected context (the account's e-mail, a git-attribution reminder, the tool listing) was not used. | the lane log; `pre-base.ts` | the session (seat discipline) | CONFIRMED |
