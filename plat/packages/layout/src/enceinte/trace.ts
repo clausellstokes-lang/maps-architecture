@@ -3,7 +3,10 @@
 //   (1) barrier closure: the arc classifier over the barrier table (empty at M0: every arc open, the ring closed);
 //   (2) pull and pin: the cost-surface path within the 40 m band, the gates and the water crossings' bank points pinned;
 //   (3) smooth and simplify: 3 pinned Laplacian passes, F-WALL's trace rungs where the smoothed trace self-touches or
-//       crosses the core (re-offset, then union-simplify), the kernel's topology-preserving Visvalingam (20 m, no
+//       crosses the core (re-offset, then union-simplify) — where neither holds, steps (2) – (3) again with the pull's
+//       own crossings undone (the pull untangled, then the boundary unpulled, each smoothed kept simple, then on the ring
+//       with its points closer than the attraction distance merged; C-0454) and the rungs once more —, the kernel's
+//       topology-preserving Visvalingam (20 m, no
 //       interior angle < 100°; a removal that would touch the trace itself, cross the water, enter a reservation or the
 //       core, or move a pin is refused), then `insertChain` on L1 as a `mandatory` chain carrying `wall` on the
 //       enceinte, each main gate's vertex carrying ('gate', gate) and each water gate's two bank vertices
@@ -26,12 +29,12 @@
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
-import { bandBreaches, bandLimit, ccw, departure, distToRing, footOn, lat, openRing, sideDeparture, sideHolds, TOUCH_CM } from './plane.js';
-import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
+import { bandBreaches, bandLimit, ccw, d2, departure, distToRing, footOn, lat, openRing, sideDeparture, sideHolds, TOUCH_CM } from './plane.js';
+import { pullAndPin, smoothKeptSimple, smoothPinned, terrainCost, untangle, type Pulled } from './pull.js';
 import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
 import { arenaVertices, crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
-import { wetSides } from './wet.js';
+import { wetSides, type WetSides } from './wet.js';
 
 /** The registered name of the base's strategy (§4.12). */
 export const ENCEINTE_STRATEGY_ID = 'base';
@@ -174,33 +177,73 @@ export function traceBase(
   // against the boundary as given (`ring0`), never the ring after the water splice (C-0232 (3)).
   let line: LatticePoint[] = openRing(smoothPinned(pulled.line, mask, cells.smoothPasses, ring0, band, barred, wet));
   const rungs: WallRung[] = [];
-  let defect = defectOf(line, core);
-  if (defect !== null) {
-    const cause = defect;
-    const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'water' | 'band' | null => rungVerdict(cand, ring0, band, core, wet);
-    const re = reoffset(line, band, pinPoints, core);
+  let pull: Pulled = pulled;
+  const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'water' | 'band' | null => rungVerdict(cand, ring0, band, core, wet);
+  // F-WALL's two M0 rungs on a line with a defect, in order, each reported: the repaired line, or null when neither holds.
+  const rungsOn = (l: LatticePoint[], cause: 'self_touch' | 'core', on: readonly LatticePoint[] = pinPoints): LatticePoint[] | null => {
+    const re = reoffset(l, band, on, core);
     const reWhy = re.ok ? accept(re.value) : re.detail === 'fixed' ? 'pin_lost' : 'empty';
     rungs.push(reWhy === null ? { rung: 'reoffset', cause, radiusCm: band, held: true } : { rung: 'reoffset', cause, radiusCm: band, held: false, why: reWhy });
-    if (re.ok && reWhy === null) {
-      line = re.value;
-      defect = null;
-    } else {
-      const un = unionOuter(line, pinPoints, core);
-      let unWhy: WallRung['why'] | null = un.ok ? null : un.detail === 'fixed' ? 'pin_lost' : 'empty';
-      let cand: LatticePoint[] | null = null;
-      if (un.ok) {
-        cand = simplifyInBand(un.value, ring0, band, cells, barred, pins) ?? un.value;
-        unWhy = accept(cand);
-      }
-      rungs.push(unWhy === null ? { rung: 'union_simplify', cause, radiusCm: 0, held: true } : { rung: 'union_simplify', cause, radiusCm: 0, held: false, why: unWhy });
-      if (unWhy === null && cand !== null) {
-        line = cand;
-        defect = null;
+    if (re.ok && reWhy === null) return re.value;
+    const un = unionOuter(l, on, core);
+    let unWhy: WallRung['why'] | null = un.ok ? null : un.detail === 'fixed' ? 'pin_lost' : 'empty';
+    let cand: LatticePoint[] | null = null;
+    if (un.ok) {
+      cand = simplifyInBand(un.value, ring0, band, cells, barred, pins) ?? un.value;
+      unWhy = accept(cand);
+    }
+    rungs.push(unWhy === null ? { rung: 'union_simplify', cause, radiusCm: 0, held: true } : { rung: 'union_simplify', cause, radiusCm: 0, held: false, why: unWhy });
+    return unWhy === null && cand !== null ? cand : null;
+  };
+  const defect = defectOf(line, core);
+  if (defect !== null) {
+    let fixed = rungsOn(line, defect);
+    // Neither rung holds on the line the pull and the smoothing gave. A self-touch our own steps made on a boundary that
+    // is itself a lawful trace is our own intermediate, never the boundary's (J264; N-58): steps (2) – (3) run again with
+    // their own crossings undone (C-0454) — the pull untangled (`untangle`: the offsets at touching sides halved until
+    // none touch), then, if that line still fails, the boundary unpulled — each smoothed kept simple (`smoothKeptSimple`),
+    // then the boundary unpulled and unsmoothed, and F-WALL's rungs once more on a line that still shows a defect; and,
+    // where the ring itself touches only because two of its points stand closer than the attraction distance (a graze's
+    // cut point beside the shore vertex it meets, both kept: the side between them shorter than the touch, so the sides
+    // either side of it read as touching), the same on the ring with those points merged (`mergedNear`: the later dropped,
+    // else the earlier, never a gate or a water crossing's bank point nor a point whose side would then lie over the water
+    // — the insertion would attract them together, §3.6 step 2). The first line that passes every check of a rung's trace (`rungVerdict`) is
+    // taken; a boundary as given that itself fails them keeps the refusal below, the later rungs' class (M1, C-0085).
+    const fixedKeys = new Set<string>([...gatePins, ...crossed.crossings.flatMap((c) => [c.entry, c.exit, ...c.course].map((q) => key(q)))]);
+    const idx = fixed === null ? mergedNear(ring, fixedKeys, wet) : [];
+    const bases: { ring: LatticePoint[]; mask: Uint8Array; pinPoints: LatticePoint[]; pulled: Pulled }[] = [];
+    if (fixed === null) {
+      bases.push({ ring, mask, pinPoints, pulled });
+      if (idx.length < ring.length) {
+        const r2 = idx.map((i) => ring[i]);
+        const offs = idx.map((i) => pulled.offsetsCm[i]);
+        bases.push({
+          ring: r2,
+          mask: Uint8Array.from(idx.map((i) => mask[i])),
+          pinPoints: r2.filter((q) => pins.has(key(q))),
+          pulled: { line: idx.map((i) => pulled.line[i]), offsetsCm: offs, moved: offs.filter((o) => o !== 0).length, maxOffsetCm: Math.max(0, ...offs.map((o) => Math.abs(o))) },
+        });
       }
     }
-    if (defect !== null) {
-      return { ok: false, code: 'E_SELF_INTERSECT', detail: `F-WALL: the trace ${cause === 'core' ? 'crosses the core' : 'touches itself'} after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2; C-0085)` };
+    for (const b of bases) {
+      if (fixed !== null) break;
+      const unpulled: Pulled = { line: b.ring.map((q) => ({ x: q.x, y: q.y })), offsetsCm: b.ring.map(() => 0), moved: 0, maxOffsetCm: 0 };
+      const retries: { p: Pulled; smooth: boolean }[] = [{ p: untangle(b.ring, b.pulled, wet), smooth: true }, { p: unpulled, smooth: true }, { p: unpulled, smooth: false }];
+      for (const { p, smooth } of retries) {
+        const again = smooth ? openRing(smoothKeptSimple(p.line, b.mask, cells.smoothPasses, ring0, band, barred, wet)) : openRing([...b.ring]);
+        const why = accept(again);
+        const cand = why === null ? again : why === 'self_touch' || why === 'core' ? rungsOn(again, why, b.pinPoints) : null;
+        if (cand !== null) {
+          fixed = cand;
+          pull = p;
+          break;
+        }
+      }
     }
+    if (fixed === null) {
+      return { ok: false, code: 'E_SELF_INTERSECT', detail: `F-WALL: the trace ${defect === 'core' ? 'crosses the core' : 'touches itself'} after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)` };
+    }
+    line = fixed;
   }
 
   // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept, and held within the
@@ -313,7 +356,7 @@ export function traceBase(
   const report: TraceReport = {
     closure: closure.closure,
     arcs: closure.arcs,
-    pull: { moved: pulled.moved, maxOffsetCm: pulled.maxOffsetCm },
+    pull: { moved: pull.moved, maxOffsetCm: pull.maxOffsetCm },
     smoothPasses: cells.smoothPasses,
     simplify: { before, after: line.length, skipped },
     rungs,
@@ -332,6 +375,39 @@ export function traceBase(
   };
   const traced: Traced = { enceinte, gates: [...mains, ...wgs], waterGates: wgs, line, report };
   return { ok: true, value: { ...enceinte, traced }, warnings: committed.warnings };
+}
+
+/**
+ * The ring's points standing closer than the attraction distance (`TOUCH_CM`) to the point kept before them merged
+ * (C-0454): of two such points the later is dropped, else the earlier — a point `fixed` holds is never dropped, nor one
+ * whose dropping would lay the side that replaces it over a barred ring (`wet`; a graze's shore vertex kept) — else both
+ * stay; the wrap (the last against the first) likewise. Returns the kept indices, in ring order.
+ */
+function mergedNear(ring: readonly LatticePoint[], fixed: ReadonlySet<string>, wet: WetSides): number[] {
+  const n = ring.length;
+  const out: number[] = [];
+  const t2 = TOUCH_CM * TOUCH_CM;
+  for (let i = 0; i < n; i += 1) {
+    const last = out.length > 0 ? out[out.length - 1] : -1;
+    if (last >= 0 && d2(ring[last], ring[i]) < t2) {
+      // Drop i: the side from `last` to the point after i replaces both.
+      if (!fixed.has(key(ring[i])) && !wet.over(ring[last], ring[i + 1 === n ? 0 : i + 1])) continue;
+      // Drop `last`: the side from the point kept before it to i replaces both.
+      const before = out.length > 1 ? ring[out[out.length - 2]] : ring[n - 1];
+      if (!fixed.has(key(ring[last])) && !wet.over(before, ring[i])) {
+        out[out.length - 1] = i;
+        continue;
+      }
+    }
+    out.push(i);
+  }
+  while (out.length > 3 && d2(ring[out[out.length - 1]], ring[out[0]]) < t2) {
+    const z = out[out.length - 1];
+    if (!fixed.has(key(ring[z])) && !wet.over(ring[out[out.length - 2]], ring[out[0]])) out.pop();
+    else if (!fixed.has(key(ring[out[0]])) && !wet.over(ring[z], ring[out[1]])) out.shift();
+    else break;
+  }
+  return out;
 }
 
 /**

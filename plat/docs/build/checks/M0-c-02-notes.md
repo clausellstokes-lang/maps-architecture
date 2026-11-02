@@ -937,3 +937,209 @@ session.
       (the base census's last run and the P4-given probe, then the family census 300 – 999) when a wait on the base
       census's done-file timed out and was read as done — probes of its own, no test of the tree; no other overlap.
     * RELATED@1000's reds, each ruled before this check: (a) `bench determinism/pair.test.ts:86`, seed 1 — the declared red Q124 (J601), M0-d-09's matcher, exposed by the round's shift; (b) `testkit edge/repins.test.ts`' coincident 1658509524 — foreign, Q106 (red on the before image too). Nothing else red in 224 files (2 860 tests).
+
+## Hardening round S6 (lane `build/M0-c-02-fix-s6`, 2026-10-31 – 11-01) — the builder's rows
+
+The session's hardening round S6 of the item (J670; J637 RL2 and RL12) on the queue rows Q131, Q132, Q87 (c-02's copy),
+Q122's S3 class (the enceinte's share, with e-06 S3's new `E_DEGENERATE` class), Q88 with Q46 (F-WALL's part) and RL2's
+proof. Choices row C-0454 names every row it closes; ledger row L-0712. The lane ran in three parts (2026-10-31
+02:56 – 03:25 and 04:06 – 09:08 in one container, 2026-11-01 from 18:47 in another, under the CONTINUE RULE): the
+round's sources and tests stood in the tree from the second part; the third rebuilt the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-c-02-fix-s6/` (isolation proved: no link out of it; `@plat/kernel`'s
+realpath inside it), ran the mutants, the remaining NEAR files, RELATED@1000, the e-06 S5 sweep and the records, and
+removed the mirror at the end. The figures below from the second part are its CHECKPOINT lines' (2026-10-31 04:16 –
+09:08), the rest this part's own runs.
+
+57. **N-57 row by row: the outcome, its evidence and its pin (the mutants in N-62).**
+    * **Q131 (N-52) — FIXED, MAKE-IT-SUCCEED, PINNED.** An arena way read as a corridor stop (`strips.ts`, the arena's
+      ways with no gate of this enceinte on their run) is kept in `arenaExtras`, and `whyNot`'s gate-vertex clause reads
+      only a stop that is not one of them: the end vertex of a gateless way is no gate's. The side's strip stops at the
+      run's corridor, its flat caps where the trace crosses the corridor's rings, as for any stop. The probe's input
+      (N-52's 400 m square, a gateless way 20 m and 60 m long 7.5 m outside the wall, and 4 m inside) is the registered
+      hand record `test/enceinte/fixtures/n52-gateless-way.json`; `ways.test.ts` "an arena way with no gate whose run
+      ends inside a strip's band" commits each case (both strips typed, the corridor's own face not, the other side's
+      strip beside the stretch typed). Red without the fix: mutant M131 refuses with N-52's message verbatim. The family
+      census unchanged: the clause was reached 0 times on the 1 000 family indices (an instrumented count, 2026-10-31
+      06:31), so no committed output moves.
+    * **Q132 (N-56) — FIXED in `layStrips`, PINNED; the S5 caller's records REPORTED to M0-c-04.** `LayStripsOptions`
+      gains an optional `ways` (the arena's Way records, `Pick<Way, 'id' | 'width'>`): an arena way with a record is cut
+      by `localStretches` into stretches of one corridor half-width — a scalar width one stretch at its half; a
+      `width_knot` profile (§2.4; S4's class runs) read along the run by arc length, each side at the widest value the
+      profile reaches on it — so the strip beside a narrow stretch stops at that stretch's corridor, not the widest. A way
+      with no record keeps `wayHalfWidthCm` (or the widest given way stop's), as before: the option is additive and its
+      absence is the old behaviour byte for byte. Pins: `ways.test.ts` "an arena way's corridor at its local width" (the
+      profile read along the run: 300 cm then 700 cm; with the records the outer strip beside the 6 m lane's stretch is
+      typed 4.5 m out, beside the 14 m street's stretch not; without them both not). Red without the fix: M132a (the
+      records ignored) and M132b (every stretch at the profile's widest). No caller in the item's owns meets an arena
+      way at the strips (`commit.ts`' S3 slice lays the strips before S4's ways exist), and the S5 caller
+      `growth/boundary.ts:587` (M0-c-04's) passes no records: wiring `ways` there is M0-c-04's (its `stageStops`, N-56's
+      own suggestion) — REPORTED. So no committed output moves at this round: no DECLARED shift, no digest or golden
+      re-recorded; the shift lands with the caller's wiring, declared by its round.
+    * **Q87, c-02's copy (m-01 S1's L30) — FIXED, PINNED.** `water.ts`' `generated(epoch)` returns @plat/model's
+      `generatedLifecycle(epoch)` (the hand-written copy removed). Pins: `water.test.ts` "the generated lifecycle stamp is
+      @plat/model's one builder" — deep-equal at epochs 0, 7 and 2^40, a fresh object per call, −0 written as 0; an
+      unlawful epoch (−1, 1.5, NaN, +∞, 2^53) refused with the builder's own RangeError text. Red without the fix: M87.
+      No behaviour change (the copy's fields equalled the builder's at every lawful epoch).
+    * **Q122's S3 class, the enceinte's share — FIXED, MAKE-IT-SUCCEED for every seed, PINNED seed by seed.** Every S3
+      message of e-06 S3's lists was attributed by re-deriving it on the tree with the stage's sites instrumented
+      (2026-10-31 03:13 – 04:16): all 122 refused runs are the enceinte's — `traceBase`'s F-WALL refusal (relief-60 32
+      seeds × 2 configurations, relief-3000 4 × 2) and `layStrips`' `E_DEGENERATE empty` (relief-3000 25 × 2) — and none
+      the siting's: on the six F-WALL seeds probed (relief-60 16, 19; relief-3000 4, 49, 54, 168) M0-c-01's boundary
+      was a simple ring and its identity trace lawful, and every one of the 122 commits S3 once the trace's own steps
+      are undone (below), which no siting defect would allow. Input kind:
+      the fixtures are lawful by construction, and each refusal is OUR OWN INTERMEDIATE: (a) the pull's own crossings —
+      its candidates move each vertex along its own normal, so at a sharp bend two offsets cross (the boundary as given
+      simple); (b) on five runs (relief-60 default 67 and 197, coarse 67, 84 and 149) the water splice keeps a graze's
+      cut point 1 – 8 cm from the shore vertex it meets, the side between them shorter than the touch distance; (c)
+      `layStrips` inserting a two-point setback chain 26 – 34 cm long whose ends the insertion's attraction lands on one
+      vertex (§3.6 step 2: refused `E_DEGENERATE empty`, nothing written). THE FIXES: where neither of F-WALL's M0 rungs
+      holds on the pulled line, steps (2) – (3) run again with their own crossings undone — the pull untangled
+      (`untangle`: the offsets at touching sides halved, under 50 cm none, until no pair touches), then the boundary
+      unpulled, each smoothed kept simple (`smoothKeptSimple`: a pass's move that would make a side touch another is put
+      back), then the boundary unpulled and unsmoothed, the rungs once more on a line still showing a defect — and the
+      same on the ring with its points closer than the attraction distance merged (`mergedNear`: never a gate, a
+      crossing's bank or a point whose replacement side would lie over the water); the first line passing every check of
+      a rung's trace (`rungVerdict`: no self-touch, no core crossing, no water, the 40 m band) is taken. A collapsed chain
+      (c) bounds nothing and is not laid, as the pre-filter's sub-attraction chains are not (R-31). AFTER (2026-10-31
+      05:12 – 07:41): S3 refusals 122 → 0; of the 122 runs 116 commit S1 – S6, 4 refuse at S5 in F-WALL's later-rung
+      class (relief-60 default 31, coarse 20, 44, 67; N-58) and 2 at S6 (relief-3000 seed 166, both configurations:
+      `settlementPerimeter`, the kernel's notBuilt #2 — M0-e-04's, REPORTED; Q133's class). Pins: `s3seeds.test.ts`
+      (all 122 derivations through S1 – S3 on the committed tree, S4 on stubbed; each: no bug, the wall one simple closed
+      run, both strips typed. THE COST: 15 – 90 s each at one worker here, about 60 – 90 minutes at full strength; at
+      reduced strength each cell's first seed only), `fwall.test.ts` "the pull's own crossings undone" (a 10 m notch
+      untangled; two fast-check properties: any pull on a simple ring untangles to a line no two sides of which touch,
+      and the smoothing kept simple leaves a simple line simple with its pins exact; and this part's added case, the
+      smoothing kept simple where the smoothing as built makes the line cross). Red without the fixes: MF1, MF2, MF3,
+      MF4, MD1. The message of the residual class now names `notBuilt('M1')` (C-0454 (6)), pinned verbatim by
+      `fwall.test.ts` (the core case and the 20 cm slot) and `s5seeds.test.ts`.
+    * **Q88 with Q46, F-WALL's part — FIXED for the M0 rungs, the later rungs CARRIED with proof (C-0454 (5), (6)).**
+      Every seed of the three sources is classed by rung in N-58; the M0 rungs' seeds commit and are pinned
+      (`s5seeds.test.ts` "F-WALL's M0 steps"); the later rungs' seeds refuse typed with the message pinned verbatim
+      (`s5seeds.test.ts` "F-WALL's later rungs (M1)"); e-06 note 25's seed 151 is M0-c-04's S5a message (REPORTED).
+    * **RL2's proof — WRITTEN** in C-0454 (6), the four parts of N-64 (4) / J238 (1): the class by rung, the design
+      text that names the rung, the seeds per rung, the M0 bars that do not depend on them. No seed's rung fell outside
+      the design's text, so nothing is reported to the session under RL2's last clause.
+
+58. **N-58 every seed of the three sources, by rung (the after side re-derived on the tree through S5).**
+    | source | blueprint, configuration | seed | before | after | rung |
+    |---|---|---|---|---|---|
+    | Q46 / N-33 | `runBase` RIVER 900 ha / 30 ha walled | 8, 14 | S5 F-WALL E_SELF_INTERSECT | S1 – S5 commit | M0 (OUR OWN INTERMEDIATE: the pull's crossings) |
+    | Q46 / N-33 | the same | 12 | S3 E_INVARIANT "gate:2 not on the committed trace" (R-28) | S1 – S5 commit | — (commits on this tree; pinned) |
+    | Q46 / N-33 | RIVER_BLUEPRINT | 3, 4 | S5 F-WALL | S1 – S5 commit | M0 |
+    | Q46 / N-33 | RIVER_BLUEPRINT | 5 | S3 F-WALL | S1 – S5 commit | M0 |
+    | Q46 / N-33; Q88 | the relief-60 site spike, default | 2 | S5 F-WALL | S1 – S5 commit | M0 |
+    | Q88 (N-s2c-4) | the relief-60 site spike, default | 1 | S5 F-WALL | S5 F-WALL, `notBuilt('M1')` | later: §5.2's anchor rung (the stage-2 boundary as given crosses the core) |
+    | Q88 under R12-5 | the relief-60 site spike, coarse | 1 | S5 F-WALL (a graze's two shore points 19 cm apart) | S1 – S5 commit | M0 (mergedNear) |
+    | Q46 / KI-10 (R-30) | RIVER from the north 900 ha | 1, 6 | S5 F-WALL | S5 F-WALL, `notBuilt('M1')` | later: the anchor rung (the residual's message: 1 crosses the core, 6 touches itself) |
+    | e-06 note 25 | the relief-60 site spike, coarse | 151 | S5 E_INVARIANT | S5 E_INVARIANT "S5a: the gate vertices could not be put on their ways: S5a: the stage boundary crosses bridge:24's span at (25597, 119863) with 0 of its deck ends on the stage's side; its gate is the bridgehead on that side (N-54 (3))" | none of F-WALL's: raised in `growth/boundary.ts:676` (M0-c-04's S5a gate plan) — REPORTED to c-04 S5 with this message; default 151 commits |
+    The later-rung seeds that reached S5 only after the round's S3 fix (relief-60 default 31, coarse 20, 44, 67) are
+    pinned in the same block. Instrumented (a separate copy of the tree, the refusal site logging the boundary as given
+    and the spliced ring against the core; this part): relief-60 default 1, 13, 42, 62, 84 and 91 — in each the stage-2
+    boundary as given is simple and crosses the core (two core rings: enceinte:1 and the plaza), the spliced ring then
+    self-touching (and the 12 more of N-60: all 18 of e-06's S5 later-rung seeds). **CONFIRMED** (re-derived;
+    instrumented).
+
+59. **N-59 the refusal census (J264 (4), N-58), before → after, split by rung.**
+    | family (registered) | runs | before | after | the after side by rung |
+    |---|---|---|---|---|
+    | the item's B-FUZZ family (indices 0 – 999 and Q37's three), through S5 | 1 003 | 0 | 0 | — (the Q131 clause reached 0 times) |
+    | Q52's bridge × frame cells (x-06), the lawful refusals | 26 | 3 (E: 1785777080, 1918289972, 3360356802) | 1 (1918289972) | none of F-WALL's ladder at the trace: the stage-1 boundary as given crosses the plaza — M0-c-01's (N-61) |
+    | the base set (`runBase` RIVER 900 ha, RIVER from the north, RIVER_BLUEPRINT; c-02 S5's 30 runs), through S8 | 30 | 7 (river900 8, 14; riverN 1, 6; RIVER_BLUEPRINT 3, 4 at S5, 5 at S3) | 2 (riverN 1, 6) | the anchor rung (M1) |
+    | Q46's further seed (RIVER 900 ha seed 12) and Q88's (relief-60 default 1, 2; coarse 1) | 4 | 4 | 1 (relief-60 default 1) | the anchor rung (M1) |
+    | e-06 S3's S3 lists (relief-60 F-WALL 32 × 2, relief-3000 F-WALL 4 × 2, relief-3000 `E_DEGENERATE` 25 × 2), through S6 | 122 | 122 at S3 | 0 at S3; 6 later: 4 at S5 (relief-60 default 31, coarse 20, 44, 67), 2 at S6 (relief-3000 166 × 2) | the 4: the anchor rung (M1); the 2: `settlementPerimeter`'s kernel notBuilt #2 (M0-e-04's; M4) |
+    | e-06 S3's S5 lists (N-60), through S5 | 137 | 137 at S5 | 27 | 18 the anchor rung (M1); 9 S5 `E_INVARIANT` unchanged (not F-WALL's: N-60) |
+
+    Split by rung over the six rows (a run counted once; relief-60 default seed 1 sits in two rows): **the M0 steps'
+    class** (the pull's crossings, the splice's near points, the collapsed setback chain: OUR OWN INTERMEDIATE,
+    MAKE-IT-SUCCEED) 241 refusals before → **0** after; **the anchor rung's class** (the boundary as given crosses the
+    core or touches itself: M1, carried with C-0454 (6)'s proof) 24 runs after, each a run refused before (2 base, 4
+    S3 → S5, 18 of e-06's S5 lists including Q88's seed 1): the class's count was hidden inside F-WALL's one message
+    before and is separated now, never rising; **other sites** (not this round's code: c-01's plaza crossing 1, e-04's
+    S6 2, the S5 `E_INVARIANT` 9) unchanged. Per family the count never rises; every after-refusal is a refusal of the
+    same run before. **CONFIRMED** (each row re-derived on the tree: the family, Q52 and base rows by the second part's
+    census probes, 2026-10-31 06:31 – 07:01; the e-06 rows by its after-sweeps 05:12 – 07:41 and this part's N-60
+    sweep).
+
+60. **N-60 the wall's share of e-06's S5 refusals beyond the three sources (this part's sweep).**
+    Every run of e-06 S3's S5 refusal lists (`summaries/M0-e-06.json` groups[].refusals, stage S5: 137 runs) re-derived
+    through S5 on the tree (S6 – S8 dropped; a separate copy of the tree, two probe processes, 2026-11-01 19:05 – 22:40):
+    | fixture, configuration | S5 class before (e-06) | runs | after: commit | after: refused |
+    |---|---|---|---|---|
+    | relief-60 default | F-WALL `E_SELF_INTERSECT` | 42 | 32 | 10 — the anchor rung: 1, 13, 42, 44, 62, 84, 91, 95, 156, 162 |
+    | relief-60 coarse | F-WALL `E_SELF_INTERSECT` | 41 | 33 | 8 — the anchor rung: 13, 42, 88, 162, 178, 188, 196, 197 |
+    | relief-3000 default | F-WALL `E_SELF_INTERSECT` | 20 | 20 | 0 |
+    | relief-3000 coarse | F-WALL `E_SELF_INTERSECT` | 21 | 21 | 0 |
+    | relief-3000 default, coarse | `E_DEGENERATE empty` (21, 59) | 4 | 4 | 0 — the collapsed setback chain at stage 2 (note 24 routed them to c-04; the site was `layStrips`') |
+    | relief-60 default, coarse; relief-3000 default, coarse | `E_INVARIANT` "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)" (relief-60 118 × 2; relief-3000 32, 81, 188 × 2) | 8 | 0 | 8, unchanged |
+    | relief-60 coarse | `E_INVARIANT` (151) | 1 | 0 | 1, M0-c-04's S5a bridge-span message (N-58) |
+    F-WALL at S5: 124 → 18, every one the anchor rung's class. Instrumented (the refusal site logging the boundary as
+    given and the spliced ring against the core): all 18 of the table (relief-60 default 1, 13, 42, 44, 62, 84, 91, 95, 156, 162; coarse 13, 42, 88, 162, 178, 188, 196, 197) — in every one the stage-2 boundary as given is simple and
+    crosses the core (enceinte:1's ring or the plaza; two core rings each time), the spliced ring then self-touching;
+    the rest of the 24 classed by the message (every M0 step exhausted, the boundary as given included). The `branches`
+    class: the kernel's role check at the end of a batch over `(wall, enceinte:2)`, whose only insertion carrying the
+    `wall` role is `trace.ts`' (read, PLAUSIBLE: not instrumented); J637 routes Q122's S5 `E_INVARIANT` to M0-c-04 S5,
+    and this round leaves it there with the site named (N-61). **CONFIRMED** (the sweep's table; re-derived).
+
+61. **N-61 reports (for the session; each with its seeds and messages).**
+    * **M0-c-04 (its round S5):** (1) Q132's wiring: `growth/boundary.ts:587` passes the arena's Way records as
+      `layStrips`' `ways` (or `stageStops` gives each extra way its own half-width) — the strips then stop at the local
+      corridor; the shift is that round's to declare. (2) The later-rung class's boundary: every later-rung seed of N-58
+      and N-60 refuses because the stage-2 boundary as given (c-04's pick) crosses the core or touches itself; the
+      design's answer is the anchor rung (M1), but a pick that keeps clear of the core would commit at M0 (a
+      boundary-side MAKE-IT-SUCCEED is c-04's option). (3) e-06 note 25's seed 151 (coarse): the S5a bridge-span message
+      above. (4) The S5 `E_INVARIANT` "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10
+      role consistency)" on relief-60 118 (both) and relief-3000 32, 81, 188 (both): unchanged by this round (N-60),
+      routed to c-04 S5 by J637's plan (Q122's S5 E_INVARIANT).
+    * **M0-e-04:** relief-3000 seed 166 (both configurations), S6 E_INVARIANT `settlementPerimeter` (the kernel's
+      notBuilt #2, M4) — reached since the round's S3 fix; Q133's class.
+    * **M0-c-01:** x-06's Q52 E cell 1918289972 still refuses S3 F-WALL "crosses the core": the slice's stage-1 boundary
+      crosses the plaza reservation (the siting's boundary, OUR OWN INTERMEDIATE at c-01's step); the other two E cells
+      (1785777080, 3360356802) commit since the round.
+    * **The `(wall, enceinte:2) branches` class (S5 `E_INVARIANT`, 8 runs; N-60):** raised by the kernel's role check
+      at the end of the stage-2 trace's batch — `trace.ts`' wall chain is the only insertion carrying the `wall` role
+      (PLAUSIBLE, read) — so its site is this item's code although J637 routes the class to M0-c-04 S5; not diagnosed in
+      this round (outside its rows). For the session's routing: the seeds and the message as above.
+    * **bench `scan/scan.test.ts` K6-6 (the scan's owner):** the whole-tree scan takes 4 962 ms of its 5 s default
+      timeout alone on this machine and times out under load (N-63) — a margin note, not this round's.
+    * **M0-e-06 (its S4 re-run, J648 (1)):** the summary's S3 and S5 lists are stale from this landing: the S3 class
+      drains to 0, most S5 F-WALL seeds commit (N-60).
+
+62. **N-62 the round's mutant table (J183; the lane mirror, each mutant on its pin files with `--bail=1`,
+    `--maxWorkers=1`; the restore checked with `cmp -s` after each).**
+    | mutant | the fault | pin files (`--bail=1`) | result |
+    |---|---|---|---|
+    | M131 | `whyNot`'s gate-vertex clause reads the arena extras again (Q131) | `ways.test.ts` | killed, 7 s — "outer, 20 m on the outer side" refused (N-52's message) |
+    | M132a | the Way records ignored (`rec` undefined) (Q132) | `ways.test.ts` | killed, 6 s — "with the Way records given …" |
+    | M132b | every stretch at the profile's widest (Q132) | `ways.test.ts` | killed, 7 s — "the profile read along the run" |
+    | M87 | `generated` a copy at epoch 0 (Q87) | `water.test.ts` | killed, 55 s — "generated(epoch) deep-equals …" |
+    | MF1 | the M0 steps' re-run on our own crossings off (Q122 S3, Q46 / Q88) | `fwall`, `s3seeds`, `s5seeds` at reduced strength | killed, 40 s — `s5seeds` RIVER 900 ha seed 8 |
+    | MF2 | `untangle` the identity | `fwall.test.ts` | killed, 26 s — "a 10 m notch … untangled" |
+    | MF3 | `mergedNear` keeps every point | `s3seeds.test.ts -t "seed 67:"` (full strength) | killed, 191 s — relief-60 default seed 67 |
+    | MF4 | `smoothKeptSimple` the smoothing as built | `fwall.test.ts` | SURVIVED the two properties (their stars never make the smoothing cross) → one pin added ("the smoothing kept simple where the smoothing as built makes the line cross: a free apex smoothed down onto a pinned spike is put back"), then killed, 34 s |
+    | MD1 | the collapsed setback chain laid (refused `E_DEGENERATE empty`) again | `s3seeds.test.ts` at reduced strength | killed, 324 s — relief-3000 default seed 4 |
+    | MM | the residual's message without `notBuilt('M1')` (RL2) | `fwall.test.ts` | killed, 18 s — "a trace crossing the core that neither rung repairs is refused" |
+    Ten mutants, ten killed (MF4 after the added pin); every pin green without its mutant (NEAR, N-63). Each restore
+    checked with `cmp -s` against the tree.
+
+63. **N-63 gates and runs (this part).**
+    * `corepack pnpm install --frozen-lockfile` exit 0 ("Lockfile is up to date … Already up to date").
+    * `corepack pnpm lint` exit 0, its probe-red check: "lint probe-red: tools/lint/fixtures/probe/zz-probe.ts:6 Math.pow
+      ← plat/math-allowlist" … ":16 for…in ← plat/no-object-key-iteration" (every planted line reported); "lint: 9
+      whole-tree checks".
+    * `corepack pnpm build` exit 0.
+    * NEAR, full strength (PLAT_FUZZ_RUNS unset), W = 1: the second part's run over the item's 16 test files
+      (`layout/test/enceinte/` and `testkit/test/edge/repins.test.ts`; 2026-10-31 05:32 – 09:08, 12 886 s) 337 / 339; this
+      part's re-run of the files the round touched after it — `s5seeds.test.ts` (its later-rung block complete),
+      `ways.test.ts`, `fwall.test.ts`, `water.test.ts` — 4 files 50 / 50 (3 220 s), and `fwall.test.ts` again with the
+      added pin 12 / 12. The two reds are `repins.test.ts`' EP-01/S1/self-touching at 2651453823 (`laddered`, Q113 /
+      e-03 S3's declared shift) and EP-01/S5a/coincident at 1658509524 (`absorbed`, Q106): both cells of other stages,
+      red before the round (c-04 S4's and c-02 S5's checks), untouched by it.
+    * RELATED@1000 (`PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1` on the five changed
+      sources `enceinte/{plane,pull,strips,trace,water}.ts`): 256 files, 3 240 / 3 244 (11 444 s). The four reds, none
+      the item's: the two `repins.test.ts` cells above; `testkit edge/ep01-s1-s3-s4.test.ts` EP-01/S1/self-touching at
+      2893352673 (S1's water batch refused by §3.10 role consistency `(shore, water:river:0) branches`: Q115, e-03 S4's);
+      `bench scan/scan.test.ts` K6-6 "the real run scans plat/ …" timed out at its 5 s default under this lane's probes'
+      load — alone on the idle machine it passes in 4 962 ms (a whole-tree scan within 0.8 % of its timeout here: a
+      note for the scan's owner, N-61).
+    * The e-06 site spike's printed verdicts inside passing bench tests ("site: FAIL — …", "bentcut: bars FAIL …") are
+      the harnesses' test-size reports, as before the round.
