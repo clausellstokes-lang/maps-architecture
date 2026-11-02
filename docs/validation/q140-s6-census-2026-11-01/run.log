@@ -1,0 +1,4 @@
+START 2026-11-01T21:34:06Z on 25a5cde0: PLAT_EDGE_SEEDS=1000 ep01-s6-s8 -t EP-01/S6/
+ATTEMPT 2 START 2026-11-01T23:34:55Z on 25a5cde0: PLAT_EDGE_SEEDS=1000 ep01-s6-s8 -t 'EP-01/S6/(self-touching|coincident)' verbose, detached (setsid nohup); attempt 1 killed at the tool's 2 h limit with no per-test output
+ATTEMPT 3 START 2026-11-01T23:52:05Z on 25a5cde0: the two cells, two workers, verbose, PLAT_EDGE_LOG, as a harness-tracked background task (attempt 2's detached process died with this seat's container restart at 23:48Z)
+END 2026-11-02T00:42:09Z
