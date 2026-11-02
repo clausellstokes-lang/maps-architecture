@@ -12680,3 +12680,6 @@
 2026-11-02 02:38 a05-s14-spec/critic LANDED docs/validation/a05-s14-spec-2026-11-02/critic.md (85 lines, md5 f4d8d86e): re-landed with the ledger addendum (L-0728 is the last L row now; G12) — verdict FIX-FIRST unchanged
 2026-11-02 02:39 a05-s14-spec/critic LANDED docs/validation/a05-s14-spec-2026-11-02/critic.md (85 lines, md5 3adc67f9): addendum corrected (next free C-0463 / L-0729 at 02:41; G12) — verdict FIX-FIRST
 2026-11-02 02:40 session/bench-manifest-7 LANDED plat/bench/manifest.json (changed) plat/docs/build/landed/session-bench-manifest.json — the infra list gains test/tier-jobs with M0-f-02b F0's landing (the J554 rule; the line child BS's first build reported outside the owns; the bench-boundary lint refused the unlisted folder on e4b763ab)
+2026-11-02 02:40 a05-s14-spec/fix CHECKPOINT started; critic read; next read spec json+md
+2026-11-02 02:44 a05-s14-spec/fix CHECKPOINT gaps G1-G12 verified in tree (G1 widened to the current pair's ends at every depth; G2 as a NEW pass 5); next rewrite session text + lines
+2026-11-02 02:45 a05-s14-spec/fix CHECKPOINT spec-a05-s14.json fixed (session 6 989 chars; LINES 1-5 edited; openQuestions added); next md, fix.md
