@@ -74,3 +74,19 @@ The same list is the JSON entry's `openQuestions` key (render.mjs reads only id,
 8. The GATE hash — filled at launch with a-06 S9's landed head; the insert/ line numbers are the 2026-11-02 tree's and are re-read there (S8 moves lines in the four router files).
 9. The 32nd seed — read as the census seed 20261013 (M0-a-05-notes.md:932-935); caps.ts holds 31 seeds (124 cells). Confirm the wording for J693's successor rows.
 10. FAR1's regeneration fallback — if no arrangement with two far-tier candidates can be constructed by hand, the builder regenerates family T in its mirror from M0-a-05-s12.md:147-153 (a scratch generator, C-0106; the tree holds coordinates only) — allowed?
+
+
+## 7 The session's rulings (J697, 2026-11-02 02:5xZ) — the ten open questions of §6
+
+1. **Q1 — r8 is a RE-READING** of C-0177 (2) by the round's choices row, under §3.6 step 3's own sentence (ARCHITECTURE.md:5111-5117; S12's `cutStretch` the precedent, C-0456 (1)); not a design addition. J631 (2) (a)'s review: the critic's pass is the first; a REFUTER PASS on §4 (A)'s fixed wording (a Fable/high agent, reading it against §3.6 and C-0177 (2)) runs before the entry is appended.
+2. **Q2 — J693 (1)'s bar is READ AS THE ROUTER'S SET**: the five CITY seeds 73, 243, 310, 751, 999; relief-60 183 and relief-3000 77 (both configs); the six flat outlines at 180 m. 195 is on the overlay already (B1); 253 / 476 are the overlay's own sum-check sliver (B2, arr/winding.ts — a-08's, REPORTED for a-08's next round); 3009257304 is unlawful input repaired on the rung. The round is NOT extended into a-08's owns.
+3. **Q3 — 2708765650 is unlawful input** (x-06's own text, ep01.ts:390 / Q21; refusal-census R-38): no bar input; x-06 re-pins repins.test.ts:47 if it shifts (REPORTED).
+4. **Q4 — (B) is M4's material.** A bar-(ii) input left refused is REPORTED to the session, which amends the bar or rules (B) at M0; the standing preference is to amend the bar — (B) is cross-item (a-06's moved list) and enters M0 only if a bar-(ii) input is certified unseatable.
+5. **Q5 — NO-SHIFT by construction stands** (the fifth pass): insertChain's pass ladder is the build's structure, so a fifth pass is a choices-row matter, not a design-text amendment; bar (v) declares its three named shift sources.
+6. **Q6 — a-01's shape kept** for Q77's crossings half, pinned fail-safe.
+7. **Q7 — the registers keep '(notBuilt #2, M4)'**; a committing kernel case moves to register/s14-rescues.json (NEW).
+8. **Q8 — the GATE hash is a-06 S9's landed head**, filled at launch; every insert/ cite re-read on that tree.
+9. **Q9 — the 32nd seed is the census seed 20261013** (M0-a-05-notes.md:932-935); J693's successor rows read it so.
+10. **Q10 — regeneration allowed**: FAR1's family T may be regenerated in the builder's mirror from M0-a-05-s12.md:147-153 by a scratch generator (C-0106's form); the generated coordinates are committed as the fixture, the generator never in the tree.
+
+The entry is appended to specs.json when a-06 S9's hand-back is in sight (the `openQuestions` key dropped; the session text's "AS THE SESSION RULED" sentence cites J697), the refuter pass runs then, and the round is rendered and launched with S9's landing head as the GATE.
