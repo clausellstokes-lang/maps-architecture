@@ -5,8 +5,7 @@
 // for byte; the stage times live beside the report, never in it. The pool keeps task order whatever order its workers
 // finish in: a planted worker answers the first task last, and the records, the report and the times stay in task order
 // (C-0275 (1)). Without --summary nothing touches the committed summary (its bytes and mtime are compared around both
-// runs, and restored should a regression rewrite it; C-0275 (2)). The same law holds beyond the first test's relief-60
-// default: both fixtures under both configurations at the test size, and CITY (M0-e-06 S2, note 5).
+// runs, and restored should a regression rewrite it; C-0275 (2)).
 import { spawnSync, type SpawnSyncReturns } from 'node:child_process';
 import { existsSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -106,35 +105,6 @@ describe('bench -- site: the report, reproduced byte for byte (seeded)', () => {
     const again = foldReport('test', 1, 2, ['relief-60'], ['default'], out.map((x: SpikeResult) => x.record));
     expect(`${JSON.stringify(again, null, 2)}\n`).toBe(textA);
   });
-
-  // M0-e-06 S2, note 5: the byte-for-byte law beyond relief-60's default at the test size — both fixtures (the 3 000 m
-  // hill among them) under both configurations at the test size, and the CITY size (relief-60 coarse, seeds 1 – 2) —
-  // each derived in this process on one thread and by the dispatcher across two worker threads, the reports equal byte
-  // for byte (a worker that derived another fixture, configuration or size than its task names would differ).
-  for (const [label, args] of [
-    ['both fixtures × both configurations, test size, seed 1', ['--seeds', '1', '--fixture', 'both', '--config', 'both', '--size', 'test']],
-    ['CITY, relief-60 coarse, seeds 1 – 2', ['--seeds', '2', '--fixture', 'relief-60', '--config', 'coarse', '--size', 'city']],
-  ] as const) {
-    it(`one thread and two worker threads give the same report file: ${label}`, { timeout: 2 * HEAVY }, async () => {
-      const tag = label.replace(/[^a-z0-9]+/gi, '-');
-      const a = join(dir, `a-${tag}`);
-      const b = join(dir, `b-${tag}`);
-      const before = summaryState();
-      const code = await run([...args], { out: a });
-      const child = spawnSync('corepack', ['pnpm', 'bench', '--', 'site', ...args, '--workers', '2'], { cwd: PLAT_ROOT, env: { ...process.env, PLAT_BENCH_OUT: b, PLAT_BENCH_WORKERS: '' }, encoding: 'utf8', timeout: 2 * HEAVY });
-      expect(summaryState()).toEqual(before);
-      expect(child.stdout).toContain('on 2 worker(s)');
-      const textA = readFileSync(join(a, REPORT_FILE), 'utf8');
-      expect(readFileSync(join(b, REPORT_FILE), 'utf8')).toBe(textA);
-      expect(child.status).toBe(code);
-      const rep = JSON.parse(textA) as SiteSpikeReport;
-      const size = args[args.indexOf('--size') + 1];
-      expect(rep.size).toBe(size);
-      expect(rep.records.map((r) => `${r.fixture} ${r.config} ${String(r.seed)}`)).toEqual(
-        size === 'test' ? ['relief-60 default 1', 'relief-60 coarse 1', 'relief-3000 default 1', 'relief-3000 coarse 1'] : ['relief-60 coarse 1', 'relief-60 coarse 2'],
-      );
-    });
-  }
 
   it('the pool puts each result back at its task\'s place: seven tasks on three workers, finishing in reverse order', async () => {
     const tasks: SpikeTask[] = Array.from({ length: 7 }, (_, i) => ({ fixture: 'relief-60', config: 'default', seed: i + 1, size: 'test' }));

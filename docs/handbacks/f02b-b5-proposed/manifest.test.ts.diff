@@ -1,0 +1,50 @@
+--- orig/manifest.test.ts	2026-11-01 20:03:15.763466820 +0000
++++ new/manifest.test.ts	2026-11-01 20:03:15.780654787 +0000
+@@ -51,8 +51,9 @@
+       ['B-CITY-lite stand-in: site spike', 'harness', 'bench/src/site/', 'M0-e-06'],
+     ]);
+     expect(jobs.find((j) => j.name === 'deny-list scan')?.reviewedBy).toEqual(['M0-k-07']);
++    // filled by M0-f-02b (C-0447 (1)): no longer staged; their units are bench/test/tier-jobs/units.test.ts's
+     for (const j of jobs.filter((x) => x.name.startsWith('B-CITY-lite'))) {
+-      expect(j.stagedTo).toBe('M0-f-02b');
++      expect(j.stagedTo).toBeUndefined();
+       expect(j.size).toEqual({ kind: 'seeds', n: PR_SEEDS });
+     }
+     expect(PR_SEEDS).toBe(50);
+@@ -122,16 +123,15 @@
+   });
+ });
+ 
+-describe('the nightly and milestone lists, declared (C-0088, C-0099; filled by M0-f-02b)', () => {
+-  it("the nightly's last job is `timing-phase (nightly contents)` at not-built: M1; every other entry not-built: M0-f-02b or after-M-1", async () => {
++describe('the nightly and milestone lists, declared by M0-f-02a and filled by M0-f-02b (C-0088, C-0099; C-0447 (7))', () => {
++  it("the nightly's last job is `timing-phase (nightly contents)` at not-built: M1; every other entry filled (unstaged) for an item of this spec", async () => {
+     const jobs = nightlyJobs();
+     const last = jobs[jobs.length - 1];
+     expect(last.name).toBe('timing-phase (nightly contents)');
+     expect((await deriveStatus(last, PLAT_ROOT)).status).toBe('not-built: M1');
++    // the filled entries' derived statuses are bench/test/tier-jobs/lists.test.ts's, over a FIXTURE tree (N-01)
+     for (const j of jobs.slice(0, -1)) {
+-      expect(ITEMS.has(j.item)).toBe(true);
+-      const s = (await deriveStatus(j, PLAT_ROOT)).status;
+-      expect(s === 'not-built: M0-f-02b' || s.startsWith('after-M-1: baselines.json')).toBe(true);
++      expect([j.name, ITEMS.has(j.item), j.stagedTo]).toEqual([j.name, true, undefined]);
+     }
+     expect(jobs.map((j) => j.name)).toEqual([
+       'B-FUZZ (10⁶ per primitive)',
+@@ -151,11 +151,12 @@
+ 
+   it('the milestone list is the nightly set less its timing-phase entry, plus F-CUT at 10⁵ faces', () => {
+     expect(milestoneJobs().map((j) => j.name)).toEqual([...nightlyJobs().slice(0, -1).map((j) => j.name), 'F-CUT (10⁵ faces)']);
+-    expect(milestoneJobs().every((j) => j.stagedTo === 'M0-f-02b')).toBe(true);
++    expect(milestoneJobs().every((j) => j.stagedTo === undefined)).toBe(true);
+   });
+ 
+-  it('a declared entry refuses to give units until it is filled', () => {
+-    expect(() => nightlyJobs()[0].units(1_000_000)).toThrow('declared by M0-f-02a, filled by M0-f-02b');
++  it('only the timing-phase entry refuses to give units (not built: M1); a filled entry gives its units', async () => {
++    expect(() => nightlyJobs().at(-1)?.units(null)).toThrow('not built: M1');
++    expect((await nightlyJobs()[0].units(1_000_000)).length).toBe(FUZZ_PRIMITIVES.length + 1);
+   });
+ });
+ 

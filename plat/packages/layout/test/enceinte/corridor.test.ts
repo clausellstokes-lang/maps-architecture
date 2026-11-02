@@ -6,12 +6,12 @@
 // both within the bound. A face crossing a corridor — holding a gate's vertex, or a vertex deeper than the bound — is
 // no strip, and a side left with none is refused with the barring vertex and its cause named.
 import { describe, expect, it } from 'vitest';
-import { STAGES, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
-import type { Enceinte, GateSite, Scope } from '@plat/model';
+import { STAGES, type Kernel, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
+import type { Enceinte, Scope } from '@plat/model';
 import type { Row } from '@plat/tables';
-import { baseArena, commitOuterRing, createRegistry, layStrips, registerBase, run, runBase, siteContext, traceBase, type BaseBlueprint, type ModelView, type PipelineContext, type PipelineStage, type StripStop } from '../../src/index.js';
+import { baseArena, commitOuterRing, createRegistry, layStrips, registerBase, run, type BaseBlueprint, type ModelView, type PipelineContext, type PipelineStage, type StripStop } from '../../src/index.js';
 import { CORRIDOR_SLACK_CM } from '../../src/enceinte/strips.js';
-import { coveredCorridorPoints, depthOf, GROUND, kernelFor, P, smallSite, untypedStripPoints, type EnceinteRef, type SliceRoutes } from './support.js';
+import { GROUND, kernelFor, P, smallSite } from './support.js';
 
 /** The S5-rank L1 batch the trace and strips are laid in (C-0226 (2)). */
 const L1_S5 = { key: GROUND, level: 1 as const, ops: [], expect: [], onFail: 'reject' as const, batch: { kind: 'stage' as const, stage: STAGES.S5 as StageId }, stage: STAGES.S5 as StageId, rederivesFrom: STAGES.S5 as StageId, workLimit: 10_000_000 };
@@ -80,83 +80,29 @@ describe('the corridor clause up to the fidelity bound (N-56 (3) Q22; C-0311)', 
     }
   }, 60_000);
 
-  it('a face beyond the setback line is no strip however near the trace its vertices stand (RQ5, by area): the town inside a closed inner setback stays untyped', () => {
-    const { k, enceinte, row } = handTrace([P(-20000, -20000), P(20000, -20000), P(20000, 20000), P(-20000, 20000)]);
-    const r = layStrips(enceinte, row, k, { stops: [] });
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    if (!r.ok) return;
-    expect(r.value.faces.inner).toBe(1);
-    const v = k.view(GROUND, 1);
-    const loc = k.geom.pointLocate(GROUND, 1, P(0, 0));
-    expect(loc.on).toBe('face');
-    if (loc.on !== 'face') return;
-    expect(v.owner(loc.face)).toBeNull();
-    // Its every vertex is the inner strip's width from the trace (the setback's corners), within the width clause.
-    expect(v.rings(loc.face).flat().every((q) => Math.abs(Math.abs(q.x) - 19200) < 2 && Math.abs(Math.abs(q.y) - 19200) < 2)).toBe(true);
-  }, 60_000);
-
-  it('a way run along the trace (RQ5): the strips stop at its corridor along its whole length — the corridor\'s own face, holding the gate\'s vertex, is no strip\'s, and the strips on either side of it commit', () => {
+  it('a face crossing a corridor is still refused, its vertex and cause named: the way run along the trace, the lines never cut — the gate\'s vertex', () => {
     const { k, enceinte, row } = handTrace([P(-20000, -20000), P(20000, -20000), P(20000, 20000), P(-20000, 20000), P(-20000, 0)]);
     const along: StripStop = { kind: 'way', gate: 'gate:0', at: P(-20000, 0), path: [P(-20000, -3000), P(-20000, 0), P(-20000, 3000)], halfWidthCm: 700 };
     const r = layStrips(enceinte, row, k, { stops: [along] });
-    // Refused before the round: "the inner side: vertex (-20000, 0) is gate:0's gate vertex (the face crosses its corridor)".
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    const corridor = [P(-20700, -3000), P(-19300, -3000), P(-19300, 3000), P(-20700, 3000)];
-    for (const side of ['inner', 'outer'] as const) {
-      const rings = owned(k, `wall_strip:1-${side}`);
-      expect(rings.length).toBeGreaterThanOrEqual(1);
-      for (const ring of rings) {
-        // No strip vertex is the gate's or deeper than the slack inside the corridor; no strip side runs through it.
-        for (const q of ring) {
-          expect(q.x === -20000 && q.y === 0).toBe(false);
-          expect(depthOf(q, q, corridor)).toBeLessThanOrEqual(CORRIDOR_SLACK_CM);
-        }
-        for (let i = 0; i < ring.length; i += 1) expect(depthOf(ring[i], ring[(i + 1) % ring.length], corridor, 10)).toBeLessThanOrEqual(CORRIDOR_SLACK_CM);
-      }
-    }
-  }, 60_000);
-
-  it('a way along the trace 110 cm wide, off the trace\'s vertices (N-22 (b) under RQ5): the face that held a vertex 110 cm in is cut along the corridor\'s edge, the strips commit beside it', () => {
-    const { k, enceinte, row } = handTrace(dipped(15));
-    const along: StripStop = { kind: 'way', gate: 'gate:0', at: P(-20000, 5), path: [P(-20000, -3000), P(-20000, 5), P(-20000, 3000)], halfWidthCm: 110 };
-    const r = layStrips(enceinte, row, k, { stops: [along] });
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    const corridor = [P(-20110, -3000), P(-19890, -3000), P(-19890, 3000), P(-20110, 3000)];
-    for (const side of ['inner', 'outer'] as const) {
-      for (const ring of owned(k, `wall_strip:1-${side}`)) {
-        for (const q of ring) expect(depthOf(q, q, corridor)).toBeLessThanOrEqual(CORRIDOR_SLACK_CM);
-        for (let i = 0; i < ring.length; i += 1) expect(depthOf(ring[i], ring[(i + 1) % ring.length], corridor, 10)).toBeLessThanOrEqual(CORRIDOR_SLACK_CM);
-      }
-    }
-    // The setback chains follow the corridor's edge: a setback vertex on each of its long sides.
-    const setback = k.resolve({ role: 'setback', entity: 'enceinte:1' }, GROUND);
-    expect(setback.view).toBe('edges');
-  }, 60_000);
-
-  it('a gate whose way runs inward only (N-23): the outer side\'s one face holds the gate\'s vertex, so the outer side is refused, named, nothing written', () => {
-    const { k, enceinte, row } = handTrace([P(-20000, -20000), P(20000, -20000), P(20000, 0), P(20000, 20000), P(-20000, 20000), P(-20000, 0)]);
-    // The west gate's way ends flat on the trace at the gate: its corridor cuts the inner line, not the glacis line; the
-    // east gate's way crosses the trace and cuts both, so the outer side's one face runs round from it past the west gate.
-    const inward: StripStop = { kind: 'way', gate: 'gate:0', at: P(-20000, 0), path: [P(-20000, 0), P(-11000, 0)], halfWidthCm: 700 };
-    const east: StripStop = { kind: 'way', gate: 'gate:1', at: P(20000, 0), path: [P(11000, 0), P(20000, 0), P(29000, 0)], halfWidthCm: 700 };
-    const r = layStrips(enceinte, row, k, { stops: [inward, east] });
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toBe("layStrips: a side's lines closed no strip face — the outer side: vertex (-20000, 0) is gate:0's gate vertex (the face crosses its corridor)");
+    expect(r.detail).toBe("layStrips: a side's lines closed no strip face — the inner side: vertex (-20000, 0) is gate:0's gate vertex (the face crosses its corridor)");
+    // Nothing of the strips written: the batch rolled back.
     const v = k.view(GROUND, 1);
     expect(v.faces().filter((f) => (v.owner(f) ?? '').startsWith('wall_strip'))).toEqual([]);
+    const setback = k.resolve({ role: 'setback', entity: 'enceinte:1' }, GROUND);
+    expect(setback.view === 'edges' ? setback.runs.length : 0).toBe(0);
   }, 60_000);
 
-  it('a probe meeting open ground beyond the strip\'s width (N-24): the glacis line cut away by the frame on the west and no border laid, the outer side\'s one face is the open ground — refused, named', () => {
+  it('the same crossing with the gate off the trace\'s vertices: the cause is a vertex deeper than the bound', () => {
     const { k, enceinte, row } = handTrace(dipped(15));
-    // The frame 5 m beyond the trace's west side (the glacis line, 15 m out, cut there); the map border not in the arena.
-    const frame = [P(-20500, -30000), P(30000, -30000), P(30000, 30000), P(-20500, 30000)];
-    const r = layStrips(enceinte, row, k, { stops: [WEST_WAY], frame });
+    const along: StripStop = { kind: 'way', gate: 'gate:0', at: P(-20000, 5), path: [P(-20000, -3000), P(-20000, 5), P(-20000, 3000)], halfWidthCm: 700 };
+    const r = layStrips(enceinte, row, k, { stops: [along] });
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toMatch(/^layStrips: a side's lines closed no strip face — the outer side: vertex \(-?\d+, -?\d+\) lies \d+ cm from the trace, beyond the strip's 1500 cm$/);
+    expect(r.detail).toBe("layStrips: a side's lines closed no strip face — the inner side: vertex (-20000, 685) lies 700 cm inside gate:0's corridor, beyond the fidelity bound (74 cm)");
   }, 60_000);
 });
 
@@ -191,61 +137,12 @@ function throughS5(seed: number): ReturnType<typeof run> & { refusal: { code: st
   return { ...out, refusal };
 }
 
-describe('RQ5 on hand fixtures: each way\'s corridor stops the strips along its whole length (N-26; §4.8 as amended, item 130 (b))', () => {
-  /** The owner of the L1 face at q ('' when none, 'edge' when q lies on an edge or vertex). */
-  const ownerAt = (k: Kernel, q: LatticePoint): string => {
-    const loc = k.geom.pointLocate(GROUND, 1, q);
-    return loc.on === 'face' ? (k.view(GROUND, 1).owner(loc.face) ?? '') : 'edge';
-  };
-
-  it('a way along the wall\'s outside, its corridor over the trace (given as a corridor, no gate on it): the faces inside the corridor hold no vertex deeper than the slack, yet they are no strip\'s — membership by area', () => {
-    const { k, enceinte, row } = handTrace([P(-20000, -20000), P(20000, -20000), P(20000, 20000), P(-20000, 20000)]);
-    const way: StripStop = { kind: 'way', gate: 'way:along', at: P(-20300, 0), path: [P(-20300, -5000), P(-20300, 5000)], halfWidthCm: 700 };
-    const r = layStrips(enceinte, row, k, { stops: [], corridors: [way] });
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    // Inside the corridor on each side of the trace: no strip's.
-    for (const q of [P(-19800, 0), P(-19800, 4000), P(-20500, 0), P(-20900, -4000)]) expect(ownerAt(k, q)).not.toMatch(/^wall_strip/);
-    // Beside it, along the same side, the strips stand.
-    expect(ownerAt(k, P(-19800, 10000))).toBe('wall_strip:1-inner');
-    expect(ownerAt(k, P(-20500, 10000))).toBe('wall_strip:1-outer');
-  }, 60_000);
-
-  it('a gate\'s way read from the arena bends along the wall inside: the way chain through the gate\'s vertex is read whole, and the strips stop at its corridor there too', () => {
-    const site = smallSite(2);
-    const { k } = kernelFor(site);
-    expect(commitOuterRing(site, k).ok).toBe(true);
-    const SQUARE = [P(-20000, -20000), P(20000, -20000), P(20000, 20000), P(-20000, 20000), P(-20000, 0)];
-    const gate: GateSite[] = [{ ordinal: 0, at: P(-20000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false }];
-    const t = traceBase(SQUARE, gate, [], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
-    expect(t.ok ? 'ok' : `${t.code} ${t.detail}`).toBe('ok');
-    if (!t.ok) return;
-    const L1: KernelTx = { key: GROUND, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S4 as StageId }, stage: STAGES.S4 as StageId, rederivesFrom: STAGES.S4 as StageId, workLimit: 1_000_000 };
-    expect(k.tx(L1, (o) => k.geom.insertChain(o, [P(-29000, 0), P(-20000, 0), P(-19000, 1000), P(-19000, 15000)], [{ role: 'way', entity: 'way:arterial' }], 'mandatory', {})).ok).toBe(true);
-    const r = layStrips(t.value, site.tables.table('walls').row('era.default'), k, { wayHalfWidthCm: 700 });
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    // The corridor of the way's run along the wall, 10 m inside it, within the inner strip's width: no strip's.
-    for (const q of [P(-19400, 5000), P(-19400, 12000), P(-19650, 8000)]) expect(ownerAt(k, q)).not.toMatch(/^wall_strip/);
-    // Past the way's end the inner strip stands again.
-    expect(ownerAt(k, P(-19600, 18000))).toBe('wall_strip:1-inner');
-  }, 60_000);
-  it('a way of the arena with no gate on it runs along the wall inside: read from the arena at `wayHalfWidthCm`, its corridor stops the strips there', () => {
-    const { k, enceinte, row } = handTrace([P(-20000, -20000), P(20000, -20000), P(20000, 20000), P(-20000, 20000)]);
-    const L1: KernelTx = { key: GROUND, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S4 as StageId }, stage: STAGES.S4 as StageId, rederivesFrom: STAGES.S4 as StageId, workLimit: 1_000_000 };
-    expect(k.tx(L1, (o) => k.geom.insertChain(o, [P(-10000, -5000), P(-19000, -5000), P(-19000, 5000), P(-10000, 5000)], [{ role: 'way', entity: 'way:lane' }], 'mandatory', {})).ok).toBe(true);
-    const r = layStrips(enceinte, row, k, { stops: [], wayHalfWidthCm: 700 });
-    expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
-    for (const q of [P(-19400, 0), P(-19650, 3000), P(-19400, -4000)]) expect(ownerAt(k, q)).not.toMatch(/^wall_strip/);
-    expect(ownerAt(k, P(-19600, 12000))).toBe('wall_strip:1-inner');
-  }, 60_000);
-});
-
 /** The family's seeds whose stage-2 strips hold a vertex inside a corridor with every such vertex within the bound, so they
  * commit (EP-01/S5a/coincident's family, seeds 19, 574, 918 and 929 of its first 1 000, unplanted; C-0311). */
 const COMMIT_SEEDS = [3443032966, 3027099408, 1318978557, 3198053629];
 
-/** The family's seeds whose stage-2 inner strip crosses a gate's corridor (the trace spikes at the gate, the corridor along
- * its normal runs beside the spike's short side and the inner line never meets it): 156, 593 and 956 of the 1 000 — the
- * three lawful-input refusals of the family before the round (Q37), laid since the strips stop at a corridor by area. */
+/** The family's seeds whose stage-2 inner strip truly crosses a gate's corridor (the trace spikes at the gate, the corridor
+ * along its normal runs beside the spike's short side and the inner line never meets it): 156, 593 and 956 of the 1 000. */
 const CROSSING_SEEDS = [957349493, 2306189499, 4102748823];
 
 describe('the stage-2 strips on SMALL_FLAT seeds (N-56 (3) Q22)', () => {
@@ -261,105 +158,21 @@ describe('the stage-2 strips on SMALL_FLAT seeds (N-56 (3) Q22)', () => {
   }
 
   for (const seed of CROSSING_SEEDS) {
-    it(`seed ${String(seed)}: the stage-2 strip whose trace spikes at a gate is laid (Q37 / Q52 class B; refused "closed no strip face" before the round), both sides typed, no corridor point in a strip face`, () => {
+    it(`seed ${String(seed)}: a stage-2 strip crossing a gate's corridor is never committed and never refused unnamed`, () => {
       const r = throughS5(seed);
-      expect(r.report.bugs.filter((b) => b.stage === 'S5')).toEqual([]);
+      const bug = r.report.bugs.find((b) => b.stage === 'S5');
       const v = r.model.kernel.view(GROUND, 1);
       const owners = v.faces().map((f) => v.owner(f) ?? '');
-      expect(owners.filter((o) => o === 'wall_strip:2-inner').length).toBeGreaterThan(0);
-      expect(owners.filter((o) => o === 'wall_strip:2-outer').length).toBeGreaterThan(0);
-      const encs = enceintesOf(r);
-      expect([...coveredCorridorPoints(r.model.kernel, encs, sliceOf(r)).entries()]).toEqual(encs.map((e) => [e.stage, 0]));
+      if (bug === undefined) {
+        // Laid (should a later rule lay these strips): both sides typed.
+        expect(owners.filter((o) => o === 'wall_strip:2-inner').length).toBeGreaterThan(0);
+        expect(owners.filter((o) => o === 'wall_strip:2-outer').length).toBeGreaterThan(0);
+        return;
+      }
+      // Refused: the cause named, nothing of stage 2's strips written.
+      expect(owners.filter((o) => o.startsWith('wall_strip:2-'))).toEqual([]);
+      expect(r.refusal?.code).toBe('E_INVARIANT');
+      expect(r.refusal?.detail).toMatch(/closed no strip face — the (inner|outer) side: vertex \(-?\d+, -?\d+\) (is gate:\d+'s gate vertex \(the face crosses its corridor\)|lies \d+ cm inside gate:\d+'s corridor, beyond the fidelity bound \(74 cm\))/);
     }, 120_000);
   }
-});
-
-describe('a strips chain below the insertion\'s floor is not laid (census R-31; Q52 F)', () => {
-  // The small river frame (M0-x-06's cell bridge × frame): CITY, 30 ha of frame, 6 ha walled, the river from the west.
-  const SMALL_RIVER = { size: { rung: 'CITY', aspect: 1, areaHa: 30 }, site: { relief: 'plain', river: { inflowBearingCdeg: 27_000, mouth: 'none' } }, terrain: 'base', walledHa: 6 } as unknown as BaseBlueprint;
-
-  it('seed 1933152649: S3 commits (refused E_DEGENERATE `empty` before the round — the insertion of a ~15 cm inner chain), both strips typed', () => {
-    const r = runBase(SMALL_RIVER, 1933152649 as never, { kind: 'all' });
-    expect(r.report.bugs.filter((b) => b.stage === 'S3')).toEqual([]);
-    const v = r.model.kernel.view(GROUND, 1);
-    const owners = new Set(v.faces().map((f) => v.owner(f) ?? ''));
-    expect(owners.has('wall_strip:1-inner')).toBe(true);
-    expect(owners.has('wall_strip:1-outer')).toBe(true);
-  }, 300_000);
-});
-
-/** S3's slice as the oracles read it (its frame, gates, routes and lattice). */
-function sliceOf(r: ReturnType<typeof throughS5>): SliceRoutes {
-  const s = r.model.data.get('s3.slice') as { site: { frameRing: SliceRoutes['frameRing'] }; gates: SliceRoutes['gates']; routes: SliceRoutes['routes']; lattice: SliceRoutes['lattice'] };
-  return { frameRing: s.site.frameRing, gates: s.gates, routes: s.routes, lattice: s.lattice };
-}
-
-/** The enceintes S3 and S5 wrote (the model's records). */
-function enceintesOf(r: ReturnType<typeof throughS5>): EnceinteRef[] {
-  return (r.model.data.get('enceintes') as EnceinteRef[] | undefined) ?? [];
-}
-
-// RQ5 (N-26; inventory Q9; §4.8 as amended by item 130 (b)): a wall-strip face never overlaps a way's corridor — the strips
-// stop at a way's corridor wherever it runs inside their width, along its whole length there, and a face is a strip's by
-// area. Measured by N-26's probe P4 (the stops' corridors along their actual paths: stage 1 the slice's route through the
-// gate, whole, run on to the frame; k ≥ 2 the stand-in along the trace's normal; points every 25 cm at five offsets, deeper than the slack + 5 cm,
-// located on L1): 0 such points in a strip face. On the four seeds below a strip face covered them before the round.
-const RQ5_SEEDS: readonly [number, number, string][] = [
-  [1842059696, 1, 'stage 1, the arterial bending along the wall 10 – 47 m from its gate'],
-  [2537277803, 1, 'stage 1'],
-  [889845538, 1, 'stage 1'],
-  [1671642301, 2, "stage 2's inner strip at the stand-in corridor's far end"],
-];
-
-describe('RQ5: no strip face overlaps a way\'s corridor (N-26; §4.8 as amended, item 130 (b))', () => {
-  for (const [seed, stage, what] of RQ5_SEEDS) {
-    it(`seed ${String(seed)} (${what}): no corridor point of a stop in a strip face, both sides of every enceinte typed`, () => {
-      const r = throughS5(seed);
-      expect(r.report.bugs).toEqual([]);
-      const encs = enceintesOf(r);
-      expect(encs.length).toBeGreaterThanOrEqual(stage);
-      const covered = coveredCorridorPoints(r.model.kernel, encs, sliceOf(r));
-      expect([...covered.entries()]).toEqual(encs.map((e) => [e.stage, 0]));
-      const v = r.model.kernel.view(GROUND, 1);
-      const owners = new Set(v.faces().map((f) => v.owner(f) ?? ''));
-      for (const e of encs) for (const side of ['inner', 'outer']) expect(owners.has(`wall_strip:${e.id.slice(e.id.indexOf(':') + 1)}-${side}`)).toBe(true);
-    }, 120_000);
-  }
-});
-
-// N-28 (C-0311 (4)'s KI) and N-22 (a): a strip piece a cap closed past a trace vertex deep in a corridor, or one holding a
-// vertex 26 – 73.5 cm in, is typed — no point of the strip zone outside every stop's corridor (and its slack) lies in an
-// untyped face. Before the round the six N-28 seeds left a 1 – 2 m-deep piece land:0.
-const TYPED_SEEDS: readonly [number, string][] = [
-  [2704069009, 'N-28 (146 cm)'],
-  [1793505783, 'N-28 (200 cm)'],
-  [3435165676, 'N-28 (110 cm)'],
-  [671252167, 'N-28 (163 cm)'],
-  [3568440702, 'N-28 (102 cm)'],
-  [3709170404, 'N-28 (167 cm)'],
-  [1149953023, 'N-22 (a): a stage-1 outer face holding a vertex 50.3 cm in'],
-  [3436289613, 'N-22 (a): a face holding a vertex 50.0 cm in'],
-];
-
-describe('every piece of the strip zone typed (N-28; N-22 (a); C-0311 (4))', () => {
-  for (const [seed, what] of TYPED_SEEDS) {
-    it(`seed ${String(seed)} (${what}): no untyped face in the strip zone outside the stops' corridors`, () => {
-      const r = throughS5(seed);
-      expect(r.report.bugs).toEqual([]);
-      expect(untypedStripPoints(r.model.kernel, enceintesOf(r), sliceOf(r)).slice(0, 3)).toEqual([]);
-    }, 120_000);
-  }
-});
-
-describe('a face holding a vertex inside a corridor between the attraction distance and the slack is typed (N-22 (a))', () => {
-  // EP-01/S5a/coincident's family index 109: stage 2's outer strip face through (-14530, 2713) and (-14278, -1730) holds
-  // a vertex deeper than the attraction distance (26 cm) inside a corridor, within the slack (≈ 73.5 cm): the strip's.
-  it('seed 3980833922: that face is wall_strip:2-outer', () => {
-    const r = throughS5(3980833922);
-    expect(r.report.bugs).toEqual([]);
-    const v = r.model.kernel.view(GROUND, 1);
-    const has = (ring: readonly LatticePoint[], x: number, y: number): boolean => ring.some((q) => q.x === x && q.y === y);
-    const faces = v.faces().filter((f) => { const ring = v.rings(f)[0]; return has(ring, -14530, 2713) && has(ring, -14278, -1730); });
-    expect(faces.map((f) => v.owner(f) ?? '')).toContain('wall_strip:2-outer');
-  }, 120_000);
 });

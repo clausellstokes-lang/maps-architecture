@@ -40,7 +40,7 @@ import { finishChain, simplifyChain } from '../backbone/smooth.js';
 import { heightsOf, type S4Output } from '../backbone/stage.js';
 import type { RouteRung } from '../backbone/types.js';
 import { WAY_SPAN_NODES, type S3Commit } from '../enceinte/commit.js';
-import { distToRing, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { distToRing, unitOf } from '../enceinte/plane.js';
 import { stripWidths, toFrame } from '../enceinte/strips.js';
 import type { EnceinteEnv, XY } from '../enceinte/types.js';
 import { generated, GROUND } from '../enceinte/water.js';
@@ -49,11 +49,10 @@ import { PICK_JITTER, PICK_RANKED, PICK_SLOPE_WEIGHT, gateCount } from '../sitin
 import { boxOf } from '../siting/lattice.js';
 import { rimAtBearing } from '../siting/routes.js';
 import { GATE_REDRAWS } from '../siting/slice.js';
-import { angularGap, bearingCdeg, distToSegment2, insideRing, quot, segmentsMeet } from '../siting/geom.js';
+import { angularGap, bearingCdeg, insideRing, quot, segmentsMeet } from '../siting/geom.js';
 import type { Field, Lattice, S3Slice } from '../siting/types.js';
 import {
   boundaryCrossings,
-  crossingsThrough,
   HA_CM2,
   outlineMeasures,
   resettleT,
@@ -469,8 +468,7 @@ function routeNodesLimit(lattice: Lattice): number {
   return workLimitOf(loadWorkLimits().law('route.nodes'), { kind: 'stage', stage: STAGES.S5 }, { latticeNodes: lattice.points.length });
 }
 
-/** A segment: its two ends. */
-export type Seg = readonly [XY, XY];
+type Seg = readonly [XY, XY];
 
 function segsOf(pts: readonly XY[], closed: boolean): Seg[] {
   const out: Seg[] = [];
@@ -489,12 +487,11 @@ const same = (a: XY, b: XY): boolean => a.x === b.x && a.y === b.y;
 export type RoadFault = 'start' | 'self' | 'obstacle' | 'way' | 'outline';
 
 /**
- * Why a road's polyline does not keep the rules (C-0244), or null when it does: it starts at its junction, is simple,
- * meets no obstacle (a wall, the plaza, the water), no standing way but at its first point (the junction, by its first
- * segment only), no earlier road of the batch at all, and crosses the stage's outline exactly once, at its destination
- * (a walled stage's; `outline` null: no outline test). File-level, for its unit fixtures (C-0452 (3)).
+ * Why a road's polyline does not keep the rules (C-0244), or null when it does: It meets no wall, the plaza and the water nowhere, no standing way but
+ * at its first point (the junction, by its first segment only), no earlier road of the batch at all, and crosses the
+ * stage's outline exactly once, at its destination.
  */
-export function roadFault(pts: readonly LatticePoint[], start: LatticePoint, dest: LatticePoint, obstacles: readonly Seg[], ways: readonly Seg[], outline: readonly XY[] | null): RoadFault | null {
+function roadFault(pts: readonly LatticePoint[], start: LatticePoint, dest: LatticePoint, obstacles: readonly Seg[], ways: readonly Seg[], outline: readonly XY[] | null): RoadFault | null {
   if (pts.length < 2 || !same(pts[0], start)) return 'start';
   // The road is simple: no two of its segments meet but adjacent ones at their shared point.
   for (let i = 0; i + 1 < pts.length; i += 1) {
@@ -504,8 +501,7 @@ export function roadFault(pts: readonly LatticePoint[], start: LatticePoint, des
   const box = boxOf(pts);
   const near = (s: Seg): boolean => segBoxMeets(s, [box[0] - 1, box[1] - 1, box[2] + 1, box[3] + 1]);
   const obs = obstacles.filter(near);
-  const reach = TOUCH_CM + 1;
-  const ws = ways.filter((s) => segBoxMeets(s, [box[0] - reach, box[1] - reach, box[2] + reach, box[3] + reach]));
+  const ws = ways.filter(near);
   for (let i = 0; i + 1 < pts.length; i += 1) {
     const a = pts[i];
     const b = pts[i + 1];
@@ -521,19 +517,6 @@ export function roadFault(pts: readonly LatticePoint[], start: LatticePoint, des
       return 'way';
     }
   }
-  // Within the attraction distance is a meeting too (§3.6 step 2: the insertion lays a vertex within it of an existing
-  // edge or vertex onto it, and an existing vertex within it of the road is met there): a vertex of the road but its
-  // junction within it of a standing way, or a way's vertex but the junction within it of the road, would be a meeting
-  // no junction records — the road laid along its way from the junction, its branching vertex unrecorded (C-0244 (6);
-  // C-0452 (3): CITY seed 79's way:21 along way:15 for 1.9 m).
-  const reach2 = TOUCH_CM * TOUCH_CM;
-  for (let i = 1; i < pts.length; i += 1) for (const s of ws) if (distToSegment2(pts[i], s[0], s[1]) <= reach2) return 'way';
-  for (const s of ws) {
-    for (const q of s) {
-      if (same(q, start)) continue;
-      for (let i = 0; i + 1 < pts.length; i += 1) if (distToSegment2(q, pts[i], pts[i + 1]) <= reach2) return 'way';
-    }
-  }
   // Exactly one crossing of the outline, at the destination (a walled stage's: its crossings are its gates).
   if (outline === null) return null;
   const lines: WayLine[] = [{ way: '', runs: [{ points: pts, halfEdges: pts.slice(1).map(() => 0) }] }];
@@ -544,22 +527,6 @@ export function roadFault(pts: readonly LatticePoint[], start: LatticePoint, des
 /** Does p lie on the segment s (exactly)? */
 function onSeg(p: XY, s: Seg): boolean {
   return segmentsMeet(p, p, s[0], s[1]);
-}
-
-/**
- * A course's smoothest level that keeps the rules (C-0244): `levels` the smoothed polyline, the simplified one, the
- * lattice course and the lattice course with its first node kept, tried in that order (`roadFault`); the first that
- * keeps them is taken, its level 0 (smoothed), 1 (simplified) or 2 (a lattice course), else none, with each level's
- * fault — the destination left out, reported `invalid`. File-level, for its unit fixtures (C-0452 (3)).
- */
-export function smoothestLawful(levels: readonly (readonly LatticePoint[])[], start: LatticePoint, dest: LatticePoint, obstacles: readonly Seg[], ways: readonly Seg[], outline: readonly XY[] | null): { points: readonly LatticePoint[] | null; level: 0 | 1 | 2; faults: RoadFault[] } {
-  const faults: RoadFault[] = [];
-  for (let l = 0; l < levels.length; l += 1) {
-    const fault = roadFault(levels[l], start, dest, obstacles, ways, outline);
-    if (fault === null) return { points: levels[l], level: Math.min(l, 2) as 0 | 1 | 2, faults };
-    faults.push(fault);
-  }
-  return { points: null, level: 2, faults };
 }
 
 /** A road course before its batch: the lattice course, the polyline taken (its level), the junction it leaves. */
@@ -623,6 +590,16 @@ function blockEdges(weights: Float64Array, lattice: Lattice, grid: NodeGrid, seg
   }
 }
 
+/**
+ * Each pick's course (S5b; see the header), in pick order: the search from every lattice node beside a standing way
+ * vertex in the stage's ring (the way's vertices that are no junction or gate) to the destination's inside node within
+ * the ring, then from its outside node to the rim at the radial bearing outside the stage, every lattice edge that meets
+ * a standing way or an earlier road of the batch impassable; the polyline from the way vertex through the destination
+ * to the frame, smoothed as S4 smooths (simplify, Chaikin, the curvature limit; the junction, the destination and the
+ * nodes within `WAY_SPAN_NODES` of it held), taking its smoothest level that keeps the rules (`roadFault`; the simplified
+ * and the lattice courses the fallbacks), else left out, reported `invalid`. An unwalled stage's road may leave the ring
+ * on its way to the destination (no wall, so no gate count to keep; C-0244).
+ */
 /** S5b's routing context for one stage: the ring, the junction candidates, the router's graph with the ways blocked. */
 interface Routing {
   readonly mask: Uint8Array;
@@ -849,10 +826,18 @@ function courses(
     // The lattice course's last resort: the course's first node kept after the way vertex (its first step then the
     // short one beside the way).
     const lat1 = inNodes.length > 1 && !same(from.at, pts[inNodes[0]]) ? [lat0[0], pts[inNodes[0]], ...lat0.slice(1)] : lat0;
+    const levels = [fin.points, sm.points, lat0, lat1];
     const ways = [...standing, ...out.flatMap((x) => segsOf(x.points, false))];
-    const chosen = smoothestLawful([fin.points, sm.points, lat0, lat1], from.at, pick.at, obstacles, ways, outline);
-    if (chosen.points === null) return { why: 'invalid', faults: chosen.faults };
-    return { pick, nodes: [...inNodes, ...outNodes], points: chosen.points.slice(), level: chosen.level, from, wayId: `way:${String(wayN + out.length)}`, redraw: 0 };
+    const faults: RoadFault[] = [];
+    for (let l = 0; l < levels.length; l += 1) {
+      const fault = roadFault(levels[l], from.at, pick.at, obstacles, ways, outline);
+      if (fault !== null) {
+        faults.push(fault);
+        continue;
+      }
+      return { pick, nodes: [...inNodes, ...outNodes], points: levels[l].slice(), level: Math.min(l, 2) as 0 | 1 | 2, from, wayId: `way:${String(wayN + out.length)}`, redraw: 0 };
+    }
+    return { why: 'invalid', faults };
   };
   const pins: LatticePoint[] = picks.map((p) => p.at);
   const edgeOpenNow = (u: number, v: number): boolean => {
@@ -1040,8 +1025,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
   }
   const centre = site.centre;
   const lines = wayLines(state.kernel, state.ways.map((w) => w.id), state.key);
-  // c: the standing ways' crossings of the boundary as picked, a graze no crossing (C-0452 (9)).
-  const c0 = crossingsThrough(b0.set.outline, lines, centre);
+  const c0 = boundaryCrossings(b0.set.outline, lines, centre);
   rec.crossings = c0;
   rec.count = mainRoadCount(site, k, b0);
   const ctx = routing(state, b0, lines);
@@ -1089,8 +1073,9 @@ export function traceStep(state: GrowthState, k: number): KernelResult<GrowthSta
     const xs = boundaryCrossings(b.set.outline, lines, site.centre);
     const prev = lastWall(state);
     if (prev === null) return err('E_INVARIANT', `S5a: stage ${String(k)} is walled with no earlier enceinte standing`);
-    // The stage's water gates take the lowest gate:w<i> no earlier enceinte holds (C-0324 (3)): no count is handed on.
-    const t = traceStage(k, b.set.outline, xs, state.slice, state.plaza, prev, state.kernel, { key: state.key, water: state.water, firstOrdinal: state.nextGateOrdinal });
+    let earlierWater = 0;
+    for (const s of state.stages) if (s.trace !== null) earlierWater += s.trace.waterGates.length;
+    const t = traceStage(k, b.set.outline, xs, state.slice, state.plaza, prev, state.kernel, { key: state.key, water: state.water, firstOrdinal: state.nextGateOrdinal, earlierWaterGates: earlierWater });
     if (!t.ok) return err(t.code, t.detail);
     rec.trace = t.value;
     rec.gates = t.value.gates.slice();
@@ -1173,12 +1158,7 @@ export function s5bStage(k: number): Stage<S5Input, GrowthStage, EnceinteEnv> {
   });
 }
 
-/**
- * S5a as §14's Stage for stage k (F-WALL its ladder): stage 1's trace S3's, k ≥ 2 the strategy's. Its declaration is
- * §4.1's (declared), and its batches — the gate plan, the trace's and the strips' — are callback batches at S5's rank
- * (C-0226 (2), C-0244 (8)), always safe (§4.1): the registration takes the sub-stage's form as declared and pins S5a's
- * callback batches as the one exception (M0-x-04's run test; C-0264 (1); C-0452 (7)).
- */
+/** S5a as §14's Stage for stage k (declared form; F-WALL its ladder): stage 1's trace S3's, k ≥ 2 the strategy's. */
 export function s5aStage(k: number): Stage<S5Input, GrowthStage, EnceinteEnv> {
   return Object.freeze({
     id: STAGES.S5 as StageId,

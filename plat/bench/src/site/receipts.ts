@@ -38,7 +38,6 @@ import {
   fieldsPass1,
   type FieldsPass1,
   type GrowthState,
-  type S5cRecord,
   type S3Commit,
   type S3Slice,
   type S6Output,
@@ -48,7 +47,7 @@ import {
   type WaterGate,
 } from '@plat/layout';
 import { hydroParams, rasterise, type RiverReport, type SiteResources } from '@plat/site';
-import { loadWorkLimits, parseTable, tableView, type BaseRung, type Table, type TableView, type WorkLimitsTable } from '@plat/tables';
+import { parseTable, tableView, type BaseRung, type Table, type TableView } from '@plat/tables';
 import { skeletonCorpus, type CorpusReport } from '../skeleton/runner.js';
 import type { SpikeConfig, SpikeDerivation } from './compose.js';
 
@@ -151,11 +150,6 @@ export interface WaterGateReceipt {
   readonly gateSites: number;
   /** Per enceinte (the records' order, then any enceinte only the arena names, by id). */
   readonly enceintes: readonly EnceinteWaterReceipt[];
-  /**
-   * Wall edges over water whose `wall` rows name two or more enceintes (a side shared by nested walls, C-0244), each
-   * once — reported so a run shows whether the shared-side attribution (M0-e-06 S2, note 16) ever applies.
-   */
-  readonly sharedWallOverWater: number;
 }
 
 /** The crossing sites and spans (C-0076; §4.2 S1 (5)). */
@@ -220,59 +214,12 @@ export interface CorpusCounts {
   readonly downgrades: number;
   readonly workLimitHits: number;
   readonly failures: number;
-  /**
-   * The downgrades by cause, as the runner counts them (`CorpusReport.causes`): each contract refusal, each validator
-   * check, E_WORK_LIMIT — so the report tells a `sharpCorner` sliver from a validator failure (M0-e-06 S2, note 4).
-   */
-  readonly causes: CorpusReport['causes'];
 }
 
 /** One counter's charged work and its law's unit count (C-0091). */
 export interface WorkRow {
   readonly work: number;
   readonly units: number;
-}
-
-/** The kernel's insertion and walk counters (M0.md §2.2): every batch a stage commits through the façade charges them. */
-export const KERNEL_COUNTERS: readonly string[] = Object.freeze(['insert.points', 'insert.attractQueries', 'insert.placementCandidates', 'insert.crossings', 'tx.facesWalked']);
-
-/**
- * One batch a stage ran through the façade (M0-e-06 S3, Q118): its stage, level, limit and outcome, the arena's population
- * when it opened, its charged work by counter, and `units` — the population its limit was set for, read back from the
- * limit through the five kernel laws of the table the derivation ran with (the fusion form's `unitsOf`, the law inverted,
- * for a limit that sums the five laws over one count: max(1, (limit − Σ floor) / Σ perUnit)). A stage whose batch takes a
- * fixed limit (S3's enceinte commit and trace, S5's prune: 10 000 000) reads back a large count, so its work per unit
- * reads small: the fit takes the largest p999 of a counter's blocks, so a small block never lowers a coefficient.
- */
-export interface KernelBatchRow {
-  readonly stage: string;
-  readonly level: number;
-  readonly limit: number;
-  readonly units: number;
-  readonly committed: boolean;
-  readonly code: string | null;
-  readonly vertices: number;
-  readonly faces: number;
-  readonly counts: Readonly<Record<string, number>>;
-}
-
-/** A batch limit read back as its laws' population (KernelBatchRow's `units`). */
-export function kernelUnits(limit: number, wl: WorkLimitsTable = loadWorkLimits()): number {
-  let floor = 0;
-  let perUnit = 0;
-  for (const c of KERNEL_COUNTERS) {
-    const law = wl.law(c);
-    floor += law.floor;
-    perUnit += law.perUnit;
-  }
-  return perUnit > 0 ? Math.max(1, (limit - floor) / perUnit) : 1;
-}
-
-/** A law's unit count from its limit (the fusion form's `unitsOf`: the law inverted, at least 1; a fixed row 1). */
-export function lawUnits(counter: string, limit: number, wl: WorkLimitsTable = loadWorkLimits()): number {
-  const law = wl.law(counter);
-  if (law.unit === 'fixed' || !(law.perUnit > 0)) return 1;
-  return Math.max(1, (limit - law.floor) / law.perUnit);
 }
 
 /** A derivation's receipts. */
@@ -294,19 +241,6 @@ export interface RunRecord {
   readonly work: Readonly<Record<string, WorkRow>>;
   /** Per stage: batches committed, refused, and the charged work's share of the limit at its largest. */
   readonly batches: Readonly<Record<string, { committed: number; refused: number; maxShare: number }>>;
-  /**
-   * Each refused stage's refusal as the runner recorded it, by stage: its code and its detail text (M0-e-06 S3, Q122: the
-   * summary names each refusal class's seeds and its message).
-   */
-  readonly refusals: Readonly<Record<string, { readonly code: string; readonly detail: string }>>;
-  /** Every batch the stages ran through the façade, in order (Q118's per-stage kernel blocks). */
-  readonly kernelBatches: readonly KernelBatchRow[];
-  /**
-   * The stage-scope work outside the kernel's batches, by stage and counter (Q118): route.nodes at S3 (the slice's
-   * report), S4 and S5 (the growth state's report; every S5b search summed) over the lattice's nodes, and S5c's
-   * growth.proposals and growth.candidates per growth stage (the law inverted from its limit, the fusion form).
-   */
-  readonly stageRows: Readonly<Record<string, Readonly<Record<string, readonly WorkRow[]>>>>;
 }
 
 // ---- small readers ------------------------------------------------------------------------------------------------------
@@ -620,28 +554,9 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     recs.push(o);
   }
 
-  // Each wet edge's enceintes (M0-e-06 S2, note 16): those its `wall` rows name — but a side two walls share (stage k's
-  // wall on stage k − 1's, C-0244's union) that carries a `wall_gate` row of a water gate of one of them is that gate's
-  // enceinte's alone, so the other's row does not read it ungated. A shared wet side no such gate names stays in every
-  // enceinte its rows name (fail-closed).
-  const gateEnceinte = new Map<string, string>();
-  for (const g of waterOf) if (!gateEnceinte.has(g.id)) gateEnceinte.set(g.id, g.enceinte);
-  const overOf = new Map<string, EdgeRow[]>();
-  let shared = 0;
-  for (const e of over) {
-    const walls = [...new Set(e.rows.filter((r) => r.role === 'wall').map((r) => r.entity))];
-    if (walls.length > 1) shared += 1;
-    const gatedBy = walls.length < 2 ? [] : walls.filter((id) => e.rows.some((r) => r.role === 'wall_gate' && gateEnceinte.get(r.entity) === id));
-    for (const id of gatedBy.length > 0 ? gatedBy : walls) {
-      const list = overOf.get(id) ?? [];
-      list.push(e);
-      overOf.set(id, list);
-    }
-  }
-
   const rows: EnceinteWaterReceipt[] = [];
   for (const rec of recs) {
-    const mineOver = overOf.get(rec.id) ?? [];
+    const mineOver = over.filter((e) => e.rows.some((r) => r.role === 'wall' && r.entity === rec.id));
     const ids = new Set(rec.gates.map((g) => g.id));
     const ends = new Map<string, LatticePoint[]>();
     let resolved = 0;
@@ -705,7 +620,6 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     mainGates: mains,
     gateSites: slice.gateSites.length,
     enceintes: rows,
-    sharedWallOverWater: shared,
   };
 }
 
@@ -892,14 +806,7 @@ export function fieldsReceipt(d: SpikeDerivation, p: Plat, fields: FieldsPass1, 
 // ---- the skeleton corpus on the district and water faces ------------------------------------------------------------------
 
 function counts(r: CorpusReport): CorpusCounts {
-  return {
-    faces: r.faces,
-    skeletons: r.skeletons,
-    downgrades: r.downgrades,
-    workLimitHits: r.workLimitHits,
-    failures: r.failures,
-    causes: { contract: { ...r.causes.contract }, validator: { ...r.causes.validator }, workLimit: r.causes.workLimit },
-  };
+  return { faces: r.faces, skeletons: r.skeletons, downgrades: r.downgrades, workLimitHits: r.workLimitHits, failures: r.failures };
 }
 
 /** The district faces (each L1 face a district owns) and the water faces (each L0 face a water body owns), as rings. */
@@ -952,21 +859,6 @@ export function runRecord(d: SpikeDerivation): RunRecord {
   if (s4 !== undefined && slice !== undefined) work['route.nodes'] = { work: s4.report.work['route.nodes'], units: slice.lattice.points.length };
   if (s6 !== undefined) work['grower.turns'] = { work: s6.report.work['grower.turns'], units: d.capture.s6Faces };
   if (fields !== undefined) work['field.cells'] = { work: fields.report.work['field.cells'], units: fields.report.cols * fields.report.rows };
-  const wl = loadWorkLimits();
-  const stageRows: Record<string, Record<string, WorkRow[]>> = {};
-  const lattice = slice === undefined ? 0 : slice.lattice.points.length;
-  if (slice !== undefined) stageRows['S3'] = { 'route.nodes': [{ work: slice.report.work['route.nodes'], units: lattice }] };
-  if (s4 !== undefined && slice !== undefined) stageRows['S4'] = { 'route.nodes': [{ work: s4.report.work['route.nodes'], units: lattice }] };
-  const growth = m.data.get('s5.growth') as GrowthState | undefined;
-  const s5 = m.data.get('s5') as { growth?: readonly S5cRecord[] } | undefined;
-  if (growth !== undefined && s5 !== undefined && slice !== undefined) {
-    const rows: Record<string, WorkRow[]> = { 'route.nodes': [{ work: growth.report.work['route.nodes'], units: lattice }] };
-    for (const c of ['growth.proposals', 'growth.candidates'] as const) rows[c] = (s5.growth ?? []).map((g) => ({ work: g.work[c], units: lawUnits(c, g.limits[c], wl) }));
-    stageRows['S5'] = rows;
-  }
-  const refusals: Record<string, { code: string; detail: string }> = {};
-  for (const [s, r] of [...m.refusals.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))) refusals[s] = { code: r.code, detail: r.detail };
-  const kernelBatches: KernelBatchRow[] = d.capture.batches.map((b) => ({ stage: b.stage, level: b.level, limit: b.limit, units: kernelUnits(b.limit, wl), committed: b.committed, code: b.code, vertices: b.vertices, faces: b.faces, counts: { ...b.counts } }));
   const batches: Record<string, { committed: number; refused: number; maxShare: number }> = {};
   for (const b of d.capture.batches) {
     const row = batches[b.stage] ?? { committed: 0, refused: 0, maxShare: 0 };
@@ -992,8 +884,5 @@ export function runRecord(d: SpikeDerivation): RunRecord {
     corpus: terrain === undefined ? null : corpusReceipt(p, s6 ?? null, water),
     work,
     batches,
-    refusals,
-    kernelBatches,
-    stageRows,
   };
 }

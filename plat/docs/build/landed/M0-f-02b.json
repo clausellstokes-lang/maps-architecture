@@ -1,0 +1,36 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-f-02b",
+  "lane": "build/M0-f-02b-fix2",
+  "lanes": ["build/M0-f-02b", "build/M0-f-02b-fix1", "build/M0-f-02b-fix2"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-11-02T02:21:33.496Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/bench/src/tier-jobs/ (handed over from M0-f-02a)", "plat/bench/test/tier-jobs/", "plat/docs/build/summaries/M0-f-02b.json"],
+  "counts": { "created": 8, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/src/tier-jobs/cli.ts", "status": "created", "sha256": "f548f9a7f0cc7a62dfd6b41cd4ae508a5ee921083ca75f1d1d45c7729743b587", "size": 35936 },
+    { "path": "plat/bench/src/tier-jobs/index.ts", "status": "created", "sha256": "2a2d1f6a378b745c84404e362e62d781f4e31735a2d28407d7e764ee336d4fec", "size": 19165 },
+    { "path": "plat/bench/test/tier-jobs/cli.test.ts", "status": "created", "sha256": "314a9af0189779cc053dacbdc71c8f00c3b799bf18531363214965009f9bc67e", "size": 29162 },
+    { "path": "plat/bench/test/tier-jobs/lists.test.ts", "status": "created", "sha256": "f01a3d962a0854c9ec5d9d7f599426f512c392e7b528fa8e352e145e0cfafe6f", "size": 21507 },
+    { "path": "plat/bench/test/tier-jobs/summary.test.ts", "status": "created", "sha256": "13f4b27a1c4e235660e88ec0b477f9eb530a8ffdee0d48758bea5797ceb9ced4", "size": 13115 },
+    { "path": "plat/bench/test/tier-jobs/support.ts", "status": "created", "sha256": "5e47d0c48bb2d1f36861b5c16f9d1f2ad2764b8dac685a1eafff7c0107cbff39", "size": 3577 },
+    { "path": "plat/bench/test/tier-jobs/units.test.ts", "status": "created", "sha256": "5e818fbef1168e452719c93e61ea6d2b585a44de6df1d618e33f13b4de3dec8e", "size": 15015 },
+    { "path": "plat/docs/build/summaries/M0-f-02b.json", "status": "created", "sha256": "303b185dfd22707489090c657f7577509f3d9614d1c5dbbc4203320150fc259e", "size": 5290 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0697", "L-0699", "L-0701"],
+      "lines": ["22532dff0df1fd80", "e69b2d0142f204ca", "d4c273ba677f5db5"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0447", "C-0448", "C-0449"],
+      "lines": ["052cb8c44e3b635b", "c316909e21f1d474", "825015cec49fa62e"],
+      "removed": []
+    }
+  ]
+}

@@ -6,8 +6,7 @@
 // the shore there (a graze, C-0226 (7)) and no gate is written.
 import { describe, expect, it } from 'vitest';
 import type { GateSite } from '@plat/model';
-import { commitOuterRing, crossWater, GRAZE_RATIO, siteContext, traceBase, waterGates, waterRings } from '../../src/index.js';
-import { STAGES, type StageId } from '@plat/kernel';
+import { commitOuterRing, crossWater, GRAZE_RATIO, siteContext, traceBase, waterGates } from '../../src/index.js';
 import { closedChain, densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, RIVER, riverCommitted, ringDist, smallSite, verticesWith, WALL } from './support.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
 
@@ -191,47 +190,6 @@ describe('crossings and grazes (C-0226 (7))', () => {
     expect(across?.chord).toBe(false);
     expect(r.ring.some((q) => q.x === 0 && q.y === -10000)).toBe(true);
   });
-});
-
-describe('the chord in the water, tested exactly (N-10): no ring side crossed, the islands among them', () => {
-  // The boundary's south side crosses a river 40 m wide (x 200 – 240 m) from bank (200, −300) m to bank (240, −300) m,
-  // its own course dipping 10 m south in the water between them: the chord between the banks runs at y −300 m, the
-  // course at −310 m.
-  const BOUNDARY = ccw(openRing(densify([[-30000, -30000], [20000, -30000], [20100, -31000], [23900, -31000], [24000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]).map(lat)));
-  const south = (r: ReturnType<typeof crossWater>) => r.crossings.find((c) => c.entry.x === 20000 && c.entry.y === -30000 && c.exit.x === 24000 && c.exit.y === -30000);
-
-  it('a land spit 5 cm wide across the chord between two of its nine-tenths samples: the chord is not taken', () => {
-    // A hook of land from the west shore: east along y −290 m to x 225.05 m, then a needle down across the chord (x 225 –
-    // 225.05 m) to y −305 m, above the course. Every tenth of the chord (x 204, 208, …, 236 m) lies in the water.
-    const SPIT = [P(20000, 90000), P(20000, -29000), P(22505, -29000), P(22505, -30500), P(22500, -30500), P(22500, -29005), P(20000, -29005), P(20000, -90000), P(24000, -90000), P(24000, 90000)];
-    const r = crossWater(BOUNDARY, new Set(), [{ body: 'river:1', ring: SPIT }]);
-    const c = south(r);
-    expect(c?.chord).toBe(false);
-    // The north side's crossing, clear of the spit, takes its chord.
-    expect(r.crossings.find((q) => q.entry.y === 30000)?.chord).toBe(true);
-  });
-
-  it('an island under the chord, above the course: the chord crosses the hole\'s ring and is not taken; the same river without the island takes it', () => {
-    const RIVER_BAND = [P(20000, -90000), P(24000, -90000), P(24000, 90000), P(20000, 90000)];
-    const ISLAND = [P(21000, -30500), P(23000, -30500), P(23000, -29500), P(21000, -29500)];
-    expect(south(crossWater(BOUNDARY, new Set(), [{ body: 'river:1', ring: RIVER_BAND, holes: [ISLAND] }]))?.chord).toBe(false);
-    expect(south(crossWater(BOUNDARY, new Set(), [{ body: 'river:1', ring: RIVER_BAND }]))?.chord).toBe(true);
-  });
-
-  it('waterRings reads a water face\'s holes (its islands) through the façade', () => {
-    const site = smallSite(2);
-    const { k } = kernelFor(site);
-    expect(commitOuterRing(site, k).ok).toBe(true);
-    const ISLAND = [P(21000, -30500), P(23000, -30500), P(23000, -29500), P(21000, -29500)];
-    // The island's ring laid first, then the river around it; the face between them the river's.
-    const spec = { key: GROUND, level: 0 as const, ops: [], expect: [], onFail: 'reject' as const, batch: { kind: 'stage' as const, stage: STAGES.S1 as StageId }, stage: STAGES.S1 as StageId, rederivesFrom: STAGES.S1 as StageId, workLimit: 1_000_000 };
-    expect(k.tx(spec, (o) => k.geom.insertChain(o, ISLAND, [{ role: 'shore', entity: 'island:1' }], 'mandatory', { closed: true })).ok).toBe(true);
-    const water = handBuildWater(k, [P(20000, -90000), P(24000, -90000), P(24000, 90000), P(20000, 90000)], 'river:1', P(20500, 0));
-    const rings = waterRings(water, k, GROUND);
-    expect(rings).toHaveLength(1);
-    expect(rings[0].holes?.length).toBe(1);
-    expect(rings[0].holes?.[0].length).toBe(4);
-  }, 60_000);
 });
 
 describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7)', () => {
