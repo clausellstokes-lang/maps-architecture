@@ -34,7 +34,13 @@ interface Registered {
 /** One case's run and its replay take seconds on a loaded machine (the slowest seen: 6 s); a hang still fails. */
 const CASE_TIMEOUT = 120_000;
 
-// `oracleHang` holds a case on which polygon-clipping (an oracle) does not terminate: kept as a repro, never run (C-0231)
+// `oracleHang` holds H-offsetFace-6101, the case on which polygon-clipping (an oracle) did not terminate (C-0231). It is
+// not run by this file: since M0-k-03's hardening round S1 (KI-6; C-0414) every polygon-clipping call runs under a step
+// budget, and k-03's `test/oracles/budget.test.ts` runs this case under it — its buffer call answered under another
+// quarter turn, and end to end through this harness's `oracleOffset`, terminating with both oracles agreeing — so the
+// entry stays here as the guard's witness, read from this file by that pin (Q97 (c)). The second hang the guard
+// answers is agreement-buffer's case at PLAT_FUZZ_SEED=1595 (1 000 runs), pinned in k-03's own fixture
+// `test/oracles/fixtures/hang-1595-buffer.json` (answered under the 270° turn).
 const REGISTER = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8')) as { pending: Registered[]; refused: Registered[]; oracleHang: Registered[] };
 
 beforeAll(async () => {

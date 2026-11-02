@@ -42,7 +42,7 @@ import {
   type PlatKey,
   type Warning,
 } from '@plat/kernel';
-import { arb, fuzzRuns } from '../../../src/fuzz/index.js';
+import { arb, fuzzParams, fuzzRuns } from '../../../src/fuzz/index.js';
 import { constructiveCase } from '../../../src/constructive/index.js';
 import type { ConstructiveInput } from '../../../src/constructive/types.js';
 import {
@@ -795,6 +795,12 @@ export interface Harness {
   stretchFar: CaseTally;
   /** Cases our engine refused, taken out of the oracle comparison and classed by replay (N-44 (3), N-46 (5)). */
   engineRefusals: EngineRefusals;
+  /**
+   * The run's replay seed (L18; Q97): the seed handed to `fc.assert` (`agreementParams`), printed in the verdict's line
+   * and its every assertion message and carried by every refused case logged (`PLAT_REFUSALS_OUT`); null for a harness
+   * no seeded run drives (a register case, a planted meta-test).
+   */
+  seed: number | null;
 }
 
 /** The refused cases of a run (`separateRefusal`): insertChain's (counted against the family's cap) and this item's own. */
@@ -811,8 +817,9 @@ export interface EngineRefusals {
   ownCases: string[];
 }
 
-export function newHarness(): Harness {
+export function newHarness(seed: number | null = null): Harness {
   return {
+    seed,
     report: new OracleReport(),
     invalid: [],
     failures: [],
@@ -1176,7 +1183,7 @@ function tallyRefusal(h: Harness, op: string, source: string, r: { code: string;
   const k = `${cls}${setup ? '/setup' : ''}/${r.code}`;
   t.byCode[k] = (t.byCode[k] ?? 0) + 1;
   if (cls === 'own') keep(t.ownCases, `${op} [${source}]: ${r.code} '${r.detail}' — ${JSON.stringify(input).slice(0, 600)}`);
-  logRefused({ op, source, cls, setup, code: r.code, detail: r.detail, seed: process.env.PLAT_FUZZ_SEED ?? null, input });
+  logRefused({ op, source, cls, setup, code: r.code, detail: r.detail, seed: h.seed === null ? (process.env.PLAT_FUZZ_SEED ?? null) : String(h.seed), input });
 }
 
 /**
@@ -1291,8 +1298,56 @@ export const RUNS = fuzzRuns();
 /** One operation's run may take this long at the nightly size (the PR's 10⁴ takes minutes). */
 export const TIMEOUT = 3_600_000;
 
-/** Refusals counted against C-0150's allowance: 0.1 % of the cases, as M0-k-03's own agreement test allows. */
+/**
+ * A run's fast-check parameters (L18's test half; Q97; M0-k-03's `agreementParams` the model): the run's size,
+ * PLAT_FUZZ_RUNS (`RUNS`: the bar's 10⁴ on a PR, 10⁶ nightly, 10³ in a RELATED run — §3.7 (i)'s bar follows the tier,
+ * unlike M0-k-03's fixed 10⁴), and its seed — PLAT_FUZZ_SEED's when set (the replay, C-0057), else the fixed H32 seed
+ * of `arr/agreement/<op>` (M0-k-01's `fuzzParams`) — so a run at one size draws the same cases every time and every
+ * line and message its verdict prints names the seed that replays it.
+ */
+export function agreementParams(op: string): { numRuns: number; seed: number } {
+  return { numRuns: RUNS, seed: fuzzParams(`arr/agreement/${op}`).seed };
+}
+
+/**
+ * One operation's agreement run (L18; Q97): `params` — the operation's `agreementParams` unless a pin plants others —
+ * handed whole to `fc.assert` (the seed with the size), every drawn case judged on a harness carrying that seed, then
+ * the verdict at the run's size. The agreement tests call it, so their seed, their size and their verdict's replay
+ * line cannot part.
+ */
+export function runAgreement<C>(op: string, cases: fc.Arbitrary<C>, judgeCase: (h: Harness, c: C) => void, params: { numRuns: number; seed: number } = agreementParams(op)): Harness {
+  const h = newHarness(params.seed);
+  fc.assert(
+    fc.property(cases, (c) => {
+      judgeCase(h, c);
+    }),
+    params,
+  );
+  verdict(h, op, params.numRuns);
+  return h;
+}
+
+/** The replay tag every verdict line and assertion message carries (L18): the seed, and how to replay it. */
+export function replayTag(seed: number | null): string {
+  return seed === null ? 'seed none (an unseeded harness)' : `seed ${String(seed)}; replay with PLAT_FUZZ_SEED=${String(seed)}`;
+}
+
+/**
+ * Refusals counted against C-0150's allowance: 0.1 % of the cases, as M0-k-03's own agreement test allows — the
+ * share a check refusing correct answers wholesale exceeds at once, the oracles' own refusals (N-39 / N-40's counted
+ * steps) staying far below it where measured (Q97: the notes' section 'Hardening round S5').
+ */
 export const MAX_REFUSAL_SHARE = 0.001;
+
+/**
+ * The cap on a run's counted oracle refusals at its size (L18; Q97), M0-k-03's `agreementRefusalCap` form:
+ * max(1, ⌈0.001 × runs⌉) — 1 at the RELATED size 10³, 10 at the PR size 10⁴, 1 000 at the nightly 10⁶. The share is
+ * the same at every size (C-0150); at 10³ it is judged on the family seed's fixed draw (`agreementParams`), so a RELATED
+ * run meets the same count every time instead of a fresh draw's noise (N-s2-4's 2 at 10³ was an unseeded draw).
+ */
+export function agreementRefusalCap(runs: number): number {
+  return Math.max(1, Math.ceil(MAX_REFUSAL_SHARE * runs));
+}
 
 /** N-40's third condition: cases every oracle refused on its own operands, at most 1 % of a family's cases. */
 export const MAX_ALL_OWN_REFUSED_SHARE = 0.01;
@@ -1361,7 +1416,7 @@ function recordCounts(op: string, runs: number, h: Harness, drawn: number): void
   const file = process.env.PLAT_FUZZ_COUNTS;
   if (file === undefined || file === '') return;
   const t = h.engineRefusals;
-  appendFileSync(file, `${JSON.stringify({ op, seed: process.env.PLAT_FUZZ_SEED ?? null, runs, drawn, insertChain: t.insertChain, own: t.own, setup: t.setup, byCode: t.byCode, failures: h.failures.length })}\n`);
+  appendFileSync(file, `${JSON.stringify({ op, seed: h.seed === null ? (process.env.PLAT_FUZZ_SEED ?? null) : String(h.seed), runs, drawn, insertChain: t.insertChain, own: t.own, setup: t.setup, byCode: t.byCode, failures: h.failures.length })}\n`);
 }
 
 /**
@@ -1370,10 +1425,15 @@ function recordCounts(op: string, runs: number, h: Harness, drawn: number): void
  * bar asserted — 0 crashes (a throw fails the property before this), 0 invalid outputs, every judged case passing,
  * every case accounted for (a refused case among them), the oracles' refusals within C-0150's allowance as N-39 / N-40
  * classify them, our engine's refusals within N-44 (3)'s caps — this item's own at 1 per 10⁴, insertChain's at the
- * family's measured cap (C-0231) — and §13.1's vacuity guard (C-0196 (7)).
+ * family's measured cap (C-0231) — and §13.1's vacuity guard (C-0196 (7)). The line and every assertion's message
+ * carry the run's seed and its replay command (L18; Q97: `replayTag`), so a red always says how to replay it; the
+ * counted oracle refusals are held to `agreementRefusalCap` at the run's size.
  */
 export function verdict(h: Harness, op: string, runs: number = RUNS): void {
   const line = h.report.line(op);
+  const tag = replayTag(h.seed);
+  const said = (what: string): string => `arr/${op} (${tag}): ${what}`;
+  const oracleCap = agreementRefusalCap(runs);
   const settled = Object.values(h.settled).reduce((s, n) => s + n, 0);
   const guard = guardFor(runs, UNATTRACTED_DRAW_MIN);
   const ref = h.engineRefusals;
@@ -1381,24 +1441,24 @@ export function verdict(h: Harness, op: string, runs: number = RUNS): void {
   const ownCap = ownRefusalCap(runs);
   recordCounts(op, runs, h, line.draws);
   console.info(
-    `arr/${op}: ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}, share ${line.attractedShare.toFixed(3)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)} by step ${JSON.stringify(h.refusalSteps)} (counted ${String(h.refusalsCounted)}, excluded ${String(h.refusalsExcluded)}, every oracle on its own operands ${JSON.stringify(h.allOwnRefused)}); unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; W_PLACED cases ${String(h.placed.cases)} (failed ${String(h.placed.failed)}); stretch beyond √2·attractCm ${String(h.stretchFar.cases)} (failed ${String(h.stretchFar.failed)}, farthest ${h.stretchFar.maxCm.toFixed(1)} cm); snap-rounded ${JSON.stringify(h.snapRounded)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}; refused by our engine: insertChain's ${String(ref.insertChain)} (setup ${String(ref.setup)}; cap ${String(icCap)}), own ${String(ref.own)} (cap ${String(ownCap)}) ${JSON.stringify(ref.byCode)}${ref.ownCases.length > 0 ? `; own: ${ref.ownCases.join(' | ')}` : ''}`,
+    `arr/${op}: ${h.seed === null ? 'seed none' : `seed ${String(h.seed)}`} — ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}, share ${line.attractedShare.toFixed(3)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)} by step ${JSON.stringify(h.refusalSteps)} (counted ${String(h.refusalsCounted)} of cap ${String(oracleCap)}, excluded ${String(h.refusalsExcluded)}, every oracle on its own operands ${JSON.stringify(h.allOwnRefused)}); unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; W_PLACED cases ${String(h.placed.cases)} (failed ${String(h.placed.failed)}); stretch beyond √2·attractCm ${String(h.stretchFar.cases)} (failed ${String(h.stretchFar.failed)}, farthest ${h.stretchFar.maxCm.toFixed(1)} cm); snap-rounded ${JSON.stringify(h.snapRounded)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}; refused by our engine: insertChain's ${String(ref.insertChain)} (setup ${String(ref.setup)}; cap ${String(icCap)}), own ${String(ref.own)} (cap ${String(ownCap)}) ${JSON.stringify(ref.byCode)}${ref.ownCases.length > 0 ? `; own: ${ref.ownCases.join(' | ')}` : ''} (${tag})`,
   );
-  expect(h.failures).toEqual([]);
-  expect(h.invalid).toEqual([]);
-  expect(line.failures).toEqual({});
-  expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
-  expect(line.draws + line.unjudged + settled + ref.insertChain + ref.own).toBe(runs);
-  expect(h.refusalsCounted).toBeLessThanOrEqual(Math.ceil(MAX_REFUSAL_SHARE * runs));
+  expect(h.failures, said('failures')).toEqual([]);
+  expect(h.invalid, said('invalid outputs')).toEqual([]);
+  expect(line.failures, said('the report’s failures')).toEqual({});
+  expect(line.unattractedPass + line.attractedPass, said('every judged case passes')).toBe(line.draws);
+  expect(line.draws + line.unjudged + settled + ref.insertChain + ref.own, said('every case accounted for')).toBe(runs);
+  expect(h.refusalsCounted, said(`counted oracle refusals against the cap ${String(oracleCap)} at ${String(runs)} cases`)).toBeLessThanOrEqual(oracleCap);
   for (const [source, n] of Object.entries(h.allOwnRefused)) {
-    expect(n, `cases every oracle refused on its own operands in ${source}`).toBeLessThanOrEqual(Math.ceil(MAX_ALL_OWN_REFUSED_SHARE * (h.sources[source] ?? 0)));
+    expect(n, said(`cases every oracle refused on its own operands in ${source}`)).toBeLessThanOrEqual(Math.ceil(MAX_ALL_OWN_REFUSED_SHARE * (h.sources[source] ?? 0)));
   }
   // N-44 (3), N-46 (5): our engine's refusals, out of the comparison — this item's own at 1 per 10⁴, insertChain's at
   // the family's measured cap
-  expect(ref.own, `refusals caused in arr/ (or without a replay) in ${op}`).toBeLessThanOrEqual(ownCap);
-  expect(ref.insertChain, `insertChain's refusals in ${op} against the measured cap`).toBeLessThanOrEqual(icCap);
-  expect(h.placed.failed).toBe(0);
-  expect(h.stretchFar.failed).toBe(0);
+  expect(ref.own, said(`refusals caused in arr/ (or without a replay) in ${op}`)).toBeLessThanOrEqual(ownCap);
+  expect(ref.insertChain, said(`insertChain's refusals in ${op} against the measured cap`)).toBeLessThanOrEqual(icCap);
+  expect(h.placed.failed, said('failed W_PLACED cases')).toBe(0);
+  expect(h.stretchFar.failed, said('failed far-stretch cases')).toBe(0);
   // §13.1's vacuity guard (C-0196 (7)): 10⁵ unattracted draws at the nightly size, a tenth of the draws below it
-  expect(line.unattracted).toBeGreaterThanOrEqual(guard);
-  expect(h.report.meetsDrawCount(op, guard)).toBe(true);
+  expect(line.unattracted, said('the vacuity guard')).toBeGreaterThanOrEqual(guard);
+  expect(h.report.meetsDrawCount(op, guard), said('the draw count')).toBe(true);
 }
