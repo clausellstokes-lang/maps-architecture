@@ -14,6 +14,7 @@ interface Fake {
   batch?: { committed: boolean; code?: string } | null;
   after?: { committed: boolean; code?: string; level: number }[];
   insert?: { ok: boolean; code?: string; warnings: string[] } | null;
+  firedStep?: { proposal: number; attempt: number } | null;
   data?: Record<string, unknown>;
   growth?: unknown[];
   capacity?: unknown[];
@@ -26,7 +27,7 @@ function fake(f: Fake): ChainRun {
   return {
     image: f.image === undefined ? back : f.image,
     report: { bugs: f.bugs ?? [] },
-    plant: { fired: {}, insert: f.insert ?? null, batch: f.batch ?? null, after: f.after ?? [], batches: [], calls: 1, armed: false },
+    plant: { fired: {}, insert: f.insert ?? null, batch: f.batch ?? null, after: f.after ?? [], batches: [], calls: 1, armed: false, step: null, firedStep: f.firedStep ?? null },
     model: { data: new Map(Object.entries(f.data ?? {})) },
     s5: { state: null, growth: f.growth ?? [], prune: [], capacity: f.capacity ?? [], subs: [], refused: null },
     runs: new Map(),
@@ -101,17 +102,39 @@ describe("EP-01's classification of a chain stage's run", () => {
     expect(chainHandling('S1', fake({ batch: committed, data: s1(false, []) })).handling).toBe('absorbed');
   });
 
-  it("S5c / S5d: laddered only on an F-NUM rung in the growth record, left out on batchRefused, else off", () => {
-    const rec = (rungs: { cause: string; rung: string }[], extra: Record<string, unknown> = {}) => ({ k: 1, rungs, streets: [], ...extra });
-    const no = { ok: false, code: 'E_DEGENERATE', warnings: [] };
-    expect(chainHandling('S5c', fake({ insert: no, batch: committed, growth: [rec([{ cause: 'F-NUM', rung: 'reject' }])] })).handling).toBe('laddered');
-    expect(chainHandling('S5c', fake({ insert: no, batch: committed, growth: [rec([])] })).handling).toBe('off');
-    expect(chainHandling('S5c', fake({ insert: no, batch: committed, growth: [rec([{ cause: 'F-WORK', rung: 'work_cut' }])] })).handling).toBe('off');
-    expect(chainHandling('S5c', fake({ insert: no, batch: refused, growth: [rec([], { batchRefused: { code: 'E_INVARIANT' } })] })).handling).toBe('left-out');
-    expect(chainHandling('S5c', fake({ insert: { ok: true, warnings: [] }, batch: committed, growth: [rec([])] })).handling).toBe('absorbed');
-    expect(chainHandling('S5c', fake({ insert: no, batch: committed })).handling).toBe('off');
-    expect(chainHandling('S5d', fake({ insert: no, batch: committed, capacity: [{ rim: rec([{ cause: 'F-NUM', rung: 'reject' }]) }] })).handling).toBe('laddered');
-    expect(chainHandling('S5d', fake({ insert: no, batch: committed, capacity: [{ rim: rec([]) }] })).handling).toBe('off');
+  it("S5c / S5d: laddered only on the planted step's own F-NUM rung — its proposal, its attempt, the planted insert's code (note 3) — left out on batchRefused or on a first attempt's other refusal counted in `refused`, else off", () => {
+    const rec = (rungs: Record<string, unknown>[], extra: Record<string, unknown> = {}) => ({ k: 1, rungs, streets: [], refused: {}, ...extra });
+    const fnum = (rung: string, proposal: number, code: string) => ({ cause: 'F-NUM', rung, proposal, code });
+    const no = { ok: false, code: 'E_BELOW_MIN_EDGE', warnings: [] };
+    const first = { proposal: 5, attempt: 0 };
+    const retry = { proposal: 5, attempt: 1 };
+    const s5c = (insert: Fake['insert'], firedStep: Fake['firedStep'], r: unknown) => chainHandling('S5c', fake({ insert, firedStep, batch: committed, growth: [r] }));
+    // the planted proposal re-proposed on the planted code: laddered, named with its own rungs from there on
+    expect(s5c(no, first, rec([fnum('re_propose', 2, 'E_BELOW_MIN_EDGE'), fnum('re_propose', 5, 'E_BELOW_MIN_EDGE'), fnum('reject', 5, 'illegal:x')]))).toMatchObject({ handling: 'laddered', rung: 'S5c: F-NUM re_propose → reject (proposal 5, E_BELOW_MIN_EDGE)', facts: { fnum: 2, proposal: 5, attempt: 0 } });
+    // another proposal's F-NUM rung on the same code (note 3's escape: any F-NUM rung of the record): off
+    expect(s5c(no, first, rec([fnum('re_propose', 7, 'E_BELOW_MIN_EDGE'), fnum('reject', 7, 'E_BELOW_MIN_EDGE')])).handling).toBe('off');
+    // the planted proposal's rung on another code: off
+    expect(s5c(no, first, rec([fnum('re_propose', 5, 'E_SELF_INTERSECT')])).handling).toBe('off');
+    // the plant on the retry: its reject rung on the planted code (a first attempt's re_propose is not the planted step's)
+    expect(s5c(no, retry, rec([fnum('re_propose', 5, 'E_SELF_INTERSECT'), fnum('reject', 5, 'E_BELOW_MIN_EDGE')]))).toMatchObject({ handling: 'laddered', rung: 'S5c: F-NUM reject (proposal 5, E_BELOW_MIN_EDGE)' });
+    expect(s5c(no, retry, rec([fnum('re_propose', 5, 'E_BELOW_MIN_EDGE')])).handling).toBe('off');
+    // no planted step recorded (the plant fired outside a step's insert): off, whatever the record holds
+    expect(s5c(no, null, rec([fnum('re_propose', 5, 'E_BELOW_MIN_EDGE')])).handling).toBe('off');
+    // a first attempt refused with a code F-NUM does not take: the step left out, counted in `refused` (M27's count) — else off
+    const other = { ok: false, code: 'E_INVARIANT', warnings: [] };
+    expect(s5c(other, first, rec([], { refused: { E_INVARIANT: 1 } }))).toMatchObject({ handling: 'left-out', rung: 'S5c: the planted step left out, reported refused E_INVARIANT' });
+    expect(s5c(other, first, rec([]))).toMatchObject({ handling: 'off' });
+    expect(s5c(other, first, rec([fnum('re_propose', 9, 'E_INVARIANT')]))).toMatchObject({ handling: 'off' });
+    // the rest as before: no rung at all, F-WORK only, the batch left out, the step committed, no record
+    expect(s5c(no, first, rec([])).handling).toBe('off');
+    expect(s5c(no, first, rec([{ cause: 'F-WORK', rung: 'work_cut' }])).handling).toBe('off');
+    expect(chainHandling('S5c', fake({ insert: no, firedStep: first, batch: refused, growth: [rec([], { batchRefused: { code: 'E_INVARIANT' } })] })).handling).toBe('left-out');
+    expect(chainHandling('S5c', fake({ insert: { ok: true, warnings: [] }, firedStep: first, batch: committed, growth: [rec([])] })).handling).toBe('absorbed');
+    expect(chainHandling('S5c', fake({ insert: no, firedStep: first, batch: committed })).handling).toBe('off');
+    // S5d reads its top-up rim's record the same way
+    expect(chainHandling('S5d', fake({ insert: no, firedStep: first, batch: committed, capacity: [{ rim: rec([fnum('re_propose', 5, 'E_BELOW_MIN_EDGE')]) }] }))).toMatchObject({ handling: 'laddered', rung: 'S5d: F-NUM re_propose (proposal 5, E_BELOW_MIN_EDGE)' });
+    expect(chainHandling('S5d', fake({ insert: no, firedStep: first, batch: committed, capacity: [{ rim: rec([fnum('re_propose', 6, 'E_BELOW_MIN_EDGE')]) }] })).handling).toBe('off');
+    expect(chainHandling('S5d', fake({ insert: no, firedStep: first, batch: committed, capacity: [{ rim: rec([]) }] })).handling).toBe('off');
   });
 
   it('S3, S5a, S5b: a refused batch with no bugs entry is off; a committed one absorbed', () => {

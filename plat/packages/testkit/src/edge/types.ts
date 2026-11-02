@@ -107,7 +107,13 @@ export function judgeOutcome(f: EdgeFixture, seed: number, o: EdgeOutcome): stri
   return own === null ? null : `${at}: ${own}`;
 }
 
-/** A milestone's stub (C-0100's deferred rows): its run throws `notBuilt('<milestone>')`. */
+/**
+ * A milestone's stub (C-0100's deferred rows): its run throws `notBuilt('<milestone>'): <what>` — the kernel's own
+ * refusal form (`facade/notBuilt.ts`'s `refuseNotBuilt`, word for word: coverage.test.ts holds the two messages equal).
+ * The kernel's helper itself is not used: the package index does not export it, and its `Milestone` type holds none of
+ * the edge table's M5, M6-E and M4b — exporting or widening it is M0-a-16's API (the hardening round S1's row 11,
+ * reported for the session's ruling).
+ */
 export function notBuiltRun(milestone: string, what: string): (seed: number) => EdgeOutcome {
   return () => {
     throw new Error(`notBuilt('${milestone}'): ${what}`);
