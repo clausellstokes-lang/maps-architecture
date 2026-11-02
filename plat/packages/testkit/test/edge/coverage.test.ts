@@ -7,6 +7,8 @@ import { CELL_COLUMNS, CELL_FEATURES, coverageProblems, coverageReportOf, edgeCo
 import { EDGE_CLASSES } from '../../src/edge/classes.js';
 import { EP01_STAGES } from '../../src/edge/ep01.js';
 import { DEGENERATE_KINDS } from '../../src/edge/kinds.js';
+import { notBuiltRun } from '../../src/edge/types.js';
+import { createKernel } from '@plat/kernel';
 
 const EP_IDS = Array.from({ length: 27 }, (_, i) => `EP-${String(i + 1).padStart(2, '0')}`);
 const rows = edgeCoverageRows();
@@ -50,6 +52,9 @@ describe('the coverage table (edgeCoverage)', () => {
     expect(byKey.get('EP-16')?.later).toMatch(/ring spacing/);
     expect(byKey.get('EP-20')?.milestone).toBe('M1');
     expect(byKey.get('EP-20')?.later).toMatch(/island.*fjord.*narrow-valley/);
+    // the hardening round S1 (note 7): EP-20's leave-out-and-report rung's `requestedVsBuilt` clause listed with its
+    // milestone — M1's writer, [] at M0 (C-0224 (7)); the M0 fixture reads the shortfall from S3's report and S5d's record
+    expect(byKey.get('EP-20')?.later).toMatch(/`requestedVsBuilt` list under F-BUDGET-STAGE \(its writer M1's: \[\] in every M0 derivation, C-0224 \(7\)/);
     expect(byKey.get('EP-23')?.milestone).toBe('M1');
     expect(byKey.get('EP-23')?.later).toMatch(/S5b \/ S5c/);
     // EP-02, EP-03 (S0 → M1); EP-07 – EP-15, EP-17 – EP-19, EP-21, EP-22, EP-24 – EP-27: no fixture, a later milestone
@@ -129,5 +134,24 @@ describe('the coverage table (edgeCoverage)', () => {
       expect(f.milestone, f.id).toMatch(/^M[1-9]/);
       expect(() => f.run(1), f.id).toThrow(`notBuilt('${String(f.milestone)}')`);
     }
+  });
+
+  it("a deferred stub throws the kernel's own notBuilt message, word for word (the hardening round S1, note 11)", () => {
+    // the kernel's refusal of a staged branch, met through its façade (refuseNotBuilt's form: `notBuilt('<m>'): <what>`)
+    const kernel = createKernel(new Map());
+    let kernelMessage = '';
+    try {
+      kernel.plat({ transient: true, owner: 'x', n: 0 } as never);
+    } catch (e) {
+      kernelMessage = e instanceof Error ? e.message : String(e);
+    }
+    expect(kernelMessage).toBe("notBuilt('M6-P'): a transient arena (§3.4; C-0041)");
+    let edgeMessage = '';
+    try {
+      notBuiltRun('M6-P', 'a transient arena (§3.4; C-0041)')(1);
+    } catch (e) {
+      edgeMessage = e instanceof Error ? e.message : String(e);
+    }
+    expect(edgeMessage).toBe(kernelMessage);
   });
 });
