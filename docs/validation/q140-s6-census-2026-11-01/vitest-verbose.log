@@ -1,0 +1,22 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-e04s4/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 823468588 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=823468588 draws the same cases (Q96, C-0057)
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > holds its fixtures
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S6/zero-length
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S6/zero-area
+ ✓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S6/self-touching 1575005ms
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S6/collinear
+ ✓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S6/coincident 1412965ms
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S8/zero-length
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S8/zero-area
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S8/self-touching
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S8/collinear
+ ↓ |testkit| test/edge/ep01-s6-s8.test.ts > EP-01 at S6 and S8 (B-EDGE, PLAT_EDGE_SEEDS = 1000) > EP-01/S8/coincident
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 9 skipped (11)
+   Start at  23:52:12
+   Duration  2996.96s (tests 100%)
+
+exit 0
