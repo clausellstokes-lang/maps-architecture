@@ -1,0 +1,24 @@
+START 09:51:00Z
+install exit 0 09:51:01Z
+landed:verify flow-7 --item M0-c-04: ok (1 record)
+DONE 09:51:02Z
+PROBE START 09:53:22Z
+site seed 1: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 32 s
+site seed 2: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 37 s
+site seed 3: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 13 s
+site seed 4: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 25 s
+site seed 5: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 29 s
+site seed 6: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 18 s
+fusion seed 1: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 14 s
+PROBE DONE 09:56:15Z
+PROBE2 START 09:57:49Z
+fusion seed 2: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 11 s
+fusion seed 3: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 11 s
+fusion seed 4: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 11 s
+fusion seed 5: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 9 s
+fusion seed 6: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 8 s
+site seed 7: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 27 s
+site seed 8: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 22 s
+site seed 9: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 23 s
+site seed 10: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 29 s
+PROBE2 DONE 10:00:23Z

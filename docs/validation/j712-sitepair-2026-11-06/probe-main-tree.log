@@ -1,0 +1,23 @@
+MAIN START 09:57:53Z
+install exit 0 09:57:54Z
+site seed 1: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 24 s
+site seed 2: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 40 s
+site seed 3: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 14 s
+site seed 4: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 34 s
+site seed 5: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 30 s
+site seed 6: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 1 fresh 1 | 13 s
+fusion seed 1: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 15 s
+fusion seed 2: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 10 s
+fusion seed 3: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 10 s
+fusion seed 4: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 11 s
+fusion seed 5: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 9 s
+fusion seed 6: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 8 s
+MAIN DONE 10:01:35Z
+MAIN2 START 10:07:21Z
+site seed 7: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 24 s
+site seed 8: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 21 s
+site seed 9: S5:moved S6:moved S8:moved | standing S1:same S3:same S4:same | redrawn ["S5","S6","S8"] | bugs old 0 fresh 0 | 21 s
+site seed 10: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 27 s
+site seed 11: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 16 s
+site seed 12: S5:UNMOVED S6:UNMOVED S8:UNMOVED | standing S1:same S3:same S4:same | redrawn [] | bugs old 0 fresh 0 | 23 s
+MAIN2 DONE 10:09:34Z

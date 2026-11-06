@@ -27,7 +27,9 @@ import { SLOW, TEST_SIZE } from './support.js';
 
 let cache: RederivedPair | null = null;
 function pair(): RederivedPair {
-  cache ??= rederive(1, { rerolls: S5_REROLL, spike: 'site', size: TEST_SIZE });
+  // seed 4: the first seed of the test frame at which the growth stage re-draws under { S5: 1 } since M0-c-04 S5's held
+  // enclosure (C-0454 rule 2; seeds 1 – 3, 5 and 6 stand unmoved there) — the session's seam, J712
+  cache ??= rederive(4, { rerolls: S5_REROLL, spike: 'site', size: TEST_SIZE });
   return cache;
 }
 const rootAt = (p: RederivedPair, side: 'old' | 'fresh', stage: string): string | undefined => p[side].run.stageRoots.find(([n]) => n === stage)?.[1];
@@ -92,13 +94,17 @@ describe('the re-derivation pair at one seed (C-0090)', () => {
     }
     // Q124's case, wherever the pair holds it (at seed 1 on c-02 S5's tree: junction:6nymg6w713p26 handed to
     // junction:3ab8743sbjpay at 74.7 cm, block:2skgtzs7hxr50 to block:cmps09px73p0z at 70.2 cm): the successor ends at
-    // the handed-on address, the fresh entity whose natural address it is at `<id>~k`, never beside it
+    // the handed-on address, the fresh entity whose natural address it is at `<id>~k`, never beside it — or, where that
+    // entity was itself handed another old address (a chain of successions along a line of seams, as at seed 4; §6.3,
+    // C-0274; the session's seam, J712), at the address it was handed
     const handed = new Map([...r.result.handedOn].map(([f, a]) => [a, f]));
     for (const e of p.fresh.entities.entities.filter((x) => !STANDING.includes(x.by))) {
       const successor = handed.get(e.entity.id);
       if (successor === undefined || successor === e.entity.id) continue;
       expect(r.minted.addressOf.get(successor), successor).toBe(e.entity.id);
-      expect(r.minted.addressOf.get(e.entity.id), e.entity.id).toMatch(new RegExp(`^${e.entity.id}~[1-9][0-9]*$`));
+      const own = r.result.handedOn.get(e.entity.id);
+      if (own !== undefined && own !== e.entity.id) expect(r.minted.addressOf.get(e.entity.id), e.entity.id).toBe(own);
+      else expect(r.minted.addressOf.get(e.entity.id), e.entity.id).toMatch(new RegExp(`^${e.entity.id}~[1-9][0-9]*$`));
     }
   });
 });
@@ -363,12 +369,12 @@ describe('the timing workload', () => {
     const p = pair();
     const tp = timedPair(p);
     const { old, fresh } = pairEntities(p);
-    expect(tp).toMatchObject({ name: 'spike-site-1', seed: 1 });
+    expect(tp).toMatchObject({ name: 'spike-site-4', seed: 4 });
     expect(tp.old).toEqual(old);
     expect(tp.fresh).toEqual(fresh);
     expect(tp.old.filter((e) => e.survives === true).length).toBe(matchPair(p).standing.entities);
     const s = await harnessStamp(p, { stages: [], inputs: {}, timing: true, idleMs: 0, repeats: 1 });
-    expect(s.label).toBe('matching spike-site-1');
+    expect(s.label).toBe('matching spike-site-4');
     expect(s.unit).toBe('µs');
     expect(s.readings).toBe('measured');
     expect(['contended', 'authoritative']).toContain(s.authority);
