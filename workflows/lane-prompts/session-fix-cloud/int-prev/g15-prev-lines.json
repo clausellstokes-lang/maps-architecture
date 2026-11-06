@@ -1,0 +1,8 @@
+[
+ {
+  "line": "B-1 — M0-x-04's NEAR gate red at packages/layout/test/pipeline/base/run.test.ts:211 ('S3's site is the flat fixture's with S1's terrain'): the expected site built as flatFixture(1, { frameAreaHa, walledHa }) falls to fixtures/flat.ts:43 opts.tables ?? tableView(), the bare view, while since M0-x-02's round S3 (Q99, C-0454) the runner's default view is tableView(TABLE_IDS, [s6Table()]) (runner.ts:258) and the base hands that view to the site (base.ts:437, tables: ctx.tables); the test fails on site.tables alone and its later composition assertions (lines 214–242) never ran; the composed result itself right (P2, P3)",
+  "item": "M0-x-04",
+  "evidence": "g15's NEAR log: Tests 1 failed / 45 passed (46), the diff in \"tables\":{\"hash\":…} only; P2: the site equals the registered-view fixture in every field (3 / 3); P3: the tail holds on seeds 1–6; x-02's notes 26 and 29 declare the shift (Q138) and leave the pin to M0-c-01 S4 or M0-x-04 S2; RELATED runs of other seats since 2026-10-31 carried the same red as foreign",
+  "required_change": "M0-x-04: in run.test.ts's composition test build the expected fixture on the view the run gives its stages (flatFixture(1, { frameAreaHa, walledHa, tables: <the run's view> }), the registered view tableView(TABLE_IDS, [s6Table()]) or the site's own tables), then keep the tail's assertions running — DONE by M0-x-04 S2 (the forty-sixth landing, e0e45b7c): run.test.ts:212 builds the fixture on REGISTERED = tableView(TABLE_IDS, [s6Table()]), view.test.ts new pins the view, base.ts's baseS6Input passes ctx.tables and baseArena's default is the registered view (Q99's x-04 line); the opus check PASS (10 of 10 mutants killed; the 18-run census byte-equal; RELATED@1000 259 files 3310/3310)"
+ }
+]

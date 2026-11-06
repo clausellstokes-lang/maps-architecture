@@ -7,7 +7,7 @@
 import { attachIndex, CONCERNS, createKernel, createPlat, createRng, levelDigest, seedKey, stageText, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
 import { canonicalText, mintTownRoot, type Bridge, type Gate, type Terrain, type WaterSet, type Way } from '@plat/model';
 import { resourceGrid, terrainParams, WATER_CELL, type SiteResources } from '@plat/site';
-import { loadWorkLimits, tableView } from '@plat/tables';
+import { loadWorkLimits, TABLE_IDS, tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   baseArena,
@@ -30,6 +30,7 @@ import {
   runS4,
   runS5,
   s3Slice,
+  s6Table,
   W_LAND_UNCLAIMED,
   baseS6Input,
   waterMask,
@@ -45,6 +46,12 @@ import {
 } from '../../../src/index.js';
 
 const SIZE = { areaHa: 900, walledHa: 30 } as const;
+/**
+ * The tables view the runner gives every stage by default (runner.ts, M0-x-02 S3: Q99, C-0454): M0's shipped tables and
+ * layout's own `s6`. The base's S3 site carries it (`baseSite` hands `ctx.tables` to the fixture), so the composition's
+ * fixture is built on it (Q138; x-04 S2, C-0464).
+ */
+const REGISTERED = tableView(TABLE_IDS, [s6Table()]);
 const FLAT: BaseBlueprint = { ...FLAT_BLUEPRINT, size: { ...FLAT_BLUEPRINT.size, areaHa: SIZE.areaHa }, walledHa: SIZE.walledHa };
 const RIVER: BaseBlueprint = { ...RIVER_BLUEPRINT, size: { ...RIVER_BLUEPRINT.size, areaHa: SIZE.areaHa }, walledHa: SIZE.walledHa };
 
@@ -200,8 +207,13 @@ describe('two runs of the flat fixture and the river fixture at one seed give id
 describe("the composition equals the items' own through S5 (M0-c-01 … M0-c-05)", () => {
   it("S3's site is the flat fixture's with S1's terrain; the slice, S4's and S5's records equal runS4 and runS5 over the fixture", { timeout: 900_000 }, () => {
     const r = runOf('flat:1', FLAT, 1);
-    const fixture = flatFixture(1, { frameAreaHa: SIZE.areaHa, walledHa: SIZE.walledHa });
+    // the fixture on the run's view (Q138, x-04 S2): since M0-x-02 S3 the S3 site carries the runner's registered view,
+    // which the bare `tableView()` (the fixture's own default, fixtures/flat.ts) is not — the two differ in the view alone
+    const fixture = flatFixture(1, { frameAreaHa: SIZE.areaHa, walledHa: SIZE.walledHa, tables: REGISTERED });
     const site = (r.model.data.get('s3') as S3Record).site;
+    expect(site.tables.hash).toEqual(REGISTERED.hash);
+    expect(site.tables.hash).not.toEqual(tableView().hash);
+    expect(site.tables.table('s6').hash).toEqual(s6Table().hash);
     // keyed by the runner's town root (§6.1, C-0165 (6)), the town's own key — not the standalone fixture's (C-0264 (3))
     const town = mintTownRoot(seedKey(1)).entityKey;
     expect(site.townKey).toEqual(town);
@@ -306,7 +318,7 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     const state = r.model.data.get('s5.growth') as GrowthState;
     const commit = r.model.data.get('s3.commit') as S3Commit;
     const slice = r.model.data.get('s3.slice') as S3Slice;
-    const ctx = { seedKey: seedKey(1), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 3, attempt, epoch: 0, salt: 0 }) };
+    const ctx = { seedKey: seedKey(1), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 3, attempt, epoch: 0, salt: 0 }), tables: REGISTERED };
     const made = baseS6Input({ bp: { ...FLAT, seed: 1 }, slice, commit, state, water: { bodies: [], bridges: [] }, terrain: slice.site.terrain }, r.model.kernel, ctx as never);
     expect(made.ok).toBe(true);
     if (!made.ok) return;
@@ -327,6 +339,8 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     expect(inp.frame).toEqual(slice.site.frameRing);
     expect(inp.reservations).toEqual([commit.plaza]);
     expect(inp.rung).toBe('CITY');
+    // S6 reads the run's tables view, handed through the context (Q99, J480; x-04 S2, C-0464): the very view, not one of its own
+    expect(inp.tables).toBe(REGISTERED);
     // the sited features: the plaza's market first, then a gate seed for each main gate of every stage
     const gates = state.stages.flatMap((st) => st.gates).filter((g) => g.kind === 'main');
     expect(inp.features[0]).toMatchObject({ id: 'plaza:0', kind: 'market' });
