@@ -48,7 +48,7 @@ import {
 } from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
 import { commitS3Batch, PLAZA_ID, siteContext, traceWithStrips, type S3Batch, type S3Commit } from '../enceinte/commit.js';
-import { crossParams, distToRing, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { crossParams, distToRing, lat, selfTouches, TOUCH_CM, unitOf } from '../enceinte/plane.js';
 import { layStrips, stripWidths, traceLine } from '../enceinte/strips.js';
 import { baseEnceinte, l1Spec } from '../enceinte/trace.js';
 import type { CostField, StripsLaid, StripStop, Traced, WaterGate, XY } from '../enceinte/types.js';
@@ -879,7 +879,9 @@ function withinTraceBatch(kernel: Kernel, before: (o: Overlay) => KernelResult<n
 /**
  * Each gate crossed square to its way (C-0244): on the outline, the vertices within `reach` of a gate (none of them a
  * gate) are replaced by the two points `reach` along the way's normal on either side of it, ordered as the outline
- * runs. A gate whose reshaping would leave the outline non-simple keeps the outline as it was there.
+ * runs. A gate whose reshaping would leave the outline non-simple, or touching itself as the trace reads a touch where
+ * it did not before (`selfTouches` at the attraction distance, the trace's own detection; C-0454 (1)), keeps the outline
+ * as it was there — two gates nearer than the squares' reach, whose squares would fold against each other, among them.
  */
 export function squareGates(outline: readonly LatticePoint[], gates: readonly LatticePoint[], along: readonly XY[], reach: number): LatticePoint[] {
   let ring = outline.slice();
@@ -913,7 +915,7 @@ export function squareGates(outline: readonly LatticePoint[], gates: readonly La
     const next: LatticePoint[] = [];
     for (const q of [...kept, p0, g, p1]) if (next.length === 0 || !(next[next.length - 1].x === q.x && next[next.length - 1].y === q.y)) next.push(q);
     while (next.length > 1 && next[0].x === next[next.length - 1].x && next[0].y === next[next.length - 1].y) next.pop();
-    if (ringIsSimple(next)) ring = next;
+    if (ringIsSimple(next) && (!selfTouches(next) || selfTouches(ring))) ring = next;
   });
   return ring;
 }
