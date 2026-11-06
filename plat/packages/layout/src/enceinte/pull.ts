@@ -21,10 +21,15 @@
 // (N-54 (1)), has its moved ends put back for that pass (C-0232 (1)). The band is measured from the boundary as given.
 // The result is rounded to the lattice and its rounded sides proved again (N-9, N-11): a side the rounding carried out of
 // the band or over a barred ring has its moved ends put back where the passes found them.
+// The pull's own crossings (C-0454; Q122, Q88): the candidates move each vertex along its own normal, so at a sharp bend
+// (a gate's spike, a tight concave run) two sides of the pulled line can cross or touch where the boundary does not — our
+// intermediate, never the boundary's. Where F-WALL's M0 rungs do not repair the smoothed line, the trace runs again on
+// `untangle`'s line (the offsets at touching sides halved until none touch) smoothed by `smoothKeptSimple` (the passes'
+// guard extended to a side that would touch the line), then on the boundary unpulled.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
-import { bandLimit, dist, distToRing, inside, lat, sideHolds, TOUCH_CM, unitOf } from './plane.js';
+import { bandLimit, dist, distToRing, inside, lat, sideHolds, sideTouchesLine, TOUCH_CM, touchPairs, unitOf } from './plane.js';
 import type { CostField, XY } from './types.js';
 import { WET_TOL_CM, wetSides, type WetSides } from './wet.js';
 
@@ -231,6 +236,20 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
  * reservation; N-54 (1)). Returns lattice points.
  */
 export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): LatticePoint[] {
+  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, false);
+}
+
+/**
+ * The pinned smoothing kept simple (Q122 / Q46; C-0454): `smoothPinned`, but a side a pass (or the lattice's rounding)
+ * changed that touches another side of the line (`sidesTouch`, F-WALL's detection for one pair) has its moved ends put
+ * back as a side out of the band is — so a simple line stays simple. The trace's fallback where the smoothing as built
+ * leaves a self-touch no M0 rung repairs.
+ */
+export function smoothKeptSimple(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): LatticePoint[] {
+  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, true);
+}
+
+function smoothing(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides, simple: boolean): LatticePoint[] {
   const pins: number[] = [];
   for (let i = 0; i < pinned.length; i += 1) if (pinned[i] === 1) pins.push(i);
   const n = line.length;
@@ -255,7 +274,7 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
       for (let i = 0; i < n; i += 1) {
         const j = i + 1 === n ? 0 : i + 1;
         if (moved[i] === 0 && moved[j] === 0) continue;
-        if (sideHolds(next[i], next[j], ring0, limit) && !wet.over(next[i], next[j])) continue;
+        if (sideHolds(next[i], next[j], ring0, limit) && !wet.over(next[i], next[j]) && !(simple && sideTouchesLine(next, i))) continue;
         for (const v of [i, j]) {
           if (moved[v] === 1) {
             next[v] = cur[v];
@@ -280,7 +299,7 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
     for (let i = 0; i < n; i += 1) {
       const j = i + 1 === n ? 0 : i + 1;
       if (!away(i) && !away(j)) continue;
-      if (sideHolds(out[i], out[j], ring0, limit) && !wet.over(out[i], out[j])) continue;
+      if (sideHolds(out[i], out[j], ring0, limit) && !wet.over(out[i], out[j]) && !(simple && sideTouchesLine(out, i))) continue;
       for (const v of [i, j]) {
         if (away(v)) {
           out[v] = home[v];
@@ -291,4 +310,57 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
     if (!reverted) break;
   }
   return out;
+}
+
+/** Below this an untangled offset is taken as none (cm): the side it moves is within a hair of the boundary's. */
+const UNTANGLE_FLOOR_CM = 50;
+
+/**
+ * The pull's own crossings undone (Q122 / Q46; C-0454): where two sides of the pulled line touch (`sidesTouch`) the
+ * moved vertices at their ends have their offsets halved — under `UNTANGLE_FLOOR_CM` set to none — and a side so changed
+ * that lies over a barred ring has its moved ends put back on the boundary, until no pair touches but the ring's own
+ * (every end unmoved). The identity is the ring, so on a simple ring the result is simple. Returns the line and the
+ * offsets kept (the pins and the unmoved vertices exact).
+ */
+export function untangle(ring: readonly XY[], pulled: Pick<Pulled, 'line' | 'offsetsCm'>, wet: WetSides): Pulled {
+  const n = ring.length;
+  const normals = outwardNormals(ring);
+  const s = [...pulled.offsetsCm];
+  const cur: XY[] = pulled.line.map((p) => ({ x: p.x, y: p.y }));
+  const place = (i: number): void => {
+    cur[i] = s[i] === 0 ? { x: ring[i].x, y: ring[i].y } : { x: ring[i].x + s[i] * normals[i].x, y: ring[i].y + s[i] * normals[i].y };
+  };
+  for (let round = 0; round < 64; round += 1) {
+    const marked = new Set<number>();
+    for (const [i, j] of touchPairs(cur)) {
+      for (const v of [i, i + 1 === n ? 0 : i + 1, j, j + 1 === n ? 0 : j + 1]) if (s[v] !== 0) marked.add(v);
+    }
+    if (marked.size === 0) break;
+    for (const v of marked) {
+      const h = s[v] * 0.5;
+      s[v] = Math.abs(h) < UNTANGLE_FLOOR_CM ? 0 : h;
+      place(v);
+    }
+    // A side the halving changed that lies over a barred ring: its moved ends back on the boundary.
+    for (const v of marked) {
+      for (const i of [v === 0 ? n - 1 : v - 1, v]) {
+        const j = i + 1 === n ? 0 : i + 1;
+        if (!wet.over(cur[i], cur[j])) continue;
+        for (const w of [i, j]) {
+          if (s[w] !== 0) {
+            s[w] = 0;
+            place(w);
+          }
+        }
+      }
+    }
+  }
+  let moved = 0;
+  let maxOff = 0;
+  for (let i = 0; i < n; i += 1) {
+    if (s[i] === 0) continue;
+    moved += 1;
+    if (Math.abs(s[i]) > maxOff) maxOff = Math.abs(s[i]);
+  }
+  return { line: cur, offsetsCm: s, moved, maxOffsetCm: maxOff };
 }

@@ -404,3 +404,48 @@ export function clipOutside(line: readonly XY[], closed: boolean, regions: reado
   }
   return pieces;
 }
+
+/**
+ * Do sides i and j of the closed line touch (F-WALL's detection for that one pair, as `selfTouches` reads every pair)?
+ * Non-adjacent: within `touchCm` or crossing; adjacent (sharing a vertex): folding back within a hair of one direction;
+ * i = j: a side of zero length.
+ */
+export function sidesTouch(line: readonly XY[], i: number, j: number, touchCm = TOUCH_CM): boolean {
+  const n = line.length;
+  const a = line[i];
+  const b = line[i + 1 === n ? 0 : i + 1];
+  if (i === j) return a.x === b.x && a.y === b.y;
+  const c = line[j];
+  const d = line[j + 1 === n ? 0 : j + 1];
+  const t2 = touchCm * touchCm;
+  const lo = Math.min(i, j);
+  const hi = Math.max(i, j);
+  if (hi === lo + 1 || (lo === 0 && hi === n - 1)) {
+    // The shared vertex, and the far ends of the two sides.
+    const first = hi === lo + 1 ? lo : hi;
+    const p = line[first];
+    const shared = line[first + 1 === n ? 0 : first + 1];
+    const second = first + 1 === n ? 0 : first + 1;
+    const q = line[second + 1 === n ? 0 : second + 1];
+    const o = orient2d(p.x, p.y, shared.x, shared.y, q.x, q.y);
+    const dot = (q.x - shared.x) * (p.x - shared.x) + (q.y - shared.y) * (p.y - shared.y);
+    return dot > 0 && Math.abs(o) * Math.abs(o) <= t2 * Math.min(d2(shared, p), d2(shared, q));
+  }
+  if (Math.max(a.x, b.x) + touchCm < Math.min(c.x, d.x) || Math.max(c.x, d.x) + touchCm < Math.min(a.x, b.x)) return false;
+  if (Math.max(a.y, b.y) + touchCm < Math.min(c.y, d.y) || Math.max(c.y, d.y) + touchCm < Math.min(a.y, b.y)) return false;
+  return segD2(a, b, c, d) <= t2;
+}
+
+/** Every touching pair of sides of the closed line [i, j] (i ≤ j; `sidesTouch`), in order: empty exactly when `selfTouches` is false (n ≥ 3). */
+export function touchPairs(line: readonly XY[], touchCm = TOUCH_CM): [number, number][] {
+  const n = line.length;
+  const out: [number, number][] = [];
+  for (let i = 0; i < n; i += 1) for (let j = i; j < n; j += 1) if (sidesTouch(line, i, j, touchCm)) out.push([i, j]);
+  return out;
+}
+
+/** Does side i of the closed line touch any side of it (itself included: zero length)? */
+export function sideTouchesLine(line: readonly XY[], i: number, touchCm = TOUCH_CM): boolean {
+  for (let j = 0; j < line.length; j += 1) if (sidesTouch(line, i, j, touchCm)) return true;
+  return false;
+}
