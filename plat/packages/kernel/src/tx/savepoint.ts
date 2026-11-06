@@ -11,6 +11,7 @@
 import type { Five, Plat } from '../arena/index.js';
 import type { GridEntry, PackedIndex, SpatialIndex } from '../index/index.js';
 import type { Level } from '../types/index.js';
+import { frameObserver } from './frames.js';
 
 /** A typed array the image copies (every column of §2.2's tables). */
 type Column = Int32Array | Int16Array | Uint16Array | Uint8Array;
@@ -154,6 +155,8 @@ export function takeSavepoint(p: Plat): Savepoint {
   const t = takenOf(p);
   t.count += 1;
   NUMBER.set(s, t.count);
+  // An image taken while a batch is open on the arena is an op frame (opSave's): the frame observer's mark (frames.ts).
+  if (frameObserver !== null && p.index !== undefined && p.index.log !== null) frameObserver.opOpen(p, s);
   return s;
 }
 
@@ -242,6 +245,8 @@ function putBack(s: Savepoint): void {
   if (n === undefined) throw new Error('tx: a savepoint is put back that takeSavepoint did not take');
   if (USED.has(s)) throw new Error('tx: a savepoint is put back twice (an image is put back at most once)');
   if (isDead(t, n)) throw new Error('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
+  const observer = frameObserver;
+  if (observer !== null) observer.beforePutBack(p, s);
   USED.add(s);
   killAfter(t, n);
   if (p.version !== s.version) RESTORES.set(p, restoreGeneration(p) + 1);
@@ -292,6 +297,7 @@ function putBack(s: Savepoint): void {
   for (const l of LV) p.slots.holesTop[l] = s.slots.holesTop[l];
   p.frame = { ...s.frame };
   if (s.index !== null) restoreIndex(p, s.index);
+  if (observer !== null) observer.afterPutBack(p, s);
 }
 
 /** Was face slot `f` of `level` live in the image? */
