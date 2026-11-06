@@ -1,0 +1,18 @@
+VALIDATE seam-c04 START 09:59:24Z
+vitest exit 1 10:05:42Z
+     × every S1 and S4 entity survives identically; the S5 / S6 / S8 entities match per kind with 0 duplicate ids and 0 silent re-binds 84ms
+     × is the pair as M0-d-05b times it, stamped by M0-f-01's harness (CONTENDED here, never a result) 5ms
+FAIL cross-host: 1 run(s) differ, 0 failed
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  |bench| test/determinism/pair.test.ts > the re-derivation pair at one seed (C-0090) > every S1 and S4 entity survives identically; the S5 / S6 / S8 entities match per kind with 0 duplicate ids and 0 silent re-binds
+AssertionError: seam:ehdx3rrs1nms2: expected 'seam:a5bh7zqjtvgf8' to match /^seam:ehdx3rrs1nms2~[1-9][0-9]*$/
+ FAIL  |bench| test/determinism/pair.test.ts > the timing workload > is the pair as M0-d-05b times it, stamped by M0-f-01's harness (CONTENDED here, never a result)
+AssertionError: expected { name: 'spike-site-4', seed: 4, …(3) } to match object { name: 'spike-site-1', seed: 1 }
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 14 passed (16)
+VALIDATE seam-c04 DONE 10:05:42Z
+VALIDATE2 seam-c04 START 10:09:16Z
+vitest exit 0 10:10:09Z
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+VALIDATE2 seam-c04 DONE 10:10:09Z
