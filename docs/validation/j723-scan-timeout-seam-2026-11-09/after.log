@@ -1,0 +1,25 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is -1028679894 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=-1028679894 draws the same cases (Q96, C-0057)
+scan stopped: packages/testkit/baselines/denylist.json: missing file — the scan never passes without its deny-list (C-0101)
+ ✓ |bench| test/scan/scan.test.ts > corepack pnpm scan (M0-k-06, C-0113): the exit codes on a synthetic deny-list > exit 0: no hit; the report is written to PLAT_BENCH_OUT 6ms
+ ✓ |bench| test/scan/scan.test.ts > corepack pnpm scan (M0-k-06, C-0113): the exit codes on a synthetic deny-list > exit 1: an unreviewed hit, named by file and line, the token never printed; an allow entry for it turns the run to 0 3ms
+ ✓ |bench| test/scan/scan.test.ts > corepack pnpm scan (M0-k-06, C-0113): the exit codes on a synthetic deny-list > exit 2: a missing deny-list file stops naming it, with no report written 1ms
+ ✓ |bench| test/scan/scan.test.ts > corepack pnpm scan (M0-k-06, C-0113): the exit codes on a synthetic deny-list > exit 2: a normalisationVersion that is not 1 stops naming both versions, with no report written 1ms
+ ✓ |bench| test/scan/scan.test.ts > corepack pnpm scan (M0-k-06, C-0113): the exit codes on a synthetic deny-list > exit 64: any argument is usage 1ms
+ ✓ |bench| test/scan/scan.test.ts > the entry resolves plat/ from its own place (N-23: a scratch copy scans itself) > PLAT_ROOT is the folder holding bench/src/scan/index.ts (the dispatcher map is tested by the scaffold) 0ms
+ ✓ |bench| test/scan/scan.test.ts > the entry resolves plat/ from its own place (N-23: a scratch copy scans itself) > on this tree, the real run stops naming denylist.json (exit 2) while the list is absent; with the list present it runs (exit 0 or 1, never 2) 1ms
+ ✓ |bench| test/scan/scan.test.ts > the entry resolves plat/ from its own place (N-23: a scratch copy scans itself) > on this tree with a deny-list present (a synthetic one beside it), the real run scans plat/ and exits 0 or 1, never 2 (K6-6) 3342ms
+ ✓ |bench| test/scan/scan.test.ts > the PR tier's deny-list job (C-0099, C-0121): pending until M-1's list crosses and M0-k-07 reviews it > its status on this tree is derived from the list and the review, never not-built now the entry exports run 2ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  21:39:28
+   Duration  7.37s (tests 46%, transform 46%, import 8%)
+
+  Transform  |bench| transforming modules took 3.29s · 46% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+exit 0
