@@ -137,6 +137,9 @@ describe('the entry resolves plat/ from its own place (N-23: a scratch copy scan
     else expect(r).toBe(2);
   });
 
+  // the session's seam (Q147, J723): this case scans the whole tree, so its wall time is the tree's size and the box's
+  // load, not the item's — alone it took 5.8–7.2 s on a loaded cloud container, over vitest's default 5 s, and was the
+  // one foreign red of every RELATED@1000 run from x-04 S1 on; the explicit timeout bounds it without timing it
   it('on this tree with a deny-list present (a synthetic one beside it), the real run scans plat/ and exits 0 or 1, never 2 (K6-6)', () => {
     const dir = mkdtempSync(join(tmpdir(), 'plat-k06-scan-list-'));
     temps.push(dir);
@@ -147,7 +150,7 @@ describe('the entry resolves plat/ from its own place (N-23: a scratch copy scan
     expect([0, 1]).toContain(code);
     const rep = JSON.parse(readFileSync(join(out, SCAN_REPORT_FILE), 'utf8')) as { files: { scanned: number } };
     expect(rep.files.scanned).toBeGreaterThan(100);
-  });
+  }, 60_000);
 });
 
 describe("the PR tier's deny-list job (C-0099, C-0121): pending until M-1's list crosses and M0-k-07 reviews it", () => {

@@ -1,0 +1,16 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1281991463 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1281991463 draws the same cases (Q96, C-0057)
+scan stopped: packages/testkit/baselines/denylist.json: missing file — the scan never passes without its deny-list (C-0101)
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  21:38:54
+   Duration  7.85s (tests 49%, transform 43%, import 7%)
+
+  Transform  |bench| transforming modules took 3.33s · 43% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+exit 0

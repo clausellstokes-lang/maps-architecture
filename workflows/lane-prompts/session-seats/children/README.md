@@ -14,3 +14,6 @@ what each child was told, and re-create a child from the same text.
 | launch-CZ.md | CZ | the integration re-check g15-close (M0-x-04 after S2), fresh |
 | launch-DA.md | DA | the integration check g18 (M0-f-02b), fresh |
 | launch-DB.md | DB | the integration check g17 (M0-x-06, M0-f-03b, M0-t-00, M0-c-07), fresh |
+| launch-DC.md | DC | M0-c-06 S1 (the fusion harness: per-stage work blocks, two pins), fresh |
+| launch-DD.md | DD | M0-e-04 S5 (the districts stage: Q143, Q141), fresh |
+| launch-DE.md | DE | M0-d-05a S2 (the identity mint: Q93), fresh |

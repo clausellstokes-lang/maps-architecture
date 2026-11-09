@@ -1,0 +1,1813 @@
+{
+ "written": "2026-11-09",
+ "seat": "retriage-2 (planner; read-only)",
+ "rounds": [
+  {
+   "item": "M0-a-09",
+   "round": "S18",
+   "from": 18,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "large (code-path: amendment item 986)",
+   "waitsOn": [
+    "M0-a-06 S9 landed (chain)",
+    "M0-c-06 S1 landed (harness co-edit order, J637)",
+    "RL14 (Q111)"
+   ],
+   "collidesWith": [
+    "M0-c-06 S1 (bench/src/fusion harness, item 986 '+ c-06's harness')",
+    "M0-b-03 S9 / S10 (the fabric's kerb reads, item 986)",
+    "M0-a-05 S14 (chain order)"
+   ],
+   "lines": [
+    {
+     "ref": "Q126",
+     "queue": "Q126",
+     "text": "item 986: kerb state and the derived kerb",
+     "fixShape": "kerb(F) as face state, derived at the cut, never inserted; S9 reads the same state; declared model shift §6.5 (7)",
+     "pin": "equality test against today's read within KI-13's bound; J618 bars",
+     "evidence": "queue:140; PROGRESS.md:675"
+    },
+    {
+     "ref": "Q117-a09",
+     "queue": "Q117",
+     "text": "acute tip (fusion 24) and BAND needles (integrated 11, 36; fusion 23)",
+     "fixShape": "re-read on the derived kerb",
+     "pin": "drift.test.ts named fixtures within N-43's bound",
+     "evidence": "queue:131"
+    },
+    {
+     "ref": "Q107",
+     "queue": "Q107",
+     "text": "T-junction wedge tips (C-0422)",
+     "fixShape": "one class with Q117's acute tip",
+     "pin": "a wedge fixture's tip within the bound",
+     "evidence": "queue:121"
+    },
+    {
+     "ref": "Q110",
+     "queue": "Q110",
+     "text": "closed ring's first corner; attraction depth; 2.3 deg tip",
+     "fixShape": "kerb corner and attraction rules",
+     "pin": "the S16 rows 144-145 cases",
+     "evidence": "queue:124"
+    },
+    {
+     "ref": "Q90",
+     "queue": "Q90",
+     "text": "displaced run end on a window line (re-measure)",
+     "fixShape": "re-measure on round 2's tree; FIX if it survives (RL11)",
+     "pin": "the census seeds' band reads",
+     "evidence": "queue:104"
+    },
+    {
+     "ref": "a-09:156",
+     "queue": null,
+     "text": "NB5 / NB7 survivors on the guard",
+     "fixShape": "none (pins only)",
+     "pin": "splitsOn on the recorded fold (kills NB5); the planted out-and-back piece commits (kills NB7)",
+     "evidence": "checks/M0-a-09-notes.md:1852"
+    }
+   ],
+   "counts": {
+    "open": 6,
+    "done": 0,
+    "defer": 0,
+    "note": 2,
+    "ruling": 1
+   },
+   "checkTier": "heavier (kernel)",
+   "note": "CHAIN; spec to be written"
+  },
+  {
+   "item": "M0-a-05",
+   "round": "S14",
+   "from": 14,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "large (code-path: the router)",
+   "waitsOn": [
+    "M0-a-09 S18 landed (chain a-06 S9 -> a-09 S18 -> a-05 S14)"
+   ],
+   "collidesWith": [
+    "M0-a-04 S6 (S14's LINES 1-2 reach 'the placement rule's endpoint fallback'; placement.ts is a-04's - UNVERIFIED)",
+    "M0-a-08 S6, M0-c-03 S5 (sequence: they re-measure on S14's head)"
+   ],
+   "lines": [
+    {
+     "ref": "S14-L1-3",
+     "queue": "Q83",
+     "text": "notBuilt #2 classes E, S, D/W/P/V (with Q44, Q64)",
+     "fixShape": "spec LINES 1-3",
+     "pin": "the router's set (J697) commits; the trio's count falls",
+     "evidence": "docs/validation/a05-s14-spec-2026-11-02/spec-a05-s14.json; queue:97, :58, :78"
+    },
+    {
+     "ref": "S14-L4",
+     "queue": "Q77",
+     "text": "2^53 tie in stretch.ts; MK/ML pins",
+     "fixShape": "spec LINE 4",
+     "pin": "40 km ties",
+     "evidence": "queue:91"
+    },
+    {
+     "ref": "S14-L5",
+     "queue": "Q62",
+     "text": "R-12 'insert way' along 648 @13",
+     "fixShape": "spec LINE 5",
+     "pin": "pinned either way",
+     "evidence": "queue:76"
+    },
+    {
+     "ref": "S14-L6",
+     "queue": "Q142",
+     "text": "FAR1 survivor",
+     "fixShape": "spec LINE 6",
+     "pin": "T 516 267 red under .slice(0, 1)",
+     "evidence": "queue:156; checks/M0-a-05-notes.md:961"
+    }
+   ],
+   "counts": {
+    "open": 4,
+    "done": 1,
+    "defer": 0,
+    "note": 2,
+    "ruling": 1
+   },
+   "checkTier": "heavier (kernel)",
+   "note": "CHAIN; spec drafted, refuter pass and specs.json append pending"
+  },
+  {
+   "item": "M0-c-06",
+   "round": "S1",
+   "from": 1,
+   "class": "ISOLATED",
+   "required": true,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [
+    "M0-a-09 S18 (must land BEFORE it: the harness co-edit)"
+   ],
+   "lines": [
+    {
+     "ref": "Q118-c06",
+     "queue": "Q118",
+     "text": "the fusion summary has no per-stage work blocks",
+     "fixShape": "stageWork per stage x counter, e-06 S3's form",
+     "pin": "a summary test: every charged counter at each charging stage",
+     "evidence": "summaries/M0-c-06.json (no stageWork); queue:132"
+    },
+    {
+     "ref": "c-06:3",
+     "queue": null,
+     "text": "s9Refused / kerbReads counters have no positive control",
+     "fixShape": "none (pins)",
+     "pin": "wrap kernel.tx to refuse level-2 specs; assert counters and beyond (kills M3, M4)",
+     "evidence": "checks/M0-c-06-notes.md:11"
+    },
+    {
+     "ref": "c-06:5",
+     "queue": null,
+     "text": "foldRun's beyond and other sums unpinned",
+     "fixShape": "none (pins)",
+     "pin": "the sums test over every summed field (kills R10)",
+     "evidence": "checks/M0-c-06-notes.md:13"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 6,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "REQUIRED by dependency: M0-f-03b's re-fit (COMPOUNDS) reads its blocks"
+  },
+  {
+   "item": "M0-f-03b",
+   "round": "S2",
+   "from": 2,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "large (table re-fit, a declared shift)",
+   "waitsOn": [
+    "M0-c-06 S1 landed",
+    "the amendment's round 4 landed (R12)",
+    "M0-e-06 S4's summary re-run (R25)"
+   ],
+   "collidesWith": [
+    "none on files (bench/src/worklimits, tables/data/workLimits.json); reads R03 / R25 outputs"
+   ],
+   "lines": [
+    {
+     "ref": "Q118",
+     "queue": "Q118",
+     "text": "the re-fit (v3) from S2's base",
+     "fixShape": "re-fit on per-stage blocks after round 4",
+     "pin": "fit test on re-frozen fixtures",
+     "evidence": "queue:132"
+    },
+    {
+     "ref": "f-03b:N-12",
+     "queue": null,
+     "text": "hitBound's ceil(n/1000) margin",
+     "fixShape": "the per-row margin in the re-fit",
+     "pin": "a block with n not a multiple of 1 000",
+     "evidence": "checks/M0-f-03b-notes.md:109"
+    },
+    {
+     "ref": "f-03b:N-13",
+     "queue": null,
+     "text": "v3 hand-over no longer the fit",
+     "fixShape": "re-freeze fixtures (declared)",
+     "pin": "fixture sha pinned",
+     "evidence": "checks/M0-f-03b-notes.md:110"
+    },
+    {
+     "ref": "f-03b:N-14",
+     "queue": null,
+     "text": "K16 survives",
+     "fixShape": "none (pin)",
+     "pin": "unbounded row + worst > 1 => fail",
+     "evidence": "checks/M0-f-03b-notes.md:111"
+    },
+    {
+     "ref": "f-03b:N-11",
+     "queue": null,
+     "text": "title states the target met",
+     "fixShape": "retitle",
+     "pin": "text",
+     "evidence": "checks/M0-f-03b-notes.md:20"
+    },
+    {
+     "ref": "f-03b:N-6",
+     "queue": null,
+     "text": "S3 E_INVARIANT at v3, relief-3000 seed 8",
+     "fixShape": "REPORT line in the re-fit's census",
+     "pin": "census row",
+     "evidence": "checks/M0-f-03b-notes.md:15"
+    },
+    {
+     "ref": "f-03b:N-8",
+     "queue": null,
+     "text": "the reader reads one stage per counter (e-06 N-s3-2)",
+     "fixShape": "loop every stage's block",
+     "pin": "a two-stage counter read in full",
+     "evidence": "checks/M0-f-03b-notes.md:17"
+    },
+    {
+     "ref": "f-03b:N-4",
+     "queue": null,
+     "text": "summary says version 3",
+     "fixShape": "a shipped field",
+     "pin": "summary test",
+     "evidence": "checks/M0-f-03b-notes.md:13"
+    }
+   ],
+   "counts": {
+    "open": 8,
+    "done": 0,
+    "defer": 0,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": ""
+  },
+  {
+   "item": "M0-a-16 + M0-a-15",
+   "round": "S4 + S2",
+   "from": 4,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "R9 for the Q145 line only (the round can land without it)"
+   ],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q75",
+     "queue": "Q75",
+     "text": "REFUSED row + io/encode.ts:113 fail -> notBuilt('M1')",
+     "fixShape": "a-16: REFUSED row and stubs census; a-15: notBuilt('M1', ...)",
+     "pin": "stubs.test.ts green only with both (probe P9)",
+     "evidence": "kernel/src/io/encode.ts:113; queue:89"
+    },
+    {
+     "ref": "a-16:19",
+     "queue": null,
+     "text": "ResolveVertexAt's nearest? unheld",
+     "fixShape": "none (type test)",
+     "pin": "bind returning {orphaned:true} + @ts-expect-error nearest:0 (kills T3, T6)",
+     "evidence": "checks/M0-a-16-notes.md:327"
+    },
+    {
+     "ref": "a-15:N-s1c-4",
+     "queue": null,
+     "text": "title understates L4",
+     "fixShape": "retitle",
+     "pin": "text",
+     "evidence": "checks/M0-a-15-notes.md:291"
+    },
+    {
+     "ref": "Q145",
+     "queue": "Q145",
+     "text": "refuseNotBuilt not exported; Milestone lacks M5, M6-E, M4b",
+     "fixShape": "per ruling R9",
+     "pin": "x-06's table uses the kernel's helper",
+     "evidence": "kernel/src/facade/index.ts:7; facade/types.ts:45; queue:159"
+    }
+   ],
+   "counts": {
+    "open": 4,
+    "done": 1,
+    "defer": 0,
+    "note": 2,
+    "ruling": 2
+   },
+   "checkTier": "heavier (kernel)",
+   "note": "merged per RL9 (J637)"
+  },
+  {
+   "item": "M0-x-02 + M0-x-04",
+   "round": "S4 + S3",
+   "from": 4,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "medium (Q39's runner door is a code-path change)",
+   "waitsOn": [
+    "M0-a-06 S8 landed (layout/src/pipeline/runner.ts:342 is in S8's cross-item scope)",
+    "RL3 (Q39)"
+   ],
+   "collidesWith": [
+    "M0-a-06 S8 (runner.ts)",
+    "M0-b-03 S9 (Q39's S8 half: sequence, door first)"
+   ],
+   "lines": [
+    {
+     "ref": "Q139",
+     "queue": "Q139",
+     "text": "warning() accepts E_ codes",
+     "fixShape": "refuse a code opening E_",
+     "pin": "E_ offered to warning throws; W_CUT_SLID counts",
+     "evidence": "layout/src/pipeline/report.ts:266-270; queue:153"
+    },
+    {
+     "ref": "x-02:27",
+     "queue": null,
+     "text": "C04d, C10c survivors",
+     "fixShape": "none (pins)",
+     "pin": "probes P1, P2 as cases",
+     "evidence": "checks/M0-x-02-notes.md:304"
+    },
+    {
+     "ref": "x-02:28",
+     "queue": null,
+     "text": "classFloor row with no floor reads as held",
+     "fixShape": "count only when env.floors gives a floor",
+     "pin": "a row with no floor counts 0",
+     "evidence": "checks/M0-x-02-notes.md:319"
+    },
+    {
+     "ref": "Q39-runner",
+     "queue": "Q39",
+     "text": "S8's batches bypass the runner's batch door",
+     "fixShape": "a door S8 can call, counted in the report (RL3)",
+     "pin": "S8's block-floor row counts its batches",
+     "evidence": "layout/src/infill/bentCutFabric.ts:1595, :1674; queue:53"
+    },
+    {
+     "ref": "x-04:16",
+     "queue": null,
+     "text": "pass 1 recomputed on the bare view",
+     "fixShape": "recompute on REGISTERED",
+     "pin": "the test itself",
+     "evidence": "checks/M0-x-04-notes.md:214"
+    },
+    {
+     "ref": "x-04:17",
+     "queue": null,
+     "text": "baseS6Input handed a ctx without a view",
+     "fixShape": "tables: REGISTERED in the ctx",
+     "pin": "the test itself",
+     "evidence": "checks/M0-x-04-notes.md:215"
+    }
+   ],
+   "counts": {
+    "open": 6,
+    "done": 3,
+    "defer": 1,
+    "note": 3,
+    "ruling": 2
+   },
+   "checkTier": "heavier (layout)",
+   "note": ""
+  },
+  {
+   "item": "M0-e-04",
+   "round": "S5",
+   "from": 5,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "R11 (the rung-sign shape, N-s4c-3)"
+   ],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q143:N-s4c-1",
+     "queue": "Q143",
+     "text": "halving pinned one level deep (M11)",
+     "fixShape": "none (pin)",
+     "pin": "notches at the 1/16 points and x = 35 000 refused",
+     "evidence": "checks/M0-e-04-notes.md:596"
+    },
+    {
+     "ref": "Q143:N-s4c-2",
+     "queue": "Q143",
+     "text": "NEAR_HALVINGS pinned to depth 2 (M12)",
+     "fixShape": "none (pin)",
+     "pin": "N = 16, 64 near-collinear blocks pass",
+     "evidence": "checks/M0-e-04-notes.md:597; layout/src/districts/perimeter.ts:341"
+    },
+    {
+     "ref": "Q143:N-s4c-3",
+     "queue": "Q143",
+     "text": "bare runS6 carries no sign of the rung",
+     "fixShape": "per R11",
+     "pin": "a bare runS6 on a rung input shows it",
+     "evidence": "checks/M0-e-04-notes.md:598; districts/stage.ts:464"
+    },
+    {
+     "ref": "Q141:N-s4-2",
+     "queue": "Q141",
+     "text": "unbounded recursion width",
+     "fixShape": "iterative halving with a piece budget, typed refusal when spent",
+     "pin": "a ridge ring exhausts the budget",
+     "evidence": "checks/M0-e-04-notes.md:590"
+    }
+   ],
+   "counts": {
+    "open": 4,
+    "done": 0,
+    "defer": 0,
+    "note": 1,
+    "ruling": 1
+   },
+   "checkTier": "heavier (layout)",
+   "note": ""
+  },
+  {
+   "item": "M0-e-03 + M0-e-02 + M0-e-01",
+   "round": "S4 + S2 + S2",
+   "from": 4,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "medium",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q114",
+     "queue": "Q114",
+     "text": "R1c cell re-finding unpinned",
+     "fixShape": "none (pin) or removal with a reason",
+     "pin": "a shore move across a hydro cell edge (kills R1c)",
+     "evidence": "site/src/water/stage.ts:242; queue:128"
+    },
+    {
+     "ref": "Q115",
+     "queue": "Q115",
+     "text": "near-edge fallback on two SMALL_RIVER seeds",
+     "fixShape": "pin as lawful or keep the edge in the clip",
+     "pin": "seeds 1890815356, 2893352673",
+     "evidence": "queue:129"
+    },
+    {
+     "ref": "Q122-S1",
+     "queue": "Q122",
+     "text": "relief-3000 seed 184 S1 E_INVARIANT",
+     "fixShape": "MAKE-IT-SUCCEED (J264)",
+     "pin": "seed 184 commits",
+     "evidence": "summaries/M0-e-06.json groups[2]; queue:136"
+    },
+    {
+     "ref": "Q123",
+     "queue": "Q123",
+     "text": "river degrades on 27-32 % of relief-3000 seeds",
+     "fixShape": "F-RIVER fallback trigger judged vs S1's rules",
+     "pin": "declared shift if pinned seeds move",
+     "evidence": "queue:137"
+    },
+    {
+     "ref": "e-02:N-s1c-1",
+     "queue": null,
+     "text": "corridor's last cell's neighbours",
+     "fixShape": "none (pin)",
+     "pin": "7 x 7 probe (kills D2c)",
+     "evidence": "checks/M0-e-02-notes.md:226"
+    },
+    {
+     "ref": "e-02:N-s1c-2",
+     "queue": null,
+     "text": "degraded pick's tie-break",
+     "fixShape": "none (pin)",
+     "pin": "valleyFallingEast 45 deg seed 3 (kills K20t)",
+     "evidence": "checks/M0-e-02-notes.md:227"
+    },
+    {
+     "ref": "e-02:N-s1c-3",
+     "queue": null,
+     "text": "edgePoint clamp",
+     "fixShape": "none (pin)",
+     "pin": "corner centres beyond reach (kills N02c)",
+     "evidence": "checks/M0-e-02-notes.md:228"
+    },
+    {
+     "ref": "Q87-e01",
+     "queue": "Q87",
+     "text": "hand-written lifecycle in terrain",
+     "fixShape": "use @plat/model generatedLifecycle",
+     "pin": "the build",
+     "evidence": "site/src/terrain/heightfield.ts:41"
+    }
+   ],
+   "counts": {
+    "open": 8,
+    "done": 1,
+    "defer": 0,
+    "note": 1,
+    "ruling": 1
+   },
+   "checkTier": "heavier (site)",
+   "note": "merge of J637's e-03 S4, e-02 S2, e-01 S2"
+  },
+  {
+   "item": "M0-d-05a + M0-m-01",
+   "round": "S2 + S2",
+   "from": 2,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q93",
+     "queue": "Q93",
+     "text": "mint accepts a live set that repeats an id",
+     "fixShape": "refuse a repeated live id",
+     "pin": "a repeated id throws",
+     "evidence": "model/src/identity/mint.ts:184-189; queue:107"
+    },
+    {
+     "ref": "m-01:N-s1-1",
+     "queue": null,
+     "text": "guard's reach over non-comment lines",
+     "fixShape": "none (pin)",
+     "pin": "a planted it-title phrase is red",
+     "evidence": "checks/M0-m-01-notes.md:140"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 0,
+    "note": 4,
+    "ruling": 0
+   },
+   "checkTier": "heavier (model)",
+   "note": ""
+  },
+  {
+   "item": "M0-b-03 + M0-b-02",
+   "round": "S9 + S3",
+   "from": 9,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "medium (large if RL6's fix changes the seed rule)",
+   "waitsOn": [
+    "M0-a-09 S18 landed and the session's re-profile of round 2's tree",
+    "RL6, RL7, RL3",
+    "R06 (x-02's door, for Q39's S8 half)"
+   ],
+   "collidesWith": [
+    "M0-a-09 S18 (fabric reads)",
+    "R12 (same owns)",
+    "R06 (Q39 sequence)"
+   ],
+   "lines": [
+    {
+     "ref": "Q102/Q117i",
+     "queue": "Q102",
+     "text": "kerb in two parts, the seedless one across a spine's band (fusion 25, integrated 38)",
+     "fixShape": "per RL6 after round 2's evidence",
+     "pin": "the two drift fixtures within N-43's bound",
+     "evidence": "queue:116, :131"
+    },
+    {
+     "ref": "Q109",
+     "queue": "Q109",
+     "text": "seedless-part recount",
+     "fixShape": "recount with the fusion harness",
+     "pin": "C-0426 (13) restated",
+     "evidence": "queue:123; checks/M0-b-03-notes.md:438"
+    },
+    {
+     "ref": "Q92b",
+     "queue": "Q92",
+     "text": "L28 fusion seeds 1, 2, 11, 30",
+     "fixShape": "derive them (c-06 landed)",
+     "pin": "floor hits counted",
+     "evidence": "checks/M0-b-02-notes.md:193; queue:106"
+    },
+    {
+     "ref": "Q92a",
+     "queue": "Q92",
+     "text": "65 flatten refusals on holed stars",
+     "fixShape": "ladder statistics name the rung",
+     "pin": "MAKE-IT-SUCCEED if any face ends refused",
+     "evidence": "checks/M0-b-02-notes.md:191"
+    },
+    {
+     "ref": "S7-1",
+     "queue": null,
+     "text": "squaredFarEnd's strict foot (Y18)",
+     "fixShape": "none (pin)",
+     "pin": "a vertex foot => null",
+     "evidence": "layout/src/infill/ladder.ts:330-332; checks/M0-b-03-notes.md:435"
+    },
+    {
+     "ref": "S7-2",
+     "queue": null,
+     "text": "the nearer offset first (Y37)",
+     "fixShape": "none (pin)",
+     "pin": "holes.test.ts both offsets cut",
+     "evidence": "checks/M0-b-03-notes.md:436"
+    },
+    {
+     "ref": "S7-3",
+     "queue": null,
+     "text": "squareness only through the judge",
+     "fixShape": "none (pin)",
+     "pin": "kerbEndsSquare on the committed lane",
+     "evidence": "checks/M0-b-03-notes.md:437"
+    },
+    {
+     "ref": "Q39-S8",
+     "queue": "Q39",
+     "text": "S8's batches through the runner's door",
+     "fixShape": "ctx.batch (RL3)",
+     "pin": "report counts S8's batches; NO-SHIFT",
+     "evidence": "bentCutFabric.ts:1674"
+    },
+    {
+     "ref": "Q108",
+     "queue": "Q108",
+     "text": "KerbPortal has no per-portal reach",
+     "fixShape": "optional per-portal reach (RL7)",
+     "pin": "a clipped portal reserves its own reach",
+     "evidence": "layout/src/infill/planner.ts:84-89; queue:122"
+    }
+   ],
+   "counts": {
+    "open": 9,
+    "done": 3,
+    "defer": 0,
+    "note": 2,
+    "ruling": 3
+   },
+   "checkTier": "heavier (layout)",
+   "note": "J637 (1) order"
+  },
+  {
+   "item": "M0-a-03",
+   "round": "S2",
+   "from": 2,
+   "class": "MIXED",
+   "required": true,
+   "size": "large (code-path, NO-SHIFT perf: amendment item 987)",
+   "waitsOn": [
+    "M0-a-09 S18 landed + the re-profile of round 2's tree",
+    "M0-a-06 S9 landed (index/spatial.ts)"
+   ],
+   "collidesWith": [
+    "M0-a-06 S8 (index/items.ts)",
+    "M0-a-06 S9 (index/spatial.ts)"
+   ],
+   "lines": [
+    {
+     "ref": "Q127",
+     "queue": "Q127",
+     "text": "the index's query cost",
+     "fixShape": "large set in a coarse grid; seen array; one-level faces-only queries",
+     "pin": "J607's bars; model roots equal",
+     "evidence": "queue:141"
+    },
+    {
+     "ref": "Q69bc",
+     "queue": "Q69",
+     "text": "faces-only level skip; gridCandidates per-call Set",
+     "fixShape": "folds into Q127",
+     "pin": "same bars",
+     "evidence": "queue:83"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 0,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "heavier (kernel)",
+   "note": "required by J618 991 (e), not by the map class"
+  },
+  {
+   "item": "M0-b-03 + M0-b-02 + M0-a-10",
+   "round": "S10 + S4 + S3",
+   "from": 10,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "large (code-path: items 988-989)",
+   "waitsOn": [
+    "R10 and R11 landed + the re-profile of round 3's tree"
+   ],
+   "collidesWith": [
+    "R10 (same owns)",
+    "M0-a-09 S18"
+   ],
+   "lines": [
+    {
+     "ref": "Q128",
+     "queue": "Q128",
+     "text": "the fabric's per-visit work",
+     "fixShape": "items 988-989, NO-SHIFT",
+     "pin": "work outside the kernel <= 2 ms a cut; S8 <= 10 s at CITY",
+     "evidence": "queue:142"
+    }
+   ],
+   "counts": {
+    "open": 1,
+    "done": 0,
+    "defer": 0,
+    "note": 2,
+    "ruling": 0
+   },
+   "checkTier": "heavier (layout)",
+   "note": "the amendment's round 4; required by J618 991 (e)"
+  },
+  {
+   "item": "M0-a-08",
+   "round": "S6",
+   "from": 6,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-a-05 S14 landed",
+    "R12 ruling (B2)"
+   ],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "a-08:N-s5c-4",
+     "queue": null,
+     "text": "register.json after the router round",
+     "fixShape": "re-record (declared change)",
+     "pin": "88-line count re-measured",
+     "evidence": "checks/M0-a-08-notes.md:563"
+    },
+    {
+     "ref": "B2",
+     "queue": "Q83",
+     "text": "the overlay's B2 sliver (integrated 253, 476)",
+     "fixShape": "per R12",
+     "pin": "the two seeds commit within 104 cm",
+     "evidence": "queue:97 (J697 tail), :78"
+    },
+    {
+     "ref": "a-08:N-s5c-2",
+     "queue": null,
+     "text": "seed line invisible on green runs",
+     "fixShape": "header text",
+     "pin": "text",
+     "evidence": "checks/M0-a-08-notes.md:561"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 3,
+    "defer": 0,
+    "note": 2,
+    "ruling": 1
+   },
+   "checkTier": "heavier (kernel)",
+   "note": ""
+  },
+  {
+   "item": "M0-a-04",
+   "round": "S6",
+   "from": 6,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-a-06 S8 landed (insert/splitThrough.ts in its scope)"
+   ],
+   "collidesWith": [
+    "M0-a-06 S8",
+    "M0-a-05 S14 (placement fallback; UNVERIFIED)"
+   ],
+   "lines": [
+    {
+     "ref": "a-04:N-c5-1",
+     "queue": null,
+     "text": "F1g: sub-edge j vs j + 1",
+     "fixShape": "none (pin)",
+     "pin": "a case where the two sub-edges' nearer ends differ",
+     "evidence": "checks/M0-a-04-notes.md:165"
+    },
+    {
+     "ref": "a-04:N-c5-2",
+     "queue": null,
+     "text": "CM3: vertex slot 0",
+     "fixShape": "none (pin)",
+     "pin": "a row on slot 0 answers true",
+     "evidence": "checks/M0-a-04-notes.md:166"
+    },
+    {
+     "ref": "a-04:N-c5-4",
+     "queue": null,
+     "text": "C-0373 misstates E_LEVEL 459 / 10 000",
+     "fixShape": "restate in the choices row",
+     "pin": "text",
+     "evidence": "checks/M0-a-04-notes.md:168"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 0,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "heavier (kernel)",
+   "note": ""
+  },
+  {
+   "item": "M0-a-13",
+   "round": "S2",
+   "from": 2,
+   "class": "MIXED",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-a-06 S8 landed (warp/warp.ts in its scope)"
+   ],
+   "collidesWith": [
+    "M0-a-06 S8"
+   ],
+   "lines": [
+    {
+     "ref": "a-13:N-s1c-1",
+     "queue": null,
+     "text": "placeOnRoute charges before test (i)",
+     "fixShape": "none (pin)",
+     "pin": "the probe as a case (kills W4e)",
+     "evidence": "checks/M0-a-13-notes.md:223"
+    },
+    {
+     "ref": "a-13:N-s1c-2",
+     "queue": null,
+     "text": "the band's attractCm boundary",
+     "fixShape": "none (pin)",
+     "pin": "a point exactly 26 cm from P (kills R2attr)",
+     "evidence": "checks/M0-a-13-notes.md:224"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 0,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "heavier (kernel)",
+   "note": "contract part: the warp's placement (M3a's warp kernels)"
+  },
+  {
+   "item": "M0-a-02",
+   "round": "S4",
+   "from": 4,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small (medium if RL4 adds the shape role)",
+   "waitsOn": [
+    "M0-a-06 S9 landed (arena/write.ts)",
+    "R10 (Q76)",
+    "RL4 (Q79)"
+   ],
+   "collidesWith": [
+    "M0-a-06 S8 (arena/*)",
+    "M0-a-06 S9 (arena/write.ts)"
+   ],
+   "lines": [
+    {
+     "ref": "a-02:N-s3c-2",
+     "queue": null,
+     "text": "free-list pins vertex slots only",
+     "fixShape": "none (pin)",
+     "pin": "capacity-1 tables (kills B7, B8 alone)",
+     "evidence": "checks/M0-a-02-notes.md:197"
+    },
+    {
+     "ref": "a-02:N-s3c-1",
+     "queue": null,
+     "text": "support.ts header",
+     "fixShape": "comment",
+     "pin": "text",
+     "evidence": "checks/M0-a-02-notes.md:196"
+    },
+    {
+     "ref": "Q76",
+     "queue": "Q76",
+     "text": "stale stamp after compactSlots / load",
+     "fixShape": "per R10",
+     "pin": "isCurrent(compactSlots(p), stamp(p)) false",
+     "evidence": "queue:90; checks/M0-a-15-notes.md:294"
+    },
+    {
+     "ref": "Q79",
+     "queue": "Q79",
+     "text": "the shape role",
+     "fixShape": "per RL4",
+     "pin": "the role row and the hook",
+     "evidence": "queue:93; kernel/src/arena/roles.json"
+    }
+   ],
+   "counts": {
+    "open": 4,
+    "done": 0,
+    "defer": 0,
+    "note": 0,
+    "ruling": 2
+   },
+   "checkTier": "heavier (kernel)",
+   "note": ""
+  },
+  {
+   "item": "M0-a-11",
+   "round": "S6",
+   "from": 6,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "medium (a contract angle with a declared shift)",
+   "waitsOn": [
+    "RL5"
+   ],
+   "collidesWith": [
+    "UNVERIFIED: RL5 names a cross-item scope"
+   ],
+   "lines": [
+    {
+     "ref": "Q67B",
+     "queue": "Q67",
+     "text": "contract angle 1 deg for spine and regions",
+     "fixShape": "measure the [1, 5) deg validator pass rate, then the contract change",
+     "pin": "a 3 deg corner validates; roof keeps 5 deg",
+     "evidence": "queue:81; kernel/src/skeleton/prepare.ts:219"
+    }
+   ],
+   "counts": {
+    "open": 1,
+    "done": 1,
+    "defer": 0,
+    "note": 0,
+    "ruling": 1
+   },
+   "checkTier": "heavier (kernel)",
+   "note": ""
+  },
+  {
+   "item": "M0-c-05",
+   "round": "S3",
+   "from": 3,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-c-04 S5 landed (it owns all of layout/src/growth/ and test/growth/)",
+    "R13 (Q150)"
+   ],
+   "collidesWith": [
+    "M0-c-04 S5"
+   ],
+   "lines": [
+    {
+     "ref": "Q98",
+     "queue": "Q98",
+     "text": "literal 3 000 cm in prune.test.ts",
+     "fixShape": "derive from regimes.json",
+     "pin": "the test",
+     "evidence": "layout/test/growth/s5cd/prune.test.ts:83; queue:112"
+    },
+    {
+     "ref": "Q149",
+     "queue": "Q149",
+     "text": "no secondary street at flat 2, 3, 6",
+     "fixShape": "judge and pin the verdict",
+     "pin": "pin either way",
+     "evidence": "queue:163"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 0,
+    "note": 4,
+    "ruling": 1
+   },
+   "checkTier": "heavier (layout)",
+   "note": ""
+  },
+  {
+   "item": "M0-c-03",
+   "round": "S5",
+   "from": 5,
+   "class": "COMPOUNDS",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-a-05 S14 landed"
+   ],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q122-S4",
+     "queue": "Q122",
+     "text": "relief-3000 seed 109 S4 (way, way:13) branches",
+     "fixShape": "re-derive on S14's head; MAKE-IT-SUCCEED if it remains",
+     "pin": "seed 109 commits",
+     "evidence": "summaries/M0-e-06.json groups[2],[3]; queue:136"
+    },
+    {
+     "ref": "c-03:N-c3-1",
+     "queue": null,
+     "text": "spur cut's side guard (QA1g)",
+     "fixShape": "none (pin)",
+     "pin": "a spur meeting a side is kept",
+     "evidence": "checks/M0-c-03-notes.md:412"
+    },
+    {
+     "ref": "c-03:N-c3-2",
+     "queue": null,
+     "text": "partLeavesWall's excuse (UNVERIFIED if S4 closed it)",
+     "fixShape": "narrow to the gate's point",
+     "pin": "B-N1's seed",
+     "evidence": "checks/M0-c-03-notes.md:413; layout/src/backbone/stage.ts:141"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 0,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "heavier (layout)",
+   "note": ""
+  },
+  {
+   "item": "M0-c-01",
+   "round": "S4",
+   "from": 4,
+   "class": "ISOLATED",
+   "required": true,
+   "size": "small",
+   "waitsOn": [
+    "M0-c-02 S6 landed (its REPORTED siting share)"
+   ],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q99-c01",
+     "queue": "Q99",
+     "text": "flatFixture's default view is bare",
+     "fixShape": "default the registered view",
+     "pin": "a bare flatFixture reads REGISTERED.hash",
+     "evidence": "layout/src/fixtures/flat.ts:43; queue:113"
+    },
+    {
+     "ref": "Q122-S3-c01",
+     "queue": "Q122",
+     "text": "the siting's share of S3 refusals, as c-02 S6 reports it",
+     "fixShape": "MAKE-IT-SUCCEED",
+     "pin": "seeds pinned",
+     "evidence": "queue:136"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 1,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "heavier (layout)",
+   "note": "ISOLATED, kept for the Q99 contract seam (RL8)"
+  },
+  {
+   "item": "M0-c-07",
+   "round": "S1",
+   "from": 1,
+   "class": "MIXED",
+   "required": true,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "c-07:4",
+     "queue": null,
+     "text": "--recalibrate on unplaced hoods",
+     "fixShape": "none (pin)",
+     "pin": "exit 2, NO_MISS (kills E04)",
+     "evidence": "checks/M0-c-07-notes.md:10"
+    },
+    {
+     "ref": "c-07:1",
+     "queue": null,
+     "text": "reported target row with n 0 on a gating cell",
+     "fixShape": "none (pin)",
+     "pin": "the run fails (kills B02)",
+     "evidence": "checks/M0-c-07-notes.md:7"
+    },
+    {
+     "ref": "c-07:3",
+     "queue": null,
+     "text": "a hood S8 refuses",
+     "fixShape": "none (pin)",
+     "pin": "run fails, excluded, census class (kills C03, C07, D04)",
+     "evidence": "checks/M0-c-07-notes.md:9"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 5,
+    "note": 4,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "MIXED for the table cells"
+  },
+  {
+   "item": "M0-b-05",
+   "round": "S2",
+   "from": 2,
+   "class": "MIXED",
+   "required": true,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "b-05:N11",
+     "queue": null,
+     "text": "applied-table pass text unasserted",
+     "fixShape": "none (pin)",
+     "pin": "probe P1 in phase-a.test.ts (kills X8b)",
+     "evidence": "checks/M0-b-05-notes.md:72"
+    },
+    {
+     "ref": "b-05:N12",
+     "queue": null,
+     "text": "tolBand's guard reach",
+     "fixShape": "narrow the doc or plant an M-1 row",
+     "pin": "the guard reached",
+     "evidence": "checks/M0-b-05-notes.md:73"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 0,
+    "defer": 2,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": ""
+  },
+  {
+   "item": "M0-x-06",
+   "round": "S2",
+   "from": 2,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [
+    "M0-c-02 S6 only if the round touches testkit/test/edge/repins.test.ts (c-02's seam)"
+   ],
+   "lines": [
+    {
+     "ref": "Q148-summary",
+     "queue": "Q148",
+     "text": "summary's lawfulRefusals 35 vs the census's 0",
+     "fixShape": "re-write the summary",
+     "pin": "summary test",
+     "evidence": "plat/docs/build/summaries/M0-x-06.json totals.lawfulRefusals"
+    }
+   ],
+   "counts": {
+    "open": 1,
+    "done": 0,
+    "defer": 3,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "recommended: the summary misstates a J264 (4) figure"
+  },
+  {
+   "item": "M0-x-05",
+   "round": "S3",
+   "from": 3,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q116",
+     "queue": "Q116",
+     "text": "the §5.2 table lacks V13 / V14 classes",
+     "fixShape": "as ruled J552, tests only",
+     "pin": "DESIGN_5_2 with the deferred rows",
+     "evidence": "testkit/src/ladders/table.ts:21, :28; queue:130"
+    },
+    {
+     "ref": "Q87-x05",
+     "queue": "Q87",
+     "text": "hand-written lifecycle",
+     "fixShape": "generatedLifecycle(0)",
+     "pin": "the build",
+     "evidence": "testkit/src/ladders/support.ts:140-141"
+    }
+   ],
+   "counts": {
+    "open": 2,
+    "done": 1,
+    "defer": 2,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": ""
+  },
+  {
+   "item": "M0-e-06",
+   "round": "S4",
+   "from": 4,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "small",
+   "waitsOn": [
+    "M0-c-02 S6 and M0-c-04 S5 landed (the re-run line)"
+   ],
+   "collidesWith": [
+    "R04 (sequence: f-03b reads the summary)"
+   ],
+   "lines": [
+    {
+     "ref": "Q137",
+     "queue": "Q137",
+     "text": "scopeDigest moves on a citation renumber",
+     "fixShape": "normalise ledger-id tokens before hashing",
+     "pin": "renumbered copy keeps the digest; a code edit moves it",
+     "evidence": "bench/src/site/anchor.ts:69-75; queue:151"
+    },
+    {
+     "ref": "e-06:rerun",
+     "queue": "Q122",
+     "text": "the batched 200-seed summary re-run",
+     "fixShape": "regenerate on the head",
+     "pin": "summary",
+     "evidence": "queue:136"
+    },
+    {
+     "ref": "e-06:25",
+     "queue": null,
+     "text": "a class keeps one message",
+     "fixShape": "each distinct text with its seeds",
+     "pin": "fold test",
+     "evidence": "checks/M0-e-06-notes.md:388"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 1,
+    "note": 2,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "recommended (Q137 reddens landings)"
+  },
+  {
+   "item": "M0-f-02a + M0-f-02b",
+   "round": "S2 + S1",
+   "from": 2,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "small",
+   "waitsOn": [
+    "M0-t-00 S1 landed (UNVERIFIED overlap on bench tier files)"
+   ],
+   "collidesWith": [
+    "M0-t-00 S1 (UNVERIFIED)"
+   ],
+   "lines": [
+    {
+     "ref": "Q94",
+     "queue": "Q94",
+     "text": "PR tier B-FUZZ units lack --no-ladders --no-s11",
+     "fixShape": "append after --no-summary",
+     "pin": "manifest.test.ts:97",
+     "evidence": "bench/src/tier-jobs/index.ts:72; queue:108"
+    },
+    {
+     "ref": "Q151",
+     "queue": "Q151",
+     "text": "--fallback accepted on nightly / milestone",
+     "fixShape": "refuse outside tier:pr",
+     "pin": "per-tier exit 64",
+     "evidence": "bench/src/tiers/index.ts:5, :11; queue:165"
+    },
+    {
+     "ref": "Q146",
+     "queue": "Q146",
+     "text": "no per-seed hang attribution",
+     "fixShape": "per-seed start marker in edgeHangs",
+     "pin": "a planted hang names its seed",
+     "evidence": "queue:160"
+    }
+   ],
+   "counts": {
+    "open": 3,
+    "done": 0,
+    "defer": 9,
+    "note": 3,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "Q49's whole receipts are a session run after round 4, not this round"
+  },
+  {
+   "item": "M0-k-06",
+   "round": "S2",
+   "from": 2,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "small",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [
+    {
+     "ref": "Q147",
+     "queue": "Q147",
+     "text": "K6-6 exceeds vitest's 5 s",
+     "fixShape": "explicit timeout",
+     "pin": "the case passes alone and under RELATED",
+     "evidence": "bench/test/scan/scan.test.ts:140; queue:161"
+    }
+   ],
+   "counts": {
+    "open": 1,
+    "done": 0,
+    "defer": 3,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "recommended now: the one foreign red of every RELATED@1000"
+  },
+  {
+   "item": "M0-d-09",
+   "round": "S3",
+   "from": 3,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "none: one queue row naming M1",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [],
+   "counts": {
+    "open": 0,
+    "done": 0,
+    "defer": 2,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "QUEUE-ROW-ONLY: rows 14, 15 DEFER (M1's B-CITY re-run); 16 NOTE"
+  },
+  {
+   "item": "M0-d-08",
+   "round": "S2",
+   "from": 2,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "none: one queue row naming M1",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [],
+   "counts": {
+    "open": 0,
+    "done": 0,
+    "defer": 2,
+    "note": 3,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "QUEUE-ROW-ONLY: N-14, N-15 DEFER (M1 pool 0-3); N-16..N-18 NOTE"
+  },
+  {
+   "item": "M0-k-04",
+   "round": "S2",
+   "from": 2,
+   "class": "ISOLATED",
+   "required": false,
+   "size": "none: one queue row naming M1",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [],
+   "counts": {
+    "open": 0,
+    "done": 0,
+    "defer": 2,
+    "note": 0,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "QUEUE-ROW-ONLY: N-21, N-22 DEFER (M1 tiers)"
+  },
+  {
+   "item": "M0-k-05",
+   "round": "S2",
+   "from": 2,
+   "class": "MIXED",
+   "required": false,
+   "size": "none: one queue row naming M1",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [],
+   "counts": {
+    "open": 0,
+    "done": 0,
+    "defer": 3,
+    "note": 1,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "QUEUE-ROW-ONLY: no row on metricVersion; N-s1-1..3 DEFER, N-s1-4 NOTE"
+  },
+  {
+   "item": "M0-b-04",
+   "round": "S4",
+   "from": 4,
+   "class": "MIXED",
+   "required": false,
+   "size": "none: one queue row naming M1",
+   "waitsOn": [],
+   "collidesWith": [],
+   "lines": [],
+   "counts": {
+    "open": 0,
+    "done": 0,
+    "defer": 3,
+    "note": 2,
+    "ruling": 0
+   },
+   "checkTier": "lighter (bench/testkit/tools)",
+   "note": "QUEUE-ROW-ONLY: N-9..N-11 off the table-writing part, DEFER; N-12, N-13 NOTE"
+  }
+ ],
+ "waves": [
+  [
+   "M0-c-06 S1",
+   "M0-a-16 S4 + M0-a-15 S2",
+   "M0-e-04 S5",
+   "M0-e-03 S4 + M0-e-02 S2 + M0-e-01 S2",
+   "M0-d-05a S2 + M0-m-01 S2",
+   "M0-k-06 S2",
+   "M0-c-07 S1"
+  ],
+  [
+   "M0-x-02 S4 + M0-x-04 S3",
+   "M0-a-04 S6",
+   "M0-a-13 S2",
+   "M0-c-05 S3",
+   "M0-c-01 S4",
+   "M0-e-06 S4",
+   "M0-f-02a S2 + M0-f-02b S1",
+   "M0-x-06 S2",
+   "M0-x-05 S3",
+   "M0-b-05 S2"
+  ],
+  [
+   "M0-a-09 S18 (chain)",
+   "M0-a-02 S4",
+   "M0-a-11 S6"
+  ],
+  [
+   "M0-a-05 S14 (chain)",
+   "M0-b-03 S9 + M0-b-02 S3",
+   "M0-a-03 S2 (amendment round 3)"
+  ],
+  [
+   "M0-a-08 S6",
+   "M0-c-03 S5",
+   "M0-b-03 S10 + M0-b-02 S4 + M0-a-10 S3 (amendment round 4)"
+  ],
+  [
+   "M0-f-03b S2"
+  ]
+ ],
+ "deferCandidates": [
+  {
+   "item": "M0-c-06",
+   "ref": "notes 1, 2, 4, 6, 7, 8",
+   "why": "ISOLATED harness; survivors on correct code",
+   "absorbs": "M1 (B-CITY-lite re-run, SCOPE clause 66)"
+  },
+  {
+   "item": "M0-c-07",
+   "ref": "notes 2, 5, 9, 10, 11",
+   "why": "ISOLATED part (not the table cells)",
+   "absorbs": "M1 (B-CITY-lite re-run)"
+  },
+  {
+   "item": "M0-c-01",
+   "ref": "N-s2c-1 (M9/M10)",
+   "why": "ISOLATED stand-in",
+   "absorbs": "M1 (S3 replaces the stand-in)"
+  },
+  {
+   "item": "M0-x-04",
+   "ref": "note 19",
+   "why": "no caller hands a variant view; bench harnesses ISOLATED",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-x-06",
+   "ref": "s1c-1, s1c-2, s1c-5",
+   "why": "ISOLATED; s1c-1 equivalent in composition",
+   "absorbs": "M1 tiers (M4 for s1c-5 as named)"
+  },
+  {
+   "item": "M0-x-05",
+   "ref": "S1c-1, S1c-3",
+   "why": "ISOLATED; equivalent on registered families",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-e-06",
+   "ref": "note 22",
+   "why": "ISOLATED; killed twice by digest and summary",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-f-02b",
+   "ref": "N-1..N-5, N-7, N-8",
+   "why": "ISOLATED; informative figures and test seams",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-f-02a",
+   "ref": "N-9, N-10",
+   "why": "ISOLATED test-seam fidelity",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-k-06",
+   "ref": "K6-11, K6-12, N-s1-1",
+   "why": "ISOLATED; layouts no source uses",
+   "absorbs": "M1 (k-07's crossing)"
+  },
+  {
+   "item": "M0-b-05",
+   "ref": "N10, N13",
+   "why": "off the table-writing part; N13 belongs to the run items",
+   "absorbs": "M1 (b-05a / b-05b, AFTER-M-1 inside M1)"
+  },
+  {
+   "item": "M0-b-04",
+   "ref": "N-9, N-10, N-11",
+   "why": "off the table-writing part",
+   "absorbs": "M1 (run items)"
+  },
+  {
+   "item": "M0-d-09",
+   "ref": "rows 14, 15",
+   "why": "ISOLATED tool",
+   "absorbs": "M1 (B-CITY re-run, SCOPE:161)"
+  },
+  {
+   "item": "M0-d-08",
+   "ref": "N-14, N-15",
+   "why": "ISOLATED harness",
+   "absorbs": "M1 (pool 0-3)"
+  },
+  {
+   "item": "M0-k-04",
+   "ref": "N-21, N-22",
+   "why": "ISOLATED judges, correct by probe",
+   "absorbs": "M1 tiers"
+  },
+  {
+   "item": "M0-k-05",
+   "ref": "N-s1-1, N-s1-2, N-s1-3",
+   "why": "not on metricVersion; owners are AFTER-M-1 items",
+   "absorbs": "M1 (k-07, b-05b, c-07b)"
+  }
+ ],
+ "rulingsNeeded": [
+  {
+   "id": "RL3",
+   "question": "Q39: route S8's batches through the runner's batch door (x-02's door, b-03's call)?",
+   "recommendation": "YES: x-02 S4 adds the door (with note 28's classFloor count), b-03 S9 calls it; NO-SHIFT expected (the report is outside every digest); adversarial review per J631 (2) (a) on the door's signature only."
+  },
+  {
+   "id": "RL4",
+   "question": "Q79 / Q74 RQ2: does the 'shape' role enter M0's roles.json now?",
+   "recommendation": "DECIDE NOW, before the first golden: ROLE_REGISTRY_VERSION rides in blocks (map row a-02 'COMPOUNDS (c,d)'), so a later append shifts encoded blocks; add the role in a-02 S4 (append-only), the hook in a-06 S10, the §2.2 rule 3 sentence by the session. If the session finds no M0 producer, record the carry with J238 (1)'s proof instead."
+  },
+  {
+   "id": "RL5",
+   "question": "Q67 (B): the skeleton contract angle 1 deg for spine and regions (roof keeps 5 deg)?",
+   "recommendation": "Measure first in a-11 S6 (the [1, 5) deg validator pass rate on the corpus and the 1 000-seed faces); adopt only if the validator passes every face it admits; a declared shift; owner-vetoable as RQ7 says."
+  },
+  {
+   "id": "RL6",
+   "question": "Q102 / Q117 (i): who owns the kerb-in-two-parts class (fusion 25, integrated 38)?",
+   "recommendation": "Re-measure on a-09 S18's derived kerb; if the seedless part survives, b-03 S9 owns it (a seed per kerb component, or the part courted), a-09 only if the derived kerb itself splits."
+  },
+  {
+   "id": "RL7",
+   "question": "Q108: a per-portal reach on KerbPortal (an exported type, J263 Q1)?",
+   "recommendation": "YES as an OPTIONAL field (additive, existing callers unchanged), defaulting to today's gap; reviewed with the b-03 S9 + b-02 S3 spec."
+  },
+  {
+   "id": "RL13",
+   "question": "L26: a structured field on the kernel's refusal naming the refused body (e-03's regex over the message)?",
+   "recommendation": "YES, additive, in an a-05 round after S14 (insert/ is busy until then); e-03 reads it in its following touch. Not a blocker for e-03 S4."
+  },
+  {
+   "id": "RL14",
+   "question": "Q111: build a-09's kernel export for replay classing?",
+   "recommendation": "NO unless c-06 S1 / the round-2 measurement shows a replay it cannot class; close Q111 at a-09 S18's landing otherwise."
+  },
+  {
+   "id": "RL15",
+   "question": "Q135: which seam removes the always-rejected planning batch?",
+   "recommendation": "(a) a read-only split plan from the kernel (the checker's cleanest seam), in an a-05 round after S14; until then the receipts keep counting it as the named class."
+  },
+  {
+   "id": "R9",
+   "question": "Q145: export refuseNotBuilt and widen Milestone with M4b, M5, M6-E?",
+   "recommendation": "YES in a-16 S4 as one of 'a-16's public-API rows' (J558's order lists them before M1): the design's milestone list is the contract the edge table reads; the alternative (a lawful local stub) keeps two texts in step by a word-for-word pin."
+  },
+  {
+   "id": "R10",
+   "question": "Q76 / L16: a stale stamp reads current after compactSlots / load; arena identity (a-02) or a generation bump (a-06)?",
+   "recommendation": "The generation (a-06's restore generation, which Q28 / Q33 / Q38 / Q34 already key stamps on): compactSlots and load move it; no chunk-header change. Build in a-06 S10, pin in a-02 S4 (probe P16 red)."
+  },
+  {
+   "id": "R11",
+   "question": "Q143 N-s4c-3: the shape of the buffer rung's sign on a bare runS6 (exports frozen)?",
+   "recommendation": "W_PERIMETER_BUFFER on runS6's KernelResult.warnings (no type or export change), as the pipeline already reports it."
+  },
+  {
+   "id": "R12",
+   "question": "The overlay's B2 sliver (integrated 253, 476; 106-108 cm vs 104): a-08 fix or KI?",
+   "recommendation": "Measure at a-05 S14's landing; if it survives, FIX in a-08 S6 (J264: a lawful-input refusal is a defect even when e-04's 10-18 s buffer rung absorbs it)."
+  },
+  {
+   "id": "R13",
+   "question": "Q150: should S5c / S5d draw at every seed of a small frame?",
+   "recommendation": "c-05 S3 sweeps frame sizes; if the draws vanish only below a stated frame size, CARRY to M1 with J238 (1)'s proof (the frame is the cause); else FIX."
+  },
+  {
+   "id": "R14",
+   "question": "Q119: when is c-07's phase a run at real size (court share per band)?",
+   "recommendation": "With round 2's s8s9 re-run over the chunk records (they stay until round 2 takes its seeds, J636); b-03's court rule is judged in b-03 S10 or later, never by re-tuning the band table."
+  },
+  {
+   "id": "R15",
+   "question": "Ratify the DEFER-CANDIDATE list (plan.json deferCandidates) as queue rows with M1 as the absorbing milestone (J567: ISOLATED pieces take a queue row).",
+   "recommendation": "RATIFY; one queue row per item listing its refs and 'M1'."
+  }
+ ],
+ "staleQueueRows": [
+  {
+   "q": "Q52",
+   "evidence": "status opens OPEN, ends 'DONE (J700, THE FORTY-FIFTH LANDING bffe7ad2 + the seam 8920ebf8)' (queue:66)"
+  },
+  {
+   "q": "Q58",
+   "evidence": "a-09's part DONE 9f631a41 (J532); partner draw 1 524 landed 131ed5ae (J678) (queue:72)"
+  },
+  {
+   "q": "Q59",
+   "evidence": "draw 7644 commits (a-09 S14, 9f631a41); the class moved to Q104, DONE 131ed5ae (queue:73, :118)"
+  },
+  {
+   "q": "Q86",
+   "evidence": "DONE J686; [SRC] layout/src/districts/types.ts:4 imports QuarterNode from @plat/model (queue:100)"
+  },
+  {
+   "q": "Q97",
+   "evidence": "OPEN -> DONE (J693, a-08 S5) (queue:111)"
+  },
+  {
+   "q": "Q104",
+   "evidence": "OPEN -> ... DONE 131ed5ae (J678) (queue:118)"
+  },
+  {
+   "q": "Q105",
+   "evidence": "forms (3)-(5), (1') built in a-05 S12 131ed5ae; (1'') in S13; (1'), (2) KEPT with J238 (1)'s proof C-0456 (3) (checks/M0-a-05-s13.md:120-122) (queue:119)"
+  },
+  {
+   "q": "Q106",
+   "evidence": "both halves DONE (J693, J700); [SRC] testkit/test/edge/repins.test.ts:156-157 (queue:120)"
+  },
+  {
+   "q": "Q112",
+   "evidence": "DONE 131ed5ae (J678) (queue:126)"
+  },
+  {
+   "q": "Q113",
+   "evidence": "DONE (J700, x-06 S1) (queue:127)"
+  },
+  {
+   "q": "Q133",
+   "evidence": "status opens DIAGNOSED, ends DONE (J686, 25a5cde0, e-04 S4) (queue:147)"
+  },
+  {
+   "q": "Q138",
+   "evidence": "DONE by x-04 S2 e0e45b7c; [SRC] layout/test/pipeline/base/run.test.ts:212-215; checks/M0-x-04-s2.md:26 (queue:152)"
+  },
+  {
+   "q": "Q140",
+   "evidence": "status opens RULED, ends DONE (J700, L-0731) (queue:154)"
+  },
+  {
+   "q": "Q144",
+   "evidence": "status opens OPEN, ends DONE (J717) (queue:158)"
+  },
+  {
+   "q": "Q74 (trim)",
+   "evidence": "RQ1 fixture DONE (a-08 S5); x-06 RQ3 pin flip DONE (Q106); isOpenTx exported [SRC] kernel/src/tx/state.ts:91 and used [SRC] facade/kernel.ts:170; only RQ2's shape role remains = Q79 (queue:88)"
+  },
+  {
+   "q": "Q75 (trim)",
+   "evidence": "the isOpenTx half DONE [SRC] facade/kernel.ts:170 (a-16 S3); the REFUSED row + encode.ts:113 remain (queue:89)"
+  },
+  {
+   "q": "Q67 (trim)",
+   "evidence": "(A) DONE and pinned (a-11 notes :271, :313); only (B) remains (queue:81)"
+  },
+  {
+   "q": "Q87 (trim)",
+   "evidence": "b-03 (S7) and x-06 (J700) copies DONE; remaining: e-01 heightfield.ts:41, c-02 water.ts:358 (in c-02 S6), x-05 support.ts:140 (queue:101)"
+  },
+  {
+   "q": "Q99 (trim)",
+   "evidence": "x-02 S3, e-04 S4 and x-04 S2 lines DONE (x-04 S2 LANDED 2026-11-02, the status still says LAUNCHED); only c-01's fixtures/flat.ts:43 remains (queue:113)"
+  },
+  {
+   "q": "Q122 (trim)",
+   "evidence": "S6 class CLOSED (J686); S3 -> c-02 S6 (in flight), S5 -> c-04 S5 (in flight), S4 seed 109 -> c-03 S5 after a-05 S14, S1 seed 184 -> e-03 S4 (queue:136)"
+  },
+  {
+   "q": "Q92 (premise)",
+   "evidence": "(b)'s blocker 'bench/src/fusion/index.ts is M0-c-06's empty scaffold' is gone: c-06 landed (J554) (queue:106)"
+  },
+  {
+   "q": "Q71 / Q125 (close at landing)",
+   "evidence": "a-06 S9's LINE 1 re-seats opSave / rollback on the undo log (specs.json a-06 S9); close both at S9's landing (queue:85, :139)"
+  }
+ ],
+ "inFlightNotPlanned": [
+  "M0-a-06 (S8 landing, S9 specced; S10 later: Q78, Q95, Q76 tx side)",
+  "M0-c-02 (S6)",
+  "M0-c-04 (S5)",
+  "M0-t-00 (S1)"
+ ]
+}

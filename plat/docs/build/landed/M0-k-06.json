@@ -1,17 +1,17 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-k-06",
-  "lane": "session/n24-givers-1",
-  "lanes": ["build/M0-k-06", "build/M0-k-06-fix1", "build/M0-k-06-fix-s1", "session/n24-givers-1"],
+  "lane": "session/k06-scan-timeout-seam-1",
+  "lanes": ["build/M0-k-06", "build/M0-k-06-fix1", "build/M0-k-06-fix-s1", "session/n24-givers-1", "session/k06-scan-timeout-seam-1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-30T14:15:24.878Z",
+  "date": "2026-11-09T21:40:19.882Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/scanner/ (created empty by the scaffold fix round, C-0064)", "plat/packages/testkit/test/scanner/", "plat/packages/testkit/baselines/denylist-allow.json (created empty here; handed over to M0-k-07, which fills the reviewed entries)", "plat/bench/src/scan/ (the thin entry; index.ts created empty by the scaffold's fourth fix round, C-0113)", "plat/bench/test/scan/"],
   "counts": { "created": 14, "changed": 2, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/bench/src/scan/index.ts", "status": "changed", "sha256": "0d61699f9c25856c37c03e79d445ec8677f87706effdff8649138bb6c4d25a79", "size": 2730 },
-    { "path": "plat/bench/test/scan/scan.test.ts", "status": "created", "sha256": "2071bfa4738aea8fec72df04e0c3e205c2b05a3951b5aae09273cace310c216a", "size": 8792 },
+    { "path": "plat/bench/test/scan/scan.test.ts", "status": "created", "sha256": "2cf2ba59102c695483d56e05f614a16feb2dc8b6922d05770eb4e3cf2be999ad", "size": 9157 },
     { "path": "plat/packages/testkit/baselines/denylist-allow.json", "status": "created", "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570", "size": 3 },
     { "path": "plat/packages/testkit/src/scanner/allow.ts", "status": "created", "sha256": "86be5e587971f35e1d1af45f08821fa404019e98c2e5b9ab6dc8411256ea2983", "size": 4463 },
     { "path": "plat/packages/testkit/src/scanner/cli.ts", "status": "created", "sha256": "692d334353ec0485b845ddce1aafd29297a4d8adee30031741497ef49fd18ab9", "size": 4124 },
@@ -30,8 +30,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0277", "L-0283", "L-0607"],
-      "lines": ["ac5dc18a381ac173", "1e633254e81e2072", "6a75ac479977455e"],
+      "ids": ["L-0277", "L-0283", "L-0607", "L-0739"],
+      "lines": ["ac5dc18a381ac173", "1e633254e81e2072", "6a75ac479977455e", "291b98d053976f95"],
       "removed": []
     },
     {
