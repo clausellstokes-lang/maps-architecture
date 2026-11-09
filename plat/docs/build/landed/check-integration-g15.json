@@ -1,22 +1,22 @@
 {
   "schema": "plat-landed-record/1",
   "item": "check-integration-g15",
-  "lane": "check/integration-flow-7-g15",
-  "lanes": ["check/integration-flow-7-g15"],
+  "lane": "check/integration-flow-7-g15-close",
+  "lanes": ["check/integration-flow-7-g15", "check/integration-flow-7-g15-close"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-02T05:23:48.097Z",
+  "date": "2026-11-09T22:33:23.849Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/integration-g15.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/integration-g15.md", "status": "created", "sha256": "1f9975645e62b060add80d9f1397fb0231519c53b5f465170d2aec494beaf5b5", "size": 15561 }
+    { "path": "plat/docs/build/checks/integration-g15.md", "status": "created", "sha256": "0b1a85911d7a5fc0e8f8b819287834134f5669c5ce322972ea201e3d59e266c0", "size": 10311 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0732"],
-      "lines": ["41889ab5c2a3db29"],
+      "ids": ["L-0732", "L-0741"],
+      "lines": ["41889ab5c2a3db29", "bbeb1cf5d216f226"],
       "removed": []
     }
   ]
