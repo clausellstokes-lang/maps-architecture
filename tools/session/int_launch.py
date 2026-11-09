@@ -41,7 +41,7 @@ def main():
     out_json = f'$S/int-g{g}.json'
     prev_arg = f' "$(cat {a.prev_lines})"' if a.prev_lines else ''
     head = f' (its head {a.head} or later)' if a.head else ''
-    prompt = f"""You are child {a.letter} of the Maps programme's managing session (the parent: {a.parent}, Fable 5.1, on this account). The repository is cloned at {R} on the design branch{head}. Read {R}/tools/session/child-recipe.md and {R}/tools/session/child-resume-2026-10-20.md WHOLE first; both are binding, with the ROUND REPLACED as below: this child runs ONE stage-group INTEGRATION CHECK of the flow flow-7 (J173; J695 (1)), not a build / check round — there is no spec entry, no BRIEF rendered by render.mjs, no FROM, no build seat.
+    prompt = f"""You are child {a.letter} of the Maps programme's managing session (the parent: {a.parent}, on this account). The repository is cloned at {R} on the design branch{head}. Read {R}/tools/session/child-recipe.md and {R}/tools/session/child-resume-2026-10-20.md WHOLE first; both are binding, with the ROUND REPLACED as below: this child runs ONE stage-group INTEGRATION CHECK of the flow flow-7 (J173; J695 (1)), not a build / check round — there is no spec entry, no BRIEF rendered by render.mjs, no FROM, no build seat.
 
 LETTER = {a.letter}
 GROUP = {g}; ITEMS = {json.dumps(ids)} (each already passed its own independent check); BUSY = {json.dumps(busy)} (items other seats are building, checking or fixing right now; their files are work in progress — a red there is a note, never the group's verdict).

@@ -16,7 +16,7 @@ import argparse, json, sys
 
 REPO = 'https://github.com/clausellstokes-lang/maps-architecture'
 BRANCH = 'claude/great-galileo-b4mzbq'
-PARENT = 'session_01FE9mEvu9PsVihkJBKsh1FB'
+PARENT = 'session_01FE9mEtLt7vrTK6rqujyvUK'  # J714: the managing seat of 2026-11-09 (account 3); --parent overrides
 R = '/home/user/maps-architecture'
 
 
@@ -60,7 +60,7 @@ def main():
     ap.add_argument('--fromdisk', default='no', choices=['yes', 'no'])
     ap.add_argument('--check-model', default='fable', choices=['opus', 'fable'])  # J631: the fable tier back (J624's reversal)
     ap.add_argument('--check-effort', default='high', choices=['high', 'xhigh', 'max'])  # J624: opus one step up (xhigh) while fable was out; J631: back to high
-    ap.add_argument('--build-model', default='opus', choices=['opus', 'sonnet'])
+    ap.add_argument('--build-model', default='', choices=['', 'opus', 'sonnet'])  # J714: unset = sonnet/low for a from-disk return (J390 (3), J631), opus/high for a real build
     ap.add_argument('--extra-setup', default='', help='a setup addition after the step-1 overlay (e.g. a file restored from the design branch)')
     ap.add_argument('--handback-notes', default='machine id, the fitted args, any restart or relaunch, every REPORTED row, whether landed:verify printed ok')
     ap.add_argument('--window-reset', required=True, help='e.g. "2026-10-25 23:10Z"')
@@ -70,6 +70,8 @@ def main():
     ap.add_argument('--out', default='')
     a = ap.parse_args()
 
+    if not a.build_model:
+        a.build_model = 'sonnet' if a.fromdisk == 'yes' else 'opus'
     short_id = a.id.replace('M0-', '')
     brief = f'prompts-{short_id}{a.tag}.json'
     buildlane, checklane, verdict = lanes(a.id, a.lane, a.from_)
@@ -96,7 +98,7 @@ def main():
     fromdisk = ('yes (the round\'s BUILD already LANDED; the build seat returns from disk under the RESUME RULE)' if a.fromdisk == 'yes'
                 else 'no (a real build)')
     head = f" (its head {a.head} or later)" if a.head else ''
-    prompt = f"""You are child {a.letter} of the Maps programme's managing session (the parent: {a.parent}, Fable 5.1, on this account). The repository is cloned at {R} on the design branch{head}. Read {R}/tools/session/child-recipe.md and {R}/tools/session/child-resume-2026-10-20.md WHOLE first; both are binding. Then run the recipe's setup steps 1–7 with these variables:
+    prompt = f"""You are child {a.letter} of the Maps programme's managing session (the parent: {a.parent}, on this account). The repository is cloned at {R} on the design branch{head}. Read {R}/tools/session/child-recipe.md and {R}/tools/session/child-resume-2026-10-20.md WHOLE first; both are binding. Then run the recipe's setup steps 1–7 with these variables:
 
 LETTER = {a.letter}
 ID = {a.id}
@@ -107,12 +109,12 @@ FROM = {a.from_}
 LANE = {lane_arg}
 BRIEF = {brief}
 FROMDISK = {fromdisk}
-SEATS = {json.dumps(seats)}  (J390 / J394 / J624)
+SEATS = {json.dumps(seats)}  (J390 / J631 / J714)
 BUILDLANE / CHECKLANE = {buildlane} / {checklane}.{old_check} Before launching, echo the rendered brief's two lane keys and confirm they equal these.
 VERDICT = {verdict}
 STATE = {a.state} The spec entry {a.id} {a.tag.upper()} in workflows/lane-prompts/session-fix-cloud/specs.json is binding (its "session" clause carries the session's rulings for the round; read it whole in the rendered brief). maxRounds 3.
 
-Deltas you must honour (child-resume-2026-10-20.md): the base is the DESIGN BRANCH origin/{BRANCH} (`git -C $R fetch origin {BRANCH} && git -C $R checkout -q -B main origin/{BRANCH}`{', then the OLD overlay as step 1 says' if a.old else ''}); the scratch for step 4's args is /home/user/maps-scratch/waves (mkdir -p; never the session scratchpad); rsync is absent (cp -a or tar for mirrors); never run pnpm install at the project root. {verify}. Node 24.12.0 per step 2 (the container ships 22). Machine id expected of the class linux:Intel(R) Xeon(R) Processor[ @ <clock>]:4cpu:16gib; if the core or memory counts differ, fit the args to this machine anyway and say so.
+Deltas you must honour (child-resume-2026-10-20.md): the base is the DESIGN BRANCH origin/{BRANCH} (`git -C $R fetch origin {BRANCH} && git -C $R checkout -q -B main origin/{BRANCH}`{', then the OLD overlay as step 1 says' if a.old else ''}); the scratch for step 4's args is /home/user/maps-scratch/waves (mkdir -p; never the session scratchpad); rsync is absent (cp -a or tar for mirrors); never run pnpm install at the project root. J714: the seats wait in FOUR-minute chunks (their brief's WAITING RULE) and a check seat hands a wait over forty minutes to the workflow's waiter (workflows/34-session-fix.js: the check may end 'waiting', a haiku waiter seat follows, then a fresh seat of the same lane) — all inside the one Workflow run, which you neither message nor restart for it. {verify}. Node 24.12.0 per step 2 (the container ships 22). Machine id expected of the class linux:Intel(R) Xeon(R) Processor[ @ <clock>]:4cpu:16gib; if the core or memory counts differ, fit the args to this machine anyway and say so.
 
 The window: this account's five-hour window resets at {a.window_reset}, then five hours after each window's first use. If the seats die of "You've hit your session limit": snapshot once when you can and WAIT — the parent messages the resume after the reset (TaskStop the dead run; confirm the machine id; relaunch step 5 with the same args and the same FROM; restart the snapshot loop; one hand-back). If your container restarts (/home/user/maps-scratch survives, /tmp does not): re-check Node 24 and the install, confirm the machine id, re-render only if it changed, relaunch step 5 with the same args, restart the snapshot loop, and say so in the hand-back; after a second restart, snapshot, message the parent and stop.
 
