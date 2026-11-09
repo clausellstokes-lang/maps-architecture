@@ -516,3 +516,442 @@ indexes; "heavy" is the mix way 0.2 / lane 0.3 / along 0.25. The extra families 
 | N-s7c-3 | **N-9's restated wide bar is a fit again.** On N-9's own multipliers this checker measured work per touched face after the round (seeds 1 – 550). Heavy ×1 299 709 reaches **208** (seed 353 @12, a `clear` touching one face). The lane-heavy mix (way 0.25, lane 0.5) reaches **298** (×999 983 seed 217 @14) and **428** (×1 299 709 seed 350 @12), with counts per face up to 20. `cost.test.ts` asserts work ≤ 200 per touched face on its own seeds, and its comment quotes only those seeds' worst cases (185 / 142 / 160). The comment also says the ratio is bound by ring length, not by a constant, so nothing is misstated, but the quoted constant does not hold on these other seeds. | when M0-d-08 reuses the bar, restate it per ring length walked (C-0189 (6)) or quote these cases | M0-d-08 / M4 |
 | N-s7c-4 | **The Q57 pin does not separate a 2 cm pad from WALK_REACH_CM.** This checker's mutant Q57b (`recordLeftOf`'s box padded 2 cm) survives `test/tx` (287 / 287). The pin's Steiner vertices stand 2 cm off an axis-parallel L1 route. On the integer lattice, a vertex 3 cm off an axis-parallel route is beyond four hot pixels (2.83 cm), so 2 cm reaches every such case (PLAUSIBLE equivalence). A slanted route with a thin box (slope ≈ 1/1 000) is not covered by that argument. | a pin with an L4 Steiner vertex 2.1 – 2.8 cm off a nearly axis-parallel L0 route, or a one-line equivalence argument | M4 (hardening) |
 | — | **Equivalents, judged.** M04 (bump only on a backward restore): a live image never lies ahead of the arena's version. Any restore below an image's version is of an image taken before it, which kills it, so a forward restore is always of a dead image and is refused. K16 (ancestor homes not pre-noted): byte-identical to the tree over 138 620 batches, on the incremental index and on an index rebuilt before every batch. It is unreached, as the author's N-s7-1 says. | none | — |
+
+## Hardening round S8 — the write door (lane `build/M0-a-06-fix-s8`, flow flow-7, 2026-10-31 – 2026-11-01)
+
+Opened by the session as M0-a-06's hardening round S8, ROUND 1A of the kernel amendment z (item 985, the savepoint of
+O(change); J618, the ruling J627 that split round 1 and retracted most of J620): THE WRITE DOOR. Every store into an
+arena column now passes one door (`kernel/src/arena/write.ts`), every replacement of a column's array or a table's object
+is one replacement call there, and a test-side frame observer proves at every in-batch put-back that the door's log
+undoes the frame exactly — while the before-image still does every restore (THIS ROUND CHANGES NO UNDO PATH; S9, round
+1B, makes the log the undo). NO-SHIFT: the roots, the golden and the refusal census are identical (below). The write
+scope is the owns (`kernel/src/tx/`, `kernel/test/tx/`) plus line 2's cross-item scope and nothing else; no ownership
+moves (the session re-lands each lender's record at the landing). The choices row is C-0465. Built in three sittings
+(2026-10-31 08:52 – 09:20, the tree's files; 2026-11-01 18:48, the base mirror found lost — blocked; 2026-11-01 18:54 on,
+the base mirror restored by the parent from the RESUME head, every figure below measured in this sitting).
+
+### The base and the scope
+
+**The base mirror** `/home/user/maps-scratch/waves/base-build-M0-a-06-fix-s8/plat` (the RESUME head's `plat/`, never
+written; kept for the closing checker): every file of the records of M0-a-02, a-03, a-04, a-05, a-06, a-07 and a-13
+equals its record's SHA-256 there (a-05's one `deleted` entry absent), no `arena/write.ts` or `tx/frames.ts`; its links
+are relative (`@plat/kernel` → its own `packages/kernel`). The baseline `landed:verify -- flow-7 --item <each>` printed
+ok for all seven on the RESUME head before the first edit (lane log, 2026-10-31 09:05). M0-work.json's M0-a-06 owns are
+exactly `packages/kernel/src/tx/` and `packages/kernel/test/tx/`; `bench/src/profile/` exists.
+
+**THE SCOPE DIFF** — `/home/user/maps-scratch/waves/scope-build-M0-a-06-fix-s8/<file>.diff` (`diff -u`, base → tree; no
+git), each reverse-applied by this seat with `patch -R` to its base file byte for byte (and `arena/write.ts`'s to nothing):
+
+| scope file | lender | SHA-256 in the base mirror (= the lender's record) | SHA-256 in the tree | diff file, its SHA-256 |
+|---|---|---|---|---|
+| `arena/plat.ts` | M0-a-02 | `790bfbdab06a77c6b5d7e045ee2ed53b00f5b838423ba3c43a88bf1b3e4eed04` (=) | `8cbc50185dae3be254efae713e283a5ee1e1f9112d84af3703f0c06dbfa2e716` | `arena_plat.ts.diff` `ef1c029defad825a…` |
+| `arena/rows.ts` | M0-a-02 | `a81c5e83b7e40396e2ec8d730efc77e3c67076892abb5193cc849e5536dffdc0` (=) | `6e4fc8008887750d95e88799a8d2c7ce0098d98a1804f18cb867b5b3db1d6861` | `arena_rows.ts.diff` `ff6fc4690008875f…` |
+| `arena/tables.ts` | M0-a-02 | `340c28da8e98ca7fb25f1457212cfec786a1a57065b676f1ff81432ae8bd4c8e` (=) | `295b6768f02ebca83da941ed4fd75e8be9f89c3cf717daa724957921772ae82e` | `arena_tables.ts.diff` `7f443cb2c9d113e9…` |
+| `arena/handles.ts` | M0-a-02 | `947f1954f4f337270b20dcb0ee540f28995e42827f630223fdac51fbbc1a6d40` (=) | `5d7dbd099904aa79940248d83b10029d1c534490aee6a909d88574ef19759761` | `arena_handles.ts.diff` `dc847af3656fdf5a…` |
+| `index/items.ts` | M0-a-03 | `94455f89ee915afa72cf64c2fd10ceb84be5b491c8c9c41d7f1a6f3f2367fafa` (=) | `56965b948e1eaf31c9a7a1abd9d338ebf657091a53fe4c36853ff564cc4830d6` | `index_items.ts.diff` `06b03e5f995f6b61…` |
+| `insert/splitThrough.ts` | M0-a-04 | `5e25e4f7191355e9515c54625358c54028e44c014759c50025a20db497fe869c` (=) | `9063cb70e3eb96494c898bbca72383423bad0164416a0d7e29b98d9e941440ab` | `insert_splitThrough.ts.diff` `3bffadc651e1a5f3…` |
+| `insert/insertChain.ts` | M0-a-05 | `ebb86dfca59d55cfdaa1bc359d93987997b674ca0ebdcb61ede71d10a94071fb` (=) | `8694f221d8bbe98eabea7581dc2f859905c323a3297bd2564159ceaf6ba5cb84` | `insert_insertChain.ts.diff` `d79d4c69245a1a8b…` |
+| `insert/rewalk.ts` | M0-a-05 | `5fdbaeca078d26be454d48a9783b935ecc4e0498ce11103a914bd05687e88d0a` (=) | `c676fa83b4634d27b641578ea961fc6031606a0ed746a08ba7b555cf6ca6fbec` | `insert_rewalk.ts.diff` `7737c36d0629e71d…` |
+| `insert/snapRound.ts` | M0-a-05 | `ed12df7a85583492607decdf2f2b838b09a08628ebf1bc93c8c7f8e65dc33adb` (=) | `1a208c881f8b5d64abd83cc7dbde2db3bd50893f81f6ed1e24e99007c0e37741` | `insert_snapRound.ts.diff` `67bbff3619d9bf4e…` |
+| `insert/stretch.ts` | M0-a-05 | `342689f26974954d302b60a0006f6bcc5850ff804ef39feb98985b23e1b03c1f` (=) | `85a8a22cf85941d925d7e461048bb38e47b843dc7efb3476cd6b6ec3ac5f28d3` | `insert_stretch.ts.diff` `a7c8eb38fb1a33b5…` |
+| `faces/split.ts` | M0-a-07 | `87a2a3ec0366f870833fa7dab9670afa00132a2c5bcb869dfa67561f283d3567` (=) | `345f3d65048411364a3b8a0ffa349570484d75f711b462d526b1475a0805c3e2` | `faces_split.ts.diff` `3901a8e55b59cb50…` |
+| `faces/merge.ts` | M0-a-07 | `9917c862c49fe51c631fea2daf8ac6c34f38ee4648253fec2cb40830f3c84b28` (=) | `ee235a69d9c908f73200b98cbd0edba31ca8e9aa77607e2ab3bee140c28ac0e3` | `faces_merge.ts.diff` `5ea7fef3791ba97b…` |
+| `faces/claim.ts` | M0-a-07 | `715fb6d9a28d0d34b1f18e96917884ad05308dae2f2f5e1754ab1b966963dc74` (=) | `aedd880e5c01aed823fd04e8a52d0846fffda375c648a1505cce86a65e3052c3` | `faces_claim.ts.diff` `d2f4279806b8e86b…` |
+| `warp/warp.ts` | M0-a-13 | `b16d3a596acd8607e851e4b3ec2cce22185dde3ef120a6f41d79c7c53afa8390` (=) | `3845540cd1eac4fd2bc5a75c2fdda3daf9cedd5fd7dfcc1c6162c7c9627157b4` | `warp_warp.ts.diff` `e1eef90ddd2d4f85…` |
+| `arena/write.ts` (NEW) | M0-a-02 (no record yet) | — (absent) | `fdc7c848af79976eea2957cf3c915d10989f6e97b4ab208c17ef705860b1da55` | `arena_write.ts.diff` (against /dev/null) `a3c3031adaffb34b…` |
+
+No other file of another item changed; the owns' changed files are `tx/tx.ts`, `tx/savepoint.ts` (the observer's frame
+points), `tx/relevel.ts`, `tx/writers.ts` (their stores), `tx/frames.ts` (new), and in `test/tx/` `support.ts`,
+`savepoint.test.ts`, `source.test.ts` (the folder list gains `frames.ts`), `door.test.ts`, `write-door.test.ts`,
+`door-scan.ts`, `oracle.test.ts` (new).
+
+### Row by row
+
+| row | outcome | the change | evidence (pin; its mutant) |
+|---|---|---|---|
+| LINE 1 — the door | **FIXED, pinned** | `arena/write.ts` (by path; `arena/index.ts` gains no line): (a) 81 column ids — vertices x, y, out, level, flags; halfEdges origin, next, prev, level; roles edgeFirst … nextSameKey; indexHome vertex, edge (0 – 18); per level l `faces[l]` outer … nextOfOwner and `indexHome.face[l]` (19 + 9 l + k); roles.head k0, k1, first (64 – 66); `faces[l].ownerHead` owner, head (67 + 2 l + 0 / 1); handles units, start, hash, slots (77 – 80) — and the object ids `p.vertices` (81), `p.halfEdges` (82); `columnOf(p, id)` reads the path from the Plat at each call. (b) one typed setter per id, the column fixed in its body, in the three forms `(p, slot, x)`, `(p, level, slot, x)`, `(table, slot, x)`; a table reaches its arena through the REGISTRY (a WeakMap from `p.roles.head`, every `p.faces[l].ownerHead` and `p.handles`, filled at attach, emptied at detach); an unregistered table stores plainly; no exported signature changed. No generic `w(p, id, …)` form exists, so no micro-benchmark is owed. (c) one replacement call per array or object a growth, a rehash or the pool swap replaces, logging the replaced reference before the assignment. (d) saved by value at `markArena`: the four SlotCounters whole (vertex, pair, face[0 … 4], role), `holesTop[0 … 4]`, the version, `p.frame` by reference, and the counts of roles.head, each ownerHead and the handle table. (e) `attachRecorder` / `detachRecorder` / `markArena` / `undoArena` (one entry at a time from the end, apply then cut — the log's and the side list's lengths become the entry's — then the saved values), the test-only fault hook `setUndoFaultHook` (null in production; one check per undone entry, after its cut), `forEachEntry` and `entryCounts`; the log is parallel Int32Arrays (id / slot / old, doubled) plus a side list, a replacement entry's slot −1 and its old field the side list's index. The recorder lives in a WeakMap keyed by the Plat; a module-level count of attached recorders makes the production path one comparison and the store. (f) nothing in the kernel reads the log in S8. (g) every store is logged, fresh slots included. | `test/tx/door.test.ts` (10 tests, kernel and kernel-tiny): one setter per id and `columnOf` = the path (I1 red: 8 tests); every setter's sentinel reads back from its column and changes only its line of `arenaBits`; each setter's entry undone to its mark; growths of every slot table, rehashes of roles.head, an ownerHead and handles.slots and a pool compaction undone to the mark (H1, P1 red, both modes); an undo interrupted right after a roles.head rehash's replacement entries, and one right after a pool swap, resumes to the mark (U1 — the log cut once at the end — red: `expected 5719 to be 2776`); `forEachEntry`'s order and `entryCounts`; an unregistered table logs nothing; an attached-and-detached Plat `toEqual` / `structuredClone`-equal to its twin; a second attach refused. |
+| LINE 2 — the census and the scope | **FIXED** (every site converted; none REPORTED) | Each slot store became one typed-setter call and each replacement one replacement call where the assignment stood; each converted file gained one import of the door (`'../arena/write.js'`, `'./write.js'` inside arena/); alias bindings left without a use were deleted (allocVertex's, allocEdgePair's, freeEdgePair's and freeFace's `t`), aliases kept for reads stay. compactHoles' bulk `t.holesStart.set(starts)` became a loop of holesStart setter calls over the level's face slots below its counter's `top` whose start changes, and its pool swap one `replaceFacesHoles`; the RE-READ RULE comment (plat.ts) gained its one sentence. **The census, type-checked, on the base mirror** (this seat's `door-scan.ts` — the guard's scan, which resolves every alias from its declaration — over the 567 source files of `packages/*/src` and `bench/src`): 270 stores of every form; in the scope **175 slot stores** (plat.ts 47, tables.ts 20, rows.ts 17, handles.ts 5, items.ts 3, splitThrough.ts 13, insertChain.ts 2, rewalk.ts 4, snapRound.ts 11, stretch.ts 15, split.ts 2, merge.ts 1, claim.ts 1, warp.ts 4, relevel.ts 28, writers.ts 2 — J627's census exactly), **31 replacements** (plat.ts 22, tables.ts 5, handles.ts 4) and **1 bulk store** (plat.ts:691); outside it, not converted: io/compact.ts 25 and io/decode.ts 4 (they store only into a Plat they create; compactSlots refuses an arena with a batch open), tx/savepoint.ts 30 (an image's put-back), index/spatial.ts 3 (attachIndex's fills, no batch open), layout/src/pipeline/runner.ts 1 (`p.faces[lv.level].stage[f] = rank`, after the commit, no frame open). No store in any other item's file outside the scope (nothing REPORTED). No dead-array case: no allocation lies between an alias's binding and a store through it (warp.ts X / Y, stretch.ts L, relevel.ts L — relevel.ts allocates no vertex; the roots and the golden identical confirm it). On the tree the same scan finds 169 stores, every one in arena/write.ts (106) or an allowlisted file or function. THE TABLE below lists all 207 scope sites. | line 3's guard (R1 red naming `arena/rows.ts:140 [store] (writeRow) p.roles.kind[r] = role`; W1 red naming `warp/warp.ts:444 [store] (commitStep) X[v] = view.x(v)`) and line 4's check B (every mutant of line 4 (f) below). |
+| LINE 3 — the guard | **FIXED, pinned** | `test/tx/write-door.test.ts` + its scan `test/tx/door-scan.ts` (a TypeScript-checker program over every package's `src/` and `bench/src`, M0-e-03's one-door form): a COLUMN is a typed-array property of VertexTable, HalfEdgeTable, LevelFaces, RoleTable, IndexHome, RoleHeadTable, OwnerTable or HandleTable (declared under kernel/src/arena/), an element of `IndexHome.face`, an identifier bound to one (const / let / object or array destructuring / for-of over a column tuple), or a `.subarray` view; flagged: `=` and every compound operator (the checker's assignment-operator range), `++` / `--`, the bulk methods, a column passed to a function declared under the scanned roots that stores into that parameter (followed four calls deep, flagged at the call site; none on the tree), and every replacement of a column array or table object outside arena/write.ts. The counts, SlotCounters, holesTop, the version, the frame and p.index are not flagged (the probe holds three such writes). THE ALLOWLIST, each with its reason: by file — arena/write.ts, io/compact.ts, io/decode.ts, tx/savepoint.ts; by file, function and normalised text — index/spatial.ts attachIndex `p.indexHome.vertex.fill(-1)`, `p.indexHome.edge.fill(-1)`, `col.fill(-1)`; layout/src/pipeline/runner.ts `run > batch` `p.faces[lv.level].stage[f] = rank`. A stale entry fails the test, naming it. The planted probe (two in-memory files through the same compiler host, one under kernel/src/tx/, one under layout/src/pipeline/): dotted, compound `|=`, `++`, chained index, alias, destructured alias, for-of alias, bulk `fill`, subarray view, a column passed to a storing helper, a replacement, a non-kernel package's store — each named; the door call and the three count writes not. The file makes a VALUE import of the kernel barrel (`kernel.createPlat` read), so `vitest related` selects it for every kernel source; it runs in kernel and kernel-tiny. | the guard on the tree: 569 files, 169 stores, 0 outside, 0 stale (7.1 s); the probe test (12 findings exactly); mutants R1 and W1 (above) red in both projects. |
+| LINE 4 — the frame observer and the oracle | **FIXED, pinned** | (a) `tx/frames.ts` (by path; joins source.test.ts's folder list): a hook `frameObserver`, null in production — `tx.ts` open() calls `batchOpen` after `takeSavepoint` and before `beginIndexBatch`, and `commit` before `endIndexBatch`; `savepoint.ts` `takeSavepoint` calls `opOpen` when a batch is open on the arena (p.index.log not null), `putBack` calls `beforePutBack` after its three refusal checks and `afterPutBack` at its end. (b) `test/tx/support.ts`: `bits` = `arenaBits` (the version, the frame, the slots, every column to its capacity labelled by its path, the hash tables with their counts, indexHome, the handle table) + `indexBits` (every Map and Set sorted by key); `installFrameObserver` (also at import under PLAT_UNDO_ORACLE=1, with an afterEach that fails the test a failure occurred in and an afterAll printing the file's counts): attaches the recorder as a batch opens and detaches it at the commit or the batch's put-back; at every mark keeps `markArena` and `bits`; before a marked image's put-back runs `undoArena` to the mark and compares `arenaBits` (CHECK B), after it compares `bits` whole (CHECK A); a put-back discards the marks above it (a dropped frame's stores are replayed by its parent's undo); a mismatch or a throw is recorded (the frame's kind and the first differing column and slot, or line) and never escapes into the kernel; a dry-run frame is an op frame whose stack holds kerb.ts's `dryInsert`. (c) `test/tx/oracle.test.ts`: PLAT_FUZZ_RUNS batches (10⁴ at the PR size), sequences of 12 on a fresh framed arena, 40 % fuzzgen.ts's six ops (ALONG_MIX), 60 % L1 batches of 1 – 3 ops drawn from splitFace (straight or bent cuts), an isolated closed ring (the re-walk's setFaceHoles), connectHole, mergeFaces (a committed split's two faces), absorbSliver (its residue path), pinVertices, claimSubFace, radialSplit, ringBand, a kerb read on a live L1 face bounded by ways of half-width 60 cm (the dry run), a warp step (commitStep) and re-owns; each op first inside an op frame rolled back (60 %), or under a frame dropped (20 %), then run to commit; 30 % of batches wrap all their ops in an outer frame rolled back first; every batch first rejected, then re-run to commit; never takeSavepoint / restoreSavepoint inside a batch. Between batches, drawn (p 0.3), the index is rebuilt as at a stage's end (`rebuildAtStageEnd`, no frame open), so later frames tombstone static copies and index/items.ts's home stores run inside undone frames. It asserts no failure, marks compared > 0 for each frame kind, and in tiny mode at least one undone growth of vertices, pairs, role rows, faces at L1 – L3, one rehash of roles.head, of the ownerHead of L1 and L2 and of handles.slots, and one compaction of the L1 and L2 pools. (d) savepoint.test.ts 'S8 line 4 (d)' (each in both modes): inner frame rolled back then outer; inner dropped then outer rolled back; a kerb read inside an op that commits and one that rolls back; splitFace's frame dropped on success then the batch's reject; a batch rejected with dropped frames above it; a frame that grows the vertex, pair, face and role-row tables, rehashes roles.head, an ownerHead and handles.slots and compacts a pool, rolled back; a warp step committed in a batch then rejected (this seat strengthened it: displacement x 20 / y 30 — at x 0 commitStep's x store wrote its old value and W1 survived the pin); two arenas' logs apart and a scratch arena (`buildOverlay`) inside a batch; a planted direct store that CHECK B names by column and slot. checkIndexBatch is unchanged and green. | oracle at the PR size: default 10 000 batches (7 970 committed, 2 030 refused, 0 thrown, 3 251 index partitions rebuilt between batches), 133 s, marks compared batch 14 565 / op 29 602 / dry-run 3 202; tiny 10 000 batches (7 924 / 2 076 / 0 thrown), 111 s, compared 14 580 / 30 188 / 3 232, and undone inside frames: vertices grown 74 426 times, pairs 105 111, role rows 125 074, faces L1 17 719 / L2 17 889 / L3 188, roles.head rehashed 12 273, the ownerHead of L1 3 811 / L2 989 / L3 33, handles.slots 12 347, the pools compacted L1 4 299 / L2 2 083 / L3 64 (final NEAR's run, seed 1 645 538 525); every op of the generator succeeded at least 300 times in each mode (connectHole 310 / 334 the fewest); the mutants of line 4 (f) all red (the self-check table); the observer over the other suites (e) below. |
+| LINE 5 — no output moves | **MEASURED: identical** | none (a measurement row) | roots, golden, census, gates and cost below. |
+
+### Line 2's table: every scope site on the RESUME head → its door call in the tree
+
+Generated from the base census (`door-scan.ts` over the base mirror: file:line, form, enclosing function, the store's
+normalised text) and the scope diffs (each site paired with the added line of its hunk); the closing checker re-derives
+it from the diffs. `:n` is the tree's line.
+
+| site (base) | form | function | the store | the door call (tree) |
+|---|---|---|---|---|
+| `arena/handles.ts:70` | replace | growSlots | `t.slots = new Int32Array(cap).fill(-1)` | `:80` `replaceHandlesSlots(t, new Int32Array(cap).fill(-1));` |
+| `arena/handles.ts:75` | store | growSlots | `t.slots[i] = h` | `:85` `setHandlesSlots(t, i, h);` |
+| `arena/handles.ts:90` | replace | internId | `t.start = start` | `:100` `replaceHandlesStart(t, start);` |
+| `arena/handles.ts:93` | replace | internId | `t.hash = hashes` | `:103` `replaceHandlesHash(t, hashes);` |
+| `arena/handles.ts:101` | replace | internId | `t.units = units` | `:111` `replaceHandlesUnits(t, units);` |
+| `arena/handles.ts:103` | store | internId | `t.units[at + k] = id.charCodeAt(k)` | `:113` `for (let k = 0; k < id.length; k++) setHandlesUnits(t, at + k, id.charCodeAt(k));` |
+| `arena/handles.ts:104` | store | internId | `t.start[h + 1] = at + id.length` | `:114` `setHandlesStart(t, h + 1, at + id.length);` |
+| `arena/handles.ts:105` | store | internId | `t.hash[h] = hash | 0` | `:115` `setHandlesHash(t, h, hash | 0);` |
+| `arena/handles.ts:111` | store | internId | `t.slots[i] = h` | `:121` `setHandlesSlots(t, i, h);` |
+| `arena/plat.ts:360` | replace | growVertices | `p.vertices = { x: grow32(v.x, cap, 0), y: grow32(v.y, cap, 0), out: grow32(v.out, cap, -1), level: growU8(v.level, cap, 0), flags: growU8(v.flags, cap, VERTEX_FREE) }` | `:405` `replaceVertices(p, { x: grow32(v.x, cap, 0), y: grow32(v.y, cap, 0), out: grow32(v.out, cap, -1), level: growU8(v.level, cap, 0), flags: growU8(v.flags, cap, VERTEX_FREE) });` |
+| `arena/plat.ts:361` | replace | growVertices | `p.roles.vertexFirst = grow32(p.roles.vertexFirst, cap, -1)` | `:406` `replaceRolesVertexFirst(p, grow32(p.roles.vertexFirst, cap, -1));` |
+| `arena/plat.ts:362` | replace | growVertices | `p.indexHome.vertex = grow16(p.indexHome.vertex, cap, -1)` | `:407` `replaceIndexHomeVertex(p, grow16(p.indexHome.vertex, cap, -1));` |
+| `arena/plat.ts:368` | replace | growPairs | `p.halfEdges = { origin: grow32(h.origin, 2 * cap, -1), next: grow32(h.next, 2 * cap, -1), prev: grow32(h.prev, 2 * cap, -1), level: growU8(h.level, cap, 0) }` | `:413` `replaceHalfEdges(p, { origin: grow32(h.origin, 2 * cap, -1), next: grow32(h.next, 2 * cap, -1), prev: grow32(h.prev, 2 * cap, -1), level: growU8(h.level, cap, 0) });` |
+| `arena/plat.ts:369` | replace | growPairs | `p.roles.edgeFirst = grow32(p.roles.edgeFirst, cap, -1)` | `:414` `replaceRolesEdgeFirst(p, grow32(p.roles.edgeFirst, cap, -1));` |
+| `arena/plat.ts:370` | replace | growPairs | `p.indexHome.edge = grow16(p.indexHome.edge, cap, -1)` | `:415` `replaceIndexHomeEdge(p, grow16(p.indexHome.edge, cap, -1));` |
+| `arena/plat.ts:376` | replace | growFaces | `f.outer = grow32(f.outer, cap, -1)` | `:421` `replaceFacesOuter(p, level, grow32(f.outer, cap, -1));` |
+| `arena/plat.ts:377` | replace | growFaces | `f.holesStart = grow32(f.holesStart, cap, -1)` | `:422` `replaceFacesHolesStart(p, level, grow32(f.holesStart, cap, -1));` |
+| `arena/plat.ts:378` | replace | growFaces | `f.kind = growU16(f.kind, cap, FREE_KIND)` | `:423` `replaceFacesKind(p, level, growU16(f.kind, cap, FREE_KIND));` |
+| `arena/plat.ts:379` | replace | growFaces | `f.owner = grow32(f.owner, cap, -1)` | `:424` `replaceFacesOwner(p, level, grow32(f.owner, cap, -1));` |
+| `arena/plat.ts:380` | replace | growFaces | `f.parent = grow32(f.parent, cap, -1)` | `:425` `replaceFacesParent(p, level, grow32(f.parent, cap, -1));` |
+| `arena/plat.ts:381` | replace | growFaces | `f.stage = growU8(f.stage, cap, 0)` | `:426` `replaceFacesStage(p, level, growU8(f.stage, cap, 0));` |
+| `arena/plat.ts:382` | replace | growFaces | `f.nextOfOwner = grow32(f.nextOfOwner, cap, -1)` | `:427` `replaceFacesNextOfOwner(p, level, grow32(f.nextOfOwner, cap, -1));` |
+| `arena/plat.ts:383` | replace | growFaces | `p.indexHome.face[level] = grow16(p.indexHome.face[level], cap, -1)` | `:428` `replaceIndexHomeFace(p, level, grow16(p.indexHome.face[level], cap, -1));` |
+| `arena/plat.ts:390` | replace | growRoleRows | `r.kind = growU16(r.kind, cap, FREE_KIND)` | `:435` `replaceRolesKind(p, growU16(r.kind, cap, FREE_KIND));` |
+| `arena/plat.ts:391` | replace | growRoleRows | `r.entity = grow32(r.entity, cap, -1)` | `:436` `replaceRolesEntity(p, grow32(r.entity, cap, -1));` |
+| `arena/plat.ts:392` | replace | growRoleRows | `r.level = growU8(r.level, cap, 0)` | `:437` `replaceRolesLevel(p, growU8(r.level, cap, 0));` |
+| `arena/plat.ts:393` | replace | growRoleRows | `r.ordinal = growU16(r.ordinal, cap, 0)` | `:438` `replaceRolesOrdinal(p, growU16(r.ordinal, cap, 0));` |
+| `arena/plat.ts:394` | replace | growRoleRows | `r.nextInSet = grow32(r.nextInSet, cap, -1)` | `:439` `replaceRolesNextInSet(p, grow32(r.nextInSet, cap, -1));` |
+| `arena/plat.ts:395` | replace | growRoleRows | `r.nextSameKey = grow32(r.nextSameKey, cap, -1)` | `:440` `replaceRolesNextSameKey(p, grow32(r.nextSameKey, cap, -1));` |
+| `arena/plat.ts:457` | store | allocVertex | `t.x[v] = at.x` | `:501` `setVerticesX(p, v, at.x);` |
+| `arena/plat.ts:458` | store | allocVertex | `t.y[v] = at.y` | `:502` `setVerticesY(p, v, at.y);` |
+| `arena/plat.ts:459` | store | allocVertex | `t.out[v] = -1` | `:503` `setVerticesOut(p, v, -1);` |
+| `arena/plat.ts:460` | store | allocVertex | `t.level[v] = level` | `:504` `setVerticesLevel(p, v, level);` |
+| `arena/plat.ts:461` | store | allocVertex | `t.flags[v] = flags` | `:505` `setVerticesFlags(p, v, flags);` |
+| `arena/plat.ts:462` | store | allocVertex | `p.roles.vertexFirst[v] = -1` | `:506` `setRolesVertexFirst(p, v, -1);` |
+| `arena/plat.ts:463` | store | allocVertex | `p.indexHome.vertex[v] = -1` | `:507` `setIndexHomeVertex(p, v, -1);` |
+| `arena/plat.ts:473` | store | freeVertex | `p.vertices.flags[v] = VERTEX_FREE` | `:517` `setVerticesFlags(p, v, VERTEX_FREE);` |
+| `arena/plat.ts:474` | store | freeVertex | `p.vertices.out[v] = s.free` | `:518` `setVerticesOut(p, v, s.free);` |
+| `arena/plat.ts:475` | store | freeVertex | `p.vertices.level[v] = 0` | `:519` `setVerticesLevel(p, v, 0);` |
+| `arena/plat.ts:499` | store | allocEdgePair | `t.origin[h] = a` | `:542` `setHalfEdgesOrigin(p, h, a);` |
+| `arena/plat.ts:500` | store | allocEdgePair | `t.origin[h + 1] = b` | `:543` `setHalfEdgesOrigin(p, h + 1, b);` |
+| `arena/plat.ts:501` | store | allocEdgePair | `t.next[h] = -1` | `:544` `setHalfEdgesNext(p, h, -1);` |
+| `arena/plat.ts:502` | store | allocEdgePair | `t.next[h + 1] = -1` | `:545` `setHalfEdgesNext(p, h + 1, -1);` |
+| `arena/plat.ts:503` | store | allocEdgePair | `t.prev[h] = -1` | `:546` `setHalfEdgesPrev(p, h, -1);` |
+| `arena/plat.ts:504` | store | allocEdgePair | `t.prev[h + 1] = -1` | `:547` `setHalfEdgesPrev(p, h + 1, -1);` |
+| `arena/plat.ts:505` | store | allocEdgePair | `t.level[e] = level` | `:548` `setHalfEdgesLevel(p, e, level);` |
+| `arena/plat.ts:506` | store | allocEdgePair | `p.roles.edgeFirst[e] = -1` | `:549` `setRolesEdgeFirst(p, e, -1);` |
+| `arena/plat.ts:507` | store | allocEdgePair | `p.indexHome.edge[e] = -1` | `:550` `setIndexHomeEdge(p, e, -1);` |
+| `arena/plat.ts:519` | store | freeEdgePair | `t.origin[2 * e] = -1` | `:561` `setHalfEdgesOrigin(p, 2 * e, -1);` |
+| `arena/plat.ts:520` | store | freeEdgePair | `t.origin[2 * e + 1] = -1` | `:562` `setHalfEdgesOrigin(p, 2 * e + 1, -1);` |
+| `arena/plat.ts:521` | store | freeEdgePair | `t.next[2 * e] = s.free` | `:563` `setHalfEdgesNext(p, 2 * e, s.free);` |
+| `arena/plat.ts:522` | store | freeEdgePair | `t.next[2 * e + 1] = -1` | `:564` `setHalfEdgesNext(p, 2 * e + 1, -1);` |
+| `arena/plat.ts:523` | store | freeEdgePair | `t.prev[2 * e] = -1` | `:565` `setHalfEdgesPrev(p, 2 * e, -1);` |
+| `arena/plat.ts:524` | store | freeEdgePair | `t.prev[2 * e + 1] = -1` | `:566` `setHalfEdgesPrev(p, 2 * e + 1, -1);` |
+| `arena/plat.ts:525` | store | freeEdgePair | `t.level[e] = 0` | `:567` `setHalfEdgesLevel(p, e, 0);` |
+| `arena/plat.ts:566` | store | allocFace | `t.outer[f] = init.outer` | `:608` `setFacesOuter(p, level, f, init.outer);` |
+| `arena/plat.ts:567` | store | allocFace | `t.holesStart[f] = -1` | `:609` `setFacesHolesStart(p, level, f, -1);` |
+| `arena/plat.ts:568` | store | allocFace | `t.kind[f] = init.kind` | `:610` `setFacesKind(p, level, f, init.kind);` |
+| `arena/plat.ts:569` | store | allocFace | `t.owner[f] = -1` | `:611` `setFacesOwner(p, level, f, -1);` |
+| `arena/plat.ts:570` | store | allocFace | `t.parent[f] = init.parent` | `:612` `setFacesParent(p, level, f, init.parent);` |
+| `arena/plat.ts:571` | store | allocFace | `t.stage[f] = init.stage` | `:613` `setFacesStage(p, level, f, init.stage);` |
+| `arena/plat.ts:572` | store | allocFace | `t.nextOfOwner[f] = -1` | `:614` `setFacesNextOfOwner(p, level, f, -1);` |
+| `arena/plat.ts:573` | store | allocFace | `p.indexHome.face[level][f] = -1` | `:615` `setIndexHomeFace(p, level, f, -1);` |
+| `arena/plat.ts:585` | store | freeFace | `t.outer[f] = -1` | `:626` `setFacesOuter(p, level, f, -1);` |
+| `arena/plat.ts:586` | store | freeFace | `t.holesStart[f] = -1` | `:627` `setFacesHolesStart(p, level, f, -1);` |
+| `arena/plat.ts:587` | store | freeFace | `t.kind[f] = FREE_KIND` | `:628` `setFacesKind(p, level, f, FREE_KIND);` |
+| `arena/plat.ts:588` | store | freeFace | `t.parent[f] = -1` | `:629` `setFacesParent(p, level, f, -1);` |
+| `arena/plat.ts:589` | store | freeFace | `t.stage[f] = 0` | `:630` `setFacesStage(p, level, f, 0);` |
+| `arena/plat.ts:590` | store | freeFace | `t.nextOfOwner[f] = s.free` | `:631` `setFacesNextOfOwner(p, level, f, s.free);` |
+| `arena/plat.ts:635` | store | setFaceOwner | `t.nextOfOwner[pred] = t.nextOfOwner[f]` | `:676` `if (pred !== -1) setFacesNextOfOwner(p, level, pred, t.nextOfOwner[f]);` |
+| `arena/plat.ts:641` | store | setFaceOwner | `t.owner[f] = owner` | `:682` `setFacesOwner(p, level, f, owner);` |
+| `arena/plat.ts:642` | store | setFaceOwner | `t.nextOfOwner[f] = newFirst` | `:683` `setFacesNextOfOwner(p, level, f, newFirst);` |
+| `arena/plat.ts:691` | bulk | compactHoles | `t.holesStart.set(starts)` | `:732` `for (let f = 0; f < top; f++) if (t.holesStart[f] !== starts[f]) setFacesHolesStart(p, level, f, starts[f]);` |
+| `arena/plat.ts:692` | replace | compactHoles | `t.holes = packed` | `:733` `replaceFacesHoles(p, level, packed);` |
+| `arena/plat.ts:708` | store | setFaceHoles | `t.holesStart[f] = -1` | `:749` `setFacesHolesStart(p, level, f, -1);` |
+| `arena/plat.ts:719` | replace | setFaceHoles | `t.holes = grow32(t.holes, cap, -1)` | `:760` `replaceFacesHoles(p, level, grow32(t.holes, cap, -1));` |
+| `arena/plat.ts:722` | store | setFaceHoles | `t.holesStart[f] = top` | `:763` `setFacesHolesStart(p, level, f, top);` |
+| `arena/plat.ts:723` | store | setFaceHoles | `t.holes[top + i] = holes[i]` | `:764` `for (let i = 0; i < holes.length; i++) setFacesHoles(p, level, top + i, holes[i]);` |
+| `arena/plat.ts:724` | store | setFaceHoles | `t.holes[top + holes.length] = -1` | `:765` `setFacesHoles(p, level, top + holes.length, -1);` |
+| `arena/rows.ts:41` | store | setFirst | `p.roles.edgeFirst[element] = row` | `:51` `if (kind === 'edge') setRolesEdgeFirst(p, element, row);` |
+| `arena/rows.ts:42` | store | setFirst | `p.roles.vertexFirst[element] = row` | `:52` `else setRolesVertexFirst(p, element, row);` |
+| `arena/rows.ts:130` | store | writeRow | `t.kind[r] = role` | `:140` `setRolesKind(p, r, role);` |
+| `arena/rows.ts:131` | store | writeRow | `t.entity[r] = entity` | `:141` `setRolesEntity(p, r, entity);` |
+| `arena/rows.ts:132` | store | writeRow | `t.level[r] = level` | `:142` `setRolesLevel(p, r, level);` |
+| `arena/rows.ts:133` | store | writeRow | `t.ordinal[r] = ordinal` | `:143` `setRolesOrdinal(p, r, ordinal);` |
+| `arena/rows.ts:134` | store | writeRow | `t.nextInSet[r] = at.cur >= 0 ? at.cur : -2 - at.e` | `:144` `setRolesNextInSet(p, r, at.cur >= 0 ? at.cur : -2 - at.e);` |
+| `arena/rows.ts:136` | store | writeRow | `t.nextInSet[at.prev] = r` | `:146` `else setRolesNextInSet(p, at.prev, r);` |
+| `arena/rows.ts:137` | store | writeRow | `t.nextSameKey[r] = at.first` | `:147` `setRolesNextSameKey(p, r, at.first);` |
+| `arena/rows.ts:200` | store | removeRoleRow | `t.nextSameKey[keyPrev] = t.nextSameKey[r]` | `:210` `if (keyPrev !== -1) setRolesNextSameKey(p, keyPrev, t.nextSameKey[r]);` |
+| `arena/rows.ts:204` | store | removeRoleRow | `t.nextInSet[setPrev] = t.nextInSet[r]` | `:214` `else setRolesNextInSet(p, setPrev, t.nextInSet[r]);` |
+| `arena/rows.ts:206` | store | removeRoleRow | `t.kind[r] = FREE_KIND` | `:216` `setRolesKind(p, r, FREE_KIND);` |
+| `arena/rows.ts:207` | store | removeRoleRow | `t.entity[r] = -1` | `:217` `setRolesEntity(p, r, -1);` |
+| `arena/rows.ts:208` | store | removeRoleRow | `t.level[r] = 0` | `:218` `setRolesLevel(p, r, 0);` |
+| `arena/rows.ts:209` | store | removeRoleRow | `t.ordinal[r] = 0` | `:219` `setRolesOrdinal(p, r, 0);` |
+| `arena/rows.ts:210` | store | removeRoleRow | `t.nextInSet[r] = -1` | `:220` `setRolesNextInSet(p, r, -1);` |
+| `arena/rows.ts:211` | store | removeRoleRow | `t.nextSameKey[r] = s.free` | `:221` `setRolesNextSameKey(p, r, s.free);` |
+| `arena/tables.ts:90` | replace | roleHeadGrow | `t.k0 = new Int32Array(cap)` | `:102` `replaceRoleHeadK0(t, new Int32Array(cap));` |
+| `arena/tables.ts:91` | replace | roleHeadGrow | `t.k1 = new Int32Array(cap)` | `:103` `replaceRoleHeadK1(t, new Int32Array(cap));` |
+| `arena/tables.ts:92` | replace | roleHeadGrow | `t.first = new Int32Array(cap).fill(-1)` | `:104` `replaceRoleHeadFirst(t, new Int32Array(cap).fill(-1));` |
+| `arena/tables.ts:96` | store | roleHeadGrow | `t.k0[i] = k0[s]` | `:108` `setRoleHeadK0(t, i, k0[s]);` |
+| `arena/tables.ts:97` | store | roleHeadGrow | `t.k1[i] = k1[s]` | `:109` `setRoleHeadK1(t, i, k1[s]);` |
+| `arena/tables.ts:98` | store | roleHeadGrow | `t.first[i] = first[s]` | `:110` `setRoleHeadFirst(t, i, first[s]);` |
+| `arena/tables.ts:111` | store | roleHeadSet | `t.k0[i] = k0` | `:123` `setRoleHeadK0(t, i, k0);` |
+| `arena/tables.ts:112` | store | roleHeadSet | `t.k1[i] = k1` | `:124` `setRoleHeadK1(t, i, k1);` |
+| `arena/tables.ts:115` | store | roleHeadSet | `t.first[i] = firstSlot` | `:127` `setRoleHeadFirst(t, i, firstSlot);` |
+| `arena/tables.ts:135` | store | roleHeadDelete | `t.k0[i] = t.k0[j]` | `:147` `setRoleHeadK0(t, i, t.k0[j]);` |
+| `arena/tables.ts:136` | store | roleHeadDelete | `t.k1[i] = t.k1[j]` | `:148` `setRoleHeadK1(t, i, t.k1[j]);` |
+| `arena/tables.ts:137` | store | roleHeadDelete | `t.first[i] = t.first[j]` | `:149` `setRoleHeadFirst(t, i, t.first[j]);` |
+| `arena/tables.ts:141` | store | roleHeadDelete | `t.first[i] = -1` | `:153` `setRoleHeadFirst(t, i, -1);` |
+| `arena/tables.ts:142` | store | roleHeadDelete | `t.k0[i] = 0` | `:154` `setRoleHeadK0(t, i, 0);` |
+| `arena/tables.ts:143` | store | roleHeadDelete | `t.k1[i] = 0` | `:155` `setRoleHeadK1(t, i, 0);` |
+| `arena/tables.ts:173` | replace | ownerGrow | `t.owner = new Int32Array(cap)` | `:185` `replaceOwnerHeadOwner(t, new Int32Array(cap));` |
+| `arena/tables.ts:174` | replace | ownerGrow | `t.head = new Int32Array(cap).fill(-1)` | `:186` `replaceOwnerHeadHead(t, new Int32Array(cap).fill(-1));` |
+| `arena/tables.ts:178` | store | ownerGrow | `t.owner[i] = owner[s]` | `:190` `setOwnerHeadOwner(t, i, owner[s]);` |
+| `arena/tables.ts:179` | store | ownerGrow | `t.head[i] = head[s]` | `:191` `setOwnerHeadHead(t, i, head[s]);` |
+| `arena/tables.ts:192` | store | ownerSet | `t.owner[i] = owner` | `:204` `setOwnerHeadOwner(t, i, owner);` |
+| `arena/tables.ts:195` | store | ownerSet | `t.head[i] = firstFace` | `:207` `setOwnerHeadHead(t, i, firstFace);` |
+| `arena/tables.ts:212` | store | ownerDelete | `t.owner[i] = t.owner[j]` | `:224` `setOwnerHeadOwner(t, i, t.owner[j]);` |
+| `arena/tables.ts:213` | store | ownerDelete | `t.head[i] = t.head[j]` | `:225` `setOwnerHeadHead(t, i, t.head[j]);` |
+| `arena/tables.ts:217` | store | ownerDelete | `t.head[i] = -1` | `:229` `setOwnerHeadHead(t, i, -1);` |
+| `arena/tables.ts:218` | store | ownerDelete | `t.owner[i] = 0` | `:230` `setOwnerHeadOwner(t, i, 0);` |
+| `faces/claim.ts:224` | store | pinVertices | `p.vertices.flags[v] |= VERTEX_PINNED` | `:225` `setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_PINNED);` |
+| `faces/merge.ts:168` | store | absorbSliver | `F.kind[face] = FACE_KIND_RESIDUE` | `:169` `setFacesKind(p, n, face, FACE_KIND_RESIDUE);` |
+| `faces/split.ts:137` | store | insertCut | `F.outer[r.record] = keeper` | `:138` `if (r.record >= 0 && keeper !== null) setFacesOuter(p, r.level, r.record, keeper);` |
+| `faces/split.ts:140` | store | insertCut | `F.outer[r.record] = stored` | `:141` `if (r.record >= 0) setFacesOuter(p, r.level, r.record, stored);` |
+| `index/items.ts:310` | store | setHome | `p.indexHome.vertex[item.slot] = partition` | `:311` `if (item.kind === ITEM_VERTEX) setIndexHomeVertex(p, item.slot, partition);` |
+| `index/items.ts:311` | store | setHome | `p.indexHome.edge[item.slot] = partition` | `:312` `else if (item.kind === ITEM_EDGE) setIndexHomeEdge(p, item.slot, partition);` |
+| `index/items.ts:312` | store | setHome | `p.indexHome.face[item.level][item.slot] = partition` | `:313` `else setIndexHomeFace(p, item.level, item.slot, partition);` |
+| `insert/insertChain.ts:173` | store | land > landInBound > (anonymous) | `p.vertices.out[fresh] = -1` | `:174` `setVerticesOut(p, fresh, -1);` |
+| `insert/insertChain.ts:261` | store | land > (anonymous) | `p.vertices.out[v] = -1` | `:262` `setVerticesOut(p, v, -1);` |
+| `insert/rewalk.ts:457` | store | rewalk > (anonymous) | `F.outer[f] = oldOuter` | `:458` `setFacesOuter(p, n, f, oldOuter);` |
+| `insert/rewalk.ts:460` | store | rewalk | `F.outer[f] = halfOf(o)` | `:461` `setFacesOuter(p, n, f, halfOf(o));` |
+| `insert/rewalk.ts:572` | store | reparent > (anonymous) | `Fu.parent[c] = old` | `:573` `setFacesParent(p, up, c, old);` |
+| `insert/rewalk.ts:574` | store | reparent | `Fu.parent[c] = to` | `:575` `setFacesParent(p, up, c, to);` |
+| `insert/snapRound.ts:121` | store | attach | `T.next[x ^ 1] = x` | `:122` `setHalfEdgesNext(p, x ^ 1, x);` |
+| `insert/snapRound.ts:122` | store | attach | `T.prev[x] = x ^ 1` | `:123` `setHalfEdgesPrev(p, x, x ^ 1);` |
+| `insert/snapRound.ts:123` | store | attach | `p.vertices.out[v] = x` | `:124` `setVerticesOut(p, v, x);` |
+| `insert/snapRound.ts:145` | store | attach | `T.next[c ^ 1] = x` | `:146` `setHalfEdgesNext(p, c ^ 1, x);` |
+| `insert/snapRound.ts:146` | store | attach | `T.prev[x] = c ^ 1` | `:147` `setHalfEdgesPrev(p, x, c ^ 1);` |
+| `insert/snapRound.ts:147` | store | attach | `T.next[x ^ 1] = d` | `:148` `setHalfEdgesNext(p, x ^ 1, d);` |
+| `insert/snapRound.ts:148` | store | attach | `T.prev[d] = x ^ 1` | `:149` `setHalfEdgesPrev(p, d, x ^ 1);` |
+| `insert/snapRound.ts:189` | store | detach | `p.vertices.out[o] = -1` | `:190` `setVerticesOut(p, o, -1);` |
+| `insert/snapRound.ts:192` | store | detach | `T.next[c1] = d` | `:193` `setHalfEdgesNext(p, c1, d);` |
+| `insert/snapRound.ts:193` | store | detach | `T.prev[d] = c1` | `:194` `setHalfEdgesPrev(p, d, c1);` |
+| `insert/snapRound.ts:194` | store | detach | `p.vertices.out[o] = d` | `:195` `if (p.vertices.out[o] === x) setVerticesOut(p, o, d);` |
+| `insert/splitThrough.ts:284` | store | applySplitPlan | `T.next[g] = h` | `:285` `setHalfEdgesNext(p, g, h);` |
+| `insert/splitThrough.ts:285` | store | applySplitPlan | `T.prev[h] = g` | `:286` `setHalfEdgesPrev(p, h, g);` |
+| `insert/splitThrough.ts:286` | store | applySplitPlan | `T.next[h ^ 1] = g ^ 1` | `:287` `setHalfEdgesNext(p, h ^ 1, g ^ 1);` |
+| `insert/splitThrough.ts:287` | store | applySplitPlan | `T.prev[g ^ 1] = h ^ 1` | `:288` `setHalfEdgesPrev(p, g ^ 1, h ^ 1);` |
+| `insert/splitThrough.ts:290` | store | applySplitPlan | `T.next[h] = h ^ 1` | `:291` `setHalfEdgesNext(p, h, h ^ 1);` |
+| `insert/splitThrough.ts:291` | store | applySplitPlan | `T.prev[h ^ 1] = h` | `:292` `setHalfEdgesPrev(p, h ^ 1, h);` |
+| `insert/splitThrough.ts:293` | store | applySplitPlan | `T.next[h] = after` | `:294` `setHalfEdgesNext(p, h, after);` |
+| `insert/splitThrough.ts:294` | store | applySplitPlan | `T.prev[after] = h` | `:295` `setHalfEdgesPrev(p, after, h);` |
+| `insert/splitThrough.ts:295` | store | applySplitPlan | `T.next[before] = h ^ 1` | `:296` `setHalfEdgesNext(p, before, h ^ 1);` |
+| `insert/splitThrough.ts:296` | store | applySplitPlan | `T.prev[h ^ 1] = before` | `:297` `setHalfEdgesPrev(p, h ^ 1, before);` |
+| `insert/splitThrough.ts:298` | store | applySplitPlan | `T.origin[g ^ 1] = v` | `:299` `setHalfEdgesOrigin(p, g ^ 1, v);` |
+| `insert/splitThrough.ts:299` | store | applySplitPlan | `p.vertices.out[v] = h` | `:300` `setVerticesOut(p, v, h);` |
+| `insert/splitThrough.ts:300` | store | applySplitPlan | `p.vertices.out[t0] = h ^ 1` | `:301` `if (p.vertices.out[t0] === (g ^ 1)) setVerticesOut(p, t0, h ^ 1);` |
+| `insert/stretch.ts:570` | store | promote > (anonymous) | `p.vertices.level[v] = old` | `:571` `setVerticesLevel(p, v, old);` |
+| `insert/stretch.ts:571` | store | promote > (anonymous) | `p.vertices.flags[v] = oldFlags` | `:572` `setVerticesFlags(p, v, oldFlags);` |
+| `insert/stretch.ts:573` | store | promote | `L[v] = level` | `:574` `setVerticesLevel(p, v, level);` |
+| `insert/stretch.ts:574` | store | promote | `p.vertices.flags[v] |= VERTEX_STEINER` | `:575` `if (level > m) setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_STEINER);` |
+| `insert/stretch.ts:575` | store | promote | `p.vertices.flags[v] &= ~VERTEX_STEINER` | `:576` `else setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_STEINER);` |
+| `insert/stretch.ts:689` | store | ownShapeVertex | `p.vertices.flags[v] &= ~VERTEX_SPLIT` | `:690` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);` |
+| `insert/stretch.ts:711` | store | unsplit | `T.next[g] = g ^ 1` | `:712` `setHalfEdgesNext(p, g, g ^ 1);` |
+| `insert/stretch.ts:712` | store | unsplit | `T.prev[g ^ 1] = g` | `:713` `setHalfEdgesPrev(p, g ^ 1, g);` |
+| `insert/stretch.ts:714` | store | unsplit | `T.next[g] = after` | `:715` `setHalfEdgesNext(p, g, after);` |
+| `insert/stretch.ts:715` | store | unsplit | `T.prev[after] = g` | `:716` `setHalfEdgesPrev(p, after, g);` |
+| `insert/stretch.ts:716` | store | unsplit | `T.next[before] = g ^ 1` | `:717` `setHalfEdgesNext(p, before, g ^ 1);` |
+| `insert/stretch.ts:717` | store | unsplit | `T.prev[g ^ 1] = before` | `:718` `setHalfEdgesPrev(p, g ^ 1, before);` |
+| `insert/stretch.ts:719` | store | unsplit | `T.origin[g ^ 1] = t` | `:720` `setHalfEdgesOrigin(p, g ^ 1, t);` |
+| `insert/stretch.ts:720` | store | unsplit | `p.vertices.out[t] = g ^ 1` | `:721` `if (p.vertices.out[t] === (h ^ 1)) setVerticesOut(p, t, g ^ 1);` |
+| `insert/stretch.ts:723` | store | unsplit | `p.vertices.out[v] = -1` | `:724` `setVerticesOut(p, v, -1);` |
+| `tx/relevel.ts:290` | store | deletePair | `T.next[x] = y` | `:291` `setHalfEdgesNext(p, x, y);` |
+| `tx/relevel.ts:291` | store | deletePair | `T.prev[y] = x` | `:292` `setHalfEdgesPrev(p, y, x);` |
+| `tx/relevel.ts:294` | store | deletePair | `T.next[x2] = y2` | `:295` `setHalfEdgesNext(p, x2, y2);` |
+| `tx/relevel.ts:295` | store | deletePair | `T.prev[y2] = x2` | `:296` `setHalfEdgesPrev(p, y2, x2);` |
+| `tx/relevel.ts:297` | store | deletePair | `p.vertices.out[a] = x === g ? -1 : y` | `:298` `if (p.vertices.out[a] === h) setVerticesOut(p, a, x === g ? -1 : y);` |
+| `tx/relevel.ts:298` | store | deletePair | `p.vertices.out[b] = x2 === h ? -1 : y2` | `:299` `if (p.vertices.out[b] === g) setVerticesOut(p, b, x2 === h ? -1 : y2);` |
+| `tx/relevel.ts:597` | store | rewriteRows | `p.vertices.flags[v] &= ~VERTEX_PINNED` | `:598` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_PINNED);` |
+| `tx/relevel.ts:603` | store | rewriteRows | `T.level[e] = nl` | `:604` `setHalfEdgesLevel(p, e, nl);` |
+| `tx/relevel.ts:655` | store | rewriteRows | `p.vertices.flags[v] &= ~VERTEX_SPLIT` | `:656` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);` |
+| `tx/relevel.ts:683` | store | rewriteRows | `L[v] = lowest` | `:684` `setVerticesLevel(p, v, lowest);` |
+| `tx/relevel.ts:684` | store | rewriteRows | `p.vertices.flags[v] &= ~VERTEX_STEINER` | `:685` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_STEINER);` |
+| `tx/relevel.ts:686` | store | rewriteRows | `p.vertices.flags[v] &= ~VERTEX_SPLIT` | `:687` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);` |
+| `tx/relevel.ts:699` | store | rewriteRows | `L[v] = lowest` | `:700` `setVerticesLevel(p, v, lowest);` |
+| `tx/relevel.ts:734` | store | rewriteRows > fix | `F.outer[f] = follow(F.outer[f])` | `:735` `setFacesOuter(p, level, f, follow(F.outer[f]));` |
+| `tx/relevel.ts:1025` | store | facePass > (anonymous) | `Fu.parent[c] = sv.f` | `:1025` `for (const c of r.children) if (isFaceLive(p, up, c) && Fu.parent[c] === r.f) setFacesParent(p, up, c, sv.f);` |
+| `tx/relevel.ts:1033` | store | facePass > (anonymous) | `F.outer[sv.f] = lowestHalf(p, f.outer)` | `:1033` `setFacesOuter(p, l, sv.f, lowestHalf(p, f.outer));` |
+| `tx/relevel.ts:1040` | store | facePass > (anonymous) | `F.stage[sv.f] = t.stageRank` | `:1040` `setFacesStage(p, l, sv.f, t.stageRank);` |
+| `tx/relevel.ts:1253` | store | dissolve | `T.next[k] = k ^ 1` | `:1253` `setHalfEdgesNext(p, k, k ^ 1);` |
+| `tx/relevel.ts:1254` | store | dissolve | `T.prev[k ^ 1] = k` | `:1254` `setHalfEdgesPrev(p, k ^ 1, k);` |
+| `tx/relevel.ts:1256` | store | dissolve | `T.next[k] = after` | `:1256` `setHalfEdgesNext(p, k, after);` |
+| `tx/relevel.ts:1257` | store | dissolve | `T.prev[after] = k` | `:1257` `setHalfEdgesPrev(p, after, k);` |
+| `tx/relevel.ts:1258` | store | dissolve | `T.next[before] = k ^ 1` | `:1258` `setHalfEdgesNext(p, before, k ^ 1);` |
+| `tx/relevel.ts:1259` | store | dissolve | `T.prev[k ^ 1] = before` | `:1259` `setHalfEdgesPrev(p, k ^ 1, before);` |
+| `tx/relevel.ts:1261` | store | dissolve | `T.origin[k ^ 1] = y` | `:1261` `setHalfEdgesOrigin(p, k ^ 1, y);` |
+| `tx/relevel.ts:1262` | store | dissolve | `p.vertices.out[y] = k ^ 1` | `:1262` `if (p.vertices.out[y] === (d ^ 1)) setVerticesOut(p, y, k ^ 1);` |
+| `tx/relevel.ts:1268` | store | dissolve | `p.vertices.out[v] = -1` | `:1268` `setVerticesOut(p, v, -1);` |
+| `tx/relevel.ts:1323` | store | restoreSplit | `p.vertices.level[v] = finer` | `:1323` `setVerticesLevel(p, v, finer);` |
+| `tx/relevel.ts:1324` | store | restoreSplit | `p.vertices.flags[v] |= VERTEX_STEINER` | `:1324` `if (finer > m) setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_STEINER);` |
+| `tx/writers.ts:342` | store | promoteEnds | `p.vertices.flags[v] &= ~VERTEX_SPLIT` | `:343` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);` |
+| `tx/writers.ts:635` | store | setOwnerIn | `F.stage[f] = t.stageRank` | `:636` `setFacesStage(p, l, f, t.stageRank);` |
+| `warp/warp.ts:443` | store | commitStep | `X[v] = view.x(v)` | `:444` `setVerticesX(p, v, view.x(v));` |
+| `warp/warp.ts:444` | store | commitStep | `Y[v] = view.y(v)` | `:445` `setVerticesY(p, v, view.y(v));` |
+| `warp/warp.ts:446` | store | commitStep | `p.vertices.flags[v] &= ~VERTEX_SPLIT` | `:447` `setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);` |
+| `warp/warp.ts:450` | store | commitStep | `p.vertices.flags[u] &= ~VERTEX_SPLIT` | `:451` `for (const u of unflagged) setVerticesFlags(p, u, p.vertices.flags[u] & ~VERTEX_SPLIT);` |
+
+### Line 5: the measured identities (NO-SHIFT)
+
+**The roots, CITY, `bench profile` plain** (the base mirror BEFORE, the tree AFTER; quoted from the runs' output):
+
+| run | command | base mirror (BEFORE) | tree (AFTER) |
+|---|---|---|---|
+| fusion 3 | `corepack pnpm bench -- profile --seed 3` | `profile: fusion-3-S8-plain (CITY; node v24.12.0; production bundle: true) root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks 1057` | `profile: fusion-3-S8-plain (CITY; node v24.12.0; production bundle: true) root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks 1057` |
+| integrated 4 | `corepack pnpm bench -- profile --run integrated --seed 4` | `profile: integrated-4-S8-plain (CITY; node v24.12.0; production bundle: true) root e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310` | `profile: integrated-4-S8-plain (CITY; node v24.12.0; production bundle: true) root e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310` |
+
+The bundles differ (8 285 624 bytes base, 8 367 715 the tree), so the tree's door was in the measured code.
+
+**The golden** (S7's probe re-written for this round: `/home/user/maps-scratch/waves/a06s8-runs/probe/golden-s8.test.ts`,
+placed in the base mirror for the before-run and removed after, and in the self-check mirror for the after-run; fuzz.test.ts's
+generator and loop over the registered families — seeds 1 – 24 default ×7 919 14 batches, along ×104 729 16; the ten
+regressions — and the S6 wide families — default ×7 919 1 – 1 200; along ×104 729 1 – 1 200; heavy ×15 485 863 1 – 800,
+way 0.2 / lane 0.3 / along 0.25, 20 batches: 52 940 batches, one line each — family, seed, step, kind, outcome (the
+sha-256 of the record or the refusal's code and detail, and the warnings' codes), the sha-256 of `state(p)`): before and
+after **byte-identical**, sha-256 `43fe956a28fa711bc8f238cec4377a344a337fc9d53622ca5c447ee4901e884a` (52 941 lines with
+the census line), 0 throws in either.
+
+**The refusal census (J264 (5), N-58), before = after:**
+
+| family | refusals before | after |
+|---|---|---|
+| fuzz.test.ts default (seeds 1 – 24) | 59 / 336 | 59 / 336 |
+| fuzz.test.ts along (seeds 1 – 24) | 104 / 384 | 104 / 384 |
+| fuzz.test.ts regressions | 49 / 220 | 49 / 220 |
+| wide default | 3 478 / 16 800 | 3 478 / 16 800 |
+| wide along | 4 575 / 19 200 | 4 575 / 19 200 |
+| wide heavy | 3 574 / 16 000 | 3 574 / 16 000 |
+
+By class (all six families, both runs): E_KEPT 11 477, E_INVARIANT 361, E_DEGENERATE 1 — the classes S7 recorded (R-11's
+role consistency and kept content; R-10's index-freshness siblings N-s7c-1 / -2, LAWFUL, routed to the session's RQ2;
+the one clearance refusal N-c1-3) — unchanged, so no verdict moves; the registered families equal S7's. (The wide along
+total is S7's 4 576 less one: a later round's change, the same before and after this one.)
+
+**The door's cost** (informative, J558 (2); fusion 3 S8 plain ms a cut, base / round interleaved in one session, every
+run started with the one-minute load < 0.3 after the tool's idle wait): base 118.7, 120.0, 106.3 — **median 118.7**;
+round 109.4, 109.1, 107.4 — **median 109.1**. No cost is attributable to the door at this machine's noise (the round's
+three runs are below the base's median); never a bar, and never a timing reference (§12.1).
+
+### The frame observer over the other suites (line 4 (e))
+
+`PLAT_UNDO_ORACLE=1 vitest run --project kernel --project kernel-tiny --maxWorkers=1` over `packages/kernel/test/{tx,
+faces,arr/bands,warp,invariants,insert/step3-5}` on the tree, in the background with a done-file. **The complete run**
+(2026-11-02 03:32 – 04:40Z, seed −254 142 450): 105 files, 1 808 / 1 814 tests, **4 126.92 s**; **0 observer failures**
+(no CHECK A or CHECK B mismatch, no throw of undoArena, in any file); 83 files import `tx/support.ts` (directly or
+through their folder's support) and printed their counts, the other 22 open no observed frame. **Marks compared** —
+batch 159 889, op 62 458, dry-run 143 050 (taken: 548 434 / 153 719 / 143 050); without the oracle's own file: batch
+130 744, op 2 668, dry-run 136 616 — by folder: arr/bands 32 062 / 82 / 136 436, faces 65 818 / 2 566 / 0, warp
+16 126 / 0 / 0, tx (other files) 16 334 / 0 / 0, invariants 340 / 0 / 0, insert/step3-5 64 / 20 / 180. **The six reds**
+are a-09's `arr/bands` tests `closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts`
+B-NEST, `restage.test.ts` N1 / N2 — the tests' own assertions, never the observer's afterEach, and red with the same
+messages on the base mirror without the observer (the gates' outside-owns row): foreign. With no observer failure at all,
+nothing is listed against the stores tests plant on purpose (forms.test.ts:321-345, clauses.test.ts:185,
+invariants/expect.test.ts:40-41 — none of them escaped the log in a frame the observer undid) and no source store is
+named: no census miss. A first run (2026-11-01 20:17 – 21:22Z, 3 866.52 s, the same 105 files and the same six foreign reds, 0
+observer failures) had started before the per-file count print existed (N-s8-5).
+
+### The scope files' stores inside undone frames (line 4 (c)'s table, the self-check mirror only)
+
+Measured in the self-check mirror only (never in the tree): each door entry recorded, while a recorder was attached,
+the first stack frame outside arena/write.ts (the storing file) and the outermost kernel call below the test (the op);
+at each put-back of a marked image (a frame then undone) the observer counted, once per frame, every (file, op) its log
+held since the mark. The oracle at 1 000 batches a mode (PLAT_FUZZ_RUNS=1000; the stack capture makes it ~3.5 times
+slower: 529 s default, 543 s tiny), seed 1 / 50 000. The mirror's write.ts, support.ts and oracle.test.ts were copied
+back from the tree and `cmp`-checked after the run.
+
+| scope file | undone frames whose log holds its stores — default (batch / op / dry-run) | tiny (batch / op / dry-run) | the ops that ran them (default + tiny frames, most first) |
+|---|---|---|---|
+| `arena/plat.ts` | 669 / 1352 / 328 | 718 / 1504 / 284 | insertChain 1957, kerb 612, removeEdges 548, setOwner 538, claimSubFace 323, radialSplit 282, splitFace 268, ringBand 90, mergeFaces 81, connectHole 64, absorbSliver 61, retypeEdges 27, clearFiner 4 |
+| `arena/rows.ts` | 639 / 1276 / 328 | 636 / 1312 / 284 | insertChain 2095, kerb 612, removeEdges 565, claimSubFace 323, radialSplit 282, splitFace 268, ringBand 90, mergeFaces 81, connectHole 64, absorbSliver 58, retypeEdges 33, clearFiner 4 |
+| `arena/tables.ts` | 684 / 1398 / 328 | 701 / 1482 / 284 | insertChain 2095, kerb 612, setOwner 538, removeEdges 477, claimSubFace 323, radialSplit 282, splitFace 268, ringBand 90, connectHole 64, mergeFaces 61, retypeEdges 33, absorbSliver 30, clearFiner 4 |
+| `arena/handles.ts` | 521 / 1030 / 328 | 548 / 1158 / 282 | insertChain 1951, kerb 610, setOwner 538, claimSubFace 323, splitFace 193, radialSplit 120, ringBand 59, connectHole 40, retypeEdges 33 |
+| `index/items.ts` | 324 / 676 / 24 | 353 / 668 / 34 | insertChain 612, removeEdges 359, warp 287, setOwner 229, radialSplit 157, claimSubFace 153, splitFace 97, kerb 58, ringBand 34, mergeFaces 31, absorbSliver 29, connectHole 29, clearFiner 4 |
+| `insert/splitThrough.ts` | 324 / 662 / 324 | 343 / 702 / 284 | insertChain 1508, kerb 608, radialSplit 282, claimSubFace 241 |
+| `insert/insertChain.ts` | 9 / 20 / 24 | 15 / 20 / 18 | insertChain 57, kerb 42, claimSubFace 7 |
+| `insert/rewalk.ts` | 329 / 650 / 292 | 318 / 656 / 262 | insertChain 966, kerb 554, claimSubFace 321, splitFace 268, radialSplit 244, ringBand 90, connectHole 64 |
+| `insert/snapRound.ts` | 444 / 878 / 328 | 450 / 920 / 278 | insertChain 1705, kerb 606, claimSubFace 321, splitFace 268, radialSplit 244, ringBand 90, connectHole 64 |
+| `insert/stretch.ts` | 38 / 72 / 24 | 42 / 80 / 12 | insertChain 177, radialSplit 53, kerb 36, claimSubFace 2 |
+| `faces/split.ts` | 111 / 242 / 0 | 87 / 196 / 0 | splitFace 290, radialSplit 246, ringBand 84, connectHole 16 |
+| `faces/merge.ts` | 1 / 2 / 0 | 3 / 6 / 0 | absorbSliver 12 |
+| `faces/claim.ts` | 16 / 28 / 0 | 9 / 12 / 0 | pinVertices 65 |
+| `warp/warp.ts` | 63 / 134 / 0 | 73 / 140 / 0 | warp 410 |
+| `tx/relevel.ts` | 116 / 238 / 0 | 113 / 234 / 0 | removeEdges 548, mergeFaces 81, absorbSliver 58, retypeEdges 10, clearFiner 4 |
+| `tx/writers.ts` | 142 / 298 / 0 | 126 / 296 / 0 | setOwner 538, claimSubFace 321, absorbSliver 3 |
+
+Every scope file's stores ran inside undone frames, in both modes. The first measurement (before this round's last
+oracle change) found `index/items.ts` at 0: its only stores (`setHome`) write a static copy's home, and the oracle never
+rebuilt the index, so no item had a static copy to tombstone inside a frame. The oracle now rebuilds the index as at a
+stage's end between batches (drawn, p = 0.3; `rebuildAtStageEnd`, no frame open), and the table above is the second
+measurement. The ops `kerb` (the dry run) and `insertChain` (fuzzgen's ways and lanes, the ring) reach the insertion
+files; `warp` alone reaches warp.ts; `pinVertices` claim.ts; `absorbSliver`'s residue path merge.ts.
+
+### Self-check (J183): the faults re-introduced in the lane's mirror
+
+The one mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-06-fix-s8/plat` (a real copy, `node_modules`
+included; isolation proved before the first mutant: no link into the tree, `@plat/kernel` resolving inside the copy).
+Each mutant alone, run in the foreground as `vitest run --maxWorkers=1 --bail=1 packages/kernel/test/tx` (kernel and
+kernel-tiny, B-FUZZ and the oracle at the PR size), then the named pins without `--bail` where the row promises one;
+restored from the tree and `cmp`-checked after each. The same folder on the unmutated mirror is NEAR's run (green).
+
+| id | file | fault | killed by (first red under `--bail=1`; the named pins) |
+|---|---|---|---|
+| W1 | warp/warp.ts | commitStep's `setVerticesX(p, v, view.x(v))` reverted to `X[v] = view.x(v)` | oracle CHECK B `column vertices.x slot 6`; the guard names `warp/warp.ts:444 [store] (commitStep) X[v] = view.x(v)` (both projects); the warp pin CHECK B `(batch frame) column vertices.x slot 5: 1060 at the mark, 1080 now` (after the pin's x displacement) |
+| R1 | arena/rows.ts | writeRow's `setRolesKind(p, r, role)` reverted to `p.roles.kind[r] = role` | oracle CHECK B `column roles.kind slot 4`; the guard names `arena/rows.ts:140 [store] (writeRow) p.roles.kind[r] = role` |
+| H1 | arena/tables.ts | roleHeadGrow's `replaceRoleHeadK0` → `t.k0 = new Int32Array(cap)` (a rehash without its replacement call) | oracle CHECK B `(dry-run frame) column roles.head.k0 slot 5 … (capacity 32 at the mark, 64 now)`; door.test 5 tests (default) and 5 (tiny) |
+| P1 | arena/plat.ts | compactHoles' pool swap unlogged (`p.faces[level].holes = packed`) | oracle CHECK B `column faces[1].holes slot 0`; door.test growth / pool-interrupt pins (both modes) |
+| P2 | arena/plat.ts | compactHoles' holesStart setter calls skipped (the unlogged bulk `t.holesStart.set(starts)`) | oracle CHECK B `column faces[1].holesStart slot 0` |
+| G1 | arena/plat.ts | growVertices' `replaceRolesVertexFirst` → a plain assignment | oracle CHECK B `column roles.vertexFirst slot 64 … (capacity 64 at the mark, 128 now)` — on capacity |
+| C1 | arena/write.ts | roles.head's count not restored by undoArena | oracle CHECK B `line 24: roles.head.count 1 \| now: roles.head.count 2` |
+| S1 | arena/write.ts | a SlotCounter restored as its `top` alone | oracle CHECK B on the `slots` line |
+| I1 | arena/write.ts | `columnOf` id 0 → `p.vertices.y` | oracle CHECK B; door.test 8 tests (the id map, the per-setter undo, the recorder pins) |
+| A1 | tx/savepoint.ts | putBack skipped after the observer's undoArena | oracle CHECK A `(batch frame) line 92: log none \| now: log open` — on the index, which S8 does not log: check A can fail |
+| U1 | arena/write.ts | the log cut once, after the whole replay (an interrupted undo replayed whole) | door.test 'an undo interrupted right after a roles.head rehash's replacement entries …' (`expected 5719 to be 2776`) |
+
+11 mutants, 11 killed. The planted-store pin (line 4 (d), last) shows CHECK B naming a column and slot on an unmutated
+tree. The ten mutants the oracle killed were run before the oracle gained its stage-end rebuild draw (the frame table
+below); each was re-killed on the amended oracle alone (`--bail=1`, kernel project): W1, R1, H1, P1, P2, G1, C1, S1, I1 red by CHECK B (e.g. W1 `column vertices.x slot 8`, P1 `(dry-run frame) column faces[2].holes slot 0`, G1 `roles.vertexFirst slot 64 … (capacity 64 at the mark, 128 now)`), A1 red by a throw (N-s8-6).
+
+### Gates
+
+| gate | command | result |
+|---|---|---|
+| machine | `python3 tools/machine_profile.py --id` | `linux:Intel(R) Xeon(R) Processor @ 2.80GHz:4cpu:16gib`; Node v24.12.0 |
+| install | `corepack pnpm install --frozen-lockfile` | exit 0 (lockfile up to date), before the runs and again at the end |
+| lint | `corepack pnpm lint` | exit 0 — eslint 1 274 files, 0 errors, 0 warnings; `lint: probe-red ok` (the probe's eight rules red in place); 9 whole-tree checks ok (kernel-boundary, bench-boundary among them); re-run on the final tree |
+| build | `corepack pnpm build` | exit 0 (`tsc -b ok`; the six bundles); re-run on the final tree |
+| NEAR (full strength) | `vitest run --project kernel --project kernel-tiny --maxWorkers=1 packages/kernel/test/tx` (PLAT_FUZZ_RUNS unset: the oracle and B-FUZZ at 10⁴) | exit 0 — 38 files, 622 / 622, 446.79 s (seed 1 645 538 525), on the final tree; the first run (before the warp pin's and the oracle's last changes) 622 / 622, 493.61 s |
+| RELATED (reduced) | `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over the 20 changed sources (arena/{plat,rows,tables,handles,write}.ts, index/items.ts, insert/{splitThrough,insertChain,rewalk,snapRound,stretch}.ts, faces/{split,merge,claim}.ts, warp/warp.ts, tx/{relevel,writers,tx,savepoint,frames}.ts) | exit 1 — 541 files (10 failed), 7 313 tests (13 failed), 12 620.36 s, seed 2 106 837 589 (23:04 – 02:34Z, never stopped; a first attempt was stopped after ~40 min by the tool's background time limit, no red in it, never a result). **Every red is foreign:** the ten red files replayed alone with the same seed and size on the BASE mirror and on the tree fail the same 13 tests with the same messages — a-09's bands `closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts` B-NEST, `restage.test.ts` N1 / N2; `booleans.test.ts` s6 (S12's known set); testkit `edge/repins.test.ts` EP-01 S1 2 651 453 823 and S5a 1 658 509 524, `edge/ep01-s1-s3-s4.test.ts` S1 self-touching (seed 2 893 352 673, an unnamed seed); layout `pipeline/base/run.test.ts` S3's site; kernel `facade/mixer.test.ts` (bench/src/timing-phase/workloads.ts's `streamKey` call); bench `scan/scan.test.ts` K6-6 (its 5 s timeout under the run). None is a test of this item, and each is red on the RESUME head (the base mirror), so none is the item's (TEST SCOPE (3)); the J176 bench files were not in the selection. |
+| outside-owns pins | `vitest run --project kernel` on `arr/bands/{closing,dryrun,hardening-s15,restage}.test.ts`, `facade/facade.test.ts`, `num/api-surface.test.ts`, base and tree (PLAT_FUZZ_SEED 148 109 550) | identical on both: `api-surface.test.ts` green untouched; `facade.test.ts` (:865-876 among it) green unedited; `dryrun.test.ts` :41's describe ('kerb(F) is a dry-run on the real arena … one savepoint', the :65 / :75 / :96 pins) green unedited; `restage.test.ts` N1 / N2 and `dryrun.test.ts` 'draws 389 and 1109' red on the base mirror too — REPORTED, never edited |
+| landed:verify | `corepack pnpm landed:verify -- flow-7 --item M0-a-06` | exit 0 — `landed:verify flow-7 --item M0-a-06: ok (1 record)` (the record re-landed on lane build/M0-a-06-fix-s8: 34 created, 1 changed; appends C-0465, L-0742; its landed note lists the 1 393 paths no owns of M0-a-06 claims, the scope files among them — the expected state, J627 (1)); the lenders' records are the session's to re-land |
+
+### For §3.3 (the session's, at this landing or with S9's paragraph): the door's sentences, verbatim-ready
+
+> Every store into an arena column passes one door, `arena/write.ts`: one typed setter per column, which records
+> (column, slot, old value) in the arena's undo log while a frame is open on the arena. Every replacement of a column's
+> array or of a table's object — a growth, a hash table's rehash, the hole pool's compaction — is one entry of that log
+> holding the replaced array or object, which an undo puts back whole; the entries logged before it then undo into the
+> array they were logged against. The hash tables' counts and the slot counters (top, free and live), with the hole
+> pools' used lengths, the version and the frame, are saved by value at a mark, never logged.
+
+### Notes
+
+| id | observation | handling | milestone |
+|---|---|---|---|
+| N-s8-1 | **The warp pin did not exercise commitStep's x store.** As first written it displaced by (0, 30): `X[v] = view.x(v)` wrote the value it held, so W1 survived the pin (the guard and the oracle killed it). | strengthened in this round (x 20, y 30); W1 now red on the pin | — |
+| N-s8-2 | **The oracle's throws.** 0 in 10⁴ batches in either mode at the PR size; a throw would be recorded (informative) with its batch, and the batch rolls back through the observer like a refusal. | none | — |
+| N-s8-3 | **The once-per-slot dedupe and FRESH skipping are S9's** (line 1 (g)): S8 logs every store, so its log is longer than S9's will be; the cost runs show no attributable cost with no recorder attached. | S9 | M0 (S9) |
+| N-s8-4 | **RELATED's thirteen reds are the RESUME head's.** a-09's six bands reds and booleans s6 are S12's known set (a-05 S13's RELATED); the testkit EP-01 cells, the layout composition's S3 site, the mixer lint's bench call site and the scan's timeout are red on the base mirror with the same seed and messages. | the session (their items' rounds) | — |
+| N-s8-5 | **The first observer run's counts are partial.** It started before the per-file count print was added to `support.ts` (the environment refused this seat's stop of it), so only its later files printed; its verdict (0 observer failures, the six foreign bands reds) stands, and the counts above are the second, complete run's. | none | — |
+| N-s8-6 | **A1 on the amended oracle** is red by a throw (`index: item 0:4 is not live at L1` at the stage-end rebuild — the index was never put back), before the rebuild draw by CHECK A on the index line: either way the skipped put-back cannot pass. | none | — |
+
+### Hardening round S8 — the closing check's notes (lane `check/M0-a-06-close-s8`, 2026-11-06)
+
+Verdict in `checks/M0-a-06-s8.md` (PASS). No row is a blocker: N-s8c-1 and N-s8c-2 are a deliberate-writer escape of a
+test-side scan and a further hardening of a test-side observer (N-45: a KI row for the hardening pass, never a fail);
+N-s8c-3 (added 2026-11-09) is RELATED's foreign red set, a note for the session (TEST SCOPE (3)).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s8c-1 | **The guard's alias resolution stops at a container.** `door-scan.ts` resolves a column through `const` / `let` initialisers, destructuring, a for-of over the column tuple, `??` / `||` / conditional expressions and `.subarray`, and follows a column passed to a storing function; it does not follow a column stored into an object or array literal, a class field or a Map and written through it (`const t = { a: p.vertices.x }; t.a[v] = 1`), nor `Reflect.set` / `Atomics.store` on a column. None exists on the tree (this checker's census: 169 findings, every one the door's or allowlisted); a writer who wants past the door can reach it this way — a contrived escape, the oracle's CHECK B still the second net for any store a frame undoes. | a hardening row for the scan: flag a column that escapes into a container or a reflective store, with the probe extended by those forms | M4 |
+| N-s8c-2 | **The observer's dry-run frame kind is read from the stack string.** `support.ts` `opOpen` calls a frame a `dry-run` when `new Error().stack` holds `dryInsert` (kerb.ts); a renamed or inlined function would count dry runs as op frames — the checks A and B unchanged, only the per-kind count and the oracle's `compared['dry-run'] > 0` assertion affected (it would go red, so the pin names the drift). | S9 re-seats opSave / rollback under the dry-run pins; the hook can then pass the frame kind, or a pin on the name stands | M0 (S9) |
+| N-s8c-3 | **RELATED@1000's twelve reds are other items' and stand on the RESUME head.** `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=2106837589 vitest related --run` over the round's 20 changed sources (tree, 2026-11-09: 541 files, 7 313 tests, 7 013 s) is red on 12 tests in 9 files, none in `kernel/test/tx`: a-09's `kernel/test/arr/bands/closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts` B-NEST, `restage.test.ts` N1 / N2; `kernel/test/arr/booleans-buffers/booleans.test.ts` 's6 walks out along P–Q and back' (:514, `expected -1 to be greater than or equal to 0`); `kernel/test/facade/mixer.test.ts` 'the workspace calls mixInto or streamKey once' (:161, two call sites found for one); `layout/test/pipeline/base/run.test.ts` 'S3's site is the flat fixture's with S1's terrain …' (:211); `testkit/test/edge/ep01-s1-s3-s4.test.ts` 'EP-01/S1/self-touching' (:20); `testkit/test/edge/repins.test.ts` 'EP-01/S1/self-touching at seed 2651453823' (`laddered` for `refused-safe`) and 'EP-01/S5a/coincident at seed 1658509524' (`absorbed` for `refused-safe`). The nine files replayed alone with the same seed and size are red on the same 12 tests with identical full failure messages on the base mirror (the RESUME head, without the door) and on the tree — so the round caused none of them. (The author's run also saw bench `scan/scan.test.ts` K6-6 at 5 026 ms, a timeout under load; it passed here.) | the session's: each red belongs to its own item's round (a-09's bands set is known; the testkit edge / repins reds are EP-01 cells whose outcome moved — possibly the e-03 s1 shift the session note names, not verified by this seat; booleans, mixer and layout run.test are for the session to route; no cause was traced here beyond 'red without the door') — replay with `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=2106837589 corepack pnpm exec vitest run <file>` | the owning items' rounds (M0) |

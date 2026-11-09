@@ -57,6 +57,7 @@ import { comparePoints, PI, segmentCloserThan } from '../num/exact.js';
 import { err, ok, type KernelError, type KernelResult } from '../num/index.js';
 import type { Cm, Id, LatticePoint, Level, RoleKey, StageId } from '../types/index.js';
 import { pairsOfKey } from './chains.js';
+import { frameObserver } from './frames.js';
 import { ownerBefore, restoreBatchImage, takeSavepoint, wasFaceLive } from './savepoint.js';
 import { check, emptyLog, markOpen, notBuilt, noteRow, roleKeyText, type OpenTx } from './state.js';
 import { OP_KINDS, type ClassFloor, type CommitRecord, type DirtySet, type KernelOp, type KernelTx, type LevelDirt, type Overlay, type TxEnv } from './types.js';
@@ -94,6 +95,7 @@ function open(p: Plat, spec: KernelTx, env: TxEnv): OpenTx {
   check(p.index !== undefined, 'a transaction needs the arena\'s spatial index (attachIndex)');
   check(indexOf(p).log === null, 'another batch is open on this arena');
   const savepoint = takeSavepoint(p);
+  if (frameObserver !== null) frameObserver.batchOpen(p, savepoint);
   const indexLog = beginIndexBatch(p, spec.level);
   const t: OpenTx = {
     open: true,
@@ -624,6 +626,7 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   if (env.invariants !== undefined) problems.push(...env.invariants(p, provisional));
   if (problems.length > 0) return reject(t, 'E_INVARIANT', problems[0]);
   // Commit.
+  if (frameObserver !== null) frameObserver.commit(p);
   endIndexBatch(p);
   const version = commitVersion(p);
   const record: CommitRecord = { ...provisional, version };

@@ -21,6 +21,7 @@ import { check, type OpenTx } from '../tx/state.js';
 import type { Overlay } from '../tx/types.js';
 import type { Level, LatticePoint } from '../types/index.js';
 import { comparePoints, cutRows, enter, halfEdgeFromTo, opSave, planCut, regionOf, refuse, rollback, type CutPlan, type Region } from './common.js';
+import { setFacesOuter } from '../arena/write.js';
 
 /** Options of the partitioners that insert a cut: the face's level when coarser than the batch's (an own child), the rows. */
 export interface CutOpts {
@@ -134,10 +135,10 @@ function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[]
   const F = p.faces[r.level];
   const stored = r.record >= 0 ? F.outer[r.record] : -1;
   const save = atomic ? opSave(t) : null;
-  if (r.record >= 0 && keeper !== null) F.outer[r.record] = keeper;
+  if (r.record >= 0 && keeper !== null) setFacesOuter(p, r.level, r.record, keeper);
   const ins = insertChain(t, plan.points, rows, 'mandatory');
   if (!ins.ok) {
-    if (r.record >= 0) F.outer[r.record] = stored;
+    if (r.record >= 0) setFacesOuter(p, r.level, r.record, stored);
     return refuse(ins.code, ins.detail);
   }
   const placed = ins.value.placed;

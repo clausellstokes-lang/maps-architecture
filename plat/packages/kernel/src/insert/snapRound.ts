@@ -78,6 +78,7 @@ import {
 } from './stretch.js';
 import { TX_FACES_WALKED, WALK_REACH_CM } from './rewalk.js';
 import { cornerMove, wedgeOutcome } from './wedge.js';
+import { setHalfEdgesNext, setHalfEdgesPrev, setVerticesOut } from '../arena/write.js';
 
 /** §3.6's bound on the iterated snap rounding's passes. */
 export const MAX_PASSES = 3;
@@ -118,9 +119,9 @@ function attach(p: Plat, x: HalfEdgeId, v: VertexId): void {
   const Y = p.vertices.y;
   const first = p.vertices.out[v];
   if (first === -1) {
-    T.next[x ^ 1] = x;
-    T.prev[x] = x ^ 1;
-    p.vertices.out[v] = x;
+    setHalfEdgesNext(p, x ^ 1, x);
+    setHalfEdgesPrev(p, x, x ^ 1);
+    setVerticesOut(p, v, x);
     return;
   }
   const dir = (h: HalfEdgeId): [number, number] => [X[T.origin[h ^ 1]] - X[v], Y[T.origin[h ^ 1]] - Y[v]];
@@ -142,10 +143,10 @@ function attach(p: Plat, x: HalfEdgeId, v: VertexId): void {
     check(++guard <= T.origin.length && c !== first, `no rotation slot for a new edge at vertex ${v}`);
   }
   const d = T.next[c ^ 1];
-  T.next[c ^ 1] = x;
-  T.prev[x] = c ^ 1;
-  T.next[x ^ 1] = d;
-  T.prev[d] = x ^ 1;
+  setHalfEdgesNext(p, c ^ 1, x);
+  setHalfEdgesPrev(p, x, c ^ 1);
+  setHalfEdgesNext(p, x ^ 1, d);
+  setHalfEdgesPrev(p, d, x ^ 1);
 }
 
 /** A new edge pair a → b of `level` linked into both rotations; returns its half-edge from a. */
@@ -186,12 +187,12 @@ function detach(p: Plat, x: HalfEdgeId): void {
   const c1 = T.prev[x]; // c ^ 1, the incoming half-edge before x
   const d = T.next[x ^ 1];
   if (d === x) {
-    p.vertices.out[o] = -1;
+    setVerticesOut(p, o, -1);
     return;
   }
-  T.next[c1] = d;
-  T.prev[d] = c1;
-  if (p.vertices.out[o] === x) p.vertices.out[o] = d;
+  setHalfEdgesNext(p, c1, d);
+  setHalfEdgesPrev(p, d, c1);
+  if (p.vertices.out[o] === x) setVerticesOut(p, o, d);
 }
 
 /** Shares a level-≤ n route piece (its physical half-edges, in order): its edges gain the chain's rows (W_STRETCH_SHARED). */
