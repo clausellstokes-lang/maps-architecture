@@ -1,0 +1,11 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1002285930 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1002285930 draws the same cases (Q96, C-0057)
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  20:53:07
+   Duration  4.47s (tests 57%, transform 30%, import 12%, setup 1%)
+
+exit 0

@@ -1,0 +1,38 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is -1291849768 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=-1291849768 draws the same cases (Q96, C-0057)
+ ❯ |kernel| test/facade/mixer.test.ts (7 tests | 1 failed) 2621ms
+   ❯ Rng.stream is the one mixer call site (the lint test) (5)
+     × outside the mixer's own file, the model calls mixInto or streamKey once — in Rng.stream (kernel/src/rng/rng.ts) — and the harness's listed measurements of streamKey are the only other calls 1344ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |kernel| test/facade/mixer.test.ts > Rng.stream is the one mixer call site (the lint test) > outside the mixer's own file, the model calls mixInto or streamKey once — in Rng.stream (kernel/src/rng/rng.ts) — and the harness's listed measurements of streamKey are the only other calls
+AssertionError: expected [ …(2) ] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+  [
+    "packages/kernel/src/rng/rng.ts call mixInto in stream",
++   "bench/src/timing-phase/workloads.ts call streamKey in streamKeyGroup",
+  ]
+
+ ❯ test/facade/mixer.test.ts:173:67
+    171|     const sites = files.filter((f) => f !== MIXER).flatMap((f) => mixe…
+    172|     const calls = sites.filter((s) => s.what.startsWith('call ')).map(…
+    173|     expect(calls.filter((c) => !HARNESS_MIXER_CALLS.includes(c))).toEq…
+       |                                                                   ^
+    174|     // the harness's measurements: exactly the listed ones (a listed o…
+    175|     expect(calls.filter((c) => HARNESS_MIXER_CALLS.includes(c)).sort()…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  20:53:31
+   Duration  4.69s (tests 58%, transform 30%, import 11%, setup 1%)
+
+exit 1
