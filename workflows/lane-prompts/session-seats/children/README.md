@@ -1,7 +1,7 @@
 # Child launch prompts (kept in the repository since J714, 2026-11-09)
 
-Each file is the whole prompt of one child cloud session, rendered by  or
- and committed BEFORE the child is created; the child's creation prompt only points at its
+Each file is the whole prompt of one child cloud session, rendered by `tools/session/child_launch.py` or
+`tools/session/int_launch.py` and committed BEFORE the child is created; the child's creation prompt only points at its
 file, which it reads whole from its own clone of the design branch. A prompt kept only in the managing seat's
 scratchpad is lost with that container (the launch files of CS, CT, CU and CV were); here a successor seat can read
 what each child was told, and re-create a child from the same text.
