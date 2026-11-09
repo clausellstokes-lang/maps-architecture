@@ -7,6 +7,7 @@
   {"letter": "CW", "session": "session_01FE9mEwvGe9qd1caHVt1qEi", "branch": "wip/child-a06s8e", "created": "2026-11-09T20:40:04Z", "round": "M0-a-06 S8", "lanes": ["build/M0-a-06-fix-s8", "check/M0-a-06-close-s8"]},
   {"letter": "CX", "session": "session_01FE9mEwhbdvWNSss7agoxf7", "branch": "wip/child-c02s6d", "created": "2026-11-09T20:40:05Z", "round": "M0-c-02 S6", "lanes": ["build/M0-c-02-fix-s6", "check/M0-c-02-close-s6"]},
   {"letter": "CY", "session": "session_01FE9mEvf5Yr1xTmogb1HX1c", "branch": "wip/child-c04s5d", "created": "2026-11-09T20:40:06Z", "round": "M0-c-04 S5", "lanes": ["build/M0-c-04-fix-s5", "check/M0-c-04-close-s5"]},
-  {"letter": "CZ", "session": "session_01FE9mEtrDUaNC9hrebzS2w6", "branch": "wip/child-intg15c", "created": "2026-11-09T20:40:07Z", "round": "integration re-check g15-close (M0-x-04)", "lanes": ["check/integration-flow-7-g15-close"]}
+  {"letter": "CZ", "session": "session_01FE9mEtrDUaNC9hrebzS2w6", "branch": "wip/child-intg15c", "created": "2026-11-09T20:40:07Z", "round": "integration re-check g15-close (M0-x-04)", "lanes": ["check/integration-flow-7-g15-close"]},
+  {"letter": "DA", "session": "session_01FE9mEufredBBZcSdrumGJG", "branch": "wip/child-intg18", "created": "2026-11-09T20:46:58Z", "round": "integration check g18 (M0-f-02b)", "lanes": ["check/integration-flow-7-g18"]}
  ]
 }
