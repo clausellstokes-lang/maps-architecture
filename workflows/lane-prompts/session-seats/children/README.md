@@ -12,3 +12,5 @@ what each child was told, and re-create a child from the same text.
 | launch-CX.md | CX | M0-c-02 S6 (the enceinte round), resumed from wip/child-c02s6c |
 | launch-CY.md | CY | M0-c-04 S5 (the growth round), resumed from wip/child-c04s5c |
 | launch-CZ.md | CZ | the integration re-check g15-close (M0-x-04 after S2), fresh |
+| launch-DA.md | DA | the integration check g18 (M0-f-02b), fresh |
+| launch-DB.md | DB | the integration check g17 (M0-x-06, M0-f-03b, M0-t-00, M0-c-07), fresh |

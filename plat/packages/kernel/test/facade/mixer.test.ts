@@ -5,6 +5,8 @@
 // (the finaliser round over an entity key and the packed components) and `streamKey` (its pure, timed form) — and every
 // import of them: the one call outside the mixer's own file is `Rng.stream`'s, in kernel/src/rng/rng.ts. A call is
 // counted however it is written: by name, through an alias, through a namespace or an element access (`m['mixInto']`).
+// The one exception is listed by file, like the harness streams below: the timing phase's measurement of the pure form
+// (§6.1 budgets "≤ 0.1 µs per structured stream key" on `streamKey` alone), which builds no stream from what it times.
 // The census also counts every stream built from a key directly — `new Stream(…)` and `streamFromKey(…)`, which skip the
 // mixer — outside the rng module: none in a model package (kernel, model, tables, site, layout); the test kit's and the
 // bench's harness streams are listed by file, so a new one is seen (checks/M0-a-16-notes.md note 6).
@@ -151,20 +153,38 @@ const HARNESS_STREAMS = [
   'packages/testkit/src/invariants/primitives.ts new Stream',
 ];
 
+/**
+ * The harness's measurements of the mixer's pure, timed form (the session's ruling on Q144, J717): §6.1's budget is
+ * on `streamKey` alone (mixer.ts's own doc), so the timing phase calls it over the spike city's recorded keys and builds
+ * no stream from what it returns — test infrastructure, no model path. Each call by file and enclosing function, each
+ * import by file, each as often as it stands. A new one — or one in a model package, or a call of `mixInto` — turns the
+ * census red.
+ */
+const HARNESS_MIXER_CALLS = ['bench/src/timing-phase/workloads.ts call streamKey in streamKeyGroup'];
+const HARNESS_MIXER_IMPORTS = ['bench/src/timing-phase/workloads.ts import streamKey'];
+
 describe('Rng.stream is the one mixer call site (the lint test)', () => {
-  it('outside the mixer\'s own file, the workspace calls mixInto or streamKey once: in Rng.stream (kernel/src/rng/rng.ts)', () => {
+  it('outside the mixer\'s own file, the model calls mixInto or streamKey once — in Rng.stream (kernel/src/rng/rng.ts) — and the harness\'s listed measurements of streamKey are the only other calls', () => {
     const files = sourceFiles();
     expect(files).toContain(MIXER);
     expect(files.length).toBeGreaterThan(100);
     const sites = files.filter((f) => f !== MIXER).flatMap((f) => mixerSites(f, readFileSync(`${PLAT}${f}`, 'utf8')));
-    const calls = sites.filter((s) => s.what.startsWith('call '));
-    expect(calls.map((s) => `${s.file} ${s.what} in ${s.inside}`)).toEqual(['packages/kernel/src/rng/rng.ts call mixInto in stream']);
-    // the only other references are the rng module's own: its import in rng.ts and the module index's re-export
-    expect(sites.filter((s) => !s.what.startsWith('call ')).map((s) => `${s.file} ${s.what}`).sort()).toEqual([
+    const calls = sites.filter((s) => s.what.startsWith('call ')).map((s) => `${s.file} ${s.what} in ${s.inside}`);
+    expect(calls.filter((c) => !HARNESS_MIXER_CALLS.includes(c))).toEqual(['packages/kernel/src/rng/rng.ts call mixInto in stream']);
+    // the harness's measurements: exactly the listed ones (a listed one that is gone is red too), the pure form only
+    expect(calls.filter((c) => HARNESS_MIXER_CALLS.includes(c)).sort()).toEqual([...HARNESS_MIXER_CALLS].sort());
+    expect(HARNESS_MIXER_CALLS.filter((c) => !c.includes(' call streamKey in '))).toEqual([]);
+    // the only other references are the rng module's own — its import in rng.ts and the module index's re-export —
+    // and the listed harness imports
+    const refs = sites.filter((s) => !s.what.startsWith('call ')).map((s) => `${s.file} ${s.what}`).sort();
+    expect(refs.filter((r) => !HARNESS_MIXER_IMPORTS.includes(r))).toEqual([
       'packages/kernel/src/rng/index.ts re-export mixInto',
       'packages/kernel/src/rng/index.ts re-export streamKey',
       'packages/kernel/src/rng/rng.ts import mixInto',
     ]);
+    expect(refs.filter((r) => HARNESS_MIXER_IMPORTS.includes(r))).toEqual([...HARNESS_MIXER_IMPORTS].sort());
+    // no listed harness site is a model package's
+    expect([...HARNESS_MIXER_CALLS, ...HARNESS_MIXER_IMPORTS].filter((e) => MODEL.some((m) => e.startsWith(m)))).toEqual([]);
   });
 
   it('the census finds a planted call, an aliased import and a call through a namespace (the lint\'s own check)', () => {
