@@ -38,6 +38,7 @@ import type { Overlay } from '../tx/types.js';
 import { setOwner } from '../tx/writers.js';
 import type { FaceRef, Id, LatticePoint, VertexRef } from '../types/index.js';
 import { compareFaceKeys, enter, lp, opSave, overLimit, refuse, rollback, segmentsTouch } from './common.js';
+import { setVerticesFlags } from '../arena/write.js';
 
 /** §3.4's score raster (`RasterRef`): S7b's, M1 — declared by shape only. */
 export type ScoreRaster = unknown;
@@ -221,7 +222,7 @@ export function pinVertices(o: Overlay, refs: readonly VertexRef[]): KernelResul
   if (!chargeTx(t, INSERT_POINTS, vs.length)) return overLimit(t);
   for (const v of vs) {
     if ((p.vertices.flags[v] & VERTEX_PINNED) !== 0) continue;
-    p.vertices.flags[v] |= VERTEX_PINNED;
+    setVerticesFlags(p, v, p.vertices.flags[v] | VERTEX_PINNED);
     t.log.vertices.push(v);
   }
   return ok(undefined);

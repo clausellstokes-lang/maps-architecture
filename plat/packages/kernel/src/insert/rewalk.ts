@@ -42,6 +42,7 @@ import { area2, err, ok, orient2d, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, workLimitHit, type InsertTx } from './classes.js';
 import { chainJournal, segmentBox } from './stretch.js';
+import { setFacesOuter, setFacesParent } from '../arena/write.js';
 
 /** The work-limit counter of the faces a batch walks (M0.md §2.2's `tx.facesWalked`, unit `faces`). */
 export const TX_FACES_WALKED = 'tx.facesWalked';
@@ -454,10 +455,10 @@ export function rewalk(tx: InsertTx, touched: Touched, undo?: (() => void)[]): K
         const oldOuter = F.outer[f];
         const oldHoles = faceHoles(p, n, f);
         undo?.push(() => {
-          F.outer[f] = oldOuter;
+          setFacesOuter(p, n, f, oldOuter);
           setFaceHoles(p, n, f, oldHoles);
         });
-        F.outer[f] = halfOf(o);
+        setFacesOuter(p, n, f, halfOf(o));
         setFaceHoles(p, n, f, hs);
         indexChange(p, item);
         journal.faces[n].changed.push(f);
@@ -569,9 +570,9 @@ function reparent(tx: InsertTx, old: FaceId, parts: readonly FaceId[], undo?: ((
     check(to >= 0, `the L${up} face ${c} lies in no part of the face it was nested in`);
     if (to === old) continue; // in the part that kept the record: its parent is unchanged, so it is not dirty
     undo?.push(() => {
-      Fu.parent[c] = old;
+      setFacesParent(p, up, c, old);
     });
-    Fu.parent[c] = to;
+    setFacesParent(p, up, c, to);
     // §3.6 step 5: "the commit record lists them" — a re-parented record is in the batch's dirty set at its level
     // (§3.3's CommitRecord.faces, per level ≥ the batch's), as `changed`; a refused chain truncates the list with the rest
     // of the journal (C-0177 (8)).

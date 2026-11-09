@@ -46,6 +46,7 @@ import { candidates, check, computeHeld, routeOf, type RouteOf } from './held.js
 import { MAX_HALVINGS, WARP_HALVINGS, type DisplacementField, type HeldSet, type Move, type MoveKind, type MoveReport, type WarpOptions } from './types.js';
 import { heldRunProblem, placementBoundProblem, stepProblem, vertexProblem } from './validate.js';
 import { padBox, StepView } from './view.js';
+import { setVerticesFlags, setVerticesX, setVerticesY } from '../arena/write.js';
 
 const ATTRACT = LATTICE.attractCm;
 const ATTRACT_SQ = ATTRACT * ATTRACT;
@@ -440,14 +441,14 @@ function commitStep(t: OpenTx, view: StepView, movers: readonly VertexId[], from
   // The points and the flags.
   const flagCleared: VertexId[] = [];
   for (const v of movers) {
-    X[v] = view.x(v);
-    Y[v] = view.y(v);
+    setVerticesX(p, v, view.x(v));
+    setVerticesY(p, v, view.y(v));
     if (kindOf.get(v) === 'free' && (p.vertices.flags[v] & VERTEX_SPLIT) !== 0) {
-      p.vertices.flags[v] &= ~VERTEX_SPLIT;
+      setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
       flagCleared.push(v);
     }
   }
-  for (const u of unflagged) p.vertices.flags[u] &= ~VERTEX_SPLIT;
+  for (const u of unflagged) setVerticesFlags(p, u, p.vertices.flags[u] & ~VERTEX_SPLIT);
   // The journals: the moved vertices and edges (the commit's clearance and level rows read them), the role keys whose
   // chains moved, the (b′) vertices.
   const R = p.roles;
