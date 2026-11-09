@@ -34,7 +34,9 @@ session_01F1FyLSKVBzYwVs2sNL8bcS (Fable 5.1, the managing seat); every hand-back
    run without a done-file — and is re-run or redrafted; a LANDED build returns from disk (the RESUME RULE;
    `corepack pnpm landed:verify -- flow-7 --item ID` prints ok). The lesson of 2026-10-19: RELATED@1000 and any census
    or sweep over an hour run in the BACKGROUND with a log and a done-file under the lane's scratch
-   (`( cmd > out.log 2>&1; touch done ) &`), waited for in the foreground in ten-minute chunks (the WAITING RULE); a
+   (`( cmd > out.log 2>&1; touch done ) &`), waited for in the foreground in FOUR-minute chunks (the WAITING RULE as J714 amended it on 2026-11-09: a seat's
+   prompt cache lives five minutes, and a longer block re-writes the seat's whole context at the next call; a check
+   seat hands a wait over forty minutes to the workflow's haiku waiter and a fresh seat of its lane re-enters); a
    finished log with its done-file is REUSED, never re-run; an unfinished one is re-run.
 6. **Seats:** exactly the parent's SEATS — the workflow args' `"seats"` object, model and effort per kind (build, fix,
    check, recheck). The launch: `Workflow({scriptPath: "/home/user/maps-architecture/workflows/34-session-fix.js",
