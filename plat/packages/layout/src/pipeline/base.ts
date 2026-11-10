@@ -29,10 +29,9 @@
 import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, pointLocate, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
 import { mintTownRoot, type Bridge, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
 import { baseTerrain, cellCount, centreX, centreY, flatTerrain, GROUND_KEY, hydroGridOver, hydroParams, LAND_CELL, rasterGeom, resourceGrid, riverStrategy, s1Stage, siteFrame, siteResources, terrainParams, terrainSampler, TERRAIN_ID, TOWN_ROOT, WATER_CELL, type RiverReport, type SiteResources, type TerrainParams, type RiverRequest, type RiverStrategy, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
-import { loadWorkLimits, rungProfile, TABLE_IDS, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
+import { loadWorkLimits, rungProfile, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { baseNetwork, NETWORK_STRATEGY_ID, s4Stage, type S4Output } from '../backbone/stage.js';
 import { s6Stage, siteFeatures, type S6Input } from '../districts/stage.js';
-import { s6Table } from '../districts/table.js';
 import type { S6Output, WallLine } from '../districts/types.js';
 import { commitS3Slice, type S3Commit } from '../enceinte/commit.js';
 import { baseEnceinte, ENCEINTE_STRATEGY_ID } from '../enceinte/trace.js';
@@ -626,12 +625,8 @@ function growthOutlines(state: GrowthState, commit: S3Commit): { outlines: Latti
   return { outlines, boundary: last.set.outline.slice(), walls };
 }
 
-/**
- * S6's input as the base composes it from S3's, S4's and S5's records (C-0264 (5)), on the run's tables view: S6 and its
- * sited features read the view every stage reads through the context (Q99, J480; x-04 S2, C-0464), never a view of
- * their own.
- */
-export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineContext, 'seedKey' | 'streamOpts' | 'tables'>): KernelResult<S6Input> {
+/** S6's input as the base composes it from S3's, S4's and S5's records (C-0264 (5)). */
+export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineContext, 'seedKey' | 'streamOpts'>): KernelResult<S6Input> {
   const o = growthOutlines(input.state, input.commit);
   if (o === null) return err('E_INVARIANT', 'S6: S5 left no stage with land: no last boundary to offset the perimeter from');
   const p = kernel.plat(GROUND);
@@ -641,7 +636,7 @@ export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineConte
   // S6's bridges are S4's (C-0267, refining C-0264 (5)): S1 lays crossing sites only, S4 returns them `built` where it
   // spanned one, and only a built bridge seeds bridgehead wards; S1's record stands in only when S4 wrote no `bridges`.
   const bridges = input.bridges ?? input.water.bridges;
-  const features = siteFeatures(p, { reservations, gates, bridges, ways, water: input.water, walls: o.walls, tables: ctx.tables });
+  const features = siteFeatures(p, { reservations, gates, bridges, ways, water: input.water, walls: o.walls });
   return ok({
     kernel,
     key: GROUND,
@@ -657,7 +652,6 @@ export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineConte
     reservations,
     walls: o.walls,
     water: input.water,
-    tables: ctx.tables,
   });
 }
 
@@ -960,12 +954,8 @@ export function registerBase(registry: StrategyRegistry, opts: BaseOptions = {})
 /** runBase's options: the runner's (its arenas are the base's) and the batch watcher. */
 export type BaseRunOptions = Omit<RunOptions, 'arenas'> & BaseOptions;
 
-/**
- * The ground arena over the blueprint's frame (§3.2 (9)), indexed (C-0264 (7)). Its frame reads the run's tables view —
- * by default the registered one the runner gives every stage, `tableView(TABLE_IDS, [s6Table()])` (runner.ts; Q99,
- * x-04 S2, C-0464), so the arena and the stages read one view.
- */
-export function baseArena(bp: BaseBlueprint, tables: TableView = tableView(TABLE_IDS, [s6Table()])): Plat {
+/** The ground arena over the blueprint's frame (§3.2 (9)), indexed (C-0264 (7)). */
+export function baseArena(bp: BaseBlueprint, tables: TableView = tableView()): Plat {
   const frame = siteFrame(bp.size, rungProfile(bp.size.rung), tables);
   if (!frame.ok) throw new RangeError(`runBase: the frame: ${frame.code} ${frame.detail}`);
   const p = createPlat(GROUND, frame.value);

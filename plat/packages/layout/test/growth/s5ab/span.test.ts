@@ -268,6 +268,23 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
   });
 
+  it('a finger of the boundary across the span with neither deck end inside is refused, named verbatim, nothing written (carried: the trace beneath a deck is M3a\'s)', { timeout: 120_000 }, () => {
+    const f = fixture();
+    // The site spike's relief-60 coarse seed 151 in small (M0-c-04 S5; C-0454 (3)): the stage's east side at x = 400 m
+    // (both deck ends outside), and a finger 8 m wide rising from the south through the pond across the span's middle.
+    const fingered = densify([P(-40_000, -40_000), P(51_400, -40_000), P(51_400, 1000), P(50_600, 1000), P(50_600, -39_000), P(40_000, -39_000), P(40_000, 40_000), P(-40_000, 40_000)]);
+    const xs = boundaryCrossings(fingered, wayLines(f.k, f.ways), f.site.centre);
+    expect(xs.filter((c) => Math.abs(c.at.y) <= 1 && c.at.x > DECK.a.x && c.at.x < DECK.b.x)).toHaveLength(2);
+    const version = f.plat.version;
+    const t = traceStage(2, fingered, xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok).toBe(false);
+    if (t.ok) return;
+    expect(t.code).toBe('E_INVARIANT');
+    expect(t.detail).toMatch(/^S5a: the gate vertices could not be put on their ways: S5a: the stage boundary crosses bridge:1's span at \((50600|51400), 0\) with 0 of its deck ends on the stage's side; its gate is the bridgehead on that side \(N-54 \(3\)\)$/);
+    expect(f.plat.version).toBe(version);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
   it('a crossing in the water off every span is refused, nothing written', { timeout: 120_000 }, () => {
     const f = fixture(false);
     const xs = boundaryCrossings(OUTLINE, wayLines(f.k, f.ways), f.site.centre);

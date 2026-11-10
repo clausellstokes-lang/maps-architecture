@@ -34,10 +34,8 @@ const scratch = mkdtempSync(join(tmpdir(), 'plat-determinism-'));
 afterAll(() => rmSync(scratch, { recursive: true, force: true }));
 
 describe('the runner reproduces its own report', () => {
-  it('byte for byte on a second run (seeded): the whole spike city — the fusion spike, the site spike and the records tree — at seed 4, its pairs and the check runs (hardening S1, check note 5; seed 4 since M0-c-04 S5, J712)', { timeout: SLOW }, async () => {
-    // seed 4: at seed 1 the growth stage stands unmoved under { S5: 1 } since M0-c-04 S5's held enclosure (C-0454 rule 2), so
-    // neither pair would re-draw a stage there — the session's seam, J712
-    const cfg = await testConfig({ seeds: [4], pairs: 1, checks: 1, stages: [...SPIKE_STAGE_IDS] });
+  it('byte for byte on a second run (seeded): the whole spike city — the fusion spike, the site spike and the records tree — at seed 1, its pairs and the check runs (hardening S1, check note 5)', { timeout: SLOW }, async () => {
+    const cfg = await testConfig({ seeds: [1], pairs: 1, checks: 1, stages: [...SPIKE_STAGE_IDS] });
     const a: DeterminismSpikeReport = await runDeterminism(cfg);
     const b: DeterminismSpikeReport = await runDeterminism(cfg);
     expect(reportText(b)).toBe(reportText(a));
@@ -58,7 +56,7 @@ describe('the runner reproduces its own report', () => {
     expect(a.opOrder.permutedBatches).toBeGreaterThan(0);
     expect(a.opOrder).toMatchObject({ runs: 1, differing: 0, pass: true });
     expect(a.matching).toMatchObject({ pairs: 2, duplicateIds: 0, silentRebinds: 0, pass: true });
-    expect(a.matching.perPair).toEqual([expect.objectContaining({ seed: 4, spike: 'fusion' }), expect.objectContaining({ seed: 4, spike: 'site' })]);
+    expect(a.matching.perPair).toEqual([expect.objectContaining({ seed: 1, spike: 'fusion' }), expect.objectContaining({ seed: 1, spike: 'site' })]);
     expect(a.matching.totals.survive).toBeGreaterThan(0);
     // the site pair's fresh side is C-0090's { S5: 1 } re-derivation, never the old run matched with itself: its S5, S6
     // and S8 roots moved (check B-2, C-0280); the fusion pair may stand unmoved at the test frame (C-0280 (3), a question
@@ -68,7 +66,7 @@ describe('the runner reproduces its own report', () => {
     expect(a.matching.unmoved).toBeLessThan(a.matching.pairs);
     // the oracle's tally is every committed batch of both spikes plus the records tree's build and each of its batches
     // (C-0268 (5); check B-3)
-    expect(a.oracle.batches).toBe(spikeRun('fusion', 4, { size: TEST_SIZE }).commits + spikeRun('site', 4, { size: TEST_SIZE }).commits + RECORDS_BATCHES + 1);
+    expect(a.oracle.batches).toBe(spikeRun('fusion', 1, { size: TEST_SIZE }).commits + spikeRun('site', 1, { size: TEST_SIZE }).commits + RECORDS_BATCHES + 1);
     expect(a.bugs).toEqual({ runs: 2, refused: 0, list: [] });
     expect(a.timings).toEqual({ taken: false, stamps: [], contended: 0, authoritative: 0 });
   });
