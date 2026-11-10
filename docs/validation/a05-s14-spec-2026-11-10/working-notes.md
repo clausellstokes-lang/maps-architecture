@@ -203,3 +203,6 @@ Rendered: build 63 396 chars, check 61 611 chars (render-a05s14/sf3).
 Partial rejection: R2-9's area "against X(F)" kept as REPORTED figure, not a gate (√2·attractCm is B-FUZZ's result-vs-oracle law; a read's bound
 is DRY_MOVE_CM, kerb.ts:673-679). Decision noted: pass 5 runs with chainPath 'back' (refuter's recommendation; ruling (1) silent).
 ## R3 Step 4 — spec-a05-s14-r3.md written (findings table R2-1..R2-20, lines, time, brief sizes). DONE.
+## R4 Step 1 — FINAL EDITS ordered: apply confirm-r3.md edits 1–7 (NEW-1..NEW-6) and nothing else.
+- verified: readings' ends :1042 = 'const ends = ctx.strip != null ? [a, b] : []' (OK); confirm-r3's ':1671's reset' is ctx.chainPath = null at :1674 on b81502bd (:1671 is the back/null line) -> number corrected to :1674, text otherwise verbatim.
+## R4 Step 2 — spec-a05-s14-r4.json + spec-a05-s14-r4.md written (13 replacements = edits 1–7 + the session's copy of edit 1); r3->r4: session +517, L1 rc +627, L3 rc +200, L4 rc +162, L11 rc +198, L12 rc +346, nothing else; rendered build 65 446 / check 63 661; WAITING RULE text present in both. DONE.
