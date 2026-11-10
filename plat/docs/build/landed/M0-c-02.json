@@ -1,243 +1,57 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-02",
-  "lane": "build/M0-c-02-fix-s5",
-  "lanes": [
-    "build/M0-c-02",
-    "build/M0-c-02-fix1",
-    "build/M0-c-02-fix-s1",
-    "build/M0-c-02-fix-s2",
-    "build/M0-c-02-fix-s3",
-    "build/M0-c-02-fix-s4",
-    "build/M0-c-02-consolidate-1",
-    "build/M0-c-02-fix-s5"
-  ],
+  "lane": "build/M0-c-02-fix-s6",
+  "lanes": ["build/M0-c-02", "build/M0-c-02-fix1", "build/M0-c-02-fix-s1", "build/M0-c-02-fix-s2", "build/M0-c-02-fix-s3", "build/M0-c-02-fix-s4", "build/M0-c-02-consolidate-1", "build/M0-c-02-fix-s5", "build/M0-c-02-fix-s6"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-28T12:17:38.211Z",
+  "date": "2026-11-10T04:30:59.930Z",
   "ownsSource": "docs/build/M0-work.json",
-  "owns": [
-    "plat/packages/layout/src/enceinte/",
-    "plat/packages/layout/test/enceinte/",
-    "plat/packages/testkit/test/edge/repins.test.ts"
-  ],
-  "counts": {
-    "created": 25,
-    "changed": 2,
-    "unchanged": 0,
-    "deleted": 0
-  },
+  "owns": ["plat/packages/layout/src/enceinte/", "plat/packages/layout/test/enceinte/", "plat/packages/testkit/test/edge/repins.test.ts (seam from M0-x-06: J601 — the Q37 census pin re-pinned by c-02 S5)"],
+  "counts": { "created": 29, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    {
-      "path": "plat/packages/layout/src/enceinte/closure.ts",
-      "status": "created",
-      "sha256": "eaed5b713b3ae48fb8b689f59b118fb456cd80d1d01c6f3a6f4636fa71e6abd6",
-      "size": 2373
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/commit.ts",
-      "status": "created",
-      "sha256": "0080a8a0baa5d0d2c2387c191583133479c4ff784af55be4b14e23204d4bca84",
-      "size": 12045
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/index.ts",
-      "status": "changed",
-      "sha256": "9ffd0a6e32abf2105f6d445d3ad7042efbd7b57d8bb95842128125e408d3f406",
-      "size": 1804
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/plane.ts",
-      "status": "created",
-      "sha256": "2e336ac561a079325a1a2f3be9f44ce22751015f7cf0b94a3c911e0fd511488f",
-      "size": 17440
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/pull.ts",
-      "status": "created",
-      "sha256": "6efb6fe787182264b81a61e17051eb2273ae8b3c59e9c0cdc67c45b6d49ad808",
-      "size": 14621
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/rungs.ts",
-      "status": "created",
-      "sha256": "defe5d93fabcd386a1ae2621b2a59179b61ee80638d6d97a01b436d847f6cd72",
-      "size": 7077
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/strips.ts",
-      "status": "created",
-      "sha256": "07858d6af9844d28ae6809a56ff172804be500bf4a6e443a9a881c9ca4f6f181",
-      "size": 43151
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/trace.ts",
-      "status": "created",
-      "sha256": "6cbe3bd77afeec3ca1758424e29d39ab3f060a24bcc8b0fce82f11b3f05a01a9",
-      "size": 27325
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/types.ts",
-      "status": "created",
-      "sha256": "ed708a975ddbcec451a1f04223b06aa460a881cf8f41a5d046e642e824873e4c",
-      "size": 7622
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/water.ts",
-      "status": "created",
-      "sha256": "d158a43b0f56e19da5d6ae42e58e71bcf9680a8cd04bc47c56d24139a26de5e8",
-      "size": 27586
-    },
-    {
-      "path": "plat/packages/layout/src/enceinte/wet.ts",
-      "status": "created",
-      "sha256": "a509c1620e9d9bb03be2063729f127f2f7ffa3c7f295cb99e6fa82f89644baff",
-      "size": 11059
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/bend.test.ts",
-      "status": "created",
-      "sha256": "58c686bbe05f9638ba5bc57a1b0f9ee6037481bbb58e2a57e63964ea74d2518f",
-      "size": 26900
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/chord.test.ts",
-      "status": "created",
-      "sha256": "15ccbb10e45c760b50a4c67630f3a29a31e011ce9972ae48617c7ff4a1e11f7d",
-      "size": 19937
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/commit.test.ts",
-      "status": "created",
-      "sha256": "3e04387410fa79faa36f4ff718e2924e8b60c27f09f91f1e4d0735e271493be5",
-      "size": 9842
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/corridor.test.ts",
-      "status": "created",
-      "sha256": "02c0b60b23054014a58263890ca8ec91529c5b12a0a72e5d2c6df07915b47963",
-      "size": 25051
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/fixtures/ep20-496296019.json",
-      "status": "created",
-      "sha256": "8dc7bba2c845a2157154b0dad5bcb57bc74d80a45413f80183f4c7d06aac5e7f",
-      "size": 1975
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/fixtures/relief60-s9-stage2.json",
-      "status": "created",
-      "sha256": "63a96a9fe2c78b43e3ff92f1af6ec3bb7f34ccb9cedcb174da9e34acf20c9cfe",
-      "size": 184128
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/frame.test.ts",
-      "status": "created",
-      "sha256": "0f806382810045c2293c239c619b980ee61f9d3c659a6d95c96b9b54ca831109",
-      "size": 11232
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/fwall.test.ts",
-      "status": "created",
-      "sha256": "052244dbd31cd9e2c7bcf5eefb34842c1c1540d86c9f64e416eac31ed7082ec3",
-      "size": 7787
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/pull.test.ts",
-      "status": "created",
-      "sha256": "d07c4efff5a4cc62093e78f2431907df47bf153d758fb62eb28445eee9de8734",
-      "size": 17981
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/sides.test.ts",
-      "status": "created",
-      "sha256": "6dfc87ad7f404127d47a1383c59529b8bb003d445d76c215a8f131a615a79e57",
-      "size": 21386
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/simplify.test.ts",
-      "status": "created",
-      "sha256": "56bb3df45d1a18686bb6b9875f58f254fa747744fd0ff99d42f8c732576f6960",
-      "size": 6766
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/strips.test.ts",
-      "status": "created",
-      "sha256": "8f40c98975747f7487cd6a9e30f306b20695e19045fcdb172cf8f17a1dc0fb82",
-      "size": 23778
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/support.ts",
-      "status": "created",
-      "sha256": "f889516f2be55c4fda3197577d3d23f44cfa528e33bc938bce8c3c27a135fb8b",
-      "size": 22742
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/trace.test.ts",
-      "status": "created",
-      "sha256": "e5ae441eea831413db86a39e3e4d4012fdefb39c0eab92e181861c4888228135",
-      "size": 24751
-    },
-    {
-      "path": "plat/packages/layout/test/enceinte/water.test.ts",
-      "status": "created",
-      "sha256": "b407a49446ec5f06860275bcdbef8d21395858a8e1f413dc0ee129202df61e90",
-      "size": 18857
-    },
-    {
-      "path": "plat/packages/testkit/test/edge/repins.test.ts",
-      "status": "changed",
-      "sha256": "17a75fefeb74441df44e26a4557d2ccae621808b3ae3883293ffc8ba20348e26",
-      "size": 8737
-    }
+    { "path": "plat/packages/layout/src/enceinte/closure.ts", "status": "created", "sha256": "eaed5b713b3ae48fb8b689f59b118fb456cd80d1d01c6f3a6f4636fa71e6abd6", "size": 2373 },
+    { "path": "plat/packages/layout/src/enceinte/commit.ts", "status": "created", "sha256": "0080a8a0baa5d0d2c2387c191583133479c4ff784af55be4b14e23204d4bca84", "size": 12045 },
+    { "path": "plat/packages/layout/src/enceinte/index.ts", "status": "changed", "sha256": "9ffd0a6e32abf2105f6d445d3ad7042efbd7b57d8bb95842128125e408d3f406", "size": 1804 },
+    { "path": "plat/packages/layout/src/enceinte/plane.ts", "status": "created", "sha256": "67213e290e4be264519d42d0617721b3670a92b3e40d7082d93ae4026ae9e22d", "size": 19742 },
+    { "path": "plat/packages/layout/src/enceinte/pull.ts", "status": "created", "sha256": "802d919292d2977cab75055783aa5053046511e33a139356073eb50659c7ff9a", "size": 18533 },
+    { "path": "plat/packages/layout/src/enceinte/rungs.ts", "status": "created", "sha256": "defe5d93fabcd386a1ae2621b2a59179b61ee80638d6d97a01b436d847f6cd72", "size": 7077 },
+    { "path": "plat/packages/layout/src/enceinte/strips.ts", "status": "created", "sha256": "68c56fdf874e8a6f8c571734bca27dbb6ad1036b99e6d91ebdfb8070f6831e2b", "size": 47816 },
+    { "path": "plat/packages/layout/src/enceinte/trace.ts", "status": "created", "sha256": "0f7cad0d3dd5751a6c7396c26a6c95638f58d21f5761dc168995cb8a4c065f6a", "size": 32724 },
+    { "path": "plat/packages/layout/src/enceinte/types.ts", "status": "created", "sha256": "ed708a975ddbcec451a1f04223b06aa460a881cf8f41a5d046e642e824873e4c", "size": 7622 },
+    { "path": "plat/packages/layout/src/enceinte/water.ts", "status": "created", "sha256": "20bc13587255f3edd80b031bd675d3879dbb76efcd62fc025b7a0d48642d7ab3", "size": 27685 },
+    { "path": "plat/packages/layout/src/enceinte/wet.ts", "status": "created", "sha256": "a509c1620e9d9bb03be2063729f127f2f7ffa3c7f295cb99e6fa82f89644baff", "size": 11059 },
+    { "path": "plat/packages/layout/test/enceinte/bend.test.ts", "status": "created", "sha256": "58c686bbe05f9638ba5bc57a1b0f9ee6037481bbb58e2a57e63964ea74d2518f", "size": 26900 },
+    { "path": "plat/packages/layout/test/enceinte/chord.test.ts", "status": "created", "sha256": "15ccbb10e45c760b50a4c67630f3a29a31e011ce9972ae48617c7ff4a1e11f7d", "size": 19937 },
+    { "path": "plat/packages/layout/test/enceinte/commit.test.ts", "status": "created", "sha256": "3e04387410fa79faa36f4ff718e2924e8b60c27f09f91f1e4d0735e271493be5", "size": 9842 },
+    { "path": "plat/packages/layout/test/enceinte/corridor.test.ts", "status": "created", "sha256": "02c0b60b23054014a58263890ca8ec91529c5b12a0a72e5d2c6df07915b47963", "size": 25051 },
+    { "path": "plat/packages/layout/test/enceinte/fixtures/ep20-496296019.json", "status": "created", "sha256": "8dc7bba2c845a2157154b0dad5bcb57bc74d80a45413f80183f4c7d06aac5e7f", "size": 1975 },
+    { "path": "plat/packages/layout/test/enceinte/fixtures/n52-gateless-way.json", "status": "created", "sha256": "75abef769e47f00c8c68e65b2f56abab365f923a961f21e98f87fa491eb7bebc", "size": 855 },
+    { "path": "plat/packages/layout/test/enceinte/fixtures/relief60-s9-stage2.json", "status": "created", "sha256": "63a96a9fe2c78b43e3ff92f1af6ec3bb7f34ccb9cedcb174da9e34acf20c9cfe", "size": 184128 },
+    { "path": "plat/packages/layout/test/enceinte/frame.test.ts", "status": "created", "sha256": "0f806382810045c2293c239c619b980ee61f9d3c659a6d95c96b9b54ca831109", "size": 11232 },
+    { "path": "plat/packages/layout/test/enceinte/fwall.test.ts", "status": "created", "sha256": "461dfefe922550ec807d3462ca64f7adfef7f5e6c7962f084c170bd2cdc51690", "size": 14157 },
+    { "path": "plat/packages/layout/test/enceinte/pull.test.ts", "status": "created", "sha256": "d07c4efff5a4cc62093e78f2431907df47bf153d758fb62eb28445eee9de8734", "size": 17981 },
+    { "path": "plat/packages/layout/test/enceinte/s3seeds.test.ts", "status": "created", "sha256": "405e99c8c186c9d757ff62317400969c2d8ba7550525abf36a858dfb4f38a2b4", "size": 7273 },
+    { "path": "plat/packages/layout/test/enceinte/s5seeds.test.ts", "status": "created", "sha256": "6f9b5092230dcf87c580dbfea8d1b487a44f5a964bda9be0616ce7cdf462d721", "size": 9139 },
+    { "path": "plat/packages/layout/test/enceinte/sides.test.ts", "status": "created", "sha256": "6dfc87ad7f404127d47a1383c59529b8bb003d445d76c215a8f131a615a79e57", "size": 21386 },
+    { "path": "plat/packages/layout/test/enceinte/simplify.test.ts", "status": "created", "sha256": "56bb3df45d1a18686bb6b9875f58f254fa747744fd0ff99d42f8c732576f6960", "size": 6766 },
+    { "path": "plat/packages/layout/test/enceinte/strips.test.ts", "status": "created", "sha256": "8f40c98975747f7487cd6a9e30f306b20695e19045fcdb172cf8f17a1dc0fb82", "size": 23778 },
+    { "path": "plat/packages/layout/test/enceinte/support.ts", "status": "created", "sha256": "f889516f2be55c4fda3197577d3d23f44cfa528e33bc938bce8c3c27a135fb8b", "size": 22742 },
+    { "path": "plat/packages/layout/test/enceinte/trace.test.ts", "status": "created", "sha256": "e5ae441eea831413db86a39e3e4d4012fdefb39c0eab92e181861c4888228135", "size": 24751 },
+    { "path": "plat/packages/layout/test/enceinte/water.test.ts", "status": "created", "sha256": "8952195ad0bfb4fc4197b997d1de9bf776f6916a55ba86789eebc4acdd396e82", "size": 20148 },
+    { "path": "plat/packages/layout/test/enceinte/ways.test.ts", "status": "created", "sha256": "5069ad9a63c86151055fda152e3b88093d9018f941f297e3e29d047ded80dde0", "size": 7828 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": [
-        "L-0224",
-        "L-0243",
-        "L-0352",
-        "L-0388",
-        "L-0415",
-        "L-0444",
-        "L-0478",
-        "L-0700"
-      ],
-      "lines": [
-        "280a019e57f34af9",
-        "9c0e54beadd96c67",
-        "cba5119a2b700d41",
-        "b313b563ab2a849c",
-        "068621240819c84a",
-        "ccc0bdbef1259cd5",
-        "c4515b40afaf5c0b",
-        "b5a5e6b8c5879048"
-      ],
+      "ids": ["L-0224", "L-0243", "L-0352", "L-0388", "L-0415", "L-0444", "L-0478", "L-0700", "L-0763"],
+      "lines": ["280a019e57f34af9", "9c0e54beadd96c67", "cba5119a2b700d41", "b313b563ab2a849c", "068621240819c84a", "ccc0bdbef1259cd5", "c4515b40afaf5c0b", "b5a5e6b8c5879048", "c151644e9fcc7f3e"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": [
-        "C-0226",
-        "C-0232",
-        "C-0282",
-        "C-0300",
-        "C-0311",
-        "C-0324",
-        "C-0340",
-        "C-0448"
-      ],
-      "lines": [
-        "7db1ed31c5c3d9fc",
-        "a4766984c183a59f",
-        "e37b56539bf732bc",
-        "3c8da99275c6b184",
-        "07a22ba387fbc0f6",
-        "59c634a853cff735",
-        "ea36c59d9424d15b",
-        "8e9ea49de17255bc"
-      ],
+      "ids": ["C-0226", "C-0232", "C-0282", "C-0300", "C-0311", "C-0324", "C-0340", "C-0448", "C-0474"],
+      "lines": ["7db1ed31c5c3d9fc", "a4766984c183a59f", "e37b56539bf732bc", "3c8da99275c6b184", "07a22ba387fbc0f6", "59c634a853cff735", "ea36c59d9424d15b", "8e9ea49de17255bc", "cb5352e13b2a670f"],
       "removed": []
     }
   ]
