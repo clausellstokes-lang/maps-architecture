@@ -12,7 +12,7 @@ import { afterAll, describe, expect, it } from 'vitest';
 import { REFERENCE_SCORE_PATH } from '../../src/host/index.js';
 import { ancestors, contention, sampleMachine, type MachineSample, type ProcessRow } from '../../src/timing/contention.js';
 import { IDLE_MS } from '../../src/timing/harness.js';
-import { BAR_IDS, readTimingBars, run, timingPhase, WORK_PATH, type DetectOptions, type TimingsRecord } from '../../src/timing-phase/index.js';
+import { BAR_IDS, readTimingBars, runPhase, timingPhase, WORK_PATH, type DetectOptions, type TimingsRecord } from '../../src/timing-phase/index.js';
 import { CHROMIUM_ROW, detector, fixtureContext, HOST, machine, PYTHON3, removeScratch, sha256 } from './fixtures.js';
 
 /**
@@ -88,7 +88,7 @@ describe('the token (C-0103): the script refuses to start without PLAT_TIMING_TO
 
   it('the command exits 3 on the refusal and writes the typed refusal to PLAT_BENCH_OUT', async () => {
     const c = fixtureContext({ env: {} });
-    expect(await run([], c)).toBe(3);
+    expect(await runPhase([], c)).toBe(3);
     const r = JSON.parse(readFileSync(join(c.out, 'timing-phase', 'refusal.json'), 'utf8')) as { refused: string };
     expect(r.refused).toBe('no-token');
     expect(c.lines.some((l) => l.startsWith('timing-phase: REFUSE (no-token)'))).toBe(true);
@@ -144,6 +144,18 @@ describe('the detector (C-0103): the script refuses while another process of the
     expect(r).not.toBeNull();
     expect(r?.reasons).toEqual([`process: python3 (python3, pid ${String(PYTHON3.pid)})`]);
     expect(r?.message).toContain(`names 1 other process(es) on the machine (C-0103): python3 (pid ${String(PYTHON3.pid)})`);
+  });
+
+  it("the refusal's three printed lines, verbatim (note 3; J263 Q6): REFUSE (<class>): <message>, the alternative, the reasons", async () => {
+    const c = fixtureContext({ detect: detector(() => machine([PYTHON3, { pid: 4_000_004, ppid: 1, pcpu: 12.5, comm: '/usr/bin/yes' }])) });
+    expect(await runPhase([], c)).toBe(3);
+    expect(c.lines).toEqual([
+      `timing-phase: REFUSE (contended-machine): timing-phase: the detector names 2 other process(es) on the machine (C-0103): python3 (pid ${String(PYTHON3.pid)}); yes (pid 4000004, 12.5 % CPU)`,
+      'timing-phase: the alternative: stop the processes named (quit every browser; end every other node, python, bench, tsc, vitest or esbuild process and anything at ≥ 10 % CPU), then run again',
+      `timing-phase: reasons: process: python3 (python3, pid ${String(PYTHON3.pid)}); process: yes (pid 4000004) at ≥ 10 % CPU`,
+    ]);
+    const r = JSON.parse(readFileSync(join(c.out, 'timing-phase', 'refusal.json'), 'utf8')) as { refused: string; reasons: string[] };
+    expect(r.reasons).toEqual([`process: python3 (python3, pid ${String(PYTHON3.pid)})`, 'process: yes (pid 4000004) at ≥ 10 % CPU']);
   });
 
   it('a planted Chromium of the Playwright cache outside ownPids: REFUSE naming it', async () => {
@@ -249,7 +261,7 @@ describe('every bar of M0-work.json\'s timingBars appears in the record exactly 
 
   it('every planted bar under its budget: each gating bar passes, each reported bar is reported, exit 0; the record names its host and its seams', async () => {
     const c = fixtureContext();
-    const code = await run([], c);
+    const code = await runPhase([], c);
     const r = recordOf(c.recordPath);
     for (const b of r.bars) {
       if (b.id === 'tiers') continue; // built readings never gate (C-0047): tiers.test.ts holds its record
@@ -364,7 +376,7 @@ describe('--only <ids> (C-0080): exactly the named bars, the stored score read a
     expect(sha256(c.scorePath)).toBe(scoreBytes);
     await timingPhase(['--only', 'fusion', 'skeleton'], c);
     expect(recordOf(c.recordPath).rerun.map((b) => b.bars.map((x) => x.id))).toEqual([['insert', 'digest'], ['skeleton', 'fusion']]);
-    expect(await run(['--only', 'insert'], c)).toBe(0);
+    expect(await runPhase(['--only', 'insert'], c)).toBe(0);
   });
 
   it('--only never writes the score, even when the stored score is null (the reference-score check reads it)', async () => {
@@ -381,11 +393,13 @@ describe('--only <ids> (C-0080): exactly the named bars, the stored score read a
   it('a bad argument exits 64 (an unknown bar, a bar twice, --only empty, an unknown flag); --list prints the ids', async () => {
     for (const args of [['--only', 'nope'], ['--only', 'insert,insert'], ['--only'], ['--fast'], ['--only', 'insert', '--only', 'digest']]) {
       const c = fixtureContext();
-      expect(await run(args, c), args.join(' ')).toBe(64);
+      expect(await runPhase(args, c), args.join(' ')).toBe(64);
       expect(existsSync(c.recordPath)).toBe(false);
     }
     const c = fixtureContext({ env: {} });
-    expect(await run(['--list'], c)).toBe(0);
-    expect(c.lines.map((l) => l.split(' ')[1])).toEqual(BAR_IDS.map(String));
+    expect(await runPhase(['--list'], c)).toBe(0);
+    // the measuring process's build line first (RL10 (a)), then the ids
+    expect(c.lines[0]).toMatch(/^timing-phase: build production \(production-bundle; DEBUG_BUILD false, the arena's assertion switch off, __name 0, /);
+    expect(c.lines.slice(1).map((l) => l.split(' ')[1])).toEqual(BAR_IDS.map(String));
   });
 });

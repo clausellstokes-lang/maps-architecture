@@ -117,3 +117,65 @@ The verdict is `checks/M0-d-06-s1.md` (PASS). One minor note, not a blocker (N-4
       by this check's C12–C16).
     * To harden: assert the whole line verbatim for one narrowed case (J263 Q6's pinning applied to a new text).
     * Hardening milestone: M4.
+
+## Hardening round S2 (lane `build/M0-d-06-fix-s2`, 2026-11-10)
+
+The session's hardening round S2 of M0-d-06 (J725, under the owner's delegation): ONE LINE, the second leg of the merged
+round M0-f-01 S1 → M0-d-06 S2 → M0-t-00 S1 (J443), the prerequisite of M0-t-00 S1's RL10 (c) (queue row Q72). Choices
+row C-0472 names the row it closes. Mutants ran in the lane's one scratch mirror
+(`/home/user/maps-scratch/waves/selfcheck-build-M0-d-06-fix-s2`, isolation proven: no link into the tree, `@plat/kernel`
+realpath inside the mirror; removed after), each with
+`vitest run --maxWorkers=1 --bail=1 packages/testkit/test/crosshost bench/test/crosshost`; the clean mirror ran 16
+files, 88/88. Every mutant was restored from the tree and checked with `cmp -s` before the next.
+
+| row | source | outcome | the change | pin (red without the fix) | mutant(s) |
+|---|---|---|---|---|---|
+| LINE 1 | the round's brief (J725); Q72 / RL10 (J637); `bench/src/profile/bundle.ts`'s recipe (read, never edited) | FIXED and PINNED; the Mac legs PENDING-MAC | `bundle.ts`: `buildCrossHostBundles(entryPath, options = {})` — `{ production: true }` adds `define: { PLAT_DEBUG_BUILD: 'false' }` to both bundles and nothing else of the recipe; the default (no option, `{}`, `{ production: false }`) unchanged. API: one optional parameter on the exported function, the options type module-private, no export added, removed or renamed (rule (5)); no message text changes | `test/crosshost/production.test.ts` (new) + `debug-stages.ts` (new, a stage digesting the kernel's `DEBUG_BUILD` from inside the bundle): (a) no free `PLAT_DEBUG_BUILD` in the production bundles, present in the default ones; the browser bundle in `node:vm` and every Node leg run here (workers off and on, through the runner's `bundles` option) observe `DEBUG_BUILD` false in production, true by default; (b) the default call byte-identical to the before image (the pre-round recipe restated verbatim) for `debug-stages.ts` and the kernel fixture; (c) the production call = the before image plus the define, nothing else | killed: M01 (the define dropped — the fault the line names), M02 (the define on every call), M03 (+ inline source map), M04 (+ `keepNames`), M05 (browser only), M06 (node only), M07 (production unless `false`), M08 (defined `'true'`), M08b (defined `'0'`), M10 (the node call not passed the option); equivalent: M09 (the node production target es2022 — es2022 and node24 give byte-identical output for all four stage tables) |
+
+11 non-equivalent mutants, 11 killed, each by `production.test.ts` (M01, M02, M05, M06, M07, M10 by (a)'s free-identifier
+test; M08, M08b by (a)'s browser observation; M03, M04 by (c)); one equivalent survivor (M09), noted above.
+
+**NO-SHIFT (declared, C-0472 (3)).** The default bundles' sha256 in the tree (cwd `plat/`), before (the pre-round recipe)
+= after: the kernel fixture node `6b7aa55d62e0ce1c9eb99d58d284aa3d8ae3136a091fc72873a3e4d8eb814418`, browser
+`9ecb62c79e186b0ee81626d56bc8cd967fe3860f8d1170100cfd38d556fa6028`; `planted-stages.ts`, `thread-stages.ts` and
+`debug-stages.ts` likewise identical. A bundle's text carries cwd-relative path comments, so the same sources hash
+differently from another directory (the mirror's kernel node bundle is `e57ce523…`); the comparison is always within one
+directory. The kernel fixture never reaches `debug.ts`, so its production bundles equal its default ones byte for byte.
+
+**Refusal census (J264 / N-58).** The item's registered family, the kernel fixture (16 seeds × 9 stages = 99 cells), on
+the Node legs this machine runs (node-x64-rosetta, workers off and on): before the round 0 error cells of 99; after,
+the default bundle 0 of 99 and the production bundle 0 of 99, its cells equal to the default's. 0 → 0; nothing to class.
+
+**Mac steps (PENDING-MAC).** The arm64 and Rosetta Node legs and the three browsers running a production bundle are the
+reference Mac's (C-0028); the browser bundle's production build is exercised here in a bare `node:vm` context only.
+
+**Clean room.** The line's evidence `docs/validation/t00-s1-spec-2026-11-09/spec-t00-s1.md` §b.5 was not opened
+(outside an implementer seat's list, §17.1 (1)); the line states the option and its pins whole.
+
+## Closing check of hardening round S2 (lane `check/M0-d-06-close-s2`, 2026-11-10)
+
+LINE 1 is confirmed fixed (verdict `checks/M0-d-06-s2.md`). Two minor notes; neither fails the round (N-45). Mutant ids
+are this check's (K01-K14, mirror `/home/user/maps-scratch/waves/check-M0-d-06/close-s2/mirror`).
+
+11. **The define alone makes a bundle "production" only where `kernel/src/invariants/debug.ts` is in its module graph.**
+    * `@plat/kernel` declares `"sideEffects": false`, so esbuild drops `invariants/debug.ts` — and with it its top-level
+      `if (!DEBUG_BUILD) setDebugAssertions(false)` — from a stage table that reaches the arena but imports nothing of
+      `invariants/debug.ts`. The arena's own switch (`arena/debug.ts`, default on) then keeps `assertStamp`'s checks
+      running in a bundle built with `{ production: true }`.
+    * Probe (CONFIRMED): an entry importing only `createPlat` and `assertStamp`, bundled with the define, holds
+      `debugAssertions()` 3 times and `setDebugAssertions(false)` 0 times. The tables in `plat/` today are fine: the
+      production bundles of `bench/src/timing-phase/gate-stages.ts` and `bench/src/determinism/stages.ts` each hold
+      `setDebugAssertions(false)` once, and the kernel fixture never reaches the arena. `bench/src/profile/bundle.ts`'s
+      recipe has the same property, so it is the recipe's, not this round's.
+    * To harden: where the timing phase uses `{ production: true }` (M0-t-00 S1's RL10 (c)), observe the build from inside
+      the leg, as `test/crosshost/debug-stages.ts` does, but digest `debugMode()` (the flag AND the arena switch), not
+      `DEBUG_BUILD` alone. Or the kernel (M0-a-14's files) reads the flag in `arena/debug.ts` itself. Milestone: M0-t-00 S1
+      if its stage tables could ever skip `invariants/`, otherwise M4.
+12. **"Nothing else of the recipe" is pinned by output bytes, so recipe additions that change no bytes go unseen.**
+    * K10 (production adds `external: ['playwright-core']`), K11 (production node target es2022) and K12 (production also
+      defines `process.env.NODE_ENV`) survive. They are EQUIVALENT today: byte-identical production bundles for all
+      nine stage tables in `plat/` (`kernel-stages`, `thread-stages`, `debug-stages`, `planted-stages` ×2,
+      `determinism/stages`, `gate-stages`, `clock-stages`, `tiny-stages`).
+    * A future table that reads `process.env.NODE_ENV` or imports `playwright-core` would make K12 or K10 observable,
+      and pin (c) would still catch it (it compares bytes against the image plus the define only).
+    * To harden (M4, optional): add one stage table that reads `process.env.NODE_ENV` to (c)'s list.

@@ -729,3 +729,269 @@ or a reported outcome on a frame outside the registered bar, pre-existing by the
     whether a gate vertex is a lawful S5b junction (then the check counts meetings per gate point) or the candidate rule
     steps such a junction inward off the wall (a declared shift on this frame); with N-37 at M1's calibration, else M4.
     CONFIRMED (executed).
+
+## Hardening round S5 (lane `build/M0-c-04-fix-s5`, 2026-10-31 – 2026-11-02) — the builder's row-by-row outcome
+
+The session's round S5 of the item (J670; J237 (2), J264 / N-58, J290, J263 Q1 / Q6) on two lines: Q122's S5 class (the
+growth stage's share of M0-e-06 S3's S5 refusals, the new S5 `E_DEGENERATE` class among them) and Q88's growth part.
+The lane ran in three containers, each after the first under the CONTINUE RULE: CF's (2026-10-31 04:19 – 09:11), CM's
+(J680, 2026-11-01 18:47 – 23:29) and a third (2026-11-01 23:30 –), each losing the one before's mirror, scratch output
+and live runs and keeping the tree's edits and the CHECKPOINT lines. The tree is the round's base 7740552 (J673) plus
+this round's files: the router landing a-05 S12 + S13 (J678) and x-02 S3 (J674) are not in it, so every census below is
+measured on the base before them (the session re-measures at landing). Choices row C-0475 (renumber if it collides at
+the landing: CD's and CE's in-flight rounds were handed the same id, J680); ledger row L-0765. Mirrors: the mutant
+mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-04-fix-s5/plat` and the probe copy beside it (`…/probe/plat`,
+the census's instrumented tree: the item's two files with logging and a cut, and a dump in `enceinte/trace.ts`), both
+proved isolated (no link into the tree; `@plat/kernel` resolving inside), every mutated file restored by copy and
+`cmp -s`; both removed at the end. The lane scratch (the census lines, the probe dumps, the mutant logs) is
+`/home/user/maps-scratch/lane-c04s5/`.
+
+39. **N-39 Line 1 — Q122's S5 class re-measured on this tree, attributed, the growth stage's share fixed by two rules.**
+    * *Re-measure (before).* Every one of the 137 S5-refused seeds of `summaries/M0-e-06.json` (relief-60 / relief-3000
+      × default / coarse at CITY, the spike's registry, S6 dropped) re-derived whole on this tree reproduces its e-06 S3
+      code and detail, every one at stage 2's S5a (CF's before-census, CHECKPOINT 2026-10-31 06:29; the final census
+      below re-derives each again): **no S5 seed commits since c-04 S4** (a40ba3bb landed before e-06 S3's census
+      e3c02eec, so S4 fixed none of them). Before: relief-60 default 43 (E_SELF_INTERSECT 42, E_INVARIANT 1: 118),
+      coarse 43 (41, E_INVARIANT 2: 118, 151), relief-3000 default 25 (E_SELF_INTERSECT 20, E_DEGENERATE 2: 21, 59,
+      E_INVARIANT 3: 32, 81, 188), coarse 26 (21, 2, 3).
+    * *Attribution* (the probe copy's dump in `traceBase`: the boundary handed to the trace, the same after the gates
+      are placed, after the water splice, after the pull, after the smoothing; and the previous wall against the stage
+      boundary): two growth-stage classes and the wall's.
+      - **G1, the gate squares folded against each other (the growth stage's: `squareGates`, S5a's boundary).** On the
+        3 000 m hill stage 2's S5b spawned or re-drew a destination beside an arterial's crossing — the two gate vertices
+        1.07 m apart on relief-3000 162 and 1.20 m on 196 (both configurations). `traceStage` squares each gate to its
+        way over the outer strip's reach (15 m); the second square folded against the first, and `squareGates` took it
+        because `ringIsSimple` passed it, while the trace reads a touch at the attraction distance (`selfTouches`, 26 cm):
+        the boundary handed to the trace touched itself (`handed self_touch`; S5 F-WALL `E_SELF_INTERSECT`). Our own
+        intermediate from lawful input.
+      - **G2, the handed boundary through the previous wall (the growth stage's: S5a's boundary).** Stage 1's pull
+        carries its wall up to its 40 m band beyond stage 1's own boundary; stage 2's boundary, the level set over stage
+        1's *selection*, then leaves points of that wall outside it, so the trace is handed a boundary through its core
+        (relief-60 default 1: 9 points up to 2.3 m; 13: 5 points, 27.6 m; Q88's test-size seed 2: 2 points, 22 m;
+        M0-d-09's site pair, 400 ha / 12 ha seed 1: 2 points). §4.4 S5a: "the union keeps the stages nested even where a
+        moat raised T just outside the previous wall".
+      - **W1, the water splice (the wall's: `crossWater`).** The handed boundary simple and clear of the core, the ring
+        after the river splice self-touches (two pins 1 – 30 cm apart).
+      - **W2, the pull (the wall's: `pullAndPin`).** The handed and spliced rings simple, the pulled line folds; among
+        them the seeds CF had read as two gates at one point — relief-3000 9, 21, 33, 59, 104, 157, 183 (both
+        configurations): the dump on the plain picks hands a clean boundary with the nearest gates 10.6 – 21.7 m apart
+        (9: 10.58 m, 21: 14.04, 33: 19.28, 59: 13.63, 104: 15.24, 157: 21.72, 183: 16.53), the pull folds between them, and
+        on 21 and 59 the re-offset rung then leaves nothing (`E_DEGENERATE 'empty'`, the rung's code, `rungs.ts`) — and
+        the pull's spike branching (`E_INVARIANT 'branches'`): relief-3000 32, 81 (nearest gates 82 m apart), 188,
+        relief-60 118. §4.2 S3 (7) bars two gates **at one point**; gates 10 m and more apart are lawful input to the trace.
+      - **relief-60 coarse 151** (`S5a: the gate vertices could not be put on their ways: S5a: the stage boundary crosses
+        bridge:24's span … with 0 of its deck ends on the stage's side …`): a finger of the stage boundary across the
+        span's middle, neither deck end inside. The detection is `placeGateVertices`' (the item's), the input lawful and
+        the boundary ours; success needs the trace beneath a deck (§4b's raised ways, M3a: a gate is the bridgehead, a
+        crossing under a deck no gate) — kept at REFUSE, `notBuilt('M3a')` in reason, pinned verbatim on a hand fixture
+        (`span.test.ts` "a finger of the boundary across the span …"; mutant S151 killed). For the session: whether the
+        boundary should keep such a finger off the span (a boundary change of its own) is a reading for M1.
+    * *Fix (1), G1 — a squaring that adds a touch is kept off (C-0475 (1)).* `squareGates` takes a gate's squaring only
+      where the outline stays simple **and** the squaring adds no touch as the trace reads one (`selfTouches` at
+      `TOUCH_CM`, the trace's own detection; an outline that touched before is no reason to refuse); else that gate keeps
+      the outline as it was there — the rule's existing fallback for a non-simple squaring, now read with the trace's
+      tolerance. No pick moves; an outline whose squarings add no touch is byte-equal to before. relief-3000 162 and 196
+      commit in both configurations (both gates of the pair left unsquared, the trace's rungs lay the wall).
+    * *Two readings measured and withdrawn (C-0475 (1)'s record).* (a) *The gate square* (CF's first draft: every
+      destination 30 m — twice the outer strip — from every crossing and each earlier pick, a re-draw passing over one
+      inside it, `Unserved.why` `'apart'`): its census on relief-3000 default, complete (169 seeds), fixed 10 (9, 21, 33,
+      59, 81, 104, 157, 162, 183, 196) and turned 8 committed seeds into S5 F-WALL refusals (14, 31, 40, 57, 103, 116,
+      134, 156: the moved gates 40 – 54 m from an arterial's, where the pull folds, and on 57 a 93 cm pair of two standing
+      ways' crossings whose outline the moved pins re-simplified) — **E_SELF_INTERSECT 20 → 21, a class rising** — and
+      it added a member to the `Unserved` record's `why` (a record format: not this round's). Withdrawn, its code, its
+      pins (`site.test.ts`'s ten seeds, `site-coarse.test.ts`), `spawn.test.ts`'s square unit and `checks.ts` (6b).
+      (b) *The one point* (every destination a primary's width, 12 m at CITY, from every crossing and each other):
+      relief-3000 9, 162 and 196 committed, but it moved picks on most relief-3000 seeds (its touch census: 6 of the
+      first 12 committed seeds of relief-3000 default touched), and on 150 its moved pick handed the trace a
+      self-touching boundary (gates 23.9 m apart; the plain picks hand a clean one) — a defect of our own made where
+      there was none. Withdrawn for the fix at the source, (1). The census lines of both are kept in the lane scratch
+      (`census-square.jsonl`, `census-op.jsonl`).
+    * *Fix (2), G2 — the held enclosure, a repair (C-0475 (2)).* A walled stage's boundary is taken as before, over the
+      previous selection; where it so crosses the wall standing before it (`crossesCore`, the trace's own core test),
+      it is taken again over the enclosure of stage k − 1 held with that wall: the previous selection and every reachable
+      dry interior node inside the wall's line or nearer it than `wallClearance` (its outer strip and a primary's
+      half-width; C-0244). The level set and `t_k` read the union with the held nodes at T = 0 (the land exact to one
+      cell as before); `enclosureCm2`, `addedCm2` and the fold read the selection as before (S5c's `landHa`, S5d's
+      `grownFull`). A stage that nests already never moves. Two narrowings, each forced by a red: the held set on every
+      stage turned growth.test's 400 ha / 30 ha seed-3 frame red (the ribbon's held set alone exceeded its quota, `t_3` =
+      0), so an unwalled stage reads the selection; the held set applied wherever a held node poked out of the level set
+      (no crossing) moved M0-c-02's `bend.test.ts` RIVER 900 ha / 30 ha seed 2 (its gate:w2 bank pins; stage 1's wall
+      inside stage 2's boundary, 6.6 m from it), so the set is a repair applied only on a crossing.
+    * *After (the final census, row 42).* relief-60 default 43 → 39 (13, 84, 156, 162 commit: (2)), coarse 43 → 39
+      (88, 178, 188, 196, 197 commit: (2); 29, which committed before, now refuses on the water splice, W1),
+      relief-3000 default 25 → 23 and coarse 26 → 24 (162, 196 in both: (1)) — **13 lawful-input refusals made to
+      succeed, one new (the wall's), no class rising**; every remaining one the wall's (W1, W2, the branching) or 151's
+      — REPORTED to M0-c-02 S6 by message, row 41. Each of the nine G2 seeds had its stage-1
+      wall outside the plain boundary (13: 5 points, 84: 1, 156: 7, 162: 6; coarse 88: 7, 178: 19, 188: 2, 196: 5,
+      197: 2). relief-60 coarse 31 committed under CM's unconditional held set by the clearance alone (its stage-1 wall
+      inside stage 2's boundary) and refuses W1 under the repair, as before the round.
+    * *Pins (every fixed seed, through S5 on this tree):* `site.test.ts` (relief-3000 default and coarse 162, 196: S5
+      commits, a trace laid), `boundary.test.ts` "keeps the outline where a squaring would make it touch itself …" (the
+      unit: seed 162's outline beside its two gates, closed inside — the squaring kept off, the outline unchanged; the
+      first gate alone squared as before; a touching outline no reason to refuse), `held.test.ts` (relief-60 default 13,
+      84, 156, 162; the handed-boundary pins of row 40; the repair's trigger on bend's RIVER 900 / 30 seed 2),
+      `held-coarse.test.ts` (relief-60 coarse 88, 178, 188, 196, 197), helper `sitefix.ts` (`deriveThroughS5`, the
+      fixtures, `roundBreaks`: every point of the previous wall inside each walled stage's boundary). Cost (named): 19
+      derivations at CITY or the test size, about 1 – 3.5 min each on the cloud machine; NEAR over `s5ab/` 4 453 s at
+      one worker (it was 2 154 s before the pins).
+    CONFIRMED (executed: the census lines, the probe dumps, the pins green, the mutants of row 43).
+40. **N-40 Line 2 — Q88's growth part.** Q88 is M0-c-05 N-s2c-4's `site: relief-60 (default): 2 runs … refused S5
+    E_SELF_INTERSECT ×1` — the site harness at its **test size** (900 ha, 30 ha walled), seeds 1 – 2. Derived on this
+    tree (the probe copy, whole): **seed 1** commits before and after; **seed 2** refused S5 F-WALL with the handed
+    boundary through stage 1's wall (G2: two wall points up to 22 m outside stage 2's boundary, 34 m outside stage 1's
+    own) — the growth stage's share, fixed by (2) and pinned (`held.test.ts` "relief-60 default at the test size, seed 2
+    (Q88) …": every wall point inside, `defectOf` null, the land on the selection; H1 red) — and after the fix it still
+    refuses S5 F-WALL `E_SELF_INTERSECT` on the water splice (W1: two pins 1 cm apart): **the wall's share, REPORTED to
+    M0-c-02 S6** with seed and message (row 41). Q88's CITY reading (relief-60 default seeds 1 – 2 at CITY): seed 2
+    commits; seed 1 refused with G2 (nine points, 2.3 m) and W1; after the round G2 is gone (pinned, `held.test.ts` "… at
+    CITY, seed 1 …"; H1 and H2 red) and W1 remains (REPORTED). CONFIRMED (executed).
+41. **N-41 REPORTED to M0-c-02 S6 (the wall's share, by message and seed).** Every remaining S5 refusal of e-06's four
+    groups after the round — relief-60 default 38 `E_SELF_INTERSECT` (W1: 1, 11, 12, 15, 23, 42, 44, 47, 62, 64, 74, 91, 95, 153, 178, 190,
+    196; W2: 14, 18, 25, 30, 34, 39, 65, 70, 72, 75, 81, 108, 109, 113, 133, 142, 154, 175, 184, 193, 198) and 118
+    (`E_INVARIANT`); coarse 37 (W1: 1, 9, 12, 13, 15, 23, 29, 31, 34, 38, 42, 47, 97, 114, 162, 169, 173; W2: 14, 18, 30,
+    39, 65, 70, 72, 74, 81, 108, 109, 113, 133, 142, 154, 175, 184, 193, 198, 199), 118 and 151 (the item's REFUSE);
+    relief-3000 default 18 `E_SELF_INTERSECT` (W2: 9, 17, 33, 70, 80, 85, 88, 96, 99, 104, 106, 121, 136, 144, 150, 157,
+    171, 183), 21 and 59 (`E_DEGENERATE`), 32, 81, 188 (`E_INVARIANT`); coarse the same and 184 (W2) — by class: W1 (the water splice self-touches) and W2 (the pull folds),
+    both `F-WALL: the trace touches itself after the re-offset and union-simplify rungs; the later rungs are M1's (§5.2;
+    C-0085)`; relief-3000 21 and 59 (W2, then the re-offset rung's `E_DEGENERATE` `empty`); the pull's spike branching,
+    `(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)` (relief-3000 32,
+    81, 188; relief-60 118); Q88's test-size seed 2 (W1). On every one of them the boundary the growth stage hands the
+    trace is simple and holds the previous wall after this round (the dump's `handed null`), so no growth-stage share
+    remains in them; 151 stays the item's REFUSE (row 39). Input kind LAWFUL; verdict for the wall's owner (N-58:
+    MAKE-IT-SUCCEED, or REFUSE `notBuilt('M1')` with F-WALL's later rungs, as C-0448 (15) carries them).
+42. **N-42 The census of the item's registered families and the shift (J264 (4), N-58).** The final census on the
+    final code, the probe copy, over every seed of e-06's four groups that reaches S5 (675): the 137 refused seeds
+    derived whole; every other one derived to the last walled stage's `squareGates` and cut there when neither rule bit
+    (no held node, no squaring kept off: its outcome then the pre-round one, by construction), else whole.
+    | group (CITY) | S5 refusals before (e-06 S3) | after | made to succeed | committed before, refusing now |
+    |---|---|---|---|---|
+    | relief-60 default | 43: `E_SELF_INTERSECT` 42, `E_INVARIANT` 1 | 39: 38, 1 | 13, 84, 156, 162 ((2)) | none |
+    | relief-60 coarse | 43: `E_SELF_INTERSECT` 41, `E_INVARIANT` 2 | 39: 37, 2 | 88, 178, 188, 196, 197 ((2)) | 29 (W1) |
+    | relief-3000 default | 25: `E_SELF_INTERSECT` 20, `E_DEGENERATE` 2, `E_INVARIANT` 3 | 23: 18, 2, 3 | 162, 196 ((1)) | none |
+    | relief-3000 coarse | 26: `E_SELF_INTERSECT` 21, `E_DEGENERATE` 2, `E_INVARIANT` 3 | 24: 19, 2, 3 | 162, 196 ((1)) | none |
+
+    **137 → 125; no class rises in any group** (every class falls or holds). Of the 538 seeds that committed before,
+    537 still commit; **relief-60 coarse 29** now refuses S5 F-WALL `E_SELF_INTERSECT` — its plain stage-2 boundary
+    crossed stage 1's wall (the trace had coped), the held boundary is simple and holds the wall (the dump's
+    `handed null`), and the water splice then self-touches (W1, the wall's; REPORTED, row 41). No derivation threw. The
+    lines: `census-sg.jsonl` in the lane scratch (675 seeds; the cut lines named `untouched cut`).
+    *The bar fixture:* the flat CITY seeds 1 – 100 are untouched by both rules (the bite probe on the final code: no
+    held node and no squaring kept off through every stage; the NEAR bar's 100 rows equal row 30's, 3.752 – 4.267
+    km/km², mean 4.020, 15 gates each) — **NO SHIFT** on the item's bar, its goldens and every s5ab fixture.
+    *The declared shift:* (2) moves a walled stage's boundary only where the plain one crosses the wall before it
+    (relief-60 default 1, 13, 42, 44, 62, 84, 91, 95, 156, 162 and coarse 13, 29, 42, 88, 162, 178, 188, 196, 197 — every one but coarse 29 refused before; none of relief-3000's); (1) moves an outline only where a gate's squaring would add a touch (relief-3000 35, 57, 87, 162, 172, 196 in both configurations — 35, 57, 87 and 172 committed before and commit still, their stage-2 trace laid on the unsquared pair; none of relief-60's). CONFIRMED
+    (executed).
+43. **N-43 The mutant table (the mutant mirror, each on its pin file, `--bail=1`, W = 1, restored by copy + `cmp`; on
+    the final code, the third container).** S1 the squaring's touch test off (`ringIsSimple` alone, as before the round):
+    `boundary.test.ts` KILLED (9 s) and `site.test.ts` KILLED (relief-3000 default 162 refuses; 145 s); S2 any touching
+    squaring refused (the "adds a touch" clause dropped): `boundary.test.ts` KILLED; S151 the 0-deck-end refusal off:
+    `span.test.ts` KILLED; H1 the held enclosure off: `held.test.ts` KILLED; H2 the held set without its clearance (only
+    the nodes inside the line): `held.test.ts` + `held-coarse.test.ts` KILLED (relief-60 default seed 1 at CITY: nine
+    wall points outside; CF's H2 survived on the Q88 pin alone); H3 the enclosure's land on the held set: KILLED; H5 the
+    repair's trigger dropped (the held set wherever it adds a node): `held.test.ts` KILLED (bend's RIVER 900 / 30 seed 2:
+    the boundary moves); H4 the held set on an unwalled stage too: SURVIVES `growth.test.ts` (110 s) — with the trigger
+    no fixture of the item's has an unwalled stage whose plain boundary crosses the wall before it (the 400 / 30 seed-3
+    frame that reddened the unconditional set nests) — KI, the hardening pass's pin (a hand state whose stage 3 is
+    unwalled and crosses stage 2's wall), M4. CF's mutants of the withdrawn square (G1 – G6, G2b, Q1 – Q7) and CM's ran
+    on code no longer in the tree. CONFIRMED (executed).
+44. **N-44 The gates.** `install --frozen-lockfile` 0; `lint` 0 (eslint 1271 files, 0 errors, probe-red ok, 9 whole-tree
+    checks; the three gates re-run on the final tree after RELATED); `build` 0; NEAR `s5ab/` at full strength, W = 1, on the final source: 16 files 96 / 96, exit 0 (4 453 s;
+    the bar's rows as row 42); RELATED@1000 over `growth/mainRoads.ts` and `growth/boundary.ts` (the round's two source
+    files): row 45.
+45. **N-45 RELATED@1000.** Over `growth/mainRoads.ts` and `growth/boundary.ts` at W = 1 (the budget's) on the final code,
+    `PLAT_FUZZ_SEED` 324543008: 256 files, 3 233 / 3 240 passed, exit 1 (11 705 s) — 7 reds in 4 files.
+    * **The item's (by the import path; caused by (2), a DECLARED shift):** `bench/test/determinism/pair.test.ts` (3:
+      "re-draws S5, S6 and S8 …" — S5's root equal on both sides —, "every S1 and S4 entity survives …", "a fresh side with
+      a tampered … root …") and `runner.test.ts` (1: the site pair's `redrawn`, the report `fail` for `pass`). At M0-d-09's
+      site pair (RIVER_BLUEPRINT, 400 ha / 12 ha, seed 1) stage 1's wall stood 2 points outside stage 2's plain boundary;
+      with the held set the boundary holds it, and the pair's `{ S5: 1 }` reroll then leaves S5 unmoved: S5b's one pick
+      leads its jitter and S5's other draws do not read the town root's reroll — C-0280 (3)'s question ("why the small
+      flat frame's S5 draws nothing from the rerolled streams is for the growth stage's owners") answered: at M0 the only
+      town-root draws S5 makes under `{ S5: 1 }` are S5b's pick jitters. Replayed in the mirror with the held set off
+      (H1's change), `pair.test.ts` is 12 / 12. A cross-item pin (M0-d-09's files): not edited (rule (1)); **for the
+      session's ruling** — re-pin the site pair at a seed or frame whose S5 moves, or count it `unmoved` as the fusion
+      pair is. Until then this gate is red, and the lane returns `blocked` on it.
+    * **Not the item's (notes for the session, with their seeds):** `testkit/test/edge/repins.test.ts` (2: EP-01/S1/
+      self-touching at seed 2651453823, `laddered` for `refused-safe`; EP-01/S5a/coincident at seed 1658509524,
+      `absorbed` for `refused-safe`) and `ep01-s1-s3-s4.test.ts` (1: EP-01/S1/self-touching refused on seed 2893352673,
+      a seed its pin does not name). S1 runs none of the round's code, and the S5a re-pin fails the same in the mirror
+      with the round's squaring rule off, with its held set off and with both off (replayed: 1 failed each time); the
+      in-flight edits of other items standing in the tree (M0-e-03 s1's site/water, M0-x-06's `testkit/src/edge`) are
+      the candidates. No J176 bench file was in the run's set.
+    CONFIRMED (executed).
+46. **N-46 The session's ruling on row 45 (J710, 2026-11-06, on the BLOCKED hand-back of 09:45Z; under the owner's
+    delegation, vetoable).** The four item reds of row 45 at M0-d-09's site pair (`bench/test/determinism/pair.test.ts`
+    ×3, `runner.test.ts` ×1; RIVER_BLUEPRINT 400 ha / 12 ha, seed 1 — S5 no longer moves under the `{ S5: 1 }` reroll
+    once the enclosure is held) are a **DECLARED SHIFT of rule (2)**, re-pinned by the session's seam at the landing
+    (the site pair moved to the first seed ≥ 2 where S5 moves; Q140's pattern) — not a failing line of this round and
+    not edited here (rule (1)). The three testkit edge reds (`repins.test.ts` EP-01/S1 2651453823, EP-01/S5a
+    1658509524; `ep01-s1-s3-s4.test.ts` EP-01/S1 2893352673) are **foreign**, reported (row 45's second list). Row 45's
+    "the lane returns `blocked` on it" is lifted by this ruling: the lane's LANDED line (2026-11-02 06:31) and the item's
+    record `landed/M0-c-04.json` stand unchanged (landed:verify flow-7 --item M0-c-04 ok on 2026-11-06), nothing was
+    rebuilt or re-tested on return from disk, and the lane returns `ready-for-check`. Only this row was written (the
+    notes record re-landed for its hash).
+
+## Closing check of hardening round S5 (lane `check/M0-c-04-close-s5`, 2026-11-06 – 2026-11-10)
+
+The verdict is in `M0-c-04-s5.md` (PASS). The mutant ids (M1a … M10) and the probes refer to that file; the census is
+this lane's own (675 of 675 S5-reaching seeds of e-06's four groups, an instrumented copy with each of the round's
+rules switchable off). None of these rows is a blocker under the closing check's rule. N-48, N-50 and N-51 are for the
+session now; the others are for the hardening pass.
+
+47. **N-47 KI: the narrowing "an unwalled stage reads the selection" (C-0475 (2)) has no pin.** Mutant M6 (the held
+    enclosure on an unwalled stage too) survives `growth.test.ts` (13 / 13) and, as M6x, `held.test.ts` and
+    `held-coarse.test.ts` (12 / 12). It is NOT equivalent: on all nine held seeds the unwalled stage 3's plain boundary
+    crosses stage 2's wall (the census hook), so the mutant moves stage 3's boundary there (the lane's probe of
+    2026-11-06 on relief-60 default 13: `t_3` 827.5 → 815.1 m, 214 → 468 outline points, 10 → 9 picks, S5 still
+    commits). Row 43's reason for H4 ("no fixture of the item's has an unwalled stage whose plain boundary crosses the
+    wall before it") does not hold for the round's own nine seed pins: they assert that S5 commits and that every
+    *walled* stage holds the wall before it, nothing about stage 3. Not a blocker: the narrowing keeps the pre-round
+    behaviour of unwalled stages and both lines' fixes keep their pins. Suggested handling: on one held seed (relief-60
+    default 13) pin stage 3's outline length and `t_3`, once N-48 is ruled. Limit: M6 was not run over all of NEAR and
+    RELATED. M4. CONFIRMED (the survivor and the crossing, executed).
+48. **N-48 For the session: an unwalled stage's boundary does not hold the wall before it.** Pre-round and common, not
+    the round's doing: with both rules off, stage 3's plain boundary leaves 19 points of stage 2's wall outside on
+    relief-60 coarse 29 (a seed that committed); with the rules on and neither biting, 45 points on Q88's test-size
+    seed 1 and 9 on relief-60 default CITY seed 2; on the nine made-to-succeed seeds the same crossing is now part of
+    a committed result. The selections nest (the item's listed test); the wall line, pulled up to its band beyond the
+    selection it was traced round, pokes through the next unwalled boundary. Fails safely (S5 commits; S5b counts and
+    places on that boundary). Suggested handling: a design reading — whether §4.4 S5a's "the union keeps the stages
+    nested" binds an unwalled stage to the standing wall as rule (2) now binds a walled one; the builder measured that
+    the unconditional held set exceeds the ribbon's quota on the 400 ha / 30 ha seed-3 frame. M1 or the hardening pass,
+    the session's choice. CONFIRMED (the counts, executed).
+49. **N-49 KI: `heldEnclosure`'s T-finite guard has no pin.** Mutant M9 (`!(T[u] < Infinity)` dropped) survives
+    `held.test.ts` and `held-coarse.test.ts` (12 / 12): no difference is observed on the nine pinned seeds or the two
+    Q88 fixtures (the lane's probe of 2026-11-06 counted 0 unreachable dry nodes in the held band on two seeds). Not
+    equivalent in general (an unreachable dry node inside the clearance would join the held set at T = 0). Suggested
+    handling: a hand state with a dry interior node cut off from T inside the wall's clearance, asserting it stays
+    out of the held set. M4. CONFIRMED (the survivor, executed); the equivalence on the pinned seeds PLAUSIBLE.
+50. **N-50 For the session, now: the `E_DEGENERATE` `empty` class is the wall strips', not the trace's re-offset
+    rung — a correction to rows 39 and 41 and to C-0475's wording.** Those say that on relief-3000 21 and 59 the pull
+    folds and "the re-offset rung then leaves nothing (`E_DEGENERATE 'empty'`, the rung's code, `rungs.ts`)". The code
+    cannot return that: `enceinte/trace.ts` :181 – 202 turns a rung's `empty` into the rung's `why` and ends in the
+    F-WALL `E_SELF_INTERSECT` message. A stack probe on relief-3000 default 21 and 59 shows the stage-2 trace commits
+    and the refusal is raised afterwards in the strips' batch: `layStrips` (`enceinte/strips.ts` :642) inserts a free
+    piece of a way corridor's ring — 2 points and 28 cm on seed 21, at (−43701, 80716) beside the gate pair 14.04 m
+    apart; 3 points and 30 cm on seed 59, at (−87856, 4335) — which passes `layStrips`' floor (`chainLength ≥
+    LATTICE.attractCm`, 26 cm) and which the insertion lands on existing vertices and refuses `empty`. Owner unchanged
+    (M0-c-02: the raiser, the chain and the floor are in `enceinte/strips.ts`; the growth stage only calls `layStrips`
+    with a stop per gate), seeds and message unchanged, the place different: M0-c-02 S6 should look at `layStrips`'
+    free pieces and their floor, not at `rungs.ts`. Suggested handling: the session forwards this row to M0-c-02 S6;
+    the builder corrects the wording of rows 39 / 41 and C-0475 at its next landing. The coarse pair was not probed
+    (same message, same gate gaps: PLAUSIBLE). Belongs to the current rounds, not M4. CONFIRMED (executed, default).
+51. **N-51 For the session (J264): the remaining lawful-input refusals, and one seed that committed before.** After
+    the round 125 of the 675 S5-reaching CITY seeds refuse S5 (relief-60 default 39, coarse 39, relief-3000 default
+    23, coarse 24); this lane's seed lists equal row 41's seed for seed, and on every one that reaches the trace the
+    handed boundary is clean (simple, no touch, clear of the previous wall). **relief-60 coarse 29** committed before
+    the round (rules off: S5 ok though stage 2's boundary left one point of stage 1's wall outside) and refuses now
+    (rules on: the handed boundary clean, F-WALL `E_SELF_INTERSECT`); the class falls in its group (41 → 37), so the
+    census rule holds, and the seed is the wall's by the handed outline. `summaries/M0-e-06.json`'s S5 `refused`
+    counts (42 / 1, 41 / 2, 20 / 2 / 3, 21 / 2 / 3) are the pre-round ones and go stale at the landing (13 seeds
+    leave, coarse 29 joins). Suggested handling: route the 124 that are the wall's (all but 151) to M0-c-02 S6 with row 41's lists and N-50; re-measure
+    e-06's summary at the landing. CONFIRMED (executed).
+52. **N-52 The builder's census and dump evidence is not under `plat/docs/build/`.** Rows 39 – 42 cite
+    `census-sg.jsonl` and the trace dumps in `/home/user/maps-scratch/lane-c04s5/`, a scratch that did not survive its
+    container. The census is re-measured here and agrees; the split of the F-WALL seeds into W1 (the water splice) and
+    W2 (the pull) rests on the lost dump alone and was not re-measured, and N-50 shows one of its mechanism labels
+    wrong. Suggested handling: take row 41's seeds and messages as established, its W1 / W2 labels as unverified.
+    Tightening of a claim; no action in this item. PLAUSIBLE (the scratch path is absent on this machine).

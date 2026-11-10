@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { H128, utf8Bytes } from '@plat/kernel';
 import { metricById, type Baseline, type MetricBlock, type MetricDoc, type MetricWay } from '@plat/testkit';
 import { foldReport, JUNCTION, type FusionGateReport, type SeedRecord } from '../../src/fusion/index.js';
-import { gateA, JUNCTION_CLAUSES, judgeA, MFCG_GATING, NOTE_MFCG_PRESET, PHASE_A_METRICS } from '../../src/fusion-ng/index.js';
+import { failingOf, gateA, JUNCTION_CLAUSES, judgeA, MFCG_GATING, NOTE_MFCG_PRESET, PHASE_A_METRICS } from '../../src/fusion-ng/index.js';
 import { goodRecord } from '../fusion/support.js';
 import { descriptive, row, scalar } from './support.js';
 
@@ -138,6 +138,20 @@ describe('phase a: the verdicts on planted rows', () => {
     expect(byId(j.clauses, 'bldg.r4.120/all').verdict).toBe('missingBaseline');
     const failing = j.clauses.filter((c) => c.gating && c.verdict !== 'pass').map((c) => c.id);
     expect(failing.sort()).toEqual([...JUNCTION_CLAUSES, 'sgd.tShare/all', 'sgd.deadEnds/all', 'blockc.perHa/all', 'block.courtShare/all@NG'].sort());
+  });
+
+  it('a TARGET row with values.n 0 on a gating cell reads reported and fails the run — only a descriptive row\'s reported holds (C-0116; the M0-c-07 notes\' row 1)', () => {
+    const target = row('sgd.tShare', 'all', 'MFCG', { n: 0, seeds: 0 });
+    const j = judge([target]);
+    const c = byId(j.clauses, 'sgd.tShare/all');
+    expect([c.verdict, c.role, c.gating]).toEqual(['reported', 'target', true]);
+    expect(c.note).toBe('values.n 0: not measured by the reference (C-0116)');
+    // the run's failing list (compare's `failing`; `pass` is its emptiness) names the cell
+    expect(failingOf(j.clauses)).toContain('sgd.tShare/all');
+    // the same cell on a descriptive row holds: it is the role, not the verdict word, that lets `reported` pass
+    const d = judge([descriptive('sgd.tShare', 'all', 'MFCG')]);
+    expect([byId(d.clauses, 'sgd.tShare/all').verdict, byId(d.clauses, 'sgd.tShare/all').role]).toEqual(['reported', 'descriptive']);
+    expect(failingOf(d.clauses)).not.toContain('sgd.tShare/all');
   });
 
   it('which clauses gate is C-0072\'s list: the junction row, T / Y share, intramural dead ends, blocks per ha, and the deep-interior NG cell', () => {

@@ -51,6 +51,11 @@ export interface FigureSpec {
   readonly crossEngine?: { readonly call: string };
   /** The figure's §12.4 row quoted beside it (R12-4's S3 slice: the whole S2 / S3 row). */
   readonly quoted?: string;
+  /**
+   * The figure's SCOPE (hardening round S1, RL10 (b); Q72): what the stamp times, what the §12.4 row costs, and the
+   * difference — a statement copied into the record and printed, never a judged figure.
+   */
+  readonly scope?: string;
 }
 
 /** A bar's static part: everything but the measurement. */
@@ -92,20 +97,43 @@ const fig = (f: Omit<FigureSpec, 'comparator' | 'reduce' | 'normalise' | 'role'>
 /** The fixtures of the site spike's gate (M0-e-06's two CITY fixtures). */
 export const SITE_GATE_FIXTURES = ['relief-60', 'relief-3000'] as const;
 
-/** R12-4's stages as §12.4 names them, with the spike that stamps them (C-0084). */
-const R12_4: readonly { readonly name: string; readonly key: string; readonly re: RegExp; readonly quoted?: RegExp }[] = [
-  { name: 'S1 (site relief-60)', key: 'site:relief-60:S1', re: /S1 (\d+(?:\.\d+)?) ms/ },
-  { name: 'S1 (site relief-3000)', key: 'site:relief-3000:S1', re: /S1 (\d+(?:\.\d+)?) ms/ },
-  { name: 'the S3 slice (fusion)', key: 'fusion:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/ },
-  { name: 'the S3 slice (site relief-60)', key: 'site:relief-60:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/ },
-  { name: 'the S3 slice (site relief-3000)', key: 'site:relief-3000:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/ },
-  { name: 'S4 (fusion)', key: 'fusion:S4', re: /S4 (\d+(?:\.\d+)?) ms/ },
-  { name: 'S4 (site relief-60)', key: 'site:relief-60:S4', re: /S4 (\d+(?:\.\d+)?) ms/ },
-  { name: 'S4 (site relief-3000)', key: 'site:relief-3000:S4', re: /S4 (\d+(?:\.\d+)?) ms/ },
-  { name: 'S5 (fusion)', key: 'fusion:S5', re: /S5 (\d+(?:\.\d+)?) ms/ },
-  { name: 'S6 + fields (site relief-60)', key: 'site:relief-60:S6', re: /S6 with the fields (\d+(?:\.\d+)?) ms/ },
-  { name: 'S6 + fields (site relief-3000)', key: 'site:relief-3000:S6', re: /S6 with the fields (\d+(?:\.\d+)?) ms/ },
-  { name: 'S8 (fusion)', key: 'fusion:S8', re: /S8 (\d+(?:\.\d+)?) ms/ },
+// The stamp scopes (hardening round S1, RL10 (b); Q72; the session's ruling on Q5, J725: the scope is STATED here, the
+// SPLIT stamp — slice vs commit + trace + strips, S5a – S5d — is a queue row for M0-c-06 and M0-e-06, and whether §12.4's
+// rows include the runner's stage-end rebuild goes to the re-budget decision with M0-e-06's numbers; neither is built).
+/** What every stage stamp times (bench/src/fusion/runs.ts instrument; bench/src/site/timing.ts stageTimesOf). */
+export const STAMP_WINDOW = "the stamp times the registered stage's run (stage.run), by the harness";
+/** What every stage stamp leaves out (checks/M0-e-06-notes.md note 2). */
+export const STAGE_END =
+  "the runner's stage-end index rebuild and stage root (layout/src/pipeline/runner.ts:409-410) lie outside the window — whether §12.4's rows include them is the re-budget decision's (J558 (2); M0-e-06 note 2, at the test size: S3 2.6 ms, S4 2.2 ms, S5 3.9 ms, the stage root ≤ 0.1 ms)";
+
+/** The stamp scopes by stage (the R12-4 rows' and the gates'). */
+export const STAGE_SCOPES: Readonly<Record<'S1' | 'S3' | 'S4' | 'S5' | 'S6' | 'S8', string>> = Object.freeze({
+  S1: `${STAMP_WINDOW}: S1 — terrain, water, S1's L0 batch and the resources (layout/src/pipeline/base.ts:10-11); §12.4's S1 row costs the stage as it names it (the noise, the hydrology grid, the surface and groundwater steps); ${STAGE_END}`,
+  S3: `${STAMP_WINDOW}: S3 — the slice AND its commits: the border and plaza batch, then stage 1's trace and strips, S5a's at k = 1 (layout/src/pipeline/base.ts:12-13, C-0226 (2)), ≈ 75 % trace and strips in prod (checks/profile-city-stages.md §3.4); §12.4's ≈ 11 ms costs the slice components of the S2 / S3 row (ARCHITECTURE.md:18329), whose ≈ 4 ms costs the trace and not the strips — the stamp holds work the figure does not cost; a split stamp (slice vs commit + trace + strips) is a queue row for M0-c-06 and M0-e-06 (Q5), never built here; ${STAGE_END}`,
+  S4: `${STAMP_WINDOW}: S4 — M0-c-03's s4Stage (layout/src/pipeline/base.ts:14); §12.4's S4 row costs the backbone as it names it (≈ 46 000 lattice nodes); ${STAGE_END}`,
+  S5: `${STAMP_WINDOW}: S5 — S5a-S5d for every k (layout/src/pipeline/base.ts:15-16): S5a's trace, S5b's boundary and main roads, S5c's growth and prune, S5d's capacity; §12.4's S5 row costs S5c's insertions only — '≤ 8 µs per insertion … ≈ 5 000 proposals' (ARCHITECTURE.md:18331) — while the CITY seeds make 321-367 proposals and S5a / S5b / S5d (≈ 85-90 % of S5) have no allowance of their own (checks/profile-city-stages.md §2.2, §2.3); a split stamp (S5a-S5d) is a queue row for M0-c-06 and M0-e-06 (Q5), never built here; ${STAGE_END}`,
+  S6: `${STAMP_WINDOW}: S6 — M0-e-04's s6Stage, then the fields' pass 1 (layout/src/pipeline/base.ts:17); §12.4's S6 row costs districts + fields as it names it (3 × 62 500 cells); ${STAGE_END}`,
+  S8: `${STAMP_WINDOW}: S8 — the bent-cut fabric (layout/src/pipeline/base.ts:18); §12.4's S8 row costs it as it names it (≈ 1 500 cuts at ≈ 12 µs per cut); ${STAGE_END}`,
+});
+
+/** A gate's scope: the sum of its stages' stamps, each scoped as its R12-4 row. */
+const gateScope = (stages: readonly ('S1' | 'S4' | 'S5' | 'S6' | 'S8')[], harness: string): string =>
+  `the sum ${stages.join(' + ')} of the ${harness}'s stage stamps, each the registered stage's run, by the harness; ${stages.includes('S5') ? "S5's stamp is S5a-S5d for every k against §12.4's S5c insertions (≈ 5 000 proposals; R12-4's S5 row states it); " : ''}${STAGE_END}`;
+
+/** R12-4's stages as §12.4 names them, with the spike that stamps them (C-0084) and each stamp's scope (RL10 (b)). */
+const R12_4: readonly { readonly name: string; readonly key: string; readonly re: RegExp; readonly quoted?: RegExp; readonly scope: string }[] = [
+  { name: 'S1 (site relief-60)', key: 'site:relief-60:S1', re: /S1 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S1 },
+  { name: 'S1 (site relief-3000)', key: 'site:relief-3000:S1', re: /S1 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S1 },
+  { name: 'the S3 slice (fusion)', key: 'fusion:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S3 },
+  { name: 'the S3 slice (site relief-60)', key: 'site:relief-60:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S3 },
+  { name: 'the S3 slice (site relief-3000)', key: 'site:relief-3000:S3', re: /≈ (\d+(?:\.\d+)?) ms of the S2 \/ S3 row/, quoted: /S2 \/ S3 row's (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S3 },
+  { name: 'S4 (fusion)', key: 'fusion:S4', re: /S4 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S4 },
+  { name: 'S4 (site relief-60)', key: 'site:relief-60:S4', re: /S4 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S4 },
+  { name: 'S4 (site relief-3000)', key: 'site:relief-3000:S4', re: /S4 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S4 },
+  { name: 'S5 (fusion)', key: 'fusion:S5', re: /S5 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S5 },
+  { name: 'S6 + fields (site relief-60)', key: 'site:relief-60:S6', re: /S6 with the fields (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S6 },
+  { name: 'S6 + fields (site relief-3000)', key: 'site:relief-3000:S6', re: /S6 with the fields (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S6 },
+  { name: 'S8 (fusion)', key: 'fusion:S8', re: /S8 (\d+(?:\.\d+)?) ms/, scope: STAGE_SCOPES.S8 },
 ];
 
 const KERNEL_LADDER_ENTRY = 'C-0098';
@@ -231,8 +259,8 @@ export const BAR_DEFS: readonly BarDef[] = Object.freeze([
     figures: (t) => {
       const b = stated(t, /≤ (\d+(?:\.\d+)?) ms at CITY/, 'gate budget');
       return [
-        fig({ name: 'S4 + S5 + S8 p50', key: 'fusion:gate', unit: 'ms', budget: b, crossEngine: { call: 'fusion:call' } }),
-        fig({ name: 'S4 + S5 + S8 p95', key: 'fusion:gate', unit: 'ms', budget: b, reduce: 'p95', role: 'reported' }),
+        fig({ name: 'S4 + S5 + S8 p50', key: 'fusion:gate', unit: 'ms', budget: b, crossEngine: { call: 'fusion:call' }, scope: gateScope(['S4', 'S5', 'S8'], 'fusion run') }),
+        fig({ name: 'S4 + S5 + S8 p95', key: 'fusion:gate', unit: 'ms', budget: b, reduce: 'p95', role: 'reported', scope: gateScope(['S4', 'S5', 'S8'], 'fusion run') }),
       ];
     },
   },
@@ -247,7 +275,7 @@ export const BAR_DEFS: readonly BarDef[] = Object.freeze([
     workload: "the site spike's two CITY fixtures (M0-e-06: the river on 60 m and on 3 000 m relief), the default configuration, seeds 1 … DEFAULT_SEEDS: S1 + S4 + S6 per seed from the harness's stage times",
     figures: (t) => {
       const b = stated(t, /≤ (\d+(?:\.\d+)?) ms at CITY/, 'gate budget');
-      return SITE_GATE_FIXTURES.map((f) => fig({ name: `S1 + S4 + S6 p50 (${f})`, key: `site:${f}:gate`, unit: 'ms', budget: b, crossEngine: { call: `site:${f}:call` } }));
+      return SITE_GATE_FIXTURES.map((f) => fig({ name: `S1 + S4 + S6 p50 (${f})`, key: `site:${f}:gate`, unit: 'ms', budget: b, crossEngine: { call: `site:${f}:call` }, scope: gateScope(['S1', 'S4', 'S6'], 'site spike') }));
     },
   },
   {
@@ -298,6 +326,7 @@ export const BAR_DEFS: readonly BarDef[] = Object.freeze([
           budget: stated(t, r.re, `${r.name} figure`),
           role: 'reported',
           ...(r.quoted === undefined ? {} : { quoted: `the S2 / S3 row's ${String(stated(t, r.quoted, 'S2 / S3 row'))} ms` }),
+          scope: r.scope,
         }),
       ),
   },

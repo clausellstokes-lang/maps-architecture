@@ -15,7 +15,9 @@
 //   edge-hangs --hang-ms N        the post-hoc hang attribution (checks/M0-x-06-notes.md row 10): every built fixture
 //                                 the logs never saw return is replayed seed by seed, each seed given N ms, and the
 //                                 first seed that does not return is named; exit 0 when every built fixture returned
-//   edge-replay <fixture> <n>     the attribution's child: the fixture's first n seeds, one progress line each
+//   edge-replay <fixture> <n>     the attribution's child: the fixture's first n seeds, one progress line each, each
+//                                 also appended synchronously to $PLAT_EDGE_MARKS when set (the per-seed start marker
+//                                 the parent's watchdog reads, queue row Q146)
 //   same-summary <item>           the x-05 notes' row 5: the summary a harness just wrote under
 //                                 $PLAT_BENCH_OUT/summaries/<item>.json equals the committed
 //                                 docs/build/summaries/<item>.json byte for byte, else exit 1 naming the first
@@ -35,7 +37,8 @@
 // tier entries and the timing-phase script.
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -294,42 +297,94 @@ export interface ReplayResult {
 /** The attribution child's command line: the tier command's `edge-replay <fixture> <n>` (C-0461 (3)). */
 export const replayArgv = (id: string, seeds: number): string[] => tierCli('edge-replay', id, String(seeds));
 
+/** One line of the replay protocol: a seed started, done, or thrown. */
+type Progress = { start: number } | { done: number } | { crash: number };
+
+/** The protocol lines among `text`'s complete lines (a line that is no JSON, or no progress, is skipped). */
+function progressOf(text: string): Progress[] {
+  const out: Progress[] = [];
+  for (const line of text.split('\n')) {
+    let raw: unknown;
+    try {
+      raw = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    if (raw === null || typeof raw !== 'object') continue;
+    const v = raw as { start?: unknown; done?: unknown; crash?: unknown };
+    if (typeof v.start === 'number') out.push({ start: v.start });
+    else if (typeof v.done === 'number') out.push({ done: v.done });
+    else if (typeof v.crash === 'number') out.push({ crash: v.crash });
+  }
+  return out;
+}
+
 /**
  * Replays one fixture's seeds in a child (`edge-replay`) that prints `{"start":s}` before and `{"done":s,"ms":…}` (or
  * `{"crash":s}`) after each seed; a seed started and not done within `hangMs` stops the child's group and is named.
+ * The per-seed start marker (queue row Q146): the child is handed a marker file in PLAT_EDGE_MARKS (`marks`, else a
+ * temporary file removed after the run) and appends each of those lines to it SYNCHRONOUSLY, the start line before the
+ * seed's run; the watchdog reads it on every poll. A stdout pipe alone is no reliable marker: Node writes to a pipe
+ * asynchronously on macOS (§12.1's reference machine), so a seed that hangs in synchronous code right after its start
+ * line can leave that line unflushed — the parent would see no seed in flight and never arm the watchdog. The two
+ * streams carry the same lines in the same order; whichever is ahead is read, each line applied once.
  * `spawner` (default node's spawn) is the seam a test reads the default command line through.
  */
-export function replayFixture(id: string, seeds: number, opts: { hangMs: number; argv?: readonly string[]; env?: NodeJS.ProcessEnv; pollMs?: number; spawner?: typeof spawn }): Promise<ReplayResult> {
+export function replayFixture(id: string, seeds: number, opts: { hangMs: number; argv?: readonly string[]; env?: NodeJS.ProcessEnv; pollMs?: number; spawner?: typeof spawn; marks?: string }): Promise<ReplayResult> {
   return new Promise((resolve, reject) => {
     const argv = opts.argv ?? replayArgv(id, seeds);
-    const child = (opts.spawner ?? spawn)(argv[0], argv.slice(1), { cwd: PLAT_ROOT, env: opts.env ?? process.env, stdio: ['ignore', 'pipe', 'inherit'], detached: true });
+    let temp: string | null = null;
+    let marks: string;
+    if (opts.marks === undefined) {
+      temp = mkdtempSync(join(tmpdir(), 'plat-edge-marks-'));
+      marks = join(temp, 'marks.jsonl');
+    } else {
+      marks = opts.marks;
+      mkdirSync(dirname(marks), { recursive: true });
+      rmSync(marks, { force: true });
+    }
+    const cleanUp = (): void => {
+      if (temp !== null) rmSync(temp, { recursive: true, force: true });
+    };
+    const env = { ...(opts.env ?? process.env), PLAT_EDGE_MARKS: marks };
+    const child = (opts.spawner ?? spawn)(argv[0], argv.slice(1), { cwd: PLAT_ROOT, env, stdio: ['ignore', 'pipe', 'inherit'], detached: true });
     const res: ReplayResult = { returned: 0, crashed: [], hang: null, code: null };
     let current: { seed: number; at: number } | null = null;
-    let buf = '';
-    child.stdout.on('data', (chunk: Buffer) => {
-      buf += chunk.toString('utf8');
-      let nl = buf.indexOf('\n');
-      while (nl >= 0) {
-        const line = buf.slice(0, nl);
-        buf = buf.slice(nl + 1);
-        nl = buf.indexOf('\n');
-        let v: { start?: number; done?: number; crash?: number };
-        try {
-          v = JSON.parse(line) as typeof v;
-        } catch {
-          continue;
-        }
-        if (typeof v.start === 'number') current = { seed: v.start, at: performance.now() };
-        else if (typeof v.done === 'number') {
+    let applied = 0;
+    const fromOut: Progress[] = [];
+    const catchUp = (src: readonly Progress[]): void => {
+      for (; applied < src.length; applied += 1) {
+        const v = src[applied];
+        if ('start' in v) current = { seed: v.start, at: performance.now() };
+        else if ('done' in v) {
           res.returned += 1;
           current = null;
-        } else if (typeof v.crash === 'number') {
+        } else {
           res.crashed.push(v.crash);
           current = null;
         }
       }
+    };
+    const readMarks = (): void => {
+      let text: string;
+      try {
+        text = readFileSync(marks, 'utf8');
+      } catch {
+        return; // not written yet (or a child that writes none: stdout alone drives)
+      }
+      catchUp(progressOf(text.slice(0, text.lastIndexOf('\n') + 1)));
+    };
+    let buf = '';
+    child.stdout.on('data', (chunk: Buffer) => {
+      buf += chunk.toString('utf8');
+      const nl = buf.lastIndexOf('\n');
+      if (nl < 0) return;
+      fromOut.push(...progressOf(buf.slice(0, nl + 1)));
+      buf = buf.slice(nl + 1);
+      catchUp(fromOut);
     });
     const timer = setInterval(() => {
+      readMarks();
       if (current !== null && res.hang === null && performance.now() - current.at > opts.hangMs) {
         res.hang = { seed: current.seed, ms: Math.round(performance.now() - current.at) };
         try {
@@ -341,15 +396,21 @@ export function replayFixture(id: string, seeds: number, opts: { hangMs: number;
     }, opts.pollMs ?? Math.max(10, Math.min(1_000, Math.floor(opts.hangMs / 4))));
     child.on('error', (e) => {
       clearInterval(timer);
+      cleanUp();
       reject(e);
     });
     child.on('close', (code) => {
       clearInterval(timer);
+      if (res.hang === null) readMarks();
+      cleanUp();
       res.code = res.hang === null ? code : null;
       resolve(res);
     });
   });
 }
+
+/** The replay's marker file of one fixture under the run's output: edge-replay/<fixture, URI-encoded>.jsonl. */
+const replayMarks = (out: string, id: string): string => join(out, 'edge-replay', `${encodeURIComponent(id)}.jsonl`);
 
 /** An edge fixture as the attribution reads it (@plat/testkit's EdgeFixture, its id, milestone and run). */
 export interface FixtureLike {
@@ -394,7 +455,7 @@ export async function edgeHangs(opts: {
     return unreadable > 0 ? 1 : 0;
   }
   log(`tier-jobs edge-hangs: ${String(missing.length)} built fixture(s) never returned in the logs: ${missing.map((f) => f.id).join(', ')}`);
-  const replay = opts.replay ?? ((id: string, n: number, hangMs: number) => replayFixture(id, n, { hangMs, ...(opts.spawner === undefined ? {} : { spawner: opts.spawner }) }));
+  const replay = opts.replay ?? ((id: string, n: number, hangMs: number) => replayFixture(id, n, { hangMs, marks: replayMarks(opts.out, id), ...(opts.spawner === undefined ? {} : { spawner: opts.spawner }) }));
   for (let i = 0; i < missing.length; i += 1) {
     const f = missing[i];
     const r = await replay(f.id, opts.seeds, opts.hangMs);
@@ -411,10 +472,22 @@ export async function edgeHangs(opts: {
 
 /**
  * The attribution's child: a fixture's first `n` seeds — edgeSeeds(id, n), the family the suite's own run draws — one
- * progress line each on stdout (the protocol above); a seed that throws is reported and the replay goes on. `fixtures`
- * (default testkit's EDGE_FIXTURES) is the seam a test plants a fixture through.
+ * progress line each on stdout (the protocol above); a seed that throws is reported and the replay goes on. With a
+ * marker file (`marks`, default PLAT_EDGE_MARKS) each line is first appended to it synchronously, so the seed's start
+ * is on disk before its run begins (queue row Q146). `fixtures` (default testkit's EDGE_FIXTURES) is the seam a test
+ * plants a fixture through.
  */
-export async function edgeReplay(id: string, n: number, write: (line: string) => void = (l) => void process.stdout.write(`${l}\n`), fixtures?: readonly FixtureLike[]): Promise<number> {
+export async function edgeReplay(
+  id: string,
+  n: number,
+  write: (line: string) => void = (l) => void process.stdout.write(`${l}\n`),
+  fixtures?: readonly FixtureLike[],
+  marks: string | undefined = process.env.PLAT_EDGE_MARKS === '' ? undefined : process.env.PLAT_EDGE_MARKS,
+): Promise<number> {
+  const emit = (line: string): void => {
+    if (marks !== undefined) appendFileSync(marks, `${line}\n`);
+    write(line);
+  };
   const { EDGE_FIXTURES, edgeSeeds } = await import('@plat/testkit');
   const list: readonly FixtureLike[] = fixtures ?? EDGE_FIXTURES;
   const f = list.find((x) => x.id === id);
@@ -423,15 +496,15 @@ export async function edgeReplay(id: string, n: number, write: (line: string) =>
     return 64;
   }
   for (const seed of edgeSeeds(id, n)) {
-    write(JSON.stringify({ start: seed }));
+    emit(JSON.stringify({ start: seed }));
     const t0 = performance.now();
     try {
       f.run(seed);
     } catch {
-      write(JSON.stringify({ crash: seed }));
+      emit(JSON.stringify({ crash: seed }));
       continue;
     }
-    write(JSON.stringify({ done: seed, ms: Math.round(performance.now() - t0) }));
+    emit(JSON.stringify({ done: seed, ms: Math.round(performance.now() - t0) }));
   }
   return 0;
 }

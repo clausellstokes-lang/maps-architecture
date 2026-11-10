@@ -17,7 +17,9 @@
 // or not it is handed an address; a handed-on address of another kind or another arena (§6.3 *EntityKind*: the address's
 // `kind:` prefix spells Identity.kind; §2.1 *Ids*: its prefix names its arena — the layer always, the part off the
 // ground layer) is refused; a live entry's lineage must be two u32 lanes — a signed form of a survivor's hash would
-// slip past the dup rule — and every id a string; the seed key four u32 lanes even when the batch is empty.
+// slip past the dup rule — and every id a string, each live id once (queue row Q93: §6.3 never reuses an address, so a
+// lawful live set holds each address once, and a repeat could let a hand-on reach a survivor's address — refused in
+// the wording M0-d-05b's liveSetOf uses for the same fault); the seed key four u32 lanes even when the batch is empty.
 //
 // Staged (C-0179 (5)): an address an `undo` withdraws being free again for the same derivation only is the edit log's
 // (M2a); JOIN / SPLIT lineage continuation is M2a / M3a's; succession and carry-over are M0-d-05b's; the archive and
@@ -165,11 +167,12 @@ function identityOf(rec: BatchRecord, id: Id, lineage: LineageHash, key: Lineage
 /**
  * §6.3's mint over one batch: returns one `Minted` per batch record, in the records' order. `live` is every live entity
  * (its `retired` flag marking the batch's re-derived set), `tombstones` the archive's; `seedKey` the derivation's seed
- * key (§6.1), from which each entity key is computed once and cached (C-0147). Refuses (RangeError) a fresh key that
- * already carries `dup`, two records with one lineage key, a handed-on address that is no retired live entry's (a
- * survivor's, or nobody's), is handed to two records, or is of another kind or another arena than its record's, and
- * any malformed field — a kind outside the kind rule, a live lineage that is not two u32 lanes, an id that is not a
- * string, a seed key that is not four u32 lanes (C-0184).
+ * key (§6.1), from which each entity key is computed once and cached (C-0147). Refuses (RangeError) a live set that
+ * gives one id twice (`mint: the live id <id> is given twice`, queue row Q93), a fresh key that already carries `dup`,
+ * two records with one lineage key, a handed-on address that is no retired live entry's (a survivor's, or nobody's), is
+ * handed to two records, or is of another kind or another arena than its record's, and any malformed field — a kind
+ * outside the kind rule, a live lineage that is not two u32 lanes, an id that is not a string, a seed key that is not
+ * four u32 lanes (C-0184).
  */
 export function mint(
   batchRecords: readonly BatchRecord[],
@@ -183,6 +186,8 @@ export function mint(
   const takenLineage = new HashSet();
   for (const e of live) {
     checkLive(e);
+    // Each live id once (Q93): `takenIds` holds only live ids here (the tombstones join below).
+    if (takenIds.has(e.id)) throw new RangeError(`mint: the live id ${e.id} is given twice`);
     takenIds.add(e.id);
     if (e.retired === true) retiredIds.add(e.id);
     else takenLineage.add(e.lineage);

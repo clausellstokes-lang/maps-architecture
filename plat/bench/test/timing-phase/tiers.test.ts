@@ -3,14 +3,18 @@
 // two calibrate scores within 5 % or flagged throttled after two re-runs — and the whole-run figure with its two scores;
 // the nightly and milestone records hold at most two whole runs each with their scores and a throttled flag when both
 // drifted; the detector's 30 s samples are in every record; a pending job is listed with its reason, in no batch, and
-// the gating sum excludes it and says so; no record invokes bench:timing-phase inside a tier. Nothing is spawned.
+// the gating sum excludes it and says so; no record invokes bench:timing-phase inside a tier. Nothing is spawned (the
+// spied-runner test proves it with a logging 'fixture' executable first on PATH; note 1 of the first check). A projected
+// tier whose run gives no calibrate scores repeats once and is recorded throttled with its reason (note 8).
+import { existsSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { manifest } from '../../src/tier-jobs/index.js';
 import { manifestProblems, runTier, type RunTierOptions } from '../../src/tiers/runner.js';
 import type { TierManifest, TierName, TierReport } from '../../src/tiers/types.js';
 import { IDLE_MS } from '../../src/timing/harness.js';
 import { SAMPLE_EVERY_MS } from '../../src/timing/sampler.js';
-import { PLAT_ROOT, timeTiers, timingPhase, type TierContext, type TierRecord } from '../../src/timing-phase/index.js';
+import { NO_CALIBRATE_SCORES, PLAT_ROOT, timeTiers, timingPhase, type TierContext, type TierRecord } from '../../src/timing-phase/index.js';
 import { fixtureContext, job, removeScratch, scratch, sleeper, tierSeams, watcher } from './fixtures.js';
 
 afterAll(() => removeScratch());
@@ -124,6 +128,49 @@ describe('the projected tiers (C-0097 (2)): once whole, one repeat on a > 5 % dr
     const { records } = await tiersWith((u) => (u === 'b' ? 105 : null));
     expect(byTier(records, 'nightly').runs).toHaveLength(1);
   });
+
+  /** The projected tiers with the runner's calibration replaced by null on the runs `nullOn` names (1-based, per tier). */
+  const withNullCalibration = async (nullOn: (tier: TierName, n: number) => boolean): Promise<TierRecord[]> => {
+    const s = tierSeams();
+    const n = new Map<TierName, number>();
+    const spy = async (m: TierManifest, opts: RunTierOptions): Promise<TierReport> => {
+      const r = await runTier(m, { ...opts, ...(s.tiers.options as Partial<RunTierOptions>) });
+      if (!m.budget.projected) return r;
+      const k = (n.get(m.tier) ?? 0) + 1;
+      n.set(m.tier, k);
+      return nullOn(m.tier, k) ? { ...r, calibration: null } : r;
+    };
+    return timeTiers({ root: s.tiers.root as string, out: scratch(), manifest: s.tiers.manifest, runTier: spy, sleep: sleeper(), watch: watcher() });
+  };
+
+  it("no calibrate scores is NOT agreeing (note 8): the run repeats once; still none, throttled with the reason 'no calibrate scores' — never a third run", async () => {
+    const records = await withNullCalibration(() => true);
+    for (const t of ['nightly', 'milestone'] as const) {
+      const r = byTier(records, t);
+      expect(r.runs).toHaveLength(2);
+      expect(r.runs.map((x) => x.calibration)).toEqual([null, null]);
+      expect(r.throttled).toBe(true);
+      expect(r.throttledReason).toBe(NO_CALIBRATE_SCORES);
+    }
+    expect(NO_CALIBRATE_SCORES).toBe('no calibrate scores');
+    expect(byTier(records, 'pr').runs).toHaveLength(2); // the PR tier's batched + whole, untouched by the rule
+  });
+
+  it('no scores on the first run, scores agreeing on the repeat: two runs, not throttled, no reason', async () => {
+    const records = await withNullCalibration((_t, k) => k === 1);
+    for (const t of ['nightly', 'milestone'] as const) {
+      const r = byTier(records, t);
+      expect(r.runs).toHaveLength(2);
+      expect(r.runs[1].calibration).toMatchObject({ before: 100, after: 101 });
+      expect(r.throttled).toBe(false);
+      expect(r.throttledReason).toBeUndefined();
+    }
+  });
+
+  it('both runs drifting: throttled with the drift named', async () => {
+    const { records } = await tiersWith((u) => (u === 'b' ? 106 : null));
+    expect(byTier(records, 'nightly').throttledReason).toBe("the repeat's calibrate scores drifted 6.0 % > 5 % (C-0097 (2))");
+  });
 });
 
 describe("the detector's 30 s samples in every record (C-0103)", () => {
@@ -178,19 +225,33 @@ describe('no record invokes bench:timing-phase inside a tier (C-0088, C-0097)', 
 });
 
 describe('the script passes the runner none of its own readings: the 30 s idle, the 60 s cap, the re-runs and the sampling stay the protocol\'s', () => {
-  it('a spied runner sees only the mode, the tree, the output, the executor and the log; each whole run waits 30 s first', async () => {
+  it('a spied runner sees only the mode, the tree, the output, the executor and the log; each whole run waits 30 s first; nothing is spawned', async () => {
     const s = tierSeams();
     const seen: Partial<RunTierOptions>[] = [];
     const planted = s.tiers.options as Partial<RunTierOptions>;
+    // the planted options spread LAST, so the planted executor runs and the real spawnExecutor (which runOnce wraps
+    // when the script passes no options) never does (note 1)
     const spy = (m: TierManifest, opts: RunTierOptions): Promise<TierReport> => {
       seen.push(opts);
-      return runTier(m, { ...planted, ...opts });
+      return runTier(m, { ...opts, ...planted });
     };
+    // a logging 'fixture' executable first on PATH: a spawn of a fixture unit would run it and leave its marker
+    const bin = scratch();
+    const marker = join(bin, 'fixture-ran.log');
+    writeFileSync(join(bin, 'fixture'), `#!/bin/sh\necho "$@" >> '${marker}'\n`, { mode: 0o755 });
+    const path = process.env['PATH'];
+    process.env['PATH'] = `${bin}:${path ?? ''}`;
     const sleeps: number[] = [];
-    await timeTiers({ root: s.tiers.root as string, out: scratch(), manifest: s.tiers.manifest, runTier: spy, sleep: sleeper(sleeps), watch: watcher() });
+    try {
+      await timeTiers({ root: s.tiers.root as string, out: scratch(), manifest: s.tiers.manifest, runTier: spy, sleep: sleeper(sleeps), watch: watcher() });
+    } finally {
+      process.env['PATH'] = path;
+    }
     expect(seen.map((o) => o.mode)).toEqual(['batched', 'whole', 'whole', 'whole']);
     for (const o of seen) expect(Object.keys(o).sort()).toEqual(['exec', 'log', 'mode', 'out', 'root']);
     expect(sleeps).toEqual([IDLE_MS, IDLE_MS, IDLE_MS]);
+    expect(existsSync(marker), 'a fixture unit was spawned').toBe(false);
+    expect(s.calls.map((u) => u.name)).toEqual(['kernel', 'model', 'long-unit', 'drifty-unit', 'kernel', 'model', 'long-unit', 'drifty-unit', 'a', 'b', 'a', 'b']);
   });
 });
 

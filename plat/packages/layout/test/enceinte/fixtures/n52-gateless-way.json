@@ -1,0 +1,10 @@
+{
+  "about": "M0-c-02 S6 (Q131; N-52, the S5 closing checker's centre probe): a 400 m square trace with no gate and arena way chains (role way, no gate on them) whose runs end inside a strip's band. Hand record; coordinates in cm.",
+  "trace": [[-20000, -20000], [20000, -20000], [20000, 20000], [-20000, 20000]],
+  "wayHalfWidthCm": 700,
+  "cases": [
+    { "name": "outer, 20 m", "side": "outer", "way": "way:short", "points": [[-20750, -1000], [-20750, 1000]], "inCorridor": [-20750, 0], "beside": [-20500, 6000] },
+    { "name": "outer, 60 m", "side": "outer", "way": "way:short", "points": [[-20750, -3000], [-20750, 3000]], "inCorridor": [-20750, 0], "beside": [-20500, 8000] },
+    { "name": "inner, 20 m", "side": "inner", "way": "way:short", "points": [[-19600, -1000], [-19600, 1000]], "inCorridor": [-19600, 0], "beside": [-19600, 6000] }
+  ]
+}

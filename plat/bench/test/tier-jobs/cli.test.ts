@@ -1,5 +1,6 @@
 // M0-f-02b: the tier jobs' own command (bench/src/tier-jobs/cli.ts; C-0460), driven in-process over FIXTURE trees.
 // Only `node` itself is spawned (the watch and the replay protocol); no tier, harness or vitest run (C-0105).
+import { spawn, type SpawnOptions } from 'node:child_process';
 import { EventEmitter } from 'node:events';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -396,6 +397,79 @@ describe("the attribution's default path end to end (fix round 2, B3-r: no injec
     const unknown: string[] = [];
     expect(await main(['edge-replay', 'ZZ-none', '3'], { out: tree(), log: () => undefined, write: (l) => void unknown.push(l), fixtures: [] })).toBe(64);
     expect(unknown).toEqual([JSON.stringify({ error: 'no edge fixture ZZ-none' })]);
+  });
+});
+
+describe("the per-seed start marker (queue row Q146; x-06 row 10): a planted hang is named with its seed even when the child's stdout never delivers its start line", () => {
+  // A child that speaks the protocol ONLY through its marker file (PLAT_EDGE_MARKS), as a replay child does on a host
+  // whose stdout pipe is asynchronous (Node on macOS): its start line for the hung seed is never flushed to the pipe.
+  // It hangs in synchronous code at `hangAt` (and stops on its own after 8 s, so a broken watchdog fails the test
+  // instead of leaving it waiting); every other seed is started, then done.
+  const markOnly = (hangAt: number | null): string =>
+    `const fs = require('fs'); const m = process.env.PLAT_EDGE_MARKS; for (const s of [11, 22, 33]) { fs.appendFileSync(m, JSON.stringify({ start: s }) + '\\n'); if (s === ${String(hangAt)}) { const t = Date.now(); while (Date.now() - t < 8000) {} process.exit(9); } fs.appendFileSync(m, JSON.stringify({ done: s, ms: 1 }) + '\\n'); }`;
+  const logOf = (ids: string[]): string => ids.map((id) => JSON.stringify({ id, seed: 1, handling: 'absorbed' })).join('\n') + '\n';
+
+  it('replayFixture reads the marker file: the seed hung in synchronous code is stopped and named; a child that finishes counts its returns', async () => {
+    const hung = await replayFixture('X', 3, { hangMs: 1_500, pollMs: 20, argv: [node, '-e', markOnly(22)] });
+    expect([hung.returned, hung.crashed, hung.hang?.seed, hung.code]).toEqual([1, [], 22, null]);
+    expect(hung.hang?.ms).toBeGreaterThan(1_500);
+    const fine = await replayFixture('X', 3, { hangMs: 10_000, pollMs: 20, argv: [node, '-e', markOnly(null)] });
+    expect(fine).toEqual({ returned: 3, crashed: [], hang: null, code: 0 });
+    // a child on both streams (the replay child on Linux, where the pipe is synchronous): each line is applied once
+    const both = `${markOnly(null).replace(/fs\.appendFileSync\(m, (JSON\.stringify\(\{ (?:start|done)[^)]*\)) \+ '\\n'\);/g, "fs.appendFileSync(m, $1 + '\\n'); console.log($1);")}`;
+    expect(both).toContain('console.log(JSON.stringify({ start: s }))');
+    expect(await replayFixture('X', 3, { hangMs: 10_000, pollMs: 5, argv: [node, '-e', both] })).toEqual({ returned: 3, crashed: [], hang: null, code: 0 });
+  }, 30_000);
+
+  it("edgeHangs' default replay hands the child its marker file under the run's output (a stale one removed first) and names the planted hang's fixture and seed", async () => {
+    const out = tree({ 'edge-suite/a.test.ts.jsonl': logOf(['A']) });
+    const marks = join(out, 'edge-replay', `${encodeURIComponent('B/x')}.jsonl`);
+    // a stale marker file of an earlier run: read as this run's, it would count two more returns
+    write(out, `edge-replay/${encodeURIComponent('B/x')}.jsonl`, `${JSON.stringify({ start: 99 })}\n${JSON.stringify({ done: 99, ms: 1 })}\n${JSON.stringify({ start: 98 })}\n${JSON.stringify({ done: 98, ms: 1 })}\n`);
+    const seen: { args: readonly string[]; marks: unknown }[] = [];
+    const spawner = ((_cmd: string, args: readonly string[], o: SpawnOptions) => {
+      seen.push({ args: args.slice(-3), marks: o.env?.PLAT_EDGE_MARKS });
+      return spawn(node, ['-e', markOnly(22)], o);
+    }) as unknown as NonNullable<Parameters<typeof replayFixture>[2]['spawner']>;
+    const lines: string[] = [];
+    expect(await edgeHangs({ out, hangMs: 1_500, seeds: 3, fixtures: [{ id: 'A', run: () => null }, { id: 'B/x', run: () => null }, { id: 'C', run: () => null }], spawner, log: quietLog(lines) })).toBe(1);
+    expect(seen).toEqual([{ args: ['edge-replay', 'B/x', '3'], marks }]);
+    expect(lines[1]).toMatch(/^tier-jobs edge-hangs: B\/x at seed 22: no return in \d+ ms \(a hang, over 1500 ms\) after 1 seed\(s\) returned$/);
+    expect(lines[2]).toBe('tier-jobs edge-hangs: not replayed after the hang: C');
+    // the marker file stays under the run's output as the hang's evidence: its last line is the hung seed's start
+    expect(readFileSync(marks, 'utf8').trim().split('\n').at(-1)).toBe(JSON.stringify({ start: 22 }));
+  }, 30_000);
+
+  it("the replay child (main's edge-replay) appends each line to PLAT_EDGE_MARKS before writing it, the seed's start on disk before its run begins", async () => {
+    const dir = tree();
+    const marks = join(dir, 'marks.jsonl');
+    const atRun: string[] = [];
+    const fixtures: FixtureLike[] = [
+      {
+        id: 'ZZ-marks/a',
+        run: (seed) => {
+          atRun.push(readFileSync(marks, 'utf8').trim().split('\n').at(-1) ?? '');
+          if (seed === edgeSeeds('ZZ-marks/a', 3)[1]) throw new Error('planted');
+          return null;
+        },
+      },
+    ];
+    const lines: string[] = [];
+    vi.stubEnv('PLAT_EDGE_MARKS', marks);
+    try {
+      expect(await main(['edge-replay', 'ZZ-marks/a', '3'], { out: tree(), log: () => undefined, write: (l) => void lines.push(l), fixtures })).toBe(0);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+    const want = edgeSeeds('ZZ-marks/a', 3);
+    expect(atRun).toEqual(want.map((s) => JSON.stringify({ start: s })));
+    // the file carries the stdout lines, the same lines in the same order (the parent reads whichever is ahead)
+    expect(readFileSync(marks, 'utf8')).toBe(`${lines.join('\n')}\n`);
+    expect(lines.map((l) => Object.keys(JSON.parse(l) as object)[0])).toEqual(['start', 'done', 'start', 'crash', 'start', 'done']);
+    // without the variable the child writes stdout alone (a direct run of edge-replay), as before
+    const plain: string[] = [];
+    expect(await edgeReplay('ZZ-marks/a', 1, (l) => void plain.push(l), [{ id: 'ZZ-marks/a', run: () => null }], undefined)).toBe(0);
+    expect(plain).toHaveLength(2);
   });
 });
 

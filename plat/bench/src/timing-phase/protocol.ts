@@ -7,6 +7,11 @@
 // normalisation (§12.1: a timing ÷ (runner score ÷ reference score)), and folds each figure: its quantile, its verdict
 // against the budget its row states, the factor of a miss, the ±15 % rule between the Node and the Chromium-worker leg
 // (C-0082) and, for a kernel bar's miss, C-0098's ordered ladder.
+// Hardening round S1 (RL10 (c); Q4, J725): every batch carries its leg's BUILD (production or debug: the measuring
+// process's for a Node batch, the scanned bundle's for a Chromium-worker batch), and a cross-engine figure whose two legs
+// are of different (or unknown) builds is UNMEASURED, never judged on either; a batch names the seeds it EXCLUDES from a
+// pool (a derivation that refused, threw or never reached the stages a figure sums — `Exclusion`), and each figure
+// carries the exclusions of its pools beside its n.
 import type { TimeBatchOptions, TimingResult } from '../timing/harness.js';
 import type { BarDef, FigureSpec } from './bars.js';
 
@@ -21,6 +26,39 @@ export const CHROMIUM = 'chromium-worker';
 
 export type Leg = 'node' | typeof CHROMIUM;
 
+/** A leg's build (RL10): `production` (PLAT_DEBUG_BUILD defined false, no keepNames), else `debug`; how it was read. */
+export interface LegBuild {
+  readonly build: 'production' | 'debug';
+  /** What the build was read from (the measuring process's flags, or the scanned bundle text). */
+  readonly from: string;
+  readonly debugFlagLeft: boolean | null;
+  readonly keepNames: number | null;
+}
+
+/**
+ * A seed a batch excludes from pools (Q4, J725: exclude and NAME): the pools it adds no sample to, the stage the
+ * derivation reached, the stages missing, and the refusal's code and message (or the throw's) — never summed as 0.
+ */
+export interface Exclusion {
+  readonly seed: number;
+  /** The site fixture, for the site spike's seeds. */
+  readonly fixture?: string;
+  /** The pool keys the seed adds no sample to (the figures it is excluded from). */
+  readonly keys: readonly string[];
+  /** The last stage the derivation stamped (null: none, or it threw). */
+  readonly reached: string | null;
+  /** The stages a figure needs that it did not stamp. */
+  readonly missing: readonly string[];
+  /** The refusal's code (a stage's, a kernel op's), `threw` for a thrown error, or null when nothing was refused. */
+  readonly code: string | null;
+  readonly message: string;
+}
+
+/** An exclusion as a group keeps it: with its leg. */
+export interface LegExclusion extends Exclusion {
+  readonly leg: Leg;
+}
+
 /** A batch's raw samples by pool key, each in its figure's unit (normalised by the protocol, never by the batch). */
 export type Samples = Record<string, number[]>;
 
@@ -29,6 +67,10 @@ export interface BatchOutput {
   readonly stamp: TimingResult;
   readonly samples: Samples;
   readonly extra?: Readonly<Record<string, unknown>>;
+  /** The leg's build when the batch read it (a Chromium batch's scanned bundle); a Node batch takes the harness's. */
+  readonly build?: LegBuild;
+  /** The seeds the batch excluded from pools (Q4). */
+  readonly excluded?: readonly Exclusion[];
 }
 
 export type TimeBatchFn = (fn: () => unknown, opts?: TimeBatchOptions) => Promise<TimingResult>;
@@ -40,6 +82,8 @@ export interface BatchHarness {
   readonly options: TimeBatchOptions;
   /** Registers a child process the batch launched (the Chromium leg, C-0082): the detector counts it as its own. */
   readonly own: (pid: number) => void;
+  /** The measuring process's build: a Node batch's leg build (RL10); absent, a Node batch's build is unknown. */
+  readonly build?: LegBuild;
 }
 
 /** One batch of a group: its label, its leg, and its run. */
@@ -80,6 +124,8 @@ export interface BatchSummary {
   readonly at: string | null;
   readonly items: number | null;
   readonly error?: string;
+  /** The leg's build (RL10), when known. */
+  readonly build?: LegBuild;
 }
 
 /** A group's result. */
@@ -91,6 +137,10 @@ export interface GroupResult {
   readonly dropped: number;
   readonly requeued: number;
   readonly extras: readonly Readonly<Record<string, unknown>>[];
+  /** The accepted batches' exclusions, each with its leg (Q4). */
+  readonly excluded: readonly LegExclusion[];
+  /** The accepted batches' builds by leg ('unknown' for a batch whose build was not read; RL10). */
+  readonly builds: ReadonlyMap<Leg, readonly string[]>;
 }
 
 /** Whether a stamp is a result (C-0047: measured, authoritative, normalised; C-0075: a reference score exists). */
@@ -98,7 +148,7 @@ export function isResult(s: TimingResult): boolean {
   return s.readings === 'measured' && s.authority === 'authoritative' && s.normalisation !== null && s.normalisation > 0;
 }
 
-function summary(plan: BatchPlan, fate: BatchSummary['fate'], s: TimingResult | null, items: number | null, error?: string): BatchSummary {
+function summary(plan: BatchPlan, fate: BatchSummary['fate'], s: TimingResult | null, items: number | null, error?: string, build?: LegBuild): BatchSummary {
   return {
     label: plan.label,
     leg: plan.leg ?? 'node',
@@ -115,6 +165,7 @@ function summary(plan: BatchPlan, fate: BatchSummary['fate'], s: TimingResult | 
     at: s?.at ?? null,
     items,
     ...(error === undefined ? {} : { error }),
+    ...(build === undefined ? {} : { build }),
   };
 }
 
@@ -134,6 +185,8 @@ export async function runGroup(group: Group, h: BatchHarness, log: (line: string
   const pools = new Map<string, Pooled[]>();
   const batches: BatchSummary[] = [];
   const extras: Record<string, unknown>[] = [];
+  const excluded: LegExclusion[] = [];
+  const builds = new Map<Leg, string[]>();
   let dropped = 0;
   let requeued = 0;
   interface Queued {
@@ -188,7 +241,9 @@ export async function runGroup(group: Group, h: BatchHarness, log: (line: string
       continue;
     }
     const norm = s.normalisation as number;
-    const suffix = (q.plan.leg ?? 'node') === CHROMIUM ? `@${CHROMIUM}` : '';
+    const leg: Leg = q.plan.leg ?? 'node';
+    const build = out.build ?? (leg === 'node' ? h.build : undefined);
+    const suffix = leg === CHROMIUM ? `@${CHROMIUM}` : '';
     for (const [key, xs] of Object.entries(out.samples)) {
       const k = `${key}${suffix}`;
       let pool = pools.get(k);
@@ -199,9 +254,11 @@ export async function runGroup(group: Group, h: BatchHarness, log: (line: string
       for (const x of xs) if (Number.isFinite(x)) pool.push({ raw: x, norm });
     }
     if (out.extra !== undefined) extras.push({ batch: q.plan.label, ...out.extra });
-    batches.push(summary(q.plan, 'accepted', s, q.items));
+    for (const x of out.excluded ?? []) excluded.push({ ...x, leg });
+    builds.set(leg, [...(builds.get(leg) ?? []), build?.build ?? 'unknown']);
+    batches.push(summary(q.plan, 'accepted', s, q.items, undefined, build));
   }
-  return { id: group.id, pools, batches, dropped, requeued, extras };
+  return { id: group.id, pools, batches, dropped, requeued, extras, excluded, builds };
 }
 
 /** The nearest-rank quantile (the p50 is the median: the lower middle of an even count). */
@@ -267,36 +324,66 @@ export interface FigureRecord {
   readonly n: number;
   readonly crossEngine?: CrossEngine;
   readonly quoted?: string;
+  /** What the stamp times against what the §12.4 row costs (R12-4's rows and the gates; RL10 (b)): a statement, never judged. */
+  readonly scope?: string;
+  /** The seeds excluded from the figure's pools, each named with its leg (Q4); absent when none. */
+  readonly excluded?: readonly LegExclusion[];
+  /** A cross-engine figure's legs' builds (RL10 (c)): the accepted batches' builds of each leg. */
+  readonly legBuilds?: { readonly node: readonly string[]; readonly chromium: readonly string[] };
   readonly normalised: boolean;
   readonly why?: string;
 }
 
 /** Judges a value against its figure's budget (`≈` as `≤` its figure, C-0440 (5)). */
 export function judgeFigure(spec: FigureSpec, value: number | null, n: number, extra: Partial<FigureRecord> = {}): FigureRecord {
-  const base = { name: spec.name, key: spec.key, unit: spec.unit, budget: spec.budget, comparator: spec.comparator, reduce: spec.reduce, role: spec.role, n, normalised: spec.normalise, ...(spec.quoted === undefined ? {} : { quoted: spec.quoted }) };
+  const base = { name: spec.name, key: spec.key, unit: spec.unit, budget: spec.budget, comparator: spec.comparator, reduce: spec.reduce, role: spec.role, n, normalised: spec.normalise, ...(spec.quoted === undefined ? {} : { quoted: spec.quoted }), ...(spec.scope === undefined ? {} : { scope: spec.scope }) };
   if (value === null || !Number.isFinite(value)) return { ...base, value: null, verdict: 'unmeasured', factor: null, exceeds: null, ...extra };
   const factor = value / spec.budget;
   const over = value > spec.budget;
   return { ...base, value, factor, exceeds: over, verdict: spec.role === 'reported' ? 'reported' : over ? 'miss' : 'pass', ...extra };
 }
 
+/** What a figure is folded with beyond its pools: its groups' exclusions and builds (Q4; RL10 (c)). */
+export interface FoldContext {
+  readonly excluded?: readonly LegExclusion[];
+  readonly builds?: ReadonlyMap<Leg, readonly string[]>;
+}
+
+/** The legs-of-different-builds rule's reason (RL10 (c); verbatim). */
+export const DIFFERENT_BUILDS = 'the legs are of different builds (RL10)';
+
+/** The exclusions a figure carries: the Node leg's on its key, and — for a cross-engine figure — the Chromium leg's on its call. */
+function exclusionsOf(spec: FigureSpec, excluded: readonly LegExclusion[]): LegExclusion[] {
+  return excluded.filter((x) => (x.leg === 'node' && x.keys.includes(spec.key)) || (spec.crossEngine !== undefined && x.leg === CHROMIUM && x.keys.includes(spec.crossEngine.call)));
+}
+
 /**
  * Folds one figure from its pools. A figure whose group dropped a batch is unmeasured (never judged on part of its
- * work); a cross-engine figure needs both legs.
+ * work); a cross-engine figure needs both legs, each of ONE build and the same one (RL10 (c): a figure whose legs are of
+ * different or unknown builds is unmeasured, never judged on either). The figure's pools' exclusions ride beside it (Q4:
+ * the figure is the quantile over the seeds that reached; unmeasured only when none did).
  */
-export function foldFigure(spec: FigureSpec, pools: ReadonlyMap<string, readonly Pooled[]>, complete: boolean): FigureRecord {
+export function foldFigure(spec: FigureSpec, pools: ReadonlyMap<string, readonly Pooled[]>, complete: boolean, fold: FoldContext = {}): FigureRecord {
   const q = spec.reduce === 'p95' ? 0.95 : 0.5;
   const xs = values(pools.get(spec.key), spec.normalise);
-  if (!complete) return judgeFigure(spec, null, xs.length, { why: 'a batch of its group was dropped (contended past the re-queue bound, or failed): re-run it with --only (C-0080)' });
+  const ex = exclusionsOf(spec, fold.excluded ?? []);
+  const withEx = ex.length === 0 ? {} : { excluded: ex };
+  if (!complete) return judgeFigure(spec, null, xs.length, { why: 'a batch of its group was dropped (contended past the re-queue bound, or failed): re-run it with --only (C-0080)', ...withEx });
   const node = quantile(xs, q);
-  if (spec.crossEngine === undefined) return judgeFigure(spec, node, xs.length, xs.length === 0 ? { why: 'no sample' } : {});
+  if (spec.crossEngine === undefined) return judgeFigure(spec, node, xs.length, { ...(xs.length === 0 ? { why: 'no sample' } : {}), ...withEx });
+  const legBuilds = { node: [...new Set(fold.builds?.get('node') ?? [])], chromium: [...new Set(fold.builds?.get(CHROMIUM) ?? [])] };
   const nodeCall = quantile(values(pools.get(spec.crossEngine.call), spec.normalise), 0.5);
   const chromiumCall = quantile(values(pools.get(`${spec.crossEngine.call}@${CHROMIUM}`), spec.normalise), 0.5);
   if (node === null || nodeCall === null || chromiumCall === null || !(nodeCall > 0)) {
-    return judgeFigure(spec, null, xs.length, { why: `the ±15 % rule needs both legs: Node ${nodeCall === null ? 'missing' : 'present'}, Chromium worker ${chromiumCall === null ? 'missing' : 'present'} (C-0082)` });
+    return judgeFigure(spec, null, xs.length, { why: `the ±15 % rule needs both legs: Node ${nodeCall === null ? 'missing' : 'present'}, Chromium worker ${chromiumCall === null ? 'missing' : 'present'} (C-0082)`, legBuilds, ...withEx });
+  }
+  const one = (b: readonly string[]): string | null => (b.length === 1 && b[0] !== 'unknown' ? b[0] : null);
+  if (one(legBuilds.node) === null || one(legBuilds.node) !== one(legBuilds.chromium)) {
+    const show = (b: readonly string[]): string => (b.length === 0 ? 'unknown' : b.join(' + '));
+    return judgeFigure(spec, null, xs.length, { why: `${DIFFERENT_BUILDS}: Node ${show(legBuilds.node)}, Chromium worker ${show(legBuilds.chromium)} — judged on neither (§12.1's ± 15 % rule compares one build, C-0082)`, legBuilds, ...withEx });
   }
   const ce = crossEngine(node, nodeCall, chromiumCall);
-  return judgeFigure(spec, ce.checked === 'node' ? ce.node : ce.chromium, xs.length, { crossEngine: ce });
+  return judgeFigure(spec, ce.checked === 'node' ? ce.node : ce.chromium, xs.length, { crossEngine: ce, legBuilds, ...withEx });
 }
 
 /** C-0098's ordered ladder for a kernel bar's miss: the steps in order and the one taken next. */

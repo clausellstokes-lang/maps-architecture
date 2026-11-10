@@ -218,4 +218,50 @@ describe('phase b: the recalibration — recalibrate(constants, miss): a table c
     expect(got(mem, 'packages/tables/data/cut.json')).toBe(TABLE_TEXT('cut'));
     for (const id of ['interior', 'cut', 'bands']) expect(sha(DATA(id)), id).toBe(committed[id]);
   });
+
+  it('a hood that does not fit fails the run clause, which is no statistics miss: with every statistics clause holding, --recalibrate is refused (exit 2, NO_MISS; the M0-c-07 notes\' row 4)', async () => {
+    resetMem(mem);
+    const [h1, h2] = twoHoods();
+    put(mem, 'packages/testkit/baselines/ng-faces.json', ngFacesText(ngFile([h1, h2])));
+    put(mem, 'recal.json', cellsText('M-1 2026-10-27', { cut: [{ row: 'settings', cell: 'flattenM', value: 30 }] }));
+    const hist = { bins: [50, 500, 5_000], histogram: [0, 0, 10, 0], n: 10, seeds: 10 };
+    put(mem, 'packages/testkit/baselines/baselines.json', baselinesText([
+      row('block.area', 'all', 'NG', hist, { spreadKS: { p90: 0.9, pairs: 45 } }),
+      row('block.area', 'template-area', 'NG', hist, { spreadKS: { p90: 0.9, pairs: 45 } }),
+      row('junction.share4', 'all', 'NG', { n: 0, seeds: 0 }, { role: 'descriptive', sample: { family: 'test/plain', indices: [0, 1], failed: [{ index: 0, reason: 'not measured' }] } }),
+    ]));
+    // hood 1 runs (two 5 000 m² blocks, as above); hood 2 is not placed (its `setup` names why)
+    const out = (t: HoodTask): boolean => t.hood.id === h2.id;
+    const planted = (t: HoodTask): HoodRecord => ({
+      hood: t.hood.id,
+      template: t.hood.template,
+      seedIndex: t.seedIndex,
+      seed: 1,
+      setup: out(t) ? `hood ${String(h2.id)}: 9000000 cm from its centre, beyond the frame's 135000 cm` : null,
+      refused: null,
+      outline: out(t) ? [] : [{ x: 0, y: 0 }, { x: 5_000, y: 0 }, { x: 10_000, y: 0 }, { x: 10_000, y: 10_000 }, { x: 5_000, y: 10_000 }, { x: 0, y: 10_000 }, { x: 0, y: 0 }],
+      lanes: out(t) ? [] : [[{ x: 5_000, y: 0 }, { x: 5_000, y: 10_000 }]],
+      blocks: out(t)
+        ? []
+        : [
+            { ring: [{ x: 0, y: 0 }, { x: 5_000, y: 0 }, { x: 5_000, y: 10_000 }, { x: 0, y: 10_000 }], content: 'ordinary', depthClass: 'standard', interior: 'none' },
+            { ring: [{ x: 5_000, y: 0 }, { x: 10_000, y: 0 }, { x: 10_000, y: 10_000 }, { x: 5_000, y: 10_000 }], content: 'ordinary', depthClass: 'standard', interior: 'none' },
+          ],
+      warnings: {},
+      census: { s8: 0, kernelDowngrades: 0, kernelWorkLimitHits: 0, unplaced: 0, degraded: 0, bugs: 0 },
+    });
+    // without --recalibrate: the run fails on the run clause alone — every statistics clause holds
+    const plain = await entry(['--phase', 'b', '--seeds', '1'], { runHood: planted });
+    expect(plain.code).toBe(1);
+    expect(plain.report?.failing).toEqual(['run']);
+    expect(plain.report?.clauses.find((c) => c.id === 'run')?.note).toMatch(/^2 hood runs: 1 not placed, 0 refused/);
+    expect(plain.report?.census.classes.map((c) => [c.code, c.inputKind, c.verdict, c.count])).toEqual([['setup', 'LAWFUL', 'MAKE-IT-SUCCEED', 1]]);
+    // with it: no statistics miss to answer — refused before any table is written
+    const recal = await entry(['--phase', 'b', '--seeds', '1', '--recalibrate', 'recal.json', '--apply'], { runHood: planted });
+    expect(recal.code).toBe(2);
+    expect(recal.report).toBeUndefined();
+    expect(recal.lines).toContain(`fusion-ng stopped: ${NO_MISS}`);
+    expect(got(mem, 'packages/tables/data/cut.json')).toBe(TABLE_TEXT('cut'));
+    for (const id of ['interior', 'cut', 'bands']) expect(sha(DATA(id)), id).toBe(committed[id]);
+  });
 });

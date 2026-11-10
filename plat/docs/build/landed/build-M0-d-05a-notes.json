@@ -1,28 +1,28 @@
 {
   "schema": "plat-landed-record/1",
   "item": "build-M0-d-05a-notes",
-  "lane": "build/M0-d-05a-fix-s1",
-  "lanes": ["build/M0-d-05a-consolidate-1", "build/M0-d-05a-fix-s1"],
+  "lane": "build/M0-d-05a-fix-s3",
+  "lanes": ["build/M0-d-05a-consolidate-1", "build/M0-d-05a-fix-s1", "build/M0-d-05a-fix-s2", "build/M0-d-05a-fix-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-21T02:57:06.517Z",
+  "date": "2026-11-10T06:47:34.258Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-d-05a-notes.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-d-05a-notes.md", "status": "created", "sha256": "75d951fd90a8ae5fa2a0c441eaa00f705f69bcfc75fc9447bf7048ca54470dc5", "size": 17437 }
+    { "path": "plat/docs/build/checks/M0-d-05a-notes.md", "status": "created", "sha256": "fb4e36808efe84132d467ccd070002b3af03e029134b4e85cee13df3604511b9", "size": 36376 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0440", "L-0627"],
-      "lines": ["824eb6cdd29a21ea", "215a0b297a959de2"],
+      "ids": ["L-0440", "L-0627", "L-0772", "L-0774"],
+      "lines": ["824eb6cdd29a21ea", "215a0b297a959de2", "54bc280be86ae7d6", "2363a47e91b39b84"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0322", "C-0410"],
-      "lines": ["d0d2fbf1720142fc", "932eb1cd4633d26c"],
+      "ids": ["C-0322", "C-0410", "C-0478", "C-0479"],
+      "lines": ["d0d2fbf1720142fc", "932eb1cd4633d26c", "8d4469a0fdc266b8", "95994d8a064d5f38"],
       "removed": []
     }
   ]

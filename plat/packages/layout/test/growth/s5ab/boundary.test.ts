@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import type { LatticePoint } from '@plat/kernel';
 import { flatFixture, s3Slice, type S3Slice } from '../../../src/index.js';
 import { boundaryCrossings, crossingsThrough, HA_CM2, insertOnOutline, landOf, squareGates, stageBoundary, unionField, withPins, type WayLine } from '../../../src/growth/boundary.js';
+import { selfTouches } from '../../../src/enceinte/plane.js';
 import { P } from './support.js';
 
 const SLICES = new Map<string, S3Slice>();
@@ -264,5 +265,29 @@ describe('squareGates', () => {
     expect(squareGates(tight, [P(500, 0)], [{ x: 0, y: 1 }], 1_500)).toEqual(tight);
     const steep = squareGates(tight, [P(500, 0)], [{ x: 1, y: 1 }], 200);
     expect(steep.some((q) => q.x === 500 && q.y === 0)).toBe(true);
+  });
+
+  it('keeps the outline where a squaring would make it touch itself as the trace reads a touch, though it stays simple (C-0475 (1))', () => {
+    // relief-3000 default seed 162's stage-2 outline beside its two gates 1.07 m apart (way:3's crossing and a spawned
+    // destination's, their ways' directions as placed), closed 120 m inside; the outer strip's reach 15 m.
+    const near: LatticePoint[] = [P(28_777, -85_359), P(29_534, -85_415), P(30_377, -85_541), P(31_772, -85_832), P(34_472, -85_784), P(34_551, -85_712), P(36_738, -83_736), P(37_954, -82_764), P(38_877, -82_187)];
+    const outline: LatticePoint[] = [...near, P(38_877, -70_000), P(28_777, -70_000)];
+    const gates = [P(34_551, -85_712), P(34_472, -85_784)];
+    const along = [{ x: -248, y: 261 }, { x: -705, y: 1_058 }];
+    expect(selfTouches(outline)).toBe(false);
+    // The first gate squared, the second standing beside it: the square's far side passes within the attraction distance
+    // of the second gate's — simple, so the old test took it, but a touch to the trace (its 'handed self_touch').
+    const out = squareGates(outline, gates, along, 1_500);
+    expect(selfTouches(out)).toBe(false);
+    expect(out).toEqual(outline);
+    // Alone (the second vertex no gate), the first gate's squaring adds no touch and is taken as before.
+    const alone = squareGates(outline, gates.slice(0, 1), along.slice(0, 1), 1_500);
+    expect(alone).not.toEqual(outline);
+    expect(selfTouches(alone)).toBe(false);
+    // An outline that touches itself already (a needle 20 cm wide, simple) is no reason to refuse a squaring: the test is
+    // that the squaring adds a touch.
+    const touching: LatticePoint[] = [...near, P(38_877, -70_000), P(33_020, -70_000), P(33_000, -75_000), P(33_000, -70_000), P(28_777, -70_000)];
+    expect(selfTouches(touching)).toBe(true);
+    expect(squareGates(touching, gates.slice(0, 1), along.slice(0, 1), 1_500)).not.toEqual(touching);
   });
 });

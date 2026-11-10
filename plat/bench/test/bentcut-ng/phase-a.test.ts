@@ -253,4 +253,47 @@ describe('phase a end to end, in memory', () => {
     for (const e of mem.log) expect(e.path.startsWith(MEM_ROOT)).toBe(true);
     expect(mem.log.filter((e) => !e.virtual)).toEqual([]);
   });
+
+  it('--apply on a passing run prints the pass text beside each applied table and exits 0 (hardening S2, N11: probe P1)', { timeout: 600_000 }, async () => {
+    // The first run measures ours; its σ rows are then planted at our own values, so the second run passes and --apply
+    // prints the pass side of the applied-table line (every other run in these tests that writes a table fails).
+    resetMem(mem);
+    const first = put(mem, 'a/baselines.json', baselinesText([row('cut.sigma', 'plain', scalar(0.084)), row('cut.sigma', 'ring', scalar(0.094))]));
+    const cells = put(
+      mem,
+      'a/cells.json',
+      JSON.stringify({
+        schema: 'plat.table-cells/1',
+        provenance: 'M-1 2026-10-04',
+        tables: { granularity: [{ row: 'modest', cell: 'depthM', value: [14, 22] }], regimes: [{ row: 'dense_core', cell: 'blockDepthFloorM', value: [32, 46] }] },
+      }),
+    );
+    const args = (base: string) => ['--phase', 'a', '--frame', 'recorded', '--attempts', '3', '--sig', '1', '--baselines', base, '--cells', cells];
+    let measured: NgComparisonReport | undefined;
+    await run(args(first), { out: `${MEM_ROOT}/out`, platRoot: MEM_ROOT, onReport: (r) => (measured = r) });
+    const plain = measured?.ours.sigmaUnderRule['plain'];
+    const ring = measured?.ours.sigmaUnderRule['ring'];
+    expect(typeof plain).toBe('number');
+    expect(typeof ring).toBe('number');
+    const planted = put(mem, 'a/planted.json', baselinesText([row('cut.sigma', 'plain', scalar(plain as number)), row('cut.sigma', 'ring', scalar(ring as number))]));
+    const spy = vi.spyOn(process.stdout, 'write').mockImplementation(() => true);
+    let rep: NgComparisonReport | undefined;
+    let code: number;
+    let lines: string;
+    try {
+      code = await run([...args(planted), '--apply'], { out: `${MEM_ROOT}/out2`, platRoot: MEM_ROOT, onReport: (r) => (rep = r) });
+      lines = spy.mock.calls.map((c) => String(c[0])).join('');
+    } finally {
+      spy.mockRestore();
+    }
+    expect([code, rep?.pass, rep?.failing]).toEqual([0, true, []]);
+    expect(rep?.tables?.map((t) => [t.table, t.from, t.to, t.mode])).toEqual([
+      ['granularity', 1, 2, 'applied'],
+      ['regimes', 1, 2, 'applied'],
+    ]);
+    expect(lines).toContain('bentcut-ng: applied granularity.json version 1 → 2, 1 cells, provenance M-1 2026-10-04; the run passes (exit 0)\n');
+    expect(lines).toContain('bentcut-ng: applied regimes.json version 1 → 2, 1 cells, provenance M-1 2026-10-04; the run passes (exit 0)\n');
+    expect(lines).not.toContain('the run fails');
+    expect(JSON.parse(got(mem, 'packages/tables/data/granularity.json') ?? '{}')).toMatchObject({ version: 2 });
+  });
 });

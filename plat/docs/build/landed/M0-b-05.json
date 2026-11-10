@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-b-05",
-  "lane": "build/M0-b-05-fix-s1",
-  "lanes": ["build/M0-b-05", "build/M0-b-05-fix1", "build/M0-b-05-fix-s1"],
+  "lane": "build/M0-b-05-fix-s2",
+  "lanes": ["build/M0-b-05", "build/M0-b-05-fix1", "build/M0-b-05-fix-s1", "build/M0-b-05-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-27T12:57:53.225Z",
+  "date": "2026-11-10T01:48:59.986Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/bentcut-ng/ (the whole folder; index.ts created empty by the scaffold, C-0059, C-0117)", "plat/bench/test/bentcut-ng/"],
   "counts": { "created": 24, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -18,14 +18,14 @@
     { "path": "plat/bench/src/bentcut-ng/pool.ts", "status": "created", "sha256": "6f31494d13c2fa4e083e1e225e595569878a477a66d7c458f05a294579eef916", "size": 3514 },
     { "path": "plat/bench/src/bentcut-ng/report.ts", "status": "created", "sha256": "4725ab337b6f9966b434865518c7398002d58467dc1e0e735dfac5b167bc3c23", "size": 4809 },
     { "path": "plat/bench/src/bentcut-ng/tbars.ts", "status": "created", "sha256": "0c76ed54744f69e4babeeb05b6f4a563eb590592068102db4f9337f6a5406698", "size": 18155 },
-    { "path": "plat/bench/src/bentcut-ng/verdicts.ts", "status": "created", "sha256": "500cb41fa998cd5c738b6daacb79da6bcbba96a8b37d95aa3aafc3d00744d997", "size": 10069 },
+    { "path": "plat/bench/src/bentcut-ng/verdicts.ts", "status": "created", "sha256": "a4ea5360fa3ba90a6328279cfaa2fd0ca977363a1f9fc86113d08c0d2af9c74f", "size": 10543 },
     { "path": "plat/bench/src/bentcut-ng/worker.ts", "status": "created", "sha256": "9a10444f7d2487525aac2bd2b8931801c5efd5c9855b7b4ca93cc44ac8f54f39", "size": 384 },
     { "path": "plat/bench/test/bentcut-ng/cells.test.ts", "status": "created", "sha256": "363259288258e31928ce7871a1b3295e9dbe2d94c88f0f6d82a9711dd4b8d2b1", "size": 8365 },
     { "path": "plat/bench/test/bentcut-ng/entry.test.ts", "status": "created", "sha256": "ee1a40947815dbc8d8e349e66c543426b19f8da49adc1b6299833f089e4779a6", "size": 9758 },
     { "path": "plat/bench/test/bentcut-ng/flatten.test.ts", "status": "created", "sha256": "5c796d12a34ebdd1a1931b5a79e3fb700af901f9570f065a75e12b0b488f77a7", "size": 7314 },
     { "path": "plat/bench/test/bentcut-ng/memfs.ts", "status": "created", "sha256": "31a0cf7eb27669185b7e9f7791d760e9df799b7d79c782f5ef19f4d7741e4fc4", "size": 3885 },
     { "path": "plat/bench/test/bentcut-ng/ngruns.test.ts", "status": "created", "sha256": "0a60697b92256c92691504b48aa24980b6b9c43d1877dee7d4646583acc66a1a", "size": 4674 },
-    { "path": "plat/bench/test/bentcut-ng/phase-a.test.ts", "status": "created", "sha256": "bd33a0155c747c0c91f3f474fa7821fc45b5b7943f6cb37b8e964a2532908c44", "size": 16799 },
+    { "path": "plat/bench/test/bentcut-ng/phase-a.test.ts", "status": "created", "sha256": "aee75c2f7162f266a61346a5f6e6ee40fefad0d0def5b9aa10e4ed84ae14fb3a", "size": 19482 },
     { "path": "plat/bench/test/bentcut-ng/phase-b.test.ts", "status": "created", "sha256": "91e087daa7632128d77fefa20390082fae0e85fea0759253844fd925bc4c327a", "size": 24848 },
     { "path": "plat/bench/test/bentcut-ng/pool-exit-probe.ts", "status": "created", "sha256": "e743a8691bffd6e41b2a49a72ba6321336e70b230d8abafb4d4a9222c882aa17", "size": 1070 },
     { "path": "plat/bench/test/bentcut-ng/pool-exit-worker.ts", "status": "created", "sha256": "fe6bcfe15b78210f4c09a2e650eeea5ae656b570e3d4298462e9e190ee8ec880", "size": 816 },
@@ -34,19 +34,19 @@
     { "path": "plat/bench/test/bentcut-ng/raw.d.ts", "status": "created", "sha256": "4e32ca7104b09568ab16a120cc7d52f9218b689710d7e37cf2d0f471a6d63406", "size": 159 },
     { "path": "plat/bench/test/bentcut-ng/support.ts", "status": "created", "sha256": "136623ddd55e763f84f7c12899d94b764906b9c245600d2d02fd8dada08521f1", "size": 7680 },
     { "path": "plat/bench/test/bentcut-ng/tbars.test.ts", "status": "created", "sha256": "33ea9494616884a95eb163935ffc78a8e137ef67650028df4c4bcc90b9312e5a", "size": 21092 },
-    { "path": "plat/bench/test/bentcut-ng/verdicts.test.ts", "status": "created", "sha256": "be750d07e4fb7ee4306d2f2139dc4e5d79a5bdb2913798cb977d8eebbee00a85", "size": 9942 }
+    { "path": "plat/bench/test/bentcut-ng/verdicts.test.ts", "status": "created", "sha256": "803bb8558d02591847425ecff2bbd71ff6307451ae3b9c39abf48742ecd6f9fc", "size": 10949 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0295", "L-0302", "L-0669"],
-      "lines": ["8b66a17a71827b14", "ed76e8f1f063cc73", "53a048c331e3f48c"],
+      "ids": ["L-0295", "L-0302", "L-0669", "L-0754"],
+      "lines": ["8b66a17a71827b14", "ed76e8f1f063cc73", "53a048c331e3f48c", "15323e20ce172bd7"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0256", "C-0432"],
-      "lines": ["d146eb8de05e3908", "100f8b7ae9da08c2"],
+      "ids": ["C-0256", "C-0432", "C-0470"],
+      "lines": ["d146eb8de05e3908", "100f8b7ae9da08c2", "cd6f077470be0e9e"],
       "removed": []
     }
   ]

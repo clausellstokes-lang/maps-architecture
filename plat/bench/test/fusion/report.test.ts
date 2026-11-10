@@ -139,6 +139,60 @@ describe('the report’s verdicts (one planted fault per clause)', () => {
     ]);
   });
 
+  it('every summed count of the fold is a sum over the seeds, never the largest (hardening round S1, notes row 5: beyond, commit, zero, within1cm, s9Refused, kerbReads and the rest)', () => {
+    // Two seeds whose every summed count is non-zero and differs, so a sum is never the larger of the two (mutant R10:
+    // `beyond` folded as a maximum); a third seed all exact and clean (the per-seed counts).
+    const h = goodRecord(1, 'fusion').hausdorff;
+    const a = { ...h, blocks: 7, compared: 9, zero: 5, within1cm: 6, beyond: 2, split: 1, s9OwnL1: 3, drifted: 4, driftBeyond: 1, driftSeedless: 2, commit: 4, s9Refused: 1, kerbReads: 2 };
+    const b = { ...h, blocks: 11, compared: 13, zero: 8, within1cm: 10, beyond: 3, split: 2, s9OwnL1: 1, drifted: 5, driftBeyond: 2, driftSeedless: 1, commit: 5, s9Refused: 2, kerbReads: 1 };
+    const summed = ['blocks', 'compared', 'zero', 'within1cm', 'beyond', 'split', 's9OwnL1', 'drifted', 'driftBeyond', 'driftSeedless', 'commit', 's9Refused', 'kerbReads'] as const;
+    const rf = goodRecord(1, 'fusion').refusals;
+    const ra = { s8: 1, s9: 1, kerbReads: 2, corpusRoof: 3, corpusSpine: 1, kernelDowngrades: 2, kernelWorkLimitHits: 1, unplaced: 4, degraded: 1 };
+    const rb = { s8: 2, s9: 2, kerbReads: 1, corpusRoof: 1, corpusSpine: 4, kernelDowngrades: 1, kernelWorkLimitHits: 3, unplaced: 1, degraded: 2 };
+    const ca = { faces: 300, roof: { faces: 300, downgrades: 2, workLimitHits: 1, failures: 1 }, spine: { faces: 300, downgrades: 1, workLimitHits: 2, failures: 2 } };
+    const cb = { faces: 500, roof: { faces: 500, downgrades: 3, workLimitHits: 2, failures: 2 }, spine: { faces: 500, downgrades: 4, workLimitHits: 1, failures: 1 } };
+    const j = goodRecord(1, 'fusion').junction;
+    const t = goodRecord(1, 'fusion').turns;
+    const over = (x: typeof a, refusals: typeof ra, corpus: typeof ca, k: number): Partial<SeedRecord> => ({
+      hausdorff: x,
+      refusals,
+      corpus,
+      restarts: k,
+      bugs: Array.from({ length: k }, () => 'S8:E_INVARIANT'),
+      strips: { faces: 3 * k, lanes: 50 * k, crossings: k },
+      faces: { districts: 25, cuts: 1_500, blocks: 1_400, s8Refused: 2 * k },
+      ladder: { 'S8/F-CUT/a': 3 * k, 'S8/F-CUT/b': k },
+      junction: { ...j, nodes: 20 * k, nodes4: k },
+      turns: { ...t, steps: t.steps * k },
+      roads: Array.from({ length: k + 1 }, (_, i) => ({ k: i + 1, n: 7, leaving: i === 0 ? 8 : 7 })),
+    });
+    const clean = { hausdorff: { ...h, compared: 4, zero: 4, within1cm: 4, blocks: 4 }, refusals: { ...rf, corpusRoof: 0, corpusSpine: 0 } };
+    const r = foldReport(SIZES, [...both(1, over(a, ra, ca, 1)), ...both(2, over(b, rb, cb, 2)), ...both(3, clean)]);
+    for (const run of r.runs) {
+      const x = run.s8s9;
+      expect(Object.fromEntries(summed.map((k) => [k, x[k]]))).toEqual(Object.fromEntries(summed.map((k) => [k, a[k] + b[k] + clean.hausdorff[k]])));
+      expect({ seedsBeyond: x.seedsBeyond, seedsAllZero: x.seedsAllZero }).toEqual({ seedsBeyond: 2, seedsAllZero: 1 });
+      expect(run.refusals.total).toEqual(Object.fromEntries(Object.keys(ra).map((k) => [k, ra[k as keyof typeof ra] + rb[k as keyof typeof rb] + clean.refusals[k as keyof typeof rf]])));
+      expect(run.refusals.seeds).toBe(2);
+      for (const u of ['roof', 'spine'] as const) {
+        expect({ faces: run.corpus[u].faces, downgrades: run.corpus[u].downgrades, workLimitHits: run.corpus[u].workLimitHits, failures: run.corpus[u].failures }).toEqual({
+          faces: ca[u].faces + cb[u].faces + 300,
+          downgrades: ca[u].downgrades + cb[u].downgrades + 1,
+          workLimitHits: ca[u].workLimitHits + cb[u].workLimitHits,
+          failures: ca[u].failures + cb[u].failures,
+        });
+      }
+      expect({ restarts: run.restarts.total, restartSeeds: run.restarts.seeds, bugs: run.bugs.entries, bugSeeds: run.bugs.seeds }).toEqual({ restarts: 3, restartSeeds: 2, bugs: 3, bugSeeds: 2 });
+      expect(run.strips).toEqual({ faces: 3 + 6 + 4, lanes: 50 + 100 + 100, crossings: 3 });
+      expect(run.faces.s8Refused).toBe(6);
+      expect(run.ladder).toEqual({ 'S8/F-CUT/a': 3 + 6 + 3, 'S8/F-CUT/b': 3 });
+      expect(run.ladderUses).toBe(15);
+      expect({ nodes: run.junction.pooled.nodes, nodes4: run.junction.pooled.nodes4 }).toEqual({ nodes: 20 + 40 + 20, nodes4: 1 + 2 + 1 });
+      expect(run.turns.steps).toBe(t.steps * 4);
+      expect({ stages: run.roads.stages, mismatches: run.roads.mismatches }).toEqual({ stages: 2 + 3 + 2, mismatches: 2 });
+    }
+  });
+
   it('the refusal census (J264) is folded per run, never a verdict of its own', () => {
     const rf = goodRecord(1, 'fusion').refusals;
     const r = foldReport(SIZES, [...both(1), ...both(2, { refusals: { ...rf, s8: 2, kernelDowngrades: 3 } })]);

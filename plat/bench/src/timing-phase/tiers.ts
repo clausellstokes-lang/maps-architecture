@@ -61,8 +61,10 @@ export interface TierRecord {
   readonly cores: number;
   /** PR: the batched run then the whole run; nightly and milestone: one or two whole runs. */
   readonly runs: readonly TierRunRecord[];
-  /** A projected tier whose two runs both drifted more than 5 % (C-0097: never a loop). */
+  /** A projected tier whose two runs both drifted more than 5 %, or gave no calibrate scores (C-0097: never a loop). */
   readonly throttled: boolean;
+  /** Why the tier is throttled (hardening round S1, note 8: 'no calibrate scores' when the repeat gave none). */
+  readonly throttledReason?: string;
   /** Pending jobs (after-M-1, C-0121): listed with their reason, in no batch, never timed. */
   readonly pending: readonly PendingRecord[];
   readonly notBuilt: readonly { readonly name: string; readonly status: string }[];
@@ -86,6 +88,9 @@ export interface TierContext {
   readonly referenceScorePath?: string;
   readonly log?: (line: string) => void;
 }
+
+/** The throttled reason of a projected tier whose repeat gave no calibrate scores (note 8; verbatim). */
+export const NO_CALIBRATE_SCORES = 'no calibrate scores';
 
 /** The tiers in the order they are timed. */
 export const TIERS: readonly TierName[] = ['pr', 'nightly', 'milestone'];
@@ -154,7 +159,7 @@ async function runOnce(c: TierContext, m: TierManifest, mode: TierMode, n: numbe
 
 const nestedOf = (r: TierReport): string[] => r.jobs.filter((j) => /\(C-0088/.test(j.reason ?? '') || /^bench\/src\/(timing-phase|tiers)\//.test(j.source)).map((j) => j.name);
 
-function tierRecord(m: TierManifest, runs: { record: TierRunRecord; report: TierReport }[], throttled: boolean): TierRecord {
+function tierRecord(m: TierManifest, runs: { record: TierRunRecord; report: TierReport }[], throttled: boolean, throttledReason?: string): TierRecord {
   const last = runs[0].report;
   const refused = [...new Set(runs.flatMap((r) => nestedOf(r.report)))];
   return {
@@ -164,6 +169,7 @@ function tierRecord(m: TierManifest, runs: { record: TierRunRecord; report: Tier
     cores: m.budget.cores,
     runs: runs.map((r) => r.record),
     throttled,
+    ...(throttledReason === undefined ? {} : { throttledReason }),
     pending: last.pending,
     notBuilt: last.notBuilt,
     covers: last.covers,
@@ -184,11 +190,15 @@ export async function timeTiers(c: TierContext, tiers: readonly TierName[] = TIE
       out.push(tierRecord(m, [batched, whole], false));
       continue;
     }
-    // a projected tier: once whole, one repeat on a > 5 % drift, then throttled — never a loop (C-0097 (2))
+    // a projected tier: once whole, one repeat on a > 5 % drift, then throttled — never a loop (C-0097 (2)). A run with
+    // no calibrate scores is NOT agreeing (hardening round S1, note 8): it repeats once and, still without scores or
+    // drifting, is recorded throttled with its reason
     const runs = [await runOnce(c, m, 'whole', 1)];
-    const drifted = (r: TierReport): boolean => r.calibration !== null && r.calibration.drift > DRIFT_LIMIT;
-    if (drifted(runs[0].report)) runs.push(await runOnce(c, m, 'whole', 2));
-    out.push(tierRecord(m, runs, runs.length === 2 && drifted(runs[1].report)));
+    const disagrees = (r: TierReport): string | null =>
+      r.calibration === null ? NO_CALIBRATE_SCORES : r.calibration.drift > DRIFT_LIMIT ? `the repeat's calibrate scores drifted ${(r.calibration.drift * 100).toFixed(1)} % > 5 % (C-0097 (2))` : null;
+    if (disagrees(runs[0].report) !== null) runs.push(await runOnce(c, m, 'whole', 2));
+    const why = runs.length === 2 ? disagrees(runs[1].report) : null;
+    out.push(tierRecord(m, runs, why !== null, why ?? undefined));
   }
   return out;
 }

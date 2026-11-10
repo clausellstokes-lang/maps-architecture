@@ -1,0 +1,25 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 2090718177 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=2090718177 draws the same cases (Q96, C-0057)
+ ✓ |bench| test/tiers/manifest.test.ts > the budgets (§13.8; C-0027) — the caps, never raised in code > PR ≤ 15 min on 8 cores, judged on wall-clock; nightly ≤ 4 h and milestone ≤ 12 h on 16 cores, projected 5ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > lists lint, the type check, the unit and contract tests, B-FUZZ, the licence, notices and vendor checks, the deny-list scan and B-CITY-lite's two spike stand-ins 1ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > every status derived on this tree is built, not-built naming an item of this spec (or M1), or after-M-1 naming its file 296ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > the type check runs tsc per project in tsconfig.json's reference order; the tests vitest per project of vitest.config.ts 1ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > B-FUZZ: one unit per kernel primitive at 10⁴ and the constructive set at its fixed draws; no summary written into plat/ 1ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > the fallback switch on the real list: B-FUZZ at 5 × 10³ per primitive, the constructive draws unchanged, the spikes at 25 seeds 1ms
+ ✓ |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > no unit of a built PR job runs a tier or the timing phase, and none calls a bare pnpm (C-0030, C-0088) 3ms
+ ✓ |bench| test/tiers/manifest.test.ts > the nightly and milestone lists, declared by M0-f-02a and filled by M0-f-02b (C-0088, C-0099; C-0460 (7)) > the nightly's last job is `timing-phase (nightly contents)` at not-built: M1; every other entry filled (unstaged) for an item of this spec 1ms
+ ✓ |bench| test/tiers/manifest.test.ts > the nightly and milestone lists, declared by M0-f-02a and filled by M0-f-02b (C-0088, C-0099; C-0460 (7)) > the milestone list is the nightly set less its timing-phase entry, plus F-CUT at 10⁵ faces 0ms
+ ✓ |bench| test/tiers/manifest.test.ts > the nightly and milestone lists, declared by M0-f-02a and filled by M0-f-02b (C-0088, C-0099; C-0460 (7)) > only the timing-phase entry refuses to give units (not built: M1); a filled entry gives its units 13ms
+ ✓ |bench| test/tiers/manifest.test.ts > the dispatcher's tier entries (C-0059) > tier:pr, tier:nightly and tier:milestone resolve to this folder with their tier as the first argument 9ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  05:47:48
+   Duration  5.24s (transform 78%, import 14%, tests 7%, setup 1%)
+
+  Transform  |bench| transforming modules took 3.99s · 78% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

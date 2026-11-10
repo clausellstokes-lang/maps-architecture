@@ -4,8 +4,10 @@
 // it does not: Hausdorff ≤ 2 · √2 · attractCm on EVERY block (a larger distance fails the run), the stop kerb's drift
 // within the same bound, the exact-0 share ratcheted (≥ 0.95 on seeds 1 – 2) — and the ring geometry it rests on.
 // N-52 (5)'s corpus clause rides on the same records: 0 downgrades on seeds 1 – 2, both runs.
+import { err, faceRings, pointLocate, type Kernel, type LatticePoint } from '@plat/kernel';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { canonicalRing, compareRings, derive, hausdorffCm, measure, S8S9_BOUND_CM, S8S9_BOUND_SQ, S8S9_EXACT_FLOOR, s8s9, sameRing, stopKerb, vertexWithin, type SeedRecord } from '../../src/fusion/index.js';
+import { canonicalRing, compareRings, derive, foldReport, hausdorffCm, measure, S8S9_BOUND_CM, S8S9_BOUND_SQ, S8S9_EXACT_FLOOR, s8s9, sameRing, stopKerb, vertexWithin, type SeedRecord } from '../../src/fusion/index.js';
+import { GROUND } from '../../src/fusion/runs.js';
 import { TEST_SIZE } from './support.js';
 
 const sq = [
@@ -219,6 +221,52 @@ describe('S8 ≡ S9 on the flat fixture (the test size)', () => {
     expect(far.driftBeyond).toBe(far.compared);
     expect(far.driftMaxCm).toBeGreaterThanOrEqual(99);
     expect(far.misses.every((m) => m.beyond)).toBe(true);
+  });
+
+  it('the census’s positive control (hardening round S1, notes row 3): a refused S9 union and a kerb read off every face are each counted where the run met them, and every block they touch reads beyond the bound', { timeout: 300_000 }, () => {
+    const d = derive('fusion', 1, TEST_SIZE);
+    const k = d.model.kernel;
+    const districts = d.ins.standIns.length;
+    expect(districts).toBeGreaterThan(0);
+    const fusionOnly = { from: 1, seeds: 1, runs: ['fusion' as const], frameHa: TEST_SIZE.frameHa, walledHa: TEST_SIZE.walledHa };
+    // (a) S9's corridorUnion refused: the façade refuses every level-2 batch (mutant M3 zeroes `s9Refused += 1`). A refused
+    // union leaves no L2 record, so every block is compared with its own L1 face — beyond the bound.
+    const tx = ((spec: Parameters<Kernel['tx']>[0], fn?: Parameters<Kernel['tx']>[1]) => (spec.level === 2 ? err('E_INVARIANT', 'planted: the S9 union refused') : k.tx(spec, fn))) as Kernel['tx'];
+    const a = measure({ ...d, model: { ...d.model, kernel: Object.freeze({ ...k, tx }) } });
+    const ha = a.hausdorff;
+    expect({ s9Refused: ha.s9Refused, census: a.refusals.s9, kerbReads: ha.kerbReads, censusKerb: a.refusals.kerbReads }).toEqual({ s9Refused: districts, census: districts, kerbReads: 0, censusKerb: 0 });
+    expect(ha.compared).toBeGreaterThan(50);
+    expect({ beyond: ha.beyond, s9OwnL1: ha.s9OwnL1, zero: ha.zero }).toEqual({ beyond: ha.compared, s9OwnL1: ha.compared, zero: 0 });
+    expect(ha.misses.filter((m) => m.why.startsWith('corridorUnion refused: E_INVARIANT planted')).length).toBe(Math.min(8, districts));
+    const ra = foldReport(fusionOnly, [a]);
+    expect({ s8s9: ra.verdicts.s8s9, s9: ra.runs[0].refusals.total.s9, s9Refused: ra.runs[0].s8s9.s9Refused, beyond: ra.runs[0].s8s9.beyond }).toEqual({ s8s9: false, s9: districts, s9Refused: districts, beyond: ha.compared });
+    // (b) every block's seeds planted off every face — on a vertex of the L1 face that held them: the kerb read finds no ring
+    // holding the seed (mutant M4 zeroes `kerbReads += 1`), and the block, with no working ring, reads beyond.
+    const p = k.plat(GROUND);
+    const infill = d.model.data.get('infill') as { readonly blockFaces: readonly { readonly seeds: readonly LatticePoint[] }[] };
+    let planted = 0;
+    const off = {
+      ...infill,
+      blockFaces: infill.blockFaces.map((bf) => ({
+        ...bf,
+        seeds: bf.seeds.map((q) => {
+          const at = pointLocate(p, GROUND, 1, q);
+          if (at.on !== 'face') return q;
+          planted += 1;
+          return faceRings(p, 1, at.face)[0][0];
+        }),
+      })),
+    };
+    const data = new Map(d.model.data);
+    data.set('infill', off);
+    const b = measure({ ...d, model: { ...d.model, data } });
+    const hb = b.hausdorff;
+    expect(planted).toBe(hb.compared);
+    expect({ kerbReads: hb.kerbReads, census: b.refusals.kerbReads, s9Refused: hb.s9Refused, beyond: hb.beyond, zero: hb.zero }).toEqual({ kerbReads: hb.compared, census: hb.compared, s9Refused: 0, beyond: hb.compared, zero: 0 });
+    expect(hb.misses.length).toBeGreaterThan(0);
+    for (const m of hb.misses) expect(m.why).toMatch(/^the seed lies on an L2 |^no working block read/);
+    const rb = foldReport(fusionOnly, [b]);
+    expect({ s8s9: rb.verdicts.s8s9, kerbReads: rb.runs[0].refusals.total.kerbReads, folded: rb.runs[0].s8s9.kerbReads }).toEqual({ s8s9: false, kerbReads: hb.compared, folded: hb.compared });
   });
 
   describe('seeds 1 – 2, both runs', () => {
