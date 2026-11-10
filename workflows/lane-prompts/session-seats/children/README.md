@@ -25,3 +25,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DK.md | DK | MERGED: M0-a-04 S6 → M0-a-13 S2 (kernel pins) |
 | launch-DL.md | DL | MERGED: M0-c-07 S1 → M0-b-05 S2 (bench: the gate's tables record, pins, a restatement) |
 | launch-DM.md | DM | MERGED: M0-x-02 S4 → M0-x-04 S3 (Q39's runner door proved in a mirror; two test corrections) |
+| launch-DN.md | DN | M0-a-09 S18, the LIBRARY round (the exact kerb as a pure function) — PREPARED, NOT CREATED: held at the weekly allowance's warning (J745) |
