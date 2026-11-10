@@ -1,0 +1,46 @@
+
+ RUN  v5.0.3 /home/user/maps-architecture/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1569492315 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1569492315 draws the same cases (Q96, C-0057)
+ ❯ |bench| test/tiers/manifest.test.ts (11 tests | 1 failed) 306ms
+   ❯ the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) (6)
+     × B-FUZZ: one unit per kernel primitive at 10⁴ and the constructive set at its fixed draws; no summary written into plat/ 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |bench| test/tiers/manifest.test.ts > the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f)) > B-FUZZ: one unit per kernel primitive at 10⁴ and the constructive set at its fixed draws; no summary written into plat/
+AssertionError: expected [ 'corepack', 'pnpm', 'bench', …(11) ] to deeply equal [ 'corepack', 'pnpm', 'bench', …(9) ]
+
+- Expected
++ Received
+
+@@ -9,6 +9,8 @@
+    "--runs",
+    "10000",
+    "--constructive-seeds",
+    "10",
+    "--no-summary",
++   "--no-ladders",
++   "--no-s11",
+  ]
+
+ ❯ test/tiers/manifest.test.ts:97:22
+     95|     expect(us.map((u) => u.name)).toEqual([...FUZZ_PRIMITIVES.map((p) …
+     96|     for (const u of us.slice(0, -1)) {
+     97|       expect(u.argv).toEqual(['corepack', 'pnpm', 'bench', '--', 'fuzz…
+       |                      ^
+     98|     }
+     99|     expect(us[us.length - 1].argv).toEqual(['corepack', 'pnpm', 'bench…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  05:47:42
+   Duration  5.02s (transform 79%, import 14%, tests 6%, setup 1%)
+
+  Transform  |bench| transforming modules took 3.82s · 79% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

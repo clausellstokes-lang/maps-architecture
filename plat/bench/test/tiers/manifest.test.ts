@@ -94,7 +94,7 @@ describe("the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f))", () => {
     const us = await units(fz);
     expect(us.map((u) => u.name)).toEqual([...FUZZ_PRIMITIVES.map((p) => p.name), 'constructive set']);
     for (const u of us.slice(0, -1)) {
-      expect(u.argv).toEqual(['corepack', 'pnpm', 'bench', '--', 'fuzz-bar', '--primitive', u.name, '--runs', '10000', '--constructive-seeds', String(PR_CONSTRUCTIVE_DRAWS), '--no-summary']);
+      expect(u.argv).toEqual(['corepack', 'pnpm', 'bench', '--', 'fuzz-bar', '--primitive', u.name, '--runs', '10000', '--constructive-seeds', String(PR_CONSTRUCTIVE_DRAWS), '--no-summary', '--no-ladders', '--no-s11']);
     }
     expect(us[us.length - 1].argv).toEqual(['corepack', 'pnpm', 'bench', '--', 'fuzz-bar', '--runs', '1', '--constructive-seeds', '10', '--no-summary']);
   });
