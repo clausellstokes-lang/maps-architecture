@@ -32,3 +32,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DQ.md | DQ | M0-a-11 S6 (the skeleton's contract angle: measure first; a declared shift if adopted) |
 | launch-DR.md | DR | M0-c-01 S4 (the siting: Q99's default view; the plaza-crossing boundary of Q122's S3 share), on M0-c-02 S6's landed head |
 | launch-DS.md | DS | M0-c-05 S3 (S5c / S5d: Q150's frame sweep, Q98, Q149), on M0-c-04 S5's landed head |
+| launch-DT.md | DT | M0-e-06 S4 (the site spike: the fold's message texts, Q137's renumber-proof digest, the 200-seed summary re-run on the merged head — the re-measure Q122, Q173 and Q174 wait on) |
