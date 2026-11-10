@@ -6,7 +6,6 @@
  "children": [
   {"letter": "CX", "session": "session_01FE9mEwhbdvWNSss7agoxf7", "branch": "wip/child-c02s6d", "created": "2026-11-09T20:40:05Z", "round": "M0-c-02 S6", "lanes": ["build/M0-c-02-fix-s6", "check/M0-c-02-close-s6"]},
   {"letter": "CY", "session": "session_01FE9mEvf5Yr1xTmogb1HX1c", "branch": "wip/child-c04s5d", "created": "2026-11-09T20:40:06Z", "round": "M0-c-04 S5", "lanes": ["build/M0-c-04-fix-s5", "check/M0-c-04-close-s5"]},
-  {"letter": "DC", "session": "session_01FE9mEvkvXcUZJEaM8y4yLi", "branch": "wip/child-c06s1", "created": "2026-11-09T21:37:51Z", "round": "M0-c-06 S1", "lanes": ["build/M0-c-06-fix-s1", "check/M0-c-06-close-s1"]},
   {"letter": "DD", "session": "session_01FE9mExCLXiKir3jwGJerQv", "branch": "wip/child-e04s5", "created": "2026-11-09T21:37:52Z", "round": "M0-e-04 S5", "lanes": ["build/M0-e-04-fix-s5", "check/M0-e-04-close-s5"]},
   {"letter": "DE", "session": "session_01FE9mExMKXUXBFoBNCwNwLM", "branch": "wip/child-d05as2", "created": "2026-11-09T21:37:53Z", "round": "M0-d-05a S2", "lanes": ["build/M0-d-05a-fix-s2", "check/M0-d-05a-close-s2"]},
   {"letter": "DF", "session": "session_01FE9mEsbkJEjNtU3aYbXTAp", "branch": "wip/child-t00s1", "created": "2026-11-09T22:20:05Z", "round": "MERGED: M0-d-06 S2, M0-t-00 S1 (leg 1, M0-f-01 S1, LANDED 106919e2)", "lanes": ["build/M0-d-06-fix-s2", "check/M0-d-06-close-s2", "build/M0-t-00-fix-s1", "check/M0-t-00-close-s1"]},
