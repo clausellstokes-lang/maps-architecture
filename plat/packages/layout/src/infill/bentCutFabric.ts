@@ -403,8 +403,10 @@ function lineageText(h: Readonly<LineageHash>): string {
  * The live entities the run's mint reads (§6.3's collision rule), kept incrementally (queue row Q70): the list itself
  * (the run pushes what it mints and pops what it takes out again) and two indexes over it — by address and by lineage —
  * so each mint is handed exactly the live entries its one record can collide with: those on the record's `dup` chain
- * (every lineage the mint's smallest-free-dup loop tests) and those on its address's `~k` chain. The mint reads only the
- * set's contents (its taken lineages and taken addresses), so that subset gives the result the whole list gives; the
+ * (every lineage the mint's smallest-free-dup loop tests) and those on its address's `~k` chain, each entry once. The
+ * mint reads the set's contents (its taken lineages and taken addresses) and its multiplicity (a live id given twice is
+ * refused, queue row Q93); the subset holds each entry once, as the whole list holds each id once (an entry on both
+ * chains is listed once, M0-d-05a's fix round S3, J741), so that subset gives the result the whole list gives; the
  * whole list is checked once, when the run starts (the mint's own check of every live entry and the seed key).
  */
 class LiveIndex {
@@ -453,15 +455,27 @@ class LiveIndex {
    * The live entries one fresh record of `kind` under `key` can collide with: every entry whose lineage the mint's dup
    * loop tests (the key's hash, then dup 1, 2, … while a live non-retired entry holds it), then every entry whose
    * address the suffix loop tests (the natural address of the lineage reached, then `~1`, `~2`, … while one is taken).
+   * Each entry once, by object identity, in the order it is first reached: an entry on both chains (one whose lineage
+   * the dup loop tests and whose address the suffix loop tests — a retired entry at the lineage reached holding its
+   * natural address, say) is not listed again by the suffix loop, which still walks its whole chain; the mint refuses a
+   * live id given twice (queue row Q93), and that entry is one live entity.
    */
   relevant(kind: string, key: LineageKey): LiveEntry[] {
     const out: LiveEntry[] = [];
+    const listed = new Set<LiveEntry>();
+    const take = (at: readonly LiveEntry[]): void => {
+      for (const e of at) {
+        if (listed.has(e)) continue;
+        listed.add(e);
+        out.push(e);
+      }
+    };
     let dup = 0;
     let h = lineageHash(key);
     for (;;) {
       const at = this.byLineage.get(lineageText(h));
       if (at === undefined) break;
-      out.push(...at);
+      take(at);
       if (!at.some((e) => e.retired !== true)) break;
       dup += 1;
       h = lineageHash({ ...key, dup });
@@ -471,7 +485,7 @@ class LiveIndex {
     for (let suffix = 1; ; suffix += 1) {
       const at = this.byId.get(id);
       if (at === undefined) break;
-      out.push(...at);
+      take(at);
       id = `${natural}~${String(suffix)}`;
     }
     return out;
