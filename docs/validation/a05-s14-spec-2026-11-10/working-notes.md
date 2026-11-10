@@ -181,3 +181,25 @@ L10 the golden per-case diff + bands per test/per cell + roots.
 ## Step 14 — memo written (spec-a05-s14-r2.md); JSON validated (keys id/from/round/session/lines; 11 lines). DONE.
 
 ## R3 Step 1 — FIX PASS ordered (coordinator): read refute-r2.md whole; rulings (1)-(10) bind; deliverables *-r3*.
+## R3 Step 2 — refute-r2.md read whole (R2-1..R2-20; 2 blockers, 11 major, 7 minor). Code re-read for each:
+- R2-1 CONFIRMED: insertChain.ts :1658-1670 `passes('watch')` -> reentered -> `passes('back')` -> `back.ok ? back : passes(null)`. Ruling (1) binds.
+- R2-2 CONFIRMED: classes.ts charge :154-159 (tx.work.total += n, never rolled back by rollback :783-819); tx/state.ts chargeTx :163-170 dooms
+  the batch (t.failed), enterWriter :185-188 refuses later ops. tx/cost.test.ts PER_FACE 160 :13 (fitted), WIDE 200 / count 10 :25-26. Ruling (2).
+- R2-3 CONFIRMED: step3-5/fidelity.ts fidelityProblems :126 (imports arena, insert/classes insertTx, decimate — not the router); support.ts
+  allProblems :317, dissolvableProblems :334; bfuzz.test.ts :22-26 judges every commit by both.
+- R2-4 CONFIRMED: stretch.ts :821-823 a finer vertex on a route of level <= n is a contact (only off-route -> E_KEPT). noSeat as written is a point cert.
+- R2-5 CONFIRMED: snapRound.ts :648 `if (reenters(j)) return cutTo(j)`; k (planLandingAfter :649) is never checked.
+- R2-7 CONFIRMED: inFidelity covered :902-914: at d0 = d1 = FIDELITY the test d0+d1+Δ·len <= 2·FIDELITY never holds for len > 0 -> no budget suffices.
+- R2-8 CONFIRMED: notes :269-300: S9 built the in-segment retrace cut (SegmentPath/cutTo/MAX_CUTS), own-run (nearestOwn, r0 ownWalk), strict 2nd reading.
+- R2-9: kerb.ts :667-679 DRY_MOVE_CM is a read's move from its INPUT. definition.ts ABSENT on this tree. Ruling (3) binds. PARTIAL: keep §3.7's
+  area figure as REPORTED, not a gate (its √2·attractCm is B-FUZZ's result-vs-oracle law; a kerb read's bound is 2·√2·attractCm, kerb.ts:673-679).
+- R2-10 CONFIRMED: tools/vitest/fuzz-seed.mjs :1-8 unset seed = fresh seed per run, printed seedLine. Ruling (5).
+- R2-16 CONFIRMED: stretch.ts strip doc :184-194 (a/b null in step 2); routeSegment :931-937 sets/restores strip.
+- Others (R2-6, -11, -12, -13, -14, -15, -17..-20): apply per rulings / refuter.
+## R3 Step 3 — spec-a05-s14-r3.json written (gen3.py): 12 lines (1.2–2.9 kB each), session 16.5 k chars; whitespace now collapsed (r2 carried
+mid-sentence \n escapes). New layout: L1 THE FIFTH PASS (ruling 1, R2-1/-3/-14/-16), L2 E, L3 S, L4 D/W/P/V/C, L5 measures, L6 Q77, L7 MK/ML,
+L8 R-12, L9 FAR1, L10 group B cause (S8 model first), L11 group B judgment (vs input; definition.ts or scratch grid oracle), L12 shift + work (f).
+Rendered: build 63 396 chars, check 61 611 chars (render-a05s14/sf3).
+Partial rejection: R2-9's area "against X(F)" kept as REPORTED figure, not a gate (√2·attractCm is B-FUZZ's result-vs-oracle law; a read's bound
+is DRY_MOVE_CM, kerb.ts:673-679). Decision noted: pass 5 runs with chainPath 'back' (refuter's recommendation; ruling (1) silent).
+## R3 Step 4 — spec-a05-s14-r3.md written (findings table R2-1..R2-20, lines, time, brief sizes). DONE.
