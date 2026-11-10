@@ -4,7 +4,9 @@
 // but not its child (fix round 1, F-1 (c)) — are named when outside `ownPids` and never when inside. Fix round 2
 // (checks/M0-f-01.md F-3, F-4; C-0141): Microsoft Edge — this machine's browser — and the rest of the Chromium family are
 // browsers by their app bundles, an idle Edge tree contends; the Chromium test kills its browser itself, and the cleanup
-// hook has its own bound. Other seats run on this machine, so the full table is always contended; the "authoritative" verdicts are
+// hook has its own bound. Hardening round S1 (J725): the launch chain's loader — an esbuild child of this process or of
+// one of its ancestors (the tsx launcher, when the measuring process is the launcher's child) — is exempt from the kind
+// clause only; any other esbuild is named. Other seats run on this machine, so the full table is always contended; the "authoritative" verdicts are
 // judged on a quiet reading built from the same real rows — the harness's own row and the planted processes' trees —
 // with the other conditions met (load ≤ 1.5, AC power, a reference score, agreeing calibrate scores).
 import { spawn, type ChildProcess } from 'node:child_process';
@@ -296,6 +298,48 @@ describe('judgeContention on built readings (each clause alone)', () => {
     const busyAncestor = base([]);
     busyAncestor.processes[3].pcpu = 30; // tsx busy
     expect(judgeContention(busyAncestor, ok).reasons).toEqual(['process: node (pid 300) at ≥ 10 % CPU']);
+  });
+
+  it('the launch chain\'s loader: an esbuild child of this process or of an ancestor (the tsx launcher) is exempt from the kind clause only; any other esbuild is named (hardening round S1)', () => {
+    // The timing phase measures in a production child of a tsx launcher: the launcher (pid 300, an ancestor) holds the
+    // loader service (esbuild --service), which is then this process's SIBLING. (a) an idle loader child of the launcher
+    // — and of a farther ancestor — is not refused by the kind clause; the bare Linux comm and the macOS path alike.
+    const launcherLoader: ProcessRow = { pid: 310, ppid: 300, pcpu: 0, comm: '/x/node_modules/@esbuild/linux-x64/bin/esbuild' };
+    const a = judgeContention(base([launcherLoader, { pid: 311, ppid: 300, pcpu: 0.4, comm: 'esbuild' }, { pid: 312, ppid: 200, pcpu: 0, comm: 'esbuild' }]), ok);
+    expect(a.reasons).toEqual([]);
+    expect(a.offenders).toEqual([]);
+    expect(a.authority).toBe('authoritative');
+    // (b) the same loader over the CPU threshold IS refused, by the CPU clause (C-0138: a loader that burns CPU contends)
+    const b = judgeContention(base([{ ...launcherLoader, pcpu: 76.4 }]), ok);
+    expect(b.reasons).toEqual(['process: esbuild (pid 310) at ≥ 10 % CPU']);
+    expect(b.offenders.map((o) => [o.pid, o.name, o.clause])).toEqual([[310, 'esbuild', 'cpu']]);
+    expect(judgeContention(base([{ ...launcherLoader, pcpu: 10 }]), ok).reasons).toEqual(['process: esbuild (pid 310) at ≥ 10 % CPU']);
+    expect(judgeContention(base([{ ...launcherLoader, pcpu: 9.9 }]), ok).authority).toBe('authoritative');
+    // (c) an esbuild whose parent is NOT in the launch chain is still named by the kind clause, idle: another seat's
+    // (a child of its own node), a grandchild of this process (a descendant is not the launch chain), an orphan
+    // adopted by pid 1, a child of an unlisted process
+    const c = judgeContention(base([
+      { pid: 420, ppid: 1, pcpu: 0, comm: '/usr/local/bin/node' }, // another seat's node
+      { pid: 421, ppid: 420, pcpu: 0, comm: '/y/node_modules/@esbuild/darwin-arm64/bin/esbuild' },
+      { pid: 430, ppid: SELF, pcpu: 0, comm: '/bin/sleep' }, // a child of this process, not listed in ownPids
+      { pid: 431, ppid: 430, pcpu: 0, comm: 'esbuild' },
+      { pid: 432, ppid: 1, pcpu: 0, comm: 'esbuild' },
+      { pid: 440, ppid: 100, pcpu: 0, comm: '/usr/bin/make' }, // an ancestor's child, itself outside the launch chain
+      { pid: 441, ppid: 440, pcpu: 0, comm: 'esbuild' },
+    ]), ok);
+    expect(c.reasons).toEqual([
+      'process: node (node, pid 420)',
+      'process: esbuild (esbuild, pid 421)',
+      'process: esbuild (esbuild, pid 431)',
+      'process: esbuild (esbuild, pid 432)',
+      'process: esbuild (esbuild, pid 441)',
+    ]);
+    expect(c.offenders.map((o) => [o.pid, o.clause])).toEqual([[420, 'kind'], [421, 'kind'], [431, 'kind'], [432, 'kind'], [441, 'kind']]);
+    // (d) today's case, an esbuild child of this process: exempt from the kind clause, caught by the CPU clause
+    expect(judgeContention(base([{ pid: 503, ppid: SELF, pcpu: 0, comm: 'esbuild' }]), ok).authority).toBe('authoritative');
+    expect(judgeContention(base([{ pid: 503, ppid: SELF, pcpu: 77, comm: 'esbuild' }]), ok).reasons).toEqual(['process: esbuild (pid 503) at ≥ 10 % CPU']);
+    // the exemption is the loader's only: another kind under the launcher (a python3 child of tsx) is still named
+    expect(judgeContention(base([{ pid: 450, ppid: 300, pcpu: 0, comm: '/usr/bin/python3' }]), ok).reasons).toEqual(['process: python3 (python3, pid 450)']);
   });
 
   it('the detector\'s probes are exempt only as the harness\'s own children: a busy ps or pmset elsewhere contends by CPU (C-0138 (3))', () => {
