@@ -30,3 +30,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DO.md | DO | MERGED: M0-x-06 S2 → M0-x-05 S3 (testkit; not required for M0's exit) |
 | launch-DP.md | DP | MERGED: M0-f-02a S2 → M0-f-02b S1 (the tiers; not required for M0's exit) |
 | launch-DQ.md | DQ | M0-a-11 S6 (the skeleton's contract angle: measure first; a declared shift if adopted) |
+| launch-DR.md | DR | M0-c-01 S4 (the siting: Q99's default view; the plaza-crossing boundary of Q122's S3 share), on M0-c-02 S6's landed head |
