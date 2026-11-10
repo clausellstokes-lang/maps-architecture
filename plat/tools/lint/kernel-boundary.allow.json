@@ -252,6 +252,22 @@
    "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
   },
   {
+   "file": "arr/kerbExact.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.7's exact kerb X(F) = region(F) − ⋃ B(s) as a pure function beside the construction (amendment z item 986; J742 R-A, J744 (2)): it reuses arr/kerb.ts's own `kerbParts` (the import and its one call) so the buffers it subtracts are the construction's, byte for byte; the same geometry the rows of arr/kerb.ts name (GEO-20); added by the session's seam with round S18 (J752; the round's choices row carries the boundary clause)"
+  },
+  {
+   "file": "arr/kerbExact.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "the module specifier './kerb.js': §3.7's exact kerb reuses arr/kerb.ts's readFace, reaches, kerbParts, ownRings, unspiked and coveredBy rather than restating them (J744 (2)); added by the session's seam with round S18 (J752)"
+  },
+  {
    "file": "arr/tileRings.ts",
    "kind": "ident",
    "noun": "tile",

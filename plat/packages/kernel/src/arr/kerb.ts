@@ -446,7 +446,7 @@ function segmentsMeet(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: Latt
  * half-width of their segment), so a band that reaches is never left out. The spine lies outside F's interior (it
  * bounds no route edge of F), so a segment within the rings is no case.
  */
-function reaches(s: Spine, rings: readonly Ring[]): boolean {
+export function reaches(s: Spine, rings: readonly Ring[]): boolean {
   if (rings.length === 0) return false;
   const box = boxOf(rings);
   for (const line of s.lines) {
@@ -658,7 +658,7 @@ export function kerbParts(rings: readonly LatticePoint[][], spines: ReadonlyMap<
 }
 
 /** A face's own route rings as a region (no band reaches it): the outer ring, then the holes, each canonical. */
-function ownRings(rings: readonly (readonly LatticePoint[])[]): Ring[] {
+export function ownRings(rings: readonly (readonly LatticePoint[])[]): Ring[] {
   const outer = canonicalRing(rings[0]);
   const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
   return [outer, ...holes];
@@ -733,7 +733,7 @@ function deepIn(rings: readonly (readonly LatticePoint[])[], s: Spine, moveCm: n
  * bounds no area, so it is dropped, again until none is left — what an overlay's trace can leave where attraction folded
  * a strip thinner than `attractCm` onto the face's boundary (C-0212 (8)); the region is unchanged.
  */
-function unspiked(ring: Ring): Ring {
+export function unspiked(ring: Ring): Ring {
   let pts = ring.slice();
   let changed = true;
   while (changed && pts.length >= 3) {
@@ -1681,7 +1681,7 @@ export interface SpineCensus {
  * properly crossing one of the part's (exact on lattice points)? Each part is a simple ring, so the ring's region then
  * lies within it.
  */
-function coveredBy(parts: readonly Ring[], ring: readonly LatticePoint[]): boolean {
+export function coveredBy(parts: readonly Ring[], ring: readonly LatticePoint[]): boolean {
   const inOrOn = (part: Ring, q: LatticePoint): boolean => {
     let w = 0;
     for (let k = 0; k < part.length; k += 1) {

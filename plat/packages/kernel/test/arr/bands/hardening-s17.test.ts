@@ -297,3 +297,32 @@ describe('the faithful read’s acceptance pinned on the S16 check’s networks 
     expect(deepest(k as KerbRead)).toBeCloseTo(17, 2);
   });
 });
+
+// Hardening round S18 (lane build/M0-a-09-fix-s18; line 12, notes row 156): the S17 check's two mutant survivors on the
+// RING_CROSSES guard, equivalent on every honest input met and distinguishable only through a recorded region or the
+// engine's `pieces` seam — each pinned here. NB5 (`onBridge` without its collinearity test: any bridge whose projection
+// covers a stretch excuses an opposite run) returns the recorded fold below; NB7 (bandCore's write guard without F's
+// bridges, `outlineCrosses(pieces, [])`) refuses the planted out-and-back piece below.
+describe('round S18 (line 12): the S17 check’s survivors NB5 and NB7 on the RING_CROSSES guard, pinned', () => {
+  it('NB5: splitsOn refuses the recorded fold back along y = 1000 (x 2100 – 2300), off every bridge — the bent bridge projects over it but is not collinear', () => {
+    const p = framed();
+    way(p, 'way:0', [[2000, 0], [2000, 800], [2600, 1500]]);
+    const [face] = own(p, 'district:1', [[100, 100]]);
+    const g = readFace(p, face, widthsOf({}));
+    const fold = rings(['0,0 4000,0 4000,4000 0,4000 0,1000 2500,1000 2500,1300 2300,1000 2100,1000 1500,600']);
+    const s = splitsOn(p, g.edges, g.spines, fold);
+    expect(s.ok ? 'ok' : `${s.code} ${s.detail}`).toBe(`E_INVARIANT ${RING_CROSSES}`);
+  });
+
+  it('NB7: the out-and-back piece along F’s bridge, planted through bandCore’s `pieces` seam with way:0 at hw 20, commits', () => {
+    const p = framed();
+    way(p, 'way:0', [[2000, 0], [2000, 800], [2600, 1500]]);
+    const faces = [...new Set(own(p, 'district:1', [[100, 100]]))];
+    const ws = widthsOf({ 'way:0': 20 });
+    const piece = { points: rings(['2000,0 2000,800 2600,1500 2000,800 2000,0'])[0], closed: false };
+    const r = tx(p, spec(2, AT_S9), (o) =>
+      bandCore(o as Parameters<typeof bandCore>[0], faces, { widths: ws, edgeRole: 'kerb', entityOf: (f) => idOf(p, p.faces[1].owner[f]), owner: null, vertexContacts: true, pieces: () => [piece] }),
+    );
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+  });
+});

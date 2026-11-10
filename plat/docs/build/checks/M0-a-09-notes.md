@@ -1890,3 +1890,550 @@ mirror) or in the tree. Rows 156 – 157 are non-blocking (rule (3) of the brief
     The ANTX outputs were deleted once by this seat's own `rm` glob (`ant*-<engine>.out`) and re-measured identically
     (600 cases; S17 0 refusals and field for field round S15's, S16 852). (d) Probes, the differential run and the smoke
     ran as the mutation sweep's one extra process beside the one tree run (NEAR, B-FUZZ, RELATED). (e) No git command.
+
+## Hardening round S18 — builder (lane `build/M0-a-09-fix-s18`, 2026-11-10)
+
+THE LIBRARY ROUND of round 2A of the kernel amendment z (item 986; J742 R-A, J744 (2)): §3.7's exact kerb X(F) as a pure
+function in ONE new file, its content key, the definition oracle, the construction relation judged by the test's own
+wrapper of insertChain, literal-ring pins, `derived.test.ts` and 986 (c)'s incremental identity measured — and nothing
+calls it: kerb(), readKerb and everything that serves the construction are as on the base (line 11). Files: NEW
+`packages/kernel/src/arr/kerbExact.ts`, `packages/kernel/test/arr/bands/derived.test.ts`,
+`packages/kernel/test/arr/bands/definition.ts`; CHANGED `packages/kernel/src/arr/kerb.ts` (the keyword `export` before
+four functions, nothing else), `packages/kernel/test/arr/bands/hardening-s17.test.ts` (two pins added at its end, no
+existing assertion touched). The base mirror (`/home/user/maps-scratch/waves/base-build-M0-a-09-fix-s18/plat`, `cp -a` of
+the RESUME head's `plat/` before the first edit; isolation proved) is kept for the closing checker. Before the first edit:
+`M0-work.json` lists `plat/packages/kernel/src/arr/kerbExact.ts` under M0-a-09's owns; `corepack pnpm landed:verify --
+flow-7 --item M0-a-09` → `ok (1 record)`; Q152's four files on the RESUME head (W = 1, default strength) → `Tests 6
+failed | 30 passed (36)`, exactly the six (closing.test.ts 'seed 20261011 draw 1109' and "fast-check's shrunk
+counterexample of seed 20261011", dryrun.test.ts 'draws 389 and 1109', hardening-s15.test.ts 'network 561',
+restage.test.ts 'N1' and 'N2').
+
+159. **LINE 1 — the exact kerb exists as a function: FIXED.** `arr/kerbExact.ts` (by path; `arr/index.ts` and the barrel
+     gain nothing; `api-surface.test.ts` green untouched) exports `exactRegion(rings, parts): Ring[]`,
+     `exactKeyContent(p, face, widths, vertexContacts = true): KernelResult<ExactKeyContent>`,
+     `exactRegionOfKey(content): Ring[]`, `exactKey(p, face, widths, vertexContacts = true): string`,
+     `exactRegionOfFace(p, face, widths, vertexContacts = true): KernelResult<{ key; region: Ring[] }>` and
+     `roundQuotientHalfAway(N, D): number` (`exactKey` and `exactRegionOfFace` are the brief's `kerbKey` and `exactKerb`
+     renamed by the session's ruling J752 (1), row 176; no behaviour changed). Its evaluation order is the line's, fixed and stated in the header: (1)
+     `readFace(p, face, widths, new Map(), vertexContacts)`; (2) X_E := exactRegion(f.rings, the edge spines' parts); (3)
+     the reaching set `f.through.filter((s) => reaches(s, X_E))`; (4) per keyed spine `kerbParts(f.rings, {s}, true)` (the
+     faithful parts: straightRun's drop, the construction's strips / joins / sagitta / junction-flat ends, F's box);
+     (5) the ring rule on f.rings; (6) the key; (7) X := exactRegion(the key's rings, the key's parts). The normal form is
+     KerbRead.region's: a key with no part reads `ownRings(the key's rings)`; else the trace cut by `simpleLoops`,
+     `dropStraight` keeping the vertices where the boundary meets itself, `canonicalRing`, `unspiked`, area-0 rings
+     dropped, `compareRings` order. THE ONLY EDIT OF AN EXISTING FILE: `export` before `function reaches`,
+     `function ownRings`, `function unspiked`, `function coveredBy` of kerb.ts (`diff -u` base → tree: exactly those four
+     lines); kerbExact.ts copies no kerb.ts function, and its own functions' names are unique in `packages/kernel/src`
+     and in no COUNT_FNS entry (checked by grep: each name defined once). PINS: lines 2, 3, 4, 8, 9 (below). MUTANTS XM1
+     (`through` left out: the reach literal (9) red and line 5's arriving-with-reach pin red) and XM2
+     (`kerbParts(…, false)`: line 4's square-T pin red, and the half-coordinate literal) — killed.
+160. **LINE 2 — X writes nothing; its degenerate outputs; the dangling chain; the lemma: PINNED.** X builds no Plat and
+     calls no insertChain / opSave: derived.test.ts's own mocks (dryrun.test.ts's `...real` form) count createPlat,
+     buildOverlay, insertChain and opSave 0 per X call, and bits(p), state(p) and the batch's work / warnings / journal
+     unchanged — on every line-8 fixture face ('X writes nothing') and on every read of line 9 (`fig.writes` 0).
+     `write-door.test.ts` passes unchanged. X refuses only where readFace or bufferParts refuse. The degenerate four: a
+     face wholly within its bands → ok([]) (fixture (6)); a key with no part → the route rings verbatim (fixture (7),
+     the collinear T kept); holes kept where no band covers them (a widthless district ring inside a way's face: its
+     ring verbatim); a ring way once round with no cap (fixture (4)). The dangling chain of two widthless edges in a
+     spine-less face (fixture (8)): X = F's walk out and back, not simpleRing, and `ringCrosses(r, bridgesOf(p, f.edges))`
+     false — the exemption the oracle, line 3 (c) and line 9 apply. vertexContacts false ≡ X over the edge spines alone
+     (the reach fixture: the region and key differ from the flag's true read). THE LEMMA (S18R-5) on line 9's corpus:
+     X over every `through` spine and X over the reaching ones within NEAR_CM, byte-equal wherever every non-reaching part
+     lies more than 2 cm from X_E — REPORTED below (byte-equal on every read met). MUTANTS: XM3 (every end capped: the
+     oblique-T literal red), XM4 (a ring way laid open, its declared square ends then capping it: the ring literal red),
+     XM5 (holes dropped: the ring / hole literals red), XM6 (an empty kerb refused: the empty literal red), XM7 (the traced
+     form on a part-less key: the collinear literal red), XM8 (X through `overlayRegion` / buildOverlay: the
+     write-nothing pin's createPlat count red) — killed.
+161. **LINE 3 — one arrangement, the half-away rounding without division, order-free: PINNED.** exactRegion builds ONE
+     arrangement of every original segment (the rings' and every part's): each proper crossing found with `orient2d`,
+     its exact point N / D in BigInt; the cells classed by winding (inside the rings by non-zero winding, inside no part
+     by the parts' windings SUMMED — a ring set with holes stands as one part, line 10); the boundary traced. THE ROUNDING
+     RULE (header): every output vertex an input vertex or the ONE half-away rounding of the exact crossing of two
+     original segments — a double estimate through ratio() corrected by BigInt multiply-compares until
+     (2k − 1)·|D| ≤ 2·|N| < (2k + 1)·|D|, then snap's range check; no division (`plat/ratio-division` clean, no
+     eslint-disable). THE RESOLUTION where that rounding would leave a ring non-simple: ONE pass of snap rounding over the
+     whole arrangement — hot pixels (half-open unit squares) at every vertex of exactRegion's own input and every
+     rounded crossing; every original segment routed through the centre of every hot pixel it meets, in its order;
+     pieces cut at hot-pixel centres on them, coincident pieces merged with summed windings, pieces of winding 0 dropped
+     — sets, so order-free (a crossing left between rounded pieces would be rounded as a hot pixel and the pass re-run:
+     never met). PINS: (a) the order property — fast-check, max(200, RUNS ÷ 10) draws of random rings (holes, an island)
+     and random part sets (rectangles, triangles, bufferParts of random chains): every permutation drawn (parts shuffled,
+     ring and part starts rotated, holes reversed) byte-identical, and on every read of line 9 the key content
+     permuted; (b) every output vertex a lattice point and either an input vertex or the half-away rounding of an exact
+     proper crossing of two input segments, the candidates recomputed by the test in BigInt (on the property and on every
+     read of line 9); (c) every ring simpleRing (line 2's exemption apart) and nestingProblems empty; (d) the rounding's
+     own pins at exact halves of both signs (±5⁄2 → ±3, ±1⁄2 → ±1), next to them (±2.5 ± 1⁄1000) and with a numerator past
+     2⁵³ (2⁴⁰ · 1 234 567 + 2³⁹ over 2⁴⁰ → 1 234 568, one unit below → 1 234 567), and against the test's own BigInt
+     reading for every n/d with |n| ≤ 40. MUTANTS: XR1 (a sequential clip rounding after each part: the order property
+     red), XR2 (truncation: (d) and the half-coordinate literal red), XR3 (a rounded crossing within 1 cm of a hot pixel
+     found earlier dropped — the first found kept: the order property red), XR4 (half up: (d)'s negative half red) —
+     killed.
+162. **LINE 4 — the content key: FIXED and PINNED.** `exactKey` / `exactKeyContent`: a canonical text of (1) the flag; (2)
+     F's route rings in readFace's canonical order under THE RING RULE on the dropped polygon — a maximal run v₁ … v_k
+     left out where each is straight-through against the kept neighbours u and w (straightRun's line test, HOT_PIXEL_CM)
+     AND the polygon (u, v₁, …, v_k, w) is held by ONE of the key's parts (`coveredBy`); walked from the ring's first
+     vertex that cannot go alone, greedily; (3) per keyed spine (edge spines and the reaching `through` spines, key
+     order) its key and its parts, each `canonicalRing` of what `kerbParts(f.rings, {s}, true)` gives, in its order;
+     (4) nothing of level ≥ 2. X = exactRegion((2), ⋃(3)) BY CONSTRUCTION. ONE-WAY (S18R-11): equal keys ⇒ identical X; a
+     key may change while X does not — counted on line 9 as keys per distinct non-empty X (below). PINS: (k1) on every
+     read of line 9 (every pair of reads with one key, one X) and THE DIFFERENTIAL PIN (exactRegionOfFace's region ≡ exactRegion
+     over the key content's rings and parts, byte for byte) on every read of line 9 and every line-8 fixture face; the
+     neighbour's T both ways — a square T (hw 15) onto a wide spine (hw 40): N's key and X unchanged, the T vertex on N's
+     route ring left out by the ring rule; an oblique T (hw 100, 60°) reaching N past a hw-20 spine: both changed.
+     MUTANTS: KM5 (the ring rule without its part condition: line 5's zero-width pin red), KM6 (every `through` chain keyed
+     unfiltered: the square-T key pin red), KM8 (X from f.rings: line 5's narrow-band pin and the differential pin red) —
+     killed.
+163. **LINE 5 — the key covers X's inputs (k2) and is free of the representation (k3): PINNED.** One pin per input: a
+     vertex-only spine arriving with reach (key changes) and without (unchanged); a junction flag flipping flat → capped
+     (a second lane of the same role ending at the T: lane:1's parts gain its end cap; key and X change); a route vertex
+     of a spine within reach of F moved beyond F's corners (way:v's bend (3900, 2040 / 2060), F's rings equal: the key
+     changes); a half-width sample changed (100 / 101: key and X change); a turning ring vertex of F moved (key and X
+     change); THE ZERO-WIDTH CHAIN — a widthless lane's T on the widthless chain way:z (0, 1000) → (4000, 2001), its line
+     at x = 2000 y = 1500.5, the T vertex off it: N's key keeps it and X changes with it; THE NARROW BAND — way:k (hw 0.9)
+     (0, 1000) → (4000, 3333), a widthless lane's T at (1995, 2164) the ring rule drops (held by way:k's strip), the
+     strip's upper edge (0, 1001) – (4000, 3334) within L∞ 0.37 cm of it (the precondition asserted, L∞ distance computed
+     exactly), X ≡ exactRegion(key content) and ≠ exactRegion(F's rings, the parts) (v's hot pixel would reroute that
+     edge). (k3): equal keys and X on representation.test.ts's arena as built, with its stored starts re-drawn
+     (`redrawStarts`' form), after `compactSlots` and on a `decodeArena(encodeArena(·))` copy; and before / after an L2
+     corridorUnion commit on its four faces. MUTANTS: KM1 (≡ XM1: no vertex-only spines; the arriving-with-reach pin red),
+     KM2 (≡ XM3: the key's parts with every end capped; the flip pin red), KM3 (the parts' text only at F's own corners:
+     the route-within-reach pin red), KM4 (spine keys without parts: the width pin red), KM7 (the face's slot in the key:
+     (k3) red) — killed.
+164. **LINE 6 — the definition oracle: BUILT (`test/arr/bands/definition.ts`).** Written from §3.7 and the S15 end rule;
+     it calls none of readFace, readSpine, junctionEnd, reaches, straightRun, spineParts, kerbParts, capped, bufferParts
+     or kerbExact.ts (two constants read: HOT_PIXEL_CM, SAGITTA_CM). ITS TRUTH is the test's own insertion record: each
+     chord's PLACED points (insertChain's `placed`, read from the arena right after the insertion by the test's builder),
+     each lane's from derived.test.ts's wrapper; half-widths as given (two knots interpolated by the oracle's arc length);
+     the end rule from the record (`endsOf`). The record follows each insertion: a chain a lane's end split runs through
+     that end's placed point (the arena's rows right after the insertion) — its ROUTE, which the end rule and the
+     edge-spine test read (a T placed within HOT_PIXEL_CM of a sub-edge already off the chord's placed line read the chord
+     as not passing: seed 20261110's first run, a round cap where the end is a junction; and a chord's sub-edge between two
+     T vertices as no edge of it: the second PR-size run), while its BUFFER keeps the chain's own placed points (a T vertex
+     bends nothing and changes no sample, §3.7: buffers kinked at T vertices turned junction ends' lines by hw · angle,
+     5 – 7 cm). Draws filtered, never massaged, each discard counted by cause: a chord route off its placed line by more
+     than HOT_PIXEL_CM; a chord along a frame side (its ends attracted onto one side, network()'s own filter defeated:
+     it runs on the level-0 content, through other chains' ends there); a chain whose placed points repeat (a bent way out
+     and back to one frame point); a lane bend within 5 cm of straight (the hot pixel reads it as straight and turns a
+     junction end's line with it) or merged into its end; a landing within attractCm of a vertex of F, an edge too short
+     to land on, landings too close; a cut the kernel refused; children not holding the lane's placed points; a lane
+     route off its line; a two-knot lane not splitting its face in two. A buffer: the points whose nearest route point lies
+     within hw there (the strips; a join's wedge on the convex side; a round end's half-disc beyond it; a square end's
+     square; a junction's flat end nothing) — the first draft's full discs at joins and ends were wider than the
+     definition where the half-width varies (a two-knot lane's wide round end read 43 cm into its own strip side: the
+     definition's half-disc does not reach there). F's spines: the edge spines (a route edge of F within HOT_PIXEL_CM of
+     the chain) and the vertex contacts whose buffer covers a grid sample in no edge spine's buffer; judgement (2) reads
+     every incident chain (a junction end's corner poking a few centimetres past the chain it meets bounds X though it
+     covers no sample). THE JUDGEMENT, two-sided (20 cm grid; vertices; simplicity with line 2's exemption); THE MARGIN's
+     sums 3.41 / 2.84 cm, taken as 4 cm (pinned); WHAT IT CANNOT SEE stated in its header (errors thinner than 8 cm;
+     bands of hw ≤ 4 cm — the narrow-band literal (10) covers). ITS OWN PINS: it passes every line-8 literal; it fails, by
+     name, a planted X with one spine left out, one with a band at half its width, one shifted 10 cm. MUTANTS of X killed
+     by it on line 9's corpus (the named-pin pass, line 9 alone): OM1 (a keyed spine skipped), OM2 (every band at half its
+     width), OM3 (the winding reversed).
+165. **LINE 7 — the construction relation by the test's own wrapper of insertChain: BUILT.** derived.test.ts's vi.mock of
+     `insert/insertChain.js` (`...real`; it reaches kerb.ts's import and faces/split.ts's through insert/index.js)
+     records, between the test's marks round a read, the calls whose rows carry `invisible`: the points given, the
+     coordinates placed (read from the arena right after the call), a refusal, the move warnings; opSave is counted to
+     tell the dry runs apart. A read of ONE dry run (faithful 'none', ≤ 1 savepoint) served it; faithful 'taken' the last;
+     any other case MOVED. No move: every call placed its points at themselves, no refusal, none of the four warnings. A
+     faithful-served read is never no-move (classed and reported only). THE COMPARAND: X_U := exactRegion(f.rings,
+     kerbParts(f.rings, read.spines, false)) for a first-served read, X_F over `kerbParts(…, true)` for a
+     faithful-served one; X against X_U reported apart as the STRAIGHT-THROUGH figure. NEAR_CM = 2 · HOT_PIXEL_CM + √2⁄2
+     = 2.127 → 2.13 (pinned), COMPLETED AT AN ACUTE CORNER (the seat's reading, choices row): the placement rule puts the
+     construction's crossing anywhere within HOT_PIXEL_CM of both lines — a rhombus whose half-diagonal along the corner's
+     bisector is HOT_PIXEL_CM ⁄ sin(θ⁄2) — so a difference beyond NEAR_CM is NEAR where it lies within HOT_PIXEL_CM ⁄
+     sin(θ⁄2) + HOT_PIXEL_CM + √2⁄2 of a convex corner of angle θ of either outline (the line's derivation holds at a right
+     angle: 2.42 cm there; the first PR-size run met 2.24 / 2.83 cm at corners of 15° / 9°, every other point within
+     0.7 cm; pinned on that pair, a 3 cm straight-edge difference still BEYOND). The classes two-sided, outlines sampled at
+     0.25 cm (never hausdorffCm): EQUAL, NEAR, MOVED (a moved read within DRY_MOVE_CM whose every difference beyond
+     NEAR_CM lies within DRY_MOVE_CM of the WHOLE outline of a part whose call moved), BEYOND — arbitrated by line 6's
+     oracle. THE ARBITRATION as built (the seat's reading, choices row): the comparand wrong ⇒ the round fails, save where
+     the comparand is the construction READING's region and that reading is not X's — another spine set (the census read
+     J318's reach on its attracted base, not on X_E: seed 1844105080 at 3000, census [] against X's way:lane:2) or, served
+     first, the UNREDUCED runs (a T vertex near a junction end turns the end's line with the kink: 4.5 cm at the fourth
+     PR-size run's lane:3) — then the region over X's own spines and runs is judged in its place and only exactRegion's
+     error there fails; the reading's difference is listed as the construction's case with its cause. The construction
+     wrong and the comparand right ⇒ the construction's case (classed: an acute tip or bend by a chain's end or bend, Q110
+     (c) / Q117's tips, else new); neither wrong ⇒ a no-move read fails, a moved one is listed. THE PLANTED CONTROL: on every
+     no-move read X_U translated 5 cm, through the same arbitration (a planted comparand is no reading's region), is
+     reported a failure (all of them, below). MUTANTS: FM1 (every read no-move: the
+     collapsing / attracted fixtures' pin red), FM3 (the MOVED locus at the moved points only: the far-move pair red),
+     FM5 (NEAR at 1 cm: the 1.5 cm off-lattice pair red) — killed; FM4 (a first read judged against X) SURVIVES once the near bound is completed at tips (it was red on line 9 before): every no-move read of the corpus met stays within the bound of X as of X_U, and a straight-through fixture whose first read moves nothing was not found (way:s, hw 300, ending flat on a zero-width chain with a T 30 cm from its end: the read moved, its tiny join wedge collapsing) — a hardening note; FM2
+     (no-move from the warnings alone) EQUIVALENT on every input met: 0 calls placed a point off its input without one
+     of the four warnings over the corpus (insertChain warns W_ATTRACTED wherever a landing moves its point,
+     insertChain.ts :191, :208; W_PLACED and W_WEDGE_ROUTED on the other moving paths).
+166. **LINE 8 — literal-ring pins: PINNED** (each fixture built in the test: a frame, ways by insertChain, cuts by
+     splitFace / connectHole with a `way` row as S8 makes them; the expected X written as canonical ring text, its part
+     vertices quoted from bufferParts in the comment, its clip intersections computed by hand there, asserted with
+     toEqual; every literal also passes the oracle). The construction's read of each (its line 7 class):
+     half.F: construction ["38,0 3962,0 3929,29 1999,1958 71,30"] — MOVED (38.01 cm; served first)
+     oblique.left: construction ["0,0 746,0 758,50 1884,2000 0,2000"] — MOVED (3.03 cm; served first)
+     oblique.right: construction ["961,0 4000,0 4000,2000 2000,2000 2087,1950"] — EQUAL (0.00 cm; served first, no move)
+     oblique.N: construction ["0,2000 1884,2000 1913,2050 2000,2000 4000,2000 4000,4000 0,4000"] — EQUAL (0.00 cm; served first, no move)
+     flip.left: construction ["0,0 746,0 758,50 1884,2000 0,2000"] — MOVED (3.03 cm; served first)
+     flip.right: construction ["961,0 4000,0 4000,2000 2099,2000 2087,1950 2068,1917"] — MOVED (14.71 cm; served first)
+     flip.Nleft: construction ["0,2000 1901,2000 1913,2050 1932,2083 3039,4000 0,4000"] — MOVED (14.71 cm; served first)
+     flip.Nright: construction ["2116,2000 4000,2000 4000,4000 3254,4000 3242,3950"] — MOVED (3.03 cm; served first)
+     ring.island: construction ["1050,1050 2950,1050 2950,2950 1050,2950"] — EQUAL (0.00 cm; served first, no move)
+     ring.outer: construction ["0,0 4000,0 4000,4000 0,4000","1000,950 950,1000 957,3025 1000,3050 3025,3043 3050,3000 3043,975 3000,950"] — MOVED (12.73 cm; served first)
+     hole.outer: construction ["0,0 4000,0 4000,4000 0,4000","1000,960 960,1000 965,3020 1000,3040 3020,3035 3040,3000 3035,980 3000,960"] — MOVED (10.61 cm; served first)
+     holeSlit.outer: construction ["0,0 1970,0 1970,960 1000,960 960,1000 965,3020 1000,3040 3020,3035 3040,3000 3035,980 3000,960 2030,960 2030,0 4000,0 4000,4000 0,4000"] — MOVED (10.61 cm; served first)
+     empty.sliver: construction [] — EQUAL (0.00 cm; served first, no move)
+     partless.left: construction ["0,0 2000,0 2000,2000 2000,4000 0,4000"] — EQUAL (0.00 cm; served first, no move)
+     dangling.F: construction ["0,0 2000,0 2000,800 2600,1500 2000,800 2000,0 4000,0 4000,4000 0,4000"] — EQUAL (0.00 cm; served moved)
+     reach.N: construction ["0,2000 1884,2000 1913,2050 2000,2000 4000,2000 4000,4000 0,4000"] — MOVED (20.00 cm; served first)
+     reachBefore.N: construction ["0,2000 4000,2000 4000,4000 0,4000"] — MOVED (20.00 cm; served first)
+     noReach.N: construction ["0,2040 4000,2040 4000,4000 0,4000"] — EQUAL (0.00 cm; served first, no move)
+     noReachBefore.N: construction ["0,2040 4000,2040 4000,4000 0,4000"] — EQUAL (0.00 cm; served first, no move)
+     narrow.below: construction ["0,0 4000,0 4000,3000 0,1000"] — MOVED (3.13 cm; served first)
+     narrow.above: construction ["0,1000 4000,3000 4000,4000 0,4000"] — MOVED (4.00 cm; served first)
+     kink.N: construction ["0,1000 1995,2164 4000,3333 4000,4000 0,4000"] — NEAR (1.00 cm; served first)
+     The tie (S18R-4): fixture (1)'s crossing is exactly (1999.5, 1958.5); X rounds it half away to (2000, 1959) (§3.2,
+     kerbExact.ts's header); the construction's placement rule ties toward the smaller coordinate and holds (1999, 1958).
+     MUTANTS killed here: XR2, XM1, XM3, XM4, XM5, XM6, XM7.
+167. **LINE 9 — derived.test.ts: BUILT.** A VALUE import of kerbExact.ts and kerb.ts. THE CORPUS the test cuts itself:
+     fast-check over B-FUZZ's chord networks (chordArb's form, copied; one chord in four widthless) and over the widened
+     family's ways (bent, dead-end, ring ways: faces with holes), built by the test's own recording builders; up to two
+     root faces per network (the slit property's first root a face with a hole where the network has one; the second
+     drawn among the faces live after the first root's cuts and not cut yet, so a network of one face starts again from a
+     child); LANES S8-style
+     — a 2- or 3-point chain between two boundary points more than attractCm from every vertex of F, hw 1 – 300 scalar
+     (splitFace with rows [{ role: 'way', entity: 'lane:<k>' }]) or two-knot (the door, with its two knots: splitFace
+     carries none — the seat's reading, choices row), connectHole for a slit to a hole; RECURSION to depth 3 (one child
+     per level, up to six draws per level). THE READ SET PER CUT: the children, the faces at the lane's two landing
+     vertices, one face the cut did not touch; each read in its own L1 batch — the construction (readKerb under the
+     wrappers), X, X_U / X_F, the oracle, the key. SIZE numRuns = max(10, PLAT_FUZZ_RUNS ÷ 100) per property; FLOORS per
+     run: kept ≥ ½ drawn, cuts ≥ 3 and faces judged ≥ 12 per kept network on average. BARS: (i) the oracle on X, 0 misses
+     / vertex / simplicity faults — FAILING; (ii) the relation — FAILING on no-move reads; (iii) (k1) — FAILING; (iv) X's
+     refusals where the construction read ok, 0 — FAILING; with them line 3 (a) – (c) on every X, the differential pin,
+     X's writes 0, the lemma and the planted control. Figures in THE FIGURES TABLE.
+168. **LINE 10 — 986 (c)'s incremental identity: MEASURED** at every cut of line 9: I(child₁) := exactRegion(X(parent)'s
+     rings, child₂'s route rings ∪ the lane's parts as child₁'s read takes them) against X(child₁), and the same for
+     child₂; for a slit, exactRegion(X(parent)'s rings, the slit's parts) against X(child). Each unequal case classed by
+     where its differences lie (INHERITED, CONTACT, END-CHANGED, ROUNDING, OTHER; a case may carry several; OTHER listed
+     whole, the first 20 per property in the log as `IDENTITY OTHER` lines). Nothing gates.
+169. **LINE 11 — NO-SHIFT for a library round: MEASURED, items (1) – (4) met (the lint's kernel-boundary check with the session's seam after the J752 rename, row 176).** (1) The record and the diff: `diff -u` of
+     kerb.ts base → tree holds exactly four changed lines, each the base line with `export ` before `function`; `diff
+     -rq -x node_modules` of packages/{kernel,model,tables,site,layout,testkit}/src and bench/src base → tree lists
+     kerb.ts changed and arr/kerbExact.ts added, nothing else; the one other file differing from the base mirror,
+     tools/lint/kernel-boundary.allow.json, is the session's seam (J752 (2), sha256
+     680ec34d5438b58bd82fe547109af9899f9ac85518ad5a828cd8f86e5589fe3c), not the round's. (2) The prod bundle's code: a scratch script (outside
+     plat/) runs each tree's bench/src/profile/bundle.ts `buildBundle` into a scratch file; its `code` part (before
+     `//# sourceMappingURL=`), the PLAT_ROOT and its file URL replaced by a token: base and tree byte-identical (1 715 632
+     bytes, sha256 cf20853d1a24928a0d91ae3abc38da27c39f22cbdb5d39f34ecb3c9304586e17), holding no `exactKerb`,
+     `exactRegion` or `kerbKey`; re-built after the J752 rename (the same script in both mirrors): byte-identical again, the
+     same sha256, holding no `exactRegionOfFace`, `exactKey`, `exactRegion` or `kerbExact`. (3) Every bands test's outcome: `kernel/test/arr/bands/` at the PR size, W = 1. The base mirror first —
+     `cd /home/user/maps-scratch/waves/base-build-M0-a-09-fix-s18/plat && corepack pnpm exec vitest run --maxWorkers=1
+     --silent=false packages/kernel/test/arr/bands/` — printed run seed 518964130, 508 s, `Tests 6 failed | 173 passed
+     (179)`: Q152's six. Then the tree, `cd plat && PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run
+     --maxWorkers=1 --silent=false packages/kernel/test/arr/bands/`: 833 s, `Tests 6 failed | 215 passed (221)` — the
+     same six, their FAIL blocks byte-identical to the base's (durations stripped), every test the base passed green,
+     derived.test.ts 40 / 40 and hardening-s17.test.ts 26 / 26 (its two new pins) green; the three `B-FUZZ bands` census
+     lines and the 27 REFUSAL lines identical (rule (4)). NEAR's wall-clock base → tree: 508 → 833 s (+325 s, within the
+     +1 800 s bar). That run is the fifth of the tree's (each earlier one red in derived.test.ts's corpus only, each
+     answered by a test-side reading of rows 164 / 165) and preceded the round's last edit — kerbExact.ts's error texts,
+     its key's header (`kerbExact/1` → `exact/1`) and `kerbKeyContent` / `KerbKeyContent` renamed (`exactKeyContent` /
+     `ExactKeyContent`) for the lint's kernel-boundary check (row 176), no behaviour changed; derived.test.ts and
+     hardening-s17.test.ts re-run after it (PLAT_FUZZ_RUNS 1000, seed 518964130): 66 / 66. THE J752 RENAME (`kerbKey` → `exactKey`, `exactKerb` → `exactRegionOfFace` in kerbExact.ts and
+     derived.test.ts; identifiers only) came after that run: the difference since it is the rename alone, so the PR-size run
+     stands (the checker runs it again); derived.test.ts and hardening-s17.test.ts re-run after the rename
+     (`PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run --maxWorkers=1 --silent=false
+     packages/kernel/test/arr/bands/derived.test.ts packages/kernel/test/arr/bands/hardening-s17.test.ts`): 66 / 66, 27 s.
+     (4) The gates, after the rename with the session's seam restored: install --frozen-lockfile exit 0 (`Already up to
+     date`); build exit 0 (tsc -b, the esbuild bundles); lint exit 0 — `eslint 1288 files, 0 errors, 0 warnings`, `lint: probe-red ok` (every planted line of
+     zz-probe.ts reported: Math.pow, Math.random, Math.sin, Date.now, performance.now, **, Object.keys().sort(), [3, 1].sort(),
+     localeCompare, for…in), `lint: kernel-boundary ok` (neither a problem nor slack) and every whole-tree check ok (at the
+     first hand-back, before the rename and the seam: exit 1 on kernel-boundary alone — `packages/kernel/src/arr/kerbExact.ts:67,
+     639, 682, 688: town noun "kerb" in an identifier` and `:67: … in a string ("'./kerb.js'")`, row 176); NEAR as (3); RELATED@1000 over arr/kerbExact.ts alone (ruling (f)):
+     `PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1 packages/kernel/src/arr/kerbExact.ts` selects
+     derived.test.ts alone — 40 / 40, 54 s, seed −607736159, and after the J752 rename 40 / 40, 32 s, seed 1267354577 (an earlier RELATED run, seed 47959156, met the corpus floor
+     red: 24 cuts < 30 for 10 networks — networks of one face gave three cuts; the second root is now drawn among the live
+     uncut faces, rows 167, and four seeds at 1000 hold the floors); write-door.test.ts and api-surface.test.ts green
+     untouched (10 / 10); `corepack pnpm landed:verify -- flow-7 --item M0-a-09` on the record (row 175)..
+170. **LINE 12 — the S17 check's survivors NB5 and NB7: PINNED** (two unit pins added at the end of hardening-s17.test.ts,
+     no existing assertion changed): `splitsOn` on the recorded fold refuses E_INVARIANT RING_CROSSES (red under NB5); the
+     planted out-and-back piece `2000,0 2000,800 2600,1500 2000,800 2000,0` through bandCore's `pieces` seam with way:0 at
+     hw 20 commits (red under NB7). No source change.
+171. **The mutant table (J169, J183; the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-09-fix-s18`,
+     isolation proved, each mutant restored by copy and `cmp -s` before the next; PLAT_FUZZ_RUNS=1000,
+     PLAT_FUZZ_SEED=20261110, W = 1; the sweep on derived.test.ts — the only file importing kerbExact.ts, so a mutant of it
+     can change no other file of the folder — and hardening-s17.test.ts for NB5 / NB7, `--bail=1`, then a named-pin pass
+     with no bail re-running each mutant on the pin its line names):** XM1 (the `through` spines left out (≡ KM1)): sweep red in 2 s; killed by the reach literal (9) and line 5's arriving-with-reach pin; XM2 (the unreduced runs, kerbParts(…, false)): sweep red in 2 s; killed by line 4's square-T pin; XM3 (every end capped (≡ KM2: the key's parts so)): sweep red in 3 s; killed by the oblique-T literal and line 5's flip pin; XM4 (a ring way laid open (its declared square ends cap it)): sweep red in 3 s; killed by the ring-way literal; XM5 (holes dropped): sweep red in 3 s; killed by the ring / hole literals; XM6 (an empty kerb refused): sweep red in 3 s; killed by the empty-kerb literal; XM7 (the traced form on a part-less key): sweep red in 3 s; killed by the part-less literal; XM8 (X through overlayRegion (buildOverlay, a scratch Plat)): sweep red in 44 s; killed by line 2's write-nothing pin (createPlat counted); XR1 (a sequential clip rounding after each part): sweep red in 3 s; killed by line 3 (a), the order property; XR2 (truncation for the half-away rounding): sweep red in 2 s; killed by line 3 (d) and the half-coordinate literal; XR3 (a rounded crossing within 1 cm of an earlier hot pixel dropped (the first found kept)): sweep red in 3 s; killed by line 3 (a); XR4 (half up (Math.round's tie) for half away): sweep red in 2 s; killed by line 3 (d); KM3 (the key's parts printed only at F's own corners): sweep red in 3 s; killed by line 5's route-within-reach pin; KM4 (the key holding spine keys without parts): sweep red in 3 s; killed by line 5's half-width pin; KM5 (the ring rule without its part condition): sweep red in 3 s; killed by line 5's zero-width pin; KM6 (every `through` chain keyed unfiltered): sweep red in 3 s; killed by line 4's square-T pin; KM7 (the face's slot in the key): sweep red in 3 s; killed by line 5's (k3) pin; KM8 (X from f.rings, not the key's): sweep red in 3 s; killed by line 5's narrow-band pin and the differential pin; OM1 (one keyed spine skipped): sweep red in 2 s; killed by line 9 (the oracle on the corpus); OM2 (every band at half its width): sweep red in 2 s; killed by line 9; OM3 (the winding reversed (kept inside the parts)): sweep red in 2 s; killed by line 9; FM1 (every read no-move): sweep red in 3 s; killed by line 7's collapsing / attracted fixtures; FM2 (no-move from the warnings alone): sweep green in 35 s; EQUIVALENT on every input met (0 calls placed off their input without a move warning on the corpus, PR size and 1000; insertChain warns W_ATTRACTED where a landing moves its point, :191, :208); FM3 (the MOVED locus at the moved points only): sweep red in 3 s; killed by line 7's far-move pair; FM4 (a first read judged against X): sweep red in 11 s; SURVIVES (killed by line 9 in the first sweep, before the near bound was completed at tips; with it, every no-move read of the corpus at PLAT_FUZZ_RUNS 1000 seed 20261110 and at the PR size seed 518964130 stays within the near bound of X as of X_U) — a straight-through fixture whose first read moves nothing was not found (the attempt, way:s (hw 300) ending flat on a zero-width chain with a T 30 cm from its end, moved: its join wedge collapsed); a hardening note; FM5 (NEAR at 1 cm): sweep red in 4 s; killed by line 7's 1.5 cm pair; NB5 (onBridge without its collinearity test (kerb.ts)): sweep red in 3 s; killed by line 12's NB5 pin; NB7 (bandCore's write guard without F's bridges (bandUnion.ts)): sweep red in 3 s; killed by line 12's NB7 pin.
+172. **THE FIGURES TABLE (verbatim-ready for the session).** (i) LINE 7 — the construction relation, line 9's corpus at the PR size, seed 518964130 (`cd plat &&
+     PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run --maxWorkers=1 --silent=false
+     packages/kernel/test/arr/bands/derived.test.ts`, its `DERIVED` lines). Straight lanes on B-FUZZ's chords: EQUAL 637,
+     NEAR 129 (of them at a tip 10), MOVED 792, BEYOND 118 (every one arbitrated: the construction's cases, 0 failing);
+     no-move reads EQUAL 397, NEAR 20, MOVED 0, BEYOND 0; served first 1 606, faithful 38, moved 32 (moved share 0.043);
+     the straight-through figure (X ≠ X_U, X_U over the construction's own spines) 696 reads, max 845.09 cm (the census's
+     other spine sets among them). Bent lanes and slits on the widened family: EQUAL 528, NEAR 86 (tip 13), MOVED 1 033,
+     BEYOND 240; no-move EQUAL 291, NEAR 7, MOVED 0, BEYOND 0; served first 1 643, faithful 154, moved 90 (moved share
+     0.131); straight-through 844 reads, max 41.77 cm. The planted control (X_U + 5 cm on every no-move read): 191 / 191
+     and 98 / 98 reported failures. Calls placed off their input with no move warning: 0 and 0.
+     (ii) LINE 9 — the corpus (same command): networks drawn / kept 100 / 91 and 100 / 93; discards by cause — straight:
+     a chord along a frame side 8, a chord route off its line 1, landings too close 75, a landing within attractCm of a
+     vertex of F 3, no edge long enough 6, the kernel refused the cut (E_NOT_TWO_CROSSINGS 49, E_INVARIANT 4), the children
+     not holding the placed points 40, a two-knot lane not splitting its face in two 60; bent+slits: a chain retracing its
+     route 3, a chord route off its line 4, a bend within 5 cm of straight 9, a lane's bend merged into its end 1, landings
+     too close 123, a landing within attractCm of a vertex 4, E_NOT_TWO_CROSSINGS 135, E_LEVEL 21, E_INVARIANT 1, the
+     children not holding the placed points 129, a two-knot lane not splitting its face 63, the lane route off its line 2;
+     cuts 413 and 462 (slits 14); faces judged 1 678 and 1 890; keys per distinct non-empty X: 1 215 keys for 813 X and
+     1 406 for 1 000; untouched faces whose key changed under a cut 2 and 4 (one-way: their X equal); the lemma byte-equal
+     on 1 678 / 1 678 and 1 890 / 1 890 reads (max 0.00 cm); X's refusals where the construction read ok 0; X per read
+     median 0.59 / p90 1.04 / p99 2.02 ms and 0.84 / 1.72 / 2.98 ms (every read ≤ 100 ring points) beside the
+     construction's 2.67 / 9.58 / 34.31 ms and 5.81 / 38.56 / 172.77 ms (CONTENDED: this machine, beside nothing; informative
+     only). The file at W = 1: 22 s at PLAT_FUZZ_RUNS 1 000 (seed 518964130), ≈ 325 s at 10 000 (the folder's 833 s less the
+     base's 508 s). Line 3's order property at the PR size: 1 000 draws, 994 non-empty, 829 with a rounded crossing.
+     (iii) LINE 10 — 986 (c)'s incremental identity (same command): I = X on 680 of 826 children measured (straight) and
+     731 of 910 (bent + slits); the unequal cases' classes INHERITED 39 / 40, CONTACT 0 / 14, END-CHANGED 1 / 3, ROUNDING
+     94 / 115, OTHER 30 / 51 (a case may carry several; the first twenty OTHER per property printed whole as `IDENTITY
+     OTHER` lines). THE SESSION'S REPLAY on the merged tree (whichever of M0-a-06 S9 and this round lands second): `cd
+     plat && PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run --maxWorkers=1 --silent=false
+     packages/kernel/test/arr/bands/derived.test.ts` — its `DERIVED` lines equal to these.
+173. **The interface the wiring round will call** (`arr/kerbExact.ts`, by path):
+     `exactRegionOfFace(p: Plat, face: FaceId, widths: SpineWidths, vertexContacts = true): KernelResult<{ key: string; region: Ring[] }>`;
+     `exactKey(p: Plat, face: FaceId, widths: SpineWidths, vertexContacts = true): string` (a refusal reads
+     `refused <code> <detail>`); `exactKeyContent(p, face, widths, vertexContacts = true): KernelResult<ExactKeyContent>`
+     (`{ vertexContacts, rings, spines: KeyedSpine[] ({ key, parts }), reaching, edgeRegion, text }`);
+     `exactRegionOfKey(c: Pick<ExactKeyContent, 'rings' | 'spines'>): Ring[]`;
+     `exactRegion(rings: readonly (readonly LatticePoint[])[], parts: readonly (readonly LatticePoint[])[]): Ring[]`;
+     `roundQuotientHalfAway(N: bigint, D: bigint): number`. Each takes the arena and the caller's widths and calls
+     readFace itself (S18R-19 — passing the served read's own `f` — is the wiring round's to add).
+174. **Refusal census (J264 / N-58)** and the round's own refusals: the three `B-FUZZ bands` census lines, base and tree at seed 518964130, identical
+     (kerb insertChain 3 / own 0, corridorUnion 5 / 0, bandUnion 4 / 0 on the chord family; kerb 6 / 0, corridorUnion 6 / 3,
+     bandUnion 0 / 0 on the widened family; tileRings 0 / 0; the 27 REFUSAL lines identical): BEFORE = AFTER, no behaviour
+     path changed. The round's own operations refuse nothing on the corpus (X refused 0 times; it refuses only where
+     readFace or bufferParts refuse); every refusal met is the construction's registered family's, classed as before.
+175. **The record.** `corepack pnpm landed -- M0-a-09 --lane build/M0-a-09-fix-s18 --wave flow-7` with `--touched` for
+     kerbExact.ts, kerb.ts, derived.test.ts, definition.ts and hardening-s17.test.ts (this notes file is not M0-a-09's owns:
+     landed.mjs refuses it as a --touched path); re-landed after the J752 rename (38 created, 1 changed; appends to C-0482
+     and L-0780 included), `landed:verify -- flow-7 --item M0-a-09` → `ok (1 record)`; the landed note (every
+     changed path no owns of M0-a-09 claims) is the expected state; the base mirror kept, the self-check mirror removed.
+176. **THE LINT'S KERNEL-BOUNDARY CHECK — REPORTED at the first hand-back (a cross-item need, rule (1)); RESOLVED by the
+     session's ruling J752 (the rename and the session's seam).** `tools/lint/kernel-boundary.mjs` refuses the town noun "kerb" in any identifier or string under
+     packages/kernel/src beyond `tools/lint/kernel-boundary.allow.json` (M0-d-07's owns; "MAY ONLY SHRINK": a new row needs
+     an owner-visible reason, a choices.md row, reviewed as a boundary change). arr/kerbExact.ts must import kerb.ts
+     (`'./kerb.js'`: one string) and reuse `kerbParts` (two identifiers), and the brief names its exports `kerbKey` and
+     `exactKerb` (two identifiers); every other token was renamed (its error texts, its key header `exact/1`,
+     `exactKeyContent` / `ExactKeyContent`), leaving exactly those. The rows the session would add: { "file":
+     "arr/kerbExact.ts", "kind": "ident", "noun": "kerb", "max": 4, "class": "a-geometry", "reason": "§3.7's exact kerb
+     (item 986; J742 R-A, J744 (2)): kerbParts reused from kerb.ts; kerbKey and exactKerb named by round S18's brief" } and
+     { "file": "arr/kerbExact.ts", "kind": "string", "noun": "kerb", "max": 1, "class": "a-geometry", "reason": "the module
+     specifier './kerb.js' (round S18 reuses kerb.ts's readFace, reaches, kerbParts, ownRings, unspiked, coveredBy)" }. With
+     them `corepack pnpm lint` has nothing else to report (every other check ok above). This seat may not write that file. OUTCOME (J752, the re-entry, 2026-11-10): the session renamed the brief's two exports
+     — `kerbKey` → `exactKey`, `exactKerb` → `exactRegionOfFace` (made in kerbExact.ts and derived.test.ts; identifiers only, no
+     behaviour changed) — and restored its seam's allowlist into the tree (lane session/a09s18-boundary-1: two a-geometry
+     rows for arr/kerbExact.ts, ident `kerb` max 2 and string `kerb` max 1; sha256
+     680ec34d5438b58bd82fe547109af9899f9ac85518ad5a828cd8f86e5589fe3c — the session's bytes, not the round's, landing in one
+     commit with it). The three tokens left are the string `'./kerb.js'` (:67) and `kerbParts` twice (its import :67 and its one
+     call :639): `corepack pnpm lint` exit 0, `lint: kernel-boundary ok`, neither a problem nor slack. The boundary clause
+     is C-0482 (8).
+177. **Disclosures.** (a) THE BRIEF'S READS UNDER docs/validation/ (a departure from §0.1 rule 8's list, made because the brief orders
+     it): refute-s18-r2.md read whole, an `ls` of docs/validation/a09-s18-spec-2026-11-10/ and of
+     docs/validation/a09-s18-review-2026-11-10/, and one grep of the latter's refute-*.md for the table rows the lines cite
+     (DESIGN-1, -9, -10, -12, BARS-5, -6, -8, SCOPE-3) — the session's reviews of this round's own spec; nothing else there
+     opened. (b) The tree's bands folder ran five times at the PR size (each earlier run red in derived.test.ts's corpus
+     only); the figures are the fifth's. (c) The base mirror holds its own test caches from its one run; its sources are
+     the RESUME head's, kept for the checker. (d) The mutant sweep ran with `--bail=1` on derived.test.ts and
+     hardening-s17.test.ts (not the whole folder: no other file imports kerbExact.ts; the NB5 / NB7 mutants' files are read
+     by more files, whose verdict the named-pin pass does not claim); the named-pin pass re-ran each mutant on its pin. (e)
+     No git command; no Mac step.
+
+## Closing check of hardening round S18 (lane `check/M0-a-09-close-s18`, 2026-11-10)
+
+The closing checker of round S18 (J162, J269; verdict `checks/M0-a-09-s18.md`, FAIL: F1 a blocker on LINE 3 —
+`exactRegion` wrong where two segments cross at an exact half-half point with a negative coordinate; F2 – F4 three pins
+that do not hold their mutant; F5 the 5 cm bend filter). The failing lines are in the verdict file with their evidence
+and required changes; the rows below are this seat's NON-BLOCKING findings (rule (3) of the brief) and its disclosures.
+Every figure is this seat's own, measured in the tree or in its mirror `/home/user/maps-scratch/waves/check-M0-a-09/`
+(`runA` … `runH`; seeds −851511598, this seat's, and 518964130, the builder's).
+
+178. **The tip rule of the relation admits about twice its stated bound (reading (a): right, not tight).** The corner
+     distance derived — h ⁄ sin(θ⁄2) + √2⁄2 — is 3.45 cm at 30° and 8.85 cm at 10°; `tipNear`'s bound adds a further
+     HOT_PIXEL_CM (4.16 / 9.56 cm) and `relate` accepts a far point within the bound of a convex corner of EITHER
+     outline, so on a no-move read a corner moved 7 cm along the bisector at 30° and 12 cm at 10° is still `NEAR (tip)`
+     (17 cm and 22 cm are BEYOND; probe PB5). No error of X hides behind it (a crossing at an acute corner moved 2 cm is
+     red by the oracle, line 3 (b) and the relation). Suggested handling: the rule asks the two outlines' corners to
+     stand within h ⁄ sin(θ⁄2) + √2⁄2 of each other and the far points within that of BOTH; hardening milestone M4, or
+     with F4's pin in the next round.
+179. **The construction's no-move first read stands 3 cm by 300 cm off §3.7's region next to a kinked junction end (the
+     construction's case, new; for round 2B / M0-a-05, J742 R-C).** Probe PB3 (the fixture of F4): a zero-width chain on
+     y = 2000, lane:1 (1980, 0) → (2000, 2000) hw 300 ending on it, a widthless lane's T on lane:1 at (2000, 1950), 0.5 cm
+     off lane:1's line. The first read lays the unreduced runs, whose last segment is vertical, and moves nothing
+     (`served first, noMove true`): N reads whole and the strip face `2300,1950 4000,1950 4000,2000 2300,2000`, where X
+     (the reduced run, the T vertex changing nothing, §3.7) reads N less a notch `1700,2000 1700,2003 2000,2000` and the
+     strip face with the needle `2000,2000 2300,1997`. The oracle sees neither (thinner than 8 cm). Suggested handling:
+     carried with the construction's cases of round S18's corpus.
+180. **Four cuts in five of line 9's corpus go through the door, not through splitFace (reading (e)).** `laneArb` draws
+     knots three times in four and a two-knot lane is inserted by insertChain: 288 of 361 and 331 of 421 cuts at seed
+     −851511598, 342 of 413 (straight) at seed 518964130; the 60 – 72 discards 'a two-knot lane did not split its face in
+     two' per property are door insertions that cross more than one face (splitFace refuses those as
+     E_NOT_TWO_CROSSINGS). The relation and the oracle read such faces as line 7 and line 6 ask; but S8's own cut
+     (splitFace with a `way` row) is the minority of the corpus that is named after it. Suggested handling: `knots` at
+     one draw in four, or two-knot lanes through splitFace once it carries knots; the wiring round, or M4.
+181. **The frame-side and retracing networks are dropped from every bar, though only the oracle cannot read them.**
+     With the builder's two network filters removed in the mirror (PR size, seed −851511598; 15 networks with a chord
+     along a frame side and 3 with a chain retracing its route kept) the two properties are red by 11 + 7 failing reads,
+     every one the oracle's (`the oracle on X — misses ["(10, 2750) band read as kerb", …]`, `… the oracle finds the
+     comparand wrong`), none by line 3 (a) – (c), the lemma, (k1), the differential pin, the writes or a refusal. A
+     hand-built chord attracted onto a corner and so lying along a side (probe PB8) is read alike by X, the construction
+     and the oracle, so the disagreement needs other chains ending on that chord — the end rule on level-0 content, as
+     the builder says. Suggested handling: keep those networks for the bars that need no truth (skip bar (i) and the
+     arbitration on them); the oracle / readFace disagreement there read by the session (which end rule holds where a
+     chain ends on a way laid along the frame); M4.
+182. **`exactStraightOn` (kerbExact.ts:583-595) restates the line test of `straightRun`'s inner closure
+     (kerb.ts:505-517).** The closure is not exported and J744 (2) forbids a body edit of kerb.ts, and the ring rule
+     needs the test without the half-width clause; a tightening, not a copy of a kerb.ts function. Suggested handling:
+     one shared exported predicate when kerb.ts is next opened; M4.
+183. **Two more traits of `exactRegion`'s pixel rule, both part of F1's change.** (a) A segment that touches a hot pixel
+     only at its closed corner is routed through its centre, one that touches the open corner is not: the box `0,0
+     100,0 100,100 0,100` less the two 45° strips of probe P1 keeps the triangle `0,0 1,0 0,1` and loses its mirror
+     image at (100, 100), and the reverse in the reflected input (area2 1 each). (b) The repair loop (:535) is capped at
+     four rounds and falls through silently; no `check` says that no proper crossing of two pieces is left. Suggested
+     handling: with F1 (the pixel's closed side following the rounding's sign; a `check` on a remaining crossing).
+184. **No literal has a lane landing ON an existing vertex.** Line 6's filter keeps every landing more than attractCm
+     from F's vertices (planCut would land on the vertex and the truth would move), so the corpus never cuts into a
+     crossing of two ways or a corner; the literals have the same-role T (fixture (3)) only. Suggested handling: one
+     literal — a lane ending at the crossing vertex of two ways of other entities, its end rule read by hand; M4.
+185. **Disclosures.** (a) The first grep of `docs/lane-events.log` for this round's lane keys printed the builder's
+     CHECKPOINT lines (its mutant ids, 'FM4 survives', 'FM2 equivalent', its seeds) before this seat planned; the mutant
+     table (`mut/mutants.py`) and the probe block stood before notes rows 159 – 177, C-0482 and L-0780 were read
+     (`plan-s18.md`). (b) This seat opened nothing under `docs/validation/`, nor `docs/PROGRESS.md`, nor the amendment
+     file — the brief's twelve lines quote what the check needs; of the design it read one grep of
+     `docs/ARCHITECTURE.md` for the lattice's range. (c) The base mirror was run in once more (its bands folder at the
+     PR size, a fresh seed): its test caches changed, no source. (d) The tree's gates ran after the test runs
+     (`install --frozen-lockfile`: already up to date; `build` rewrote `dist/`); landed:verify ok after them. (e) Probes
+     P1 / P1b are plain `tsx` scripts run while a test run was going (seconds each); every vitest run was one at a time.
+     (f) `write-door.test.ts` and `api-surface.test.ts` were run in project kernel (7 tests), not also in kernel-tiny.
+     (g) No git command was run; no Mac step.
+
+## Fix round S19 — builder (lane `build/M0-a-09-fix-s19`, 2026-11-10)
+
+The further round of the S18 workflow: the closing check (`checks/M0-a-09-s18.md`) failed round S18 on F1 – F5. Files:
+CHANGED `packages/kernel/src/arr/kerbExact.ts` (F1: the hot pixel and the planarity check; the header) and
+`packages/kernel/test/arr/bands/derived.test.ts` (the F1 – F4 pins, line 9's both-placements bar, F5's filter); nothing
+else of the item's owns; kerb.ts still differs from the base mirror by its four `export` keywords only. No interface
+changed (row 173 stands). The base mirror of round S18 (`/home/user/maps-scratch/waves/base-build-M0-a-09-fix-s18/plat`)
+is kept and was not rebuilt; this seat ran only its bundle script in it.
+
+186. **F1 — LINE 3 (with LINE 1's 'computed exactly' and LINE 8 (1)), the blocker: FIXED and PINNED.** `exactPixelEntry`
+     now takes, per axis, the pixel the rounding rule gives — the points whose half-away rounding is the centre c:
+     [c − ½, c + ½) for c > 0, (c − ½, c + ½] for c < 0, (−½, ½) for c = 0 — so the pixels partition the plane as
+     `roundHalfAway` does and every exact crossing lies in its rounded point's pixel in every quadrant (round S18's pixel,
+     [c − ½, c + ½) for every sign, put (−a − ½, −b − ½), which rounds to (−a − 1, −b − 1), in the pixel of (−a, −b)).
+     The repair passes (at most four) now end in a `check`: a crossing that rounds to a pixel already hot, or any proper
+     crossing of two pieces left after them, throws `tx: exactRegion: …` — never a traced region. The header states both.
+     PINS (derived.test.ts): line 3 'F1 (round S19): the minimal box …' — the checker's box less two triangles crossing at
+     (4.5, 4.5): `5,5 10,10 0,10 0,9` and its mirror in each other quadrant (`-10,-10 0,-10 0,-9 -5,-5` at (−, −)), with
+     notes row 183 (a)'s 100 cm box (by hand `0,0 100,0 100,59 71,30 1,100 0,100`, mirrored in each quadrant); line 3
+     'F1 (round S19): (a) – (c) on rings and parts on BOTH sides of the origin …' — rings round the origin, 45° strips of
+     random integer offsets (two strips of the two directions cross at a half-half point where their constants' sum is
+     odd) and bufferParts chains over [−3000, 3000]²: exactRegion of the input under (−x, −y), (−x, y), (x, −y) the mirror
+     of X, every permutation byte-identical, line 3 (b) / (c) — at the PR size (seed −851511598) 1 000 draws, 178 with an
+     exact half-half crossing at a negative coordinate, 94 with its rounding a vertex of X; line 8 'F1 (round S19): (1)
+     HALF-COORDINATE in all four quadrants …' — line 8 (1)'s fixture built on an arena in each quadrant (`emptyArena`, the
+     margin ring, way:p and way:q mirrored): the four faces' X the mirrors of the first quadrant's, F's the mirror of the
+     literal (its vertex (±2000, ±1959)), line 3 (b) / (c) on each; line 9's BOTH PLACEMENTS bar — every read's key content
+     mirrored into the three other quadrants gives X mirrored byte for byte (1 476 / 1 476 and 1 658 / 1 658 reads at seed
+     −851511598; 1 678 / 1 678 and 1 892 / 1 892 at 518964130; a thrown check is a failure line, not a shrink). This is the
+     reading of 'line 9's networks on a frame centred on the origin (or both placements)' (C-0483 (3)): the networks stay
+     on [0, 4000]², their arrangements are placed in every quadrant. MUTANTS: PX (round S18's pixel: the closed side fixed
+     to the low side for every sign) and PXc (that with the check removed) red on the three F1 pins; CHK (the check
+     removed alone) survives — EQUIVALENT on every honest input met (with the rule's own pixels no crossing is left, by
+     Hobby's law); under PX the check fires in the corpus itself (a thrown `tx:` in the bent property, which then shrank).
+187. **F2 — LINE 5 (k2), the junction flag alone: PINNED.** '(k2) the junction flag ALONE (round S19, F2 …)': line 8 (2)'s
+     oblique T, then a WIDTHLESS lane:2 (3155, 4000) → (2000, 2000) of the same role ending at the T — no spine arrives
+     (`reaching []`, the same spine keys and rings), lane:1's parts 2 → 3 (its end cap, quoted from bufferParts: `2087,1950
+     2099,1987 2097,2026 … 1913,2050 2000,2000`), the key's TEXT changes and X changes: the right child `961,0 4000,0
+     4000,2000 2000,2000 2087,1950` → `961,0 4000,0 4000,2000 2098,2000 2099,1987 2087,1950` (by hand: the cap edge
+     2099,1987 – 2097,2026 meets y = 2000 at 2099 − 2·13⁄39 = 2098.33 → 2098). MUTANT KM2t (the key's text printed with every
+     end capped, content and X true — the S18 checker's form) red on this pin alone.
+188. **F3 — LINE 4 (2) / LINE 5, the ring rule's part condition: PINNED.** 'the ring rule's part condition (round S19, F3 …)':
+     probe PB7 — way:z (0, 1000) → (4000, 2001) widthless, way:w (0, 3000) → (4000, 3000) hw 50, a widthless lane's T at
+     (2000, 1500) (0.48 cm off way:z's line: the precondition asserted, < HOT_PIXEL_CM): the face's key holds way:w's parts
+     and keeps the T vertex (`0,1000 2000,1500 4000,2001 4000,3000 0,3000`), X `0,1000 2000,1500 4000,2001 4000,2950
+     0,2950`. MUTANT KM5b (`coveredBy` → true alone) red on this pin alone.
+189. **F4 — LINE 7, FM4: PINNED.** 'THE STRAIGHT-THROUGH PIN (round S19, F4 …)': probe PB3 — way:z on y = 2000 widthless,
+     lane:1 (1980, 0) → (2000, 2000) hw 300 ending on it, a widthless lane:2 (4000, 1950) → (2000, 1950) whose T on lane:1
+     stands 0.5 cm off its line: N and the strip face right of lane:1 are read through `readAll` — X `0,2000 1700,2000
+     1700,2003 2000,2000 4000,2000 4000,4000 0,4000` and `2300,1950 4000,1950 4000,2000 2000,2000 2300,1997`, the oracle
+     clean, both reads served first with no move and EQUAL / NEAR against X_U, X ≠ X_U by 3.00 and 300.00 cm, no failure
+     line. MUTANT FM4 (the first-served comparand X) red on this pin ('neither found wrong by the oracle'). The old pin's
+     title ('FM4 is red in line 9') now names this pin. The tip rule (row 178) is NOT tightened here (optional in F4; M4).
+190. **F5 — the bend filter: FIXED.** `cut()` discards a lane bend within HOT_PIXEL_CM (0.71 cm) of straight — its stated
+     reason — not 5 cm ('a bend within the hot pixel of straight'). At the PR size neither seed discards one: bent + slits
+     at seed 518964130 keeps 93 networks, cuts 463 (slits 14), faces judged 1 892 (were 462 and 1 890 with the 5 cm filter);
+     at −851511598 cuts 419 (slits 17), faces judged 1 658 (were 421 and 1 667 — fast-check's draws for later networks shift
+     once one is kept). Every bar green on both.
+191. **The mutant table (J183; the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-09-fix-s19`, `cp -a`
+     of the tree, isolation proved: no absolute link into the tree, `@plat/kernel` under testkit resolving inside the
+     mirror).** Each alone, `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run --maxWorkers=1
+     --project kernel packages/kernel/test/arr/bands/derived.test.ts`, the mirror restored and compared after each
+     (`clean`); baseline 46 / 46 (26 s). PX — 3 failed: the minimal box, the both-sides property, the four-quadrant literal
+     (the run stopped by the seat after 13 CPU-minutes while fast-check shrank the bent corpus property's thrown check);
+     PXc — 3 failed | 43 passed, the same three; CHK — 46 / 46, EQUIVALENT (row 186); KM2t — 1 failed, F2's pin; KM5b —
+     1 failed, F3's pin; FM4 — 1 failed, F4's pin.
+192. **THE FIGURES TABLE, round S19 (verbatim-ready; replaces row 172's (ii) for bent + slits and adds the both-placements
+     figure; straight is unchanged figure for figure).** `cd plat && PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run
+     --maxWorkers=1 --silent=false packages/kernel/test/arr/bands/derived.test.ts` (332.6 s at W = 1, 46 / 46). Straight:
+     drawn / kept 100 / 91, cuts 413, faces judged 1 678, classes EQUAL 637, NEAR 129 (tip 10), MOVED 792, BEYOND 118;
+     no-move 397 / 20 / 0 / 0; served first 1 606, faithful 38, moved 32; straight-through 696 reads, max 845.09 cm; keys
+     1 215 for 813 X; lemma 1 678 / 1 678; identity 680 / 826 (INHERITED 39, ROUNDING 94, OTHER 30, END-CHANGED 1);
+     planted 191 / 191; both placements 1 678 / 1 678. Bent + slits: drawn / kept 100 / 93; discards — the children not
+     holding the placed points 130, a two-knot lane not splitting its face 63, E_NOT_TWO_CROSSINGS 134, E_LEVEL 20,
+     landings too close 118, a landing within attractCm of a vertex 8, a chain retracing its route 3, E_INVARIANT 1, a
+     lane's bend merged into its end 1, a chord route off its line 4, the lane route off its line 2 (no bend within the hot
+     pixel); cuts 463 (slits 14); faces judged 1 892; classes EQUAL 538, NEAR 87 (tip 13), MOVED 1 030, BEYOND 234 (every
+     one arbitrated, 0 failing); no-move 295 / 7 / 0 / 0; served first 1 648, faithful 154, moved 87 (moved share 0.129);
+     straight-through 840 reads, max 41.77 cm; keys 1 410 for 996 X; lemma 1 892 / 1 892; identity 735 / 912 (ROUNDING
+     112, OTHER 52, INHERITED 40, CONTACT 15, END-CHANGED 3); planted 98 / 98; both placements 1 892 / 1 892; X per read
+     median 0.62 / 0.89 ms, p99 2.22 / 3.31 ms (informative only). Line 3's properties at the PR size: order 1 000 draws,
+     994 non-empty, 829 with a rounded crossing; both sides of the origin 1 000 draws, 199 with a negative half-half
+     crossing, 88 with its rounding a vertex of X. THE SESSION'S REPLAY on the merged tree is the command above.
+193. **The gates and LINE 11 again (no-shift).** `corepack pnpm install --frozen-lockfile` 0 (already up to date); `corepack
+     pnpm lint` 0 (eslint 1288 files 0 / 0, probe-red ok, kernel-boundary ok with the seam's bytes — sha256 680ec34d…,
+     unchanged — no slack); `corepack pnpm build` 0. (1) `diff -u` of kerb.ts base → tree: the four `export` lines only;
+     `diff -rq -x node_modules` of every `packages/*/src` and `bench/src`: kerb.ts differs, kerbExact.ts only in the tree.
+     (2) The prod bundle's code part (the S18 checker's `bundle-check.mjs`, run in each root): base and tree 1 715 774 bytes,
+     sha256 `cf20853d1a24928a0d91ae3abc38da27c39f22cbdb5d39f34ecb3c9304586e17` both, `cmp` identical, no `exact*` name.
+     (3) NEAR — the tree's bands folder at the PR size, `PLAT_FUZZ_SEED=-851511598` (the seed of the S18 checker's base
+     run, `/home/user/maps-scratch/waves/check-M0-a-09/runA/base.log`, 587 s, `6 failed | 173 passed (179)`): 864 s,
+     `Test Files 4 failed | 16 passed (20)`, `Tests 6 failed | 221 passed (227)` — Q152's six, the Failed Tests blocks
+     (153 lines, durations and roots stripped) and the 27 `B-FUZZ` / `REFUSAL` lines byte-identical to the base (refusal
+     census kerb 4 / 0, corridorUnion 6 / 0, bandUnion 3 / 0; widened kerb 4 / 0, corridorUnion 4 / 3, bandUnion 0 / 0;
+     BEFORE = AFTER, J264 / N-58; X refused 0 times where the construction read ok); derived.test.ts 46 / 46 and
+     hardening-s17.test.ts green there. RELATED@1000 over arr/kerbExact.ts (`PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest
+     related --run --maxWorkers=1 packages/kernel/src/arr/kerbExact.ts`): 1 file, 46 / 46, 25.9 s, seed −628534367.
+     `write-door.test.ts` + `api-surface.test.ts` (project kernel): 7 / 7, untouched. NEAR's wall-clock base → tree 587 →
+     864 s (+277 s; bar + 1 800 s).
+194. **The record and disclosures.** `corepack pnpm landed -- M0-a-09 --lane build/M0-a-09-fix-s19 --wave flow-7 --touched`
+     kerbExact.ts, derived.test.ts; appends C-0483 and L-0782. Disclosures: (a) this seat read the S18 checker's scratch
+     (`/home/user/maps-scratch/waves/check-M0-a-09/`: its probe block, p1b script, mutant forms, bundle script, runA's
+     chain and base log — a mirror of `plat/` and its probes) to rebuild PB3, PB6, PB7 and the mutants exactly; (b) the
+     base comparison of (3) uses the S18 checker's base run (the base mirror is unchanged since), not a fresh base run;
+     (c) the corpus figures at seed −851511598 for straight lanes equal the S18 checker's; (d) no git command, no Mac step,
+     nothing of the design or `docs/validation/` opened this round.
+
+## Re-check 19 of hardening round S18 (lane `check/M0-a-09-close-s19`, 2026-11-10)
+
+Verdict PASS (`checks/M0-a-09-s19.md`): F1 – F5 of the S18 closing check fixed and pinned, each pin re-killing its
+mutant in the checker's mirror; the gates green; no new blocker. The rows below are notes, none a fail.
+
+195. **The reflection probe (F1), kept for the hardening pass.** `/home/user/maps-scratch/waves/check-M0-a-09/s19/probe/fuzz-reflect.ts`
+     (run with the mirror's `tsx`): random boxes straddling the origin, half with a hole, less one to four 45° or axis
+     strips of random offsets; X against its three mirrors. Round S19's `exactRegion`: 9 000 draws (seeds 11, 23, 99),
+     0 asymmetric, 0 thrown, 0 non-simple; round S18's: 75 / 400 asymmetric, 3 non-simple. Covered by the round's own
+     both-sides property and line 9's both-placements bar; no test needed. Suggested handling: none (M4 may fold the
+     probe's axis strips into the both-sides property).
+196. **Equivalent survivors of the F1 fix.** PX0a (`loIn = C >= 0`) and PX0b (`hiIn = C <= 0`): the pixel at 0 closed
+     on one side — equivalent, a lattice segment meets a side of the open pixel (−½, ½)² only by crossing it
+     transversally within the other axis's open range, so it enters the interior anyway, and the corners stay excluded by
+     the other axis. CHK (both planarity `check`s removed): equivalent on every input — with every segment routed through
+     every hot pixel it meets, the rounded pieces meet only at hot-pixel centres (Hobby), so the guard never fires; it
+     stays as the detect-and-refuse guard F1 asked for. No pin needed.
+197. **Still open from row 178 (F4's optional part).** The tip rule (relate() taking a far point as NEAR within the bound
+     of a convex corner of EITHER outline) was not tightened in round S19; the F4 pin holds FM4 without it. Suggested
+     handling: tighten at the hardening pass (M4) or the wiring round, whichever first reads line 7's classes.
+198. **Disclosures.** The lane-log grep showed fix round S19's CHECKPOINT and LANDED lines (its mutant ids PX, PXc, CHK,
+     KM2t, KM5b, FM4) before this seat planned; the seat's mutants PX0a / PX0b and the reflection probe are its own. The
+     base comparison of NEAR uses the S18 checker's base run at seed −851511598 (`runA/base.log`), the base mirror being
+     unchanged since. The seat re-ran the S18 checker's probe scripts and bundle script unchanged. No git command; nothing
+     under `docs/validation/`, the design or the amendment opened.
