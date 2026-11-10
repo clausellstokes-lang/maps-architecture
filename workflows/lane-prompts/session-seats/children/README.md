@@ -25,4 +25,5 @@ what each child was told, and re-create a child from the same text.
 | launch-DK.md | DK | MERGED: M0-a-04 S6 → M0-a-13 S2 (kernel pins) |
 | launch-DL.md | DL | MERGED: M0-c-07 S1 → M0-b-05 S2 (bench: the gate's tables record, pins, a restatement) |
 | launch-DM.md | DM | MERGED: M0-x-02 S4 → M0-x-04 S3 (Q39's runner door proved in a mirror; two test corrections) |
-| launch-DN.md | DN | M0-a-09 S18, the LIBRARY round (the exact kerb as a pure function) — PREPARED, NOT CREATED: held at the weekly allowance's warning (J745) |
+| launch-DN.md | DN | M0-a-09 S18, the LIBRARY round (the exact kerb as a pure function) — this account's form; created 03:01Z 2026-11-10 on the owner's word and STOPPED seconds later on the owner's next word (J746): NOT RUNNING |
+| launch-DN-other-account.md | DN | the same round for a session the OWNER starts on ANOTHER ACCOUNT (no parent to message: the hand-back is written to docs/handbacks/DN.md on wip/child-a09s18); the owner pastes PASTE-DN-other-account.txt into that session |
