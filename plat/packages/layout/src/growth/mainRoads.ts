@@ -1,15 +1,17 @@
 // S5b main roads and the growth stages' S5a / S5b driver (M0-c-04; §4.4 S5b, S5a, §4.1's S5 batch row, §4.3's router,
 // §5.2 F-ROUTE, §13.2's S5b test; C-0016, C-0017, C-0032; readings C-0244). For each growth stage k ≥ 2, in §4.1's order:
-//   S5a's boundary (./boundary.ts) from T as it stands;
+//   S5a's boundary (./boundary.ts) from T as it stands; a walled stage's boundary that would cross the wall standing
+//        before it is taken over the enclosure of stage k − 1 held with that wall and its clearance (`heldEnclosure`,
+//        C-0475 (2)), so its trace is never handed a boundary through that wall;
 //   S5b: N_k by the gate law of §4.2 S3 (4) on the land inside the stage's enceinte (walled; no waterfront or closed-arc
 //        reduction at M0, C-0032's slice) or one primary per `mainRoadSpacingM` of boundary (unwalled); the crossings c of
 //        the existing ways with the boundary on ground part 0 (M0 has no raised way); when N_k > c, N_k − c radial
 //        destinations on the boundary by sequential nested picks — largest angular gaps first, terrain-scored like S3's
 //        gates (one uniform per candidate per pick from the `growth.mainroad` stream, so a smaller count is a prefix of a
 //        larger one) — each routed by S4's router (`routeLadder`, F-ROUTE's M0 rungs) from the nearest junction it can
-//        reach on an existing main road outside the previous enceinte (never through an inner wall nor its strips) to
-//        the destination, then outside the stage to the frame at its bearing; committed in one declared L1 batch, the new
-//        roads re-settling T (`resettleT`);
+//        reach on an existing main road
+//        outside the previous enceinte (never through an inner wall nor its strips) to the destination, then outside the
+//        stage to the frame at its bearing; committed in one declared L1 batch, the new roads re-settling T (`resettleT`);
 //   S5a's trace (walled stages): every crossing a gate (./boundary.ts `traceStage`).
 // Stage 1 is S3's: its boundary S3's contour, its trace S3's (committed with S3's batch, `commitS3Slice`, or by
 // `traceStage1`), no S5b. The between-stage prune and trim and S5c / S5d are M0-c-05's; their order between stages is
@@ -40,7 +42,7 @@ import { finishChain, simplifyChain } from '../backbone/smooth.js';
 import { heightsOf, type S4Output } from '../backbone/stage.js';
 import type { RouteRung } from '../backbone/types.js';
 import { WAY_SPAN_NODES, type S3Commit } from '../enceinte/commit.js';
-import { distToRing, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { crossesCore, distToRing, TOUCH_CM, unitOf } from '../enceinte/plane.js';
 import { stripWidths, toFrame } from '../enceinte/strips.js';
 import type { EnceinteEnv, XY } from '../enceinte/types.js';
 import { generated, GROUND } from '../enceinte/water.js';
@@ -55,6 +57,7 @@ import {
   boundaryCrossings,
   crossingsThrough,
   HA_CM2,
+  landOf,
   outlineMeasures,
   resettleT,
   stageBoundary,
@@ -1002,6 +1005,55 @@ export function mainRoadStream(slice: S3Slice): Stream {
 }
 
 /**
+ * The enclosure of stage k − 1 that a walled stage k's boundary holds where the selection alone lets it cross the wall
+ * standing before it (C-0475 (2); §4.4 S5a *Boundary*: "the union keeps
+ * the stages nested even where a moat raised T just outside the previous wall"): the previous stage's selection and,
+ * where an enceinte stands, every reachable dry node of the frame's interior inside its line or nearer it than its
+ * clearance (`wallClearance`: the outer strip and a primary's half-width). The pull (§4.4 S5a *Trace* (2)) can carry a
+ * wall a band beyond the selection it was traced round, so the selection alone let the next boundary cross that wall,
+ * and the stage's trace, handed a boundary through its core, could not be laid. Null when there is no enclosure; the
+ * selection itself where no node is added.
+ */
+function heldEnclosure(state: GrowthState): Uint8Array | null {
+  const sel = state.enclosure;
+  if (sel === null || lastWall(state) === null) return sel;
+  const clearOf = wallClearance(state);
+  const lattice = state.field.lattice;
+  const T = state.field.T;
+  let held: Uint8Array | null = null;
+  for (let u = 0; u < sel.length; u += 1) {
+    if (sel[u] === 1 || lattice.interior[u] !== 1 || lattice.water[u] !== 0 || !(T[u] < Infinity)) continue;
+    if (clearOf(lattice.points[u])) continue;
+    held ??= sel.slice();
+    held[u] = 1;
+  }
+  return held ?? sel;
+}
+
+/**
+ * Stage k's boundary (§4.4 S5a): the level set over the previous selection, as before; for a walled stage whose
+ * boundary so taken crosses the wall standing before it (the trace's own `core` test, `crossesCore`: that wall's first
+ * point outside it or a side of each meeting), the boundary over the held enclosure instead (`heldEnclosure`, C-0475
+ * (2)) — a deterministic repair of the nesting, so no stage that nests already moves. Over the held set the level set
+ * and `t_k` read the union with the held nodes at T = 0, so the land is exact to one cell as before unless the held
+ * nodes alone hold more than stages 1 … k ask (then `t_k` is 0 and the land is the held set's, reported in the record as
+ * `landCm2` over `askedCm2`); the enclosure's land, the land the stage adds and the fold read the previous selection
+ * as before, the held nodes being land the stage adds. An unwalled stage lays no trace and reads the selection.
+ */
+function heldBoundary(state: GrowthState, k: number, walled: boolean): StageBoundary {
+  const land = state.slice.site.land;
+  const plain = stageBoundary(state.field, k, land, { enclosure: state.enclosure });
+  const wall = walled ? lastWall(state) : null;
+  if (wall === null || state.enclosure === null || !crossesCore(plain.set.outline, [wall])) return plain;
+  const held = heldEnclosure(state);
+  const b = stageBoundary(state.field, k, land, { enclosure: held });
+  if (held === state.enclosure) return b;
+  const enclosureCm2 = landOf(state.field, state.enclosure);
+  const addedCm2 = b.landCm2 - enclosureCm2;
+  return { ...b, enclosureCm2, addedCm2, folded: b.capped && addedCm2 <= 0 };
+}
+
+/**
  * S5a's boundary and S5b for stage k ≥ 2 (see the header): the stage's record appended to `state` (its boundary with the
  * destinations kept, its crossings, picks, roads and the unserved), T re-settled by the new roads. A folded stage is
  * recorded with its quota moved to the last stage with land. Refused with the kernel's code when S5b's batch is.
@@ -1012,7 +1064,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
   if (!(Number.isInteger(k) && k >= 2 && k <= K)) throw new RangeError(`mainRoadsStep: k is a stage 2 … ${String(K)}, got ${String(k)}`);
   if (state.stages.length !== k - 1) throw new RangeError(`mainRoadsStep: stage ${String(k)} follows stage ${String(state.stages.length)}`);
   const walled = stageWalled(site, k);
-  const b0 = stageBoundary(state.field, k, site.land, { enclosure: state.enclosure });
+  const b0 = heldBoundary(state, k, walled);
   const rec: GrowthStage = {
     k,
     regime: site.land.regimes[k - 1],
