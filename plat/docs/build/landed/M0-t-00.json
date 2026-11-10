@@ -1,39 +1,43 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-t-00",
-  "lane": "build/M0-t-00-fix1",
-  "lanes": ["build/M0-t-00", "build/M0-t-00-fix1"],
+  "lane": "build/M0-t-00-fix-s1",
+  "lanes": ["build/M0-t-00", "build/M0-t-00-fix1", "build/M0-t-00-fix-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-28T00:37:18.122Z",
+  "date": "2026-11-10T03:56:45.270Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/timing-phase/", "plat/bench/test/timing-phase/"],
-  "counts": { "created": 11, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 15, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/bench/src/timing-phase/bars.ts", "status": "created", "sha256": "45fe10edda54bd5ff0a85f5b46379962010ba593d927df1b2f5284e118a1ad50", "size": 19564 },
+    { "path": "plat/bench/src/timing-phase/bars.ts", "status": "created", "sha256": "11a11a443303a2e330dc0cd597f4652be2de20ee760ec834617abfd5cc38789f", "size": 23907 },
+    { "path": "plat/bench/src/timing-phase/bundle.ts", "status": "created", "sha256": "ed2075a6a2d93a5b4b1798d980516c3f057c89d968799f6fda0e646e9f5f8017", "size": 8992 },
+    { "path": "plat/bench/src/timing-phase/child.ts", "status": "created", "sha256": "d910c0923b47f08d134d8087b556beca91b1b8727bc484b79eab8c1f98204c5d", "size": 3746 },
     { "path": "plat/bench/src/timing-phase/gate-stages.ts", "status": "created", "sha256": "6bcddcb5a6b7b01493145da5016fed122a841c58083db67d60ee8b3e817993a3", "size": 1844 },
-    { "path": "plat/bench/src/timing-phase/index.ts", "status": "changed", "sha256": "2ec6b059f43137de5a38f018a30c1a04d4e573241a34dcfc9dac9c0abfe237bf", "size": 24332 },
-    { "path": "plat/bench/src/timing-phase/protocol.ts", "status": "created", "sha256": "fee158fc1be29fdd1feec5c22a23adb3a6152c776df7a798b3bcffb330f81dc7", "size": 15811 },
-    { "path": "plat/bench/src/timing-phase/record.ts", "status": "created", "sha256": "b3ca645822de3be12fbb95a3166b5b68771e85fee0b7e9a61a706d012bc5e9e3", "size": 6511 },
-    { "path": "plat/bench/src/timing-phase/tiers.ts", "status": "created", "sha256": "f6554d06801de2546e11b11efee1d20af1f757db3004125a1c5c5586fceb8f81", "size": 9576 },
-    { "path": "plat/bench/src/timing-phase/workloads.ts", "status": "created", "sha256": "ea93533c83aba5d183f2e182bcf1080f4b5a5434077c372e58b1f66f41c7b79d", "size": 29949 },
-    { "path": "plat/bench/test/timing-phase/fixtures.ts", "status": "created", "sha256": "09913ef818bb75eccdaff84f04727e0d34f8fd9c4cf16cfa68fad04d25afc704", "size": 14667 },
-    { "path": "plat/bench/test/timing-phase/rules.test.ts", "status": "created", "sha256": "f53939893ba86ca91819eb9a4a1a5967d8314b2818c027333b268e3d9aa3ccfd", "size": 16986 },
-    { "path": "plat/bench/test/timing-phase/script.test.ts", "status": "created", "sha256": "78e71175abfd14d02689f42acbd2b2118264e0b825f5f69c8fb85680ef23d749", "size": 21948 },
-    { "path": "plat/bench/test/timing-phase/tiers.test.ts", "status": "created", "sha256": "1c3a132e00cdbaad2317d7b8fcf31c0fe2cadd7bafdd22e1d58994928aae712e", "size": 13723 },
-    { "path": "plat/bench/test/timing-phase/wiring.test.ts", "status": "created", "sha256": "ecd87d67882aee5376afe07a2ddd007a207a453a31622c49ce960824b8fd1d31", "size": 4180 }
+    { "path": "plat/bench/src/timing-phase/index.ts", "status": "changed", "sha256": "ef8feb161ab3d606c9398985f745371621b0c66b6bd5954ad56b89da942108e6", "size": 34755 },
+    { "path": "plat/bench/src/timing-phase/protocol.ts", "status": "created", "sha256": "4be33ae3493e0589a0974a239e6bcbc7e1369f3c3aa90d6fc5c678148878f79c", "size": 21464 },
+    { "path": "plat/bench/src/timing-phase/record.ts", "status": "created", "sha256": "28b30535d53702d26ea2d2b026bdad3e4af6eb00b324ea2a5c189a1b7777ff93", "size": 8409 },
+    { "path": "plat/bench/src/timing-phase/tiers.ts", "status": "created", "sha256": "c7bda7bac96118ca6d2d71f4e2fc6c4ffff22e6a12d073c2017ce4d0647d2e27", "size": 10413 },
+    { "path": "plat/bench/src/timing-phase/workloads.ts", "status": "created", "sha256": "4154b7e7d9fefcc0eb02b061fdad64d58a274e1a654c0c18b2461bdb893a5dc6", "size": 41337 },
+    { "path": "plat/bench/test/timing-phase/bundle.test.ts", "status": "created", "sha256": "35e395a73fe01bc7786206ed1b385746066c109c5f4df2926b7d615e26d5e2df", "size": 17910 },
+    { "path": "plat/bench/test/timing-phase/fixtures.ts", "status": "created", "sha256": "dab5f68a59b88f9140003d3d3eac4c82b74f449ed2a1ba0ad3a0370a9ac21294", "size": 16229 },
+    { "path": "plat/bench/test/timing-phase/groups.test.ts", "status": "created", "sha256": "188a64d875b7e6e8debec41abf0aec5949d797f8c5092b82e9c4d07486af3781", "size": 18255 },
+    { "path": "plat/bench/test/timing-phase/rules.test.ts", "status": "created", "sha256": "f804b5cee6681a72446d5af03c70bdbdc838ee0bb1a0a2280474c9ba62054484", "size": 19830 },
+    { "path": "plat/bench/test/timing-phase/script.test.ts", "status": "created", "sha256": "ba1e0843c3ab49ae718147f6789d5a250a86b26dab3061d69ea101dd76c4a71d", "size": 23384 },
+    { "path": "plat/bench/test/timing-phase/tiers.test.ts", "status": "created", "sha256": "01c64c95b5ef44a7715d52b4200564ddce7c66e1774831b3d3fe5adb3bfe0e2d", "size": 17265 },
+    { "path": "plat/bench/test/timing-phase/wiring.test.ts", "status": "created", "sha256": "7b59da8ad48030d0092877bbcf20b1bce44d13061e49bd8e4bd309e294fe6e8c", "size": 6913 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0683", "L-0685"],
-      "lines": ["a8ecf38353daa241", "8fbf744119431ddd"],
+      "ids": ["L-0683", "L-0685", "L-0746"],
+      "lines": ["a8ecf38353daa241", "8fbf744119431ddd", "467f3c2cb939e122"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0440", "C-0441"],
-      "lines": ["2cbe973aaa5cde44", "e395a7b01a5cab96"],
+      "ids": ["C-0440", "C-0441", "C-0467"],
+      "lines": ["2cbe973aaa5cde44", "e395a7b01a5cab96", "78e3304d5d8c25db"],
       "removed": []
     }
   ]

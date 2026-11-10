@@ -16,6 +16,7 @@ import {
   readTimingBars,
   resolveBars,
   runGroup,
+  runPhase,
   S11_WORKLOAD_FILE,
   timingPhase,
   WORK_PATH,
@@ -114,6 +115,39 @@ describe("R12-4's rows (C-0084): every §12.4 row of M0's stages has a p50 in th
     }
     expect(r?.figures.filter((f) => f.name.startsWith('the S3 slice')).every((f) => f.quoted === "the S2 / S3 row's 16 ms")).toBe(true);
     expect(r?.fallback).toContain('restated at the measured value by M0-x-01');
+  });
+
+  it('every R12-4 figure, and the gates, carry their stamp scope (RL10 (b)): S3 names stage 1\'s trace and strips, S5 S5a-S5d and ≈ 5 000 proposals, each the stage-end rebuild; printed', async () => {
+    const c = fixtureContext();
+    await runPhase(['--only', 'r12-4,fusion,site'], c);
+    const bars = new Map((JSON.parse(readFileSync(c.recordPath, 'utf8')) as TimingsRecord).rerun[0].bars.map((b) => [b.id, b]));
+    const r = bars.get('r12-4')?.figures ?? [];
+    expect(r).toHaveLength(12);
+    for (const f of r) {
+      expect(f.scope, f.name).toMatch(/^the stamp times the registered stage's run \(stage\.run\), by the harness: /);
+      expect(f.scope, f.name).toContain("the runner's stage-end index rebuild and stage root (layout/src/pipeline/runner.ts:409-410) lie outside the window");
+      expect(f.verdict).toBe('reported');
+    }
+    for (const f of r.filter((x) => x.name.startsWith('the S3 slice'))) {
+      expect(f.scope).toContain("then stage 1's trace and strips, S5a's at k = 1 (layout/src/pipeline/base.ts:12-13, C-0226 (2))");
+      expect(f.scope).toContain('≈ 75 % trace and strips in prod');
+      expect(f.scope).toContain("§12.4's ≈ 11 ms costs the slice components of the S2 / S3 row (ARCHITECTURE.md:18329)");
+    }
+    const s5 = r.find((x) => x.name === 'S5 (fusion)');
+    expect(s5?.scope).toContain('S5a-S5d for every k (layout/src/pipeline/base.ts:15-16)');
+    expect(s5?.scope).toContain("'≤ 8 µs per insertion … ≈ 5 000 proposals' (ARCHITECTURE.md:18331)");
+    expect(s5?.scope).toContain('the CITY seeds make 321-367 proposals');
+    for (const id of ['fusion', 'site'] as const) {
+      for (const f of bars.get(id)?.figures ?? []) expect(f.scope, `${id} ${f.name}`).toContain("the runner's stage-end index rebuild");
+    }
+    expect(bars.get('fusion')?.figures[0].scope).toContain("S5's stamp is S5a-S5d for every k against §12.4's S5c insertions");
+    // a statement, never a judged figure: the values and verdicts are R12-4's as before
+    expect(r.map((f) => f.value)).toEqual([20, 20, 9, 10, 10, 8, 8, 8, 35, 15, 15, 18]);
+    // printed: each scope once per bar, one clause a line
+    expect(c.lines).toContain('timing-phase: r12-4: scope of S5 (fusion):');
+    expect(c.lines).toContain("timing-phase:   §12.4's S5 row costs S5c's insertions only — '≤ 8 µs per insertion … ≈ 5 000 proposals' (ARCHITECTURE.md:18331) — while the CITY seeds make 321-367 proposals and S5a / S5b / S5d (≈ 85-90 % of S5) have no allowance of their own (checks/profile-city-stages.md §2.2, §2.3)");
+    expect(c.lines).toContain('timing-phase: r12-4: scope of the S3 slice (fusion), the S3 slice (site relief-60), the S3 slice (site relief-3000):');
+    expect(c.lines.filter((l) => l.startsWith('timing-phase:   ')).every((l) => l.length <= 400)).toBe(true);
   });
 
   it('--only r12-4 runs the two gates\' Node legs only (the same runs\' stamps), never their Chromium legs', async () => {

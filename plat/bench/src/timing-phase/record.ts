@@ -4,6 +4,9 @@
 // reported / unmeasured), the authority stamp and host record of its batches, the fallback its miss rule names
 // (applied by its owning item in a T-fix round, recorded in choices.md) and — for a kernel bar — C-0098's next step;
 // the normalisation is the measured ratio, ≈ 1 on the reference machine (C-0027, read as C-0411 (3) reads it).
+// Hardening round S1 (RL10; Q7, J725): ADDITIVE fields only, the schema tag unchanged (no record exists before M0-t-01's
+// run, and no field is removed or renamed) — the run's `build` block (the full record's and each `rerun` block's), a
+// cross-engine figure's `legBuilds`, a figure's `scope` and `excluded` list (protocol.ts), the census's `barExclusions`.
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import type { HostRecord } from '../host/index.js';
@@ -25,6 +28,32 @@ export interface Refusal {
   readonly alternative: string;
   readonly reasons: readonly string[];
   readonly at: string;
+}
+
+/**
+ * What the measuring process is (RL10 (iv)): the production bundle bench:timing-phase built and launched — the recipe,
+ * the build flag and the arena's assertion switch as the process read them, the bundle's `__name` count, bytes and
+ * sha256, the Node — or, for an in-process run (a test's), the source run it is.
+ */
+export interface BuildBlock {
+  readonly kind: 'production-bundle' | 'source-run';
+  /** The recipe file (bench/src/timing-phase/bundle.ts, a stated copy of bench/src/profile/bundle.ts's, J622). */
+  readonly recipe: string | null;
+  /** The ruling the build follows. */
+  readonly rule: string;
+  /** @plat/kernel's DEBUG_BUILD in the measuring process. */
+  readonly debugBuild: boolean;
+  /** The arena's assertion switch (`debugAssertions()`) in the measuring process. */
+  readonly arenaAssertions: boolean;
+  /** `__name(` in the bundle's code (0 in production); null for a source run. */
+  readonly keepNames: number | null;
+  /** The free identifier PLAT_DEBUG_BUILD left in the bundle's code; null for a source run. */
+  readonly debugFlagLeft: boolean | null;
+  readonly bytes: number | null;
+  readonly sha256: string | null;
+  /** The bundle file (under $PLAT_BENCH_OUT/timing-phase/bundle/), null for a source run. */
+  readonly bundle: string | null;
+  readonly node: string;
 }
 
 /** The first act's record (C-0075): the score written once, or read (a later run, and every `--only` run, C-0080). */
@@ -87,6 +116,8 @@ export interface RerunBlock {
   readonly only: readonly BarId[];
   readonly referenceScore: ReferenceAct;
   readonly bars: readonly BarRecord[];
+  /** The re-run's measuring process (RL10 (iv)). */
+  readonly build?: BuildBlock;
 }
 
 export interface TimingsRecord {
@@ -98,6 +129,8 @@ export interface TimingsRecord {
   readonly startedAt: string;
   readonly finishedAt: string;
   readonly host: HostRecord | null;
+  /** The measuring process (RL10 (iv): the production bundle's facts; a test's source run). */
+  readonly build?: BuildBlock;
   /** `measured`, or `built` with the seams a test injected (a built record is never a result, C-0047). */
   readonly readings: 'measured' | 'built';
   readonly seams: readonly string[];
