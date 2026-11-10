@@ -10,6 +10,7 @@
   {"letter": "DD", "session": "session_01FE9mExCLXiKir3jwGJerQv", "branch": "wip/child-e04s5", "created": "2026-11-09T21:37:52Z", "round": "M0-e-04 S5", "lanes": ["build/M0-e-04-fix-s5", "check/M0-e-04-close-s5"]},
   {"letter": "DE", "session": "session_01FE9mExMKXUXBFoBNCwNwLM", "branch": "wip/child-d05as2", "created": "2026-11-09T21:37:53Z", "round": "M0-d-05a S2", "lanes": ["build/M0-d-05a-fix-s2", "check/M0-d-05a-close-s2"]},
   {"letter": "DF", "session": "session_01FE9mEsbkJEjNtU3aYbXTAp", "branch": "wip/child-t00s1", "created": "2026-11-09T22:20:05Z", "round": "MERGED: M0-f-01 S1, M0-d-06 S2, M0-t-00 S1", "lanes": ["build/M0-f-01-fix-s1", "check/M0-f-01-close-s1", "build/M0-d-06-fix-s2", "check/M0-d-06-close-s2", "build/M0-t-00-fix-s1", "check/M0-t-00-close-s1"]},
-  {"letter": "DG", "session": "session_01FE9mEv7fg5mrcekucBpUCQ", "branch": "wip/child-whole1", "created": "2026-11-09T22:46:16Z", "round": "the flow's whole-suite check", "lanes": ["check/whole-suite-flow-7"]}
+  {"letter": "DG", "session": "session_01FE9mEv7fg5mrcekucBpUCQ", "branch": "wip/child-whole1", "created": "2026-11-09T22:46:16Z", "round": "the flow's whole-suite check", "lanes": ["check/whole-suite-flow-7"]},
+  {"letter": "DH", "session": "session_01FE9mEuM82W1wxLrXFcWNv1", "branch": "wip/child-a06s9", "created": "2026-11-10T00:13:57Z", "round": "M0-a-06 S9", "lanes": ["build/M0-a-06-fix-s9", "check/M0-a-06-close-s9"]}
  ]
 }
