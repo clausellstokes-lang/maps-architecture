@@ -93,3 +93,59 @@ The closing checker's new findings. None is a blocker. Its 24 targeted mutants (
 | N-9 | **`--list` ignores the injected probe and nobody notices.** Mutant K15 has the `--list` branch of `run()` call `deriveStatus(j, root)`, dropping `ctx.options?.probe`. It SURVIVES the near set (66 / 66), because the N-1 `--list` test lists only `command` jobs, which never consult the harness probe. The real command passes `{ out }` only, so its listing does not change. This is a fidelity gap in the test seam, not a wrong result. | Add a `harness` job with a stub probe returning `false` to the fixture `--list` test. Its line should read the load-failure status. | M4 |
 | N-10 | **A non-Error throw from `units()` is held by no test.** Mutant K27 reads `(e as Error).message` in the N-2 catch. It SURVIVES, because every pinned case throws or rejects with an `Error`. Such a job still fails, so the result is safe, but its reason would read "the job's units failed: undefined" rather than naming the value. | Add `units: () => Promise.reject('plain string')` to the N-2 test, with its reason pinned verbatim. | M4 |
 | N-11 | **Session attribution: the whole-wave `landed:verify -- flow-7` exits 1 after this round's re-landing.** The output reads "landed:verify FAIL plat/bench/src/tier-jobs/index.ts: created since flow-7, claimed by no landed record of the wave". The file's bytes are its committed bytes (git index blob `49c90d0c…`, sha256 `6046ed85…`). Under C-0318 the claim moved to M0-f-02b (`ownersAt(…, Infinity)` returns `["M0-f-02b"]`), which has not landed. The same run also FAILs `plat/packages/tables/data/workLimits.json`, which is not this item's. N-5's tier argv half is still open with the same owner (C-0411 (5)). | The session rules before the flow's close. Either a choices row hands `tier-jobs/` back to M0-f-02a until M0-f-02b builds, or the session attributes the file at the close. The N-5 argv fix and its pin go to whichever item then owns the file. | session (flow-7 close) |
+
+## Hardening round S2 (lane `build/M0-f-02a-fix-s2`, 2026-11-10; J237 (2), J186, J192, J238, J264, J290 / N-58, J263 Q1 / Q6, J443 / J749: leg 1 of the merged round M0-f-02a S2 → M0-f-02b S1)
+
+The session's hardening round S2 on the one row the second re-triage found still open for this item: queue row **Q151**
+(`docs/M0-FIX-QUEUE.md`, opened by the stage-group-18 integration check's N-1, `checks/integration-g18.md`, J719). Both
+sources were read whole. The fix shape and the pin are taken as the row states them: detect and refuse `--fallback`
+outside `tier:pr` (C-0241 (11)), exit 64, one pin per tier. The source and the code agree with that reading: §13.8 states
+the pre-decided fallback for the PR tier only ("if the PR tier exceeds 15 min, … and the nightly tier absorbs the
+difference"), and before this round `bench/src/tiers/index.ts` took the switch on every tier, so `tier:nightly --
+--fallback` would have cut B-FUZZ from 10⁶ to 5 × 10³ and the spike sets to 25 seeds. Choices row C-0476. Inside the
+owns only: `bench/src/tiers/index.ts` and `bench/test/tiers/exec.test.ts`. NO-SHIFT: no model output, digest, golden,
+summary or manifest moves; `tier:pr` is unchanged.
+
+| row | outcome | what changed | pin and its mutant (scratch mirror, `vitest run --maxWorkers=1 --bail=1 bench/test/tiers`) |
+|---|---|---|---|
+| Q151 | **FIXED and PINNED** | `run()` (the tiers entry) parses its arguments as before, then, when `--fallback` was given and the tier is not `pr`, prints one line and returns **64** before the manifest is read, the statuses are derived or any job runs (no TierReport is written). The line, pinned verbatim (J263 Q6): ``tiers: --fallback is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:<tier> runs at its own sizes; run it without --fallback``. The flag is refused in any position and beside `--list` or `--mode`. `tier:pr` keeps the switch exactly as before. The header comment states the rule; the `USAGE` line and every other message are unchanged. | Three tests in `exec.test.ts` ('the command entry over a FIXTURE manifest'), one per tier: `Q151: tier:nightly refuses …` and `Q151: tier:milestone refuses …` (an `it.each`; five argv shapes each: exit 64, the line verbatim and alone, the injected manifest never read, the injected runner never called, no report; then the same tier without the flag runs at its own size, 10 000) and `Q151: tier:pr keeps --fallback …` (three argv shapes: exit 0, fuzz 10 000 → 5 000 recorded, no refusal line; `--list --fallback` lists). Mutants, each killed: **MB** the before-image `index.ts` (sha256 `583cadd6…`) — red on both refusal pins (2 failed, run with `-t Q151`); **M1** refuse only `nightly` — red on the milestone pin; **M2** refuse only `milestone` — red on the nightly pin; **M3** refuse every tier — red on the pr pin (and on the existing `--fallback reaches the runner` test); **M4** exit 1 for 64; **M5** the message's middle clause dropped; **M6** the refusal after the manifest read; **M7** not refused beside `--list`; **M8** the line printed but the run continues; **M9** refused only when `--fallback` comes first — each red on the nightly pin. Clean mirror 5 files 69 / 69; every mutated file restored from the tree and confirmed with `cmp -s`. |
+
+**What this round does not change, and why.** `runTier` (`runner.ts`) still applies `fallback: true` to whatever
+manifest it is given. It is an exported API (J263 Q1), and its two in-tree callers besides the entry, M0-f-02b's
+`tier-jobs/cli.ts` receipt and M0-t-00's `timing-phase/tiers.ts`, never pass `fallback` (read in the tree). A refusal
+there would be a throw on an exported function, a contract change the round may not make; the row names the entry, and
+the entry is the only door a user reaches the switch through. This is an observation, not an open row: the fail-safe
+the integration check noted (the switch printed and recorded in `fallback.changed`) still holds for a direct caller.
+
+**Refusal census (J264, N-58).** The item's registered families are the three real manifests, the test folder's fixture
+manifests and, for this row, the entry's argument family. A probe (session scratchpad `f02a-s2/census.mts`, run through
+tsx on the before-image in the lane mirror and on the final tree) drove `run()` over each tier × eight argv shapes
+(none, `--fallback`, `--list`, `--fallback --list`, `--list --fallback`, `--mode whole`, `--fallback --mode batched`,
+`--mode plain --fallback`) with a stub manifest and runner, nothing spawned, and ran each real manifest through `runTier`
+with a no-op executor. Real manifests, before = after: PR 0 problems, 9 jobs run, 62 units, 0 failed before a unit, 1
+pending (`after-M-1: denylist.json`), 0 not built; nightly 0 / 8 / 169 / 0, 1 pending (`after-M-1: baselines.json`), 1
+not built; milestone 0 / 9 / 170 / 0, 1 pending (`baselines.json`), 0 not built. Entry family: `pr` 8 accepted, 0
+refused before and after; `nightly` and `milestone` 8 accepted, 0 refused before → 3 accepted, 5 refused (64) after,
+exactly the five shapes carrying `--fallback`. Lawful-input refusals: **0 before, 0 after**. The five new refusals are
+of UNLAWFUL input: §13.8 gives the fallback to the PR tier alone, so `--fallback` on a projected tier asks for a
+reduction the design does not define. Verdict REFUSE (typed: exit 64 with its line), not REPAIR: ignoring the flag
+would guess the caller's intent. The alternative is named in the line itself (run the tier without `--fallback`; the
+PR tier's own `tier:pr -- --fallback` is unchanged), and the nightly absorbs the PR tier's difference as §13.8 says.
+
+Gates (W = 1, after the last source edit): install --frozen-lockfile 0; lint 0 (eslint 1 291 files, 0 errors,
+probe-red ok, 9 whole-tree checks); build 0; NEAR `bench/test/tiers` plus `tools/scaffold/workspace.test.mjs`, 6 files
+108 / 108 (the item's folder 5 files 69 / 69; S1 had 66, +3); RELATED@1000 over `bench/src/tiers/index.ts`, exit 0, 4
+files 48 / 48 (`bench/test/tiers/{exec,manifest}.test.ts`, `bench/test/tier-jobs/{lists,units}.test.ts`). The lane
+mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-f-02a-fix-s2` was a real copy (no link into the project; the
+`@plat` dependencies resolved inside it) and is deleted.
+
+## Closing check S2 (lane `check/M0-f-02a-close-s2`, 2026-11-10; verdict PASS in `checks/M0-f-02a-s2.md`)
+
+Q151 confirmed FIXED and PINNED (K00 – K12, K14 – K16 killed; the real CLI exits 64 on `tier:nightly` and
+`tier:milestone` with the line verbatim). None of the notes below fails the item.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-12 | **Equivalent survivor K13.** Refusing `--fallback` at its token inside the argument loop, rather than after the loop, survives NEAR (69 / 69) and RELATED@1000 (48 / 48). The two forms differ only on an argv that is unlawful twice (`tier:nightly -- --fallback --bogus`): both exit 64, the landed form prints the bad-argument line, the mutant the fallback line. Which line comes first is no promise of Q151. | None (equivalent for the row; no test needed). | — |
+| N-13 | **`runTier` still applies `fallback: true` to a nightly or milestone manifest given to it directly.** The entry is the only user-facing door and refuses it; the round left the exported runner unchanged on purpose (C-0476: a throw would change its contract, J263 Q1). No in-tree caller passes `fallback` (grep of `bench/src` and `tools`/`scripts` for `--fallback` and of `bench/src` for `fallback`), and a direct caller still gets the reduction printed and recorded in `fallback.changed`, so it fails safe. Only a deliberate writer reaches it. | At M4, have `runTier` record a typed problem (or `fallback.applied: false` with a reason) when `fallback` is set on a manifest whose `tier` is not `pr`, with a pin, under a choices row that states the contract change. | M4 |
+| N-14 | **The `USAGE` line still offers `[--fallback]` on every tier.** `tiers: bad argument …; usage: corepack pnpm tier:pr \| tier:nightly \| tier:milestone [-- --mode plain\|whole\|batched] [--fallback] [--list]` is printed on `tier:nightly` too, though the flag is now refused there. The refusal line itself names the rule, so nobody is misled into a wrong run. The round kept every existing message unchanged (J263 Q6). | Reword `USAGE` to mark the flag `tier:pr` only (e.g. `[--fallback (tier:pr only)]`), the line re-pinned verbatim. | M4 |

@@ -8,9 +8,11 @@
 // readings, C-0097 — the modes M0-t-00's timing-phase script invokes), lists a pending job (after-M-1) with its file
 // and a not-built job with its item, prints the verdict and writes the TierReport to $PLAT_BENCH_OUT/tiers/<tier>.json
 // (each unit's output tail to $PLAT_BENCH_OUT/tiers/<tier>/logs/). `--list` derives and prints the statuses only.
-// `--fallback` applies §13.8's pre-decided fallback (fuzz 5 × 10³, seeds 25, the constructive set never cut). Exit 0
-// when the tier passes (or its budget is unjudged or not gating), 1 when a built job fails or a gating budget is over,
-// 64 on a bad argument. A tier run outside the timing phase is CONTENDED: its figures are reported, never gating.
+// `--fallback` applies §13.8's pre-decided fallback (fuzz 5 × 10³, seeds 25, the constructive set never cut) to
+// tier:pr ONLY: §13.8 states it for the PR tier ("the nightly tier absorbs the difference"), so on tier:nightly and
+// tier:milestone the flag is refused with exit 64 before anything is derived or run (queue row Q151, C-0241 (11)).
+// Exit 0 when the tier passes (or its budget is unjudged or not gating), 1 when a built job fails or a gating budget is
+// over, 64 on a bad argument. A tier run outside the timing phase is CONTENDED: its figures are reported, never gating.
 // The dispatcher passes `ctx.out` only. The other `ctx` fields are seams for a vitest test, which drives this entry over
 // a FIXTURE tree and manifest (C-0105: never a real tier) so the arguments and the exit codes are held by tests
 // (M0-f-02a's N-1; C-0411): `root` (the tree, default plat/), `manifest` (default the tier's real list), `options` (the
@@ -68,6 +70,11 @@ export async function run(
       say(`tiers: bad argument ${JSON.stringify(a)}; ${USAGE}`);
       return 64;
     }
+  }
+  if (fallback && tier !== 'pr') {
+    // §13.8's pre-decided fallback is the PR tier's; a projected tier keeps its own sizes (Q151, C-0241 (11)).
+    say(`tiers: --fallback is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:${tier} runs at its own sizes; run it without --fallback`);
+    return 64;
   }
   const root = ctx.root ?? PLAT_ROOT;
   const m = (ctx.manifest ?? manifest)(tier as TierName, root);
