@@ -27,7 +27,7 @@ import {
   type PolygonCm,
 } from '@plat/kernel';
 import { FLAT_BLUEPRINT, granularityBands, RIVER_BLUEPRINT, spineWidthsOf, type BaseBlueprint, type S8District, type S8Input } from '@plat/layout';
-import { mint, type District, type Id, type LiveEntry, type Seam, type StageContext, type Terrain, type Way } from '@plat/model';
+import { generatedLifecycle, mint, type District, type Id, type LiveEntry, type Seam, type StageContext, type Terrain, type Way } from '@plat/model';
 import { flatTerrain, GROUND_KEY, siteFrame, terrainParams, TERRAIN_ID, type TerrainStrategy } from '@plat/site';
 import { loadWorkLimits, parseWorkLimits, rungProfile, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 
@@ -137,10 +137,6 @@ function spec(level: 0 | 1, stage: number): KernelTx {
   return { key: GROUND, level, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: stage as never }, stage: stage as never, rederivesFrom: stage as never, workLimit: 100_000_000 };
 }
 
-function generated(): Way['lifecycle'] {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
-}
-
 /** An indexed ground arena over a square frame, its outer ring at L0, and its kernel over a width map. */
 function arena(sideCm: number): { plat: Plat; k: Kernel; widths: Map<Id, number> } {
   const frame: Frame = { widthCm: sideCm as Cm, heightCm: sideCm as Cm, aspect: 1, marginShare: 0.3 };
@@ -157,7 +153,7 @@ function districtRecord(sk: ReturnType<typeof seedKey>, i: number, live: LiveEnt
   const m = mint([{ kind: 'district', key: { arena: GROUND, unit: null, stage: STAGES.S6, epoch: 0, index: i, reroll: 0 } }], live, [], sk)[0];
   live.push({ id: m.identity.id, lineage: m.identity.lineage });
   return {
-    district: { id: m.identity.id, kind: 'craft', quarter: 'quarter:q', faces: { owner: m.identity.id, level: 1 }, seams: [], growthStage: 1, fabric: 'bent-cut', fabricParams: {}, lifecycle: generated() },
+    district: { id: m.identity.id, kind: 'craft', quarter: 'quarter:q', faces: { owner: m.identity.id, level: 1 }, seams: [], growthStage: 1, fabric: 'bent-cut', fabricParams: {}, lifecycle: generatedLifecycle(0) },
     lineage: [m.identity.lineage[0], m.identity.lineage[1]],
   };
 }
@@ -272,7 +268,7 @@ export function waysCase(sideCm: number, ways: readonly CaseWay[], seeds: readon
     growthStage: 1,
     epoch: 0,
     provisional: false,
-    lifecycle: generated(),
+    lifecycle: generatedLifecycle(0),
   }));
   const seams: Seam[] = [];
   return { plat, k, input: { kernel: k, key: GROUND, seedKey: sk, rung: 'CITY', districts: ds.map(s8District), ways: records, seams, widths, live } };

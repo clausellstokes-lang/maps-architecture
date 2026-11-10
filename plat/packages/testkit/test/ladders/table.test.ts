@@ -3,20 +3,49 @@
 // M0 builds is a built row with its fixture; every later rung and every ladder of a stage M0 does not build carries the
 // milestone the item's brief gives it; the kernel ladders are M0-k-04's (merged, never re-listed). Hardening round S1
 // (notes row 1): every rung a registered stage declares (registerBase's StageDecl `ladder`) is a table row or a declared
-// extra, and a stage that declares a rung the table lacks fails the check.
+// extra, and a stage that declares a rung the table lacks fails the check. Hardening round S3 (Q116, J552): `DESIGN_5_2`
+// is §5.2 as the design reads now — the classes it gained after the list M0 builds against (`SECTION_5_2`) held here
+// as DEFERRED rows by name with their milestones (`DEFERRED_BY_NAME`; the staged layers' second F-SITE by the
+// repeated-id rule `F-SITE†V14`), never source rows of the table, so the test and the design agree on what is not built.
 import { describe, expect, it } from 'vitest';
 import { checkLadderTable, KERNEL_LADDERS, LADDER_CONTROLS, LADDER_FIXTURES, ladderLeafOf, SECTION_5_2, STAGE_LADDERS, type LadderRung } from '@plat/testkit';
 import { DECLARED_RUNGS, declaredRungProblems, registeredRungs } from '../../src/ladders/declared.js';
 
 const FIXTURE_IDS = new Set(LADDER_FIXTURES.map((f) => f.id));
 
-/** §5.2 as the design draws it: the main table, then the staged layers' table (F-SKY-* one row of ten). */
+/**
+ * §5.2 as the design draws it (docs/ARCHITECTURE.md §5.2, as read on 2026-11-10): the main table (29 rows, F-TERRACE
+ * after F-CASTLE and F-LAST after F-BUDGET-TIME among them), then the staged layers' table (F-SKY-* one row of ten;
+ * F-WORLD, F-GW, F-PLACE one row of three, V13 §3.16; the second F-SITE, V14 §3.14, named `F-SITE†V14` — the
+ * repeated-id rule of J552, so each name is one class), 46 classes.
+ */
 const DESIGN_5_2 = [
   'F-NUM', 'F-CUT', 'F-CORRIDOR', 'F-OUTLINE', 'F-RIVER', 'F-CONTOUR', 'F-SITE', 'F-ROUTE', 'F-BUDGET-STAGE', 'F-WALL', 'F-CASTLE',
-  'F-PLOT', 'F-SITING', 'F-SITEPLAN', 'F-MASSING', 'F-COMPOSE', 'F-PLAN', 'F-UNDER', 'F-NET', 'F-VOID', 'F-SKELETON', 'F-LABEL',
-  'F-LIGHT', 'F-WORK', 'F-BUDGET-TIME', 'F-EDIT', 'F-REDERIVE', 'F-TEMPLATE', 'F-DISPATCH', 'F-UNIT', 'F-SKY-FILL', 'F-SKY-PLACE',
-  'F-SKY-TERRAIN', 'F-SKY-ACCESS', 'F-SKY-UNIT', 'F-SKY-CLEAR', 'F-SKY-CRYPT', 'F-SKY-SHADE', 'F-SKY-LANDFALL', 'F-SKY-HANDOVER',
+  'F-TERRACE', 'F-PLOT', 'F-SITING', 'F-SITEPLAN', 'F-MASSING', 'F-COMPOSE', 'F-PLAN', 'F-UNDER', 'F-NET', 'F-VOID', 'F-SKELETON',
+  'F-LABEL', 'F-LIGHT', 'F-WORK', 'F-BUDGET-TIME', 'F-LAST', 'F-EDIT', 'F-REDERIVE', 'F-TEMPLATE', 'F-DISPATCH', 'F-UNIT',
+  'F-SKY-FILL', 'F-SKY-PLACE', 'F-SKY-TERRAIN', 'F-SKY-ACCESS', 'F-SKY-UNIT', 'F-SKY-CLEAR', 'F-SKY-CRYPT', 'F-SKY-SHADE',
+  'F-SKY-LANDFALL', 'F-SKY-HANDOVER', 'F-WORLD', 'F-GW', 'F-PLACE', 'F-SITE†V14',
 ];
+
+/**
+ * The §5.2 classes M0's table defers BY NAME (Q116, J552; hardening round S3): the rows the design gained after the list
+ * M0 builds against (`SECTION_5_2`, 40 classes), each with its milestone (or its volume, the staged layers' form) — held
+ * here, in the test, never as source rows of the table: the three V13 classes and the V14 F-SITE (J552's four), and the
+ * two main-table rows added since the ruling's reading (F-TERRACE, §4.14 (6) (b) — the `field` grammar's terrace
+ * operator, §16 M5's culture layer; F-LAST, §5.5 — the public path's last resort, built on `@plat/api`'s worker host
+ * in M1's row).
+ */
+const DEFERRED_BY_NAME: Readonly<Record<string, string>> = {
+  'F-TERRACE': 'M5',
+  'F-LAST': 'M1',
+  'F-WORLD': 'V13',
+  'F-GW': 'V13',
+  'F-PLACE': 'V13',
+  'F-SITE†V14': 'V14',
+};
+
+/** The places of the V14 F-SITE's row (§5.2's staged table: "G1–G8, E1–E4, R2, R4"), none of them a stage of M0. */
+const V14_SITE_PLACES = ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7', 'G8', 'E1', 'E2', 'E3', 'E4', 'R2', 'R4'];
 
 /** C-0085's list: every stage rung M0 builds, as (ladder, stage, code) — each a built row with its own fixture. */
 const C0085_BUILT: readonly [string, string, string][] = [
@@ -101,8 +130,11 @@ const LATER_RUNGS: readonly [string, string, string][] = [
 ];
 
 describe('§5.2 in the table (C-0085, C-0109)', () => {
-  it('SECTION_5_2 is §5.2’s two tables in the design’s order, each class once', () => {
-    expect([...SECTION_5_2]).toEqual(DESIGN_5_2);
+  it('SECTION_5_2 is §5.2’s two tables in the design’s order, each class once, less the classes deferred by name', () => {
+    expect(DESIGN_5_2.length).toBe(46);
+    expect(new Set(DESIGN_5_2).size).toBe(DESIGN_5_2.length);
+    expect([...SECTION_5_2]).toEqual(DESIGN_5_2.filter((c) => !(c in DEFERRED_BY_NAME)));
+    expect(SECTION_5_2.length).toBe(40);
     expect(new Set(SECTION_5_2).size).toBe(SECTION_5_2.length);
     expect([...KERNEL_LADDERS]).toEqual(['F-NUM', 'F-SKELETON']);
   });
@@ -145,6 +177,53 @@ describe('§5.2 in the table (C-0085, C-0109)', () => {
   });
 });
 
+describe('the classes §5.2 gained after M0’s list, deferred by name (Q116, J552; hardening round S3)', () => {
+  it('each is a row of the design’s §5.2 with a milestone, outside M0’s list, and no row of the table names it', () => {
+    expect(Object.keys(DEFERRED_BY_NAME)).toEqual(DESIGN_5_2.filter((c) => !SECTION_5_2.includes(c)));
+    expect(Object.entries(DEFERRED_BY_NAME)).toEqual([
+      ['F-TERRACE', 'M5'],
+      ['F-LAST', 'M1'],
+      ['F-WORLD', 'V13'],
+      ['F-GW', 'V13'],
+      ['F-PLACE', 'V13'],
+      ['F-SITE†V14', 'V14'],
+    ]);
+    for (const [c, milestone] of Object.entries(DEFERRED_BY_NAME)) {
+      expect([c, DESIGN_5_2.includes(c), SECTION_5_2.includes(c), milestone.trim().length > 0]).toEqual([c, true, false, true]);
+      expect([c, STAGE_LADDERS.filter((r) => r.ladder === c).length]).toEqual([c, 0]);
+    }
+    // The design's every class is accounted for: built in part, deferred in the table, the kernel's, or deferred by name.
+    const builtLadders = new Set(STAGE_LADDERS.filter((r) => r.milestone === undefined).map((r) => r.ladder));
+    const tableDeferred = new Set(STAGE_LADDERS.filter((r) => r.milestone !== undefined).map((r) => r.ladder));
+    for (const c of DESIGN_5_2) {
+      const ways = [builtLadders.has(c) || tableDeferred.has(c) || KERNEL_LADDERS.includes(c), c in DEFERRED_BY_NAME];
+      expect([c, ways.filter(Boolean).length]).toEqual([c, 1]);
+    }
+  });
+
+  it('the repeated id: the table’s F-SITE is the main table’s (S3, M1); the V14 F-SITE is `F-SITE†V14`, at none of its places', () => {
+    expect(DESIGN_5_2.filter((c) => c === 'F-SITE' || c.startsWith('F-SITE†'))).toEqual(['F-SITE', 'F-SITE†V14']);
+    const site = STAGE_LADDERS.filter((r) => r.ladder === 'F-SITE' || r.ladder.startsWith('F-SITE†'));
+    expect(site.length).toBeGreaterThan(0);
+    for (const r of site) expect([r.ladder, r.stage, r.milestone]).toEqual(['F-SITE', 'S3', 'M1']);
+    for (const r of STAGE_LADDERS) for (const g of V14_SITE_PLACES) expect([r.ladder, r.stage, new RegExp(`\\b${g}\\b`).test(r.stage)]).toEqual([r.ladder, r.stage, false]);
+    expect(STAGE_LADDERS.some((r) => r.milestone === 'V13' || r.milestone === 'V14')).toBe(false);
+  });
+
+  it('a row naming a class deferred by name is no ladder of M0’s list — built or with its milestone — until the list holds it', () => {
+    const one = STAGE_LADDERS[0];
+    for (const [c, milestone] of Object.entries(DEFERRED_BY_NAME)) {
+      const built = { ...one, ladder: c, rung: `${c}'s first rung`, code: `${c}:planted` };
+      const later = { ...built, fixture: 'its volume', milestone };
+      for (const row of [built, later]) expect([c, checkLadderTable([...STAGE_LADDERS, row], SECTION_5_2, KERNEL_LADDERS, FIXTURE_IDS)]).toEqual([c, [`'${c}' is no §5.2 ladder`]]);
+      // Against the design's whole list, the deferred-by-name class is then a missing class of the table: why it stays
+      // the test's (deferred) and not a source row until its milestone builds it.
+      expect(checkLadderTable(STAGE_LADDERS, DESIGN_5_2, KERNEL_LADDERS, FIXTURE_IDS)).toContain(`§5.2's ${c} is missing from the table`);
+    }
+    expect(checkLadderTable(STAGE_LADDERS, DESIGN_5_2, KERNEL_LADDERS, FIXTURE_IDS)).toEqual(Object.keys(DEFERRED_BY_NAME).map((c) => `§5.2's ${c} is missing from the table`));
+  });
+});
+
 describe('the rungs M0 builds (C-0085’s list)', () => {
   const builtRows = STAGE_LADDERS.filter((r) => r.milestone === undefined);
 
@@ -179,6 +258,8 @@ describe('the deferred rows (§4b; the item’s defers)', () => {
     // Every ladder is either deferred whole, built in part, or the kernel's: the three sets cover §5.2.
     const builtLadders = new Set(STAGE_LADDERS.filter((r) => r.milestone === undefined).map((r) => r.ladder));
     for (const c of SECTION_5_2) expect([c, c in DEFERRED_LADDERS || builtLadders.has(c) || KERNEL_LADDERS.includes(c)]).toEqual([c, true]);
+    // The brief's deferred ladders and the classes deferred by name never overlap (Q116).
+    for (const c of Object.keys(DEFERRED_BY_NAME)) expect(c in DEFERRED_LADDERS, c).toBe(false);
     for (const c of builtLadders) expect(c in DEFERRED_LADDERS, c).toBe(false);
   });
 
