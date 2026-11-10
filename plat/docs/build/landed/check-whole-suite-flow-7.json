@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "check-whole-suite-flow-7",
+  "lane": "check/whole-suite-flow-7",
+  "lanes": ["check/whole-suite-flow-7"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-11-10T00:54:17.822Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/whole-suite-flow-7.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/whole-suite-flow-7.md", "status": "created", "sha256": "eddafe6381f138b979427f2b5155eaab21d9944438df03eb9b3464315522872a", "size": 13661 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0742"],
+      "lines": ["49d02172c107952d"],
+      "removed": []
+    }
+  ]
+}
