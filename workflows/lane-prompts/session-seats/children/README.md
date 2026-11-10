@@ -31,3 +31,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DP.md | DP | MERGED: M0-f-02a S2 → M0-f-02b S1 (the tiers; not required for M0's exit) |
 | launch-DQ.md | DQ | M0-a-11 S6 (the skeleton's contract angle: measure first; a declared shift if adopted) |
 | launch-DR.md | DR | M0-c-01 S4 (the siting: Q99's default view; the plaza-crossing boundary of Q122's S3 share), on M0-c-02 S6's landed head |
+| launch-DS.md | DS | M0-c-05 S3 (S5c / S5d: Q150's frame sweep, Q98, Q149), on M0-c-04 S5's landed head |
