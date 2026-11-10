@@ -19,3 +19,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DE.md | DE | M0-d-05a S2 (the identity mint: Q93), fresh |
 | launch-DF.md | DF | a MERGED ROUND: M0-f-01 S1, M0-d-06 S2, then M0-t-00 S1 (the timing phase times a production bundle), fresh |
 | launch-DG.md | DG | the flow's whole-suite check (one session seat under workflows/35 from workflows/lane-prompts/session-seats/whole-suite-flow-7.md), fresh |
+| launch-DH.md | DH | M0-a-06 S9 (the frames: round 1B of the kernel amendment), fresh on S8's landed head |
