@@ -27,3 +27,6 @@ what each child was told, and re-create a child from the same text.
 | launch-DM.md | DM | MERGED: M0-x-02 S4 → M0-x-04 S3 (Q39's runner door proved in a mirror; two test corrections) |
 | launch-DN.md | DN | M0-a-09 S18, the LIBRARY round (the exact kerb as a pure function) — this account's form; created 03:01Z 2026-11-10 and stopped seconds later (J746); CREATED AGAIN 03:48Z on the owner's word to keep launching (J748): RUNNING as session_01FE9mEt94UEWyTzqdx4af9r |
 | launch-DN-other-account.md | DN | the same round for a session the OWNER starts on ANOTHER ACCOUNT (no parent to message: the hand-back is written to docs/handbacks/DN.md on wip/child-a09s18); the owner pastes PASTE-DN-other-account.txt into that session |
+| launch-DO.md | DO | MERGED: M0-x-06 S2 → M0-x-05 S3 (testkit; not required for M0's exit) |
+| launch-DP.md | DP | MERGED: M0-f-02a S2 → M0-f-02b S1 (the tiers; not required for M0's exit) |
+| launch-DQ.md | DQ | M0-a-11 S6 (the skeleton's contract angle: measure first; a declared shift if adopted) |
