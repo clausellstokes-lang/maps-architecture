@@ -1,0 +1,9 @@
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  |testkit| test/ladders/coverage.test.ts > the combined report (C-0109) > every built stage rung is reached by its fixture (≥ 1) and left nowhere on the controls (0); covered
+ FAIL  |testkit| test/runner/constructive.test.ts > every M0 case of the constructive set runs against the kernel and returns its stated outcome (C-0110) > limit/degen-skeleton-sharp-corner
+ FAIL  |testkit| test/runner/ladders.test.ts > the kernel ladders’ coverage table (§13.1; C-0085, C-0109) > every built row run here reaches its rung on every draw; the table is covered
+ FAIL  |bench| test/fuzz-bar/entry.test.ts > bench -- fuzz-bar > a whole toy run: the counts report, the numbers-only summary (the same bytes twice), the bar decided
+ FAIL  |bench| test/skeleton/runner.test.ts > every outcome is counted in its slot > spine: a face the contract refuses downgrades with the kernel's sampled medial axis, computed and non-empty
+ Test Files  5 failed | 1 passed (6)
+      Tests  5 failed | 522 passed (527)
+   Duration  211.83s (tests 95%, transform 4%, import 1%)
