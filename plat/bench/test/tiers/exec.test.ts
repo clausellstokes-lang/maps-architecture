@@ -142,6 +142,48 @@ describe('the command entry over a FIXTURE manifest (N-1; C-0105: never a real t
     }
   });
 
+  // Q151 (C-0241 (11), §13.8: the pre-decided fallback is the PR tier's, "the nightly tier absorbs the difference"):
+  // --fallback outside tier:pr exits 64 with its message verbatim, before any manifest is read or any job is run, in
+  // every position and beside --list or --mode; tier:pr keeps the switch.
+  const refusal = (tier: string): string =>
+    `tiers: --fallback is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:${tier} runs at its own sizes; run it without --fallback\n`;
+  it.each(['nightly', 'milestone'])('Q151: tier:%s refuses --fallback with exit 64, its message verbatim, nothing read or run; without it the tier runs', async (tier) => {
+    for (const flags of [['--fallback'], ['--mode', 'whole', '--fallback'], ['--fallback', '--mode', 'batched'], ['--list', '--fallback'], ['--fallback', '--list']]) {
+      const reads: string[] = [];
+      const runs: string[] = [];
+      const o = tree({});
+      const r = await entry([tier, ...flags], {
+        out: o,
+        root: tree({ 'scripts/ok.mjs': '' }),
+        manifest: (t) => {
+          reads.push(t);
+          return fixtureManifest([job('fz', { size: { kind: 'fuzz', n: 10_000 } })], { tier: t });
+        },
+        options: { exec: plantedExec() },
+        runTier: (m, opts) => {
+          runs.push(m.tier);
+          return runTier(m, opts);
+        },
+      });
+      expect([r.code, r.said, reads, runs, r.report], flags.join(' ')).toEqual([64, [refusal(tier)], [], [], null]);
+    }
+    const calls: Unit[] = [];
+    const ok = await entry([tier], { out: tree({}), root: tree({ 'scripts/ok.mjs': '' }), manifest: (t) => fixtureManifest([job('fz', { size: { kind: 'fuzz', n: 10_000 } })], { tier: t }), options: { exec: plantedExec({}, calls) } });
+    expect([ok.code, ok.report?.tier, ok.report?.fallback, calls.map((u) => u.argv.at(-1))]).toEqual([0, tier, { applied: false, changed: [] }, ['10000']]);
+  });
+
+  it('Q151: tier:pr keeps --fallback (fuzz 10 000 → 5 000), in every position and beside --mode and --list', async () => {
+    const jobs = [job('fz', { size: { kind: 'fuzz', n: 10_000 } })];
+    for (const flags of [['--fallback'], ['--mode', 'whole', '--fallback'], ['--fallback', '--mode', 'batched']]) {
+      const calls: Unit[] = [];
+      const r = await entry(['pr', ...flags], { out: tree({}), ...fixture(jobs), options: { exec: plantedExec({}, calls), ...readings([100, 100]) } });
+      expect([r.code, r.report?.fallback, calls.map((u) => u.argv.at(-1))], flags.join(' ')).toEqual([0, { applied: true, changed: [{ job: 'fz', kind: 'fuzz', from: 10_000, to: 5_000 }] }, ['5000']]);
+      expect(r.said.some((l) => l.startsWith('tiers: --fallback'))).toBe(false);
+    }
+    const list = await entry(['pr', '--list', '--fallback'], { out: tree({}), ...fixture(jobs) });
+    expect([list.code, list.said, list.report]).toEqual([0, ['tier pr: fz — built (M0-zz-09; command scripts/ok.mjs)\n'], null]);
+  });
+
   it('--mode reaches the runner: plain by default (no calibrate), whole (one run, two scores), batched (one batch per unit, two scores each)', async () => {
     const jobs = [job('a', { unitNames: ['a1', 'a2'] })];
     const scored = async (args: string[]) => {

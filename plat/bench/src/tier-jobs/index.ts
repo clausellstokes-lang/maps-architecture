@@ -63,13 +63,17 @@ export async function nightlyConstructiveDraws(): Promise<number> {
 
 /**
  * B-FUZZ's units (C-0097): one per kernel primitive at the tier's size, then the whole constructive set at the tier's
- * draws per M0 case (C-0227 (13): 10 in the PR tier, 100 at the nightly size; the fix round's C-0461 (1)).
+ * draws per M0 case (C-0227 (13): 10 in the PR tier, 100 at the nightly size; the fix round's C-0461 (1)). Each
+ * `--primitive` unit is a partition unit and passes `--no-ladders --no-s11` (M0-k-04's flags, C-0387; queue row Q94,
+ * M0-f-02a's N-5): the kernel ladders' coverage and the S11 workload are per-process work the whole-set unit runs once,
+ * so the batched sum no longer counts them once per primitive. The whole-set unit carries neither (fuzz-bar refuses
+ * them on a whole run, exit 64, since its bar reads both).
  */
 export async function fuzzUnits(runs: number, draws: number): Promise<Unit[]> {
   const { FUZZ_PRIMITIVES } = await import('@plat/testkit');
   const units: Unit[] = FUZZ_PRIMITIVES.map((p) => ({
     name: p.name,
-    argv: harness('fuzz-bar', '--primitive', p.name, '--runs', String(runs), '--constructive-seeds', String(draws), '--no-summary'),
+    argv: harness('fuzz-bar', '--primitive', p.name, '--runs', String(runs), '--constructive-seeds', String(draws), '--no-summary', '--no-ladders', '--no-s11'),
   }));
   // The constructive set is never cut (§13.8): its draws are the tier's (the fallback never touches them) and the
   // random fuzz is one input per primitive here.
