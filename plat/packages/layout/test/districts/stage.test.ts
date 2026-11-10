@@ -621,3 +621,44 @@ describe('the test helper’s view registers S6’s own table (Q99, RL8; M0-e-04
     expect(() => withS6().table('s6')).toThrow();
   });
 });
+
+describe('a bare runS6 signs the perimeter’s buffer rung on its result (Q143 / N-s4c-3; the session’s ruling R11; C-0471)', () => {
+  // the C (whose fast rings fail, so the overlay is asked) inside a 1 km frame of one coarse face, on a kernel whose
+  // overlay union is refused as the router refuses Q133's interior fold: the perimeter stands on the buffer rung
+  const C = [P(20_000, 20_000), P(80_000, 20_000), P(80_000, 45_500), P(70_000, 45_500), P(70_000, 30_000), P(30_000, 30_000), P(30_000, 70_000), P(70_000, 70_000), P(70_000, 54_500), P(80_000, 54_500), P(80_000, 80_000), P(20_000, 80_000)];
+  const FRAME = [P(0, 0), P(100_000, 0), P(100_000, 100_000), P(0, 100_000)];
+  const inputOn = (refuse: boolean): S6Input => {
+    const a = gridArena(1, 1, 1000, () => 'secondary');
+    let unions = 0;
+    const geom = {
+      ...a.k.geom,
+      booleans: (...args: Parameters<typeof a.k.geom.booleans>) => {
+        if (refuse && args[0] === 'union') {
+          unions += 1;
+          if (unions === 1) return { ok: false as const, code: 'E_INVARIANT' as const, detail: 'insert: no route from (1, 2) to (3, 4) keeps clearance (§3.10) within the fidelity bound (N-43)' };
+        }
+        return a.k.geom.booleans(...args);
+      },
+    };
+    return { kernel: { ...a.k, geom } as typeof a.k, key: GROUND, seedKey: [1, 2, 3, 4], rung: 'CITY', boundary: C, frame: FRAME, ways: a.ways, features: [] };
+  };
+  const codes = (r: ReturnType<typeof runS6>): string[] => (r.ok ? r.warnings.map((w) => `${w.code} ${String(w.count)}`) : []);
+
+  it('on the buffer rung the bare result carries W_PERIMETER_BUFFER once; on the overlay it carries none', { timeout: 120_000 }, () => {
+    const rung = runS6(inputOn(true));
+    expect(rung.ok).toBe(true);
+    expect(codes(rung).filter((c) => c.startsWith('W_PERIMETER_BUFFER'))).toEqual(['W_PERIMETER_BUFFER 1']);
+    if (rung.ok) expect(rung.value.report.unowned).toBe(0);
+    const plain = runS6(inputOn(false));
+    expect(plain.ok).toBe(true);
+    expect(codes(plain).filter((c) => c.startsWith('W_PERIMETER_BUFFER'))).toEqual([]);
+  });
+
+  it('the Stage writes it to the stage’s report, once, and leaves its result’s warnings the batch’s (the runner counts those as §3.1’s kernel warnings)', { timeout: 120_000 }, () => {
+    const sunk: string[] = [];
+    const r = s6Stage().run(inputOn(true), { report: { warning: (code: string) => sunk.push(code) } } as never);
+    expect(r.ok).toBe(true);
+    expect(sunk).toEqual(['W_PERIMETER_BUFFER']);
+    expect(codes(r).filter((c) => c.startsWith('W_PERIMETER_BUFFER'))).toEqual([]);
+  });
+});

@@ -5,7 +5,7 @@
 // beyond its offset edges (C-0245 (1), C-0252).
 import type { Kernel, LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { convolution, isSumRing, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop } from '../../src/index.js';
+import { convolution, isSumRing, mergeCollinear, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop } from '../../src/index.js';
 import { settlementPerimeterRung } from '../../src/districts/perimeter.js';
 import { area2Of, fixtureRandom, insidePoly, kernel, P, ringDist, tableWith, town } from './support.js';
 
@@ -649,5 +649,109 @@ describe('the sum check’s upper bound reads the boundary as a whole (Q133 B1; 
     expect(simpleCcw(bowed)).toBe(true);
     expect(isSumRing(BLOCK, bowed, 5000, SUM_TOLERANCE_CM)).toBe(false);
     expect(isSumRing(BLOCK, bowed, 5000, OVERLAY_TOLERANCE_CM)).toBe(false);
+  });
+
+  // Q143 / N-s4c-1: the closing check's probe of round S4 — the notches moved along the bottom side, found only past the
+  // halving's second level (the sixteenth points at its fourth, x = 350 m at its fourth): every one refused
+  it('the halving reads past its first levels: two 3 m notches at the sixteenth points (50 m, 750 m), or one at 350 m, are refused at both tolerances (Q143 / N-s4c-1)', () => {
+    const notched = (xs: readonly number[]): LatticePoint[] => [P(0, 0), ...xs.flatMap((x) => [P(x - 2000, 0), P(x, 300), P(x + 2000, 0)]), P(80_000, 0), P(80_000, 40_000), P(0, 40_000)];
+    const ring = ringBelow(-5000);
+    expect(simpleCcw(ring)).toBe(true);
+    for (const xs of [[5000, 75_000], [35_000]]) {
+      const b = notched(xs);
+      expect(mergeCollinear(b).length, xs.join(' ')).toBe(b.length);
+      // the edge's middle, and its first halving's points, lie on the bound; each notch's apex lies 3 m past it
+      for (const x of [20_000, 40_000, 60_000]) expect(ringDist(b, { x, y: -5000 }), `${xs.join(' ')} at ${String(x)}`).toBe(5000);
+      for (const x of xs) expect(ringDist(b, { x, y: -5000 })).toBeGreaterThan(5000 + OVERLAY_TOLERANCE_CM);
+      expect(isSumRing(b, ring, 5000, SUM_TOLERANCE_CM), xs.join(' ')).toBe(false);
+      expect(isSumRing(b, ring, 5000, OVERLAY_TOLERANCE_CM), xs.join(' ')).toBe(false);
+    }
+  });
+
+  // Q143 / N-s4c-2: the closing check's probe — the bottom side N near-collinear edges (a wobble of 2 – 4 cm, never
+  // exactly collinear) under one straight ring edge 50 m below: the halving's depth grows as log₂ N
+  it('a ring edge beside 16 or 64 near-collinear boundary edges passes at both tolerances: the halving goes as deep as the run needs (Q143 / N-s4c-2)', () => {
+    const ring = ringBelow(-5000);
+    for (const N of [16, 64]) {
+      const bottom = Array.from({ length: N + 1 }, (_, i) => P((i * 80_000) / N, i === 0 || i === N ? 0 : i % 2 === 0 ? -2 : i % 4 === 1 ? -3 : -4));
+      const b = [...bottom, P(80_000, 40_000), P(0, 40_000)];
+      expect(mergeCollinear(b).length, `N = ${String(N)}`).toBe(b.length);
+      const near = (q: LatticePoint, i: number) => ringDist([b[i], b[(i + 1) % b.length]], q) <= 5000 + SUM_TOLERANCE_CM;
+      expect(b.map((_, i) => i).filter((i) => near(P(0, -5000), i) && near(P(80_000, -5000), i)), `N = ${String(N)}`).toEqual([]);
+      expect(isSumRing(b, ring, 5000, SUM_TOLERANCE_CM), `N = ${String(N)}`).toBe(true);
+      expect(isSumRing(b, ring, 5000, OVERLAY_TOLERANCE_CM), `N = ${String(N)}`).toBe(true);
+    }
+  });
+});
+
+describe('the sum check’s halving is bounded: a piece budget per ring edge, a typed refusal when it is spent (Q141 / N-s4-2; C-0471)', () => {
+  // a 7.2 km block whose bottom side is a chain of 3 m edges, its vertices alternately on y = 0 (the ridge, farthest
+  // from the ring) and 1 cm out toward it (never collinear); at its right end the C (a 400 m bay behind a 90 m slot, the
+  // C's fast rings fail, so the overlay is asked). The ring drawn by hand as the sum's outer ring: quarter arcs of 50 m
+  // about the convex corners, the two arcs about the slot's mouth corners meeting over it, and the bottom ONE edge
+  // 51.03 m below the ridge — 1 cm inside the overlay's bound at every ridge vertex, so its halving settles each of them
+  // only on pieces of about a metre: more pieces than the budget
+  const L = 720_000;
+  const chain = Array.from({ length: L / 300 + 1 }, (_, i) => P(i * 300, i % 2 === 1 ? -1 : 0));
+  const RIDGE = [...chain, P(L, 25_500), P(L - 10_000, 25_500), P(L - 10_000, 10_000), P(L - 50_000, 10_000), P(L - 50_000, 50_000), P(L - 10_000, 50_000), P(L - 10_000, 34_500), P(L, 34_500), P(L, 60_000), P(0, 60_000)];
+  // the arc of 50 m about (cx, cy) from `from` to `to` degrees (counter-clockwise), in chords of under 0.4 cm sagitta
+  const arc = (cx: number, cy: number, from: number, to: number): LatticePoint[] =>
+    Array.from({ length: 65 }, (_, s) => {
+      const t = ((from + (s * (to - from)) / 64) * Math.PI) / 180;
+      return P(Math.round(cx + 5000 * Math.cos(t)), Math.round(cy + 5000 * Math.sin(t)));
+    });
+  const MOUTH = (Math.asin(0.9) * 180) / Math.PI;
+  const ringWith = (bottom: readonly LatticePoint[]): LatticePoint[] => {
+    const r = [...bottom, P(L, -5000), ...arc(L, 0, 270, 360), ...arc(L, 25_500, 0, MOUTH), ...arc(L, 34_500, -MOUTH, 0), ...arc(L, 60_000, 0, 90), ...arc(0, 60_000, 90, 180), ...arc(0, 0, 180, 270)];
+    return r.filter((q, i) => i === 0 || q.x !== r[i - 1].x || q.y !== r[i - 1].y).filter((q, i, a) => i < a.length - 1 || q.x !== a[0].x || q.y !== a[0].y);
+  };
+  const LONG = ringWith([P(0, -5103), P(L, -5103)]);
+  // the same ring, its bottom split every 50 m: the same points, each piece settled in a few dozen halvings
+  const SPLIT = ringWith(Array.from({ length: L / 5000 + 1 }, (_, i) => P(i * 5000, -5103)));
+  const TEXT = "the sum check's halving of one ring edge spent its budget of 4096 pieces";
+
+  it('the ridge ring lies in the overlay’s shell (its bottom sampled each metre); split every 50 m it passes; as one edge its halving spends the budget and the check does not pass it', () => {
+    expect(mergeCollinear(RIDGE).length).toBe(RIDGE.length);
+    expect(simpleCcw(LONG)).toBe(true);
+    expect(simpleCcw(SPLIT)).toBe(true);
+    for (let x = 0; x <= L; x += 100) {
+      const dd = ringDist(RIDGE, { x, y: -5103 });
+      expect(dd).toBeGreaterThanOrEqual(5000 - OVERLAY_TOLERANCE_CM);
+      expect(dd).toBeLessThanOrEqual(5000 + OVERLAY_TOLERANCE_CM);
+    }
+    expect(isSumRing(RIDGE, SPLIT, 5000, OVERLAY_TOLERANCE_CM)).toBe(true);
+    expect(isSumRing(RIDGE, LONG, 5000, OVERLAY_TOLERANCE_CM)).toBe(false);
+  });
+
+  it('settlementPerimeter refuses the ridge ring E_WORK_LIMIT on the overlay and on the buffer rung, the texts pinned verbatim; the split ring stands on the overlay', { timeout: 120_000 }, () => {
+    const k = kernel();
+    const handing = (ring: LatticePoint[]): { kernel: Kernel; calls: string[] } => {
+      const calls: string[] = [];
+      const wrapped = {
+        geom: {
+          buffer: () => {
+            calls.push('buffer');
+            return { ok: true as const, value: [ring], warnings: [] };
+          },
+          booleans: (...args: Parameters<Kernel['geom']['booleans']>) => {
+            calls.push(args[0]);
+            return args[0] === 'union' ? { ok: true as const, value: [ring], warnings: [] } : k.geom.booleans(...args);
+          },
+        },
+      } as unknown as Kernel;
+      return { kernel: wrapped, calls };
+    };
+    const long = handing(LONG);
+    const r = settlementPerimeterRung(RIDGE, long.kernel);
+    expect(long.calls).toEqual(['union', 'buffer', 'union']);
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.code).toBe('E_WORK_LIMIT');
+      expect(r.detail).toBe(`settlementPerimeter: the overlay's outer ring is unproven: ${TEXT}; the buffer rung: the buffer's outer ring is unproven: ${TEXT}`);
+    }
+    const split = handing(SPLIT);
+    const s = settlementPerimeterRung(RIDGE, split.kernel);
+    expect(split.calls).toEqual(['union']);
+    expect(s.ok && s.value.rung).toBe('overlay');
   });
 });

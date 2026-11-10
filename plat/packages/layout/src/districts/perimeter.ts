@@ -203,7 +203,10 @@ function checkedOuter(b: readonly LatticePoint[], rings: readonly (readonly Latt
   // the sum check reads a simple ring (a simple ring in the shell enclosing the boundary is the sum's outer one), so
   // the ring is held to `simpleCcw` like the fast rings, not trusted to the overlay's contract
   if (!simpleCcw(outer)) return err('E_INVARIANT', `${whose} outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)`);
-  if (!isSumRing(b, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', `${whose} outer ring is not the boundary's offset (the sum check failed)`);
+  const v = sumVerdict(b, outer, offsetCm, OVERLAY_TOLERANCE_CM);
+  // a ring edge the halving could not settle within its budget (Q141 / N-s4-2): unproven, refused as a work bound reached
+  if (v === 'budget') return err('E_WORK_LIMIT', `${whose} outer ring is unproven: the sum check's halving of one ring edge spent its budget of ${String(NEAR_PIECES)} pieces`);
+  if (v === 'not') return err('E_INVARIANT', `${whose} outer ring is not the boundary's offset (the sum check failed)`);
   return ok(outer);
 }
 
@@ -341,6 +344,19 @@ export const OVERLAY_TOLERANCE_CM = 4 * LATTICE.attractCm;
 const NEAR_HALVINGS = 32;
 
 /**
+ * How many pieces the sum check's halving of ONE ring edge may test before it stops (Q141 / N-s4-2; C-0471): the
+ * halving runs iteratively over a stack of pieces, and a ring edge whose pieces outnumber this is refused as unproven —
+ * `settlementPerimeterRung` refuses its ring E_WORK_LIMIT, the text pinned verbatim — never trusted and never halved
+ * without bound. Set far above every input of the item's families, so none reaches it (round S5's census: at most 3
+ * pieces on one ring edge of them; the folder's pins at most 127, a ring edge over 64 near-collinear boundary edges);
+ * a ring edge needing more is a constructed pathological one (the pin's 7.2 km ridge needs 5 567).
+ */
+const NEAR_PIECES = 4096;
+
+/** The sum check's verdict: the sum's outer ring, not it, or unproven (one ring edge's halving spent `NEAR_PIECES`). */
+type SumVerdict = 'sum' | 'not' | 'budget';
+
+/**
  * Is `ring` the outer ring of the boundary's Minkowski sum with a disc of radius d (within `tolCm`)? The
  * check (C-0245 (1)): no ring edge comes nearer the boundary than d less the tolerance (so it crosses no boundary edge
  * and runs through no land of the sum's interior), every point of each ring edge lies within d plus the tolerance of the
@@ -350,17 +366,24 @@ const NEAR_HALVINGS = 32;
  * holds it whole (the distance to a segment is convex); else the edge is halved (C-0458; Q133's B1 — a ring edge beside
  * a near-collinear run of boundary edges, each end near a different one), a piece passing when one boundary edge is near
  * both its ends or its midpoint's distance to the boundary plus its half-length is within the bound, and failing when
- * its midpoint lies beyond the bound (a ring point outside the shell) or after `NEAR_HALVINGS` halvings. The boundary
+ * its midpoint lies beyond the bound (a ring point outside the shell) or after `NEAR_HALVINGS` halvings. The halving
+ * runs over a stack of pieces (the left half first, the order of a recursion) and tests at most `NEAR_PIECES` pieces of
+ * one ring edge: a ring edge that needs more is unproven, and the ring is not passed (Q141 / N-s4-2). The boundary
  * is read as a region: its exactly collinear vertices are merged first (`mergeCollinear`; N-56 (2)). Edges are bucketed
  * on a grid of cells of d; the distances are siting's `distToSegment2` (the foot clamped to the segment), the crossing
  * test its `segmentsMeet`.
  */
 export function isSumRing(given: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
+  return sumVerdict(given, ring, d, tolCm) === 'sum';
+}
+
+/** `isSumRing`'s check with its verdict (`SumVerdict`): 'budget' where one ring edge's halving spent `NEAR_PIECES`. */
+function sumVerdict(given: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number): SumVerdict {
   const boundary = mergeCollinear(given);
   const n = boundary.length;
   const m = ring.length;
-  if (n < 2 || m < 3 || !(d > 0)) return false;
-  if (!insideRing(ring, boundary[0])) return false;
+  if (n < 2 || m < 3 || !(d > 0)) return 'not';
+  if (!insideRing(ring, boundary[0])) return 'not';
   const lo = d - tolCm;
   const hi = d + tolCm;
   const lo2 = lo * lo;
@@ -397,18 +420,34 @@ export function isSumRing(given: readonly LatticePoint[], ring: readonly Lattice
     }
     return out;
   };
-  // The upper bound on the piece pq of a ring edge against the boundary as a whole (see the header).
-  const nearAlong = (p: Pt, q: Pt, halvings: number): boolean => {
-    const ids = around(p, q);
-    for (const i of ids) if (distToSegment2(p, boundary[i], boundary[(i + 1) % n]) <= hi2 && distToSegment2(q, boundary[i], boundary[(i + 1) % n]) <= hi2) return true;
-    const mid = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
-    let dm2 = Infinity;
-    for (const i of ids) dm2 = Math.min(dm2, distToSegment2(mid, boundary[i], boundary[(i + 1) % n]));
-    if (!(dm2 <= hi2)) return false;
-    const half = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y)) / 2;
-    if (Math.sqrt(dm2) + half <= hi) return true;
-    if (halvings >= NEAR_HALVINGS) return false;
-    return nearAlong(p, mid, halvings + 1) && nearAlong(mid, q, halvings + 1);
+  // The upper bound on the ring edge pq against the boundary as a whole (see the header): its pieces on a stack, the
+  // left half popped first (a recursion's order), at most NEAR_PIECES of them tested.
+  const nearAlong = (p0: Pt, q0: Pt): 'near' | 'far' | 'budget' => {
+    const stack: { p: Pt; q: Pt; halvings: number }[] = [{ p: p0, q: q0, halvings: 0 }];
+    let pieces = 0;
+    for (let top = stack.pop(); top !== undefined; top = stack.pop()) {
+      if (pieces === NEAR_PIECES) return 'budget';
+      pieces += 1;
+      const { p, q, halvings } = top;
+      const ids = around(p, q);
+      let held = false;
+      for (const i of ids) {
+        if (distToSegment2(p, boundary[i], boundary[(i + 1) % n]) <= hi2 && distToSegment2(q, boundary[i], boundary[(i + 1) % n]) <= hi2) {
+          held = true;
+          break;
+        }
+      }
+      if (held) continue;
+      const mid = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
+      let dm2 = Infinity;
+      for (const i of ids) dm2 = Math.min(dm2, distToSegment2(mid, boundary[i], boundary[(i + 1) % n]));
+      if (!(dm2 <= hi2)) return 'far';
+      const half = Math.sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y)) / 2;
+      if (Math.sqrt(dm2) + half <= hi) continue;
+      if (halvings >= NEAR_HALVINGS) return 'far';
+      stack.push({ p: mid, q, halvings: halvings + 1 }, { p, q: mid, halvings: halvings + 1 });
+    }
+    return 'near';
   };
   const seen = new Int32Array(n).fill(-1);
   for (let r = 0; r < m; r += 1) {
@@ -425,17 +464,19 @@ export function isSumRing(given: readonly LatticePoint[], ring: readonly Lattice
           const a = boundary[i];
           const b = boundary[(i + 1) % n];
           // The segments' distance: 0 when they meet, else the least of the four end-to-segment distances.
-          if (segmentsMeet(p, q, a, b)) return false;
+          if (segmentsMeet(p, q, a, b)) return 'not';
           const dp = distToSegment2(p, a, b);
           const dq = distToSegment2(q, a, b);
-          if (dp < lo2 || dq < lo2 || distToSegment2(a, p, q) < lo2 || distToSegment2(b, p, q) < lo2) return false;
+          if (dp < lo2 || dq < lo2 || distToSegment2(a, p, q) < lo2 || distToSegment2(b, p, q) < lo2) return 'not';
           if (dp <= hi2 && dq <= hi2) near = true;
         }
       }
     }
-    if (!near && !nearAlong(p, q, 0)) return false;
+    if (near) continue;
+    const v = nearAlong(p, q);
+    if (v !== 'near') return v === 'budget' ? 'budget' : 'not';
   }
-  return true;
+  return 'sum';
 }
 
 /**
