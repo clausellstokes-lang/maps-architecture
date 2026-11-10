@@ -20,3 +20,7 @@ what each child was told, and re-create a child from the same text.
 | launch-DF.md | DF | a MERGED ROUND: M0-f-01 S1, M0-d-06 S2, then M0-t-00 S1 (the timing phase times a production bundle), fresh |
 | launch-DG.md | DG | the flow's whole-suite check (one session seat under workflows/35 from workflows/lane-prompts/session-seats/whole-suite-flow-7.md), fresh |
 | launch-DH.md | DH | M0-a-06 S9 (the frames: round 1B of the kernel amendment), fresh on S8's landed head |
+| launch-DI.md | DI | MERGED: M0-a-15 S2 → M0-a-16 S4 → M0-m-01 S2 (Q75's two halves, a type test, the narration guard's pin) |
+| launch-DJ.md | DJ | MERGED: M0-e-01 S2 → M0-e-02 S2 → M0-e-03 S4 (the site stages: Q87's copy; Q123's river judgement; Q114, Q115, Q122's S1 share) |
+| launch-DK.md | DK | MERGED: M0-a-04 S6 → M0-a-13 S2 (kernel pins) |
+| launch-DL.md | DL | MERGED: M0-c-07 S1 → M0-b-05 S2 (bench: the gate's tables record, pins, a restatement) |
