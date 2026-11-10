@@ -155,3 +155,56 @@ the tree (10 files 79 / 79). Gates install 0, lint 0 (eslint 1186, probe-red ok)
 re-measured: 34 runs (28 fixtures, 6 controls) 0 throws, 0 bugs, 9 S8 reads with 0 districts refused and 0 faces
 unresolved — not risen. No new row: no search beyond the two lines and the gates (the owner's CONFIRM-ONLY rule); rows
 S1c-1 – S1c-4 above stand as written.
+
+## Hardening round S3 — the builder's notes (lane `build/M0-x-05-fix-s3`, 2026-11-10)
+
+The session's hardening round S3 of the item (J237 (2), J238, J749; leg 2 of the merged round M0-x-06 S2 → M0-x-05 S3,
+J443), on the two rows the second re-triage found still open: Q116 (this file's row S1c-2, ruled at J552) and Q87's copy
+in this item (`ladders/support.ts`, m-01's L30). Inside the owns: `packages/testkit/src/ladders/support.ts` (one import,
+the private copy removed, two call sites), `packages/testkit/test/ladders/table.test.ts` (the Q116 data and three tests,
+one test renamed and widened), `packages/testkit/test/ladders/lifecycle.test.ts` (new, the Q87 pin). No other source file,
+no export, no message text changed. Choices row C-0475.
+
+| row | outcome | evidence | mutants (killed by) |
+|---|---|---|---|
+| **Q116** (S1c-2; J552: "M0's table follows the list M0 builds against … DESIGN_5_2 updated to the amended text with those rows marked deferred; tests only") | **FIXED + PINNED (tests only)** | `table.test.ts`: `DESIGN_5_2` is §5.2 as the design reads on 2026-11-10 — 46 classes in the design's order (a probe extracting the first-cell class ids of `docs/ARCHITECTURE.md` §5.2's two tables, the repeated F-SITE named by J552's rule, gives exactly the new list; the old 40-list lacks six); `DEFERRED_BY_NAME` holds the six classes the design gained after M0's list, each with its milestone or volume: F-WORLD, F-GW, F-PLACE → V13 (§5.2's staged row [V13 §3.16]), `F-SITE†V14` → V14 (the staged row [V14 §3.14], J552's name rule for the repeated class id) — J552's four — and **two more the design gained after the ruling's reading** (the source shows the re-triage's four short of "the amended text"): F-TERRACE → M5 (§4.14 (6) (b), the `field` grammar's terrace operator, §16's M5 row: "the three `field` pieces (§4.14 (3)–(7), (13))") and F-LAST → M1 (§5.5, §16's M1 row: "§5.5's accounted last resort (F-LAST) built on `@plat/api`'s worker host before M1's first public preview"); the same treatment, stated here for the session's veto. Tests: 'SECTION_5_2 is §5.2's two tables in the design's order, each class once, less the classes deferred by name' (46 → 40 by the filter, in order); 'each is a row of the design's §5.2 with a milestone, outside M0's list, and no row of the table names it' (the six are exactly DESIGN_5_2 − SECTION_5_2; every design class accounted for exactly once — built, deferred in the table, the kernel's, or deferred by name); 'the repeated id …' (every `F-SITE` row is the main table's, S3 / M1; no row at the V14 row's places G1–G8, E1–E4, R2, R4; no row deferred to V13 or V14); 'a row naming a class deferred by name is no ladder of M0's list …' (each of the six, as a built row and as a row with its milestone, refused `'<class>' is no §5.2 ladder`; against the design's whole list the table misses exactly the six, in the design's order); the brief's `DEFERRED_LADDERS` and the six never overlap. `SECTION_5_2` and `STAGE_LADDERS` unchanged (no source row added, J749), so `ladders 40`, the summary and the report do not move | Q1 (`SECTION_5_2` + `F-WORLD` with a V13 row), Q2 (a V14 `F-SITE` row folded under the main id), Q3 (`F-TERRACE` listed and given an M5 row in the source), Q4 (`DESIGN_5_2` losing `F-TERRACE`): each red on `table.test.ts` (Q1 4 tests + the brief's deferred test; Q2 the repeated-id test + the deferred test; Q3 3 + 1; Q4 3) and on the whole folder `--bail=1` |
+| **Q87-x05** (`ladders/support.ts:140`, the hand-written lifecycle) | **FIXED + PINNED** | `support.ts`'s private `generated()` removed; `districtRecord`'s district and `waysCase`'s ways now carry `@plat/model`'s `generatedLifecycle(0)` — M0-b-03 S7's and M0-x-06 S1's precedent. **NO SHIFT** (the brief's STOP condition not met): the builder's value is the copy's value field for field and key for key (`{ existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } }`; under R1 — the copy restored — the new value test stays green, only the source scan fails); `corepack pnpm bench -- ladder-coverage` on the changed code (lane mirror) exit 0, covered true, writes the summary **a5ddf0e1** (cmp-identical to the committed summary) and `report.json` **b5cb99d6** (the same digest round S1 recorded for the whole report); NEAR before (the mirror at the pre-round tree) 10 files 79 / 79, after (the tree) 11 files 84 / 84 = the same 79 plus the round's 5 new tests. New `lifecycle.test.ts`: the records of three `districtOf` cases and `twoDistricts(1)` (7 lifecycles) equal `generatedLifecycle(0)` and its JSON bytes, each its own object; no source file of `src/ladders/` spells `existence: 'generated'`; `support.ts` imports the builder from `@plat/model` and calls `generatedLifecycle(0)` at both sites | R1 (the before-image `support.ts`, the copy back): the scan red; R2 (one shared `generatedLifecycle(0)` for every record): the fresh-object check red (`expected 1 to be 7`) and the scan; R3 (the ways at epoch 1): the value check red (`way:ring`) and the scan |
+
+**The self-check (J183).** One mirror, `/home/user/maps-scratch/waves/selfcheck-build-M0-x-05-fix-s3` (a real `cp -a` of
+`plat/` taken before the edits; isolation proven: no link into the tree, `@plat/model` and `@plat/layout` under
+`packages/testkit/node_modules/@plat/` resolving inside the mirror). The before-image NEAR ran there first; the round's
+three files were then copied in (cmp-equal), and each mutant applied alone, run on the two pin files and then on the
+item's whole folder (`vitest run --maxWorkers=1 --bail=1 packages/testkit/test/ladders bench/test/ladder-coverage`),
+restored from `plat/` and `cmp`-checked. **7 mutants, 7 killed** (pins exit 1, folder exit 1 each); the bench ran there
+on the restored mirror; the mirror deleted at the end.
+
+**The refusal census (J264 (4), N-58), before → after.** No stage or stage input moved (the lifecycle object is the same
+value; the S8 inputs' other fields untouched), and the whole bench report is byte-identical to round S1's
+(`report.json` b5cb99d6): every fixture's and control's run is the run the closing checks of S1 / S2 counted — 0 throws,
+0 bugs, 0 S8 districts refused, 0 faces unresolved — **0 → 0**, never rising; the bench's own lines on the changed code:
+every built rung `bugs 0`, `control bugs 0`, `table problems 0`, `covered true`. No refusal to class.
+
+**API and texts (J263 Q1, Q6).** No export of the folder index or the barrel added, removed or renamed (`generated()` was
+module-private); no message text changed (`checkLadderTable`'s messages pinned verbatim as they stand).
+
+**KI for the hardening pass (comment-only, not this round's: J749 rules the round tests only).** `table.ts`'s header
+still says `SECTION_5_2` "names every failure class of §5.2"; since Q116 it names M0's list of 40, the six later classes
+held as deferred-by-name in `table.test.ts`. A source round that touches `table.ts` again should say so in the comment.
+
+**The gates (2026-11-10, Intel Xeon @ 2.10GHz 4 cpu 16 GiB, Node 24.12.0; `test_budget.py` gave W = 1 throughout).**
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1292 files, 0 errors, 0 warnings; `probe-red ok`, every planted probe line
+reported); `build` 0; NEAR (`vitest run --maxWorkers=1 packages/testkit/test/ladders bench/test/ladder-coverage`, fuzz
+size unset) 11 files 84 / 84 exit 0 (785 s; before the round, on the mirror of the pre-round tree, 10 files 79 / 79 exit
+0, 674 s); RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1 packages/testkit/src/ladders/support.ts`,
+the round's one changed source; seed −1449637985) 126 files 2 037 / 2 037 exit 0 (3 606 s) — no red, foreign or own;
+`bench -- ladder-coverage` (the here-bar, run on the changed code in the lane mirror) exit 0, covered true, summary
+a5ddf0e1 and report b5cb99d6 unchanged.
+
+## Closing check of hardening round S3 — this checker's notes (lane `check/M0-x-05-close-s3`, 2026-11-10)
+
+The verdict is `checks/M0-x-05-s3.md`. The row below is this check's one new finding; it is not a blocker (FAIL SAFE NOW,
+N-45): the round is tests only by J552 / J749, and nothing it touched computes a wrong result.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| S3c-1 | **The deferred-by-name classes live only in the test, so the coverage report cannot name them.** Since Q116 the six classes §5.2 gained after M0's list (F-TERRACE → M5, F-LAST → M1, F-WORLD / F-GW / F-PLACE → V13, `F-SITE†V14` → V14) are held as `DEFERRED_BY_NAME` in `test/ladders/table.test.ts`; `SECTION_5_2` / `STAGE_LADDERS` (40 classes) are unchanged, so `stageLadderCoverage()`'s report and the `bench -- ladder-coverage` summary (§13.1's evidence) say "every §5.2 ladder named" against the 40-list and are silent on the six. Checked: the design's §5.2 (ARCHITECTURE.md l. 10162 – 10206) yields 46 first-cell class ids, equal to the test's `DESIGN_5_2` with the repeated F-SITE renamed; §16 places §5.5 (F-LAST) in M1 and §4.14 (3) – (7) (F-TERRACE) in M5, as the test says. The builder's KI on `table.ts`'s header comment is the comment side of the same gap. | When a source round next touches `table.ts` (or M1 rebases M0's list on the amended §5.2), carry the six as `later(...)` rows of `STAGE_LADDERS` with these milestones (so the report and the summary name them), move `DEFERRED_BY_NAME`'s assertions onto those rows, and correct the header comment. Not M0's: J552 rules this round tests only. | M1 |

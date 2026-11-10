@@ -1,16 +1,16 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-x-06",
-  "lane": "session/x06-seam-2",
-  "lanes": ["build/M0-x-06", "build/M0-x-06-fix1", "build/M0-x-06-fix2", "session/x06-seam-1", "build/M0-x-06-fix-s1", "session/x06-seam-2"],
+  "lane": "build/M0-x-06-fix-s2",
+  "lanes": ["build/M0-x-06", "build/M0-x-06-fix1", "build/M0-x-06-fix2", "session/x06-seam-1", "build/M0-x-06-fix-s1", "session/x06-seam-2", "build/M0-x-06-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-02T03:34:39.714Z",
+  "date": "2026-11-10T05:01:04.615Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/edge/", "plat/packages/testkit/test/edge/", "plat/docs/build/summaries/M0-x-06.json"],
   "counts": { "created": 35, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/summaries/M0-x-06.json", "status": "created", "sha256": "4d9630292d6250dcbd3708c7eb630f24c9d8fbe27e2d9c8bb97ffd5427b27339", "size": 21776 },
+    { "path": "plat/docs/build/summaries/M0-x-06.json", "status": "created", "sha256": "15d735c94baa4b3a0d9b62e5f5066d4bb813fbc8d06374a3712d56d7988622e3", "size": 21468 },
     { "path": "plat/packages/testkit/src/edge/arena.ts", "status": "created", "sha256": "76311eafcf38972b0ff08f4addb6648e2448c89dca3f11ffcb6a5c67d29f156d", "size": 4293 },
     { "path": "plat/packages/testkit/src/edge/cells.ts", "status": "created", "sha256": "ed1a8480b5463f917c85b288f516451ebdbe5cf996c1c67179e0d00657e6650f", "size": 19045 },
     { "path": "plat/packages/testkit/src/edge/chain.ts", "status": "created", "sha256": "06b58cae4987c6d87b94887a233486f06f5c60e1695fda68943ca3fd19aa1578", "size": 17981 },
@@ -28,7 +28,7 @@
     { "path": "plat/packages/testkit/src/edge/types.ts", "status": "created", "sha256": "845115cb23f6f97a5244df14bfa4c3976a482316ccd9e2eb0470998506a323c5", "size": 9022 },
     { "path": "plat/packages/testkit/test/edge/cells.test.ts", "status": "created", "sha256": "e6153bda7556c6e438b8f71702145aa03f7ed8486279cd8cd4652c8e31b870a6", "size": 1042 },
     { "path": "plat/packages/testkit/test/edge/classes.test.ts", "status": "created", "sha256": "953a6fa4d7b2849e06e989bf0c17d97313dbf88ba60ce31558a9925d9441141d", "size": 1068 },
-    { "path": "plat/packages/testkit/test/edge/control.test.ts", "status": "created", "sha256": "4689f9e05bb48ed8d23dcfd4d1d18c10d26df28518f4ed93da81364e7ce5d194", "size": 15818 },
+    { "path": "plat/packages/testkit/test/edge/control.test.ts", "status": "created", "sha256": "2f2da2480405b45fb4f388205e34f21ce05af4d193a743c30fddd78e38f3ad99", "size": 17766 },
     { "path": "plat/packages/testkit/test/edge/coverage.test.ts", "status": "created", "sha256": "09084d77de63f4f3858cb533947d55f6a4346dd2e1a2a7578bb40bc337cb55c2", "size": 9839 },
     { "path": "plat/packages/testkit/test/edge/ep01-s1-s3-s4.test.ts", "status": "created", "sha256": "987dca749e7604cf267908eef617d2ad5a5fd63af998a40d2b24d774878c0a02", "size": 1160 },
     { "path": "plat/packages/testkit/test/edge/ep01-s5a.test.ts", "status": "created", "sha256": "4a374b0798e8a87e17ceaa156f734d633f253e9e07be5bab0ded65ea6b8494f9", "size": 1028 },
@@ -49,14 +49,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0336", "L-0346", "L-0482", "L-0729", "L-0731"],
-      "lines": ["7b671a58100442ee", "667468c30b107ca6", "ccb90a50f6735996", "3f10b82ffd1ef2fb", "9cce218050da8e87"],
+      "ids": ["L-0336", "L-0346", "L-0482", "L-0729", "L-0731", "L-0763"],
+      "lines": ["7b671a58100442ee", "667468c30b107ca6", "ccb90a50f6735996", "3f10b82ffd1ef2fb", "9cce218050da8e87", "a0bd8c233980e60e"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0273", "C-0278", "C-0342", "C-0463"],
-      "lines": ["0b9ded2bda337e91", "9516c8cb17657717", "8c53050c80fa4f79", "5424913c52b9c375"],
+      "ids": ["C-0273", "C-0278", "C-0342", "C-0463", "C-0474"],
+      "lines": ["0b9ded2bda337e91", "9516c8cb17657717", "8c53050c80fa4f79", "5424913c52b9c375", "17c803308826268e"],
       "removed": []
     },
     {
