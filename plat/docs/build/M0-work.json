@@ -1412,6 +1412,7 @@
     "plat/packages/kernel/src/arr/corridorUnion.ts",
     "plat/packages/kernel/src/arr/bandUnion.ts",
     "plat/packages/kernel/src/arr/tileRings.ts",
+    "plat/packages/kernel/src/arr/kerbExact.ts (new at hardening round S18, J744: §3.7's exact kerb as a pure function and its content key — round 2A of the kernel amendment z, item 986; a by-path module, no line of arr/index.ts)",
     "plat/packages/kernel/src/arr/index.ts (handed over from M0-a-08: this item appends its four re-export lines — kerb, corridorUnion, bandUnion, tileRings — C-0122)",
     "plat/packages/kernel/test/arr/bands/",
     "plat/packages/testkit/test/kernel/arr-bands/ (the tileRings and corridorUnion oracle comparisons — M0-k-03's oracles, M0-k-01's arbitraries, M0-k-02's band cases; C-0122)"
