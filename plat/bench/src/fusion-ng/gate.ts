@@ -6,21 +6,31 @@
 // stages or of its measure. The tables the re-run's process loaded are recorded by version and pinning hash: the tables
 // are compiled into @plat/tables, so a recalibration takes effect in a process started after it was applied (--apply),
 // and `recalibrationInEffect` says whether the loaded versions are the ones the recalibration wrote.
-import { loadTable } from '@plat/tables';
+import { loadTable, loadWorkLimits, WORK_LIMITS_TABLE, type Table } from '@plat/tables';
 import { hash128Hex } from '@plat/testkit';
 import { run as fusionEntry, type FusionGateReport } from '../fusion/index.js';
 import { addTotalsCensus, censusOf, type CensusTally } from './census.js';
 import type { GateRerun, RefusalCensusReport, RunSize } from './report.js';
 import type { WrittenTable } from '../bentcut-ng/index.js';
 
-/** The tables a re-run's statistics rest on (S8's cut constants and the band table; the granularity and interior rows). */
-export const GATE_TABLES = Object.freeze(['cut', 'bands', 'granularity', 'interior']);
+/**
+ * The tables a re-run's statistics rest on (S8's cut constants and the band table; the granularity and interior rows;
+ * and the work-limit table, whose `cut.kernelCalls`, `cut.recursionDepth` and `cut.candidates` laws and the district
+ * batch's kernel laws S8 reads — §5.1 (5), integration-g17 N-3: a re-run under a changed work-limit law differs in its
+ * tables record).
+ */
+export const GATE_TABLES = Object.freeze(['cut', 'bands', 'granularity', 'interior', WORK_LIMITS_TABLE]);
+
+/** A table as this process loaded it: workLimits.json through its own loader (M0-f-03a's, C-0021), the others by id. */
+function loaded(id: string): Table {
+  return id === WORK_LIMITS_TABLE ? loadWorkLimits().table : loadTable(id);
+}
 
 /** The tables loaded in this process, by version and pinning hash. */
 export function tablesLoaded(ids: readonly string[] = GATE_TABLES): Record<string, { version: number; hash: string }> {
   const out: Record<string, { version: number; hash: string }> = {};
   for (const id of ids) {
-    const t = loadTable(id);
+    const t = loaded(id);
     out[id] = { version: t.version, hash: hash128Hex(t.hash) };
   }
   return out;
