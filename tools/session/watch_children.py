@@ -15,6 +15,8 @@ its lanes in docs/lane-events.log written after its creation. It prints one line
   ALERT  — a child is SILENT (no snapshot and no lane line for silent_minutes; before its first snapshot the window runs
            from its creation), or a TERMINAL line (the last lane's LANDED, or a FAIL / BLOCKED on any lane) has stood for
            terminal_minutes while the child is still in the table (the hand-back was lost, or the managing seat is asleep).
+           A later round of a listed lane (…-s2 after …-s1: a fix round and its re-check) counts as that lane, so a check
+           that LANDED a FAIL is terminal only until the fix round's first line.
 The watch seat (a cheap session woken hourly) sends the ALERT lines to the parent and does nothing else: no judgment here.
 It never writes to the repository. Times are UTC (the containers' clock; the lane lines carry no zone).
 """
@@ -30,6 +32,17 @@ def git(repo, *a):
 
 def epoch(s, fmt):
     return calendar.timegm(time.strptime(s, fmt))
+
+
+def same_lane(line_lane, listed):
+    """A lane line belongs to a listed lane when it is that lane or a LATER ROUND of it: a workflow whose first check
+    fails goes on under the next round's keys (build/<id>-fix-s2, check/<id>-close-s2 after …-s1; J733: child DC's fix
+    round was read as silence after a terminal line). The family is the lane's name without its trailing number."""
+    if line_lane == listed:
+        return True
+    a = re.match(r'(.*?)(\d+)$', line_lane)
+    b = re.match(r'(.*?)(\d+)$', listed)
+    return bool(a and b and a.group(1) == b.group(1) and int(a.group(2)) >= int(b.group(2)))
 
 
 def main():
@@ -70,14 +83,14 @@ def main():
             rc, log, _ = git(a.repo, 'show', f'origin/{branch}:docs/lane-events.log')
             for line in log.splitlines() if rc == 0 else []:
                 m = re.match(r'(\d{4}-\d\d-\d\d \d\d:\d\d) (\S+) (LANDED|CHECKPOINT|BLOCKED|FAIL)\b', line)
-                if not m or not any(m.group(2) == ln or m.group(2).startswith(ln + ' ') for ln in lanes):
+                if not m or not any(same_lane(m.group(2), ln) for ln in lanes):
                     continue
                 t = epoch(m.group(1), '%Y-%m-%d %H:%M')
                 if t < created - 60:
                     continue
                 last_line, last_t = line, t
                 kind = m.group(3)
-                if kind in ('BLOCKED', 'FAIL') or (kind == 'LANDED' and m.group(2) == lanes[-1]):
+                if kind in ('BLOCKED', 'FAIL') or (kind == 'LANDED' and same_lane(m.group(2), lanes[-1])):
                     term = (t, line)
                 elif term and kind == 'CHECKPOINT':
                     term = None  # work went on after it (a further round, a re-check)
