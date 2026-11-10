@@ -179,3 +179,5 @@ L10 the golden per-case diff + bands per test/per cell + roots.
 ## Step 13 — rendered: build 65 741 chars, check 63 956 chars (prompts-a-05s14.json; full specs copy + entry, 160 rounds); machine linux Xeon 4cpu 16gib maxLanes 2 workerCap 8
 
 ## Step 14 — memo written (spec-a05-s14-r2.md); JSON validated (keys id/from/round/session/lines; 11 lines). DONE.
+
+## R3 Step 1 — FIX PASS ordered (coordinator): read refute-r2.md whole; rulings (1)-(10) bind; deliverables *-r3*.
