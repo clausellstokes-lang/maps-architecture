@@ -3,6 +3,9 @@
 // with planted unit durations over a temporary plat/-shaped tree (no job is spawned), planted detector readings, a
 // stub sampler, a recording sleep, and a scratch copy of reference-score.json under PLAT_BENCH_OUT. No fixture runs a
 // real bar, a real tier or the browser, and none touches the committed reference-score.json.
+// Hardening round S1: the fixture context plants a PRODUCTION build block (the measuring process a production bundle,
+// RL10) and its Chromium batches a production leg build, so the ± 15 % rule judges as before; its launch seams refuse,
+// so no test builds or spawns the real bundle by accident (bundle.test.ts plants its own).
 import { createHash, randomUUID } from 'node:crypto';
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -12,7 +15,27 @@ import { judgeContention, type ContentionReport, type MachineSample, type Proces
 import type { TimingResult } from '../../src/timing/harness.js';
 import type { Sampler } from '../../src/timing/sampler.js';
 import type { Executor, Job, TierManifest, TierName, Unit, UnitRun } from '../../src/tiers/types.js';
-import { CHROMIUM, type BatchOutput, type BatchPlan, type Group, type PhaseContext, type Samples, type DetectOptions } from '../../src/timing-phase/index.js';
+import { CHROMIUM, RECIPE, type BatchOutput, type BatchPlan, type BuildBlock, type Group, type LegBuild, type PhaseContext, type Samples, type DetectOptions } from '../../src/timing-phase/index.js';
+
+/** A production measuring process, planted (RL10 (iv)): the build block a production child hands the script. */
+export const PRODUCTION: BuildBlock = Object.freeze({
+  kind: 'production-bundle',
+  recipe: RECIPE,
+  rule: 'fixture (planted)',
+  debugBuild: false,
+  arenaAssertions: false,
+  keepNames: 0,
+  debugFlagLeft: false,
+  bytes: 1,
+  sha256: 'f'.repeat(64),
+  bundle: null,
+  node: process.version,
+});
+
+/** A production leg build, planted (a Chromium batch's scanned bundle). */
+export const PROD_LEG: LegBuild = Object.freeze({ build: 'production', from: 'fixture (planted)', debugFlagLeft: false, keepNames: 0 });
+/** A debug leg build, planted. */
+export const DEBUG_LEG: LegBuild = Object.freeze({ build: 'debug', from: 'fixture (planted)', debugFlagLeft: true, keepNames: 0 });
 
 export const HOST: HostRecord = hostRecord();
 
@@ -71,6 +94,7 @@ export interface PlantedBatch {
   readonly leg?: BatchPlan['leg'];
   readonly extra?: Record<string, unknown>;
   readonly label?: string;
+  readonly build?: LegBuild;
 }
 
 /** A group of planted batches (the stamps returned in turn per batch when a list is given). */
@@ -88,7 +112,7 @@ export function planted(id: string, batches: readonly (PlantedBatch | PlantedBat
           const p = seq[Math.min(k, seq.length - 1)];
           k += 1;
           runs.push(`${id}#${String(i)}`);
-          return Promise.resolve({ stamp: stamp(p.stamp), samples: p.samples, ...(p.extra === undefined ? {} : { extra: p.extra }) });
+          return Promise.resolve({ stamp: stamp(p.stamp), samples: p.samples, ...(p.extra === undefined ? {} : { extra: p.extra }), ...(p.build === undefined ? {} : { build: p.build }) });
         },
       };
     }),
@@ -181,9 +205,9 @@ export function fixtureGroups(p: Partial<Plants> = {}, runs: string[] = []): Rec
       runs,
     ),
     'fusion:node': planted('fusion:node', [{ samples: fusion }], runs),
-    'fusion:chromium': planted('fusion:chromium', [{ samples: { 'fusion:call': [v.fusionChromiumCall] }, leg: CHROMIUM }], runs),
+    'fusion:chromium': planted('fusion:chromium', [{ samples: { 'fusion:call': [v.fusionChromiumCall] }, leg: CHROMIUM, build: PROD_LEG }], runs),
     'site:node': planted('site:node', [{ samples: site('node') }], runs),
-    'site:chromium': planted('site:chromium', [{ samples: site('chromium'), leg: CHROMIUM }], runs),
+    'site:chromium': planted('site:chromium', [{ samples: site('chromium'), leg: CHROMIUM, build: PROD_LEG }], runs),
   };
 }
 
@@ -342,6 +366,11 @@ export function fixtureContext(extra: Partial<PhaseContext> & { plants?: Partial
     tiers: tierSeams().tiers,
     watch: watcher(watchLog),
     log: (l) => void lines.push(l),
+    build: PRODUCTION,
+    launch: {
+      bundle: () => Promise.reject(new Error('fixture: no test builds the real bundle through the fixture context')),
+      spawn: () => Promise.reject(new Error('fixture: no test spawns the real child through the fixture context')),
+    },
     dir,
     scorePath,
     lines,

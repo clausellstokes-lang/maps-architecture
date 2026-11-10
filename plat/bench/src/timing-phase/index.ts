@@ -19,11 +19,23 @@
 // 4. Writes M0-timings.json (record.ts's shape) to docs/build/ — a full run the whole record, an `--only` run a `rerun`
 //    block appended — and a copy to $PLAT_BENCH_OUT/timing-phase/.
 // Exit 0 when every gating bar it ran passed; 1 when one missed or is unmeasured (re-run it with --only); 3 refused; 64
-// on a bad argument. The `ctx` fields beyond `out` are a vitest test's seams (fixture bars with planted timings, a
-// fixture tier manifest, the detector's readings, a scratch reference-score file under PLAT_BENCH_OUT): no test runs a
-// real bar, a real tier or the browser, or writes the committed reference-score.json (C-0105, C-0115).
+// on a bad argument or a timingBars row the bars cannot read (our own configuration defect, typed). The `ctx` fields
+// beyond `out` are a vitest test's seams (fixture bars with planted timings, a fixture tier manifest, the detector's
+// readings, a scratch reference-score file under PLAT_BENCH_OUT): no test runs a real bar, a real tier or the browser,
+// or writes the committed reference-score.json (C-0105, C-0115).
+//
+// THE PRODUCT IS TIMED (hardening round S1, RL10 (a); Q72; the choices row amending C-0059 for the timing phase): the
+// dispatcher's entry `run` is a LAUNCHER — usage, a bad timingBars row and `--list` are answered in-process; every
+// measuring invocation builds the production bundle (bundle.ts: profile/bundle.ts's recipe, PLAT_DEBUG_BUILD defined
+// false, no keepNames) under $PLAT_BENCH_OUT/timing-phase/bundle/, stops (exit 1, the report printed) unless its build
+// had no error, no `__name` and the flag defined, and runs it as ONE child process (process.execPath, the arguments and
+// the environment passed, stdio inherited, its exit code returned). Nothing is measured in the launcher: the child
+// (child.ts) refuses a debug build and measures in-process (`runPhase`). The tests, the launcher and the tier jobs stay a
+// source run.
+import { spawn } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { DEBUG_BUILD, debugAssertions } from '@plat/kernel';
 import { calibrate as calibrateScore, scoreDrift } from '../calibrate/calibrate.js';
 import { CALIBRATE_VERSION } from '../calibrate/kernels.js';
 import { hostRecord, NO_REFERENCE_SCORE, readReferenceScore, REFERENCE_SCORE_PATH, writeReferenceScore, type HostRecord } from '../host/index.js';
@@ -32,18 +44,21 @@ import { IDLE_MS, MAX_BATCH_MS, MAX_REPEATS, timeBatch as realTimeBatch } from '
 import { outDir, say, summariseReasons } from '../timing/output.js';
 import { SAMPLE_EVERY_MS, type Sampler } from '../timing/sampler.js';
 import { BAR_IDS, readTimingBars, resolveBars, type BarId, type ResolvedBar, type TimingBarRow } from './bars.js';
-import { CROSS_ENGINE_TOLERANCE, foldFigure, judgeFigure, ladderOf, MAX_REQUEUES, runGroup, TARGET_BATCH_MS, type BatchHarness, type FigureRecord, type Group, type GroupResult, type TimeBatchFn } from './protocol.js';
-import { RECORD_SCHEMA, readRecord, writeAtomic, type BarRecord, type ReferenceAct, type Refusal, type RerunBlock, type TimingsRecord } from './record.js';
+import { buildPhaseBundle, type PhaseBundleReport } from './bundle.js';
+import { CROSS_ENGINE_TOLERANCE, DIFFERENT_BUILDS, foldFigure, judgeFigure, ladderOf, MAX_REQUEUES, runGroup, TARGET_BATCH_MS, type BatchHarness, type FigureRecord, type Group, type GroupResult, type Leg, type LegBuild, type LegExclusion, type TimeBatchFn } from './protocol.js';
+import { RECORD_SCHEMA, readRecord, writeAtomic, type BarRecord, type BuildBlock, type ReferenceAct, type Refusal, type RerunBlock, type TimingsRecord } from './record.js';
 import { timeTiers, type TierContext, type TierRecord } from './tiers.js';
 import { realGroup } from './workloads.js';
 
 export { BAR_DEFS, BAR_IDS, LADDER_RULE, readTimingBars, resolveBars, SITE_GATE_FIXTURES, stated, WORK_PATH } from './bars.js';
 export type { BarDef, BarId, FigureSpec, ResolvedBar, TimingBarRow } from './bars.js';
-export { CHROMIUM, crossEngine, CROSS_ENGINE_TOLERANCE, foldFigure, isResult, judgeFigure, ladderOf, MAX_REQUEUES, nextBlockSize, quantile, runGroup, TARGET_BATCH_MS, values } from './protocol.js';
-export type { BatchHarness, BatchOutput, BatchPlan, BatchSummary, CrossEngine, FigureRecord, Group, GroupResult, Ladder, Leg, Pooled, Samples, TimeBatchFn } from './protocol.js';
+export { buildPhaseBundle, bundleFacts, legBuildOf, RECIPE } from './bundle.js';
+export type { PhaseBundleReport } from './bundle.js';
+export { CHROMIUM, crossEngine, CROSS_ENGINE_TOLERANCE, DIFFERENT_BUILDS, foldFigure, isResult, judgeFigure, ladderOf, MAX_REQUEUES, nextBlockSize, quantile, runGroup, TARGET_BATCH_MS, values } from './protocol.js';
+export type { BatchHarness, BatchOutput, BatchPlan, BatchSummary, CrossEngine, Exclusion, FigureRecord, FoldContext, Group, GroupResult, Ladder, Leg, LegBuild, LegExclusion, Pooled, Samples, TimeBatchFn } from './protocol.js';
 export { RECORD_SCHEMA, readRecord, writeAtomic } from './record.js';
-export type { BarRecord, ReferenceAct, Refusal, RefusalClass, RerunBlock, TimingsRecord } from './record.js';
-export { TIERS, timeTiers } from './tiers.js';
+export type { BarRecord, BuildBlock, ReferenceAct, Refusal, RefusalClass, RerunBlock, TimingsRecord } from './record.js';
+export { NO_CALIBRATE_SCORES, TIERS, timeTiers } from './tiers.js';
 export type { DetectorSample, TierContext, TierRecord, TierRunRecord } from './tiers.js';
 export { fusionGateOf, GATE_STAGES_ENTRY, REAL_GROUPS, realGroup, S11_WORKLOAD_FILE } from './workloads.js';
 
@@ -83,6 +98,17 @@ export interface PhaseContext {
   tiers?: Partial<Pick<TierContext, 'manifest' | 'runTier' | 'options' | 'root'>>;
   watch?: (everyMs: number) => Promise<Sampler>;
   log?: (line: string) => void;
+  /** The measuring process's build (RL10 (iv)): the child passes its production bundle's; default the source run's. */
+  build?: BuildBlock;
+  /** The launcher's seams (a test's): the bundle build and the child's spawn. */
+  launch?: LaunchSeams;
+}
+
+/** The launcher's seams: the production bundle's build and the ONE child's spawn (RL10 (a) (ii)). */
+export interface LaunchSeams {
+  readonly bundle?: (outfile: string) => Promise<PhaseBundleReport>;
+  /** Runs `node <argv…>` with `env` (stdio inherited) and resolves with its exit code. */
+  readonly spawn?: (argv: readonly string[], env: Readonly<Record<string, string | undefined>>) => Promise<number>;
 }
 
 /** The outcome of one invocation (typed; `run` prints it and maps it to an exit code). */
@@ -218,7 +244,10 @@ export function foldBar(rb: ResolvedBar, results: ReadonlyMap<string, GroupResul
   const pools = new Map<string, { raw: number; norm: number }[]>();
   for (const g of groups) for (const [k, v] of g.pools) pools.set(k, [...(pools.get(k) ?? []), ...v]);
   const complete = groups.length === rb.def.groups.filter((g) => g !== 'tiers').length && groups.every((g) => g.dropped === 0);
-  const figures = rb.id === 'tiers' ? tierFigures(rb, tiers ?? []) : rb.figures.map((f) => foldFigure(f, pools, complete));
+  const excluded: LegExclusion[] = groups.flatMap((g) => g.excluded ?? []);
+  const builds = new Map<Leg, string[]>();
+  for (const g of groups) for (const [leg, bs] of g.builds ?? []) builds.set(leg, [...(builds.get(leg) ?? []), ...bs]);
+  const figures = rb.id === 'tiers' ? tierFigures(rb, tiers ?? []) : rb.figures.map((f) => foldFigure(f, pools, complete, { excluded, builds }));
   const unmeasured = figures.some((f) => f.verdict === 'unmeasured');
   const missed = figures.filter((f) => f.verdict === 'miss');
   const verdict: BarRecord['verdict'] = unmeasured ? 'unmeasured' : rb.def.role === 'reported' ? 'reported' : missed.length > 0 ? 'miss' : 'pass';
@@ -254,10 +283,21 @@ export function foldBar(rb: ResolvedBar, results: ReadonlyMap<string, GroupResul
 /** The refusal census (J264, N-58): the two designed refusals, and what the bars' batches refused, by bar. */
 function census(bars: readonly BarRecord[], refused: Refusal | null): Record<string, unknown> {
   const barRefusals: Record<string, number> = {};
+  // barRefusals' SEEDS (Q4): every seed a bar's figures excluded, with its stage and the refusal's code, routed by the
+  // session to the stage's owner (a refused derivation is ZERO-REFUSALS evidence, J264)
+  const barExclusions: Record<string, { seed: number; fixture?: string; leg: string; reached: string | null; code: string | null; message: string }[]> = {};
   for (const b of bars) {
     let n = 0;
     for (const e of b.extras) for (const k of ['refused', 'refusedOrSetup']) if (typeof e[k] === 'number') n += e[k] as number;
     if (n > 0) barRefusals[b.id] = n;
+    const seen = new Map<string, { seed: number; fixture?: string; leg: string; reached: string | null; code: string | null; message: string }>();
+    for (const f of b.figures) {
+      for (const x of f.excluded ?? []) {
+        const k = `${x.leg} ${x.fixture ?? ''} ${String(x.seed)} ${x.message}`;
+        if (!seen.has(k)) seen.set(k, { seed: x.seed, ...(x.fixture === undefined ? {} : { fixture: x.fixture }), leg: x.leg, reached: x.reached, code: x.code, message: x.message });
+      }
+    }
+    if (seen.size > 0) barExclusions[b.id] = [...seen.values()];
   }
   return {
     designed: [
@@ -267,16 +307,45 @@ function census(bars: readonly BarRecord[], refused: Refusal | null): Record<str
     thisRun: refused === null ? 'none' : refused.refused,
     contendedBatches: 're-queued (≤ 2), never recorded as a result and never a refusal of the run (C-0047)',
     barRefusals,
+    ...(Object.keys(barExclusions).length === 0 ? {} : { barExclusions }),
   };
+}
+
+/**
+ * The arguments parsed and the timingBars rows read and resolved (note 7): a bad argument, or a row the bars cannot read
+ * — our own configuration defect (M0-work.json's timingBars against bars.ts), never input and never a refusal (the
+ * census is unchanged) — is a typed usage-class outcome naming the row and what it lacks, before anything runs.
+ */
+export function preparePhase(args: readonly string[], ctx: Pick<PhaseContext, 'rows'>): { ok: true; a: Extract<PhaseArgs, { ok: true }>; resolved: ResolvedBar[] } | { ok: false; outcome: Extract<PhaseOutcome, { kind: 'usage' }> } {
+  const a = parsePhaseArgs(args);
+  if (!a.ok) return { ok: false, outcome: { kind: 'usage', message: a.message } };
+  try {
+    return { ok: true, a, resolved: resolveBars(ctx.rows ?? readTimingBars()) };
+  } catch (e) {
+    return { ok: false, outcome: { kind: 'usage', message: e instanceof Error ? e.message : String(e) } };
+  }
+}
+
+/** The line printed after a configuration defect's message (verbatim). */
+export const CONFIG_DEFECT = "timing-phase: the timingBars list (M0-work.json) and the bars (bench/src/timing-phase/bars.ts) disagree — the item's own configuration defect, never input: fix the row or the bar; nothing ran";
+
+/** The source run's build block (a test's in-process run; the launcher's): a debug build unless the flags say otherwise. */
+export function sourceBuild(): BuildBlock {
+  return { kind: 'source-run', recipe: null, rule: 'C-0059 (the bench runs from source through tsx): a debug source run, never a timing (RL10)', debugBuild: DEBUG_BUILD, arenaAssertions: debugAssertions(), keepNames: null, debugFlagLeft: null, bytes: null, sha256: null, bundle: null, node: process.version };
+}
+
+/** The Node leg's build of a measuring process (RL10 (c)): production only for a production bundle with both flags off. */
+export function nodeLegBuild(b: BuildBlock): LegBuild {
+  const production = b.kind === 'production-bundle' && !b.debugBuild && !b.arenaAssertions && b.keepNames === 0 && b.debugFlagLeft === false;
+  return { build: production ? 'production' : 'debug', from: `the measuring process (${b.kind}; DEBUG_BUILD ${String(b.debugBuild)}, the arena's assertion switch ${b.arenaAssertions ? 'on' : 'off'}, __name ${b.keepNames === null ? 'n/a' : String(b.keepNames)})`, debugFlagLeft: b.debugFlagLeft, keepNames: b.keepNames };
 }
 
 /** One invocation of the script (typed outcome). */
 export async function timingPhase(args: readonly string[], ctx: PhaseContext): Promise<PhaseOutcome> {
   const log = ctx.log ?? say;
-  const a = parsePhaseArgs(args);
-  if (!a.ok) return { kind: 'usage', message: a.message };
-  const rows = ctx.rows ?? readTimingBars();
-  const resolved = resolveBars(rows);
+  const p = preparePhase(args, ctx);
+  if (!p.ok) return p.outcome;
+  const { a, resolved } = p;
   if (a.list) return { kind: 'list', bars: resolved.map((r) => ({ id: r.id, bar: r.row.bar })) };
   const env = ctx.env ?? process.env;
   const token = (env[TOKEN_VAR] ?? '').trim();
@@ -318,7 +387,8 @@ export async function timingPhase(args: readonly string[], ctx: PhaseContext): P
 
   const selected = a.only === null ? resolved : resolved.filter((r) => (a.only as readonly BarId[]).includes(r.id));
   const own: number[] = [];
-  const harness: BatchHarness = { timeBatch: ctx.timeBatch ?? realTimeBatch, options: { ownPids: () => own }, own: (pid) => void own.push(pid) };
+  const build = ctx.build ?? sourceBuild();
+  const harness: BatchHarness = { timeBatch: ctx.timeBatch ?? realTimeBatch, options: { ownPids: () => own }, own: (pid) => void own.push(pid), build: nodeLegBuild(build) };
   const results = new Map<string, GroupResult>();
   for (const rb of selected) {
     for (const id of rb.def.groups) {
@@ -349,6 +419,7 @@ export async function timingPhase(args: readonly string[], ctx: PhaseContext): P
     startedAt,
     finishedAt,
     host,
+    build,
     readings: builtSeams.length === 0 ? 'measured' : 'built',
     seams,
     referenceScore: act,
@@ -361,7 +432,7 @@ export async function timingPhase(args: readonly string[], ctx: PhaseContext): P
   };
   let record = fresh;
   if (a.only !== null) {
-    const block: RerunBlock = { at: finishedAt, token, only: a.only, referenceScore: act, bars };
+    const block: RerunBlock = { at: finishedAt, token, only: a.only, referenceScore: act, bars, build };
     const existing = readRecord(recordPath);
     record = existing === null ? { ...fresh, rerun: [block] } : { ...existing, rerun: [...existing.rerun, block] };
   }
@@ -371,15 +442,27 @@ export async function timingPhase(args: readonly string[], ctx: PhaseContext): P
   return { kind: 'ran', record, bars, code: gatingBad ? 1 : 0 };
 }
 
-/** The dispatcher's entry: `bench -- timing-phase [--only <ids>] [--list]` (C-0059, C-0113). */
-export async function run(args: string[], ctx: PhaseContext): Promise<number> {
+/** The build line a measuring process prints (RL10 (a); verbatim). */
+export function buildLine(b: BuildBlock): string {
+  const kind = b.kind === 'production-bundle' && !b.debugBuild && !b.arenaAssertions ? 'production' : 'debug';
+  return `timing-phase: build ${kind} (${b.kind}; DEBUG_BUILD ${String(b.debugBuild)}, the arena's assertion switch ${b.arenaAssertions ? 'on' : 'off'}, __name ${b.keepNames === null ? 'n/a' : String(b.keepNames)}${b.bytes === null ? '' : `, ${String(b.bytes)} bytes`}${b.sha256 === null ? '' : `, sha256 ${b.sha256}`}; node ${b.node})`;
+}
+
+/**
+ * The script run IN-PROCESS — the measuring child's entry (child.ts) and a test's: runs `timingPhase`, prints its outcome
+ * and maps it to the exit code (the dispatcher's entry before hardening round S1; the launcher `run` now spawns the
+ * child that calls this).
+ */
+export async function runPhase(args: string[], ctx: PhaseContext): Promise<number> {
   const o = await timingPhase(args, ctx);
   const log = ctx.log ?? say;
   switch (o.kind) {
     case 'usage':
       log(o.message);
+      if (parsePhaseArgs(args).ok) log(CONFIG_DEFECT);
       return 64;
     case 'list':
+      if (ctx.build !== undefined) log(buildLine(ctx.build));
       for (const b of o.bars) log(`timing-phase: ${b.id} — ${b.bar}`);
       return 0;
     case 'refused':
@@ -389,10 +472,69 @@ export async function run(args: string[], ctx: PhaseContext): Promise<number> {
       writeAtomic(join(outDir(ctx.out), 'timing-phase', 'refusal.json'), o.refusal);
       return 3;
     case 'ran':
+      log(buildLine(o.record.build ?? sourceBuild()));
       for (const b of o.bars) {
         log(`timing-phase: ${b.id}: ${b.verdict}${b.factor === null ? '' : ` by ${b.factor.toFixed(2)}×`} — ${b.figures.map((f) => `${f.name} ${f.value === null ? '—' : f.value.toPrecision(4)} ${f.unit} (${f.comparator} ${String(f.budget)})`).join('; ')}${b.ladder === null ? '' : `; next: ${b.ladder.next}`}`);
+        for (const f of b.figures) {
+          if (f.excluded !== undefined && f.excluded.length > 0) log(`timing-phase: ${b.id}: ${f.name}: n ${String(f.n)}, excluded ${String(f.excluded.length)}: ${summariseReasons(f.excluded.map((x) => `${x.leg} ${x.fixture === undefined ? '' : `${x.fixture} `}seed ${String(x.seed)} (${x.message})`))}`);
+          if (f.verdict === 'unmeasured' && f.why !== undefined && f.why.startsWith(DIFFERENT_BUILDS)) log(`timing-phase: ${b.id}: ${f.name}: unmeasured — ${f.why}`);
+        }
+        // each scope printed whole, one clause a line (a line is cut at LINE_CAP; the record keeps the text)
+        for (const scope of [...new Set(b.figures.map((f) => f.scope).filter((x): x is string => x !== undefined))]) {
+          log(`timing-phase: ${b.id}: scope of ${b.figures.filter((f) => f.scope === scope).map((f) => f.name).join(', ')}:`);
+          for (const clause of scope.split('; ')) log(`timing-phase:   ${clause}`);
+        }
       }
       log(`timing-phase: record ${ctx.recordPath ?? RECORD_PATH}; exit ${String(o.code)}`);
       return o.code;
   }
+}
+
+/** The production bundle's home (C-0067: under PLAT_BENCH_OUT, never plat/). */
+export function bundlePath(out: string): string {
+  return join(outDir(out), 'timing-phase', 'bundle', 'timing-phase.mjs');
+}
+
+/** The bundle report line the launcher prints (as profile/index.ts:162 prints its own; verbatim). */
+export function bundleLine(b: PhaseBundleReport): string {
+  return `timing-phase: bundle ${b.outfile}: ${String(b.bytes)} bytes, errors ${String(b.errors)}, warnings ${String(b.warnings)}, __name ${String(b.keepNames)}, PLAT_DEBUG_BUILD ${b.debugFlagLeft ? 'LEFT IN (not a production bundle)' : 'defined false'}${b.sha256 === '' ? '' : `, sha256 ${b.sha256}`}`;
+}
+
+/** Runs `node <argv…>` as ONE child with `env`, stdio inherited; resolves with its exit code (a signal: 1). */
+function spawnChild(argv: readonly string[], env: Readonly<Record<string, string | undefined>>): Promise<number> {
+  return new Promise((done) => {
+    const child = spawn(process.execPath, [...argv], { stdio: 'inherit', env: { ...env } as NodeJS.ProcessEnv });
+    child.on('error', () => done(1));
+    child.on('close', (code) => done(code ?? 1));
+  });
+}
+
+/**
+ * The dispatcher's entry: `bench -- timing-phase [--only <ids>] [--list]` (C-0059, C-0113) — the LAUNCHER (RL10 (a)
+ * (ii)). Usage, a bad timingBars row and `--list` are answered in-process; every measuring invocation builds the
+ * production bundle, stops (exit 1, the report printed) unless it built with no error, no `__name` and the flag defined,
+ * then runs it as ONE child (`node <bundle> <args…>`, the environment passed with PLAT_BENCH_OUT, stdio inherited) and
+ * returns its exit code. Nothing is measured here.
+ */
+export async function run(args: string[], ctx: PhaseContext): Promise<number> {
+  const log = ctx.log ?? say;
+  const p = preparePhase(args, ctx);
+  if (!p.ok) {
+    log(p.outcome.message);
+    if (parsePhaseArgs(args).ok) log(CONFIG_DEFECT);
+    return 64;
+  }
+  if (p.a.list) {
+    for (const r of p.resolved) log(`timing-phase: ${r.id} — ${r.row.bar}`);
+    return 0;
+  }
+  const b = await (ctx.launch?.bundle ?? buildPhaseBundle)(bundlePath(ctx.out));
+  log(bundleLine(b));
+  if (b.errors > 0 || b.keepNames > 0 || b.debugFlagLeft) {
+    log(`timing-phase: ${b.outfile} is not a production bundle (errors ${String(b.errors)}, __name ${String(b.keepNames)}, PLAT_DEBUG_BUILD ${b.debugFlagLeft ? 'left in' : 'defined false'}): nothing measured (RL10; the recipe bench/src/timing-phase/bundle.ts)`);
+    return 1;
+  }
+  const env = { ...(ctx.env ?? process.env), PLAT_BENCH_OUT: outDir(ctx.out) };
+  log(`timing-phase: running the production bundle as one child: node ${b.outfile}${args.length === 0 ? '' : ` ${args.join(' ')}`}`);
+  return (ctx.launch?.spawn ?? spawnChild)([b.outfile, ...args], env);
 }

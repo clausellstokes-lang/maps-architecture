@@ -1,10 +1,14 @@
 // M0-t-00's real wiring, read and built but never run (C-0105, C-0115: no test runs a real bar, a real tier or the
 // browser): every bar's group resolves to its item's exported entry; the Chromium leg's stage table bundles for the
 // browser (no Node API in it), its stages the gates' calls; the record's path is M0-t-01's file; the dispatcher names
-// this item.
-import { existsSync } from 'node:fs';
+// this item. Hardening round S1: the real groups' seams default to the real entries (note 2), and the Chromium leg's
+// table is bundled with M0-d-06's production option and scanned once (RL10 (c)).
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { buildCrossHostBundles } from '@plat/testkit';
+import { buildCrossHostBundles, runCrossHost } from '@plat/testkit';
+import { s11Workload } from '../../src/fuzz-bar/s11Workload.js';
+import { bundleCache, CHROMIUM_BUNDLE, CHROMIUM_DEPS, corridorUnionSeed, FUSION_DEPS, GATE_STAGES_PATH, SITE_DEPS } from '../../src/timing-phase/workloads.js';
+import { legBuildOf } from '../../src/timing-phase/bundle.js';
 import { describe, expect, it } from 'vitest';
 import { BAR_DEFS, fusionGateOf, GATE_STAGES_ENTRY, PLAT_ROOT, REAL_GROUPS, realGroup, RECORD_PATH } from '../../src/timing-phase/index.js';
 import { crosshostStages } from '../../src/timing-phase/gate-stages.js';
@@ -66,7 +70,36 @@ describe("the Chromium leg's stage table (C-0082): the gates' calls, bundled for
     const b = await buildCrossHostBundles(join(PLAT_ROOT, GATE_STAGES_ENTRY));
     expect(b.browser.length).toBeGreaterThan(1000);
     expect(b.browser).not.toMatch(/require\(["']node:/);
+    // the default (debug) build leaves the free flag in: the scan reads it as debug
+    expect(legBuildOf(b.browser, 'default')).toMatchObject({ build: 'debug', debugFlagLeft: true });
   }, 120_000);
+
+  it("the timing phase's Chromium bundle (bundleCache: M0-d-06's production option, C-0466) scans production: the free flag gone, no __name", async () => {
+    expect(GATE_STAGES_PATH).toBe(join(PLAT_ROOT, GATE_STAGES_ENTRY));
+    const b = await bundleCache()();
+    const lb = legBuildOf(b.browser, CHROMIUM_BUNDLE);
+    expect(lb).toEqual({ build: 'production', from: CHROMIUM_BUNDLE, debugFlagLeft: false, keepNames: 0 });
+    expect(legBuildOf(b.node, 'node').build).toBe('production');
+    process.stdout.write(`wiring.test: the gate table's Chromium bundle (production option): ${JSON.stringify(lb)}, ${String(b.browser.length)} bytes\n`);
+  }, 120_000);
+});
+
+describe("the real groups' seams default to the real entries (note 2; read, never run)", () => {
+  it('the derivation calls, the fold readers, the clock, the S11 workload, corridorUnionSeed and runCrossHost', () => {
+    expect(String(FUSION_DEPS.derive)).toMatch(/derive\)?\(["']fusion["'], seed\)/);
+    expect(String(FUSION_DEPS.stamps)).toMatch(/\.ins\.stamps/);
+    expect(String(FUSION_DEPS.refusals)).toMatch(/\.model\.refusals/);
+    expect(String(SITE_DEPS.derive)).toMatch(/deriveSpike\)?\(siteFixture\(fixture\), seed, ["']default["'], ["']city["']\)/);
+    expect(String(SITE_DEPS.stageTimes)).toMatch(/stageTimesOf\)?\(d\)/);
+    expect(String(SITE_DEPS.hydrology)).toMatch(/timeHydrology\)?\(d, false\)/);
+    for (const clock of [FUSION_DEPS.clock, SITE_DEPS.clock]) expect(typeof clock()).toBe('bigint');
+    const cd = CHROMIUM_DEPS();
+    expect(cd.runCrossHost).toBe(runCrossHost);
+    const src = readFileSync(join(PLAT_ROOT, 'bench', 'src', 'timing-phase', 'workloads.ts'), 'utf8');
+    for (const d of ['deps: FusionDeps = FUSION_DEPS', 'deps: SiteDeps = SITE_DEPS', 'unionSeed: (seed: number) => CorridorUnionSeed = corridorUnionSeed', 'workload: S11WorkloadFn = s11Workload', 'deps: ChromiumDeps = CHROMIUM_DEPS()']) expect(src).toContain(d);
+    expect(typeof corridorUnionSeed).toBe('function');
+    expect(typeof s11Workload).toBe('function');
+  });
 });
 
 describe("the record's home", () => {
