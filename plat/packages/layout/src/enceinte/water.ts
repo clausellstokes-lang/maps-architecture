@@ -31,7 +31,7 @@
 // forward along the ring first, then the shorter entry walk, then the exit's in the same order). A crossing no pair
 // clears stays refused, typed. Without a band (`waterGates`, a reader of a committed trace) nothing is routed.
 import { LATTICE, orient2d, type Kernel, type LatticePoint, type PlatKey, type Polygon } from '@plat/kernel';
-import type { Id, Lifecycle, WaterSet } from '@plat/model';
+import { generatedLifecycle, type Id, type Lifecycle, type WaterSet } from '@plat/model';
 import { GROUND_KEY } from '@plat/site';
 import { bandLimit, ccw, crossParams, d2, dist, distToRing, inside, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
 import type { WaterGate, XY } from './types.js';
@@ -353,9 +353,12 @@ export function shoreArc(ring: readonly LatticePoint[], ja: number, ua: number, 
  */
 export const GROUND: PlatKey = GROUND_KEY;
 
-/** The generated lifecycle (§2.8) at `epoch`. */
+/**
+ * The generated lifecycle (§2.8) at `epoch`: @plat/model's one builder, `generatedLifecycle` (Q87; C-0454) — a fresh
+ * object per call, an epoch that is not a whole number ≥ 0 refused with its RangeError.
+ */
 export function generated(epoch: number): Lifecycle {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
+  return generatedLifecycle(epoch);
 }
 
 /** Each water body's L0 faces' outer rings, read through the façade (§3.4 `resolve`, the level view). */
