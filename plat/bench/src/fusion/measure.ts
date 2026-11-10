@@ -17,12 +17,18 @@
 //   * the refusal census (J264): S8's refused districts, S9's refused unions, the kerb reads refused, the corpus's
 //     downgrades, the kernel's downgrades and work-limit hits, the report's unplaced and degraded rows;
 //   * the skeleton corpus bar re-run on the district faces (M0-a-12's `skeletonCorpus`, C-0067);
-//   * the work charged per counter with its law's units (C-0091); the per-stage stamps (C-0084).
+//   * the work charged per counter with its law's units (C-0091); the per-stage stamps (C-0084);
+//   * the per-stage work samples (hardening round S1, Q118; M0-e-06 S3's form, C-0453 (2)): one sample per batch a
+//     watched stage committed or refused for each kernel counter (its units the population its limit was set for, read
+//     back through the five kernel laws), route.nodes at S3, S4 and S5, S1's hydro.cells, S6's grower.turns and
+//     field.cells — beside `work`'s growth.* (S5) and cut.* (S8) rows; report.ts folds them into the per-stage blocks.
 import { corridorUnion, faceRings, idOf, isFaceLive, kerb, LATTICE, pointLocate, STAGES, type Hash128, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
-import { spineWidthsOf, wayLines, wayWidthCm, type GrowthState, type S5Record, type S8Output } from '@plat/layout';
-import type { District, Id, Way } from '@plat/model';
+import { spineWidthsOf, wayLines, wayWidthCm, type FieldsPass1, type GrowthState, type S3Slice, type S4Output, type S5Record, type S6Output, type S8Output } from '@plat/layout';
+import type { District, Id, Terrain, Way } from '@plat/model';
+import type { RiverReport } from '@plat/site';
 import { armGapsDeg, metricById, streetGraph, turnCliff, type MetricDoc, type MetricWay } from '@plat/testkit';
 import { loadWorkLimits } from '@plat/tables';
+import { KERNEL_COUNTERS, kernelUnits } from '../site/receipts.js';
 import { skeletonCorpus, type CorpusReport } from '../skeleton/runner.js';
 import { cutRegion, directed, needleCm, ringRegion, seedComponents, sliver, unionRegion, type Band, type DriftComparison, type Region } from './drift.js';
 import { area2, boundaryLoops, compareBoundaries, compareRings, type P } from './hausdorff.js';
@@ -38,6 +44,16 @@ export interface WorkRow {
   readonly work: number;
   readonly limit: number;
   /** The law's unit count the limit was read at (linear: count; log2: ⌈log2 count⌉), at least 1. */
+  readonly units: number;
+}
+
+/** One per-stage work sample (Q118): a counter's charged work at a stage over the population (units) it was set for. */
+export interface StageRow {
+  readonly counter: string;
+  readonly stage: string;
+  readonly work: number;
+  /** The population the work is charged over (a kernel batch's: its limit read back through the five kernel laws, at
+   * least 1; a stage row's: the lattice's nodes, the grid's cells, the live faces); the fold reads 0 units as 0 per unit. */
   readonly units: number;
 }
 
@@ -120,6 +136,12 @@ export interface SeedRecord {
   readonly refusals: RefusalCensus;
   readonly corpus: { readonly faces: number; readonly roof: CorpusCounts; readonly spine: CorpusCounts };
   readonly work: readonly WorkRow[];
+  /**
+   * The per-stage work samples beside `work` (Q118; `stageRows`): every kernel counter per batch a watched stage committed
+   * or refused (none for an unwatched derivation: the harness's tasks watch, pool.ts), route.nodes at S3, S4 and S5,
+   * hydro.cells at S1, grower.turns and field.cells at S6.
+   */
+  readonly stageRows: readonly StageRow[];
   /** The model digest's root, and its root at S5's end (the two runs share S1 – S5). */
   readonly root: string;
   readonly rootS5: string;
@@ -654,6 +676,41 @@ export function workRows(d: Derivation): WorkRow[] {
   return out;
 }
 
+/**
+ * The per-stage work samples of one derivation (Q118; M0-e-06 S3's reads, C-0453 (2)): per batch a watched stage
+ * committed or refused (a declared batch with no op — ok, no record — is no sample: the stage's batches committed plus
+ * refused are the population the reader charges a kernel block to), one row for each of the five kernel counters, its
+ * units the batch's limit read back through the five kernel laws (`kernelUnits`); route.nodes at S3 (the slice's report),
+ * S4 (S4's) and S5 (the growth state's, every S5b search summed) over the lattice's nodes; hydro.cells at S1 (the river
+ * stage's report on S1's record) over the hydrology grid's cells; grower.turns at S6 over the live L1 faces as S6 began;
+ * field.cells at S6 (pass 1's report) over its grid's cells. A stage that did not run, or whose record is missing, has no row.
+ */
+export function stageRows(d: Derivation): StageRow[] {
+  const out: StageRow[] = [];
+  const wl = loadWorkLimits();
+  for (const b of d.ins.batches) {
+    if (!b.committed && b.code === null) continue;
+    const units = kernelUnits(b.limit, wl);
+    for (const c of KERNEL_COUNTERS) out.push({ counter: c, stage: b.stage, work: b.counts[c] ?? 0, units });
+  }
+  const data = d.model.data;
+  const terrain = data.get('terrain') as Terrain | undefined;
+  const river = (data.get('s1') as { readonly river: RiverReport | null } | undefined)?.river ?? null;
+  if (river !== null && terrain !== undefined) out.push({ counter: 'hydro.cells', stage: 'S1', work: river.work['hydro.cells'], units: terrain.hydro.cols * terrain.hydro.rows });
+  const slice = data.get('s3.slice') as S3Slice | undefined;
+  const lattice = slice?.lattice.points.length ?? 0;
+  if (slice !== undefined) out.push({ counter: 'route.nodes', stage: 'S3', work: slice.report.work['route.nodes'], units: lattice });
+  const s4 = data.get('s4') as S4Output | undefined;
+  if (s4 !== undefined && slice !== undefined) out.push({ counter: 'route.nodes', stage: 'S4', work: s4.report.work['route.nodes'], units: lattice });
+  const growth = data.get('s5.growth') as GrowthState | undefined;
+  if (growth !== undefined && slice !== undefined) out.push({ counter: 'route.nodes', stage: 'S5', work: growth.report.work['route.nodes'], units: lattice });
+  const s6 = data.get('s6') as S6Output | undefined;
+  if (s6 !== undefined) out.push({ counter: 'grower.turns', stage: 'S6', work: s6.report.work['grower.turns'], units: d.ins.s6Faces });
+  const fields = data.get('fields') as FieldsPass1 | undefined;
+  if (fields !== undefined) out.push({ counter: 'field.cells', stage: 'S6', work: fields.report.work['field.cells'], units: fields.report.cols * fields.report.rows });
+  return out;
+}
+
 // ---- the whole record --------------------------------------------------------------------------------------------------
 
 function corpusCounts(r: CorpusReport): CorpusCounts {
@@ -741,6 +798,7 @@ export function measure(d: Derivation, opts: MeasureOptions = {}): SeedRecord {
     strips: { faces: strips.length, lanes: laneLines.length, crossings: lanesInStrips(laneLines, strips) },
     corpus: { faces: polys.length, roof: corpusCounts(roof), spine: corpusCounts(spine) },
     work: workRows(d),
+    stageRows: stageRows(d),
     root: hex(d.model.root),
     rootS5: hex(d.model.stageRoots.get('S5')),
   };

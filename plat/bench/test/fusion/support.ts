@@ -31,6 +31,7 @@ export function goodRecord(seed: number, run: 'fusion' | 'integrated', over: Par
     refusals: { s8: 0, s9: 0, kerbReads: 0, corpusRoof: 1, corpusSpine: 1, kernelDowngrades: 0, kernelWorkLimitHits: 0, unplaced: 0, degraded: 0 },
     corpus: { faces: 300, roof: { faces: 300, downgrades: 1, workLimitHits: 0, failures: 0 }, spine: { faces: 300, downgrades: 1, workLimitHits: 0, failures: 0 } },
     work: [{ counter: 'cut.kernelCalls', stage: 'S8', work: 30, limit: 400, units: 10 }],
+    stageRows: [],
     root: `root${String(seed)}`,
     rootS5: `s5-${String(seed)}`,
     ...over,

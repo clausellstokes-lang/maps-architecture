@@ -13,7 +13,15 @@
 // judged) and to count its invocations — the restart guard (§5.1 (1): the pipeline has no restart path; a stage run twice
 // in one derivation, or a stage of the order not run, is a restart). The district faces the skeleton corpus re-runs on
 // (C-0067) are read right after S6 (integrated) or the stand-in step (fusion), before S8 cuts them.
-import { CONCERNS, compareFaces, faceRings, idOf, isFaceLive, setOwner, STAGES, stageText, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type LineageHash, type Plat, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
+//
+// The per-stage work (hardening round S1, Q118; M0-e-06 S3's watched façade, C-0453 (2)): the stages that charge the
+// kernel's counters (S1, S3, S4, S5, S6: M0-f-03b's STAGE_CHARGES) run on the façade with its `tx` watched — each batch's
+// stage, level, limit, outcome and charged work by counter recorded (`Instruments.batches`), the batch's ops, order,
+// charges and result the stage's own (the roots held equal to an unwatched derivation's by stagework.test.ts); S6's live
+// L1 faces read as it starts (grower.turns' unit). Only the harness's tasks watch (pool.ts `runTask`, `watch: true`): every
+// other derivation — the timing phase's (timing.ts, M0-t-00's gate-stages and workloads), the profiler's — runs unwatched,
+// exactly as before the round.
+import { CONCERNS, compareFaces, faceRings, idOf, isFaceLive, setOwner, STAGES, stageText, type CommitRecord, type Committed, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type LineageHash, type Overlay, type Plat, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
 import {
   baseArena,
   createRegistry,
@@ -82,6 +90,22 @@ export interface StandIn {
   readonly centroid: { readonly x: number; readonly y: number };
 }
 
+/** One batch a watched stage ran through the façade (Q118; M0-e-06 S3's `BatchSeen`, its population left out). */
+export interface BatchSeen {
+  readonly stage: string;
+  readonly level: number;
+  readonly limit: number;
+  /** The kernel committed the batch (a record), else null `code` and no record: a declared batch with no op. */
+  readonly committed: boolean;
+  /** The refusal's code (a batch the kernel refused), else null. */
+  readonly code: string | null;
+  /** The batch's charged work by counter (the open overlay's tally, sorted by name); empty where no overlay was seen. */
+  readonly counts: Readonly<Record<string, number>>;
+}
+
+/** The stages whose batches are watched: those that charge the kernel's counters (M0-f-03b's STAGE_CHARGES; Q118). */
+export const WATCHED_STAGES: readonly string[] = Object.freeze(['S1', 'S3', 'S4', 'S5', 'S6']);
+
 /** What the instrumented registry recorded over one derivation. */
 export interface Instruments {
   /** Each stage's wall-clock (ms), by name, summed over its invocations. */
@@ -94,6 +118,10 @@ export interface Instruments {
   standIns: StandIn[];
   /** The district → band map S8's districts were reported under. */
   readonly bandOf: Map<Id, string>;
+  /** Every batch the watched stages ran through the façade, in order (Q118; empty for an unwatched derivation). */
+  readonly batches: BatchSeen[];
+  /** The live L1 faces when S6 started (grower.turns' unit, §2.2's `faces`; 0 where S6 did not run watched). */
+  s6Faces: number;
 }
 
 /** A clock in ms (the bench's own; never a model package's). */
@@ -101,22 +129,76 @@ export type Clock = () => number;
 
 const defaultClock: Clock = () => performance.now();
 
+/** An overlay's charged work by counter, sorted by name (a counter charged 0 kept). */
+function countsOf(o: Overlay | null): Record<string, number> {
+  const out: Record<string, number> = {};
+  if (o === null) return out;
+  for (const c of [...o.work.counts.keys()].sort()) out[c] = o.work.counts.get(c) as number;
+  return out;
+}
+
+/**
+ * The façade with its `tx` watched (M0-e-06 S3's form, C-0453 (2)): each batch's limit, outcome and charged work by
+ * counter recorded under the running stage. The overlay is seen by passing the batch through — the callback wrapped, or
+ * each declared op's `apply` and `prepare` wrapped with its kind, lineage and index kept (the canonical order unchanged).
+ */
+export function watchedKernel(kernel: Kernel, stage: string, into: BatchSeen[]): Kernel {
+  const tx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>> => {
+    let seen: Overlay | null = null;
+    const watch = (o: Overlay): void => {
+      seen = o;
+    };
+    const ops = spec.ops.map((op) =>
+      Object.freeze({
+        ...op,
+        apply: (o: Overlay) => {
+          watch(o);
+          return op.apply(o);
+        },
+        ...(op.prepare === undefined
+          ? {}
+          : {
+              prepare: (o: Overlay) => {
+                watch(o);
+                (op.prepare as (o: Overlay) => void)(o);
+              },
+            }),
+      }),
+    );
+    const r = (fn === undefined
+      ? kernel.tx(spec.ops.length === 0 ? spec : { ...spec, ops })
+      : kernel.tx(spec, (o: Overlay) => {
+          watch(o);
+          return fn(o);
+        })) as KernelResult<Committed<T | KernelResult<unknown>[]>>;
+    const rec: CommitRecord | null = r.ok ? r.value.record : null;
+    into.push({ stage, level: spec.level, limit: spec.workLimit, committed: rec !== null, code: r.ok ? null : r.code, counts: countsOf(seen) });
+    return r;
+  };
+  return Object.freeze({ ...kernel, tx }) as Kernel;
+}
+
 /**
  * Wraps every stage of the registry's base product: its wall-clock stamped and its invocations counted; `after` sees each
  * stage's result and context (the face reads). The product's stage objects are replaced, never mutated (they are frozen).
+ * With `watch` (off by default) a stage of WATCHED_STAGES runs on the watched façade (Q118), its batches recorded in
+ * `ins.batches`, and S6's live L1 faces read before its stamp starts.
  */
-export function instrument(registry: StrategyRegistry, ins: Instruments, after?: (name: string, value: unknown, ctx: PipelineContext) => void, clock: Clock = defaultClock): void {
+export function instrument(registry: StrategyRegistry, ins: Instruments, after?: (name: string, value: unknown, ctx: PipelineContext) => void, clock: Clock = defaultClock, watch = false): void {
   const product = registry.products.get('base');
   if (product === undefined) throw new Error('instrument: the registry holds no base product');
   product.stages.forEach((s, i) => {
     const name = stageText(s.id);
     const orig = s.run;
+    const watched = watch && WATCHED_STAGES.includes(name);
     const wrapped: PipelineStage = {
       ...s,
       run(input: unknown, ctx: PipelineContext) {
         ins.invocations.set(name, (ins.invocations.get(name) ?? 0) + 1);
+        if (watched && name === 'S6') ins.s6Faces = ctx.kernel.view(GROUND, 1).faces().length;
+        const inner = watched ? { ...ctx, kernel: watchedKernel(ctx.kernel, name, ins.batches) } : ctx;
         const t0 = clock();
-        const r = orig.call(s, input, ctx);
+        const r = orig.call(s, input, inner);
         ins.stamps.set(name, (ins.stamps.get(name) ?? 0) + (clock() - t0));
         if (r.ok && after !== undefined) after(name, r.value, ctx);
         return r;
@@ -128,7 +210,7 @@ export function instrument(registry: StrategyRegistry, ins: Instruments, after?:
 
 /** Fresh instruments. */
 export function newInstruments(): Instruments {
-  return { stamps: new Map(), invocations: new Map(), districtFaces: [], standIns: [], bandOf: new Map() };
+  return { stamps: new Map(), invocations: new Map(), districtFaces: [], standIns: [], bandOf: new Map(), batches: [], s6Faces: 0 };
 }
 
 /** The live L1 faces an entity owns, as their rings (outer first), in canonical face order. */
@@ -307,6 +389,8 @@ export interface Derivation {
 /** Options of one derivation: the size, the clock, and a test's hook over the registry (a planted stage). */
 export interface DeriveOptions extends FixtureSize {
   readonly clock?: Clock;
+  /** Run the kernel-charging stages on the watched façade (Q118; default false — the harness's tasks pass true). */
+  readonly watch?: boolean;
   readonly plant?: (registry: StrategyRegistry, blueprint: BaseBlueprint & { seed: Seed }) => void;
 }
 
@@ -346,6 +430,7 @@ export function derive(kind: RunKind, seed: number, opts: DeriveOptions = {}): D
       ins.districtFaces = ds.flatMap((d) => ownedFaces(p, d.id));
     },
     opts.clock,
+    opts.watch === true,
   );
   const { model, report } = run(registry, blueprint, { kind: 'all' }, { arenas: () => [baseArena(blueprint)] });
   if (kind === 'integrated') {
