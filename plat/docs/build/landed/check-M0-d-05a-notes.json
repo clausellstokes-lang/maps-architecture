@@ -1,22 +1,22 @@
 {
   "schema": "plat-landed-record/1",
   "item": "check-M0-d-05a-notes",
-  "lane": "check/M0-d-05a-close-s1",
-  "lanes": ["check/M0-d-05a-close-r1", "check/M0-d-05a-consolidate-close-1", "check/M0-d-05a-close-s1"],
+  "lane": "check/M0-d-05a-close-s3",
+  "lanes": ["check/M0-d-05a-close-r1", "check/M0-d-05a-consolidate-close-1", "check/M0-d-05a-close-s1", "check/M0-d-05a-close-s2", "check/M0-d-05a-close-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-21T02:57:07.688Z",
+  "date": "2026-11-10T06:47:36.181Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-d-05a-notes.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-d-05a-notes.md", "status": "created", "sha256": "75d951fd90a8ae5fa2a0c441eaa00f705f69bcfc75fc9447bf7048ca54470dc5", "size": 17437 }
+    { "path": "plat/docs/build/checks/M0-d-05a-notes.md", "status": "created", "sha256": "fb4e36808efe84132d467ccd070002b3af03e029134b4e85cee13df3604511b9", "size": 36376 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0131", "L-0446", "L-0628"],
-      "lines": ["6267034f26768f56", "30393b3e7c886d35", "37f9f4911dd323a8"],
+      "ids": ["L-0131", "L-0446", "L-0628", "L-0773", "L-0775"],
+      "lines": ["6267034f26768f56", "30393b3e7c886d35", "37f9f4911dd323a8", "bfaa96b5d8cd79d9", "dda43925d0c9152e"],
       "removed": []
     }
   ]

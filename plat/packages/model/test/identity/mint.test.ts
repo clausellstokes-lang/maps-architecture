@@ -3,7 +3,7 @@
 // bar's "0 duplicate ids on the minting fixtures" (C-0179 (4), (7)). The permutation property checks every result
 // against a plain restatement of the rule (its oracle) and against the same batch in another input order. The input
 // checks (C-0184): a handed-on address's kind and arena, every record's kind, the live lineages' u32 lanes
-// (a signed-lane survivor), the ids and the seed key's lanes on an empty batch.
+// (a signed-lane survivor), the ids, each live id once (queue row Q93) and the seed key's lanes on an empty batch.
 import fc from 'fast-check';
 import { entityKey, seedKey, STAGES, type Hash128, type LineageHash, type PlatKey, type StageId } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
@@ -126,6 +126,39 @@ describe('§6.3 addresses: a fresh address equal to a live one takes ~1, the nex
     expect(() => mint([plot(0, { address: x })], [], [{ id: x }], SK)).toThrow(RangeError);
     expect(() => mint([plot(0, { address: x }), plot(1, { address: x })], [retired], [], SK)).toThrow(RangeError);
     expect(() => mint([plot(0, { address: x })], [retired], [], SK)).not.toThrow();
+  });
+
+  // Queue row Q93 (note N-2's mint-side residue, ruled FIX at RL11): §6.3 never reuses an address, so a lawful live set
+  // holds each address once. A repeat lets a hand-on reach a survivor's address (the note's probe: a retired entry and a
+  // survivor under one id, the record handed that id, minted the survivor's address again), so the mint refuses it,
+  // whatever the flags and the order, before it reads the batch — in the wording M0-d-05b's liveSetOf uses.
+  it('refuses a live set that gives one id twice, before it reads the batch (queue row Q93)', () => {
+    const x = addressOf('plot', lineageHash(key(0)));
+    const refusal = (run: () => unknown): unknown => {
+      try {
+        run();
+      } catch (e) {
+        return e;
+      }
+      return undefined;
+    };
+    const twice = (live: LiveEntry[], records: BatchRecord[] = [plot(1, { address: x })]): void => {
+      const e = refusal(() => mint(records, live, [], SK));
+      expect(e).toBeInstanceOf(RangeError);
+      expect((e as RangeError).message).toBe(`mint: the live id ${x} is given twice`);
+    };
+    const retired: LiveEntry = { id: x, lineage: [4, 4], retired: true };
+    const survivor: LiveEntry = { id: x, lineage: [5, 5] };
+    twice([retired, survivor]); // the note's probe: the hand-on would reach the survivor's address
+    twice([survivor, retired]); // either order
+    twice([survivor, { id: x, lineage: [6, 6] }], [plot(1)]); // two survivors
+    twice([retired, { id: x, lineage: [6, 6], retired: true }]); // two retired entries
+    twice([retired, retired]); // one entry listed twice
+    twice([{ id: 'plot:a', lineage: [1, 1] }, retired, { id: 'plot:b', lineage: [2, 2] }, survivor], [plot(1)]); // apart
+    twice([retired, survivor], []); // nothing to mint: the live set is still read whole
+    twice([retired, survivor], [plot(1, { address: x }), plot(2, { address: 'not an address' })]); // before any record
+    // Each id once is no repeat (the control).
+    expect(mint([plot(1, { address: x })], [retired, { id: `${x}~1`, lineage: [5, 5] }], [], SK)[0].identity.id).toBe(x);
   });
 
   // §6.3 EntityKind ("as Identity.kind and an address's kind: prefix spell it") and §2.1 Ids (an address is prefixed with
@@ -381,8 +414,11 @@ describe('§6.3: collisions resolved identically under any input order, by the b
           if (sp.survivor === 2) live.push({ id: `plot:s${String(n)}`, lineage: h }, { id: `plot:t${String(n)}`, lineage: lineageHash(withDup(k, 1)) });
           if (sp.survivor === 3) live.push({ id: `plot:r${String(n)}`, lineage: h, retired: true });
           const natural = sp.user === undefined ? addressOf(sp.kind, h, k.arena) : userAddressOf(sp.kind, sp.user.seq, sp.user.ordinal, k.arena);
-          if (sp.holder === 1) live.push({ id: natural, lineage: [n, 0xfeed] });
-          if (sp.holder === 2) live.push({ id: natural, lineage: [n, 0xbeef], retired: true });
+          // A lawful live set holds each address once (Q93): two records sharing a natural address (one user origin)
+          // get one holder, the first.
+          const held = live.some((e) => e.id === natural);
+          if (sp.holder === 1 && !held) live.push({ id: natural, lineage: [n, 0xfeed] });
+          if (sp.holder === 2 && !held) live.push({ id: natural, lineage: [n, 0xbeef], retired: true });
           if (sp.holder === 3) tombs.push({ id: natural }, { id: `${natural}~1` });
         }
         const a = mint(records, live, tombs, SK);
