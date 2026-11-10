@@ -24,3 +24,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DJ.md | DJ | MERGED: M0-e-01 S2 → M0-e-02 S2 → M0-e-03 S4 (the site stages: Q87's copy; Q123's river judgement; Q114, Q115, Q122's S1 share) |
 | launch-DK.md | DK | MERGED: M0-a-04 S6 → M0-a-13 S2 (kernel pins) |
 | launch-DL.md | DL | MERGED: M0-c-07 S1 → M0-b-05 S2 (bench: the gate's tables record, pins, a restatement) |
+| launch-DM.md | DM | MERGED: M0-x-02 S4 → M0-x-04 S3 (Q39's runner door proved in a mirror; two test corrections) |
