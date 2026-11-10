@@ -11,9 +11,12 @@
 //   * a batch's two calibrate scores differ by more than 5 % (when the caller passes them).
 // The harness's own process tree is this process, the `ownPids` and their descendants (the timing phase's own
 // Chromium leg, C-0082); the detector's own probes (the ps, pmset and sysctl it runs) are this process's children and
-// never offenders. This process's ancestors — the launch chain (the shell, corepack, pnpm, tsx) — and the source
-// loader's esbuild service (tsx runs the bench from source, C-0059, through an esbuild child of this process) are exempt
-// from the kind clause only: either at ≥ 10 % CPU still contends (C-0138).
+// never offenders. This process's ancestors — the launch chain (the shell, corepack, pnpm, tsx) — and the launch
+// chain's source loader, an esbuild child of a LAUNCH-CHAIN process (this process or one of its ancestors: tsx runs
+// the bench from source, C-0059, through an esbuild service that is this process's child on a single-process launch and
+// its sibling, the tsx launcher's child, when the measuring process is a child of the launcher — hardening round S1,
+// J725) are exempt from the kind clause only: either at ≥ 10 % CPU still contends (C-0138). An esbuild whose parent is
+// outside the launch chain is still named by the kind clause.
 import { execFileSync } from 'node:child_process';
 import { loadavg } from 'node:os';
 import { NO_REFERENCE_SCORE, readReferenceScore } from '../host/index.js';
@@ -97,7 +100,10 @@ export const DRIFT_LIMIT = 0.05;
 
 /** The executables the detector itself runs; as this process's children they are never offenders. */
 const PROBES = new Set(['ps', 'pmset', 'sysctl', 'sw_vers', 'arch']);
-/** The source loader's service, a child of this process when the bench runs through tsx (C-0059). */
+/**
+ * The source loader's service when the bench runs through tsx (C-0059): a child of this process, or of one of its
+ * ancestors (the tsx launcher, when this process is the launcher's child; hardening round S1).
+ */
 const LOADER = 'esbuild';
 
 const PS = process.platform === 'darwin' ? '/bin/ps' : 'ps';
@@ -262,7 +268,8 @@ export function judgeContention(
     if (own.has(r.pid) || r.pid <= 0) continue;
     const base = baseName(r.comm);
     if (r.ppid === machine.selfPid && PROBES.has(base)) continue; // the detector's own probe
-    const runtime = launch.has(r.pid) || (r.ppid === machine.selfPid && base === LOADER);
+    // the launch chain, and the launch chain's loader: an esbuild child of this process or of one of its ancestors
+    const runtime = launch.has(r.pid) || (base === LOADER && (r.ppid === machine.selfPid || launch.has(r.ppid)));
     const kind = runtime ? null : processKind(r.comm);
     if (kind !== null) {
       offenders.push({ pid: r.pid, name: kind, comm: r.comm, pcpu: r.pcpu, clause: 'kind' });
