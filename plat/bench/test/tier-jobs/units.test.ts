@@ -37,7 +37,7 @@ import {
 } from '../../src/tier-jobs/index.js';
 import { PLAT_ROOT } from '../../src/tiers/index.js';
 import { applyFallback } from '../../src/tiers/runner.js';
-import type { Job } from '../../src/tiers/types.js';
+import type { Job, Unit } from '../../src/tiers/types.js';
 import { harnessArgs, tree, unitsAt } from './support.js';
 
 // the job lists read @plat/testkit's primitive list (its first import takes seconds on this class of machine)
@@ -120,8 +120,30 @@ describe('the nightly jobs at their full sizes (§13.8; §16 M0 (a), (b), (c), (
     const us = await unitsAt(j);
     expect(us.map((u) => u.name)).toEqual([...FUZZ_PRIMITIVES.map((p) => p.name), 'constructive set']);
     // the constructive set at the nightly size's 100 draws per M0 case (C-0227 (13); C-0461 (1)), read from the harness
-    for (const u of us.slice(0, -1)) expect(harnessArgs(u, 'fuzz-bar')).toEqual(['--primitive', u.name, '--runs', '1000000', '--constructive-seeds', '100', '--no-summary']);
+    for (const u of us.slice(0, -1)) expect(harnessArgs(u, 'fuzz-bar')).toEqual(['--primitive', u.name, '--runs', '1000000', '--constructive-seeds', '100', '--no-summary', '--no-ladders', '--no-s11']);
     expect(harnessArgs(us[us.length - 1], 'fuzz-bar')).toEqual(['--runs', '1', '--constructive-seeds', '100', '--no-summary']);
+  });
+
+  it("B-FUZZ's partition units leave the per-process work to the whole-set unit: every --primitive unit passes --no-ladders and --no-s11 after --no-summary, the constructive set neither (queue row Q94; M0-f-02a N-5; M0-k-04's flags, C-0387)", async () => {
+    const p = pr('B-FUZZ (10⁴ per primitive and the constructive set)');
+    const { sizes } = applyFallback(prJobs(PLAT_ROOT), true);
+    const lists: [string, Unit[]][] = [
+      ['pr', await unitsAt(p)],
+      ['pr under the fallback', await unitsAt(p, sizes.get(p.name) ?? null)],
+      ['nightly', await unitsAt(night('B-FUZZ (10⁶ per primitive)'))],
+      ['milestone', await unitsAt(milestoneJobs().find((j) => j.name === 'B-FUZZ (10⁶ per primitive)') as Job)],
+    ];
+    for (const [tier, us] of lists) {
+      expect([tier, us.length]).toEqual([tier, FUZZ_PRIMITIVES.length + 1]);
+      for (const u of us.slice(0, -1)) {
+        const a = harnessArgs(u, 'fuzz-bar');
+        // the two flags close the line, right after --no-summary, each once
+        expect([tier, u.name, a.slice(-3), a.filter((x) => x === '--no-ladders' || x === '--no-s11').length]).toEqual([tier, u.name, ['--no-summary', '--no-ladders', '--no-s11'], 2]);
+      }
+      // the whole-set unit runs the ladders and the S11 workload once (fuzz-bar refuses the flags there, exit 64)
+      const whole = harnessArgs(us[us.length - 1], 'fuzz-bar');
+      expect([tier, whole.includes('--primitive'), whole.includes('--no-ladders'), whole.includes('--no-s11')]).toEqual([tier, false, false, false]);
+    }
   });
 
   it("B-FUZZ's constructive draws per tier (C-0227 (13)): 10 in the PR tier, 100 at the nightly size and in the milestone's carried job; the fallback never cuts them", async () => {
@@ -131,7 +153,7 @@ describe('the nightly jobs at their full sizes (§13.8; §16 M0 (a), (b), (c), (
     const pu = await unitsAt(p);
     expect([pu.length, new Set(draws(pu))]).toEqual([FUZZ_PRIMITIVES.length + 1, new Set(['10'])]);
     expect(harnessArgs(pu[pu.length - 1], 'fuzz-bar')).toEqual(['--runs', '1', '--constructive-seeds', '10', '--no-summary']);
-    expect(harnessArgs(pu[0], 'fuzz-bar')).toEqual(['--primitive', FUZZ_PRIMITIVES[0].name, '--runs', '10000', '--constructive-seeds', '10', '--no-summary']);
+    expect(harnessArgs(pu[0], 'fuzz-bar')).toEqual(['--primitive', FUZZ_PRIMITIVES[0].name, '--runs', '10000', '--constructive-seeds', '10', '--no-summary', '--no-ladders', '--no-s11']);
     const { sizes } = applyFallback(prJobs(PLAT_ROOT), true);
     const fallen = await unitsAt(p, sizes.get(p.name) ?? null);
     expect([harnessArgs(fallen[0], 'fuzz-bar')[3], new Set(draws(fallen))]).toEqual(['5000', new Set(['10'])]);
