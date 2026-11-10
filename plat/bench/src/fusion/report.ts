@@ -25,10 +25,14 @@
 //                (§3.8; M0-a-12's runner, C-0067);
 //   sharedS5   — the two runs' S1 – S5 are one derivation (equal stage roots at S5's end; C-0270 (1)).
 // Reported, never gating here: the refusal census per seed (J264), the face counts beside §12.4's ≈ 1 500 cuts and ≈ 25 districts, the block-area and cut-
-// length distributions per band (judged AFTER-M-1 by M0-c-07a / M0-c-07b, C-0072), every ladder use, the work per unit.
+// length distributions per band (judged AFTER-M-1 by M0-c-07a / M0-c-07b, C-0072), every ladder use, the work per unit,
+// and the per-stage work blocks (hardening round S1, Q118: `stageWork[stage][counter]` in M0-e-06 S3's form, the input of
+// M0-f-03b's per-stage reader — every stage the run ran, every counter STAGE_WORK gives it).
 import { quantile7 } from '@plat/testkit';
+import { loadWorkLimits } from '@plat/tables';
 import { CORPUS_BAR } from '../skeleton/runner.js';
-import { S8S9_BOUND_CM, type RefusalCensus, type SeedRecord, type WorkRow } from './measure.js';
+import { KERNEL_COUNTERS } from '../site/receipts.js';
+import { S8S9_BOUND_CM, type RefusalCensus, type SeedRecord, type StageRow, type WorkRow } from './measure.js';
 import type { RunKind } from './runs.js';
 
 /** §12.4's CITY figures the face-count report stands beside (C-0016). */
@@ -80,6 +84,66 @@ export interface WorkCounter {
   readonly unitsTotal: number;
   readonly perUnit: Quantiles;
   readonly limitHits: number;
+}
+
+/** One per-stage work block (Q118): M0-e-06 S3's form — M0-f-03b's reader's block with the charged samples beside it. */
+export interface StageWorkBlock {
+  readonly stage: string;
+  /** The counter's law's unit in the table the run read (`workLimits.json`). */
+  readonly unit: string;
+  readonly units: Quantiles;
+  readonly unitsTotal: number;
+  readonly perUnit: Quantiles;
+  /** The samples with work > 0. */
+  readonly charged: number;
+}
+
+/**
+ * The counters each stage the harness runs charges (M0-f-03b's STAGE_CHARGES for S1, S3, S4, S5, S6 and S8, C-0446; the
+ * stage-work test holds the two equal): the five kernel counters at S1, S3, S4, S5 and S6, S1's hydro.cells, route.nodes
+ * at S3, S4 and S5, S5's growth.proposals and growth.candidates, S6's grower.turns and field.cells, S8's cut counters.
+ */
+export const STAGE_WORK: Readonly<Record<string, readonly string[]>> = Object.freeze({
+  S1: Object.freeze([...KERNEL_COUNTERS, 'hydro.cells']),
+  S3: Object.freeze([...KERNEL_COUNTERS, 'route.nodes']),
+  S4: Object.freeze([...KERNEL_COUNTERS, 'route.nodes']),
+  S5: Object.freeze([...KERNEL_COUNTERS, 'growth.proposals', 'growth.candidates', 'route.nodes']),
+  S6: Object.freeze([...KERNEL_COUNTERS, 'grower.turns', 'field.cells']),
+  S8: Object.freeze(['cut.kernelCalls', 'cut.recursionDepth', 'cut.candidates']),
+});
+
+/**
+ * The run's per-stage work blocks (Q118): for every stage of STAGE_WORK that ran on some seed of the run (invoked), every
+ * counter it gives the stage with a sample — its samples the records' `work` rows (growth.* per S5c record, cut.* per S8
+ * district) and `stageRows` (the kernel counters per batch committed or refused, route.nodes, hydro.cells, grower.turns,
+ * field.cells) at that stage, in seed order: { stage, unit, units, unitsTotal, perUnit, charged } (a sample of 0 units is
+ * 0 per unit). Stages in name order, counters in STAGE_WORK's.
+ */
+export function stageWorkOf(recs: readonly SeedRecord[]): Record<string, Record<string, StageWorkBlock>> {
+  const wl = loadWorkLimits();
+  const out: Record<string, Record<string, StageWorkBlock>> = {};
+  for (const stage of Object.keys(STAGE_WORK).sort()) {
+    if (!recs.some((r) => (r.invocations[stage] ?? 0) > 0)) continue;
+    const row: Record<string, StageWorkBlock> = {};
+    for (const counter of STAGE_WORK[stage]) {
+      const samples: StageRow[] = [];
+      for (const r of recs) {
+        for (const w of r.work) if (w.stage === stage && w.counter === counter) samples.push(w);
+        for (const w of r.stageRows) if (w.stage === stage && w.counter === counter) samples.push(w);
+      }
+      if (samples.length === 0) continue;
+      row[counter] = {
+        stage,
+        unit: wl.law(counter).unit,
+        units: quantiles(samples.map((w) => w.units)),
+        unitsTotal: samples.reduce((t, w) => t + w.units, 0),
+        perUnit: quantiles(samples.map((w) => (w.units > 0 ? w.work / w.units : 0))),
+        charged: samples.filter((w) => w.work > 0).length,
+      };
+    }
+    out[stage] = row;
+  }
+  return out;
 }
 
 /** One seed's row of a run (the report's per-seed table: the refusal census by seed, J264, and the bar's readings). */
@@ -172,6 +236,8 @@ export interface RunSummary {
   readonly perSeed: readonly SeedRow[];
   readonly corpus: Readonly<Record<'roof' | 'spine', { readonly faces: number; readonly downgrades: number; readonly workLimitHits: number; readonly failures: number; readonly downgradeShare: number; readonly workLimitShare: number; readonly pass: boolean }>>;
   readonly work: Readonly<Record<string, WorkCounter>>;
+  /** The per-stage work blocks (Q118; `stageWorkOf`): stage → counter → block, M0-f-03b's per-stage reader's input. */
+  readonly stageWork: Readonly<Record<string, Readonly<Record<string, StageWorkBlock>>>>;
 }
 
 /** The verdicts (null: not judged on this report's runs). */
@@ -480,6 +546,7 @@ export function foldRun(run: RunKind, recs: readonly SeedRecord[], notes: string
     })),
     corpus: corpusOut,
     work: foldWork(work),
+    stageWork: stageWorkOf(recs),
   };
 }
 

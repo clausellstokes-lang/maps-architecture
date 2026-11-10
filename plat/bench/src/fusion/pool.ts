@@ -13,9 +13,9 @@ export interface Task extends FixtureSize {
   readonly run: RunKind;
 }
 
-/** A task's record: the run derived and measured. */
+/** A task's record: the run derived — its kernel-charging stages watched for the per-stage work (Q118) — and measured. */
 export function runTask(t: Task): SeedRecord {
-  const d = derive(t.run, t.seed, { ...(t.frameHa === undefined ? {} : { frameHa: t.frameHa }), ...(t.walledHa === undefined ? {} : { walledHa: t.walledHa }) });
+  const d = derive(t.run, t.seed, { ...(t.frameHa === undefined ? {} : { frameHa: t.frameHa }), ...(t.walledHa === undefined ? {} : { walledHa: t.walledHa }), watch: true });
   return measure(d);
 }
 
