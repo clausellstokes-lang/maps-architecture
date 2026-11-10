@@ -42,6 +42,7 @@ import {
   type Plat,
   type PlatKey,
   type StageId,
+  type WarningCode,
 } from '@plat/kernel';
 import {
   lineageHash,
@@ -460,9 +461,23 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
   return { spec, fn };
 }
 
-/** S6 (see the module comment): the perimeter, then the batch through the façade's tx. */
+/**
+ * S6 (see the module comment): the perimeter, then the batch through the façade's tx. A bare call has no stage report,
+ * so the perimeter's buffer rung is signed on the result itself (Q143 / N-s4c-3, the session's ruling R11; C-0465): its
+ * warnings carry `W_PERIMETER_BUFFER` once, after the batch's own. The Stage (`s6Stage`) writes it to the stage's report
+ * instead and leaves its result's warnings the batch's (the runner counts those as §3.1's kernel warnings).
+ */
 export function runS6(input: S6Input): KernelResult<S6Output> {
-  return runS6Reporting(input);
+  let buffered = 0;
+  const r = runS6Reporting(input, {
+    warning(code: string): void {
+      if (code === W_PERIMETER_BUFFER) buffered += 1;
+    },
+  });
+  if (!r.ok || buffered === 0) return r;
+  // S6's own code is no member of §3.1's union (`WarningCode`); the result's type is kept (the exports are frozen,
+  // J263 Q1), the code widened to it
+  return ok(r.value, [...r.warnings, { code: W_PERIMETER_BUFFER as string as WarningCode, count: buffered }]);
 }
 
 /**
