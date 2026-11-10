@@ -4,7 +4,6 @@
  "silent_minutes": 90,
  "terminal_minutes": 45,
  "children": [
-  {"letter": "CY", "session": "session_01FE9mEvf5Yr1xTmogb1HX1c", "branch": "wip/child-c04s5d", "created": "2026-11-09T20:40:06Z", "round": "M0-c-04 S5", "lanes": ["build/M0-c-04-fix-s5", "check/M0-c-04-close-s5"]},
   {"letter": "DE", "session": "session_01FE9mExMKXUXBFoBNCwNwLM", "branch": "wip/child-d05as2", "created": "2026-11-09T21:37:53Z", "round": "M0-d-05a S2", "lanes": ["build/M0-d-05a-fix-s2", "check/M0-d-05a-close-s2"]},
   {"letter": "DH", "session": "session_01FE9mEuM82W1wxLrXFcWNv1", "branch": "wip/child-a06s9", "created": "2026-11-10T00:13:57Z", "round": "M0-a-06 S9", "lanes": ["build/M0-a-06-fix-s9", "check/M0-a-06-close-s9"]},
   {"letter": "DI", "session": "session_01FE9mEvJw6M573ZnMFveSsN", "branch": "wip/child-a16s4", "created": "2026-11-10T00:25:50Z", "round": "MERGED: M0-a-15 S2, M0-a-16 S4, M0-m-01 S2", "lanes": ["build/M0-a-15-fix-s2", "check/M0-a-15-close-s2", "build/M0-a-16-fix-s4", "check/M0-a-16-close-s4", "build/M0-m-01-fix-s2", "check/M0-m-01-close-s2"]},
@@ -13,7 +12,6 @@
   {"letter": "DM", "session": "session_01FE9mEv3vi7ZdRyhGjbf8Jk", "branch": "wip/child-x02s4", "created": "2026-11-10T00:28:20Z", "round": "MERGED: M0-x-02 S4, M0-x-04 S3", "lanes": ["build/M0-x-02-fix-s4", "check/M0-x-02-close-s4", "build/M0-x-04-fix-s3", "check/M0-x-04-close-s3"]},
   {"letter": "DN", "session": "session_01FE9mEt94UEWyTzqdx4af9r", "branch": "wip/child-a09s18", "created": "2026-11-10T03:48:33Z", "round": "M0-a-09 S18 (the library round)", "lanes": ["build/M0-a-09-fix-s18", "check/M0-a-09-close-s18"]},
   {"letter": "DO", "session": "session_01FE9mEwaTXLQA2PGDndZqRa", "branch": "wip/child-x06s2", "created": "2026-11-10T04:24:45Z", "round": "MERGED: M0-x-06 S2, M0-x-05 S3", "lanes": ["build/M0-x-06-fix-s2", "check/M0-x-06-close-s2", "build/M0-x-05-fix-s3", "check/M0-x-05-close-s3"]},
-  {"letter": "DP", "session": "session_01FE9mEujj4wsG1k6dnSbySB", "branch": "wip/child-f02as2", "created": "2026-11-10T04:24:46Z", "round": "MERGED: M0-f-02a S2, M0-f-02b S1", "lanes": ["build/M0-f-02a-fix-s2", "check/M0-f-02a-close-s2", "build/M0-f-02b-fix-s1", "check/M0-f-02b-close-s1"]},
   {"letter": "DQ", "session": "session_01FE9mEugvQYQcyxzdVR7CdH", "branch": "wip/child-a11s6", "created": "2026-11-10T04:24:47Z", "round": "M0-a-11 S6", "lanes": ["build/M0-a-11-fix-s6", "check/M0-a-11-close-s6"]},
   {"letter": "DR", "session": "session_01FE9mEuAgy1J7hSgMwptMRQ", "branch": "wip/child-c01s4", "created": "2026-11-10T04:44:57Z", "round": "M0-c-01 S4", "lanes": ["build/M0-c-01-fix-s4", "check/M0-c-01-close-s4"]}
  ]
