@@ -8,7 +8,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it, vi } from 'vitest';
-import { loadTable } from '@plat/tables';
+import { loadTable, loadWorkLimits } from '@plat/tables';
 import { hash128Hex } from '@plat/testkit';
 import { SUMMARY_PATH, type FusionGateReport } from '../../src/fusion/index.js';
 import { gateArgs, gateRerun, reportShape, tablesLoaded } from '../../src/fusion-ng/index.js';
@@ -49,6 +49,8 @@ describe('the gate re-run through M0-c-06\'s entry', () => {
     expect(gate.report.sharedS5).toEqual({ compared: 1, equal: 1 });
     // the tables the re-run's process read, as M0-s-02's loader holds them
     for (const id of ['cut', 'bands', 'granularity', 'interior']) expect(gate.tables[id]).toEqual({ version: loadTable(id).version, hash: hash128Hex(loadTable(id).hash) });
+    // and the work-limit table S8's cut.* laws come from, through its own loader (integration-g17 N-3)
+    expect(gate.tables['workLimits']).toEqual({ version: loadWorkLimits().table.version, hash: hash128Hex(loadWorkLimits().table.hash) });
     expect(gate.recalibrationInEffect).toBe(false);
     // the census of the fixture's stages at this seed: 0 refusals (after M0-c-06's fix rounds)
     expect(census).toEqual({ classes: [], total: 0 });

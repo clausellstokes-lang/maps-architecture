@@ -72,3 +72,49 @@ itself (phase b 69 and 189 runs, phase a 20 and 60 faces): lawful refusals 0, mi
 | N11 | The applied-table line's pass-side literal is asserted nowhere: every run in the item's tests that writes a table fails, so mutant X8b (the fail text printed whatever the verdict) survives the 9 files, although X8a (the verdict dropped) and X8c (the pass text always) are killed. The closing check's probe P1 — the σ rows planted at our own measured values, `--apply` run — shows the tree printing `…; the run passes (exit 0)` on both tables and exiting 0, so the code is right (CONFIRMED). | Add P1's shape to `phase-a.test.ts`: plant the rows from the first run's `ours.sigmaUnderRule`, run `--apply`, assert exit 0 and the two lines verbatim. | M4 |
 | N12 | `tolBand`'s stated reach is wider than its reachable input. The note-2 guard is documented (and declared in C-0432 (1)) for "M0-k-05's duplicate rows, **or** an ⟨M-1⟩ cell with no row", but `cut.sigma` and `cut.fillet` carry `m1: false` in testkit's registry (`metrics/registry.ts:304, 307`), so a cell with no row reads `missingBaseline` and `tolBand` returns before the guard (probe P2). Only duplicates reach it, where M0-k-05 already reads `fail` — which is why narrowing the guard to `baselineIds.length > 1` (X2c) or dropping its `verdict: 'fail'` (X2d) is equivalent today. | Either say "duplicate rows" in the comment and C-0256's reading, or keep the wider guard and pin it when §13.5's bent-cut row becomes an ⟨M-1⟩ cell (then a missing row reads `fail` with 0 ids and the guard goes live). | M4, or with M0-b-05b if the row is marked ⟨M-1⟩ |
 | N13 | For the run items (the `replay` gate's reach): the clause fails a whole run when one district's replay fell back to S8's own run (`counts === null` in phase a, `replayed: false` in phase b) — which `runFull` does on a lawful input whenever the replay batch fails or passes S8's own limit, not only on a defect of ours. The census meets none (0 of 189 + 60 runs), so nothing lawful moved its verdict here, and failing safe is the round's declared reading of §13.8 *Edges*; but a large M-1 face that goes over the limit would fail M0-b-05a / M0-b-05b entirely. | If an M-1 run meets one, take the row's other alternative for the fall-back half — a bound on the missed and not-replayed shares, with the run's note naming which faces stood on S8's own run — rather than loosening the missed-cut bound. | M0-b-05a / M0-b-05b (else M4) |
+
+## Hardening round S2 — the builder's notes (lane `build/M0-b-05-fix-s2`, 2026-11-10)
+
+The session's hardening round S2 of M0-b-05 (J237 (2), J238, J186, J192; leg 2 of the merged round with M0-c-07 S1,
+J443 / J733 — the two items share no file), on the rows the second re-triage found still open after round S1:
+N11 and N12 above (`plan.json`'s entry `M0-b-05`, class MIXED; the session's rulings J733), each source note read whole.
+Choices row C-0467. A Claude Code cloud container (linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, Node
+24.12.0); every run at W = 1. **NO-SHIFT:** a test and text — no executable line of `bench/src/bentcut-ng/` changed
+(`verdicts.ts`'s diff is two comments), so no verdict, report, table, golden or digest moves.
+
+**Census (J264 / N-58), before → after.** The executable code is the same before and after the round, so one
+measurement is both: a scratch probe in the lane's mirror (`bench/test/zz-census/census.test.ts`, never in `plat/`),
+round S1's families re-run — phase b: the three synthetic NG faces of `support.ts` and twenty of M0-k-01's generated
+faces (round-joined, holed, curved, C-shaped, triangular, i 0 – 3) at derivation seeds 0 – 2 through `runNgTask` with the
+T-bars on, 69 runs: **setup refused 0 → 0, S8 refused 0 → 0, not replayed 0 → 0, replay misses 0 → 0** (681 cuts;
+T-bars 0 failed, T38-1 476 checked — S1's after, unchanged); phase a: M0-b-04's signature faces, 4 per kind at seed 1,
+20 faces: **0 → 0** on each count (214 cuts). Every class LAWFUL; no refusal met, none moved.
+
+| row | outcome | what changed | pin (red without the fix, or under the mutant it names) | mutant |
+|---|---|---|---|---|
+| N11 — the applied-table line's pass text unasserted | **PINNED** (the code was right; the closing check's probe P1 CONFIRMED it) | none in `src/`; probe P1's shape is now a case of `phase-a.test.ts` | `phase-a.test.ts` "--apply on a passing run prints the pass text beside each applied table and exits 0 (hardening S2, N11: probe P1)": a first run measures ours; its `ours.sigmaUnderRule` plain and ring are planted as the σ rows; the `--apply` run exits 0, `pass` true, `failing` [], both tables applied 1 → 2, and stdout holds verbatim "bentcut-ng: applied granularity.json version 1 → 2, 1 cells, provenance M-1 2026-10-04; the run passes (exit 0)" and the `regimes.json` twin, and never "the run fails" | X8b (the fail text printed whatever the verdict): **KILLED** by the new case (it survived the 9 files at S1's close); X8c (the pass text always) re-run: KILLED |
+| N12 — `tolBand`'s guard reach | **FIXED (text)** — the session's ruling (J733): the note's FIRST form | `verdicts.ts`: `tolBand`'s doc and `NOTE_NO_SINGLE_ROW`'s comment now name **duplicate rows** (M0-k-05's) as the guard's input and say why that is the only reachable one: `cut.sigma` and `cut.fillet` are not ⟨M-1⟩ cells, so a cell with no row reads `missingBaseline` and `tolBand` returns on its first line. The wider guard (`baselineIds.length !== 1`) stays in the code untouched; its pin is M0-b-05b's when §13.5's bent-cut row becomes an ⟨M-1⟩ cell (M1). C-0467 restates C-0256 (3)'s and C-0432 (1)'s reading to the reachable input. | the deliverable is the text; the text's reach claim is held by `verdicts.test.ts` "the no-single-row guard's reach is duplicate rows only: a σ or fillet cell with no row reads missingBaseline before the band (hardening S2, N12: probe P2)" — σ plain and fillet all with no row read `missingBaseline`, no id, M0-k-05's note "no baseline row (NG, ⟨key⟩)" untouched, no override, the gate failed | N12c (`cut.fillet`'s registry refs `NG_TARGET` → `NG_M1`, the cell made ⟨M-1⟩) and N12d (the same for `cut.sigma`): **KILLED** by the reach case — so the case goes red the day either cell becomes ⟨M-1⟩ and the guard's 0-id branch goes live. N12a / N12b (the metric def's own `m1: false` → `true`): **equivalent** — M0-k-05's parity report reads the reference's `m1` (`parity/report.ts` 142), never the def's |
+
+**A correction to N12's source note (said here, not a code change):** the note places the "not ⟨M-1⟩" reading on
+`m1: false` at `metrics/registry.ts:304, 307`. That field is the metric definition's; the parity report decides
+`missingBaseline` against `fail` from the *reference's* `m1` (`refs: NG_TARGET`, which carries none). Both say "not
+⟨M-1⟩" for the two cells today, so the note's conclusion stands; the comment in `verdicts.ts` names both, and the
+mutants above show which one the pin follows.
+
+**Self-check (J183).** One mirror at `/home/user/maps-scratch/waves/selfcheck-build-M0-b-05-fix-s2/plat` (`cp -a`;
+`find … -lname '/home/user/maps-architecture*'` empty; `@plat/testkit` and `@plat/layout` resolving inside it); the
+unmutated mirror 9 files 68/68; mutants X8b, X8c, N12a – N12d each alone at W = 1 with `--bail=1` over
+`bench/test/bentcut-ng`: **4 killed (X8b, X8c, N12c, N12d), 2 equivalent (N12a, N12b)**, each file restored from
+`plat/` and `cmp`-equal before the next. The mirror was removed at the end.
+
+**No export added, removed or renamed** (J263 Q1); **no message text changed** (Q6) — the pinned literals are the S1
+texts. The item's deferred notes N10 and N13 go to M1 by a queue row (the session's, J733), not this round's.
+
+## Hardening round S2 — the closing check's notes (lane `check/M0-b-05-close-s2`, 2026-11-10)
+
+Verdict and evidence in `checks/M0-b-05-s2.md` (J269). Not a blocker (J162, J169; N-45 / J202). The seat re-measured the
+refusal census itself (phase b 69 runs, phase a 20 faces): lawful refusals 0, misses 0, fall-backs 0 — it did not rise.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N14 | Once a bent-cut cell is ⟨M-1⟩, the wide guard changes the *diagnosis* of a no-row cell, not its verdict: the seat's probe P-M1 (mirror; `cut.sigma`'s refs made `NG_M1`) reads `fail`, ids `[]`, note "⟨M-1⟩ row missing (NG, plain); no single row for the ± band (fail-safe)"; with the guard also narrowed to `> 1` (X2c) it still reads `fail`, by the "no p50" branch, with the override note "σ within ± 0.02 …; the row carries no p50 for the ± band (fail-safe)". So a pin that asserts only `fail` will not kill X2c. | When M0-b-05b pins the wide guard (ruling J733), assert the note verbatim and the absence of `override`, not just the verdict. | M1 (with M0-b-05b) |

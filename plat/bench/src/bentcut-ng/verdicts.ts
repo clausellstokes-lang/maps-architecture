@@ -79,13 +79,17 @@ function rowById(rows: readonly Baseline[], ids: readonly string[]): Baseline | 
   return ids.length === 1 ? rows.find((r) => r.id === ids[0]) : undefined;
 }
 
-/** The note a ± band appends when the band rule read no single row (duplicates, or an ⟨M-1⟩ row missing). */
+/** The note a ± band appends when the band rule read no single row (M0-k-05's duplicate rows). */
 const NOTE_NO_SINGLE_ROW = 'no single row for the ± band (fail-safe)';
 
 /**
  * The ± band of a scalar target row (σ, the fillet share): pass inside [p50 − tol, p50 + tol]. When the report row
- * names no single baseline (M0-k-05's duplicate rows, or an ⟨M-1⟩ cell with no row), the band is not applied: the
- * verdict stays a fail and M0-k-05's own note is kept, the band's reason appended (hardening round S1, note 2).
+ * names no single baseline — M0-k-05's duplicate rows — the band is not applied: the verdict stays a fail and
+ * M0-k-05's own note is kept, the band's reason appended (hardening round S1, note 2). Duplicate rows are the guard's
+ * only reachable input (hardening round S2, N12): `cut.sigma` and `cut.fillet` are not ⟨M-1⟩ cells (testkit's metric
+ * registry gives them `m1: false` and the plain NG target reference, no `m1` on it), so a cell with no row reads
+ * `missingBaseline` and returns on the first line, before the guard. The guard is kept wide (any count but one) for M1, when §13.5's bent-cut row may become an ⟨M-1⟩ cell and a
+ * missing row reads `fail` with no id; its pin is then M0-b-05b's.
  */
 function tolBand(r: ParityRow, row: Baseline | undefined, tol: number, note: string): ParityRow {
   if (r.verdict !== 'pass' && r.verdict !== 'fail') return r;

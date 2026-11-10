@@ -71,6 +71,19 @@ describe('the band-rule verdicts on planted rows (C-0092, C-0116)', () => {
     expect([one[0].verdict, one[0].note]).toEqual(['pass', 'σ within ± 0.02 of the row (§13.5 bent-cut row; §16 M0 (b))']);
   });
 
+  it('the no-single-row guard\'s reach is duplicate rows only: a σ or fillet cell with no row reads missingBaseline before the band (hardening S2, N12: probe P2)', () => {
+    // cut.sigma and cut.fillet are not ⟨M-1⟩ cells (testkit's registry: m1 false, the NG target reference with no m1),
+    // so M0-k-05 reads a missing row missingBaseline and tolBand returns it untouched — never the guard's fail and note.
+    // When §13.5's bent-cut row becomes an ⟨M-1⟩ cell (M1), this reads fail with no id and the guard goes live:
+    // M0-b-05b's pin then.
+    const c = judge([], [scalarEntry('cut.sigma', 'plain', [0.085]), scalarEntry('cut.fillet', 'all', [0.53])]);
+    expect(c.map((x) => [x.id, x.verdict, x.baselineIds, x.note, x.band])).toEqual([
+      ['cut.sigma/plain', 'missingBaseline', [], 'no baseline row (NG, plain)', {}],
+      ['cut.fillet/all', 'missingBaseline', [], 'no baseline row (NG, all)', {}],
+    ]);
+    expect(c.map((x) => holds(x))).toEqual([false, false]);
+  });
+
   it('a distribution row with spreadKS: ours ≤ 1.25 × spreadKS.p90 passes, beyond it fails', () => {
     const rows = [row('cut.length', 'all', lengthHistogram(NEAR), { spreadKS: { p90: 0.2, pairs: 190 } })];
     const near = judge(rows, [sampleEntry('cut.length', 'all', [NEAR, NEAR.map((x) => x + 1), NEAR.map((x) => x + 2)])]);
