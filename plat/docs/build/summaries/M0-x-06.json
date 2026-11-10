@@ -1,10 +1,10 @@
 {
   "item": "M0-x-06",
-  "seedsPerFixture": 1000,
+  "seedsPerFixture": 10,
   "fixtures": {
     "EP-01/S1/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -17,11 +17,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S1/collinear": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -31,11 +31,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S1/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 967,
+      "laddered": 9,
       "left-out": 0,
-      "refused-safe": 33,
+      "refused-safe": 1,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -45,11 +45,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S1/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -59,11 +59,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S1/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -73,8 +73,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S3/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -87,11 +87,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S3/collinear": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -101,11 +101,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S3/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -115,11 +115,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S3/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -129,11 +129,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S3/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -143,8 +143,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S4/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -157,8 +157,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S4/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -171,9 +171,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S4/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -182,11 +182,11 @@
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-01/S4/zero-area": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -199,9 +199,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S4/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -213,67 +213,67 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5a/coincident": {
-      "seeds": 1000,
-      "absorbed": 995,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 5,
+      "refused-safe": 0,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 3
+      "lawfulRefusals": 0
     },
     "EP-01/S5a/collinear": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-01/S5a/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-01/S5a/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 2
+      "lawfulRefusals": 0
     },
     "EP-01/S5a/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -283,8 +283,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5b/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -297,8 +297,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5b/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -311,11 +311,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5b/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -325,8 +325,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5b/zero-area": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -339,11 +339,11 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5b/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 1000,
+      "refused-safe": 10,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
@@ -353,8 +353,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5c/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -367,8 +367,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5c/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -381,10 +381,10 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5c/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
-      "left-out": 1000,
+      "left-out": 10,
       "refused-safe": 0,
       "refused-lawful": 0,
       "defined": 0,
@@ -395,8 +395,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5c/zero-area": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -409,9 +409,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5c/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -423,8 +423,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5d/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -437,8 +437,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5d/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -451,10 +451,10 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5d/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 5,
-      "left-out": 995,
+      "laddered": 0,
+      "left-out": 10,
       "refused-safe": 0,
       "refused-lawful": 0,
       "defined": 0,
@@ -465,8 +465,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5d/zero-area": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -479,9 +479,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S5d/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -493,22 +493,22 @@
       "lawfulRefusals": 0
     },
     "EP-01/S6/coincident": {
-      "seeds": 1000,
-      "absorbed": 998,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
-      "refused-safe": 2,
+      "refused-safe": 0,
       "refused-lawful": 0,
       "defined": 0,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-01/S6/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -521,36 +521,8 @@
       "lawfulRefusals": 0
     },
     "EP-01/S6/self-touching": {
-      "seeds": 1000,
-      "absorbed": 998,
-      "laddered": 0,
-      "left-out": 0,
-      "refused-safe": 2,
-      "refused-lawful": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0,
-      "lawfulRefusals": 0
-    },
-    "EP-01/S6/zero-area": {
-      "seeds": 1000,
-      "absorbed": 4,
-      "laddered": 0,
-      "left-out": 0,
-      "refused-safe": 996,
-      "refused-lawful": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0,
-      "lawfulRefusals": 0
-    },
-    "EP-01/S6/zero-length": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -560,12 +532,40 @@
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 2
+      "lawfulRefusals": 0
+    },
+    "EP-01/S6/zero-area": {
+      "seeds": 10,
+      "absorbed": 0,
+      "laddered": 0,
+      "left-out": 0,
+      "refused-safe": 10,
+      "refused-lawful": 0,
+      "defined": 0,
+      "off": 0,
+      "crash": 0,
+      "hang": 0,
+      "offOutcome": 0,
+      "lawfulRefusals": 0
+    },
+    "EP-01/S6/zero-length": {
+      "seeds": 10,
+      "absorbed": 10,
+      "laddered": 0,
+      "left-out": 0,
+      "refused-safe": 0,
+      "refused-lawful": 0,
+      "defined": 0,
+      "off": 0,
+      "crash": 0,
+      "hang": 0,
+      "offOutcome": 0,
+      "lawfulRefusals": 0
     },
     "EP-01/S8/coincident": {
-      "seeds": 1000,
-      "absorbed": 567,
-      "laddered": 433,
+      "seeds": 10,
+      "absorbed": 8,
+      "laddered": 2,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -577,9 +577,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S8/collinear": {
-      "seeds": 1000,
-      "absorbed": 591,
-      "laddered": 409,
+      "seeds": 10,
+      "absorbed": 5,
+      "laddered": 5,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -591,9 +591,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S8/self-touching": {
-      "seeds": 1000,
-      "absorbed": 436,
-      "laddered": 564,
+      "seeds": 10,
+      "absorbed": 7,
+      "laddered": 3,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -605,9 +605,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S8/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -619,9 +619,9 @@
       "lawfulRefusals": 0
     },
     "EP-01/S8/zero-length": {
-      "seeds": 1000,
-      "absorbed": 566,
-      "laddered": 434,
+      "seeds": 10,
+      "absorbed": 7,
+      "laddered": 3,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -633,27 +633,27 @@
       "lawfulRefusals": 0
     },
     "EP-04/S5b": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-04/S5c": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -661,9 +661,9 @@
       "lawfulRefusals": 0
     },
     "EP-05/S5d": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -672,16 +672,16 @@
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 1
+      "lawfulRefusals": 0
     },
     "EP-06/S6/degenerate-face": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -689,13 +689,13 @@
       "lawfulRefusals": 0
     },
     "EP-06/S6/single-face": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -703,13 +703,13 @@
       "lawfulRefusals": 0
     },
     "EP-16/stop-test": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -717,9 +717,9 @@
       "lawfulRefusals": 0
     },
     "EP-20/M0": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -728,12 +728,12 @@
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 3
+      "lawfulRefusals": 0
     },
     "EP-23/M0": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -745,27 +745,27 @@
       "lawfulRefusals": 0
     },
     "cell/bridge×frame": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
       "offOutcome": 0,
-      "lawfulRefusals": 19
+      "lawfulRefusals": 0
     },
     "cell/cliff×frame": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -773,13 +773,13 @@
       "lawfulRefusals": 0
     },
     "cell/river×frame": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -787,13 +787,13 @@
       "lawfulRefusals": 0
     },
     "cell/wall×frame": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
-      "defined": 1000,
+      "defined": 10,
       "off": 0,
       "crash": 0,
       "hang": 0,
@@ -801,8 +801,8 @@
       "lawfulRefusals": 0
     },
     "class/F-NUM/coincident": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -815,9 +815,9 @@
       "lawfulRefusals": 0
     },
     "class/F-NUM/collinear": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -829,8 +829,8 @@
       "lawfulRefusals": 0
     },
     "class/F-NUM/self-touching": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -843,9 +843,9 @@
       "lawfulRefusals": 0
     },
     "class/F-NUM/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -857,9 +857,9 @@
       "lawfulRefusals": 0
     },
     "class/F-NUM/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -871,9 +871,9 @@
       "lawfulRefusals": 0
     },
     "class/F-SKELETON/coincident": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -885,8 +885,8 @@
       "lawfulRefusals": 0
     },
     "class/F-SKELETON/collinear": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -899,9 +899,9 @@
       "lawfulRefusals": 0
     },
     "class/F-SKELETON/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -913,9 +913,9 @@
       "lawfulRefusals": 0
     },
     "class/F-SKELETON/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -927,8 +927,8 @@
       "lawfulRefusals": 0
     },
     "class/F-SKELETON/zero-length": {
-      "seeds": 1000,
-      "absorbed": 1000,
+      "seeds": 10,
+      "absorbed": 10,
       "laddered": 0,
       "left-out": 0,
       "refused-safe": 0,
@@ -941,9 +941,9 @@
       "lawfulRefusals": 0
     },
     "class/F-WORK/coincident": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -955,9 +955,9 @@
       "lawfulRefusals": 0
     },
     "class/F-WORK/collinear": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -969,9 +969,9 @@
       "lawfulRefusals": 0
     },
     "class/F-WORK/self-touching": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -983,9 +983,9 @@
       "lawfulRefusals": 0
     },
     "class/F-WORK/zero-area": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -997,9 +997,9 @@
       "lawfulRefusals": 0
     },
     "class/F-WORK/zero-length": {
-      "seeds": 1000,
+      "seeds": 10,
       "absorbed": 0,
-      "laddered": 1000,
+      "laddered": 10,
       "left-out": 0,
       "refused-safe": 0,
       "refused-lawful": 0,
@@ -1013,18 +1013,18 @@
   },
   "totals": {
     "fixtures": 72,
-    "seeds": 72000,
-    "absorbed": 25155,
-    "laddered": 21812,
-    "left-out": 1995,
-    "refused-safe": 14038,
+    "seeds": 720,
+    "absorbed": 257,
+    "laddered": 212,
+    "left-out": 20,
+    "refused-safe": 141,
     "refused-lawful": 0,
-    "defined": 9000,
+    "defined": 90,
     "off": 0,
     "crash": 0,
     "hang": 0,
     "offOutcome": 0,
-    "lawfulRefusals": 35
+    "lawfulRefusals": 0
   },
   "coverage": {
     "rows": 153,

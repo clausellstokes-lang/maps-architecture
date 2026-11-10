@@ -1,6 +1,7 @@
 // The edge suite's controls (M0-x-06; C-0100): a fixture whose expected outcome is deliberately wrong fails the suite
 // naming the fixture and the seed; the judge's refusals; the restart assertion; and the harness's own pieces — the S5
 // driver and the unplanted façade — leave the base's run unchanged (the fixtures run the real stages, no mock stage).
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { edgeSeeds, judgeEdgeOutcome, type EdgeFixture, type EdgeOutcome } from '../../src/edge/index.js';
 import { edgeChain, MID_FLAT, restartFree, SMALL_FLAT, type ChainRun } from '../../src/edge/chain.js';
@@ -9,7 +10,7 @@ import type { BaseBlueprint } from '@plat/layout';
 import { liveVertices } from '../../src/edge/arena.js';
 import { arenaProblems, chainCheck, chainProblems } from '../../src/edge/observe.js';
 import { s8State } from '../../src/edge/s8.js';
-import { builtOf, edgeShard, inShard, mergeSummary, runFixture, SEEDS, summaryWanted, type EdgeSummary, type FixtureRun } from './support.js';
+import { builtOf, edgeShard, inShard, mergeSummary, runFixture, SEEDS, SUMMARY_PATH, summaryWanted, type EdgeSummary, type FixtureRun } from './support.js';
 
 const [EP16] = builtOf('EP-16/');
 
@@ -207,5 +208,29 @@ describe('the numbers-only summary (C-0067)', () => {
     expect(Object.keys(mergeSummary(s, [other], 10).fixtures)).toEqual(['EP-05/S5d']);
     expect(summaryWanted({})).toBe(false);
     expect(summaryWanted({ PLAT_EDGE_SUMMARY: '1' })).toBe(true);
+  });
+  // Q148 (hardening round S2): the committed summary is held against the census the code states, so a record left from
+  // an earlier source state (fix round 2's lawfulRefusals 35, the census rounds since having removed every one) fails
+  // here instead of standing. The writer counts what the census counts — `runFixture`'s `lawfulRefusals`, one per entry
+  // of a run's `lawful` list (J264, C-0342 (2)) — so the record agrees with the census when it was written whole by the
+  // writer on the tree: re-merged with no run it is unchanged (its totals its fixtures summed, the coverage today's), it
+  // holds every built fixture, and a lawful-input refusal it counts is one a cell names as a finding (C-0342 (3)): with
+  // none named on the committed tree, 0. A writing run (PLAT_EDGE_SUMMARY=1) skips it, the files rewriting the record as
+  // they end; the next plain run checks what they wrote.
+  it.skipIf(summaryWanted())('the committed summary is the census the suite measures: written whole by the writer, its lawful-input refusals the findings the cells name (Q148)', () => {
+    const s = JSON.parse(readFileSync(SUMMARY_PATH, 'utf8')) as EdgeSummary;
+    expect(mergeSummary(s, [], s.seedsPerFixture)).toEqual(s);
+    const built = builtOf('');
+    expect(Object.keys(s.fixtures)).toEqual(built.map((f) => f.id).sort());
+    let named = 0;
+    for (const f of built) {
+      const findings = edgeSeeds(f.id, s.seedsPerFixture).filter((seed) => f.expect.findings?.[seed] !== undefined).length;
+      named += findings;
+      const c = s.fixtures[f.id];
+      expect(c.seeds, f.id).toBe(s.seedsPerFixture);
+      expect(c['refused-lawful'], f.id).toBeLessThanOrEqual(findings);
+      if (findings === 0) expect(c.lawfulRefusals, `${f.id}: lawful-input refusals no cell names (J264's census)`).toBe(0);
+    }
+    if (named === 0) expect(s.totals.lawfulRefusals).toBe(0);
   });
 });
