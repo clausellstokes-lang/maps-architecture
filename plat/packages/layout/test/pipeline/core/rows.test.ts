@@ -27,6 +27,8 @@ const env = { checks: { holds: () => null } };
 interface Plan {
   readonly invariants: readonly Invariant[];
   readonly commit?: boolean;
+  /** A door batch whose callback writes nothing (an ok with no record). */
+  readonly emptyBatch?: boolean;
   readonly write?: boolean;
   readonly report?: Readonly<Record<string, readonly boolean[]>>;
   readonly refuse?: boolean;
@@ -49,6 +51,10 @@ function runPlan(plan: Plan | null) {
       if (plan.commit === true) {
         const r = ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS }, (o) => ctx.kernel.geom.insertChain(o, [pt(0, 0), pt(SIDE, 0), pt(SIDE, SIDE), pt(0, SIDE)], [{ role: 'margin', entity: 'terrain:ground' }], 'mandatory', { closed: true }));
         if (!r.ok) throw new Error(`fixture: ring refused: ${r.code} ${r.detail}`);
+      }
+      if (plan.emptyBatch === true) {
+        const r = ctx.batch({ level: 0, counter: LAW.counter, counts: COUNTS }, () => ok(0));
+        if (!r.ok || r.value.record !== null) throw new Error('fixture: the empty batch wrote a record or was refused');
       }
       for (const [row, verdicts] of Object.entries(plan.report ?? {})) for (const v of verdicts) ctx.report.invariant(row, v);
       if (plan.refuse === true) return err('E_DEGENERATE', 'fixture: refused at its end');
@@ -171,6 +177,16 @@ describe('the stage-end guard: every declared stage-end row of a stage that reac
     const outputOnly = runPlan({ invariants: [SOFT_BATCH], write: true });
     expect(outputOnly.model.refusals.size).toBe(0);
     expect(outputOnly.report.stages[0].invariants.map((l) => [l.name, l.pass, l.count])).toEqual([['fx.softBatch', true, 0]]);
+  });
+
+  it('a door batch that wrote nothing is no door commit: a batch-scope soft row left unreported refuses nothing (x-02 note 27, probe P2)', () => {
+    const { model, report } = runPlan({ invariants: [SOFT_BATCH], emptyBatch: true, write: true });
+    expect(model.refusals.size).toBe(0);
+    expect(report.bugs).toEqual([]);
+    expect(model.data.get('land')).toBe(1);
+    expect(report.stages[0].invariants.map((l) => [l.name, l.pass, l.count])).toEqual([['fx.softBatch', true, 0]]);
+    // Beside a batch that committed, the same row is required (the rule the empty batch must not trigger on its own).
+    expect(runPlan({ invariants: [SOFT_BATCH], emptyBatch: true, commit: true, write: true }).model.refusals.get('S1')?.detail).toBe('row fx.softBatch declared but never evaluated');
   });
 
   it('a stage given an input that returns ok having produced nothing is not judged (C-0316 (4), as recorded): a harness\'s no-op stage keeps its rows unevaluated', () => {

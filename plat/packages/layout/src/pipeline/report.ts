@@ -9,8 +9,10 @@
 // * `ReportSink` is what a stage writes through (`StageContext.report`): its own warnings, its ladder uses (the stream
 //   key's components; the report renders the textual key, §6.1), its evaluations of declared stage-scope and soft rows,
 //   requested features (§5.1 (7)), auto-resolved parameters, unserved and unplaced entities and bug aborts (§5.1 (8)).
+//   A refusal code (`E_…`) offered as a warning is refused (Q139); a §3.1 `W_` code a stage forwards passes (J674).
 //   The runner writes the batch side itself: work per counter, kernel warnings, downgrades and work-limit hits from
-//   each commit, the batch-scope hard rows' evaluations (counted only where the batch tells the row's verdict, C-0454),
+//   each commit, the batch-scope hard rows' evaluations (counted only where the batch tells the row's verdict, C-0454;
+//   a class-floor row only where the run's env gives its class a floor — the kernel skips it otherwise, x-02 note 28),
 //   and a bug entry for a stage whose run is refused (C-0224 (5)). A declared stage-end row the stage never reported, of a
 //   stage that reached its end (C-0316 (4): its run returned ok and it produced something — an output written or a
 //   commit on an arena), is such a refusal, `E_INVARIANT` ('row <name> declared but never evaluated'), the stage rolled
@@ -171,7 +173,10 @@ export interface BugInput {
 
 /** What a stage writes its report lines through (`StageContext.report`; §5.4). */
 export interface ReportSink {
-  /** One of the stage's own non-kernel warning codes, `count` times (default 1). */
+  /**
+   * One of the stage's warning codes, `count` times (default 1): its own, or a §3.1 `W_` code it forwards (S8's
+   * `W_CUT_SLID`, Q139's ruling J674). A refusal code (one opening `E_`) is refused: a refusal never travels as a warning.
+   */
   warning(code: string, count?: number): void;
   /** A ladder use (§5.1 (3)): every rung taken writes one. */
   ladderUse(use: LadderUseInput): void;
@@ -265,6 +270,8 @@ export class ReportBuilder {
     return Object.freeze({
       warning: (code: string, count = 1): void => {
         if (typeof code !== 'string' || code.length === 0) throw new RangeError('report: a warning names its code');
+        // A refusal never travels as a warning (Q139, J674): an E_ code is refused; §3.1's W_ codes (S8's W_CUT_SLID) pass.
+        if (code.startsWith('E_')) throw new RangeError(`report: stage ${s.name} offers the refusal code ${code} as a warning: a refusal is never reported as a warning (§3.1, §5.4)`);
         checkCount(count, `warning ${code}`);
         countUp(s.warnings, code, count);
       },

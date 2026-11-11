@@ -217,3 +217,71 @@ each is a hardening row or a note for the session. Evidence in `/home/user/maps-
 | 19 | **Harnesses that call M0-x-02's `run` directly build the arena on `baseArena`'s default.** `bench/src/fusion/runs.ts:350`, `fusion-ng/hoods.ts:208`, `site/compose.ts:304`, `testkit/src/edge/chain.ts:342`, `ladders/chain.ts:275` and several layout tests pass `arenas: () => [baseArena(bp)]` and no `tables`; since this round the arena and the runner's stages read the same registered view there (before, the arena read the bare one; the frame is equal on both). A caller that handed `run` a variant view while keeping `baseArena(bp)` would read two views; none does today (grep of every call site). Suggested handling: route such harnesses through `runBase`, or pass the same view to both. | the call-site grep (this check) | the session (M0-x-05 / bench owners), M4 | CONFIRMED (grep) / PLAUSIBLE (the variant case) |
 | 20 | **`baseS6Input`'s context type widened (informative, API accounting).** Its `ctx` parameter is now `Pick<PipelineContext, 'seedKey' \| 'streamOpts' \| 'tables'>`. No export was added, removed or renamed (31 `^export` lines before and after, J263 Q1), and the row asks for the view through the context; the callers outside the owns (`testkit/src/ladders/chain.ts:196`, `bench/src/site/compose.ts:235`) pass a full `PipelineContext`, and `build` is green. | `base.ts:634`; `corepack pnpm build` exit 0 | none (recorded) | CONFIRMED |
 | 21 | **Disclosures.** The RESUME rule's grep of the lane log for the item showed the builder's CHECKPOINT and LANDED lines before this seat planned its probes; the seat's mutants K1 – K11 and its census probe are its own shapes (K1, K4, K5, K6 and K7 re-make the round's X1, T1, T2, A1 and A2 on purpose, as the brief asks a closing checker to re-kill each pin's mutant). The round's notes section was read after the probes were planned. The pre-round image is a behavioural reconstruction (the round's four code lines reverted; its doc comments kept), sha256 `81cb3d89…` rather than the record's `d1c9d7d6…`, since no seat runs git. Harness-injected context (the account's e-mail, a git-attribution reminder, the tool listing) was not used. | the lane log; `pre-base.ts` | the session (seat discipline) | CONFIRMED |
+
+## Hardening round S3 (lane `build/M0-x-04-fix-s3`, 2026-11-10; the M0 hardening phase's round S3 of M0-x-04, J237 (2), J238; rows x-04:16 and x-04:17, the second re-triage, J722 / J734; leg 2 of the merged round M0-x-02 + M0-x-04, J443)
+
+The builder's row-by-row outcome. Both rows are test-only: `packages/layout/test/pipeline/base/run.test.ts` is the one
+file changed (pre-round sha256 `3f4e7cfa…` = the landed record). No source file changed: `pipeline/base.ts` (`7a8e6247…`)
+and `pipeline/index.ts` (`0bb743c7…`) are byte-equal to the record, so no export moved (J263 Q1) and no output can move
+(NO-SHIFT: tests). Leg 1 (M0-x-02 S4, closed PASS 06:03) was read in its notes section 'Hardening round S4': its
+`runner.ts` / `report.ts` / `registry.ts` changes (the batch door's optional `workLimit`, `warning` refusing an `E_` code,
+the class-floor count) touch nothing this round's two tests compose — the base's warnings are `W_LAND_UNCLAIMED` — and
+nothing of it was edited. The choices row is C-0467.
+
+| row | source | outcome | the change | pin (red without the fix) | mutant(s) |
+|---|---|---|---|---|---|
+| x-04:16 — pass 1 recomputed on the bare view | note 16 (this file, closing check of S2) | FIXED + PINNED | `run.test.ts` › *S6's second half …* recomputes `fieldsPass1` on `REGISTERED` (`tableView(TABLE_IDS, [s6Table()])`, the runner's registered default, which the run — handed no view — gives every stage, and which `base.ts` hands pass 1 as `ctx.tables`), both in the record comparison and in the `without(…)` probes; it was the bare `tableView()` | the test itself: under the planted condition the note names (a field cell enters the registered view differently) the corrected test holds the base that hands pass 1 the run's view and goes red when the base hands it the bare one; the old form is red on the right base (its own view, the note's false red) and green on the wrong one (blind) | P16 (condition alone): new green, old RED; P16 + D16 (the defect): new RED, old green; D16 alone: equivalent today (below) |
+| x-04:17 — `baseS6Input` handed a context without a view | note 17 (this file, closing check of S2) | FIXED + PINNED | `run.test.ts` › *river at seed 5 with a second S1 site …* gives its context `tables: REGISTERED` and asserts the composed input carries that very view (`made.value.tables` `toBe` `REGISTERED`) on each call; both `baseS6Input` calls of the file (this one and *flat: S6's input …*, which already carried the view) now pass the context typed, without the `as never` cast, so a context without `tables` is a `tsc -b` error (TS2345) | the test itself: red when `baseS6Input` drops the context's view (S6's input and `siteFeatures` take `undefined`, the path x-04 S2 closed for the run), green on the tree; the old form (no view, cast) is green on that defect (blind) and, under a fallback table that differs from the view's, red on the right base (its own missing view) | D17: new RED, old green; P17: new green, old RED; P17 + D17f: new RED; D17f alone: equivalent for this test, killed by `view.test.ts` (x-04 S2's T2); M17c: the old context without the cast → `tsc -b` TS2345 |
+
+**Self-check (J183).** One mirror, `/home/user/maps-scratch/waves/selfcheck-build-M0-x-04-fix-s3/plat`, a `cp -a` of
+`plat/` taken before the first edit (node_modules included); `find … -type l -lname '/home/user/maps-architecture*'`
+printed nothing and `packages/layout/node_modules/@plat/tables` resolved inside the mirror. A driver
+(`/home/user/maps-scratch/waves/x04-s3-work/mutants.py`) restored every file it touches from the tree with a byte compare,
+planted the mutant in the mirror only, set the test form — `new` (the tree's corrected `run.test.ts`) or `old` (the
+pre-round copy, sha256 `3f4e7cfa…`) — and ran `corepack pnpm exec vitest run --maxWorkers=1 --bail=1
+packages/layout/test/pipeline/base/ -t <the row's test>` in the foreground, one at a time; the mirror was compared equal
+to the tree after the last (`cmp -s`, 4 files). Control (no mutant, new form): the three tests green.
+
+| mutant | row | the fault planted in the mirror | new form | old form |
+|---|---|---|---|---|
+| P16 | 16 | the condition note 16 names: a field cell enters the registered view differently — `fields/table.ts` `fieldsCells` reads ε's share halved from a view that carries `s6` (the registered view does, the bare one does not) | green (the base hands pass 1 the run's view; the test recomputes on it) | **RED** — `fieldsText(got)` ≠ the bare recompute: the test's own view (the note's false red) |
+| P16 + D16 | 16 | P16, and `base.ts`'s pass 1 handed the bare `tableView()` instead of `ctx.tables` (the defect) | **RED** — the base's record ≠ the recompute on the run's view | green (blind: it recomputes on the same wrong view) |
+| D16 | 16 | the defect alone | green | — |
+| D17 | 17 | the defect note 17 describes: `baseS6Input` drops the context's view — S6's input and `siteFeatures` take `undefined` (`s6TableIn`'s own table) | **RED** — `expected undefined to be { … (hash, tables) }` | green (blind: no view handed, ids compared only) |
+| P17 | 17 | `s6TableIn`'s fallback (no view) answers a table whose edge class differs from the view's `s6` (`minBarrierClass` `'lane'`) | green (the view's `s6` is read) | **RED** — `expected [] to deeply equal ['bridge:0/end:0', …]`: its own missing view |
+| P17 + D17f | 17 | P17, and only `siteFeatures` handed `undefined` | **RED** — the bridgehead seeds vanish | (red under P17 alone already: it cannot tell the defect from its own context) |
+| D17f | 17 | `siteFeatures` alone handed `undefined` | green (the cells are equal) — killed in the folder by `view.test.ts` › *runBase with no view …* (x-04 S2's T2) | — |
+| M17c | 17 | the old context (no `tables`) with the cast removed | `tsc -b packages/layout/test` exit 1: TS2345 *Property 'tables' is missing … 'Pick<PipelineContext, "tables" \| "seedKey" \| "streamOpts">'* | (the old form's cast compiled) |
+
+**Equivalent survivor (one line).** D16 alone survives the folder today: the bare and the registered view hold the same
+`fields` and `bands` cells (a registered table can never replace a shipped one, `tableView`), so pass 1's output is
+identical. **KI (hardening pass, not a fail):** an observation of the view pass 1 is handed — as `view.test.ts` observes
+S6's and `siteFeatures`' — would kill D16 outright; route with the hardening pass.
+
+**Refusal census (J264 (4), N-58).** No source file changed, so the before and the after are the same code; the family was
+run once on the tree as the record: the base runs on the 900 ha frame, 30 ha walled — flat, river from the west
+(27 000 cdeg), river from the north (0 cdeg) × seeds 1 – 6, 18 runs (`census.ts`: `runBase` per run, the model root, the
+bugs). Refusals 2 → 2: river N seeds 1 and 6, S5 `E_SELF_INTERSECT` (M0-c-04's S5a trace across the river; note 18's
+class: input LAWFUL, geometry OUR OWN INTERMEDIATE, verdict MAKE-IT-SUCCEED in M0-c-04's round; foreign, unchanged). The
+other 16 runs commit with no bug.
+
+**Not built here.** Note 19 (harnesses calling M0-x-02's `run` with `baseArena`'s default) is deferred to M1 by the
+session's queue row (not this file's owner's write). Note 18 stays routed to M0-c-04.
+
+**Gates on the final file** (W = 1 throughout): `install --frozen-lockfile` 0; `lint` 0 (eslint 1283 files, 0 errors,
+`probe-red ok`, 9 whole-tree checks); `build` 0; NEAR (PR size, fast-check seed 981381075)
+`packages/layout/test/pipeline/base/` 5 files 49/49 exit 0 (395 s, informative); RELATED@1000 over `pipeline/base.ts` and
+`pipeline/index.ts` (fast-check seed 1237414782; 7 610 s at W = 1, informative) 259 files 3316/3316 exit 0 — no red;
+`lint` re-run 0 after the last edit of this section. Logs and probes in `/home/user/maps-scratch/waves/x04-s3-work/`;
+the mirror was removed.
+
+## Closing check of hardening round S3 (lane `check/M0-x-04-close-s3`, 2026-11-10)
+
+New findings of the closing check (`checks/M0-x-04-s3.md`). None is a blocker (the rule of the brief): each is a hardening
+row or a note for the session. Evidence in `/home/user/maps-scratch/waves/check-M0-x-04/close-s3/`.
+
+| # | note | evidence | route | label |
+|---|---|---|---|---|
+| 22 | **The base handing pass 1 the bare view survives the round's pins (equivalent at M0).** Mutant K16a (`base.ts` S6's second half: `fieldsPass1(…, tableView(), stream)` for `ctx.tables`) is green under the corrected test and green over the whole NEAR folder (`F-K16a.log`: 5 files, 49/49): a `View` can never replace the shipped `fields` / `bands` tables (`tables/src/loader/view.ts:85`), so every view `tableView` builds gives pass 1 the same cells. Only a hand-built `TableView` object (structural, as `bench/test/site/compose.test.ts:256` builds one for `fieldsReceipt`) handed to `runBase` could tell — no caller does. The round's pin needs it only with a perturbed view (K16c: red). Suggested handling: observe the view pass 1 receives, as `view.test.ts` observes S6's and `siteFeatures`'. | `m-K16a-*.log`, `F-K16a.log`, `m-K16c-new.log` | M0-x-04 at M4 | CONFIRMED (equivalence: PLAUSIBLE, reasoned from view.ts) |
+| 23 | **Row 17's pin observes S6's input view, not `siteFeatures`' one.** K17b (`siteFeatures` handed no view inside `baseS6Input`) is green in the bridgehead test (the fallback `s6Table()` is the registered `s6`); under P17 (a fallback that differs) the corrected test is red (K17d). Over the NEAR folder K17b is killed by `view.test.ts` (`F-K17b.log`: 2 failed, 47 passed — both of its runBase view tests). Informative: the folder holds it. | `m-K17b-new.log`, `m-K17d-new.log`, `F-K17b.log` | none (recorded) | CONFIRMED |
+| 24 | **Disclosures.** The lane log's lines for M0-x-04 (the builder's CHECKPOINT and LANDED lines) were seen when the seat looked for its own lane's lines, before planning; the seat's plan (`plan.md`) was written before it read the body of the section 'Hardening round S3'. The OLD form of `run.test.ts` used for the old-versus-new runs is the builder's pre-round copy (`/home/user/maps-scratch/waves/x04-s3-work/run.test.old.ts`, not a selfcheck folder), taken as evidence only after its sha256 `3f4e7cfa…` matched the S2 LANDED line's `run.test.ts (3f4e7cfa)` and its `diff` to the tree showed exactly the round's edits. Harness-injected context (a git-attribution reminder, the tool, skill and connector listings) was not used. | the lane log; `run.test.old.ts` | the session (seat discipline) | CONFIRMED |

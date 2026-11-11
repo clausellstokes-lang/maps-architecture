@@ -332,3 +332,165 @@ functional before-image, `m1` a copy of the tree after the builder's LANDED line
     2651453823 and EP-01/S5a/coincident 1658509524, `edge/ep01-s1-s3-s4.test.ts` EP-01/S1/self-touching 2893352673) are
     foreign: red identically on the seat's before-image and the tree copy (`PLAT_FUZZ_SEED=959355949`, 1 000 runs).
     The session's commit of this item should carry the run.test.ts red as declared, or wait for the c-01 / x-04 line.
+
+## Hardening round S4 (lane `build/M0-x-02-fix-s4`, 2026-11-10; the M0 hardening phase's round S4, J237 (2), J238; rows Q139, x-02:27, x-02:28 and Q39's runner half per RL3, J734; leg 1 of the merged round M0-x-02 + M0-x-04)
+
+The builder's row-by-row outcome. Every pin was shown red on its mutant in the lane's one scratch mirror
+(`/home/user/maps-scratch/waves/selfcheck-build-M0-x-02-fix-s4/plat`, a `cp -a` copy of the tree; no link into the tree,
+`packages/layout/node_modules/@plat/kernel` resolving inside it; deleted at the end) with
+`corepack pnpm exec vitest run --maxWorkers=1 --bail=1 packages/layout/test/pipeline/core/`, each mutated file restored by
+copy from the tree and compared (`cmp -s`) before the next: **10 targeted mutants, 10 KILLED**. Two were first killed by an
+older test under `--bail=1` and were re-run against their own pin alone (`-t`): red too (D39a, Q139b). The choices row is
+C-0466.
+
+| row | outcome | what changed | pin (file › test) | mutant(s) |
+|---|---|---|---|---|
+| Q139 (queue row; J674) | FIXED + PINNED | `report.ts` `ReportSink.warning` refuses a code opening `E_`: `report: stage <name> offers the refusal code <code> as a warning: a refusal is never reported as a warning (§3.1, §5.4)` (a `RangeError`); a §3.1 `W_` code passes and counts under the stage (J674: S8's `W_CUT_SLID` through the sink is lawful; M0-b-03's and M0-x-05's files untouched). The callers were listed first (below): none offers an `E_` code, so the refusal did not have to wait | runner.test.ts › "refuses a refusal code offered as a warning (an E_ code, verbatim); a §3.1 W_ code a stage forwards — S8's W_CUT_SLID — counts under the stage (Q139, J674)" (`E_INVARIANT` verbatim, `E_WORK_LIMIT`; `W_CUT_SLID` ×2 → `stages[0].warnings` `{ W_CUT_SLID: 2 }`, `kernel.warnings` `{}`) | Q139a (the refusal dropped): KILLED; Q139b (`/^[EW]_/` refused: a W_ code thrown): KILLED (own pin red too) |
+| x-02:27 (note 27; C04d, C10c) | PINNED (no source change, as the row asks) | — | P1: runner.test.ts › "a refusal whose code is no expect code names no row, even when its detail opens with a row's name (x-02 note 27, probe P1)" (`E_DEGENERATE fx.a: …` → `[fx.a true 0] [fx.b true 0]`); P2: rows.test.ts › "a door batch that wrote nothing is no door commit: a batch-scope soft row left unreported refuses nothing (x-02 note 27, probe P2)" (plus: beside a committed batch the same row is required) | C04d (the `EXPECT_CODES` gate dropped): KILLED; C10c (an ok batch with `record === null` counted as a door commit): KILLED |
+| x-02:28 (note 28; probe P4) | FIXED + PINNED | `runner.ts` `expectVerdicts(expect, r, floors)`: a `classFloor` row is counted only when the run's env gives its class a floor (`env.floors?.(row.faceClass) !== undefined`) — on a commit and as a row before a named failure alike; the kernel skips it otherwise (`kernel/src/tx/tx.ts` `failures`: `floor === undefined → continue`) | runner.test.ts › "a class-floor row counts only where the run's env gives its class a floor: the kernel skips it otherwise (x-02 note 28, probe P4)" (no floors, a floor for another class: count 0; a floor for `block`: count 1; a later row's refusal: the floor row before it counted only with a floor; a broken floor `E_BELOW_MIN_AREA fx.floor: …` is the named failure) and the door's no-floor case below | F28a (every row evaluated, P4's pre-round reading): KILLED; F28b (a class-floor row never counted): KILLED; F28c (`floors` asked by the row's name): KILLED |
+| Q39-runner (queue row Q39; RL3, J734) | FIXED + PINNED; the fabric half REPORTED to M0-b-03 S9 (its file) with the patch below | (1) the door as it stood could not carry S8's batch: key, level 1, the callback, `expect` (S8 declares exactly `[BLOCK_FLOOR_ROW]` as its batch-scope hard rows, so the door's `expect` equals the fabric's), `onFail` `'reject'`, the district scope (`spec.batch`), `stage` / `rederivesFrom` S8 all fit (`runner.ts` door: `key`, `level`, `ops: []`, `expect`, `onFail`, `batch`, `stage: id`, `rederivesFrom: id`), but its `workLimit` is `workLimitOf(law, batch, counts)` for ONE declared law, while S8's is `districtTxLimit` — the sum of five kernel counters' laws (`insert.points`, `insert.attractQueries`, `insert.placementCandidates`, `insert.crossings`, `tx.facesWalked`) that S8 declares no law for (`bentCutFabric.ts:1572 – 1576`, `:1600`; S8's laws are the three `cut.*`). (2) The minimal, additive extension: `BatchSpec` gains the optional `workLimit?: number` (`registry.ts`; exported through `pipeline/index.ts`'s `type BatchSpec` — this row's one API change, a new optional member; nothing renamed or removed): when given, the transaction takes it as it is (`counts` unread) and `counter` still names the declared law the commit's work and a work-limit hit are charged under; absent, every existing caller's limit is its law's as before | runner.test.ts › "S8's district batch through the batch door (queue row Q39's runner half, RL3; J734)": "the door carries the district batch: its block-floor row counts each committed batch; the same batch handed to kernel.tx is not counted; the arenas and roots are the same" (two district-shaped batches through the door: `block-floor` pass true count 2; the same two via `ctx.kernel.tx`: count 0, work 0; equal arenas but for §3.3's rank (note 30), equal roots and stage roots; no floor injected: count 0) and "the spec's own workLimit is the transaction's: exactly the batch's work passes, one less is E_WORK_LIMIT, charged under the counter as a hit" | D39a (the door's count dropped): KILLED (own pin red too); D39b (the spec's `workLimit` ignored): KILLED; D39c (the law's limit wins over the spec's: `max`): KILLED |
+
+**Q139's callers, listed before the refusal (every call of a sink's `warning` in `plat/`, by grep).**
+`layout/src/pipeline/base.ts:780`, `:787` `W_LAND_UNCLAIMED` (M0-x-04); `layout/src/districts/stage.ts:486`
+`W_PERIMETER_BUFFER` (M0-e-04); `layout/src/infill/bentCutFabric.ts:1684` the run's warning list — `W_DEEP_SPINE_REFUSED`
+(`:1237`) and `W_CUT_SLID` (`:1510`, `:1529`) only (M0-b-03); `testkit/src/ladders/chain.ts:203` `W_LAND_UNCLAIMED`
+(M0-x-05); `bench/src/site/compose.ts:241` `W_LAND_UNCLAIMED` (M0-e-06); this item's own tests (`W_ZED`, `W_ALPHA`, `W_BAD`,
+`''`, and the order pin's `W_A`, `W_B`, `10`, `9`, `1`). No caller offers an `E_` code: no file of another item is edited
+and none of their tests turns red on the refusal (RELATED below).
+
+**The census (J264, N-58).** Base flat and river fixtures (`FLAT_BLUEPRINT`, `RIVER_BLUEPRINT`, CITY), seeds 1 – 6, `areaHa`
+900, `walledHa` 30 — the harnesses' CITY size, the census S3 used — run by the probe
+`/tmp/claude-0/-home-user-maps-architecture/1fceecef-b21c-5cac-91c5-493f3bc33db1/scratchpad/x02-s4/x02-s4/probe/census.mts` (`runBase(…, { kind: 'all' }, { observe })`): the before-image (the mirror as copied
+before the round's edits) against the round's tree, **24 / 24 files byte-equal** — model roots, stage roots, stage ranks,
+order, `model.refusals` and the whole report of each run; refusals **0 → 0**, `bugs []` on every run. The same 12 runs on
+the tree with a block floor injected (`env.floors: block → {}`) are byte-equal too: no base stage routes a class-floor row
+through the door (S8's go straight to `kernel.tx`, the fabric half of Q39), no caller offers an `E_` warning, and no caller
+sets `BatchSpec.workLimit`, so the round moves no base output and no digest or golden is re-recorded. The fixture families
+of `test/pipeline/core/` refuse only where a test plants a refusal. The one new refusal, an `E_` code offered as a
+warning, is a throw on an UNLAWFUL call (a stage's own programming error: a refusal must travel as the stage's result,
+never as a warning), class REFUSE; no user reaches it through §11.4's doors (only stage code holds a sink).
+
+**The proof in the mirror (RL3 (3); never landed).** In the mirror only, `bentCutFabric.ts`'s one call site
+(`partition`, `:1674`) was patched to hand the district batch to the context's door when it carries one. The door's
+exact signature (`packages/layout/src/pipeline/registry.ts`, `PipelineContext`):
+
+```ts
+batch<T>(spec: BatchSpec, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>>;
+
+export interface BatchSpec {
+  key?: PlatKey;
+  level: Level;
+  ops?: readonly KernelOp[];
+  counter: string;
+  counts: ScopeCounts;
+  onFail?: OnFail;
+  batch?: BatchScope;
+  workLimit?: number; // new (Q39): the stage's own limit; when given, counts is not read
+}
+```
+
+The patch (`/tmp/claude-0/-home-user-maps-architecture/1fceecef-b21c-5cac-91c5-493f3bc33db1/scratchpad/x02-s4/x02-s4/proof/q39-s8-door.diff`, unified, against the tree's `bentCutFabric.ts` as it stands; the input
+of M0-b-03 S9's spec), whole:
+
+```diff
+--- a/packages/layout/src/infill/bentCutFabric.ts
++++ b/packages/layout/src/infill/bentCutFabric.ts
+@@ -1655,6 +1655,12 @@
+   return { spec, fn };
+ }
+ 
++/** The pipeline's batch door as S8 calls it (layout/src/pipeline/registry.ts `PipelineContext.batch`, `BatchSpec`). */
++type DistrictDoor = (
++  spec: { key: PlatKey; level: 1; counter: string; counts: Readonly<Record<string, number>>; onFail: KernelTx['onFail']; batch: KernelTx['batch']; workLimit: number },
++  fn: (o: Overlay) => KernelResult<PartitionResult>,
++) => ReturnType<Kernel['tx']>;
++
+ /** A count map as a record in code order (one order for every insertion order). */
+ function sortedCounts(m: ReadonlyMap<string, number>): Readonly<Record<string, number>> {
+   const out: Record<string, number> = {};
+@@ -1671,7 +1677,14 @@
+   const b = districtBatch(k.plat(ctx.key), district, seam, ctx);
+   // The shared width map as it stood (notes N-19): a refused batch leaves the arena as it was, and the map with it.
+   const widthsBefore = [...ctx.widths];
+-  const r = k.tx(b.spec, b.fn);
++  // Q39 (RL3): the district batch through the runner's batch door when the stage's context carries one (the pipeline's
++  // PipelineContext.batch), so the report counts its block-floor row, its work and its kernel warnings; the door takes
++  // the batch's own limit (BatchSpec.workLimit) and charges its work under S8's cut.kernelCalls law. A context with no
++  // door (a test's, a bench's, the determinism harness's) hands the batch to the façade as before.
++  const door = (sc as { readonly batch?: unknown } | undefined)?.batch;
++  const r = typeof door === 'function'
++    ? (door as DistrictDoor)({ key: b.spec.key as PlatKey, level: 1, counter: 'cut.kernelCalls', counts: {}, onFail: b.spec.onFail, batch: b.spec.batch, workLimit: b.spec.workLimit }, b.fn)
++    : k.tx(b.spec, b.fn);
+   if (!r.ok) {
+     ctx.widths.clear();
+     for (const [id, w] of widthsBefore) ctx.widths.set(id, w);
+```
+
+The probe ran the 12 base runs on the tree and on the patched mirror (each with and without the block floor):
+**model roots, stage roots, stage ranks, order and refusals IDENTICAL, 12 / 12, in both modes** (NO-SHIFT; e.g. flat-1's
+root `1735393580,1869980807,885767725,3342250577`, river-2's `3121952418,1019466348,1574284503,2734185373`); the reports
+differ only in S8's entry: `work['cut.kernelCalls']` (0 → the batches' transaction work, the counter the patch names) and,
+with the floor injected, `block-floor`'s count (0 → the district batches that committed a record; without a floor it stays
+0, x-02:28). The tree reads 0 in every mode.
+
+| run | S8 districts | batches committed (a record) | block-floor count, floor injected | without a floor | S8 work `cut.kernelCalls` |
+|---|---|---|---|---|---|
+| flat-1 | 11 | 10 | 10 | 0 | 11203 |
+| flat-2 | 12 | 11 | 11 | 0 | 10832 |
+| flat-3 | 11 | 11 | 11 | 0 | 10982 |
+| flat-4 | 15 | 11 | 11 | 0 | 11023 |
+| flat-5 | 14 | 10 | 10 | 0 | 11070 |
+| flat-6 | 19 | 10 | 10 | 0 | 10943 |
+| river-1 | 17 | 12 | 12 | 0 | 11369 |
+| river-2 | 41 | 16 | 16 | 0 | 12712 |
+| river-3 | 34 | 11 | 11 | 0 | 12433 |
+| river-4 | 26 | 11 | 11 | 0 | 10888 |
+| river-5 | 17 | 11 | 11 | 0 | 10798 |
+| river-6 | 25 | 13 | 13 | 0 | 9036 |
+
+A district batch that wrote nothing commits no record and counts no evaluation (C-0454 (2)), so the count equals the
+committed records, not the districts.
+
+**API.** `pipeline/index.ts` and the barrel are untouched; the one change to an exported type is Q39's new optional member
+`BatchSpec.workLimit` (stated above); `expectVerdicts` stays private to `runner.ts`. Every existing message text is
+unchanged; the new one (Q139) is pinned verbatim.
+
+**Gates (W = 1 throughout; `tools/test_budget.py` printed 1 before every run).** `install --frozen-lockfile` 0 ("Already up to date");
+`lint` 0 (eslint 1 283 files, 0 errors, 0 warnings; `lint: probe-red ok`); `build` 0; NEAR `test/pipeline/core/` 5 files **92 / 92** (on the final sources; 86 before the round, +6 pins);
+RELATED@1000 over `runner.ts`, `report.ts` and `registry.ts` (`PLAT_FUZZ_SEED=362433914`): **259 files, 3 316 / 3 316, exit 0** (8 643 s). The S3 round's reds (the declared Q99 shift in `base/run.test.ts:211`, testkit `edge/repins` ×2 and `ep01-s1-s3-s4`) are no longer red on this tree. The round leaves no red of its own and none foreign. `landed:verify` on both records below.
+
+30. **For M0-b-03 S9 (the fabric half of Q39) — routing S8 through the door also gives S8's faces §3.3's rank.** The door
+    writes the stage's rank on the faces its batch creates (`runner.ts`, the item's builds: "the stage rank written on the
+    faces it creates"); `kernel.tx` leaves a split face with the rank it inherited. On the 12 base runs the L1 faces S8
+    creates carry rank 4 (S6's, inherited) on the tree and 5 (S8's) through the door (flat-1: L1 `{0:1, 1:1, 3:14, 4:185}`
+    → `{0:1, 1:1, 3:14, 4:15, 5:170}`); the level digests hash no rank (`kernel/src/digest/levelDigest.ts`: a face item
+    is its kind, owner and rings), so the roots stay identical, but `kernel/src/io/encode.ts:444` writes `F.stage`, so a
+    saved arena's bytes would differ — a DECLARED shift for S9's choices row, and the §3.3 reading S9 should state.
+31. **For M0-b-03 S9 / M0-x-04 — the base's batch watcher does not see the door (PLAUSIBLE, not run).** `base.ts`
+    `watched` wraps `ctx.kernel.tx` for `onBatch`; a batch through `ctx.batch` goes to the runner's own kernel, so with the
+    patch the base's `onBatch` would list no S8 batch — `test/pipeline/base/run.test.ts:110` (S8 committed batches > 0)
+    and `:168` (S8's batches' form) read them. The runner's `RunOptions.observe` already sees every door commit by stage
+    name; S9's round (with x-04's watcher, `base.ts`) should observe the door before the patch lands. The counter the
+    patch charges (`cut.kernelCalls`) is the patch's pick; S9 decides it.
+
+## Closing check of hardening round S4's notes (lane `check/M0-x-02-close-s4`, 2026-11-10)
+
+None of these fails the round (J162, J202, N-45: a deliberate-writer escape and a confirmation of a hand-over). The
+evidence is in `checks/M0-x-02-s4.md`; the mirrors were `/home/user/maps-scratch/waves/check-M0-x-02/s4/{m0,m1,m2}`.
+
+32. **KI — the door's district path is not pinned against a batch that BREAKS its block floor (the checker's mutant D6
+    survives NEAR, 92 / 92).** D6 hands the kernel `expect: []` when the spec carries its own `workLimit` (the S8-shaped
+    door batch) while `expectVerdicts` still counts the rows: a district batch breaking its floor would commit and read
+    pass true. The round's pins inject a floor with no minimum (`{}`), so no floor ever fails on that path; the general
+    pin ("expect is the stage's batch-scope hard rows: a failing one rejects the batch …") kills the unconditional form.
+    Probe P5 (a district-shaped door batch with its own `workLimit`, `floors: block → { minAreaCm2: 1e12 }`): the code
+    refuses it `E_BELOW_MIN_AREA` and reads `block-floor` pass false count 1 (green); under D6 the batch commits (`ok`)
+    — red. Only a writer that conditions `expect` on the new member meets it. **Hardening test:** P5's shape beside
+    "S8's district batch through the batch door …" in `runner.test.ts`. **Milestone:** with M0-b-03 S9's round (when S8's
+    batches start to use the door), else M4.
+33. **For M0-b-03 S9 / M0-x-04 — note 31 CONFIRMED (executed).** With the checker's own patch of `partition`
+    (`bentCutFabric.ts`, mirror `m2` only), the base's `onBatch` watcher listed 0 committed S8 batches on every one of the
+    24 base runs (flat and river seeds 1 – 6, with and without a block floor), where the tree lists 10 – 16
+    (`s8Committed_onBatch`); `RunOptions.observe` saw them all (equal to the tree's `onBatch` counts and to the
+    block-floor count with a floor). S9's round must make `base.ts`'s watcher see the door before the patch lands, or
+    `test/pipeline/base/run.test.ts`'s S8-batch pins go red.

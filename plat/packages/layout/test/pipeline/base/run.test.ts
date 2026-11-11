@@ -319,7 +319,8 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     const commit = r.model.data.get('s3.commit') as S3Commit;
     const slice = r.model.data.get('s3.slice') as S3Slice;
     const ctx = { seedKey: seedKey(1), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 3, attempt, epoch: 0, salt: 0 }), tables: REGISTERED };
-    const made = baseS6Input({ bp: { ...FLAT, seed: 1 }, slice, commit, state, water: { bodies: [], bridges: [] }, terrain: slice.site.terrain }, r.model.kernel, ctx as never);
+    // the context typed as baseS6Input takes it (no cast, x-04 note 17): a context without the view fails `tsc -b`
+    const made = baseS6Input({ bp: { ...FLAT, seed: 1 }, slice, commit, state, water: { bodies: [], bridges: [] }, terrain: slice.site.terrain }, r.model.kernel, ctx);
     expect(made.ok).toBe(true);
     if (!made.ok) return;
     const inp = made.value;
@@ -389,10 +390,13 @@ describe("S6's bridgehead seeds follow S4's bridge order (x-04 note 11; C-0443 (
       water: r.model.data.get('water') as WaterSet,
       terrain: r.model.data.get('terrain') as Terrain,
     };
-    const ctx = { seedKey: seedKey(5), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 0, attempt, epoch: 0, salt: 0 }) };
+    // the context carries the run's view, as the base hands it (x-04 note 17; x-04 S3): without it S6's input and its
+    // sited features would fall back to `s6TableIn`'s own table, the path x-04 S2 closed for the run; typed, no cast
+    const ctx = { seedKey: seedKey(5), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 0, attempt, epoch: 0, salt: 0 }), tables: REGISTERED };
     const heads = (bs: readonly Bridge[]): string[] => {
-      const made = baseS6Input({ ...input, bridges: bs }, r.model.kernel, ctx as never);
+      const made = baseS6Input({ ...input, bridges: bs }, r.model.kernel, ctx);
       expect(made.ok).toBe(true);
+      if (made.ok) expect(made.value.tables).toBe(REGISTERED);
       return made.ok ? made.value.features.filter((f) => f.kind === 'bridgehead').map((f) => f.id) : [];
     };
     const ends = (ids: string[]): string[] => ids.flatMap((id) => [`${id}/end:0`, `${id}/end:1`]);
@@ -496,7 +500,9 @@ describe("S6's second half: pass 1 over the arena S6 left, from the run's record
       if (name === 'river') expect(water.bodies.length).toBeGreaterThan(0);
       const sources = fieldDriverSources(p, { reservations: [commit.plaza], ways: state.ways, gates: state.stages.flatMap((st) => st.gates), water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
       const stream = createRng().stream(m.town.entityKey, STAGES.S6, CONCERNS['field.chance'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
-      const want = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources, sources }, { districts: s6.districts, faces: fieldFaces(p) }, tableView(), stream);
+      // recomputed on the run's view (x-04 note 16; x-04 S3): the run was handed no view, so the runner gave every stage
+      // its registered one, and the base hands pass 1 `ctx.tables` (base.ts, S6's second half) — never the bare `tableView()`
+      const want = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources, sources }, { districts: s6.districts, faces: fieldFaces(p) }, REGISTERED, stream);
       expect(want.ok).toBe(true);
       if (!want.ok) return;
       const got = m.data.get('fields') as FieldsPass1;
@@ -507,7 +513,7 @@ describe("S6's second half: pass 1 over the arena S6 left, from the run's record
       const without = (o: Partial<{ resources: null; gates: Gate[]; ways: Way[] }>): string => {
         const src = fieldDriverSources(p, { reservations: [commit.plaza], ways: o.ways ?? state.ways, gates: o.gates ?? state.stages.flatMap((st) => st.gates), water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
         const s = createRng().stream(m.town.entityKey, STAGES.S6, CONCERNS['field.chance'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
-        const f = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources: o.resources === null ? null : resources, sources: src }, { districts: s6.districts, faces: fieldFaces(p) }, tableView(), s);
+        const f = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources: o.resources === null ? null : resources, sources: src }, { districts: s6.districts, faces: fieldFaces(p) }, REGISTERED, s);
         return f.ok ? fieldsText(f.value) : `refused ${f.code}`;
       };
       const all = fieldsText(want.value);
