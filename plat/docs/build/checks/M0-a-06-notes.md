@@ -955,3 +955,343 @@ N-s8c-3 (added 2026-11-09) is RELATED's foreign red set, a note for the session 
 | N-s8c-1 | **The guard's alias resolution stops at a container.** `door-scan.ts` resolves a column through `const` / `let` initialisers, destructuring, a for-of over the column tuple, `??` / `||` / conditional expressions and `.subarray`, and follows a column passed to a storing function; it does not follow a column stored into an object or array literal, a class field or a Map and written through it (`const t = { a: p.vertices.x }; t.a[v] = 1`), nor `Reflect.set` / `Atomics.store` on a column. None exists on the tree (this checker's census: 169 findings, every one the door's or allowlisted); a writer who wants past the door can reach it this way — a contrived escape, the oracle's CHECK B still the second net for any store a frame undoes. | a hardening row for the scan: flag a column that escapes into a container or a reflective store, with the probe extended by those forms | M4 |
 | N-s8c-2 | **The observer's dry-run frame kind is read from the stack string.** `support.ts` `opOpen` calls a frame a `dry-run` when `new Error().stack` holds `dryInsert` (kerb.ts); a renamed or inlined function would count dry runs as op frames — the checks A and B unchanged, only the per-kind count and the oracle's `compared['dry-run'] > 0` assertion affected (it would go red, so the pin names the drift). | S9 re-seats opSave / rollback under the dry-run pins; the hook can then pass the frame kind, or a pin on the name stands | M0 (S9) |
 | N-s8c-3 | **RELATED@1000's twelve reds are other items' and stand on the RESUME head.** `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=2106837589 vitest related --run` over the round's 20 changed sources (tree, 2026-11-09: 541 files, 7 313 tests, 7 013 s) is red on 12 tests in 9 files, none in `kernel/test/tx`: a-09's `kernel/test/arr/bands/closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts` B-NEST, `restage.test.ts` N1 / N2; `kernel/test/arr/booleans-buffers/booleans.test.ts` 's6 walks out along P–Q and back' (:514, `expected -1 to be greater than or equal to 0`); `kernel/test/facade/mixer.test.ts` 'the workspace calls mixInto or streamKey once' (:161, two call sites found for one); `layout/test/pipeline/base/run.test.ts` 'S3's site is the flat fixture's with S1's terrain …' (:211); `testkit/test/edge/ep01-s1-s3-s4.test.ts` 'EP-01/S1/self-touching' (:20); `testkit/test/edge/repins.test.ts` 'EP-01/S1/self-touching at seed 2651453823' (`laddered` for `refused-safe`) and 'EP-01/S5a/coincident at seed 1658509524' (`absorbed` for `refused-safe`). The nine files replayed alone with the same seed and size are red on the same 12 tests with identical full failure messages on the base mirror (the RESUME head, without the door) and on the tree — so the round caused none of them. (The author's run also saw bench `scan/scan.test.ts` K6-6 at 5 026 ms, a timeout under load; it passed here.) | the session's: each red belongs to its own item's round (a-09's bands set is known; the testkit edge / repins reds are EP-01 cells whose outcome moved — possibly the e-03 s1 shift the session note names, not verified by this seat; booleans, mixer and layout run.test are for the session to route; no cause was traced here beyond 'red without the door') — replay with `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=2106837589 corepack pnpm exec vitest run <file>` | the owning items' rounds (M0) |
+
+## Hardening round S9 — the frames (lane `build/M0-a-06-fix-s9`, flow flow-7, 2026-11-10)
+
+Opened by the session as M0-a-06's hardening round S9, ROUND 1B of the kernel amendment z (item 985, the savepoint of
+O(change); J618, the ruling J627 that split round 1): THE FRAMES — the undo log S8's door keeps replaces the
+before-image for every op savepoint and dry run, and for the batch itself. A batch, an op savepoint (`opSave` /
+`rollback`) and the kerb read's dry run (through them) now undo at O(what they wrote); the stage image
+(`takeSavepoint` / `restoreSavepoint` between batches, the pipeline runner's) stays an O(arena) image and the oracle.
+NO-SHIFT: the roots, the golden and the refusal census are identical (below). The write scope is the owns
+(`kernel/src/tx/`, `kernel/test/tx/`) plus the brief's cross-item scope (M0-a-07's `faces/common.ts` opSave / rollback /
+OpSavepoint, M0-a-03's `index/spatial.ts` record's old entry and attachIndex's assertion; `arena/write.ts` untouched);
+no ownership moves (the session re-lands the lenders' records at the landing). The choices row is C-0488. Built in one
+sitting (2026-11-10 00:15 – 06:01Z) on a fresh container.
+
+### The base and the scope
+
+**The base mirror** `/home/user/maps-scratch/waves/base-build-M0-a-06-fix-s9/plat` (the RESUME head's `plat/` — the tree
+at HEAD 30a1198, S8's landing merged — copied with `cp -a` before the first edit; never written but for the line 3 /
+line 7 probes placed and removed, see below; no link into the tree, `@plat/kernel` resolving inside it). The baseline
+before the first edit: `landed:verify -- flow-7 --item M0-a-06 | M0-a-02 | M0-a-03 | M0-a-07` each `ok (1 record)`;
+`arena/write.ts`, `tx/frames.ts`, `test/tx/{door,write-door,oracle}.test.ts` and `bench/src/profile/` present;
+`write-door.test.ts` green (3 / 3); M0-work.json's M0-a-06 owns exactly `packages/kernel/src/tx/` and
+`packages/kernel/test/tx/` (lane log, 2026-11-10 00:15 – 00:18).
+
+**THE SCOPE DIFF** — `/home/user/maps-scratch/waves/scope-build-M0-a-06-fix-s9/<file>.diff` (`diff -u`, base → tree; no git):
+
+| scope file | lender | SHA-256 in the base mirror (= the lender's record) | SHA-256 in the tree | diff file, its SHA-256 (first 16) |
+|---|---|---|---|---|
+| `kernel/src/faces/common.ts` | M0-a-07 | `efe6ba998d42693032c30be714a1805c99b486072ca219583f9662d49dd4e54e` (=) | `fc4ea4902119b9e7ef4edabec09c94a84648c80f6da1211ef7281a02f43d1457` | `faces_common.ts.diff` `6b37cabdeb4d2f51` |
+| `kernel/src/index/spatial.ts` | M0-a-03 | `e7640c4dd27ab8943553f92d567ccf4898c8ad137e2e71a07e81f74ff487de84` (=) | `4dc52819d2ecdfad651d23a3ac03fc2f92da95290621f12adba84e6e656fe1b2` | `index_spatial.ts.diff` `69a52f1ec5c2d15e` |
+| `kernel/src/arena/write.ts` | M0-a-02 | unchanged (`cmp` equal base / tree) | — | none (line 4 not built; no S8 escape found) |
+
+`faces/common.ts`'s hunks: the import of `takeSavepoint` / `restoreSavepoint` replaced by `mark` / `undoTo` / `Frame`
+from `tx/frames.js`; OpSavepoint's `image` → `mark: Frame` and its `indexWrites` field dropped (the frame's mark holds
+the index log's length); the three doc comments restated; opSave's `takeSavepoint(t.plat)` → `mark(t)`; rollback's
+`restoreSavepoint(s.image)` → `undoTo(t, s.mark)` and its IndexBatchLog cut removed (the index undo's now) — names,
+signatures and callers unchanged, `arr/kerb.ts` not edited. `index/spatial.ts`'s hunks: `debugAssertions` joins the arena
+import and `GridEntry` grid.ts's; IndexWrite gains `readonly old?: GridEntry`; `record` gains `old?: GridEntry`, stored;
+gridInsert's call passes the `old` gridPut returned, gridDelete's the `old` gridTake returned, tombstone's none;
+attachIndex's first statement the debug build's assertion, message `index: attachIndex while a batch is open on the arena
+(attach between batches)`. The owns' changed files: `tx/frames.ts` (rewritten: the frames), `tx/tx.ts`, `tx/state.ts`,
+`tx/savepoint.ts`, `tx/index.ts` (comment only); in `test/tx/`: `support.ts`, `savepoint.test.ts`, `cost.test.ts`,
+`forms.test.ts`, `source.test.ts`, `write-door.test.ts` (two allowlist reasons' text), `s9scenarios.ts` and
+`s9-image-path.json` (new). No export of a folder index or the barrel changed (`api-surface.test.ts` green untouched).
+
+### Row by row
+
+| row | outcome | the change | evidence (pin; its mutant) |
+|---|---|---|---|
+| LINE 1 — the frames; opSave / rollback re-seated; the batch frame; the contract | **FIXED, pinned** | `tx/frames.ts` (kernel-internal, by path; no index or barrel line): `mark(t)` / `undoTo(t, m)` on the open batch — a frame is S8's `markArena` plus the index mark; `undoTo` DISCARDS `m` and every frame above it first (the batch's stack cut to `m.pos`), then `undoArena`, then the index undo; a frame its caller drops stays on the stack (committed into its parent) until an older frame's undo or the batch's end discards it. REFUSED, throwing and changing nothing: an undo of a frame not at its stack place (`tx: an undo to a frame already undone or discarded (a frame is undone at most once, the frames after it with it)`) and an undo of another batch's frame or after its batch ended (`tx: an undo to a frame of another batch (a frame is undone only inside its own batch)`). An in-batch undo puts back the version the mark saved (the batch's) and never touches the generation. `faces/common.ts`: opSave marks (`mark: mark(t)`), rollback `undoTo(t, s.mark)` then the journals as before. THE BATCH FRAME: `markBatch(p)` (attachRecorder + the mark, called only from tx.ts `open`, BEFORE `beginIndexBatch`; tx.ts takes no image) and `undoBatch(b)` (called only from the three undo paths — `reject`, the catch, the batch that wrote nothing — discarding every frame, undoing both halves, CLOSING the index log `idx.log = null`, detaching the recorder; resumable, a no-op once done); the commit calls `endBatch` (frames discarded, recorder detached) after `commitVersion` and before the digest listener. `open` now checks the two stage ranks BEFORE the batch frame (they threw after the image and the log opened: a stage with no u8 rank left the index log open — found by this round, pinned). `restoreSavepoint`: S7's check first and unchanged, then `tx: a savepoint is put back while a batch is open on the arena (images are put back between batches)`; `restoreBatchImage`, `wasFaceLive`, `ownerBefore` and the frame observer's calls in savepoint.ts gone; `imagesTaken(p)` (by path) reads TAKEN. THE CONTRACT restated: tx.ts's header (a rejected or thrown batch undoes every store that passed the door, and nothing else), `:22`, `open`'s and `reject`'s docs, the catch's comment, sweepVertexRows' and dirtyFaces' docs; state.ts (OpenTx's `savepoint` → `batch: BatchFrame`); savepoint.ts's header and its generation and restore docs; tx/index.ts's export comment (no export line changes). `forms.test.ts`'s N-53 (3) planted writes re-pinned through the door (`setHalfEdgesNext`). | savepoint.test.ts 'S9 line 5 (b)' (below); `imagesTaken` pin (line 5 (c)); the planted-store pin (CHECK A names `vertices.x slot v` for the op frame and the batch frame: a store past the door survives the undo — the narrowed contract). Mutants K1 (undo skipped), K10 / K20 (an image taken under another name by opSave / by open), K11 / K12 (an undo of a discarded / a second undo allowed), K13 (the generation moved), K14 (restoreSavepoint allowed in a batch), K9 / K21 (the index log left open / the recorder left attached), K25 (the ranks after the frame) — all red (self-check table). |
+| LINE 2 — the frame's state | **FIXED, pinned** | (a) the arena half is S8's `markArena` / `undoArena` unchanged. (b) the index half (`frames.ts` `markIndex` / `undoIndex` / `undoWrite`): the mark saves the IndexBatchLog's length, the partition list's and each level's static and tombstone lists' lengths and `work`'s two counts; the undo takes the log's writes from its end one at a time, popping each as soon as it is undone — an insert: its entry out of the grid (`gridTake`) and out of its partition's share, the entry it replaced (the write's `old`) put back (`gridPut` with its key, partition, box) and into that partition's share; a delete: its removed entry put back with its share; a tombstone: its key out of its partition's set (the home entry is the arena half's) — never through `record`; then (after the writes, with a test-only fault hook `setIndexUndoFaultHook` between) the partitions made since the mark truncated (their byKey entries deleted, the lists cut), then `work`. (c) the journals stay in opSave / rollback as they were (the warnings and the TxLog's owners / roles / removedKeys from copies; `TxLog.moved` not saved); only the image and rollback's IndexBatchLog cut left them. The comparison is `bits()` whole, the index's Maps and Sets by content. | savepoint.test.ts: the warnings pin (W: W_ATTRACTED counted once, `record.warnings` the image path's — K8, the warnings cut by length, red); the next-batch pin (a rejected, a thrown and an empty batch each followed by a committing batch — K9 red); the partition pin (an L2 dry read on a freshly attached index creates `d:fresh`, undone — K6 red); the grid-share pin (an entry replaced inside a frame, undone: the key back in the old entry's partition's share — K7, K23 red); K22 (a tombstone's undo skipped) and K24 (writes cut, not undone) red on the oracle. |
+| LINE 3 — the commit record reads the batch frame | **FIXED, pinned** | `frames.ts` `beforeView(b)`: ONE pass over the batch frame's entries (`forEachEntry` from its mark) keeps, for faces[l].kind / owner and the role rows' kind / entity / level / ordinal, each slot's FIRST logged old value; a slot at or above the mark's counter is fresh. `dirtyFaces` (and `touchedAtLevel` through it — the expectations' reader of the same function) read `faceLive`, `assemble` `ownerOf`; `sweepVertexRows` walks only the role rows the log names in those four columns and the rows at or above the mark's role top, in increasing row order (`byRoleRowOrder`, the one named exception in `source.test.ts`, by file and comparator, with its reason), skipping a row whose four values equal its before-values. No image of any column is kept. | savepoint.test.ts 'S9 line 3': R1 (a committed batch: a face freed and its slot re-used, an owner changed and changed back, a junction row written back to its old values in its own slot, a fresh tower row) and R2 (a refused batch: two rows freed higher first and taken by two vertices whose rows are coarser — the refusal names (500, 500)) equal the image path's outcomes recorded on the RESUME head (`s9-image-path.json`, both modes; base = tree identical). K15 (the last logged value) red on R1, K16 (the sweep in log order) red on R2, K19 (the fresh rule dropped) red (tiny: a throw in the record's removed keys). Line 7's golden identical. |
+| LINE 4 — the dedupe and FRESH skipping | **not built (optional, J627)** | none: every store is logged; `arena/write.ts` carries neither (unchanged, `cmp` equal to the base). | rule (2) asks no pin. The figures it would move are line 6's and bar (6)'s (N-s9-2). |
+| LINE 5 — the oracle, the pins, the size pin, bar (6), the outside-owns pins | **FIXED, pinned** (the size pin's spread 0; bar (6) REPORTED beyond its own runs, N-s9-2) | (a) `support.ts`'s observer re-hooked to the frames (`batchMarked`, `marked`, `beforeUndo`, `afterUndo`, `commit`): `bits` at every mark, CHECK A after every undo (op, dry-run, batch frames); CHECK B retired; the batch frame attaches the recorder. S8's pins kept, the planted-store pin re-pointed to CHECK A. (b) the named pins (each in kernel and kernel-tiny): above, plus S7's analogues on marks; restoreSavepoint inside a batch (its message verbatim; N-23 untouched); three throws from inside undoTo — S8's undo fault hook right after the frame's first roles.head rehash's replacement is undone, frames.ts's index fault hook, a test observer after the replay — each in a frame that writes a kerb at L2 on a fresh resolver (a partition made), grows every slot table, rehashes roles.head / owners / handles and compacts a pool, the batch's own undo leaving `bits()` the batch mark's; attachIndex with a batch open (message verbatim, the arena and its index unchanged; nothing asserted with the assertions off); a pool compaction between an outer and an inner frame's opens; two sibling frames writing one slot; a slot rewritten by a rejected batch; the stage-rank throw at open. S7's pins (savepoint.test.ts:207-395 of the base) unchanged, on the stage image. (c) `imagesTaken` unchanged across a kerb read, a splitFace and a rejected batch (observer off). (d) cost.test.ts 'S9 line 5 (d)': the corner block's kerb read and its bent splitFace (faces/bent.test.ts's fault, off by default) at k = 2, 4, 8, 12 on an arena made with roomy capacities: read 750 column / 0 replacement / 58 index entries, split 146 / 0 / 12 at every k — spread 0 (default mode; the tiny mode grows a table at every allocation, C-0286). (e) bar (6) at every commit of the fuzz runs through an observer's commit point: entryCounts from the batch frame's mark + the index writes ≤ 160 × max(1, touched) on the 24-seed runs (worst 124); on the wide families and in the tiny mode the measured worst exceeds 160 (183 / 169 / 269) — REPORTED (N-s9-2), asserted at the measured worst rounded up (190 default wide, 280 tiny) with the gap in the titles. (f) the outside-owns pins green unedited (gates). | the oracle at 10⁴ (NEAR) and the PLAT_UNDO_ORACLE=1 suite (below); the self-check table. |
+| LINE 6 — the cost | **MEASURED** (bar (1) mean 0.281 ms ≤ 0.5 — the 0.2 target missed, N-s9-4; bar (2) met) | none (a measurement row) | 'Line 6' below. |
+| LINE 7 — no output moves | **MEASURED: identical** | none (a measurement row) | 'Line 7' below. |
+
+### Line 6: the cost, measured
+
+All with `corepack pnpm bench -- profile` (plat/bench/src/profile/), fusion seed 3 at CITY, the prod bundle
+(`PLAT_DEBUG_BUILD defined false` in every run's bundle line), one process at a time, base (the base mirror, the RESUME
+head) and round (the tree) interleaved in one session (2026-11-10 00:43 – 01:42Z), every run started by the tool's idle
+wait at the one-minute load below 0.3 (each run's `load before`, quoted below; none started NOT IDLE). Outputs under
+`/home/user/maps-scratch/waves/s9-runs/bench/<run>/` (logs `<run>.log`, chain scripts `chain.sh`, `chain2.sh`).
+
+**The plain runs** (`--seed 3`; S8's ms a cut, informative, J558 (2)):
+
+| run | load before (1 / 5 / 15 min) | base S8 ms a cut | round S8 ms a cut |
+|---|---|---|---|
+| 1 | 0.29 / 0.29 | 70.9 | 52.4 |
+| 2 | 0.28 / 0.26 | 70.8 | 49.5 |
+| 3 | 0.27 / 0.29 | 72.7 | 51.1 |
+| **median** | | **70.9** | **51.1** |
+
+Bar (3), INFORMATIVE (J558 (2)): the round's median 51.1 ms a cut beside the base's 70.9; the base's savepoint share
+(opSave + rollback2 inclusive over S8, its two cpu runs) 0.231, so the expected figure base × (1 − share) = 70.9 × 0.769 =
+**54.5**: the round is at it (51.1). 985 (d) (3)'s 95 (R7's arithmetic on 4abd334a) is met by the base already — quoted,
+never the test. Integrated 4 (`--run integrated --seed 4`, plain, one run each, load before 0.27 / 0.28): base 73.4,
+round 52.6 ms a cut; its stage marks base `S1 157 · S3 1731 · S4 298 · S5 3112 · S6 4770 · S8 101168`, round `S1 159 ·
+S3 1691 · S4 287 · S5 3159 · S6 4770 · S8 72532` (the profile tool's integrated run ends at S8: S9's bandUnion retries are
+not in it); fusion 3's other stages (S1 – S5) unchanged within noise (e.g. S5 3156 / 3185 / 3220 base, 3330 / 3033 /
+3059 round).
+
+**The count runs** (`--mode count --fns splitFace,connectHole,readOn,readKerb,kerb,dryInsert,opSave,rollback,takeSavepoint,
+putBack,restoreSavepoint,restoreBatchImage,markBatch,undoBatch,mark,undoTo,compactHoles,setFaceHoles,insertChain`; S8's
+window, V8 precise coverage, load before 0.27 / 0.27):
+
+| function (by file:line) | base | round |
+|---|---|---|
+| splitFace `faces/split.ts:171` | 1 220 | 1 220 |
+| readOn `arr/kerb.ts:1918` (bar (1)'s denominator) | 2 778 | 2 778 |
+| opSave `faces/common.ts:459` | 3 993 | 3 993 |
+| rollback (`rollback2`) `faces/common.ts:486` / `:485` | 2 783 | 2 783 |
+| takeSavepoint `tx/savepoint.ts:153` | **4 026** | **0** |
+| putBack `tx/savepoint.ts:241` (restoreSavepoint `:227`) | **2 783** (2 783) | **0** (0) |
+| restoreBatchImage `tx/savepoint.ts:234` | 0 | — (gone) |
+| markBatch `tx/frames.ts:235` / undoBatch `:255` | — | 33 / 0 |
+| mark `tx/frames.ts:292` / undoTo `:308` | — | 3 993 / 2 783 |
+| compactHoles | 0 | 0 |
+| setFaceHoles `arena/plat.ts:744` | 101 714 (36.6 a kerb read) | 101 714 |
+
+**The round's requirement holds: takeSavepoint and putBack at 0 calls inside S8's window** (the stage image is taken at
+`layout/src/pipeline/runner.ts:356`, before the stage). Every other count equal: the round changes no call of the
+pipeline. compactHoles 0 in both: no pool compaction inside the stage at CITY (the size pin's context: the kerb read's
+setFaceHoles calls, 36.6 a read, fit their pools).
+
+**The cpu runs** (`--mode cpu --cuts --window 100 --fns opSave,rollback2,<restoreBatchImage on the base; markBatch,undoBatch
+after>,takeSavepoint,putBack,readKerb,insertChain,gridCandidates,'(garbage collector)' --joint 'readKerb>opSave,readKerb>rollback2'`).
+THE SAVEPOINT TERM per 100-cut window := the inclusive ms of opSave (`faces/common.ts:459`) + rollback2 (`:486` base /
+`:485` round) + restoreBatchImage (`tx/savepoint.ts:234`, base) or markBatch (`tx/frames.ts:235`) + undoBatch
+(`tx/frames.ts:255`) (round), divided by the window's cuts — functions none of which runs under another; takeSavepoint
+and putBack are never added (they run inside opSave and rollback2), and the base's batch image (tx.ts:96) stays out, as
+R7's definition leaves it. Each function resolved to its bundle name by file:line in the run's full inclusive table (this
+seat's scratch `tools/fullincl.ts` re-runs the tool's `analyse()` over the saved profile: the tool's analysis.json keeps
+only the top 80 rows). growth.ts:44 on the RESUME head still sums opSave + putBack (its save column reads 0.0 after the
+round whatever the undo costs), so the slope is fitted by this seat from analysis.json's windows (`tools/term.py`, the
+tool's least squares over windows of ≥ 50 cuts).
+
+| run | load before | term ms a cut per window (12 windows) | term slope | total slope | GC share | joint readKerb>opSave + readKerb>rollback2 |
+|---|---|---|---|---|---|---|
+| base cpu 1 | 0.26 | 2.74 → 35.80 | **2.970** | **3.975** | 7.0 % | 5 776 + 13 713 ms |
+| base cpu 2 | 0.27 | 2.58 → 33.18 | **2.752** | **3.425** | 6.6 % | 5 491 + 12 691 ms |
+| round cpu 1 (VOID: inlining rule) | 0.27 | 1.27, 0.67 … 0.84 | −0.024 | −0.094 | 3.5 % | 23 + 869 ms |
+| round cpu, V8 inlining off, 1 | 0.27 | 0.95 … 0.86 | **−0.011** | 0.162 | 3.2 % | 31 + 899 ms |
+| round cpu, V8 inlining off, 2 | 0.28 | 0.92 avg | **−0.013** | −0.077 | 3.3 % | 39 + 971 ms |
+| round cpu, V8 inlining off, 3 | 0.26 | 0.83 avg | **−0.002** | 0.279 | 3.5 % | 33 + 953 ms |
+
+INLINING, judged over the whole run: round cpu 1 has no inclusive row at `tx/frames.ts:235` (markBatch), which count
+mode calls 33 times in S8's window — VOID by the rule (with 33 calls of a few µs, the 500 µs sampler alone may miss it;
+the rule cannot tell, N-s9-3), so the slope runs were repeated with V8 inlining off in this seat's scratch driver (the
+mirror's `bench/src/profile/index.ts` passing `--no-turbo-inlining --no-maglev-inlining` to the child from an env
+variable; restored and `cmp`-checked after) at `--interval 100`: every term function then has its row (markBatch 1.2 /
+1.1 / 0.8 ms, opSave 48 / 54 / 47 ms, rollback2 899 / 972 / 954 ms). The base's two cpu runs had every called term
+function's row (restoreBatchImage 0 calls).
+
+**Bar (2), the FAILING bar: MET.** The savepoint term's slope −0.011 / −0.013 / −0.002 ms a cut per window (≤ 0.1; the
+base's 2.970 / 2.752 beside them). The base's two total slopes differ by 0.55 (> 0.5), so the total clause is judged on the
+median of three round runs: 0.162 ms a cut per window (≤ 3; the base's 3.975 / 3.425 beside it). (R7's 6.14 / 8.73 on
+4abd334a and T1's 3.47 / 4.84 on 8d5ffdcd are history.)
+
+**Bar (1), save + undo per kerb read: 0.281 ms mean — ≤ 0.5 (the failing bar), the 0.2 target NOT met (REPORTED, N-s9-4).**
+Read from the seat's instrumented scratch run, since the inlined cpu run is VOID (the mirror's `faces/common.ts` opSave /
+rollback timed with `performance.now()` and attributed to the enclosing `arr/kerb.ts:1918` readOn; restored and
+`cmp`-checked after; `/home/user/maps-scratch/waves/s9-runs/instrument.py`; the run's root db72c0bf… unchanged, 50.5 ms a
+cut): 2 778 reads, **mean 0.281 ms**, median 0.193, p90 0.514, max 3.78 ms; one opSave and one rollback each (the
+dry run's). The joint-based figures agree: (joint readKerb>opSave + readKerb>rollback2) ÷ 2 778 readOn calls = 0.321 ms
+(the VOID inlined run), 0.335 / 0.364 / 0.355 ms (inlining off — the profiler's and the inlining switch's own overhead
+included). The base: 7.02 / 6.55 ms a read. The undo's entries per read (the instrumented run, counted apart at each
+rollback: entryCounts from the frame's mark, and the IndexBatchLog's writes less the mark's): column mean 3 959 (median
+3 057, p90 7 145, max 48 790), replacement mean 11.4 (median 8, p90 22, max 56), index mean 213 (median 165, p90 366, max
+2 575). In the round cpu run's inclusive table, undoTo 839 ms splits into the index undo 573 ms (undoWrite 465) and the
+arena undo 245 ms. With bar (2), the size pin and the image-count pin holding, a mean above 0.2 and below 0.5 is no
+failing line by the row's ONE RULE (it is not even above 0.5): REPORTED with these figures for the session.
+
+### Line 7: the measured identities (NO-SHIFT)
+
+**The roots, CITY, `bench profile` plain** (each printed root line, quoted):
+
+| run | command | base mirror (BEFORE) | tree (AFTER) |
+|---|---|---|---|
+| fusion 3 | `corepack pnpm bench -- profile --seed 3` | `profile: fusion-3-S8-plain (CITY; node v24.12.0; production bundle: true) root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks 1057` (three runs) | `profile: fusion-3-S8-plain (CITY; node v24.12.0; production bundle: true) root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks 1057` (three runs, and the instrumented run) |
+| integrated 4 | `corepack pnpm bench -- profile --run integrated --seed 4` | `profile: integrated-4-S8-plain (CITY; node v24.12.0; production bundle: true) root e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310` | `profile: integrated-4-S8-plain (CITY; node v24.12.0; production bundle: true) root e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310` |
+
+The bundles differ (8 388 402 bytes base, 8 444 078 the round's cpu bundle), so the frames were in the measured code; the
+roots equal S8's (its notes' line 5).
+
+**The golden** (S7's probe re-written by this seat: `/home/user/maps-scratch/waves/s9-runs/probe/zz-golden-s9.test.ts`,
+placed in the base mirror for the before-run and removed after, and in the self-check mirror for the after-run; fuzz.test.ts's
+generator and loop over the registered families — seeds 1 – 24 default ×7 919 14 batches, along ×104 729 16; the ten
+regressions — and the S6 wide families — default ×7 919 1 – 1 200; along ×104 729 1 – 1 200; heavy ×15 485 863 1 – 800,
+way 0.2 / lane 0.3 / along 0.25, 20 batches: 52 940 batches, one line each — family, seed, step, kind, outcome (the
+sha-256 of the record or the refusal's code and detail, and the warnings' codes), the sha-256 of `state(p)` — and the
+census line): before and after **byte-identical**, sha-256
+`ce60755816fa95a41ee5f111d2fa288eabbf671cd37181ee9916e8a8bb748d1b` (52 941 lines), 0 throws in either.
+
+**The refusal census (J264 (5), N-58), before = after:**
+
+| family | refusals before | after |
+|---|---|---|
+| fuzz.test.ts default (seeds 1 – 24) | 59 / 336 | 59 / 336 |
+| fuzz.test.ts along (seeds 1 – 24) | 104 / 384 | 104 / 384 |
+| fuzz.test.ts regressions | 49 / 220 | 49 / 220 |
+| wide default | 3 478 / 16 800 | 3 478 / 16 800 |
+| wide along | 4 575 / 19 200 | 4 575 / 19 200 |
+| wide heavy | 3 574 / 16 000 | 3 574 / 16 000 |
+
+By class (all six families, both runs): E_KEPT 11 477, E_INVARIANT 361, E_DEGENERATE 1 — S8's figures exactly, so no
+verdict moves (the classes S7 recorded: R-11's role consistency and kept content; R-10's index-freshness siblings
+N-s7c-1 / -2, LAWFUL, routed to the session's RQ2; the one clearance refusal N-c1-3). No refusal is new, none LAWFUL is
+left by this round.
+
+### The frame observer over the other suites (line 5 (a))
+
+`PLAT_UNDO_ORACLE=1 corepack pnpm exec vitest run --project kernel --project kernel-tiny --maxWorkers=1` over
+`packages/kernel/test/{tx,faces,arr/bands,warp,invariants,insert/step3-5}` on the tree, in the background with a
+done-file (2026-11-10 02:44 – 03:25Z, seed 1 503 331 139): 105 files, 1 845 passed / 1 skipped (the size pin in tiny) /
+6 failed, **2 419 s**; **0 observer failures** (no CHECK A mismatch, no throw of an undo, in any file); 83 files printed
+their counts. **Marks compared** — batch 148 764, op 62 500, dry-run 143 475 (taken: 512 761 / 153 363 / 143 475; a
+committed batch's frame is never compared, a dropped op frame only through its parent). **The six reds** are a-09's
+`arr/bands` tests `closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts` B-NEST,
+`restage.test.ts` N1 / N2 — S8's known foreign set, the tests' own assertions, never the observer's afterEach, and red
+with the same messages on the base mirror without the observer (the gates' outside-owns row). Nothing is listed against
+the stores tests plant on purpose (forms.test.ts's two now go through the door; clauses.test.ts:185 and
+invariants/expect.test.ts:40-41 plant into fresh slots outside any undone frame): no census miss, no S8 escape.
+
+A first run of the suite (02:16Z) was stopped at about a third: in it, M0-a-14's two negative controls in
+`invariants/fixtures.test.ts` ('the same removal with a hand-logged coarser insert …', 'a removal beside live L1 faces …
+a hand-logged insert or tombstone …') were red — they push hand-logged writes into the IndexBatchLog, which the index
+undo then replayed (an insert of partition −1 threw). Fixed in `frames.ts` `undoWrite` (N-s9-7; K26), the file green
+(94 / 94), and the suite re-run from the start on the final code (above).
+
+### Self-check (J183): the faults re-introduced in the lane's mirror
+
+The one mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-06-fix-s9/plat` (a real copy, `node_modules` included;
+isolation proved at its making: no link into the tree, testkit's `@plat/kernel` resolving inside the copy; re-synced to
+the tree and `diff -rq`-equal before each batch). Each mutant alone (`/home/user/maps-scratch/waves/s9-runs/mutants.py`:
+every old text unique in the tree, the file restored from the tree and `cmp`-checked after each), run as
+`corepack pnpm exec vitest run --project kernel --project kernel-tiny --maxWorkers=1 --bail=1 packages/kernel/test/tx`
+(B-FUZZ and the oracle at the PR size); the first red is quoted. The final batch ran on the final code (2026-11-10 02:19 –
+02:43); a first batch (01:47 – 02:12, before the undo's planted-write guard) agreed on every mutant it shared.
+
+| id | file | fault | killed by (first red under `--bail=1`) |
+|---|---|---|---|
+| K1 | tx/frames.ts | a frame's undo skipped (undoTo undoes nothing) | oracle CHECK A (first batch: the S8 pin 'an inner op frame writes slot s …' CHECK A) |
+| K6 | tx/frames.ts | a partition made in a frame not truncated (byKey kept, list not cut) | oracle (a throw at the stage-end rebuild: the truncated level lists and the kept partition disagree); first batch: the S8 pin 'an inner frame dropped …' CHECK A |
+| K7 | tx/frames.ts | the old entry's grid share not restored | savepoint.test.ts S7 N-25 (`healthy`: the index-state check names the missing grid share) |
+| K8 | faces/common.ts | the warnings cut by length | savepoint.test.ts S9 'W_ATTRACTED counted once' (record.warnings ≠ the image path's) |
+| K9 | tx/frames.ts | idx.log left open by a batch's undo | savepoint.test.ts N-56 (5) '20 rejected batches …' (the next batch: `tx: another batch is open on this arena`); the S9 next-batch pin |
+| K10 | faces/common.ts | an image taken under another name by opSave | savepoint.test.ts S9 line 5 (c) image-count pin (`expected 1 to be +0`) — EQUIVALENT for the oracle, as the row says |
+| K11 | tx/frames.ts | an undo of a discarded / undone frame allowed | savepoint.test.ts S9 'S7's analogues on marks' |
+| K12 | tx/frames.ts | a second undo allowed (the frame kept after its undo) | savepoint.test.ts S9 'S7's analogues on marks' |
+| K13 | tx/frames.ts + savepoint.ts | the generation moved by an in-batch undo | savepoint.test.ts S9 'S7's analogues on marks' |
+| K14 | tx/savepoint.ts | restoreSavepoint allowed inside a batch | savepoint.test.ts S9 'restoreSavepoint inside a batch …' |
+| K15 | tx/frames.ts | the before-view reads the LAST logged value | savepoint.test.ts S9 line 3 R1 (record ≠ the image path's) |
+| K16 | tx/tx.ts | the sweep walks its rows in log order | savepoint.test.ts S9 line 3 R2 (refusal names (3500, 3500), not (500, 500)) |
+| K17 | tx/frames.ts | the index log cut once, after the whole undo (an interrupted undo replayed whole) | **SURVIVED — EQUIVALENT**: the index undo's steps are assignments (an undone insert sets its key's entry and shares to the write's old ones, a delete puts its entry back, a tombstone removes its key), so an undone suffix replayed again from the end ends in the same state; the arena half's twin U1 (below) is not equivalent and is red |
+| K18 | index/spatial.ts | attachIndex's debug assertion dropped | savepoint.test.ts S9 'attachIndex on an arena with a batch open …' |
+| K19 | tx/frames.ts | the fresh rule dropped from the before-view | savepoint.test.ts S9 (kernel-tiny) — a throw in the record's removed keys |
+| K20 | tx/tx.ts | the batch takes an image again at open | savepoint.test.ts S9 'restoreSavepoint inside a batch …' (images taken 3, not 2) |
+| K21 | tx/frames.ts | the recorder left attached by a batch's undo | savepoint.test.ts N-56 (5) (the next batch: `tx: a recorder is already attached to this arena (a batch that never ended)`) |
+| K22 | tx/frames.ts | a tombstone's undo skipped | oracle (an arena check throws: the index answers a stale copy) |
+| K23 | tx/frames.ts | a removed or replaced grid entry not put back | savepoint.test.ts S7 N-25 (`healthy`: six index-state problems) |
+| K24 | tx/frames.ts | the index writes cut, not undone | savepoint.test.ts N-56 (5) '20 rejected batches …' |
+| K25 | tx/tx.ts | the stage ranks checked after the frame and the log (the pre-S9 order) | savepoint.test.ts S9 'a batch whose stage has no u8 rank …' |
+| K26 | tx/frames.ts | the undo's guard against a write the index never held dropped | savepoint.test.ts S9 planted-log pin (TypeError); also invariants/fixtures.test.ts's two negative controls (M0-a-14's, red without the guard) |
+| W1 | warp/warp.ts | S8's W1 (commitStep's x store direct) | savepoint.test.ts S8 warp pin (bits ≠); oracle.test.ts alone: CHECK A |
+| R1 | arena/rows.ts | S8's R1 (writeRow's kind store direct) | savepoint.test.ts S8 pin CHECK A; oracle.test.ts alone: CHECK A `roles.kind slot …` |
+| H1 | arena/tables.ts | S8's H1 (roles.head's rehash without its replacement call: a rehash undone slot by slot) | savepoint.test.ts S8 churn pin CHECK A; oracle.test.ts alone: CHECK A `roles.head.k0 … (capacity 32 at the mark, 64 now)` |
+| P1 | arena/plat.ts | S8's P1 (the compaction's pool swap unlogged) | savepoint.test.ts S8 churn pin; oracle.test.ts alone: CHECK A `faces[1].holes slot 0` |
+| P2 | arena/plat.ts | S8's P2 (the compaction's holesStart stores as an unlogged bulk set) | oracle (an arena check throws) |
+| G1 | arena/plat.ts | S8's G1 (a slot-table growth not put back) | oracle CHECK A `roles.vertexFirst slot 64: (beyond capacity) … (capacity 64 at the mark, 256 now)` |
+| C1 | arena/write.ts | S8's C1 (roles.head's count not restored) | oracle CHECK A |
+| S1 | arena/write.ts | S8's S1 (a SlotCounter restored as its top alone) | oracle (a throw) |
+| I1 | arena/write.ts | S8's I1 (columnOf id 0 reads vertices.y) | oracle (the index answers a stale item) |
+| U1 | arena/write.ts | S8's U1 (the arena log cut once, after the whole replay) | savepoint.test.ts S9 mid-replay pin (bits ≠ the batch mark's); door.test.ts's S8 pin |
+
+32 mutants, 31 killed, K17 equivalent (a note). S8's A1 (putBack skipped after the observer's undo) has no analogue: no
+batch puts an image back. The S8 mutants were also run against `oracle.test.ts` alone (no guard, no pins): all nine red,
+CHECK A naming the column for W1, R1, H1, P1, G1, C1 (the batch, op and dry-run frames), the others by a throw.
+
+### Gates
+
+| gate | command | result |
+|---|---|---|
+| machine | `python3 tools/machine_profile.py --id` | `linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib`; Node v24.12.0; `test_budget.py` 1 worker |
+| install | `corepack pnpm install --frozen-lockfile` | exit 0 (`Already up to date`), at the start and on the final tree |
+| lint | `corepack pnpm lint` | exit 0 — eslint 1 284 files, 0 errors, 0 warnings; `lint: probe-red ok` (the probe's planted lines red in place); 9 whole-tree checks ok (kernel-boundary, bench-boundary among them); on the final tree |
+| build | `corepack pnpm build` | exit 0 (`tsc -b`; the bundles); on the final tree |
+| NEAR (full strength) | `vitest run --project kernel --project kernel-tiny --maxWorkers=1 packages/kernel/test/tx` (PLAT_FUZZ_RUNS unset: the oracle and B-FUZZ at 10⁴) | exit 0 — 38 files, 659 passed / 1 skipped (the size pin in kernel-tiny), 278.26 s, seed 1 998 295 628, on the final tree; the oracle at 10⁴: default 7 970 committed / 2 030 refused / 0 thrown, 74 s, marks compared batch 14 565 / op 29 602 / dry-run 3 202; tiny 7 924 / 2 076 / 0, 66 s, compared 14 580 / 30 188 / 3 232, every TINY_UNDONE growth, rehash and compaction undone inside frames; the size pin and bar (6)'s lines as in LINE 5 (the first NEAR, before the last pins: 38 files, 655 / 656, 263 s) |
+| RELATED (reduced) | `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over the 7 changed sources (`kernel/src/tx/{frames,tx,state,savepoint,index}.ts`, `faces/common.ts`, `index/spatial.ts`) | exit 1 — 547 files, 7 432 tests: 6 failed, 1 skipped, 8 894.28 s, seed −306 763 462 (03:26 – 05:54Z, never stopped). **Every red is foreign:** the six are a-09's known `arr/bands` set (`closing.test.ts` ×2, `dryrun.test.ts` 'draws 389 and 1109', `hardening-s15.test.ts` B-NEST, `restage.test.ts` N1 / N2); the four red files replayed alone with the same seed and size (`PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=-306763462`) on the BASE mirror and on the tree fail the same 6 of 36 tests with identical full failure messages (JSON reports compared, paths normalised) — red on the RESUME head, so none is the item's (TEST SCOPE (3)); none in `kernel/test/tx`. The two M0-a-14 negative controls the first observer run turned red (invariants/fixtures.test.ts) are green in it (N-s9-7). S8's other foreign reds (testkit EP-01 cells, layout run.test S3, mixer, booleans s6, scan K6-6) were not red at this seed. |
+| the guard | `write-door.test.ts` (in NEAR) | green: 0 stores outside the door and the allowlist; attachIndex's three allowlisted fills current (its new first line, the assertion, stores nothing) |
+| outside-owns pins | `PLAT_FUZZ_SEED=148109550 vitest run --project kernel --maxWorkers=1` on `arr/bands/{closing,dryrun,hardening-s15,restage}.test.ts`, `facade/facade.test.ts`, `num/api-surface.test.ts`, base mirror and tree (JSON reports compared) | identical: 95 tests each, the same 6 reds (a-09's closing ×2, dryrun 'draws 389 and 1109', hardening-s15 B-NEST, restage N1 / N2) with identical full failure messages on the base and the tree; `api-surface.test.ts` green untouched; `facade.test.ts` (:865-876 among it) green unedited; `dryrun.test.ts`'s 'kerb(F) is a dry-run on the real arena …' describe (the :65 / :75 / :96 pins) green unedited; `restage.test.ts`'s other pins green — REPORTED, never edited |
+| landed:verify | `corepack pnpm landed:verify -- flow-7 --item M0-a-06` | exit 0 — `landed:verify flow-7 --item M0-a-06: ok (1 record)` (the record re-landed on lane build/M0-a-06-fix-s9: 36 created, 1 changed; appends C-0488, L-0794; its landed note lists the paths no owns of M0-a-06 claims, the scope files among them — the expected state, J627 (1)); the lenders' verifies (`-- flow-7 --item M0-a-07`, `M0-a-03`) name exactly their scope file (`faces/common.ts`, `index/spatial.ts`) as changed since their records, M0-a-02's is ok (write.ts unchanged): the session re-lands M0-a-07's and M0-a-03's records |
+
+### For §3.3 (the session's, at the landing): 'The savepoint and the dry run (O(change))', verbatim-ready
+
+Item 985 (b)'s paragraph as J627 corrects it, with S8's door sentences, to be inserted by the session after *Expectations*
+(this seat never edits docs/ARCHITECTURE.md):
+
+> **The savepoint and the dry run (O(change)).** Every store into an arena column passes one door, `arena/write.ts`: one
+> typed setter per column, which records (column, slot, old value) in the arena's undo log while a batch is open on the
+> arena. Every replacement of a column's array or of a table's object — a growth, a hash table's rehash, the hole pool's
+> compaction — is one entry of that log holding the replaced array or object, which an undo puts back whole, so capacity
+> returns to the mark's; the entries logged before it then undo into the array they were logged against. Every index
+> write — a grid insert or delete, a tombstone added — is one entry of the batch's index log, an insert and a delete
+> holding the grid entry it replaced or removed. At a **mark** the slot counters (top, free and live), `holesTop`, the
+> version, the frame, the counts of the role-head, owner and handle tables, the index's partition list and each level's
+> static and tombstone lists' lengths, and the index's work counts are saved by value, never logged; the journals, the
+> chain journal and the log's lists are cut to their marked lengths, and the warnings and the log's owners, roles and
+> removed keys are restored from copies taken at the mark, never cut by length (a warning counts by code in place). A
+> **frame** is a mark: the batch's frame when the batch opens, an op's (`opSave` in the multi-cut partitioners and
+> `splitFace`) and a dry run's (the kerb read's, through `opSave`) above it. **Undo to a mark** applies the log's entries
+> from its end, cutting the log past each entry as soon as it is undone — so an undo a throw interrupts is resumed by an
+> older frame's undo and never re-applies an entry — and puts the saved values back: it costs O(entries since the mark),
+> what the op wrote, never the arena. An undo **discards** its frame and every frame opened after it; a frame its caller
+> drops is committed into its parent (its entries stay, undone with the parent's or kept by the commit); an undo of a frame
+> already undone or discarded, or from another batch, is a programming error that throws and changes nothing (the LIFO
+> rule session round S7 states for images; C-0299 is the restore generation). The grid entries an undo puts back carry
+> their partitions' grid shares with them, and a partition made inside a frame is truncated after the frame's writes are
+> undone, so index freshness (§3.10) holds: an entry put back is the entry that was there, a tombstone removed is the one
+> the frame added. An undo inside an open batch moves neither the version nor the restore generation; no reader holds a
+> slot stamp across an undo (a stamp read inside a frame still reads current after the undo, although its slot may be
+> dead: the kerb read's faces are returned as plain data). A rejected batch, a thrown one and one that wrote nothing undo
+> to the batch's frame and close its index log: the arena at its version (§2.2 rule 8) — a rejected or thrown batch undoes
+> every store that passed the door, and nothing else. The commit record reads the before-values from the batch's frame: a
+> slot at or above the frame's saved counter is fresh; below it, a column's first logged old value, or its current value
+> where no entry names it. The **stage image** the pipeline runner takes before a stage and puts back after
+> (`takeSavepoint` / `restoreSavepoint`) stays an O(arena) image: taken once a stage, it is the oracle the frames are tested
+> against, the only restore that moves the restore generation (C-0299, C-0313), and it is put back only between batches
+> (refused while a batch is open on the arena). The frames are kernel-internal at M0 (`mark` / `undoTo` in `tx/`, by path;
+> `opSave` / `rollback` keep their names and callers, and no `dryRun` is offered): exporting them is a later public-API row.
+
+### Notes
+
+| id | observation | handling | milestone |
+|---|---|---|---|
+| N-s9-1 | **A refusal's detail can depend on slot order, as before the round.** levelProblems and clearanceProblems read `t.log.vertices` in the order sweepVertexRows pushes it, and the sweep visits role rows in row (slot) order — the whole-table loop's order before S9, kept (NO-SHIFT) by the one named sort exception (`byRoleRowOrder`, source.test.ts). R2's refusal names (500, 500) because its row is the lower slot. §3.3 says no output depends on slot numbers: the refusal's code does not, its first-problem detail can. | the session (a canonical order — the vertex's lattice position — for the sweep's pushes would be a declared shift of refusal details) | M0 hardening pass |
+| N-s9-2 | **Bar (6) at 160 entries per touched face holds on its own runs only.** Every store is logged (line 4's dedupe not built): on the 24-seed fuzz runs the worst batch logs 124 entries per touched face (≤ 160), but a lane insertion touching one face logs up to 183 on the wide families (default mode), and the tiny-tables mode adds a replacement per allocation and its one-slot hash tables' rehash stores (169 on the 24 seeds, 269 on the wide families). cost.test.ts asserts 160 on the 24 seeds (default) and the measured worst rounded up elsewhere (190; 280 tiny), the gap in each title; the size pin shows no count grows with the arena (exactly constant, k = 2 … 12). | the session: re-bar (6) by family, or build line 4 (i) (the dedupe: a slot logged once per frame) and re-measure | M0 (the session's ruling) |
+| N-s9-3 | **The inlining rule voids a run for a function sampled too rarely to show.** markBatch (`tx/frames.ts:235`) is called 33 times in S8's window; at the 500 µs default interval it had no inclusive row in round cpu 1, which the rule reads as inlined. The slope runs were repeated with V8 inlining off at 100 µs (its row then 0.8 – 1.2 ms), as the rule asks. | none (a note on the method: a function called fewer than ≈ interval ÷ its cost times per stage cannot show) | — |
+| N-s9-4 | **Bar (1)'s target 0.2 ms a read is missed: 0.281 ms mean** (median 0.193, p90 0.514, max 3.78; ≤ 0.5, the failing bar). In the profile, the index half is two thirds of the undo (undoIndex 573 of undoTo's 839 ms: grid puts and takes and their Set / Map work, 213 index entries a read on average) and the arena half the rest (3 959 column entries a read: every store logged). The levers: the dedupe (line 4 (i)) for the column half; for the index half a cheaper put-back (the entry object kept instead of a fresh `gridPut`). | REPORTED for the session (the row's ONE RULE: bar (2), the size pin and the image-count pin hold) | M0 (the session's ruling) |
+| N-s9-5 | **A dry run's growths are put back, so the next read grows again.** The instrumented run counts 11.4 replacement entries a kerb read on average (8 median, 56 max): a table near its capacity grows inside the read's frame, the undo puts the smaller table back (capacity bit for bit to the mark's, as J627 rules), and the next read grows it again — an O(table) copy per read near a capacity edge (the base's image did the same). | a note for amendment z's round 2 / M1 (keep a frame's growth on undo?, a rule J627's oracle forbids today) | M1 |
+| N-s9-6 | **The open order: a stage with no u8 rank threw after the batch's image and log were taken**, leaving the index log open (every later batch refused, 'another batch is open on this arena'). Found by this round; `open` now checks both ranks before the batch frame. | FIXED (pinned: savepoint.test.ts 'a batch whose stage has no u8 rank …'; mutant K25) | — |
+| N-s9-7 | **A write planted in the index log is skipped by the undo.** M0-a-14's negative controls (invariants/fixtures.test.ts) push hand-logged IndexBatchLog entries (an insert of partition −1, a tombstone of another level's partition) to see checkIndexBatch name them; the image path ignored the log, the undo replays it — a planted insert threw. `undoWrite` now skips a write the index never held (pinned: savepoint.test.ts's planted-log pin; K26). A planted entry that matches the index (an insert naming the key's current partition) cannot be told from a real one and is undone as one: like a store past the door, outside the narrowed contract. | none | — |
+| N-s9-8 | **The observer's dry-run kind is still read from the stack** (N-s8c-2): `opSave` cannot tell a dry run from an op frame (arr/kerb.ts is not edited this round), so `support.ts` names a frame `dry-run` when `dryInsert` is on the stack at its mark. | stands; a later round that edits kerb.ts can pass the kind to `mark` | M0 (a-09's round 2) |
+
+### Hardening round S9 — the closing check's notes (lane `check/M0-a-06-close-s9`, 2026-11-10 – 2026-11-11)
+
+Verdict in `checks/M0-a-06-s9.md`. No row is a blocker: N-s9c-1, N-s9c-4 and N-s9c-5 are deliberate-caller escapes or
+further hardening pins (N-45: KI rows for the hardening pass, never a fail); N-s9c-2 is a REPORTED bar for the session's
+ruling before the landing; N-s9c-3 is a working-rule disclosure for the session; N-s9c-6 lists RELATED@1000's foreign
+reds with their seed (TEST SCOPE (3): a note for the session, not the item's gate).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s9c-1 | **An index rebuild inside an open batch is not undone by the frames.** The before-image restored the trees, keys, pending and tombstone sets a rebuild rewrites; the door logs only its home-entry stores, so an undo of a frame that held a rebuild would leave the partition's keys naming items whose home entries read −1, and `idx.work`'s counts are the only part of it the index undo puts back (this checker's mutant D12 — the counts not restored — survives for the same reason: nothing in a frame moves them). No `src/` caller rebuilds inside a batch: `rebuildPartition` runs from the stage-end, overflow and freeze rebuilds, whose callers (layout infill/stage.ts, districts/stage.ts, pipeline/runner.ts, site water/stage.ts, the facade's `rebuildAtStageEnd`) all run after their batches. | the debug build's assertion attachIndex gained in this round (`index: … while a batch is open on the arena`), on `rebuildPartition` (M0-a-03's file) | M4, or with amendment z's index round (item 987) |
+| N-s9c-2 | **Bar (6) — the batch frame's entries ≤ 160 × touched faces at every commit — holds on the clause's own runs in the default mode only.** This checker's re-measure (a commit observer over cost.test.ts's loops, entries by kind): default mode, the 24 seeds: 249 commits, 0 above 160, worst 124.0 (column 118, index 6); default mode, the wide families: 4 of 4 016, 2 of 4 195, 2 of 3 536 commits above 160, worst 182.0 / 182.0 / 183.0, each a one-face `insert lane` with no replacement entry (column 168 – 171, index 12 – 14); tiny-tables mode, the 24 seeds: 2 of 249 above, worst 169.0 = column 122 + replacement 38 + index 9; tiny, the wide families: 15 / 10 / 23 commits above, worst 244.0 / 264.0 / 269.0 (39 – 61 replacement entries; 205 – 208 without them). The pins assert 160 on the default 24 seeds and the measured constants elsewhere (190; 280 in the tiny mode) with the gap in each title (the author's N-s9-2). The wide families' excess is removable only by line 4's optimisations (optional by J627); the tiny mode's is the growth-at-every-allocation of the test tables, one replacement entry a growth by S8's design. | the session rules before the landing: either the constants as pinned (160 on the clause's runs; 190 wide; 280 tiny) stated in §13.2's clause, or line 4 (ii) built with the wide families re-pinned at 160 | M0 (the session's ruling at this landing) |
+| N-s9c-3 | **The author's CLEAN-ROOM row L-0794 discloses two slips of the working rules** at the seat's start: `git log --oneline -5` and `git status --porcelain` run once (read-only; the rule is "no git command of any kind"), and one non-recursive `ls` of the project root (top-level names only; the rule forbids a search or `ls` from the root). Neither opened, listed or searched a firewalled folder's content and nothing was written: no clean-room breach. | none for the item; the session may restate the two rules in the next brief's first lines | — |
+| N-s9c-4 | **The commit record's before-owner read is redundant at this head, and therefore unpinned.** `assemble` (tx.ts) adds `before.ownerOf(level, f)` for every changed or removed face; every store to a face's owner in `src/` (allocFace, freeFace, setOwner at writers.ts:635, relevel's emptied kept record at relevel.ts:1039) is preceded in the same writer by `t.log.owners.add` of the owner the face had (writers.ts:634; relevel's `noteOwner` at :1002, :1010, :1020; merge.ts:76, :168), so the read only ever adds an owner the set already holds — as the image path's `ownerBefore` did. This checker's mutant C41 (`ownerOf` reads the current owner) survives the whole of `test/tx`, leaves the 52 940-batch golden byte-identical, and leaves the records of two probes aimed at it identical (cuts, merges, clearFiner's emptied record). | a pin through a test-only writer that re-owns a face without logging (record.owners must still list the old owner), or the debug build's assertion that a dirty face's before-owner is in `t.log.owners`; needed the day a writer stops logging | M4 |
+| N-s9c-5 | **Three equivalences that hold only under a condition.** (a) sweepVertexRows' loop over `[roleTop, role.top)` is dead code while every store is logged (a fresh row's kind store is in the log, so the row is in `rolesLogged`; mutant C50 survives) and is what keeps the sweep right under line 4 (ii) FRESH skipping. (b) Cutting the index log once after the whole index replay (mutant C37) is as correct as the per-write cut that stands, but only because `undoWrite`'s guards — added for N-s9-7's planted writes — make a re-applied suffix idempotent; without the guards the per-write cut alone carries the resume property. (c) The index undo restores `idx.work`'s counts although nothing in a frame moves them (N-s9c-1). | whoever builds line 4 (ii) pins (a) with a fresh, unlogged vertex row; keep both the guards and the per-write cut (b); (c) with N-s9c-1 | M4, or the round that builds line 4 |
+| N-s9c-6 | **RELATED@1000's reds are M0-a-09's six `arr/bands` tests, red identically on the RESUME head.** `PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=911062026 corepack pnpm exec vitest related --run --maxWorkers=1` over the round's seven changed sources (the tree, 2026-11-11 19:06 – 21:12Z): 547 files, 543 passed / 4 failed; 7 432 tests, 7 425 passed / 6 failed / 1 skipped; every `kernel/test/tx` file-run green (36 of 36). The six reds, all of fixed seeds: `kernel/test/arr/bands/closing.test.ts` — 'seed 20261011 draw 1109 (B-FUZZ's family under round S16): face 0's end at (15, 887) closed along to (0, 1631) …' and 'fast-check's shrunk counterexample of seed 20261011: face 1 read faithfully, no closing …'; `dryrun.test.ts` — 'draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY …'; `hardening-s15.test.ts` — 'B-NEST … the widened B-FUZZ family's network 561 …'; `restage.test.ts` — N1 and N2 (round S11 NEAR). These tests import `faces/common.ts`, which this round changed, so they were replayed at the same seed and size on the RESUME head (the base mirror, common.ts as its lender recorded it) and on the tree: red on both with the identical full messages (6 of 6; `compare.py` over the three JSON reports), as in the outside-owns pins and the observer suite, and as in S8's closing check. No red of S8's N-s8c-3 set at this seed; bench `fusion/hausdorff.test.ts` and `ladder-coverage/entry.test.ts` green in the tree. | a note for the session (TEST SCOPE (3)); M0-a-09's own round, HELD until this round lands, owns the six | — |

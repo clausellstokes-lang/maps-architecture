@@ -7,7 +7,7 @@ import type { IndexBatchLog } from '../index/index.js';
 import { TX_FACES_WALKED, type InsertJournal, type WorkCharged } from '../insert/index.js';
 import { err, type KernelError, type KernelResult, type Warning } from '../num/index.js';
 import type { Id, LatticePoint, Level, PlatKey, RoleKey, VertexRef } from '../types/index.js';
-import type { Savepoint } from './savepoint.js';
+import type { BatchFrame } from './frames.js';
 import type { KernelTx, Overlay, TxEnv } from './types.js';
 
 /** The face records one level's writes created, changed and removed (a log in write order; the commit takes the set). */
@@ -39,7 +39,7 @@ export interface TxLog {
   readonly moved: VertexId[];
 }
 
-/** The open transaction: the overlay of §3.3 with its spec, environment, before-image and journals. */
+/** The open transaction: the overlay of §3.3 with its spec, environment, batch frame (its undo log's floor) and journals. */
 export interface OpenTx extends Overlay {
   readonly plat: Plat;
   readonly key: PlatKey;
@@ -55,7 +55,8 @@ export interface OpenTx extends Overlay {
   readonly stageRank: number;
   /** §4.1 rank of `spec.rederivesFrom`: finer faces ranked below it are kept content. */
   readonly keptBelow: number;
-  readonly savepoint: Savepoint;
+  /** The batch frame (frames.ts): the batch's mark on its undo log and the op frames opened above it (hardening round S9). */
+  readonly batch: BatchFrame;
   readonly indexLog: IndexBatchLog | null;
   readonly log: TxLog;
   /** A refusal that dooms the whole batch (E_WORK_LIMIT): every later op refuses with it, and the batch rejects. */

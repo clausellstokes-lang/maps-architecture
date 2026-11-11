@@ -51,7 +51,7 @@ import { chainJournal, charge, INSERT_ATTRACT_QUERIES, TX_FACES_WALKED } from '.
 import { nearerVertex, nearParallel, onRouteOfLevel, passesWithin, segmentBox, splitBreaksClearance, withinSegment } from '../insert/stretch.js';
 import { comparePoints, crossingStep, lp, segmentsMeet } from '../num/exact.js';
 import { err, LATTICE, ok, orient2d, snap, type KernelError, type KernelResult, type Warning } from '../num/index.js';
-import { restoreSavepoint, takeSavepoint } from '../tx/savepoint.js';
+import { mark, undoTo, type Frame } from '../tx/frames.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import type { Id, LatticePoint, Level, RoleKey } from '../types/index.js';
 
@@ -441,27 +441,27 @@ export function cutRows(p: Plat, r: Region, rows: readonly RoleRow[] | undefined
 // ---- an op's own savepoint (the multi-cut partitioners) ---------------------------------------------------------------
 
 /**
- * Where a multi-step partitioner's writes stand: the arena's before-image (M0-a-06's savepoint, taken again here) and
- * the lengths and copies of the transaction's journals, log and warnings. `rollback` puts all of it back, so a step
- * refused after an earlier step wrote leaves the batch as the op found it — the op is atomic like every other writer
- * (C-0185 (1)). Work charged stays charged (the operations were spent).
+ * Where a multi-step partitioner's writes stand: a FRAME on the batch's undo log (M0-a-06's frames, hardening round S9 —
+ * a mark, never an image) and the lengths and copies of the transaction's journals, log and warnings. `rollback` undoes
+ * to the frame and puts the rest back, so a step refused after an earlier step wrote leaves the batch as the op found it
+ * — the op is atomic like every other writer (C-0185 (1)). Work charged stays charged (the operations were spent). A
+ * savepoint its caller drops (a success, or a refusal returned without a rollback) is committed into the frame below.
  */
 export interface OpSavepoint {
-  readonly image: ReturnType<typeof takeSavepoint>;
+  readonly mark: Frame;
   readonly journal: { vertices: number; pairs: number; split: number; changed: number; steiner: number };
   readonly chain: { newPairs: number; sharedPairs: number; promoted: number; materialised: number; faces: number[][]; passes: number };
   readonly log: { faces: number[][]; edgesRemoved: number; steinerDissolved: number; promoted: number; demotedVertices: number; demotedEdges: number; unflagged: number; vertices: number; pairs: number; owners: Id[]; roles: [string, RoleKey][]; removedKeys: [string, readonly [LatticePoint, LatticePoint]][] };
   readonly warnings: Warning[];
-  readonly indexWrites: number;
 }
 
-/** The op's savepoint (O(arena), charged to no counter, as the batch's own image, C-0185 (1)). */
+/** The op's savepoint: a frame marked on the batch's undo log (O(1) for the arena, charged to no counter) and the journals' lengths and copies. */
 export function opSave(t: OpenTx): OpSavepoint {
   const J = t.journal;
   const C = chainJournal(t);
   const L = t.log;
   return {
-    image: takeSavepoint(t.plat),
+    mark: mark(t),
     journal: { vertices: J.vertices.length, pairs: J.pairs.length, split: J.split.length, changed: J.changed.length, steiner: J.steiner },
     chain: {
       newPairs: C.newPairs.length, sharedPairs: C.sharedPairs.length, promoted: C.promoted.length, materialised: C.materialised.length,
@@ -474,7 +474,6 @@ export function opSave(t: OpenTx): OpSavepoint {
       vertices: L.vertices.length, pairs: L.pairs.length, owners: [...L.owners], roles: [...L.roles], removedKeys: [...L.removedKeys],
     },
     warnings: t.warnings.map((w) => (w.at === undefined ? { code: w.code, count: w.count } : { code: w.code, count: w.count, at: { x: w.at.x, y: w.at.y } })),
-    indexWrites: t.indexLog === null ? 0 : t.indexLog.writes.length,
   };
 }
 
@@ -482,9 +481,9 @@ function cut<T>(xs: T[], n: number): void {
   xs.length = n;
 }
 
-/** Puts the op's savepoint back (see OpSavepoint); returns the refusal handed in. */
+/** Puts the op's savepoint back — the batch undone to its frame (O(entries since), tx/frames.ts), the journals as they were (see OpSavepoint); returns the refusal handed in. */
 export function rollback<T>(t: OpenTx, s: OpSavepoint, refusal: KernelResult<unknown> & { ok: false }): KernelResult<T> {
-  restoreSavepoint(s.image);
+  undoTo(t, s.mark);
   const J = t.journal;
   cut(J.vertices, s.journal.vertices);
   cut(J.pairs, s.journal.pairs);
@@ -524,7 +523,6 @@ export function rollback<T>(t: OpenTx, s: OpSavepoint, refusal: KernelResult<unk
   for (const [k, v] of s.log.removedKeys) L.removedKeys.set(k, v);
   t.warnings.length = 0;
   t.warnings.push(...s.warnings);
-  if (t.indexLog !== null) cut(t.indexLog.writes, s.indexWrites);
   return err<T>(refusal.code, refusal.detail);
 }
 

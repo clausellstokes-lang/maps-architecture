@@ -40,9 +40,9 @@ const ALLOWED: readonly Allowed[] = [
   { file: 'packages/kernel/src/arena/write.ts', reason: 'the door itself: every typed setter and replacement call, and the undo\'s put-back' },
   { file: 'packages/kernel/src/io/compact.ts', reason: 'stores only into a Plat it creates (compactSlots\' fresh arena); compactSlots refuses an arena with a batch open' },
   { file: 'packages/kernel/src/io/decode.ts', reason: 'stores only into a Plat it creates (the decoded arena, before any batch can open on it)' },
-  { file: 'packages/kernel/src/tx/savepoint.ts', reason: 'an image\'s put-back (putBack): the before-image\'s arrays become the arena\'s, the observer\'s CHECK A judges it' },
-  { file: 'packages/kernel/src/index/spatial.ts', fn: 'attachIndex', text: 'p.indexHome.vertex.fill(-1)', reason: 'attachIndex\'s fills, at attach, with no batch open (M0-a-03\'s file)' },
-  { file: 'packages/kernel/src/index/spatial.ts', fn: 'attachIndex', text: 'p.indexHome.edge.fill(-1)', reason: 'attachIndex\'s fills, at attach, with no batch open (M0-a-03\'s file)' },
+  { file: 'packages/kernel/src/tx/savepoint.ts', reason: 'the stage image\'s put-back (putBack): the image\'s arrays become the arena\'s, between batches only (S9 refuses a put-back while a batch is open)' },
+  { file: 'packages/kernel/src/index/spatial.ts', fn: 'attachIndex', text: 'p.indexHome.vertex.fill(-1)', reason: 'attachIndex\'s fills, at attach, with no batch open (its debug assertion, S9; M0-a-03\'s file)' },
+  { file: 'packages/kernel/src/index/spatial.ts', fn: 'attachIndex', text: 'p.indexHome.edge.fill(-1)', reason: 'attachIndex\'s fills, at attach, with no batch open (its debug assertion, S9; M0-a-03\'s file)' },
   { file: 'packages/kernel/src/index/spatial.ts', fn: 'attachIndex', text: 'col.fill(-1)', reason: 'attachIndex\'s fills (the for-of over indexHome.face), at attach, with no batch open (M0-a-03\'s file)' },
   { file: 'packages/layout/src/pipeline/runner.ts', fn: 'run > batch', text: 'p.faces[lv.level].stage[f] = rank', reason: 'run\'s ctx `batch` callback writes the stage rank after the commit, with no frame open (M0-x-02\'s file)' },
 ];
