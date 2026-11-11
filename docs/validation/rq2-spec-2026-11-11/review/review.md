@@ -245,3 +245,79 @@ cut (F8).
 10. **(F12–F20)** The minor edits as in the table: define "another key" as none of the chain's own rows; plant inside a batch, drop the pinned clause, drop retype's `add`
     check, the oracle's precondition, check `ctx.undo` on S14's head, the RQ3 control, scope the design sentences,
     fold ruling 2 into the JSON with the existing-split-vertex pin.
+
+---------------------------------------------------------------------------------------------------------------------
+
+## Follow-up: the session's REFINED rule (entity-based write and maintenance)
+
+Probe: `p7-refined.mts` / `.log`. The proxy row is used as before. The maintenance is emulated on v after each removal
+batch, as a bare strip or flag clear. Every emulated decision falls on a batch where v has degree ≥ 3, so emulating it
+after the batch rather than before its dissolution changes nothing.
+
+**Verdict: SOUND WITH CHANGES.**
+1. Clear VERTEX_SPLIT only when e's two edges are ALL of v's edges (degree 2). Counterexample (c1) below.
+2. Run the maintenance on every batch that clears a flag at a vertex carrying `(shape, e)` (`t.log.unflagged`:
+   promotions, moves, rule 3 (b)), not on removal-type batches only. Otherwise state the converse oracle without the
+   VERTEX_SPLIT clause.
+3. Use one definition of "other" for the write, the maintenance and both oracles: an edge row whose entity is not e.
+
+**(a) The refined WRITE against ruling 2 on the eleven cases: no difference.** CONFIRMED by re-reading p2-cases.log. In
+every case where ruling 2 writes, the two edges are identical, so a common other key is present. Ruling 2's
+non-writes stay non-writes:
+
+- The T-junction: e on one edge.
+- The one-sided end: e on one edge.
+- The closed ring's leave points (1200, 2939) and (2600, 2883): e on two edges, but A is on one of them only, so there
+  is no common key. The join/leave vertex therefore still writes nothing.
+- The same-key copy (case 8) writes under both.
+
+The refined write differs only where a rider sits on one side, and there it is right:
+
+- **(b′) CONFIRMED.** A L1, then R (L2) rides A from (3142, 2862) to v and leaves, then C L1 with its point on v.
+  Ruling 2 writes nothing (the sets differ). The refined rule writes. With the row, R's removal commits and v survives
+  (degree 2, {A, C} on both sides, guarded). Without the row, TODAY's code REFUSES R's removal: `E_INVARIANT an L2 batch
+  wrote the L1 index (delete of vertex 6 (L1)) outside its promotions and demotions`, because it tries to dissolve C's
+  L1 point inside an L2 batch. So the refined write also turns a refused removal into a lawful one.
+
+**"Admits what it should not": REASONED, nothing found on M0 inputs.**
+
+- River shore + bank: entity-based, so a chain's own second row is never "other". This closes F20.
+- The one theoretical admission is a branching run of a non-linear entity: an entity on three or more edges at v, with
+  C passing along two of its branches through a split vertex.
+
+**(b) The X-and-rider sequence: CONFIRMED that the F2 rule loses the point and the refined rule holds it.** A, C (v),
+X crosses at v, B rides one side and leaves at v, Y attaches at v (degree 6); then Y, B and X are removed.
+
+- **F2:** Y's removal strips the row (sets {A, C, B} \| {A, C} differ). The flag stays (X's pair). X's removal then
+  dissolves v: `v6: dead`. C loses its point.
+- **Refined:** the row is kept at every step, and v ends at degree 2 with the row: `C's point kept? true`.
+
+**(c) Two counterexamples.**
+
+- **(c1) The flag clear breaks another chain's restoration. CONFIRMED.** A, C (v), then D crosses at v (degree 4), then
+  A is removed. The refined rule clears v's flag (C is alone on its two edges, and D's rows are on the other two). Then
+  C is removed: v stays on D as an unflagged degree-2 vertex, and the arena is NOT equal to D alone. Without the clear
+  (row stripped only), C's removal dissolves v, and the arena equals D alone. Fix: change 1 (clear only at degree 2).
+- **(c2) The rider removed alone is fine. CONFIRMED.** Rule 3 (b) keeps v's flag, the refined maintenance keeps the
+  row, and C's later removal restores A exactly. The coordinator's worry about the write's rider does not arise here.
+- **(c3) Insert-type batches can clear the flag. REASONED; the emulation could not commit it.** A coarser chain ending
+  at v promotes v and clears its flag (rule 3 clearing (a)). The probe's L1 chain was refused E_KEPT in the finished L2
+  fabric. A warp move does the same (clearing (b)). The kept row then fails the converse oracle, which demands
+  VERTEX_SPLIT, and maintenance does not run on those batches. Fix: change 2.
+- A retype `add` of rows of entity e onto a third edge at v also breaks "exactly two" with no removal batch. This is
+  rare; change 2's trigger should include any batch that adds rows of e at v.
+
+**(d) Oracle (1) as an invariant on fuzz arenas: REASONED sound.**
+
+- At rest, an unguarded class vertex needs a split vertex whose degree fell to 2 without being dissolved.
+- Removal batches dissolve such a vertex in the same batch. Insert batches never lower a degree.
+- When the dissolution's own conditions fail, the batch is refused whole and leaves the prior state. Example: (b′)'s
+  L2-batch refusal.
+- On fresh fuzz arenas, every remaining class vertex is therefore a landed own point that the refined write covers, or
+  a promoted, moved or unflagged one, which is not in the class.
+- The CITY exception the session names stands: vertices made before the round, or by paths the round does not
+  instrument. Naming each class vertex there is right.
+- Evidence beside this: tx's fuzz families reach the class 0 times (p4).
+
+**Routing as ruled (F8, F10, messages): no objection.** One note on F8's queue row: its scope should name the rekey cut
+and the stretch end. The rider case does not belong there: (c2) shows rule 3 (b) keeps the flag.

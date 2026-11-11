@@ -8,14 +8,17 @@ entries are not in specs.json, and the rulings are provisional until the adversa
 |---|---|
 | draft.md | the spec seat's draft: its findings, the lines of each leg, the clause text, the design text, the persisted-format consequences, the open questions and its own weak points |
 | spec-a02-s4.json, spec-a06-s10.json, spec-a05-s15.json | the three entries in specs.json's form, as drafted (the rulings are folded in after the review) |
-| rulings-provisional.md | the session's provisional rulings on the draft's fourteen open questions, and its additions A – E |
+| rulings-final.md | THE SESSION'S RULINGS AFTER THE REVIEW (R1 – R17, J776): what binds the three entries |
+| rulings-provisional.superseded.md | the provisional rulings the review was run on — replaced by rulings-final.md |
+| review/ | the adversarial review (review.md: twenty findings, a section per attacked area, the numbered changes, and a 'Follow-up' on the session's refined rule) with its probe scripts and their logs |
 | shape-count.mjs | the session's counting probe: on M0's pipeline arenas, the live vertices that are split, unpinned, of degree 2 between identical rows of two or more keys — an upper bound of the rows leg 3 would write |
 | rq2-measure.sh, rq2-base.sh | J757's measurement as run in the session's container: the registry's version raised to 2 with the `shape` row appended, the whole suite one test folder per unit at reduced strength; then every red unit again on the unchanged tree |
 
-What a successor does with it: read rulings-provisional.md first; if no review file is beside it, run the
-adversarial review again (the brief is ledger row J775's); fold the rulings into the three entries; write the
-design text (draft.md (c)) into docs/ARCHITECTURE.md as an amendment; bind the entries in specs.json; launch after
-M0-a-05 S14's landing.
+What a successor does with it: read rulings-final.md and review/review.md; if the three entries here still carry
+'[OPEN' markers the fold was not finished — fold the rulings and the review's changes into them (ledger row J776 says
+how); finish the measured list (every red unit of the version-raised run again on the unchanged tree, R15); write the
+design text into docs/ARCHITECTURE.md as an amendment; bind the entries in specs.json; launch after M0-a-05 S14's
+landing, when few rounds are in flight.
 
 ## The counting probe's reading (shape-count.mjs on the merged tree 55042d29; five CITY derivations, the END state)
 

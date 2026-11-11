@@ -1,0 +1,41 @@
+
+=== (b) X + rider, F2
+ X true | B true | Y true
+ v (1800, 2915) L2 split=true pinned=false deg=6 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:Y/0/L2]
+ remove base:Y: true (1800, 2915) L2 split=true pinned=false deg=5 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] | L2[invisible/base:X/0/L2]
+ remove base:B: true (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2]
+ remove base:X: true v6: dead
+ C's point kept? false
+
+=== (b) X + rider, refined
+ X true | B true | Y true
+ v (1800, 2915) L2 split=true pinned=false deg=6 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:Y/0/L2]
+ remove base:Y: true (1800, 2915) L2 split=true pinned=false deg=5 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] | L2[invisible/base:X/0/L2]
+ remove base:B: true (1800, 2915) L2 split=true pinned=false deg=4 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2]
+ remove base:X: true (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ C's point kept? true
+
+=== (b') finer rider at C's commit, ruling2 write
+ R(L2) true
+ C(L1) true  v (1800, 2915) L1 split=true pinned=false deg=3 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L1;invisible/base:R/0/L2] | L2[invisible/base:R/0/L2]
+ writes? false
+ remove R: false E_INVARIANT an L2 batch wrote the L1 index (delete of vertex 6 (L1)) outside its promotions and demotions (1800, 2915) L1 split=true pinned=false deg=3 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L1;invisible/base:R/0/L2] | L2[invisible/base:R/0/L2]
+
+=== (b') finer rider at C's commit, refined write
+ R(L2) true
+ C(L1) true  v (1800, 2915) L1 split=true pinned=false deg=3 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L1;invisible/base:R/0/L2] | L2[invisible/base:R/0/L2]
+ writes? true
+ remove R: true  (1800, 2915) L1 split=true pinned=false deg=2 vrows=[junction/base:C/0/L1] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L1]
+
+=== (c1) refined flag-clear vs a crossing D through v
+ after A removed + maintenance: (1800, 2915) L2 split=false pinned=false deg=4 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:D/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:D/0/L2]
+ after C removed: (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:D/0/L2] | L2[invisible/base:D/0/L2] | equal to D alone? false
+ without the flag clear (row stripped only): equal to D alone? true v6: dead
+
+=== (c2) rider B on one side, removed; then C removed
+ after B removed (before maintenance): (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ after maintenance: (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ after C removed: v6: dead | equal to A alone? true
+
+=== (c3) a coarser chain ends at v (promotion) — insert batch
+ W(L1) false E_KEPT a chain vertex inside a finer face at (1800, 1000) (kept content) v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | converse oracle holds? true
