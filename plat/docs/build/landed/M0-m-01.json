@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-m-01",
-  "lane": "build/M0-m-01-fix-s1",
-  "lanes": ["build/M0-m-01-consolidate-1", "build/M0-m-01-fix-s1"],
+  "lane": "build/M0-m-01-fix-s2",
+  "lanes": ["build/M0-m-01-consolidate-1", "build/M0-m-01-fix-s1", "build/M0-m-01-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-19T01:50:09.801Z",
+  "date": "2026-11-11T21:41:39.303Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/model/src/types/", "plat/packages/model/src/records/", "plat/packages/model/src/schema/", "plat/packages/model/src/stage/", "plat/packages/model/test/types/", "plat/packages/model/test/records/", "plat/packages/model/test/schema/", "plat/packages/model/test/stage/"],
   "counts": { "created": 2, "changed": 12, "unchanged": 12, "deleted": 0 },
@@ -34,20 +34,20 @@
     { "path": "plat/packages/model/test/schema/schema.test.ts", "status": "unchanged", "sha256": "f741e9a35837d95475add27a5a9b3b1f1dc6c0225ecb10f54459d838040cefe0", "size": 10543 },
     { "path": "plat/packages/model/test/stage/stage.test.ts", "status": "changed", "sha256": "75574ab5a41981f0fe8f697ddf2c8466412b292805300d99fc61b385bf9bf3a8", "size": 14421 },
     { "path": "plat/packages/model/test/types/dom.test.ts", "status": "unchanged", "sha256": "4bdedd62572440e7fd8225d734b9f5890f391d56f105f49a05bd451a2ff8c17a", "size": 3783 },
-    { "path": "plat/packages/model/test/types/narration.ts", "status": "created", "sha256": "386473d03c40e30a0641cb5132509188752ee92c298e8562a35377b0f845d309", "size": 5361 },
-    { "path": "plat/packages/model/test/types/types.test.ts", "status": "changed", "sha256": "d945386c9f7f619b626c901ec444428d0b839807f17b3345752cb28fbf982a60", "size": 20069 }
+    { "path": "plat/packages/model/test/types/narration.ts", "status": "created", "sha256": "b10d454d2615bce9616bf2e0dc055934034c10b3593945a9e5919d58595a91ff", "size": 5773 },
+    { "path": "plat/packages/model/test/types/types.test.ts", "status": "changed", "sha256": "914581f4f359d953e762f596e86864945aa4d21cf25091ea3df23e0c0ab31cc8", "size": 21628 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0447", "L-0577"],
-      "lines": ["37d5384dd824a9d3", "d2d84c5b9fe1bd4f"],
+      "ids": ["L-0447", "L-0577", "L-0805"],
+      "lines": ["37d5384dd824a9d3", "d2d84c5b9fe1bd4f", "26ec2ffc5c1d0806"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0326", "C-0385"],
-      "lines": ["01c6f8a0456ad7f8", "ca0ebe25dfdfcbb7"],
+      "ids": ["C-0326", "C-0385", "C-0492"],
+      "lines": ["01c6f8a0456ad7f8", "ca0ebe25dfdfcbb7", "8d1a9e90bc4a5a62"],
       "removed": []
     }
   ]

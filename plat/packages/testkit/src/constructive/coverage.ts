@@ -158,7 +158,7 @@ export const CONSTRUCTIVE_COVERAGE: readonly ConstructiveCoverageRow[] = Object.
   row(L, 'degenerate geometry: a zero-area … face never commits', 'limit/degen-zero-area-face'),
   row(L, 'degenerate geometry: … or pinched face never commits (a cut whose two ends land on one vertex: E_NOT_TWO_CROSSINGS)', 'limit/degen-pinched-face'),
   row(L, "degenerate geometry: a skeleton input with a hole touching the outer ring or another hole takes its reader's downgrade", 'limit/degen-skeleton-hole-touch'),
-  row(L, "degenerate geometry: … or a corner sharper than 5°, takes its reader's downgrade", 'limit/degen-skeleton-sharp-corner'),
+  row(L, "degenerate geometry: … or a corner sharper than its use's bound (5° for `roof`, 1° for `spine` and `regions`), takes its reader's downgrade", 'limit/degen-skeleton-sharp-corner'),
   row(L, "degenerate geometry: hexLattice's spacing below minEdge or jitter at or above half the spacing is an assertion", 'limit/degen-hexlattice-assert'),
   row(L, 'missing data: the kernel reads no dossier field', 'limit/data-no-dossier'),
   row(L, "missing data: a ref that finds no geometry resolves empty; a stored one fails the stored-references row", 'limit/data-ref-no-geometry'),

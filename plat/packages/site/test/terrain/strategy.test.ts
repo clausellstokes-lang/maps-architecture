@@ -4,8 +4,8 @@
 // fields, the relief class's amplitude, the fine octave inside the frame only, and the refusals.
 import { describe, expect, it } from 'vitest';
 import { CONCERNS, fbm, noiseStream, streamFromKey } from '@plat/kernel';
-import type { Terrain } from '@plat/model';
-import { BASE_WAVELENGTH_M, baseTerrain, buildTerrain, GROUND_KEY, heightGrid, siteFrame, TERRAIN_ID, TOWN_ROOT, type TerrainBlueprint } from '../../src/terrain/index.js';
+import { generatedLifecycle as modelLifecycle, type Terrain } from '@plat/model';
+import { BASE_WAVELENGTH_M, baseTerrain, buildTerrain, flatTerrain, GROUND_KEY, heightGrid, siteFrame, TERRAIN_ID, TOWN_ROOT, type TerrainBlueprint } from '../../src/terrain/index.js';
 import { rungProfile } from '@plat/tables';
 import { generatedLifecycle } from '../../src/terrain/heightfield.js';
 import { extremes, frame, noiseFor, paramsOf, pt, siteContext, TABLES, terrainOf } from './support.js';
@@ -111,6 +111,36 @@ describe('baseTerrain.terrain(bp, ctx, k) (§4.12)', { timeout: 60_000 }, () => 
       expect(Object.isFrozen(l.flags)).toBe(false);
       expect(Object.isFrozen(l.since)).toBe(false);
     }
+  });
+
+  it("stamps the record with @plat/model's one lifecycle builder: the same function, −0 written as 0, an unlawful epoch thrown", () => {
+    // Hardening S2, Q87: heightfield.ts's hand-written copy gave way to @plat/model's `generatedLifecycle`; the file-level
+    // name the sibling folders import by path is that very function, and both raw doors and the stage stamp through it.
+    expect(generatedLifecycle).toBe(modelLifecycle);
+    const z = run(5, { size: {}, site: { relief: 'plain' } }, 'TOWN', -0).t;
+    expect(Object.is(z.lifecycle.since.epoch, 0)).toBe(true);
+    const f = frame(0.2);
+    const p = paramsOf('TOWN');
+    const thrown = (go: () => unknown): unknown => {
+      try {
+        go();
+      } catch (e) {
+        return e;
+      }
+      return undefined;
+    };
+    for (const e of [-1, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 2 ** 53]) {
+      const message = `generatedLifecycle: epoch ${String(e)} is not a whole number ≥ 0`;
+      const built = thrown(() => buildTerrain({ id: 'terrain:t', key: GROUND_KEY, frame: f, params: p, epoch: e }, { relief: 'plain' }, noiseFor(5)));
+      const flat = thrown(() => flatTerrain({ id: 'terrain:f', key: GROUND_KEY, frame: f, params: p, epoch: e }, 300));
+      for (const x of [built, flat]) {
+        expect(x).toBeInstanceOf(RangeError);
+        expect((x as RangeError).message).toBe(message);
+      }
+    }
+    // The largest whole epoch the builder takes still stamps through the raw door (the stage's stream takes a u32).
+    const top = flatTerrain({ id: 'terrain:f', key: GROUND_KEY, frame: f, params: p, epoch: 2 ** 53 - 1 }, 300);
+    expect(top.ok && top.value.lifecycle).toEqual(modelLifecycle(2 ** 53 - 1));
   });
 });
 

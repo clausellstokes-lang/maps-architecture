@@ -1,12 +1,13 @@
 // notBuilt(milestone) stubs and the stub table (M0-a-16; J156 (2), M0.md §3 "a stub is a `notBuilt('<milestone>')` with a
-// choices row or a §4b entry", M0.md §4b; C-0041, C-0089, C-0185, C-0192, C-0045; readings C-0220).
+// choices row or a §4b entry", M0.md §4b; C-0041, C-0089, C-0185, C-0192, C-0045, C-0207; readings C-0220).
 //
 // A façade member a later milestone builds is a `NotBuiltStub`: a frozen object, never a function, so no call reaches it
 // (calling it is a type error, TS2349; through a cast, a TypeError). A kernel BRANCH a later milestone builds — a
 // transaction on a transient arena, a clear-region batch, prepared contacts, `claimSubFace`'s score form, an
-// Order-valued stretch-state profile — is refused at run time where it is met (`notBuilt('<milestone>'): …`, thrown by
-// the owning module) and, on the façade, unreachable at the type level where its form is a type (the claim). A staged
-// HOOK (a replaceable frame, a multi-part arena key) is listed so the table equals M0.md §4b's kernel entries.
+// Order-valued stretch-state profile, an arena-block route that is a loop off one vertex — is refused at run time where
+// it is met (`notBuilt('<milestone>'): …`, thrown by the owning module) and, on the façade, unreachable at the type level
+// where its form is a type (the claim). A staged HOOK (a replaceable frame, a multi-part arena key) is listed so the
+// table equals M0.md §4b's kernel entries.
 //
 // `STUB_TABLE` is the list the checker reads: one row per member, branch or hook, its milestone, the M0.md §4b row it
 // answers (that row's first cell, verbatim), the choices rows that decided it, and the kernel source files that refuse
@@ -54,6 +55,7 @@ export interface StubRow {
 
 const TRANSIENT = 'transient arenas, `readBack`, `release`, the re-cut (§3.4)';
 const CLEAR = 'clear regions, prepared contacts, carves, S1\'s water operator; the raised ways and their arena parts';
+const DOCUMENT = 'the `.plat` document, `zod` schemas, the unit lint (§2.9, §2.1)';
 
 /** The rows of the stub table. */
 const ROWS: StubRow[] = [
@@ -67,6 +69,7 @@ const ROWS: StubRow[] = [
   { member: 'KernelTx.clearRegion', milestone: 'M3a', form: 'refused', deferred: CLEAR, choices: ['C-0185'], sites: ['tx/tx.ts'] },
   { member: 'KernelTx.prepared', milestone: 'M3a', form: 'refused', deferred: CLEAR, choices: ['C-0169', 'C-0185'], sites: ['tx/tx.ts', 'insert/attractVertex.ts'] },
   { member: 'geom.sampleProfile (an Order-valued stretch-state profile)', milestone: 'M2b', form: 'refused', deferred: 'the stretch-state profile Write protocol and its fixtures (§2.2 rule 5)', choices: ['C-0045', 'C-0185'], sites: ['tx/profile.ts'] },
+  { member: 'encodeArena (a route that is a loop off one vertex)', milestone: 'M1', form: 'refused', deferred: DOCUMENT, choices: ['C-0207'], sites: ['io/encode.ts'] },
   { member: 'Plat.frame (replaceable)', milestone: 'M4', form: 'hook', deferred: 'frame growth at an epoch (§3.2 (9))', choices: [], sites: [] },
   { member: 'PlatKey.part (multi-part arenas)', milestone: 'M6-U', form: 'hook', deferred: 'the underground parts\' fixtures (item 65)', choices: [], sites: [] },
 ];

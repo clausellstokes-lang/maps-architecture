@@ -221,3 +221,65 @@ rows. None of them fails the item (the closing brief's rule (3), N-45); the rows
 | s1c-3 | **M29 (the prune's warnings not forwarded) is equivalent, confirmed independently.** Mutant C12 (same shape) survives the parity. Probe P1 replaced the forward with a throw on any prune warning and ran `control.test.ts`, `ep01-s5c`, `ep01-s5d`, `cells` and `rows` at the PR size: 5 files, 38/38 passed, so the prune emitted no warning on any S5 run of the NEAR folder. That agrees with the builder's 360 surveyed seeds. No test is needed (J169). | `mut-C12.log`, `mut-P1.log` | — | CONFIRMED |
 | s1c-4 | **The RELATED@1000 run's one red is foreign and fails alone here too.** `bench/test/scan/scan.test.ts` K6-6 (the whole-tree deny-list scan under vitest's default 5 s timeout) took 5 926 ms in the run and 7 225 ms run alone (`Error: Test timed out in 5000ms`). This is the same red the round's builder and the x-05 S1 and x-04 S1 checks met. It times a scan of the whole tree, not edge code. It needs an explicit timeout (or a smaller scanned set) in M0-k-06's file. | `related.log`, `scan-alone.log` | the session; M0-k-06 | CONFIRMED |
 | s1c-5 | **bridge × frame still meets a built span on only 2 of its first 100 seeds**, so the "every built span inside" half is live in the 1 000-seed bar about 2 % of the time. Row 5 is closed as the inventory shapes it: three named span seeds (22, 3418200249, 2148998138) are replayed at the PR size in `repins.test.ts`, and the judge's branches are held on fabricated sites (C8 and C9 killed). A frame where S4 builds on most seeds stays a hardening option. | `census100.jsonl` (`cell/bridge×frame`: built > 0 on 2 of 100, builtInside = built on all) | M4 hardening (M0-x-06) | CONFIRMED |
+
+## Hardening round S2 (lane `build/M0-x-06-fix-s2`, 2026-11-10) — the builder's row-by-row outcome
+
+The builder of the session's hardening round S2 (J237 (2), J238, J749; leg 1 of the merged round M0-x-06 S2 → M0-x-05
+S3, J443; choices row C-0480, ledger row L-0776) writes this section; the rows above are unchanged. ONE row: Q148's summary
+part (`docs/M0-FIX-QUEUE.md` row Q148, read whole; its other parts s1c-1, s1c-2 and s1c-5 are not this round's). The
+round's files: `test/edge/control.test.ts` (one test added, two imports) and `docs/build/summaries/M0-x-06.json`
+(re-written by the writer). No file under `src/edge/`, no stage, kernel or other item's file, no folder index or barrel
+and no message text changed (J263 Q1 / Q6); `test/edge/repins.test.ts` untouched.
+
+| row | outcome | what changed | pin (red without the fix) | mutant |
+|---|---|---|---|---|
+| Q148-summary (`summaries/M0-x-06.json` `totals.lawfulRefusals` 35 vs the census's 0) | **fixed** (re-written through the writer) **and pinned** | **Which is right, on the code.** The writer (`test/edge/support.ts`) counts, per fixture, `runFixture`'s `counts.lawfulRefusals` — one per entry of each run's `lawful` list (J264, C-0342 (2)) — and `mergeSummary` sums the fixtures into `totals`; the census counts the same list (the `lawful` field `PLAT_EDGE_LOG` writes per run, which the S1 long run and the S1 closing check's 100-seed census tallied: 0). One quantity, so the writer has no counting defect and its code is unchanged. The 35 was fix round 2's record (EP-01/S4/self-touching 1; S5a coincident 3, collinear 1, self-touching 1, zero-area 2; S6 coincident 1, zero-length 2; EP-04/S5b 1; EP-05/S5d 1; EP-20/M0 3; cell/bridge×frame 19), kept because no run since had `PLAT_EDGE_SUMMARY=1` (round S1's notes); the census rounds since removed every one. So the census is right and the record stale. **The fix:** the summary re-written by the writer itself — the whole edge folder on the tree with `PLAT_EDGE_SUMMARY=1` (W = 1, PLAT_EDGE_SEEDS unset, one source state, 527 s, 18 files, 170 passed and the new pin skipped as a writing run, exit 0); never hand-edited | `control.test.ts` *the committed summary is the census the suite measures: written whole by the writer, its lawful-input refusals the findings the cells name (Q148)*: the committed file re-merged with no run is unchanged (totals = the fixtures summed, the coverage today's `edgeCoverage()`), it holds exactly the built fixtures at its own seed count, `refused-lawful` ≤ the findings the cell names on those seeds, and a fixture whose cell names no finding (every fixture on the committed tree: `FINDINGS` is empty) counts 0 lawful-input refusals, so `totals.lawfulRefusals` 0. Red on the committed record before the fix (`EP-01/S4/self-touching: … expected 1 to be +0`), green after; skipped only in a writing run (`it.skipIf(summaryWanted())`: the files rewrite the record as they end, so the next plain run checks it) | M1 – M5 killed (below) |
+
+**The summary, before → after (declared; this item's own record, C-0067).** sha256 `4d963029…427b27339` →
+`15d735c9…d7988622e3`. `seedsPerFixture` 1 000 → 10; totals: fixtures 72 → 72, seeds 72 000 → 720, absorbed 25 155 →
+257, laddered 21 812 → 212, left-out 1 995 → 20, refused-safe 14 038 → 141, refused-lawful 0 → 0, defined 9 000 → 90, off,
+crash, hang, offOutcome 0 → 0, **lawfulRefusals 35 → 0**; coverage unchanged (rows 153, built 96, deferred 57, fixtures 72,
+problems 0). **The size, a deviation declared in the choices row:** the record is now the PR size. The 1 000-seed record
+is M0-f-02b's nightly job's to write (C-0100); on this machine at W = 1 a 1 000-seed rewrite is 72 000 runs (≈ 1 – 1.7 s
+a run in round S1's shards 10 – 11, a day and more), and the old 1 000-seed numbers were round 2's on every count, not
+only the lawful one (e.g. EP-01/S1/self-touching refused-safe 33 where round S1 measured 4, Q113), so keeping them kept a
+wrong record. The writer's own rule replaces a summary at another seed count whole, never mixed, so the nightly's
+1 000-seed run replaces this one; the pin holds at any seed count. NO-SHIFT: no source changed, no model output, digest
+or golden moved; only the record caught up with the tree.
+
+**The mutants (M1 – M5, 2026-11-10).** One at a time in the lane's mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-x-06-fix-s2` (a real copy; isolation proven: no link into the tree, the
+workspace dependency `@plat/kernel` resolving inside the mirror), each `vitest run --maxWorkers=1 --bail=1
+packages/testkit/test/edge`, the file restored from the tree and `cmp -s` clean before the next; the mirror removed after.
+5 of 5 killed:
+
+| id | mutant | killed by |
+|---|---|---|
+| M1 | the fault re-introduced: round 2's summary (35) restored | the pin (`EP-01/S4/self-touching … expected 1 to be +0`); the folder's other 170 tests green on it |
+| M2 | `totals.lawfulRefusals` 35 alone (the fixtures 0) | the pin (the re-merge differs) |
+| M3 | one fixture's `lawfulRefusals` 1, the totals kept consistent | the pin (a lawful-input refusal no cell names) |
+| M4 | `cell/bridge×frame` dropped, the totals kept consistent (a partial record) | the pin (71 fixtures, 72 built) |
+| M5 | the writer's count zeroed (`support.ts` `counts.lawfulRefusals += 0`) | `control.test.ts` *the runner counts and names every lawful-input refusal a run met* (the writer counts what the census counts) |
+
+**J264's census (N-58), BEFORE → AFTER.** The round changed no stage and no judge, so the refusals met are the same
+before and after. Lawful-input refusals in the registered families (the 72 built fixtures): 0 → 0 — the writing run met
+none on its 720 runs (its run log: 0 lawful, 0 verdicts on the 72 fixtures; the log's two lawful lines and 13 verdicts are
+`control.test.ts`'s fabricated controls on EP-16/stop-test, detail `d`), and the plain NEAR run below meets none (its
+fixtures pass, and the pin holds the record at 0). The record's figure 35 → 0 is the record catching up with that census,
+not a refusal removed. Refused-safe at the PR size: 141 of 720 runs, every one an UNLAWFUL planted input on a cell the
+pins name (verdict REFUSE, typed, one bugs entry, the arena bit-identical; the judge passes a refused-safe run only on its
+pin's codes and seeds); no LAWFUL and no OUR-OWN-INTERMEDIATE refusal was met.
+
+**The gates (2026-11-10, the tree, W = 1).** install --frozen-lockfile 0; lint 0 (eslint 1 291 files, 0 errors; `lint: probe-red ok`); build 0; NEAR — the whole `test/edge` folder at the PR size, a plain run: 18 files, 171 / 171, exit 0 (561 s), the pin green and the summary unchanged by it (sha256 `15d735c9…` before and after); RELATED@1000 — the round changed no file under `packages/*/src/` (its two files are a test and the summary), so `vitest related`'s selection is empty and no run was made; the J176 bench files were not selected.
+
+## Closing check of hardening round S2 (lane `check/M0-x-06-close-s2`, 2026-11-10) — the closing checker's notes
+
+The closing checker of hardening round S2 adds these rows (verdict PASS in `checks/M0-x-06-s2.md`; ledger row L-0777).
+None of them fails the item (the closing brief's rule (3), N-45), and the rows above are unchanged. The evidence is in
+`/home/user/maps-scratch/waves/check-M0-x-06/s2/`: `mut/K*.log`, `near.log`, `near-edge.jsonl`, `p2.log`, `p3.log`
+and `p3-result.json`.
+
+| # | note | evidence | route | label |
+|---|---|---|---|---|
+| s2c-1 | **The Q148 pin holds the record's lawful figure and its shape, not every handling count against a live run.** The pin checks four things: the re-merge is unchanged, the record holds exactly the built fixtures at its seed count, `refused-lawful` ≤ the named findings, and lawful = 0 where no finding is named. A stale record whose lawful figure happens to be right still passes. Mutant K11 (EP-01/S8/coincident's absorbed 8 / laddered 2 swapped, the totals consistent) SURVIVES `control.test.ts`. Today's record is the writer's output: P2's writing run reproduces it byte for byte, and NEAR's per-fixture handling counts equal the record's for all 72 fixtures. So nothing is wrong now. The gap is the one Q148 was opened on (a record nothing ties to the tree), narrowed to the lawful figure. | K11 log (13/13 green); P2 `cmp` 0; NEAR log vs record: 0 mismatches over 72 fixtures | M4 hardening. Optionally, a plain run's fixture files compare their own run's counts with the record's entry whenever `SEEDS` equals the record's `seedsPerFixture`. Alternatively, a writing run ships with every round that moves a stage. | CONFIRMED |
+| s2c-2 | **The record is now at the PR size (10). The first 1 000-seed writing run will be judged at lawful = 0 on intermediate states too.** `runFixture` counts every lawful-input refusal on any state a run tried, including runs that then pass, and the pin requires 0 for every fixture whose cell names no finding. The pre-round 1 000-seed record held 35 such refusals (bridge × frame 19, on runs judged `defined`). P3 met none in 100 seeds of each of those 11 fixtures on today's code, but a 1 000-seed nightly run (M0-f-02b) may still meet some. If it does, the next plain PR run turns red until the cells name them as findings (C-0342 (3)) or a stage removes them. This is J264's intent (every lawful refusal is a finding), but it puts a new failure mode into the nightly → PR hand-off. | pre-round record (main, blob 8310e725); P3 `p3-result.json` (1 100 runs, 0 lawful); C-0480 (3) | the session / M0-f-02b's nightly owner. When the nightly first writes the record, route any lawful count it meets to the session with its seed, as a finding (C-0342 (3)), before the PR tier reads the record. This is not a hardening change to this item. | PLAUSIBLE (reasoned from the code; no 1 000-seed run here) |

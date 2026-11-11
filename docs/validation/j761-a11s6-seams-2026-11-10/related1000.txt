@@ -1,0 +1,5 @@
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 154 passed (155)
+      Tests  1 failed | 2438 passed (2439)
+   Duration  1926.04s (tests 98%, import 2%)
+ FAIL  |bench| test/site/summary.test.ts > the summary is anchored to what it was derived on (hardening round S3, Q36) > the canary CITY record re-derived on this tree is the run's: a stage change that moves it makes the summary stale (re-run, Q36)

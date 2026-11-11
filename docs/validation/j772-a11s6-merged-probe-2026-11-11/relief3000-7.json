@@ -1,0 +1,210 @@
+{
+ "summary": {
+  "family": "relief",
+  "args": [
+   "relief-3000",
+   "default",
+   "7"
+  ],
+  "faces": 130,
+  "classes": {
+   "plain": 122,
+   "band": 7,
+   "refused:notSimple": 1
+  },
+  "roof": {
+   "validated": 122,
+   "downgrade contract:sharpCorner": 7,
+   "downgrade contract:notSimple": 1
+  },
+  "spine": {
+   "validated": 129,
+   "downgrade contract:notSimple": 1
+  },
+  "regions": {
+   "validated": 129,
+   "downgrade contract:notSimple": 1
+  },
+  "band": {
+   "faces": 7,
+   "spineValidated": 7,
+   "regionsValidated": 7,
+   "roofRefusedSharp": 7,
+   "convex": 6,
+   "reflex": 1,
+   "holed": 1,
+   "minDeg": 1.3086542516087247,
+   "maxDeg": 4.4848838649986655
+  },
+  "movedOutsideBand": 0,
+  "causeMoved": 0,
+  "causeMoves": {},
+  "spineNeRegions": 0,
+  "independentFails": 0,
+  "maxMs": 195.779137000005,
+  "downgrades": {
+   "roof": 8,
+   "spine": 1,
+   "regions": 1
+  }
+ },
+ "groups": {
+  "relief/relief-3000/default/district": {
+   "faces": 129,
+   "classes": {
+    "plain": 121,
+    "band": 7,
+    "refused:notSimple": 1
+   },
+   "roof": {
+    "validated": 121,
+    "downgrade contract:sharpCorner": 7,
+    "downgrade contract:notSimple": 1
+   },
+   "spine": {
+    "validated": 128,
+    "downgrade contract:notSimple": 1
+   },
+   "regions": {
+    "validated": 128,
+    "downgrade contract:notSimple": 1
+   },
+   "band": {
+    "faces": 7,
+    "spineValidated": 7,
+    "regionsValidated": 7,
+    "roofRefusedSharp": 7,
+    "convex": 6,
+    "reflex": 1,
+    "holed": 1,
+    "minDeg": 1.3086542516087247,
+    "maxDeg": 4.4848838649986655
+   },
+   "movedOutsideBand": 0,
+   "causeMoved": 0,
+   "causeMoves": {},
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "maxMs": 96.69396600002074,
+   "kept": [
+    {
+     "id": "relief/relief-3000/default-7-district#10",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.4331,
+     "reflex": false,
+     "n": 6,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#13",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.4849,
+     "reflex": false,
+     "n": 10,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#15",
+     "why": "band",
+     "cls": "band",
+     "deg": 1.3087,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#23",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.5707,
+     "reflex": false,
+     "n": 7,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#30",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.4982,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#32",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.4849,
+     "reflex": true,
+     "n": 238,
+     "holes": 3,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-3000/default-7-district#82",
+     "why": "band",
+     "cls": "band",
+     "deg": 1.4474,
+     "reflex": false,
+     "n": 4,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    }
+   ]
+  },
+  "relief/relief-3000/default/water": {
+   "faces": 1,
+   "classes": {
+    "plain": 1
+   },
+   "roof": {
+    "validated": 1
+   },
+   "spine": {
+    "validated": 1
+   },
+   "regions": {
+    "validated": 1
+   },
+   "band": {
+    "faces": 0,
+    "spineValidated": 0,
+    "regionsValidated": 0,
+    "roofRefusedSharp": 0,
+    "convex": 0,
+    "reflex": 0,
+    "holed": 0,
+    "minDeg": 360,
+    "maxDeg": 0
+   },
+   "movedOutsideBand": 0,
+   "causeMoved": 0,
+   "causeMoves": {},
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "maxMs": 195.779137000005,
+   "kept": []
+  }
+ }
+}

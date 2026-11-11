@@ -1,0 +1,42 @@
+PASS A plain: {"ok":true,"rounds":1,"n":2}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     check/M0-x-00-close-s4 [Check/fable/high]
+PASS B build waits once, check waits once: {"ok":true,"rounds":1,"n":6}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     build/M0-x-00-fix-s4 (waiter 1) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 1) [Build/opus/high] RE-ENTRY
+     check/M0-x-00-close-s4 [Check/fable/high]
+     check/M0-x-00-close-s4 (waiter 1) [Check/haiku/low] WAITER
+     check/M0-x-00-close-s4 (re-entry 1) [Check/fable/high] RE-ENTRY
+PASS C build waits with no dir: {"ok":true,"rounds":1,"n":3}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     build/M0-x-00-fix-s4 (re-entry 1) [Build/opus/high] RE-ENTRY
+     check/M0-x-00-close-s4 [Check/fable/high]
+PASS D build waits past the cap and again: {"ok":false,"why":"blocked","n":14}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     build/M0-x-00-fix-s4 (waiter 1) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 1) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (waiter 2) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 2) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (waiter 3) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 3) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (waiter 4) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 4) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (waiter 5) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 5) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (waiter 6) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 6) [Build/opus/high] RE-ENTRY
+     build/M0-x-00-fix-s4 (re-entry 7) [Build/opus/high] RE-ENTRY
+PASS E build blocked: {"ok":false,"why":"blocked","n":1}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+PASS F fail, the fix build waits, re-check passes: {"ok":true,"rounds":2,"n":6}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     check/M0-x-00-close-s4 [Check/fable/high]
+     build/M0-x-00-fix-s5 [Build/opus/high] FURTHER
+     build/M0-x-00-fix-s5 (waiter 1) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s5 (re-entry 1) [Build/opus/high] RE-ENTRY
+     check/M0-x-00-close-s5 [Check/opus/medium] RE-CHECK
+PASS G re-entry build ends blocked: {"ok":false,"why":"blocked","n":3}
+     build/M0-x-00-fix-s4 [Build/opus/high]
+     build/M0-x-00-fix-s4 (waiter 1) [Build/haiku/low] WAITER
+     build/M0-x-00-fix-s4 (re-entry 1) [Build/opus/high] RE-ENTRY

@@ -1,12 +1,21 @@
-// M0-a-06, session round S4 (N-55 (6), C-0287): the before-image every batch keeps, exported from @plat/kernel for the
-// pipeline runner's stage image (M0-x-02). Taken before a stage, put back after committed batches: the arena bit for bit,
+// M0-a-06, session round S4 (N-55 (6), C-0287): the before-image (since hardening round S9 the STAGE image only — a batch
+// undoes through its frames), exported from @plat/kernel for the pipeline runner's stage image (M0-x-02). Taken before a stage, put back after committed batches: the arena bit for bit,
 // its version, slot counters, handles and index state as at the image; the next batch opens and commits. Putting it
 // back sets the version back, so maintained level digests are re-attached afterwards (the consumer's protocol, pinned).
 // Session round S5 (N-56 (5), C-0299): a restore across committed batches bumps the arena's restore generation, which a
 // state keyed on the version alone (M0-d-04's level digests) keys on too; a rejected, thrown or empty batch never moves it.
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import * as kernel from '../../src/index.js';
-import { entryCounts, hasRecorder, markArena } from '../../src/arena/write.js';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { setDebugAssertions, setFaceHoles, type Plat } from '../../src/arena/index.js';
+import { entryCounts, forEachEntry, hasRecorder, markArena, ROLE_HEAD_BASE, setUndoFaultHook } from '../../src/arena/write.js';
+import { attachIndex, beginIndexBatch, indexChange, indexOf, ITEM_FACE } from '../../src/index/index.js';
+import { keyKind, keySlot } from '../../src/index/items.js';
+import { frameObserver, mark, setFrameObserver, setIndexUndoFaultHook, undoTo, type FrameObserver } from '../../src/tx/frames.js';
+import { imagesTaken } from '../../src/tx/savepoint.js';
+import { TINY_TABLES } from '../arena/tiny.js';
+import { SCENARIOS } from './s9scenarios.js';
 import { buildOverlay } from '../../src/arr/index.js';
 import { kerb } from '../../src/arr/kerb.js';
 import { attachLevelDigests, levelDigest, recomputeLevelDigest, updateLevelDigests } from '../../src/digest/index.js';
@@ -559,7 +568,7 @@ describe('S8 line 4 (d): the frame observer over named frame shapes (observer on
     expect(hasRecorder(p)).toBe(false);
   });
 
-  it('a direct store a test plants into a slot the frame never wrote through the door: CHECK B names its column and slot', () => {
+  it('a direct store a test plants into a slot the frame never wrote through the door: CHECK A names its column and slot (re-pointed from CHECK B, S9)', () => {
     const p = framed();
     let v = -1;
     const r = tx(p, spec(1), (o) => {
@@ -571,10 +580,479 @@ describe('S8 line 4 (d): the frame observer over named frame shapes (observer on
       return err('E_INVARIANT', 'pin: the batch rejected');
     });
     expect(r.ok).toBe(false);
+    // the undo cannot see the planted store (the narrowed contract: a rejected or thrown batch undoes the stores that
+    // passed the door, and nothing else), so the op frame's CHECK A names it, and the batch frame's after it
     const f = frameStats().failures;
-    expect(f).toHaveLength(1);
-    expect(f[0]).toContain('CHECK B (op frame)');
+    expect(f).toHaveLength(2);
+    expect(f[0]).toContain('CHECK A (op frame)');
     expect(f[0]).toContain(`column vertices.x slot ${v}:`);
+    expect(f[1]).toContain('CHECK A (batch frame)');
+    expect(f[1]).toContain(`column vertices.x slot ${v}:`);
     resetFrameStats();
+  });
+});
+
+// ---- hardening round S9, lines 3 and 5 (b) – (c): the frames' named pins (each in both modes: this folder runs in kernel
+// and kernel-tiny). The observer (support.ts) records `bits` at every frame's mark and compares it after the frame's undo
+// (CHECK A); each pin also reads `bits` itself where it names a state.
+const IMAGE_PATH = (JSON.parse(readFileSync(join(import.meta.dirname, 's9-image-path.json'), 'utf8')) as Record<'default' | 'tiny', Record<keyof typeof SCENARIOS, string>>)[TINY_TABLES ? 'tiny' : 'default'];
+
+describe('S9 line 3: the commit record reads the batch frame — equal to the image path\'s on the RESUME head (fixture s9-image-path.json)', () => {
+  it('R1, a committed batch with a face freed and its slot re-used, an owner changed and changed back, a vertex row written back to its old values and a fresh row', () => {
+    expect(SCENARIOS.r1()).toBe(IMAGE_PATH.r1);
+  });
+
+  it('R2, a refused batch with two swept vertex rows whose log order differs from their row order: the refusal detail the image path gave', () => {
+    expect(SCENARIOS.r2()).toBe(IMAGE_PATH.r2);
+    expect(IMAGE_PATH.r2).toBe('refused E_INVARIANT: a vertex at (500, 500) is coarser than every edge and row at it');
+  });
+});
+
+describe('S9 line 5 (b): the frames\' named pins (observer on)', () => {
+  beforeAll(() => installFrameObserver());
+  afterAll(() => uninstallFrameObserver());
+  beforeEach(() => resetFrameStats());
+
+  const clean = (kind: FrameKind, n = 1): void => {
+    expect(frameStats().failures).toEqual([]);
+    expect(frameStats().compared[kind]).toBeGreaterThanOrEqual(n);
+  };
+  const way = (o: Overlay, id: string, a: [number, number], b: [number, number]): KernelResult<unknown> => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: id }], 'mandatory');
+  const kerbLine = (o: Overlay, id: string, y: number): KernelResult<unknown> => insertChain(o, [pt(100, y), pt(3900, y + 100)], [{ role: 'kerb', entity: id }], 'mandatory');
+  const refusal = err('E_INVARIANT', 'pin: rolled back');
+  const ok = { ok: true as const, value: null, warnings: [] };
+  const threw = (f: () => unknown): string => {
+    try {
+      f();
+    } catch (e) {
+      return (e as Error).message;
+    }
+    return 'no throw';
+  };
+  const ALREADY = 'tx: an undo to a frame already undone or discarded (a frame is undone at most once, the frames after it with it)';
+  const OTHER = 'tx: an undo to a frame of another batch (a frame is undone only inside its own batch)';
+
+  it('a committed batch whose op frame rolled back an attracted insertion: record.warnings the image path\'s (W_ATTRACTED counted once)', () => {
+    const w = SCENARIOS.w();
+    expect(w).toBe(IMAGE_PATH.w);
+    expect((JSON.parse(w) as { warnings: unknown }).warnings).toEqual([{ code: 'W_ATTRACTED', count: 1, at: { x: 1000, y: 1000 } }]);
+    clean('op');
+  });
+
+  it('a rejected batch, a thrown one and an empty one, each followed by a batch that opens and commits (the index log closed)', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const before = bits(p);
+    expect(tx(p, spec(1), (o) => {
+      expect(way(o, 'way:1', [1000, 0], [1000, 4000]).ok).toBe(true);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    }).ok).toBe(false);
+    expect(p.index?.log).toBe(null);
+    expect(bits(p)).toBe(before);
+    expect(threw(() => tx(p, spec(1), (o) => {
+      way(o, 'way:1', [1000, 0], [1000, 4000]);
+      throw new Error('pin: thrown');
+    }))).toBe('tx 8/L1/callback/fn: pin: thrown');
+    expect(bits(p)).toBe(before);
+    expect(tx(p, spec(1), () => ok).ok).toBe(true);
+    expect(bits(p)).toBe(before);
+    expect(hasRecorder(p)).toBe(false);
+    expect(tx(p, spec(1), (o) => way(o, 'way:2', [3000, 0], [3000, 4000])).ok).toBe(true);
+    healthy(p);
+    clean('batch', 3);
+  });
+
+  it('a frame that creates a partition (an L2 dry read on a freshly attached index), then undone: the partition list, its byKey entry and its share gone', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    attachIndex(p, { gridCellCm: 5000, partitionOf: () => 'd:fresh' });
+    const parts = p.index?.partitions.length ?? 0;
+    const r = tx(p, spec(2), (o) => {
+      const t = o as unknown as OpenTx;
+      const at = bits(p);
+      const s = opSave(t);
+      expect(kerbLine(o, 'kerb:1', 3000).ok).toBe(true);
+      expect(p.index?.partitions.length).toBeGreaterThan(parts);
+      expect(p.index?.byKey[2].has('d:fresh')).toBe(true);
+      rollback(t, s, refusal);
+      expect(p.index?.partitions.length).toBe(parts);
+      expect(p.index?.byKey[2].has('d:fresh')).toBe(false);
+      expect(bits(p)).toBe(at);
+      return kerbLine(o, 'kerb:2', 1000);
+    });
+    expect(r.ok).toBe(true);
+    clean('op');
+  });
+
+  it('a grid entry replaced inside a frame, then undone: the key back in the old entry\'s partition\'s grid share', () => {
+    const p = framed();
+    let key = 'd:a';
+    attachIndex(p, { gridCellCm: 5000, partitionOf: () => key });
+    commit(p, 2, (o) => kerbLine(o, 'kerb:1', 3000));
+    const idx = p.index as NonNullable<Plat['index']>;
+    const pa = idx.byKey[2].get('d:a') as number;
+    const k = [...idx.levels[2].dynamic.entries.keys()].sort((a, b) => a - b)[0];
+    expect(idx.partitions[pa].pending.has(k)).toBe(true);
+    const r = tx(p, spec(2), (o) => {
+      const t = o as unknown as OpenTx;
+      const at = bits(p);
+      const s = opSave(t);
+      key = 'd:b';
+      indexChange(p, { kind: keyKind(k), level: 2, slot: keySlot(k) });
+      const pb = idx.byKey[2].get('d:b') as number;
+      expect(idx.levels[2].dynamic.entries.get(k)?.partition).toBe(pb);
+      expect(idx.partitions[pa].pending.has(k)).toBe(false);
+      expect(idx.partitions[pb].pending.has(k)).toBe(true);
+      rollback(t, s, refusal);
+      key = 'd:a';
+      expect(idx.levels[2].dynamic.entries.get(k)?.partition).toBe(pa);
+      expect(idx.partitions[pa].pending.has(k)).toBe(true);
+      expect(idx.byKey[2].has('d:b')).toBe(false);
+      expect(bits(p)).toBe(at);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    clean('op');
+  });
+
+  it('S7\'s analogues on marks: a second undo refused, an undo of a mark an older undo discarded refused, a mark undone only inside its own batch, an in-batch undo moving neither the version nor the generation', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const version = p.version;
+    const generation = restoreGeneration(p);
+    let kept: ReturnType<typeof mark> | null = null;
+    let keptTx: OpenTx | null = null;
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const m1 = mark(t);
+      expect(way(o, 'way:1', [1000, 0], [1000, 4000]).ok).toBe(true);
+      undoTo(t, m1);
+      expect(p.version).toBe(version);
+      expect(restoreGeneration(p)).toBe(generation);
+      const at = bits(p);
+      expect(threw(() => undoTo(t, m1))).toBe(ALREADY);
+      expect(bits(p)).toBe(at);
+      const a = mark(t);
+      expect(way(o, 'way:2', [1500, 0], [1500, 4000]).ok).toBe(true);
+      const b = mark(t);
+      expect(way(o, 'way:3', [2500, 0], [2500, 4000]).ok).toBe(true);
+      undoTo(t, a);
+      const atA = bits(p);
+      expect(threw(() => undoTo(t, b))).toBe(ALREADY);
+      expect(threw(() => undoTo(t, a))).toBe(ALREADY);
+      expect(bits(p)).toBe(atA);
+      expect(p.version).toBe(version);
+      expect(restoreGeneration(p)).toBe(generation);
+      kept = mark(t);
+      keptTx = t;
+      return way(o, 'way:4', [3000, 0], [3000, 4000]);
+    });
+    expect(r.ok).toBe(true);
+    const after = bits(p);
+    // the batch ended: its frame is undone nowhere — not through its own (closed) overlay, not inside the next batch
+    expect(threw(() => undoTo(keptTx as unknown as OpenTx, kept as unknown as ReturnType<typeof mark>))).toBe(OTHER);
+    const r2 = tx(p, spec(1), (o) => {
+      expect(threw(() => undoTo(o as unknown as OpenTx, kept as unknown as ReturnType<typeof mark>))).toBe(OTHER);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r2.ok).toBe(false);
+    expect(bits(p)).toBe(after);
+    expect(restoreGeneration(p)).toBe(generation);
+    clean('op', 2);
+  });
+
+  it('restoreSavepoint inside a batch of an image taken inside it: refused with its own message, the batch undone, the generation unmoved (N-23\'s check stays first)', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const before = bits(p);
+    const taken = imagesTaken(p);
+    const m = threw(() => tx(p, spec(1), (o) => {
+      const image = takeSavepoint(p);
+      expect(way(o, 'way:1', [1000, 0], [1000, 4000]).ok).toBe(true);
+      restoreSavepoint(image);
+      return { ok: true as const, value: null, warnings: [] };
+    }));
+    expect(m).toBe('tx 8/L1/callback/fn: tx: a savepoint is put back while a batch is open on the arena (images are put back between batches)');
+    expect(bits(p)).toBe(before);
+    expect(imagesTaken(p)).toBe(taken + 1);
+    expect(restoreGeneration(p)).toBe(0);
+    clean('batch');
+  });
+
+  /** A frame that writes, rehashes roles.head, compacts a hole pool and creates a partition (an L2 batch on a fresh resolver). */
+  const heavyFrame = (p: Plat, o: Overlay): void => {
+    expect(kerbLine(o, 'kerb:h', 3000).ok).toBe(true);
+    churn(p);
+  };
+  const heavyArena = (): Plat => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    // twenty more role keys before the batch, so the roles.head table the batch finds is dense and a newer table's entry
+    // re-applied into it (an undo replayed whole after an interruption) lands on a live slot
+    commit(p, 1, (o) => {
+      for (let i = 0; i < 20; i++) {
+        const r = way(o, `way:t${i}`, [150 + 180 * i, 2000], [150 + 180 * i, 2400]);
+        if (!r.ok) return r;
+      }
+      return ok;
+    });
+    attachIndex(p, { gridCellCm: 5000, partitionOf: () => 'd:heavy' });
+    return p;
+  };
+
+  it('a throw from inside undoTo mid-replay (S8\'s undo fault hook right after a roles.head rehash\'s replacement entry is undone): the batch\'s own undo resumes, bits() the batch mark\'s', () => {
+    const p = heavyArena();
+    const before = bits(p);
+    let fired = false;
+    const m = threw(() => tx(p, spec(2), (o) => {
+      const t = o as unknown as OpenTx;
+      const s = opSave(t);
+      heavyFrame(p, o);
+      const parts = p.index?.partitions.length ?? 0;
+      expect(parts).toBeGreaterThan(0);
+      let at = -1;
+      let i = s.mark.arena.log;
+      forEachEntry(p, s.mark.arena, {
+        column() {
+          i++;
+        },
+        replacement(id) {
+          // the frame's FIRST roles.head rehash: its undo puts back the array the batch found, so an entry re-applied after
+          // the interruption (an undo replayed whole) would write a newer array's fill into it
+          if (id === ROLE_HEAD_BASE && at < 0) at = i;
+          i++;
+        },
+      });
+      expect(at).toBeGreaterThanOrEqual(0);
+      setUndoFaultHook((e) => {
+        if (e !== at) return;
+        setUndoFaultHook(null);
+        fired = true;
+        throw new Error('pin: the undo interrupted after a rehash');
+      });
+      try {
+        rollback(t, s, refusal);
+      } finally {
+        setUndoFaultHook(null);
+      }
+      return ok;
+    }));
+    expect(fired).toBe(true);
+    expect(m).toBe('tx 8/L2/callback/fn: pin: the undo interrupted after a rehash');
+    expect(bits(p)).toBe(before);
+    healthy(p);
+    expect(frameStats().failures).toEqual([]);
+    expect(tx(p, spec(2), (o) => kerbLine(o, 'kerb:n', 1000)).ok).toBe(true);
+  });
+
+  it('a throw from frames.ts\'s own fault hook between the index undo\'s writes and its truncation: the batch\'s own undo resumes, bits() the batch mark\'s', () => {
+    const p = heavyArena();
+    const before = bits(p);
+    let fired = false;
+    const m = threw(() => tx(p, spec(2), (o) => {
+      const t = o as unknown as OpenTx;
+      const s = opSave(t);
+      heavyFrame(p, o);
+      setIndexUndoFaultHook(() => {
+        setIndexUndoFaultHook(null);
+        fired = true;
+        throw new Error('pin: the index undo interrupted before its truncation');
+      });
+      try {
+        rollback(t, s, refusal);
+      } finally {
+        setIndexUndoFaultHook(null);
+      }
+      return ok;
+    }));
+    expect(fired).toBe(true);
+    expect(m).toBe('tx 8/L2/callback/fn: pin: the index undo interrupted before its truncation');
+    expect(bits(p)).toBe(before);
+    healthy(p);
+    expect(frameStats().failures).toEqual([]);
+    expect(tx(p, spec(2), (o) => kerbLine(o, 'kerb:n', 1000)).ok).toBe(true);
+  });
+
+  it('a throw from a test observer after the replay: the batch\'s own undo resumes, bits() the batch mark\'s', () => {
+    const p = heavyArena();
+    const before = bits(p);
+    const was = frameObserver as FrameObserver;
+    let fired = false;
+    let target: unknown = null;
+    setFrameObserver({
+      ...was,
+      afterUndo(q, f) {
+        was.afterUndo(q, f);
+        if (f === target) {
+          fired = true;
+          throw new Error('pin: the observer threw after the replay');
+        }
+      },
+    });
+    try {
+      const m = threw(() => tx(p, spec(2), (o) => {
+        const t = o as unknown as OpenTx;
+        const s = opSave(t);
+        target = s.mark;
+        heavyFrame(p, o);
+        rollback(t, s, refusal);
+        return ok;
+      }));
+      expect(m).toBe('tx 8/L2/callback/fn: pin: the observer threw after the replay');
+    } finally {
+      setFrameObserver(was);
+    }
+    expect(fired).toBe(true);
+    expect(bits(p)).toBe(before);
+    healthy(p);
+    expect(frameStats().failures).toEqual([]);
+  });
+
+  it('attachIndex on an arena with a batch open: thrown under the debug build with its message, the arena and its index unchanged; nothing asserted with the assertions off', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const idx = p.index;
+    const r = tx(p, spec(1), (o) => {
+      expect(way(o, 'way:1', [1000, 0], [1000, 4000]).ok).toBe(true);
+      const at = bits(p);
+      expect(threw(() => attachIndex(p, { gridCellCm: 5000 }))).toBe('index: attachIndex while a batch is open on the arena (attach between batches)');
+      expect(bits(p)).toBe(at);
+      expect(p.index).toBe(idx);
+      return way(o, 'way:2', [3000, 0], [3000, 4000]);
+    });
+    expect(r.ok).toBe(true);
+    const q = framed();
+    beginIndexBatch(q, 1);
+    setDebugAssertions(false);
+    try {
+      expect(threw(() => attachIndex(q, { gridCellCm: 5000 }))).toBe('no throw');
+    } finally {
+      setDebugAssertions(true);
+    }
+    expect(frameStats().failures).toEqual([]);
+  });
+
+  it('a pool compaction between an outer and an inner frame\'s opens, the inner frame\'s run written above the lowered top, then both undone', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    commit(p, 1, (o) => way(o, 'way:1', [2000, 0], [2000, 4000]));
+    const f1 = faceAt(p, 1, 1000, 1000);
+    const f2 = faceAt(p, 1, 3000, 3000);
+    const hs: number[] = [];
+    for (let h = 0; h < 2 * p.slots.pair.top && hs.length < 3; h += 2) if (p.halfEdges.next[h] >= 0 && p.halfEdges.level[h >> 1] <= 1) hs.push(h);
+    let compacted = false;
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      const outer = opSave(t);
+      const atOuter = bits(p);
+      for (let i = 0; i < 200 && !compacted; i++) {
+        const f = i % 2 === 0 ? f1 : f2;
+        const top = p.slots.holesTop[1];
+        setFaceHoles(p, 1, f, [hs[0], hs[1]]);
+        compacted = p.faces[1].holesStart[f] < top;
+      }
+      expect(compacted).toBe(true);
+      const top = p.slots.holesTop[1];
+      const inner = opSave(t);
+      const atInner = bits(p);
+      setFaceHoles(p, 1, f1, [hs[2]]);
+      expect(p.faces[1].holesStart[f1]).toBeGreaterThanOrEqual(top - 3);
+      rollback(t, inner, refusal);
+      expect(bits(p)).toBe(atInner);
+      rollback(t, outer, refusal);
+      expect(bits(p)).toBe(atOuter);
+      return way(o, 'way:2', [1000, 0], [1000, 2000]);
+    });
+    expect(r.ok).toBe(true);
+    clean('op', 2);
+  });
+
+  it('two sibling op frames writing one slot, the second rolled back: the first\'s write stands and commits', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const f = faceAt(p, 1, 1000, 1000);
+    const r = tx(p, spec(1), (o) => {
+      const t = o as unknown as OpenTx;
+      opSave(t); // dropped: committed into the batch frame
+      expect(setOwner(o, [f], 'block:a').ok).toBe(true);
+      const atB = bits(p);
+      const b = opSave(t);
+      expect(setOwner(o, [f], 'block:b').ok).toBe(true);
+      rollback(t, b, refusal);
+      expect(bits(p)).toBe(atB);
+      return ok;
+    });
+    expect(r.ok).toBe(true);
+    expect(kernel.idOf(p, p.faces[1].owner[f])).toBe('block:a');
+    clean('op');
+  });
+
+  it('a batch whose stage has no u8 rank throws at its open before its frame is marked: no index log left open, no recorder attached, the next batch commits', () => {
+    const p = framed();
+    const before = bits(p);
+    const m = threw(() => tx(p, spec(1), (o) => way(o, 'way:1', [1000, 0], [1000, 4000]), { rankOf: () => 300 }));
+    expect(m).toMatch(/has no u8 rank/);
+    expect(bits(p)).toBe(before);
+    expect(hasRecorder(p)).toBe(false);
+    expect(tx(p, spec(1), (o) => way(o, 'way:1', [1000, 0], [1000, 4000])).ok).toBe(true);
+    expect(frameStats().failures).toEqual([]);
+  });
+
+  it('writes planted in the index log that the index never held (an insert of no partition, a delete with no removed entry, a tombstone naming another level\'s partition) are skipped: the rejected batch undoes the rest, bits() as before', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const before = bits(p);
+    const l0 = p.index?.byKey[0].get('') ?? -1;
+    expect(l0).toBeGreaterThanOrEqual(0);
+    const r = tx(p, spec(1), (o) => {
+      expect(way(o, 'way:1', [1000, 0], [1000, 4000]).ok).toBe(true);
+      const log = indexOf(o.plat).log;
+      log?.writes.push({ op: 'insert', kind: ITEM_FACE, level: 1, slot: 0, partition: -1 });
+      log?.writes.push({ op: 'delete', kind: ITEM_FACE, level: 1, slot: 0, partition: -1 });
+      log?.writes.push({ op: 'tombstone', kind: ITEM_FACE, level: 1, slot: 0, partition: l0 });
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    });
+    expect(r.ok).toBe(false);
+    expect(bits(p)).toBe(before);
+    expect(tx(p, spec(1), (o) => way(o, 'way:2', [3000, 0], [3000, 4000])).ok).toBe(true);
+    healthy(p);
+    clean('batch');
+  });
+
+  it('a slot written in batch 1, then rewritten in batch 2 and rejected: batch 1\'s value stands', () => {
+    const p = framed();
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    const f = faceAt(p, 1, 1000, 1000);
+    commit(p, 1, (o) => setOwner(o, [f], 'block:1'));
+    const at = bits(p);
+    expect(tx(p, spec(1), (o) => {
+      expect(setOwner(o, [f], 'block:2').ok).toBe(true);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    }).ok).toBe(false);
+    expect(bits(p)).toBe(at);
+    expect(kernel.idOf(p, p.faces[1].owner[f])).toBe('block:1');
+    clean('batch');
+  });
+});
+
+describe('S9 line 5 (c): no kernel path takes an image — the per-arena image count unchanged (observer off)', () => {
+  it('across a kerb read, a splitFace and a rejected batch', () => {
+    uninstallFrameObserver();
+    const p = framed();
+    const way = (o: Overlay, id: string, a: [number, number], b: [number, number]): KernelResult<unknown> => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: id }], 'mandatory');
+    commit(p, 1, (o) => way(o, 'way:0', [0, 2000], [4000, 2000]));
+    commit(p, 1, (o) => way(o, 'way:1', [2000, 0], [2000, 4000]));
+    const n = imagesTaken(p);
+    const widths = (c: { role: string }): { halfWidthCm: number } | null => (c.role === 'way' ? { halfWidthCm: 80 } : null);
+    expect(tx(p, spec(1), (o) => kerb(o, faceAt(p, 1, 1000, 1000), widths)).ok).toBe(true);
+    expect(imagesTaken(p)).toBe(n);
+    expect(tx(p, spec(1), (o) => splitFace(o, faceAt(p, 1, 3000, 3000), [pt(2000, 3000), pt(4000, 3000)], { rows: [{ role: 'district_bound', entity: 'd:1' }] })).ok).toBe(true);
+    expect(imagesTaken(p)).toBe(n);
+    expect(tx(p, spec(1), (o) => {
+      way(o, 'way:2', [1000, 0], [1000, 2000]);
+      return err('E_INVARIANT', 'pin: the batch rejected');
+    }).ok).toBe(false);
+    expect(imagesTaken(p)).toBe(n);
+    expect(n).toBe(0);
   });
 });

@@ -293,3 +293,76 @@ check's own, in `checks/M0-a-15-s1.md`.
 | N-s1c-6 (for the session: ids collide with main, C-0104) | At main's head `a000282`, C-0367 is `build/M0-e-05-consolidate-1`'s row and L-0542 is `session/refusal-census-1`'s. In this tree the same two ids are this round's choices row and its builder's CLEAN-ROOM row. They are cited in the "Hardening round S1" section above, in `landed/M0-a-15.json`'s appends, in `checks/M0-a-15-s1.md` and in the lane log. No source file cites them. This check's CLEAN-ROOM row takes L-0543, above every L-id on main (L-0534) and in the tree (L-0542). | The next writer renumbers at commit (never the checker) and carries the new numbers into those places. | M0, at this wave's commit |
 | N-s1c-7 (for the session: queue L16 stays open) | Probe P16 (this check's own) gave `isCurrent(compactSlots(p), stamp(p))` **true** at version 16, and `isCurrent(load(framed), stamp(framed))` **true** at version 0. The round's REPORTED reading stands: the fix needs a fresh state name that `io/` cannot mint. That means an arena identity in `arena/resolve.ts`'s stamp (M0-a-02) or a generation setter in `tx/savepoint.ts` (M0-a-06). A fresh key would change every chunk header and the copy's identity, which is a contract change. | The session routes L16 to M0-a-02 / M0-a-06 under C-0313's class. | session |
 | N-s1c-8 (for the session: note 9 stays open) | Probe P9 (this check's own) replaced `encode.ts:113`'s `fail` with `notBuilt('M1', …)` from `tx/state.ts`. M0-a-16's `test/facade/stubs.test.ts` "every notBuilt('…') the kernel's sources throw is a refused row's site …" then fails (1 failed / 8 passed) with `+ "io/encode.ts M1"`. The row needs a refused row in `facade/notBuilt.ts` and a §4b kernel entry first. Those are other items' files, so the round reported the row and did not build it. C-0207 (3) stages only the loop to M1. | The session routes note 9 to M0-a-16 together with §4b. Then `io/encode.ts` takes the `notBuilt('M1', …)` form at its next touch. | session |
+
+## Hardening round S2 (lane `build/M0-a-15-fix-s2`, flow flow-7, 2026-11-10)
+
+The builder's notes for M0-a-15's hardening round S2: leg 1 of the merged round M0-a-15 S2 → M0-a-16 S4 → M0-m-01 S2
+(J443's merged-round rule; RL9 of J637 as J733 orders it), on the two rows the second re-triage found still open: queue
+row Q75 (M0-a-15's half only) and this file's N-s1c-4. The choices row is C-0490. The sources were read whole:
+`docs/M0-FIX-QUEUE.md` row Q75, this file's note 9 (section 'Hardening round S1'), N-s1c-4 and N-s1c-8. The mutant ids
+MQ… are this round's own; they ran in the lane's mirror `waves/selfcheck-build-M0-a-15-fix-s2` (deleted after).
+Receipts are in the lane's scratchpad (`a15s2/`).
+
+### Row by row
+
+| row (source) | outcome | what changed | evidence |
+|---|---|---|---|
+| Q75 — M0-a-15's half (`docs/M0-FIX-QUEUE.md` row Q75; note 9, N-s1c-8; C-0207 (3)) | **fixed and pinned** | `io/encode.ts` (`runsAt`): the refusal of a level-r route that is a loop off one vertex is now the kernel's staged-branch refusal `notBuilt('M1', …)`, the helper of `tx/state.ts` imported by path (as `warp/`, `arr/`, `faces/` import that module), in place of the file's own `fail`. Nothing else in the function changed. Its text, pinned verbatim (J263 Q6): before `encodeArena: a level-<r> route is a loop off one vertex (<slot>): not written at M0 (C-0207)`; after `notBuilt('M1'): encodeArena: a level-<r> route is a loop off one vertex (<slot>): not written at M0 (C-0207)`. The other refusal of C-0207 (3), two route edges of one level between one pair of vertices, stays the plain `fail`: it breaks §3.3's key totality, an invalid arena rather than a staged feature (note 9's reading). New describe in `kernel/test/io/roundtrip.test.ts`, "what the block does not write at M0 (C-0207 (3))": an L1 loop off its one L1 vertex (the LOOP arena of M0-a-03's `index/items.test.ts`, its spec copied into the test and built with `test/arena/support.ts`'s `buildArena`) asserts the message verbatim; a lens of two L1 route edges between one pair asserts `encodeArena: two level-1 route edges join vertices 4 and 5` verbatim. Earlier pins of the old message: none. A search of `packages/` for "loop off one vertex" finds only `index/items.ts`'s comment and `index/items.test.ts`'s own case of `routeRun`, neither of which reads this message; no item test asserted it before this round, so no pin needed re-pinning. | MQa (the `fail` call put back, the old text), MQb (`'M2a'` for `'M1'`) and MQc (the text without `encodeArena: `) were **killed** by the loop it; MQd (the lens's `fail` made `notBuilt('M1', …)`) was **killed** by the lens it. Without the mutants both its pass (mirror and tree). |
+| Q75 — the DECLARED RED (the other half is leg 2's, M0-a-16 S4) | **shown, not edited** | M0-a-16's `kernel/test/facade/stubs.test.ts` is foreign to this leg and was not edited. From this change until leg 2 adds the stub table's REFUSED row, its case "every notBuilt('…') the kernel's sources throw is a refused row's site with its milestone, and every site throws it" is red with exactly one extra entry. | Before the change (mirror on the pre-round tree): stubs.test.ts 11/11. After it, in the mirror and in the tree (NEAR, PR size, W=1): 1 failed / 10 passed, the diff exactly `+ "io/encode.ts M1"` (expected `faces/claim.ts M1`, `insert/attractVertex.ts M3a`, `tx/profile.ts M2b`, `tx/tx.ts M3a`, `tx/tx.ts M6-P`). No other case of the file turned red. RELATED@1000 over `io/encode.ts` is the check that no other file turned red (gates below). |
+| a-15:N-s1c-4 (title tightening) | **fixed** (text; the row's deliverable is the text) | `kernel/test/io/roundtrip.test.ts`'s face-kind it is now titled "carries the face kind column: residue faces at L0, L1 (routes chunk) and L2 – L4 (partition chunks) round-trip (§3.9 faces row; fix round 1, check B1; checks/M0-a-15-notes.md N-s1c-4)". Its body is unchanged. | The text. No mutant: a title is not behaviour, and the body already asserts L4 (`levels` contains 2, 3 and 4; `L4:1` before and after the load; K12 killed in S1). |
+
+### NO-SHIFT, API, refusals
+
+* **NO-SHIFT.** The same input is refused at the same place; only the refusal's class and text change (C-0207 (3)
+  stages the loop to M1). Every arena the encoder writes takes the same path through `runsAt` as before, so no chunk
+  byte, ref, digest, golden or root moves. The round-trip suites before and after, at the PR size with W=1: before
+  (mirror on the pre-round tree) the item's 10 files 132/132; after (mirror and tree) 10 files 134/134. The two new
+  tests are the loop and lens its; constructive 87/87, fuzz 1/1, renumbering 2/2 and city 6/6 are unchanged.
+* **API frozen (J263 Q1).** `io/index.ts` and `src/index.ts` were not edited. `notBuilt` is imported by path from
+  `tx/state.ts`, and no export was added, removed or renamed.
+* **Refusal census (J264, N-58).** The item's registered families are the constructive set (M0-k-02), M0-k-01's fuzz
+  arenas, the random batch arenas of both mixes, and the CITY-shaped arena. They had **0 refusals before and 0 after**:
+  every case is green, and none reaches either refusal. The two refused inputs are hand-built arenas that no family
+  produces. The loop off one vertex is classed as needing design not yet built. Its verdict is **REFUSE** as the staged
+  branch `notBuilt('M1')`: the M1 document writer builds it (C-0207 (3), §4b's `.plat` document row). The lens of two
+  route edges is classed **UNLAWFUL**: it breaks §3.3's key totality. Its verdict is **REFUSE**, as a typed throw on an
+  invalid arena. A repair would have to guess which route edge is meant.
+
+### Self-check (J183): the mutant table
+
+4 targeted mutants ran in the mirror. Each used `--maxWorkers=1 --bail=1` over `kernel/test/io` and
+`testkit/test/kernel/io`. `encode.ts` was restored from the tree after each one and checked with `cmp`.
+
+| mutant | file / line | row | verdict (killing test) |
+|---|---|---|---|
+| MQa | `encode.ts` `runsAt`: the loop refusal's `fail(…)` put back, old text | Q75 | killed (the loop it: "expected 'encodeArena: a level-1 route is a loo…' to be 'notBuilt('M1'): encodeArena: a leve…'") |
+| MQb | `encode.ts` `runsAt`: `notBuilt('M2a', …)` | Q75 | killed (the loop it) |
+| MQc | `encode.ts` `runsAt`: the text without `encodeArena: ` | Q75 (the verbatim pin) | killed (the loop it) |
+| MQd | `encode.ts` `encodeArena`: the two-route-edges `fail` made `notBuilt('M1', …)` | Q75 ("nothing else") | killed (the lens it) |
+
+### Gates (the tree, W=1)
+
+* `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile`: exit 0 ("Already up to date").
+* `corepack pnpm lint`: exit 0, with `lint: probe-red ok` (every planted line reported).
+* `corepack pnpm build`: exit 0.
+* NEAR, at the PR size: `kernel/test/io` and `testkit/test/kernel/io` were 10 files, 134/134. `stubs.test.ts` was
+  10/11, the declared red only.
+* RELATED, at `PLAT_FUZZ_RUNS=1000` over the round's one changed source, `kernel/src/io/encode.ts`: 483 files,
+  6 701/6 708, exit 1, 8 726 s, seed −1423553266. There were 5 red files and 7 red tests:
+  * The DECLARED red: `stubs.test.ts`'s census case, exactly `+ "io/encode.ts M1"`.
+  * 6 foreign reds in M0-a-09's `kernel/test/arr/bands/`: `closing.test.ts` ×2, `dryrun.test.ts` (draws 389 and 1109),
+    `hardening-s15.test.ts` (network 561) and `restage.test.ts` N1 and N2. They are the known foreign set the lane log
+    names (e.g. M0-f-02b 2026-10-28, M0-a-06-fix-s8 2026-11-01). Replayed with the same seed on a mirror holding the
+    pre-round `encode.ts`, the same 6 tests failed with identical full messages (paths normalised). None is the item's.
+  * No other file turned red. The J176 bench files were not selected or were green.
+
+## Closing check of hardening round S2 (lane `check/M0-a-15-close-s2`, flow flow-7, 2026-11-10)
+
+These notes do not fail the item (the verdict is in `checks/M0-a-15-s2.md`). The mutant ids (A…) and probe ids (PL, PR)
+are this check's own.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2c-1 (the no-endpoint ring: unpinned, class undecided) | Mutant A8 turns `encode.ts:101`'s `fail` ("a level-r route through pair e has no endpoint of level ≤ r") into `notBuilt('M1', …)` and survives the item's tests; the stubs census reads the same `io/encode.ts M1`. Probe PR hand-built an L1 ring whose three vertices are all L2, free inside the frame: `encodeArena` throws `encodeArena: a level-1 route through pair 4 has no endpoint of level ≤ 1`. C-0207 (3) stages only "a run whose two ends are one vertex", so the round was right to leave this line a plain `fail`; but no test holds its text or its class, and whether a route ring with no vertex of its level is an invalid arena or a second loop form for M1's document writer is not written down. No registered family produces it. | A test of the refusal's text at the file's next touch; when M1 builds the loop, decide this ring's class in the same choices row. | M4 (the class with M1's writer) |
+| N-s2c-2 (the pin holds level 1) | The loop it builds a level-1 loop only. Probe PL built the same loop at levels 2 and 3 (the stem and loop one or two levels finer): both are refused in the same form with `level-2` and `level-3` and the loop vertex's slot. Mutant A5 (`level-${r + 1}`) is killed at level 1, so the level in the text is held; a level-2 or level-3 case would add nothing but coverage of the same line. | None needed; a hardening case at most. | M4 |
+| N-s2c-3 (for the session: RELATED's foreign reds) | RELATED@1000 over `kernel/src/io/encode.ts` in the tree (W=1, 483 files, 6 701 / 6 708, the run's seed 16323221) has, besides the declared `stubs.test.ts` red, 6 red tests in M0-a-09's `kernel/test/arr/bands/`: `closing.test.ts` ×2 (`:134`, `:225`), `dryrun.test.ts` (`:314`, draws 389 and 1109), `hardening-s15.test.ts` (`:65`, B-NEST network 561, `expected 2 to be 3`) and `restage.test.ts` N1 and N2 (`:104`, `:134`). They are fixed cases, not draws of the run's seed. Replayed on this check's `base/` mirror (the pre-round `encode.ts`, `PLAT_FUZZ_SEED=16323221 PLAT_FUZZ_RUNS=1000`) the same 6 fail and their failure blocks are byte-identical to the tree's; `stubs.test.ts` is green there. So they are red without this round's change: the set the lane log has named since 2026-10-28 (`build/M0-f-02b`, `build/M0-a-06-fix-s8`). Not the item's gate. | The session's: M0-a-09's own round (the kerb reads of `arr/kerb.ts`). Nothing for M0-a-15. | session (M0-a-09) |

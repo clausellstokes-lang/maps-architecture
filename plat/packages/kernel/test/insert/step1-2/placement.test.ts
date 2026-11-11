@@ -463,6 +463,28 @@ describe('the rule, test by test', () => {
     }
   });
 
+  it('N-c5-1: on the same run, an exact position on the first sub-edge nearer its start — the fallback is that sub-edge’s near end (723, 3 092), not S, the nearer end of the next sub-edge', () => {
+    const b = indexed(WEDGE_S);
+    const p = b.plat;
+    expect(problems(p)).toEqual([]);
+    // (626, 3 117)'s foot on the run's own-level route (723, 3 092) → (0, 3 282): on the sub-edge (723, 3 092)–S (560 cm
+    // long), ≈ 100 cm from (723, 3 092) and ≈ 460 cm from S. Its nearer end is (723, 3 092); the next sub-edge S–(0, 3 282)
+    // has S as the nearer end, so an answer read off the neighbour sub-edge (j + 1) would be S.
+    const ux = -723;
+    const uy = 190;
+    const s = ((626 - 723) * ux + (3117 - 3092) * uy) / (ux * ux + uy * uy);
+    const exact = { x: 723 + s * ux, y: 3092 + s * uy };
+    expect(d2(exact, { x: 723, y: 3092 })).toBeLessThan(101 * 101);
+    expect(d2(exact, { x: 181, y: 3234 })).toBeGreaterThan(450 * 450);
+    // the run named by any of its half-edges, either way round: one answer
+    for (const h of [b.he[8], b.he[8] ^ 1, b.he[9], b.he[9] ^ 1]) {
+      const r = placePoint(insertTx(p, 2), h, exact);
+      expect(r.ok && r.value).toMatchObject({ kind: 'endpoint', vertex: b.v[6] });
+      expect(r.ok && r.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 723, y: 3092 } }]);
+      expect(r.ok && r.value.tried).toBeGreaterThan(40);
+    }
+  });
+
   it('charges each candidate; at the work limit E_WORK_LIMIT', () => {
     const b = indexed(lineWith([0, 0], [1000, 0]));
     expect(placePoint(insertTx(b.plat, 2, { workLimit: 2 }), b.he[4], { x: 24.4, y: 0 })).toEqual({ ok: false, code: 'E_WORK_LIMIT', detail: INSERT_PLACEMENT_CANDIDATES });

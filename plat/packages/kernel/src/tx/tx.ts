@@ -6,12 +6,14 @@
 //   that entity's stream path — so the committed arena is a function of the prior arena and the op *set*, never of the
 //   order the stage issued them in; two ops with one key are a programming error. Callback (`fn`): `fn` gets the open
 //   overlay and each op it issues applies at once, in issue order. Both at once is a programming error (an assertion).
-// * **Atomic.** The overlay is the arena written in place over a before-image (savepoint.ts, C-0185 (1)); a rejected
-//   batch puts the image back, so the arena, its index and its version are as they were. A batch that writes nothing
-//   commits nothing and keeps the version. A throw anywhere in the batch (an op's, the callback's, a check's — §3.11's
-//   assertion class, a programming error or a corrupted arena) puts the image back too and is rethrown, never turned
-//   into a refusal, its message prefixed `tx <stage>/L<level>/<form>/<op>: ` and the original kept as its `cause`
-//   (C-0287).
+// * **Atomic.** The overlay is the arena written in place under the batch's undo log (frames.ts, hardening round S9;
+//   the before-image of C-0185 (1) is gone from the batch): every store passes the write door (arena/write.ts) and every
+//   index write the batch's IndexBatchLog, so a rejected batch undoes to its frame and the arena, its index and its
+//   version are as they were. A batch that writes nothing commits nothing and keeps the version. A throw anywhere in the
+//   batch (an op's, the callback's, a check's — §3.11's assertion class, a programming error or a corrupted arena) undoes
+//   every store that passed the door, and nothing else (a store past the door is what the write-door guard forbids), and
+//   is rethrown, never turned into a refusal, its message prefixed `tx <stage>/L<level>/<form>/<op>: ` and the original
+//   kept as its `cause` (C-0287).
 // * **Work limits.** Every op charges operation counts to the batch (§3.3); a batch whose total exceeds `workLimit`
 //   returns E_WORK_LIMIT and commits nothing — a count, never a clock (C-0185 (5)).
 // * **Checks at commit.** `expect`'s class floors (E_BELOW_MIN_WIDTH / _AREA / _ANGLE) and named checks (E_INVARIANT)
@@ -19,7 +21,8 @@
 //   M0-a-07's absorbSliver, on each face below a width or area floor, then checked again), downgrade (tier 4) — then the
 //   batch-local kernel rows this item owns (role consistency, level consistency, index freshness) and M0-a-14's suite
 //   through `env.invariants`; any failure rejects.
-// * **The commit record** (§3.3) is assembled from the writers' journals against the before-image: the dirty faces per
+// * **The commit record** (§3.3) is assembled from the writers' journals against the batch frame's before-values
+//   (frames.ts `beforeView`: a slot's first logged old value, or fresh above the frame's counter): the dirty faces per
 //   level ≥ the batch's, the four counts, the work, the promoted, demoted and unflagged vertices, the owners and the
 //   role keys — every list in a canonical order (lattice positions, canonical face keys, address ids, rule 7's order),
 //   never a slot order. The digest hook gets its dirty set (`env.onCommit`, M0-d-04).
@@ -57,8 +60,8 @@ import { comparePoints, PI, segmentCloserThan } from '../num/exact.js';
 import { err, ok, type KernelError, type KernelResult } from '../num/index.js';
 import type { Cm, Id, LatticePoint, Level, RoleKey, StageId } from '../types/index.js';
 import { pairsOfKey } from './chains.js';
-import { frameObserver } from './frames.js';
-import { ownerBefore, restoreBatchImage, takeSavepoint, wasFaceLive } from './savepoint.js';
+import { COL_ROLES_ENTITY, COL_ROLES_KIND, COL_ROLES_LEVEL, COL_ROLES_ORDINAL } from '../arena/write.js';
+import { beforeView, endBatch, markBatch, observeCommit, undoBatch } from './frames.js';
 import { check, emptyLog, markOpen, notBuilt, noteRow, roleKeyText, type OpenTx } from './state.js';
 import { OP_KINDS, type ClassFloor, type CommitRecord, type DirtySet, type KernelOp, type KernelTx, type LevelDirt, type Overlay, type TxEnv } from './types.js';
 
@@ -79,7 +82,7 @@ function isTransientKey(k: KernelTx['key']): k is Extract<KernelTx['key'], { tra
   return typeof k === 'object' && k !== null && 'transient' in k;
 }
 
-/** Opens the batch on arena `p`: every declaration checked, the before-image taken, the index's batch log opened. */
+/** Opens the batch on arena `p`: every declaration checked, the batch frame marked (the recorder attached), the index's batch log opened. */
 function open(p: Plat, spec: KernelTx, env: TxEnv): OpenTx {
   if (isTransientKey(spec.key)) notBuilt('M6-P', 'a transaction on a transient arena (§3.4; TransientKey is M0-a-16\'s, C-0041)');
   check(isPlatKey(spec.key) && sameKey(spec.key, p.key), 'a transaction acts on the arena its key names (§3.4)');
@@ -94,8 +97,10 @@ function open(p: Plat, spec: KernelTx, env: TxEnv): OpenTx {
   }
   check(p.index !== undefined, 'a transaction needs the arena\'s spatial index (attachIndex)');
   check(indexOf(p).log === null, 'another batch is open on this arena');
-  const savepoint = takeSavepoint(p);
-  if (frameObserver !== null) frameObserver.batchOpen(p, savepoint);
+  const stageRank = rankOf(env, spec.stage);
+  const keptBelow = rankOf(env, spec.rederivesFrom);
+  // The batch frame: no image (S9) — the recorder attached and the batch's mark saved, before the index's batch log opens.
+  const batch = markBatch(p);
   const indexLog = beginIndexBatch(p, spec.level);
   const t: OpenTx = {
     open: true,
@@ -108,9 +113,9 @@ function open(p: Plat, spec: KernelTx, env: TxEnv): OpenTx {
     journal: { vertices: [], pairs: [], split: [], steiner: 0, changed: [] },
     spec,
     env,
-    stageRank: rankOf(env, spec.stage),
-    keptBelow: rankOf(env, spec.rederivesFrom),
-    savepoint,
+    stageRank,
+    keptBelow,
+    batch,
     indexLog,
     log: emptyLog(),
     failed: null,
@@ -132,9 +137,9 @@ function workDetail(t: OpenTx, fallback: string): string {
   return f === null ? fallback : f.detail;
 }
 
-/** Rejects: the before-image back, the batch closed. */
+/** Rejects: the batch undone to its frame (its index log closed, its recorder detached), the batch closed. */
 function reject<T>(t: OpenTx, code: KernelError, detail: string): KernelResult<T> {
-  restoreBatchImage(t.savepoint);
+  undoBatch(t.batch);
   t.closed = true;
   return err<T>(code, detail);
 }
@@ -179,20 +184,29 @@ function wroteAnything(t: OpenTx): boolean {
     || L.owners.size + L.roles.size > 0;
 }
 
+/** The role-row order the sweep visits rows in (slot order — the order its whole-table loop visited them before S9). */
+const byRoleRowOrder = (a: number, b: number): number => a - b;
+
 /**
  * Vertex role rows a writer added without journaling their vertex — splitThrough landing on an existing vertex, which
- * takes its row (M0-a-04's `applySplitPlan`) — found against the before-image: their keys are noted and their vertices
- * logged, so a batch whose only write is such a row (a contact name on an existing vertex) commits it and the record
- * lists its key (C-0189). O(role slots), as the before-image is O(arena) (C-0185 (1)).
+ * takes its row (M0-a-04's `applySplitPlan`) — found against the batch frame's before-values: their keys are noted and
+ * their vertices logged, so a batch whose only write is such a row (a contact name on an existing vertex) commits it and
+ * the record lists its key (C-0189). O(entries) (hardening round S9): only the rows the batch's log names in a row-key
+ * column and those at or above the frame's role top are walked — in increasing row order, the order the whole-table loop
+ * visited them, since levelProblems and clearanceProblems read t.log.vertices in its order (a refusal names the first).
  */
 function sweepVertexRows(t: OpenTx): void {
   const p = t.plat;
   const R = p.roles;
-  const S = t.savepoint.roles;
-  const topBefore = t.savepoint.slots.role.top;
-  for (let r = 0; r < p.slots.role.top; r++) {
+  const before = beforeView(t.batch);
+  const topBefore = before.roleTop;
+  const rows = new Set<number>(before.rolesLogged);
+  for (let r = topBefore; r < p.slots.role.top; r++) rows.add(r);
+  const list = [...rows].sort(byRoleRowOrder);
+  for (const r of list) {
+    if (r >= p.slots.role.top) continue;
     if (R.kind[r] === FREE_KIND || roleInfo(R.kind[r]).kind !== 'vertex') continue;
-    if (r < topBefore && S.kind[r] === R.kind[r] && S.entity[r] === R.entity[r] && S.ordinal[r] === R.ordinal[r] && S.level[r] === R.level[r]) continue;
+    if (r < topBefore && before.role(COL_ROLES_KIND, r) === R.kind[r] && before.role(COL_ROLES_ENTITY, r) === R.entity[r] && before.role(COL_ROLES_ORDINAL, r) === R.ordinal[r] && before.role(COL_ROLES_LEVEL, r) === R.level[r]) continue;
     t.log.vertices.push(rowElement(p, r));
     noteRow(t, R.kind[r], R.entity[r], R.ordinal[r]);
   }
@@ -200,8 +214,8 @@ function sweepVertexRows(t: OpenTx): void {
 
 // ---- the commit record ----------------------------------------------------------------------------------------------
 
-/** The dirty faces per level ≥ the batch's: every record a writer named, classified against the before-image. */
-function dirtyFaces(t: OpenTx): LevelDirt[] {
+/** The dirty faces per level ≥ the batch's: every record a writer named, classified against the batch frame's before-values. */
+function dirtyFaces(t: OpenTx, before: ReturnType<typeof beforeView>): LevelDirt[] {
   const p = t.plat;
   const C = chainJournal(t);
   const out: LevelDirt[] = [];
@@ -215,7 +229,7 @@ function dirtyFaces(t: OpenTx): LevelDirt[] {
     const changed: FaceId[] = [];
     const removed: FaceId[] = [];
     for (const f of [...new Set(named)]) {
-      const was = wasFaceLive(t.savepoint, lv, f);
+      const was = before.faceLive(lv, f);
       const is = isFaceLive(p, lv, f);
       if (!was && is) created.push(f);
       else if (was && is) changed.push(f);
@@ -270,7 +284,8 @@ function roleKeys(t: OpenTx): RoleKey[] {
 function assemble(t: OpenTx, version: number): CommitRecord {
   const p = t.plat;
   const C = chainJournal(t);
-  const faces = dirtyFaces(t);
+  const before = beforeView(t.batch);
+  const faces = dirtyFaces(t, before);
   const owners = new Set<Id>(t.log.owners);
   for (const d of faces) {
     for (const f of [...d.created, ...d.changed]) {
@@ -278,7 +293,7 @@ function assemble(t: OpenTx, version: number): CommitRecord {
       if (o >= 0) owners.add(idOf(p, o));
     }
     for (const f of [...d.changed, ...d.removed]) {
-      const o = ownerBefore(t.savepoint, d.level, f);
+      const o = before.ownerOf(d.level, f);
       if (o >= 0) owners.add(idOf(p, o));
     }
   }
@@ -366,7 +381,7 @@ function widthOf(t: OpenTx, level: Level, f: FaceId): number {
 
 /** The touched faces of the batch's level (created or changed, live), canonically ordered. */
 function touchedAtLevel(t: OpenTx): FaceId[] {
-  const d = dirtyFaces(t).find((x) => x.level === t.level) as LevelDirt;
+  const d = dirtyFaces(t, beforeView(t.batch)).find((x) => x.level === t.level) as LevelDirt;
   const p = t.plat;
   return [...d.created, ...d.changed].sort((a, b) => {
     const ka = faceKey(p, t.level, a);
@@ -536,10 +551,11 @@ export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => Kernel
     return run(t, fn);
   } catch (e) {
     // A programming error anywhere in the batch (an op's, the callback's, a check's) or a corrupted arena (§3.11's
-    // assertion class stays a throw, C-0287): the arena, its index and its version as they were, the batch closed, the
-    // error rethrown with where it arose. A throw after the commit (the digest listener's) leaves the commit standing.
+    // assertion class stays a throw, C-0287): every store that passed the door undone (the batch undone to its frame,
+    // resuming an undo the throw interrupted), the batch closed, the error rethrown with where it arose. A throw after
+    // the commit (the digest listener's) leaves the commit standing.
     if (!t.closed) {
-      restoreBatchImage(t.savepoint);
+      undoBatch(t.batch);
       t.closed = true;
     }
     throw rethrown(t, fn === undefined ? 'declared' : 'callback', e);
@@ -589,7 +605,7 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   sweepVertexRows(t);
   if (!wroteAnything(t)) {
     // A batch with no op commits nothing and keeps the version (§3.3).
-    restoreBatchImage(t.savepoint);
+    undoBatch(t.batch);
     t.closed = true;
     return ok({ record: null, value }, []);
   }
@@ -626,9 +642,10 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   if (env.invariants !== undefined) problems.push(...env.invariants(p, provisional));
   if (problems.length > 0) return reject(t, 'E_INVARIANT', problems[0]);
   // Commit.
-  if (frameObserver !== null) frameObserver.commit(p);
+  observeCommit(t.batch);
   endIndexBatch(p);
   const version = commitVersion(p);
+  endBatch(t.batch);
   const record: CommitRecord = { ...provisional, version };
   t.closed = true;
   if (env.onCommit !== undefined) {

@@ -9,7 +9,7 @@
 // The draws (§6.1, `terrain.noise` on the town root's key): one seeded sampler of octaves + fineOctaves octaves
 // (noiseStream: per octave 255 + 2 uniforms), drawn before anything else S1 draws on that stream.
 import { fbmRow, noiseStream, octaveNorm, octaveRow, ok, err, ratio, type Frame, type KernelResult, type Stream, type Warning } from '@plat/kernel';
-import type { Cm, Id, Lifecycle, PlatKey, SiteFeature, Terrain } from '@plat/model';
+import { generatedLifecycle, type Cm, type Id, type PlatKey, type SiteFeature, type Terrain } from '@plat/model';
 import { centreX, centreY, heightGrid, hydroGridOver, type CellGrid } from './grid.js';
 import { BASE_WAVELENGTH_M, type TerrainParams } from './params.js';
 import { preparePrimitive, primitivesOffsetCm, type PreparedPrimitive } from './primitives.js';
@@ -26,7 +26,7 @@ export interface TerrainSpec {
   frame: Frame;
   /** The rung's terrain cells. */
   params: TerrainParams;
-  /** The epoch the record is made in (its lifecycle's `since`). */
+  /** The epoch the record is made in (its lifecycle's `since`): a whole number ≥ 0, else `generatedLifecycle` throws. */
   epoch: number;
 }
 
@@ -34,13 +34,13 @@ export interface TerrainSpec {
 export const GROUND_KEY: PlatKey = Object.freeze({ layer: 'ground', part: 0 }) as PlatKey;
 
 /**
- * The lifecycle of a record S1 generates in `epoch` (§2.8): `generated`, no flag set, `since.seq` 0 (C-0142) — a fresh
- * object per call, since the records are plain and later steps write on them. File-level: shared by path inside
- * `@plat/site`, not part of the package's API (J263 Q1's convention).
+ * The lifecycle of a record S1 generates in `epoch` (§2.8) is `@plat/model`'s one builder, `generatedLifecycle`
+ * (queue row Q87, hardening S2; C-0142): `generated`, no flag set, `since` the epoch at seq 0, a fresh object per call;
+ * an epoch of −0 is written as 0, and an epoch that is not a whole number from 0 to 2^53 − 1 throws its RangeError
+ * (the stage's stream refuses such an epoch first, §6.1). Re-exported at file level for the sibling folders that import
+ * it by path (hydro/strategy.ts, water/faces.ts) — the same function, no copy; not part of the package's API (J263 Q1).
  */
-export function generatedLifecycle(epoch: number): Lifecycle {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
-}
+export { generatedLifecycle };
 
 /** The record around a written raster: the hydrology grid sized over its extent, its arrays empty until S1 (3). */
 function record(spec: TerrainSpec, grid: CellGrid, heights: Int32Array, datumCm: number, request: SiteRequest | null): Terrain {

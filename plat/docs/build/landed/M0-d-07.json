@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-07",
-  "lane": "build/M0-d-07-fix-s1",
-  "lanes": ["build/M0-d-07-fix-s1", "build/M0-d-07-consolidate-1"],
+  "lane": "session/a09s18-boundary-1",
+  "lanes": ["build/M0-d-07-fix-s1", "build/M0-d-07-consolidate-1", "session/a09s18-boundary-1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-19T14:26:51.083Z",
+  "date": "2026-11-11T21:56:24.128Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/tools/lint/ (rules/, fixtures/, index.mjs, vendor-scan.mjs, paths.mjs, licences.mjs)", "plat/packages/kernel/vendor-audit.json"],
   "counts": { "created": 12, "changed": 26, "unchanged": 82, "deleted": 0 },
@@ -103,7 +103,7 @@
     { "path": "plat/tools/lint/fixtures/vendor-scan/simplex-noise@4.0.3-unpatched/simplex-noise.ts", "status": "unchanged", "sha256": "54ed75fe5352210fb47247c38d2cc0e8ab565f469e6515ddcea04e24d44313ea", "size": 18056 },
     { "path": "plat/tools/lint/index.mjs", "status": "changed", "sha256": "b61b0480dfd2159523ba48ae763c68930c2b6280d12e0593a3d66a4adfcdf284", "size": 5736 },
     { "path": "plat/tools/lint/index.test.mjs", "status": "changed", "sha256": "34fa8ad38fbbe18c831ed32d459fa9a857fb1c32a3cc1c393377ac0e1870ad8c", "size": 17093 },
-    { "path": "plat/tools/lint/kernel-boundary.allow.json", "status": "created", "sha256": "6854fcb2d881066ac4bd1c45d431e45a4191ea166d98cbbc6d3c8c900ce33c67", "size": 46058 },
+    { "path": "plat/tools/lint/kernel-boundary.allow.json", "status": "created", "sha256": "680ec34d5438b58bd82fe547109af9899f9ac85518ad5a828cd8f86e5589fe3c", "size": 46984 },
     { "path": "plat/tools/lint/kernel-boundary.mjs", "status": "created", "sha256": "7f886fe217215d2946c667b04fad7fb55c3ba7cdb9a500ef3fa3b0c34b3e89f4", "size": 8765 },
     { "path": "plat/tools/lint/kernel-boundary.test.mjs", "status": "created", "sha256": "40c1bae949742387121c15c0068d1f924c4ede056497f033e323bf5659d58c06", "size": 4603 },
     { "path": "plat/tools/lint/licences.mjs", "status": "changed", "sha256": "3a192fae1d21fded2b50763033292a6c3225658c7286393a93fa15e26bf639df", "size": 2304 },
@@ -134,8 +134,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0417", "L-0593"],
-      "lines": ["a22e6f50aa33ca68", "6ca41886c48a05cf"],
+      "ids": ["L-0417", "L-0593", "L-0811"],
+      "lines": ["a22e6f50aa33ca68", "6ca41886c48a05cf", "8403719359ad1e4e"],
       "removed": []
     },
     {

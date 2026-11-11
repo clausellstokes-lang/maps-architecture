@@ -11,7 +11,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 import type * as K from '@plat/kernel';
 import type * as Mdl from '../../src/index.js';
 import type { NotBuilt, RaisedWayRecord } from '../../src/index.js';
-import { DESIGN_WORDS, NARRATION, NARRATION_CAUGHT, narrationIn } from './narration.js';
+import { DESIGN_WORDS, NARRATION, NARRATION_CAUGHT, SCAN_FIXTURE, narrationIn } from './narration.js';
 
 const MODEL_SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 const MODEL_TEST = fileURLToPath(new URL('../', import.meta.url));
@@ -344,6 +344,26 @@ function commentLines(sf: ts.SourceFile): Set<number> {
   return lines;
 }
 
+/** The pattern list's own file: its code holds the patterns and the probes they exist for. */
+const NARRATION_LIST = `${MODEL_TEST}types/narration.ts`;
+
+/**
+ * The no-narration scan of one file: every line of it, or of the pattern list's own file its comment lines only; the
+ * count of lines read and every line that matches a pattern (its 1-based number, its text and the patterns' names).
+ */
+function narrationScan(f: string, text: string): { read: number; hits: { line: number; text: string; names: string[] }[] } {
+  const only = f === NARRATION_LIST ? commentLines(ts.createSourceFile(f, text, ts.ScriptTarget.ES2022, true)) : null;
+  let read = 0;
+  const hits: { line: number; text: string; names: string[] }[] = [];
+  text.split('\n').forEach((line, i) => {
+    if (only !== null && !only.has(i + 1)) return;
+    read += 1;
+    const names = narrationIn(line);
+    if (names.length > 0) hits.push({ line: i + 1, text: line, names });
+  });
+  return { read, hits };
+}
+
 describe('model/src/{types,records,schema,stage}: one import path per type, and comments that state the design', () => {
   const FOLDERS = ['types', 'records', 'schema', 'stage'] as const;
 
@@ -387,23 +407,31 @@ describe('model/src/{types,records,schema,stage}: one import path per type, and 
   it('no comment narrates a round, a check or a landing (the history is in docs/build/checks/)', () => {
     // every line of src and test in the four folders; the pattern list's own file by its comments only (its code holds
     // the patterns and the probes they exist for)
-    const LIST = `${MODEL_TEST}types/narration.ts`;
     const scanned: string[] = [];
     for (const folder of FOLDERS) {
       for (const f of [...sourceFiles(`${MODEL_SRC}${folder}/`), ...sourceFiles(`${MODEL_TEST}${folder}/`)]) {
         const text = readFileSync(f, 'utf8');
-        const only = f === LIST ? commentLines(ts.createSourceFile(f, text, ts.ScriptTarget.ES2022, true)) : null;
         const name = f.slice(MODEL_SRC.length - 4);
         scanned.push(name);
-        text.split('\n').forEach((line, i) => {
-          if (only !== null && !only.has(i + 1)) return;
-          expect(narrationIn(line), `${name}:${i + 1}: ${line}`).toEqual([]);
-        });
+        const { read, hits } = narrationScan(f, text);
+        expect(hits.map((h) => `${name}:${h.line}: ${h.text}`), name).toEqual([]);
+        if (f !== NARRATION_LIST) expect(read, `${name}: every line read`).toBe(text.split('\n').length);
       }
     }
     for (const f of ['src/stage/decl.ts', 'src/records/site.ts', 'test/types/types.test.ts', 'test/types/narration.ts', 'test/records/records.test.ts', 'test/schema/schema.test.ts', 'test/stage/stage.test.ts']) {
       expect(scanned, f).toContain(f);
     }
+  });
+
+  it('the scan reads a file\'s every line: a comment line and a code line (an `it` title) of a two-line fixture, both narrating, are two hits; the pattern list\'s own file is read by its comment line only', () => {
+    const text = SCAN_FIXTURE.join('\n');
+    const any = narrationScan(`${MODEL_TEST}records/fixture.test.ts`, text);
+    expect(any.read).toBe(2);
+    expect(any.hits.map((h) => h.line)).toEqual([1, 2]);
+    expect(any.hits.map((h) => h.names)).toEqual([['a round, a pass or a phase'], ['a round, a pass or a phase']]);
+    const list = narrationScan(NARRATION_LIST, text);
+    expect(list.read).toBe(1);
+    expect(list.hits.map((h) => h.line)).toEqual([1]);
   });
 
   it('the pattern list catches each probe, every phrase the first deny-list caught and the phrasings that escaped it, and passes the design\'s own words', () => {

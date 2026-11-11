@@ -22,6 +22,7 @@ import {
   type Invariant,
   type KernelResult,
   type Level,
+  type Overlay,
   type Plat,
   type PlatKey,
   type Stream,
@@ -30,6 +31,7 @@ import { mint } from '@plat/model';
 import { TABLE_IDS, tableView, TableError } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
+  BLOCK_FLOOR_ROW,
   createRegistry,
   OUTPUT_VERSION,
   REPORT_FIELDS,
@@ -290,7 +292,7 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
   });
 
   /** The S1 ring under `invariants`, its batch's outcome kept; `fn` replaces the ring's callback when given. */
-  const lines = (invariants: readonly Invariant[], opts: { counts?: { faces: number }; fn?: (ctx: PipelineContext) => KernelResult<unknown> } = {}) => {
+  const lines = (invariants: readonly Invariant[], opts: { counts?: { faces: number }; fn?: (ctx: PipelineContext) => KernelResult<unknown>; env?: RunOptions['env'] } = {}) => {
     let code = '';
     const { report } = run(registryOf([stage({
       id: STAGES.S1,
@@ -301,7 +303,7 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
         code = r.ok ? (r.value.record === null ? 'empty' : 'ok') : `${r.code} ${r.detail}`;
         return ok({});
       },
-    })]), bp(1), ALL, { arenas: ARENAS, env });
+    })]), bp(1), ALL, { arenas: ARENAS, env: opts.env ?? env });
     return { code, lines: report.stages[0].invariants.map((l) => [l.name, l.pass, l.count]) };
   };
   const hard = (name: string, check: 'holds' | 'fails'): Invariant => ({ name, scope: 'batch', class: 'hard', kind: 'check', check });
@@ -326,6 +328,106 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
     const committed = lines(rowsAB);
     expect(committed.code).toBe('ok');
     expect(committed.lines).toEqual([['fx.a', true, 1], ['fx.b', true, 1]]);
+  });
+
+  it("a refusal whose code is no expect code names no row, even when its detail opens with a row's name (x-02 note 27, probe P1)", () => {
+    const forged = lines([hard('fx.a', 'holds'), hard('fx.b', 'holds')], { fn: () => err('E_DEGENERATE', 'fx.a: a detail that opens with a row name') });
+    expect(forged.code).toBe('E_DEGENERATE fx.a: a detail that opens with a row name');
+    expect(forged.lines).toEqual([['fx.a', true, 0], ['fx.b', true, 0]]);
+  });
+
+  it("a class-floor row counts only where the run's env gives its class a floor: the kernel skips it otherwise (x-02 note 28, probe P4)", () => {
+    const floor: Invariant = { name: 'fx.floor', scope: 'batch', class: 'hard', kind: 'classFloor', faceClass: 'block' };
+    const withFloors = (floors: (c: string) => { minAreaCm2?: number } | undefined) => ({ ...env, floors });
+    // No floor injected (the base runs): the commit counts the check row, never the floor row.
+    expect(lines([floor, hard('fx.b', 'holds')]).lines).toEqual([['fx.floor', true, 0], ['fx.b', true, 1]]);
+    expect(lines([floor, hard('fx.b', 'holds')], { env: withFloors((c) => (c === 'lot' ? {} : undefined)) }).lines).toEqual([['fx.floor', true, 0], ['fx.b', true, 1]]);
+    // A floor for its class: the kernel evaluates it, so the commit counts it.
+    expect(lines([floor, hard('fx.b', 'holds')], { env: withFloors((c) => (c === 'block' ? {} : undefined)) }).lines).toEqual([['fx.floor', true, 1], ['fx.b', true, 1]]);
+    // A refusal by a later row: the floor row before it held only where it had a floor.
+    expect(lines([floor, hard('fx.b', 'fails')]).lines).toEqual([['fx.floor', true, 0], ['fx.b', false, 1]]);
+    expect(lines([floor, hard('fx.b', 'fails')], { env: withFloors(() => ({})) }).lines).toEqual([['fx.floor', true, 1], ['fx.b', false, 1]]);
+    // A floor the batch breaks is the named failure.
+    const broken = lines([floor, hard('fx.b', 'holds')], { env: withFloors(() => ({ minAreaCm2: 1e12 })) });
+    expect(broken.code).toMatch(/^E_BELOW_MIN_AREA fx\.floor: /);
+    expect(broken.lines).toEqual([['fx.floor', false, 1], ['fx.b', true, 0]]);
+  });
+});
+
+describe("S8's district batch through the batch door (queue row Q39's runner half, RL3; J734)", () => {
+  // The shape S8's batches have (layout/src/infill/bentCutFabric.ts `districtBatch`): the arena key, level 1, expect
+  // [BLOCK_FLOOR_ROW], onFail 'reject', the district's batch scope, stage S8, a callback, and the stage's own work limit
+  // (`districtTxLimit` sums the kernel counters' laws, which S8 declares no law for) — the door carries it with
+  // `BatchSpec.workLimit`; a batch S8 hands to `kernel.tx` itself goes past the door, and the report cannot count it.
+  const DISTRICT = { kind: 'district', id: 'district:a' } as const;
+  const LIMIT = 1_000_000;
+  const floors = { floors: (c: string) => (c === 'block' ? {} : undefined) };
+  const xs = [10_000, 30_000];
+  type Route = 'door' | 'kernel';
+
+  /** The ring (S1, L0), then S8's two lanes at L1, each one batch of the district's shape, by `route`. */
+  const s8Run = (route: Route, options: RunOptions = {}, workLimit = LIMIT) => {
+    const outcomes: string[] = [];
+    const out = run(registryOf([ringStage(), stage({
+      id: STAGES.S8,
+      outputs: ['lanes'],
+      invariants: [BLOCK_FLOOR_ROW],
+      run: (_i, ctx) => {
+        for (const x of xs) {
+          const fn = (o: Overlay) => ctx.kernel.geom.insertChain(o, [pt(x, 0), pt(x, SIDE)], [{ role: 'way', entity: `way:lane.${String(x)}` }], 'mandatory');
+          const r = route === 'door'
+            ? ctx.batch({ key: GROUND, level: 1, counter: LAW.counter, counts: COUNTS, onFail: 'reject', batch: DISTRICT, workLimit }, fn)
+            : ctx.kernel.tx({ key: GROUND, level: 1, ops: [], expect: [BLOCK_FLOOR_ROW], onFail: 'reject', batch: DISTRICT, stage: STAGES.S8, rederivesFrom: STAGES.S8, workLimit }, fn);
+          outcomes.push(r.ok ? (r.value.record === null ? 'empty' : 'ok') : r.code);
+        }
+        return ok({ lanes: xs.length });
+      },
+    })]), bp(1), ALL, { arenas: ARENAS, ...options });
+    const s8 = out.report.stages[1];
+    return { ...out, outcomes, s8, floor: s8.invariants.find((l) => l.name === 'block-floor') };
+  };
+
+  it("the door carries the district batch: its block-floor row counts each committed batch; the same batch handed to kernel.tx is not counted; the arenas and roots are the same", () => {
+    const door = s8Run('door', { env: floors });
+    const direct = s8Run('kernel', { env: floors });
+    expect(door.outcomes).toEqual(['ok', 'ok']);
+    expect(direct.outcomes).toEqual(['ok', 'ok']);
+    expect(door.report.bugs).toEqual([]);
+    expect(door.floor).toEqual({ name: 'block-floor', scope: 'batch', pass: true, count: 2 });
+    expect(direct.floor).toEqual({ name: 'block-floor', scope: 'batch', pass: true, count: 0 });
+    expect(door.s8.work[LAW.counter]).toBeGreaterThan(0);
+    expect(direct.s8.work[LAW.counter]).toBe(0);
+    // One batch either way: the same arena and the same model digest (the report is outside every digest) — but for
+    // §3.3's stage rank, which the door writes on the faces the batch creates (S8's, 1 here) and kernel.tx leaves as the
+    // split faces inherited it (S1's ring, 0); the level digests hash no rank.
+    const ground = (m: typeof door.model) => contentPrint(m.plats.get('ground/0') as Plat);
+    const unranked = (t: string) => t.replace(/ s\d+$/gm, '');
+    expect(ground(door.model)).toContain(`/way:lane.${String(xs[0])}/`);
+    expect(unranked(ground(door.model))).toBe(unranked(ground(direct.model)));
+    const l1Ranks = (t: string) => t.split('\n').filter((l) => l.startsWith('f1 ')).map((l) => l.slice(l.lastIndexOf(' s') + 1));
+    expect(l1Ranks(ground(door.model))).toEqual(['s1', 's1', 's1']);
+    expect(l1Ranks(ground(direct.model))).toEqual(['s0', 's0', 's0']);
+    expect([...door.model.root]).toEqual([...direct.model.root]);
+    expect([...door.model.stageRoots.values()].map((h) => [...h])).toEqual([...direct.model.stageRoots.values()].map((h) => [...h]));
+    // With no floor injected (the base runs) the kernel skips the row, and the door counts nothing (x-02 note 28).
+    expect(s8Run('door').floor).toEqual({ name: 'block-floor', scope: 'batch', pass: true, count: 0 });
+  });
+
+  it("the spec's own workLimit is the transaction's: exactly the batch's work passes, one less is E_WORK_LIMIT, charged under the counter as a hit", () => {
+    const ws: number[] = [];
+    s8Run('door', { observe: (stage, rec) => { if (stage === 'S8') ws.push(rec.work); } });
+    expect(ws).toHaveLength(2);
+    const [lo, hi] = [Math.min(...ws), Math.max(...ws)];
+    expect(lo).toBeGreaterThan(2);
+    // The counter's law (a 10⁶ floor) would pass both batches; the spec's limit decides.
+    const exact = s8Run('door', {}, hi);
+    expect(exact.outcomes).toEqual(['ok', 'ok']);
+    expect(exact.report.kernel.workLimitHits).toBe(0);
+    expect(exact.s8.work).toEqual({ [LAW.counter]: ws[0] + ws[1] });
+    const short = s8Run('door', {}, lo - 1);
+    expect(short.outcomes).toEqual(['E_WORK_LIMIT', 'E_WORK_LIMIT']);
+    expect(short.report.kernel.workLimitHits).toBe(2);
+    expect(short.s8.work).toEqual({ [LAW.counter]: 2 * (lo - 1) });
   });
 });
 
@@ -661,6 +763,19 @@ describe("the generation report's schema (§5.4: a whole report with [] lists wh
     expect(() => at(0)).toThrow("report: stage S4's ladder use (F-ROUTE, rung 1) is at tier 0: §5.4 records ladder uses from tier 2 up");
     expect(() => at(1)).toThrow("report: stage S4's ladder use (F-ROUTE, rung 1) is at tier 1: §5.4 records ladder uses from tier 2 up");
     expect(at(2).stages[0].ladderUses.map((u) => u.tier)).toEqual([2]);
+  });
+
+  it("refuses a refusal code offered as a warning (an E_ code, verbatim); a §3.1 W_ code a stage forwards — S8's W_CUT_SLID — counts under the stage (Q139, J674)", () => {
+    const offered = (code: string) => run(registryOf([stage({ id: STAGES.S8, run: (_i, ctx) => {
+      ctx.report.warning(code, 2);
+      return ok({});
+    } })]), bp(1), ALL).report;
+    expect(() => offered('E_INVARIANT')).toThrow(new RangeError('report: stage S8 offers the refusal code E_INVARIANT as a warning: a refusal is never reported as a warning (§3.1, §5.4)'));
+    expect(() => offered('E_WORK_LIMIT')).toThrow(/^report: stage S8 offers the refusal code E_WORK_LIMIT as a warning/);
+    const slid = offered('W_CUT_SLID');
+    expect(slid.stages[0].warnings).toEqual({ W_CUT_SLID: 2 });
+    expect(slid.kernel.warnings).toEqual({});
+    expect(slid.bugs).toEqual([]);
   });
 
   it("the report's records enumerate in JavaScript's key order: integer-like names first, numerically, then name order — one order for every insertion order", () => {

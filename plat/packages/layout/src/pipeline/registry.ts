@@ -82,6 +82,13 @@ export interface BatchSpec {
   counts: ScopeCounts;
   onFail?: OnFail;
   batch?: BatchScope;
+  /**
+   * The batch's work limit as the stage computed it from its own laws over its scope (§3.3, §5.1 (5)) — S8's district
+   * batch, whose limit sums the kernel counters' laws (`districtTxLimit`, which S8 declares no law for; queue row Q39,
+   * RL3). When given, the transaction takes it as it is (`counts` is not read); `counter` still names the declared law
+   * the commit's work and a work-limit hit are charged under. Absent (every other caller): `counter`'s law over `counts`.
+   */
+  workLimit?: number;
 }
 
 /** What a registered stage's run receives: §14's StageContext and the pipeline's doors (C-0224 (6)). */
@@ -90,9 +97,10 @@ export interface PipelineContext extends StageContext<PipelineEnv> {
   readonly kernel: Kernel;
   /**
    * One batch through the façade's tx (§3.3): in the stage's declared op form (`ops` for `declared`, `fn` for
-   * `callback`; both, or the other form, is an assertion), `workLimit` = the stage's law for `counter` over `counts`,
-   * `expect` = its batch-scope hard rows, `stage` and `rederivesFrom` its id; the faces the batch creates carry the
-   * stage's rank (§3.3 kept content). The commit (or the refusal) is returned to the stage, whose ladder handles it.
+   * `callback`; both, or the other form, is an assertion), `workLimit` = the stage's law for `counter` over `counts`
+   * (or the spec's own `workLimit`, Q39), `expect` = its batch-scope hard rows, `stage` and `rederivesFrom` its id; the
+   * faces the batch creates carry the stage's rank (§3.3 kept content); the report counts its work, its kernel warnings
+   * and its rows' evaluations. The commit (or the refusal) is returned to the stage, whose ladder handles it.
    */
   batch<T>(spec: BatchSpec, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>>;
   /** Binds a minted entity's cached entity key (C-0147) to a handle of this derivation, for `stream` (§14). */

@@ -4,17 +4,12 @@
  "silent_minutes": 90,
  "terminal_minutes": 45,
  "children": [
-  {"letter": "DH", "session": "session_01FE9mEuM82W1wxLrXFcWNv1", "branch": "wip/child-a06s9", "created": "2026-11-10T00:13:57Z", "round": "M0-a-06 S9", "lanes": ["build/M0-a-06-fix-s9", "check/M0-a-06-close-s9"]},
-  {"letter": "DI", "session": "session_01FE9mEvJw6M573ZnMFveSsN", "branch": "wip/child-a16s4", "created": "2026-11-10T00:25:50Z", "round": "MERGED: M0-a-15 S2, M0-a-16 S4, M0-m-01 S2", "lanes": ["build/M0-a-15-fix-s2", "check/M0-a-15-close-s2", "build/M0-a-16-fix-s4", "check/M0-a-16-close-s4", "build/M0-m-01-fix-s2", "check/M0-m-01-close-s2"]},
   {"letter": "DJ", "session": "session_01FE9mEt74RJKcNHTtkisrF2", "branch": "wip/child-e03s4", "created": "2026-11-10T00:25:51Z", "round": "MERGED: M0-e-01 S2, M0-e-02 S2, M0-e-03 S4", "lanes": ["build/M0-e-01-fix-s2", "check/M0-e-01-close-s2", "build/M0-e-02-fix-s2", "check/M0-e-02-close-s2", "build/M0-e-03-fix-s4", "check/M0-e-03-close-s4"]},
-  {"letter": "DK", "session": "session_01FE9mEsppr46fzrGfYuBFSk", "branch": "wip/child-a04s6", "created": "2026-11-10T00:25:52Z", "round": "MERGED: M0-a-04 S6, M0-a-13 S2", "lanes": ["build/M0-a-04-fix-s6", "check/M0-a-04-close-s6", "build/M0-a-13-fix-s2", "check/M0-a-13-close-s2"]},
-  {"letter": "DM", "session": "session_01FE9mEv3vi7ZdRyhGjbf8Jk", "branch": "wip/child-x02s4", "created": "2026-11-10T00:28:20Z", "round": "MERGED: M0-x-02 S4, M0-x-04 S3", "lanes": ["build/M0-x-02-fix-s4", "check/M0-x-02-close-s4", "build/M0-x-04-fix-s3", "check/M0-x-04-close-s3"]},
-  {"letter": "DN", "session": "session_01FE9mEt94UEWyTzqdx4af9r", "branch": "wip/child-a09s18", "created": "2026-11-10T03:48:33Z", "round": "M0-a-09 S18 (the library round)", "lanes": ["build/M0-a-09-fix-s18", "check/M0-a-09-close-s18"]},
-  {"letter": "DO", "session": "session_01FE9mEwaTXLQA2PGDndZqRa", "branch": "wip/child-x06s2", "created": "2026-11-10T04:24:45Z", "round": "MERGED: M0-x-06 S2, M0-x-05 S3", "lanes": ["build/M0-x-06-fix-s2", "check/M0-x-06-close-s2", "build/M0-x-05-fix-s3", "check/M0-x-05-close-s3"]},
-  {"letter": "DQ", "session": "session_01FE9mEugvQYQcyxzdVR7CdH", "branch": "wip/child-a11s6", "created": "2026-11-10T04:24:47Z", "round": "M0-a-11 S6", "lanes": ["build/M0-a-11-fix-s6", "check/M0-a-11-close-s6"]},
   {"letter": "DR", "session": "session_01FE9mEuAgy1J7hSgMwptMRQ", "branch": "wip/child-c01s4", "created": "2026-11-10T04:44:57Z", "round": "M0-c-01 S4", "lanes": ["build/M0-c-01-fix-s4", "check/M0-c-01-close-s4"]},
   {"letter": "DS", "session": "session_01FE9mEtG884CXFEi8XM8Zih", "branch": "wip/child-c05s3", "created": "2026-11-10T07:17:17Z", "round": "M0-c-05 S3", "lanes": ["build/M0-c-05-fix-s3", "check/M0-c-05-close-s3"]},
   {"letter": "DT", "session": "session_01FE9mEvCAo9Sr6sFM2vUdJM", "branch": "wip/child-e06s4", "created": "2026-11-10T07:17:17Z", "round": "M0-e-06 S4", "lanes": ["build/M0-e-06-fix-s4", "check/M0-e-06-close-s4"]},
-  {"letter": "DU", "session": "session_01FE9mEvnLNYpazwevbrWbD6", "branch": "wip/child-c04s6", "created": "2026-11-10T07:17:18Z", "round": "M0-c-04 S6", "lanes": ["build/M0-c-04-fix-s6", "check/M0-c-04-close-s6"]}
+  {"letter": "DU", "session": "session_01FE9mEvnLNYpazwevbrWbD6", "branch": "wip/child-c04s6", "created": "2026-11-10T07:17:18Z", "round": "M0-c-04 S6", "lanes": ["build/M0-c-04-fix-s6", "check/M0-c-04-close-s6"]},
+  {"letter": "DV", "session": "session_01FE9mEtSRFPUWyWPhvc6i7Z", "branch": "wip/child-a05s14", "created": "2026-11-11T21:32:00Z", "round": "M0-a-05 S14", "lanes": ["build/M0-a-05-fix-s14", "check/M0-a-05-close-s14"]},
+  {"letter": "DW", "session": "session_01FE9mEu1SMKkbbMvjw9DZBQ", "branch": "wip/child-a09s20", "created": "2026-11-11T21:39:30Z", "round": "M0-a-09 S20", "lanes": ["build/M0-a-09-fix-s20", "check/M0-a-09-close-s20"]}
  ]
 }

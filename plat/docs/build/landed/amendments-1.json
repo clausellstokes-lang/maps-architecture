@@ -1,23 +1,23 @@
 {
   "schema": "plat-landed-record/1",
   "item": "amendments-1",
-  "lane": "session/amendments-1",
-  "lanes": ["session/amendments-1"],
+  "lane": "session/amendments-2",
+  "lanes": ["session/amendments-1", "session/amendments-2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-14T01:51:21.876Z",
+  "date": "2026-11-11T21:47:27.792Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/amendments-1.md", "plat/docs/build/M0.md"],
   "counts": { "created": 1, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/M0.md", "status": "changed", "sha256": "470aa26f9c72857b735d837b7e4ab620d5912b7ce95b38ce6ce51b49b300db24", "size": 147699 },
+    { "path": "plat/docs/build/M0.md", "status": "changed", "sha256": "c814db0f1d3667d6130f3b057969e41a1f38cfbdcb1bda03a7657aa28c32a49a", "size": 147931 },
     { "path": "plat/docs/build/checks/amendments-1.md", "status": "created", "sha256": "07a19fab422aa4a9a1bba36afa7da7c4052c06455849e592306d28ae5eba4d62", "size": 21282 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0529"],
-      "lines": ["f4a4b4dc28f4acb2"],
+      "ids": ["L-0529", "L-0807"],
+      "lines": ["f4a4b4dc28f4acb2", "492ca255e026faeb"],
       "removed": []
     }
   ]
