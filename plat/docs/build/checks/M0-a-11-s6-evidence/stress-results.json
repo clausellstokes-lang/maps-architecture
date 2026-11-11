@@ -1,0 +1,603 @@
+{
+ "what": "check/M0-a-11-close-s6: the band stress (J761 (4) (ii)) \u2014 every face of the generator whose cleaned rings' sharpest corner lies in [1\u00b0, 5\u00b0), read for roof, spine and regions on the round's tree (prepare.ts and skeleton.ts of build/M0-a-11-fix-s6)",
+ "total": {
+  "draws": 0,
+  "faces": 104000,
+  "band": 88180,
+  "validated": 88159,
+  "rejected": 21,
+  "convex": 66371,
+  "reflex": 21809,
+  "holed": 20682,
+  "size": {
+   "50m-1km": 48298,
+   "under-50m": 10213,
+   "over-1km": 29669
+  },
+  "classes": {
+   "band": 88180,
+   "below1": 5984,
+   "plain": 7119,
+   "refused:notSimple": 2418,
+   "refused:holeContact": 298,
+   "refused:holeOutside": 1
+  },
+  "causeMoves": {
+   "downgrade contract:sharpCorner -> downgrade contract:notSimple": 2397,
+   "downgrade contract:sharpCorner -> downgrade contract:holeContact": 254
+  },
+  "maxMs": 16.283233999999993,
+  "anomalies": 0,
+  "spineNeRegions": 0,
+  "independentFails": 0,
+  "movedOutsideBand": 0,
+  "minDeg": 1.000000109929578,
+  "maxDeg": 4.9999946948550855
+ },
+ "runs": [
+  {
+   "run": "stress-band.mjs <out> 1 2000",
+   "faces": 26000,
+   "band": 23062,
+   "bandConvex": 17324,
+   "bandReflex": 5738,
+   "bandHoled": 5395,
+   "bandBySize": {
+    "50m-1km": 12684,
+    "under-50m": 2739,
+    "over-1km": 7639
+   },
+   "bandSpine": {
+    "validated": 23055,
+    "downgrade validator:planarity": 7
+   },
+   "bandRegions": {
+    "validated": 23055,
+    "downgrade validator:planarity": 7
+   },
+   "bandRoofRefusedSharp": 23062,
+   "classes": {
+    "band": 23062,
+    "below1": 997,
+    "plain": 1270,
+    "refused:notSimple": 597,
+    "refused:holeContact": 74
+   },
+   "causeMoves": {
+    "downgrade contract:sharpCorner -> downgrade contract:notSimple": 597,
+    "downgrade contract:sharpCorner -> downgrade contract:holeContact": 69
+   },
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "movedOutsideBand": 0,
+   "anomalies": 0,
+   "slowestCallMs": 10.0,
+   "minDeg": 1.0000081811398305,
+   "maxDeg": 4.999969092233803,
+   "byKind": {
+    "wedge": {
+     "faces": 2000,
+     "band": 1807,
+     "notValidated": {}
+    },
+    "wedge-large": {
+     "faces": 2000,
+     "band": 1986,
+     "notValidated": {}
+    },
+    "wedge-small": {
+     "faces": 2000,
+     "band": 1453,
+     "notValidated": {}
+    },
+    "rhombus": {
+     "faces": 2000,
+     "band": 1990,
+     "notValidated": {}
+    },
+    "sliver": {
+     "faces": 2000,
+     "band": 1472,
+     "notValidated": {}
+    },
+    "notch": {
+     "faces": 2000,
+     "band": 1364,
+     "notValidated": {}
+    },
+    "spike": {
+     "faces": 2000,
+     "band": 1849,
+     "notValidated": {}
+    },
+    "saw": {
+     "faces": 2000,
+     "band": 1958,
+     "notValidated": {}
+    },
+    "multi": {
+     "faces": 2000,
+     "band": 1944,
+     "notValidated": {
+      "downgrade validator:planarity": 3
+     }
+    },
+    "star": {
+     "faces": 2000,
+     "band": 1844,
+     "notValidated": {
+      "downgrade validator:planarity": 4
+     }
+    },
+    "holed-slab": {
+     "faces": 2000,
+     "band": 1594,
+     "notValidated": {}
+    },
+    "wedge-hole": {
+     "faces": 2000,
+     "band": 1826,
+     "notValidated": {}
+    },
+    "hole-near-tip": {
+     "faces": 2000,
+     "band": 1975,
+     "notValidated": {}
+    }
+   }
+  },
+  {
+   "run": "stress-band.mjs <out> 2 2000",
+   "faces": 26000,
+   "band": 23041,
+   "bandConvex": 17411,
+   "bandReflex": 5630,
+   "bandHoled": 5368,
+   "bandBySize": {
+    "under-50m": 2820,
+    "50m-1km": 12657,
+    "over-1km": 7564
+   },
+   "bandSpine": {
+    "validated": 23034,
+    "downgrade validator:faces": 3,
+    "downgrade validator:planarity": 4
+   },
+   "bandRegions": {
+    "validated": 23034,
+    "downgrade validator:faces": 3,
+    "downgrade validator:planarity": 4
+   },
+   "bandRoofRefusedSharp": 23041,
+   "classes": {
+    "band": 23041,
+    "below1": 963,
+    "plain": 1309,
+    "refused:notSimple": 605,
+    "refused:holeContact": 82
+   },
+   "causeMoves": {
+    "downgrade contract:sharpCorner -> downgrade contract:notSimple": 605,
+    "downgrade contract:sharpCorner -> downgrade contract:holeContact": 74
+   },
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "movedOutsideBand": 0,
+   "anomalies": 0,
+   "slowestCallMs": 9.1,
+   "minDeg": 1.0000123235074623,
+   "maxDeg": 4.99989262195893,
+   "byKind": {
+    "wedge": {
+     "faces": 2000,
+     "band": 1809,
+     "notValidated": {}
+    },
+    "wedge-large": {
+     "faces": 2000,
+     "band": 1983,
+     "notValidated": {}
+    },
+    "wedge-small": {
+     "faces": 2000,
+     "band": 1480,
+     "notValidated": {}
+    },
+    "rhombus": {
+     "faces": 2000,
+     "band": 1993,
+     "notValidated": {}
+    },
+    "sliver": {
+     "faces": 2000,
+     "band": 1480,
+     "notValidated": {}
+    },
+    "notch": {
+     "faces": 2000,
+     "band": 1329,
+     "notValidated": {}
+    },
+    "spike": {
+     "faces": 2000,
+     "band": 1861,
+     "notValidated": {
+      "downgrade validator:faces": 1
+     }
+    },
+    "saw": {
+     "faces": 2000,
+     "band": 1963,
+     "notValidated": {}
+    },
+    "multi": {
+     "faces": 2000,
+     "band": 1933,
+     "notValidated": {
+      "downgrade validator:planarity": 3
+     }
+    },
+    "star": {
+     "faces": 2000,
+     "band": 1842,
+     "notValidated": {
+      "downgrade validator:planarity": 1,
+      "downgrade validator:faces": 1
+     }
+    },
+    "holed-slab": {
+     "faces": 2000,
+     "band": 1576,
+     "notValidated": {
+      "downgrade validator:faces": 1
+     }
+    },
+    "wedge-hole": {
+     "faces": 2000,
+     "band": 1809,
+     "notValidated": {}
+    },
+    "hole-near-tip": {
+     "faces": 2000,
+     "band": 1983,
+     "notValidated": {}
+    }
+   }
+  },
+  {
+   "run": "stress-band.mjs <out> 3 2000",
+   "faces": 26000,
+   "band": 23121,
+   "bandConvex": 17431,
+   "bandReflex": 5690,
+   "bandHoled": 5379,
+   "bandBySize": {
+    "50m-1km": 12804,
+    "under-50m": 2833,
+    "over-1km": 7484
+   },
+   "bandSpine": {
+    "validated": 23118,
+    "downgrade validator:planarity": 3
+   },
+   "bandRegions": {
+    "validated": 23118,
+    "downgrade validator:planarity": 3
+   },
+   "bandRoofRefusedSharp": 23121,
+   "classes": {
+    "band": 23121,
+    "plain": 1212,
+    "below1": 956,
+    "refused:notSimple": 626,
+    "refused:holeContact": 85
+   },
+   "causeMoves": {
+    "downgrade contract:sharpCorner -> downgrade contract:notSimple": 625,
+    "downgrade contract:sharpCorner -> downgrade contract:holeContact": 78
+   },
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "movedOutsideBand": 0,
+   "anomalies": 0,
+   "slowestCallMs": 8.2,
+   "minDeg": 1.0000194599757168,
+   "maxDeg": 4.9998857703829,
+   "byKind": {
+    "wedge": {
+     "faces": 2000,
+     "band": 1819,
+     "notValidated": {}
+    },
+    "wedge-large": {
+     "faces": 2000,
+     "band": 1987,
+     "notValidated": {}
+    },
+    "wedge-small": {
+     "faces": 2000,
+     "band": 1515,
+     "notValidated": {}
+    },
+    "rhombus": {
+     "faces": 2000,
+     "band": 1986,
+     "notValidated": {}
+    },
+    "sliver": {
+     "faces": 2000,
+     "band": 1491,
+     "notValidated": {}
+    },
+    "notch": {
+     "faces": 2000,
+     "band": 1349,
+     "notValidated": {}
+    },
+    "spike": {
+     "faces": 2000,
+     "band": 1857,
+     "notValidated": {}
+    },
+    "saw": {
+     "faces": 2000,
+     "band": 1966,
+     "notValidated": {}
+    },
+    "multi": {
+     "faces": 2000,
+     "band": 1933,
+     "notValidated": {
+      "downgrade validator:planarity": 1
+     }
+    },
+    "star": {
+     "faces": 2000,
+     "band": 1839,
+     "notValidated": {
+      "downgrade validator:planarity": 2
+     }
+    },
+    "holed-slab": {
+     "faces": 2000,
+     "band": 1587,
+     "notValidated": {}
+    },
+    "wedge-hole": {
+     "faces": 2000,
+     "band": 1815,
+     "notValidated": {}
+    },
+    "hole-near-tip": {
+     "faces": 2000,
+     "band": 1977,
+     "notValidated": {}
+    }
+   }
+  },
+  {
+   "run": "stress-band.mjs <out> 11 1000 1 1.01",
+   "faces": 13000,
+   "band": 8295,
+   "bandConvex": 6405,
+   "bandReflex": 1890,
+   "bandHoled": 2148,
+   "bandBySize": {
+    "50m-1km": 4380,
+    "under-50m": 649,
+    "over-1km": 3266
+   },
+   "bandSpine": {
+    "validated": 8292,
+    "downgrade validator:planarity": 1,
+    "downgrade validator:faces": 2
+   },
+   "bandRegions": {
+    "validated": 8292,
+    "downgrade validator:planarity": 1,
+    "downgrade validator:faces": 2
+   },
+   "bandRoofRefusedSharp": 8295,
+   "classes": {
+    "band": 8295,
+    "plain": 1449,
+    "below1": 2946,
+    "refused:notSimple": 287,
+    "refused:holeContact": 22,
+    "refused:holeOutside": 1
+   },
+   "causeMoves": {
+    "downgrade contract:sharpCorner -> downgrade contract:notSimple": 287,
+    "downgrade contract:sharpCorner -> downgrade contract:holeContact": 7
+   },
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "movedOutsideBand": 0,
+   "anomalies": 0,
+   "slowestCallMs": 13.1,
+   "minDeg": 1.000000109929578,
+   "maxDeg": 4.852710738243599,
+   "byKind": {
+    "wedge": {
+     "faces": 1000,
+     "band": 712,
+     "notValidated": {}
+    },
+    "wedge-large": {
+     "faces": 1000,
+     "band": 954,
+     "notValidated": {}
+    },
+    "wedge-small": {
+     "faces": 1000,
+     "band": 331,
+     "notValidated": {}
+    },
+    "rhombus": {
+     "faces": 1000,
+     "band": 902,
+     "notValidated": {}
+    },
+    "sliver": {
+     "faces": 1000,
+     "band": 456,
+     "notValidated": {}
+    },
+    "notch": {
+     "faces": 1000,
+     "band": 472,
+     "notValidated": {}
+    },
+    "spike": {
+     "faces": 1000,
+     "band": 699,
+     "notValidated": {}
+    },
+    "saw": {
+     "faces": 1000,
+     "band": 457,
+     "notValidated": {}
+    },
+    "multi": {
+     "faces": 1000,
+     "band": 479,
+     "notValidated": {}
+    },
+    "star": {
+     "faces": 1000,
+     "band": 685,
+     "notValidated": {
+      "downgrade validator:planarity": 1,
+      "downgrade validator:faces": 1
+     }
+    },
+    "holed-slab": {
+     "faces": 1000,
+     "band": 566,
+     "notValidated": {
+      "downgrade validator:faces": 1
+     }
+    },
+    "wedge-hole": {
+     "faces": 1000,
+     "band": 627,
+     "notValidated": {}
+    },
+    "hole-near-tip": {
+     "faces": 1000,
+     "band": 955,
+     "notValidated": {}
+    }
+   }
+  },
+  {
+   "run": "stress-band.mjs <out> 12 1000 4.99 5",
+   "faces": 13000,
+   "band": 10661,
+   "bandConvex": 7800,
+   "bandReflex": 2861,
+   "bandHoled": 2392,
+   "bandBySize": {
+    "50m-1km": 5773,
+    "over-1km": 3716,
+    "under-50m": 1172
+   },
+   "bandSpine": {
+    "validated": 10660,
+    "downgrade validator:planarity": 1
+   },
+   "bandRegions": {
+    "validated": 10660,
+    "downgrade validator:planarity": 1
+   },
+   "bandRoofRefusedSharp": 10661,
+   "classes": {
+    "band": 10661,
+    "plain": 1879,
+    "below1": 122,
+    "refused:notSimple": 303,
+    "refused:holeContact": 35
+   },
+   "causeMoves": {
+    "downgrade contract:sharpCorner -> downgrade contract:notSimple": 283,
+    "downgrade contract:sharpCorner -> downgrade contract:holeContact": 26
+   },
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "movedOutsideBand": 0,
+   "anomalies": 0,
+   "slowestCallMs": 16.3,
+   "minDeg": 1.0036274744211238,
+   "maxDeg": 4.9999946948550855,
+   "byKind": {
+    "wedge": {
+     "faces": 1000,
+     "band": 795,
+     "notValidated": {}
+    },
+    "wedge-large": {
+     "faces": 1000,
+     "band": 998,
+     "notValidated": {}
+    },
+    "wedge-small": {
+     "faces": 1000,
+     "band": 600,
+     "notValidated": {}
+    },
+    "rhombus": {
+     "faces": 1000,
+     "band": 901,
+     "notValidated": {}
+    },
+    "sliver": {
+     "faces": 1000,
+     "band": 844,
+     "notValidated": {}
+    },
+    "notch": {
+     "faces": 1000,
+     "band": 567,
+     "notValidated": {}
+    },
+    "spike": {
+     "faces": 1000,
+     "band": 822,
+     "notValidated": {}
+    },
+    "saw": {
+     "faces": 1000,
+     "band": 999,
+     "notValidated": {}
+    },
+    "multi": {
+     "faces": 1000,
+     "band": 955,
+     "notValidated": {}
+    },
+    "star": {
+     "faces": 1000,
+     "band": 788,
+     "notValidated": {
+      "downgrade validator:planarity": 1
+     }
+    },
+    "holed-slab": {
+     "faces": 1000,
+     "band": 709,
+     "notValidated": {}
+    },
+    "wedge-hole": {
+     "faces": 1000,
+     "band": 702,
+     "notValidated": {}
+    },
+    "hole-near-tip": {
+     "faces": 1000,
+     "band": 981,
+     "notValidated": {}
+    }
+   }
+  }
+ ]
+}

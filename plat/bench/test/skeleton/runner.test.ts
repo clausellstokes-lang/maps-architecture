@@ -262,7 +262,7 @@ describe('every outcome is counted in its slot', () => {
   });
 
   it("spine: a face the contract refuses downgrades with the kernel's sampled medial axis, computed and non-empty", () => {
-    const spike = [{ x: 0, y: 0 }, { x: 4000, y: 0 }, { x: 4000, y: 200 }] as Polygon; // 2.9°: sharper than 5°
+    const spike = [{ x: 0, y: 0 }, { x: 12000, y: 0 }, { x: 12000, y: 200 }] as Polygon; // 0.95°: sharper than spine's 1° (§3.8, item 130 (f))
     const r = skeletonCorpus([[spike]], 'spine');
     expect(r.causes.contract.sharpCorner).toBe(1);
     expect(r.axes).toEqual({ computed: 1, empty: 0 });

@@ -416,7 +416,7 @@ function buildSkeletonHoleTouch(d: Draw): ConstructiveInput {
 
 function buildSharpCorner(d: Draw): ConstructiveInput {
   const L = d.log(1000, 1 << 18);
-  const h = Math.max(1, Math.floor((L * d.int(1, 80)) / 1000)); // tan θ ≤ 0.08: θ < 4.6° < 5°
+  const h = Math.max(1, Math.floor((L * d.int(1, 17)) / 1000)); // tan θ ≤ 0.017: θ < 0.98° < 1° — sharper than every use's bound (5° for roof, 1° for spine and regions; §3.8, item 130 (f))
   return makeInput('limit/degen-skeleton-sharp-corner', d.seed, place(d, { rings: { outer: [{ x: 0, y: 0 }, { x: L, y: 0 }, { x: L, y: h }] } }), { tanTimes1000: Math.round((1000 * h) / L) }, [
     step('skeleton', { rings: 'outer', use: d.pick(['roof', 'spine']) }),
   ]);
@@ -845,14 +845,15 @@ export const LIMIT_CASES: readonly ConstructiveCase[] = Object.freeze([
     class: 'kernel-limits',
     source: DEGENERATE,
     ops: ['skeleton'],
-    expect: { outcome: 'downgrade', tier: 4, holds: ['skeleton-valid-or-downgrade'], clause: "a skeleton input with … a corner sharper than 5°, takes its reader's downgrade (§3.8)" },
+    expect: { outcome: 'downgrade', tier: 4, holds: ['skeleton-valid-or-downgrade'], clause: "a skeleton input with … a corner sharper than its use's bound (5° for `roof`, 1° for `spine` and `regions`; item 130 (f)), takes its reader's downgrade (§3.8)" },
     build: buildSharpCorner,
     witness: (input) => {
-      // tan of the angle at the first vertex: |(b − a) × (c − a)| / (b − a) · (c − a), below tan 5° ≈ 0.0875.
+      // tan of the angle at the first vertex: |(b − a) × (c − a)| / (b − a) · (c − a), below tan 1° ≈ 0.017455 — the
+      // sharpest bound of any use (spine and regions), so the fixture downgrades whichever use its step draws.
       const [a, b, c] = input.rings.outer;
       const cr = Number(refCross(a, b, c));
       const dot = (b.x - a.x) * (c.x - a.x) + (b.y - a.y) * (c.y - a.y);
-      return cr > 0 && dot > 0 && cr < 0.0874 * dot ? null : 'the corner is not sharper than 5°';
+      return cr > 0 && dot > 0 && cr < 0.01745 * dot ? null : 'the corner is not sharper than 1° (the bound of spine and regions)';
     },
   }),
   m0Case({
