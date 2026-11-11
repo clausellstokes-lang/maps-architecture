@@ -34,3 +34,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DS.md | DS | M0-c-05 S3 (S5c / S5d: Q150's frame sweep, Q98, Q149), on M0-c-04 S5's landed head |
 | launch-DT.md | DT | M0-e-06 S4 (the site spike: the fold's message texts, Q137's renumber-proof digest, the 200-seed summary re-run on the merged head — the re-measure Q122, Q173 and Q174 wait on) |
 | launch-DU.md | DU | M0-c-04 S6 (S5a / S5b: Q132's caller wiring, Q173's branching wall chain — diagnose first, Q174 (c)'s unwalled-stage boundary — measure first, Q174 (d)'s pin and wording) |
+| launch-DV.md | DV | M0-a-05 S14 (the router's round after the frames; twelve lines), on M0-a-06 S9's landed head |
