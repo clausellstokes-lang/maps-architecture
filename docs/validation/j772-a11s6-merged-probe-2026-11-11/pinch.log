@@ -1,0 +1,9 @@
+relief-3000/default seed 13 district#27: ring 0 n=168 repeats=17 spikes=1 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)] | ring 1 n=22 repeats=10 spikes=2 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)]
+relief-3000/default seed 13 district#38: ring 0 n=37 repeats=10 spikes=1 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)]
+relief-3000/default seed 13 district#75: ring 0 n=68 repeats=1 spikes=0 meets=[two edges meet at a shared vertex (a pinch)]
+seed 13: 86 district faces read
+relief-3000/default seed 4 district#33: ring 0 n=151 repeats=2 spikes=0 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)]
+relief-3000/default seed 4 district#75: ring 0 n=417 repeats=29 spikes=5 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)]
+seed 4: 104 district faces read
+relief-3000/default seed 7 district#43: ring 0 n=153 repeats=28 spikes=3 meets=[two edges meet at a shared vertex (a pinch); collinear, sharing a vertex (overlap or fold-back)]
+seed 7: 129 district faces read
