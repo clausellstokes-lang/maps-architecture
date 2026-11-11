@@ -46,6 +46,7 @@ import {
   type ConcernId,
   type Hash128,
   type Handle,
+  type Invariant,
   type Kernel,
   type KernelTx,
   type KeyCensus,
@@ -232,12 +233,15 @@ const EXPECT_CODES: ReadonlySet<string> = new Set(['E_INVARIANT', 'E_BELOW_MIN_W
  * an expect code whose detail opens with a row's `<name>: ` (the kernel names its first failure, in entry order) — held
  * every row before that one, failed that one, and tells nothing of the rows after it; any other outcome — a batch that
  * wrote nothing (no expectation ran), a refusal by an op, the callback, the work limit or a kernel row — tells nothing
- * of any row. Each entry is the row's verdict, or null for a row the batch does not count.
+ * of any row. A class-floor row whose class the run's env gives no floor is skipped by the kernel (`tx.ts` `failures`:
+ * no floor, no evaluation), so no batch counts it (x-02 note 28). Each entry is the row's verdict, or null for a row the
+ * batch does not count.
  */
-function expectVerdicts(expect: readonly { readonly name: string }[], r: { readonly ok: true; readonly value: { readonly record: unknown } } | { readonly ok: false; readonly code: string; readonly detail: string }): (boolean | null)[] {
-  if (r.ok) return expect.map(() => (r.value.record === null ? null : true));
+function expectVerdicts(expect: readonly Invariant[], r: { readonly ok: true; readonly value: { readonly record: unknown } } | { readonly ok: false; readonly code: string; readonly detail: string }, floors: TxEnv['floors']): (boolean | null)[] {
+  const evaluated = expect.map((row) => row.kind !== 'classFloor' || floors?.(row.faceClass as string) !== undefined);
+  if (r.ok) return expect.map((_, i) => (r.value.record === null || !evaluated[i] ? null : true));
   const named = EXPECT_CODES.has(r.code) ? expect.findIndex((row) => r.detail.startsWith(`${row.name}: `)) : -1;
-  return expect.map((_, i) => (named < 0 || i > named ? null : i < named));
+  return expect.map((_, i) => (named < 0 || i > named || !evaluated[i] ? null : i < named));
 }
 
 /**
@@ -349,7 +353,8 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
         const law = stage.workLimits.find((l) => l.counter === spec.counter);
         if (law === undefined) throw new Error(`run: stage ${name} declares no work-limit law '${spec.counter}' (§5.1 (5))`);
         const batch = spec.batch ?? stage.batch;
-        const workLimit = workLimitOf(law, batch, spec.counts);
+        // The stage's own limit when its spec carries one (S8's district batch, Q39), else the counter's law over counts.
+        const workLimit = spec.workLimit ?? workLimitOf(law, batch, spec.counts);
         const tx: KernelTx = {
           key: spec.key ?? { layer: 'ground', part: 0 },
           level: spec.level,
@@ -362,7 +367,7 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
           workLimit,
         };
         const r = kernel.tx(tx, fn);
-        expectVerdicts(expect, r).forEach((pass, i) => {
+        expectVerdicts(expect, r, env.floors).forEach((pass, i) => {
           if (pass !== null) builder.evaluate(state, expect[i].name, pass);
         });
         if (r.ok) {
