@@ -18,10 +18,10 @@
 // district membership S6 supplies (built now by partition key; every L2–L4 item outside districts until M0-e-04 hands a
 // resolver); a vertex on an L1 edge two partitions share — a resolver answering several keys — goes to the smaller key.
 import { packBoxes, searchPacked, type PackedTree } from '../adapters/flatbush.js';
-import { compareKeys, LEVELS, type Five, type Plat } from '../arena/index.js';
+import { compareKeys, debugAssertions, LEVELS, type Five, type Plat } from '../arena/index.js';
 import { five } from '../arena/plat.js';
 import type { Level } from '../types/index.js';
-import { createGrid, gridPut, gridTake, type UniformGrid } from './grid.js';
+import { createGrid, gridPut, gridTake, type GridEntry, type UniformGrid } from './grid.js';
 import {
   check,
   homeOf,
@@ -105,6 +105,8 @@ export interface IndexWrite {
   readonly slot: number;
   /** The partition tombstoned in or joined; −1 for a delete. */
   readonly partition: number;
+  /** The grid entry the write replaced (an insert's) or removed (a delete's), for a frame's undo (tx/frames.ts). */
+  readonly old?: GridEntry;
 }
 
 /** The index writes of one batch (`beginIndexBatch` … `endIndexBatch`). */
@@ -139,8 +141,8 @@ export function indexOf(p: Plat): SpatialIndex {
   return idx;
 }
 
-function record(idx: SpatialIndex, op: IndexWrite['op'], item: ItemRef, level: Level, partition: number): void {
-  if (idx.log !== null) idx.log.writes.push({ op, kind: item.kind, level, slot: item.slot, partition });
+function record(idx: SpatialIndex, op: IndexWrite['op'], item: ItemRef, level: Level, partition: number, old?: GridEntry): void {
+  if (idx.log !== null) idx.log.writes.push({ op, kind: item.kind, level, slot: item.slot, partition, old });
 }
 
 /** The partition of `level` with `key`, made empty when it does not exist yet. */
@@ -187,6 +189,7 @@ export function tombstonesOf(p: Plat, part: PackedIndex): Set<number> {
  * home entry is reset first, so a re-attached arena starts from its geometry alone. Returns the index.
  */
 export function attachIndex(p: Plat, config: IndexConfig): SpatialIndex {
+  if (debugAssertions() && !(p.index === undefined || p.index.log === null)) throw new Error('index: attachIndex while a batch is open on the arena (attach between batches)');
   const cells = five(config.gridCellCm);
   const levels = cells.map((c) => ({ static: [], dynamic: createGrid(c), tombstones: [] })) as unknown as Five<LevelIndex>;
   const idx: SpatialIndex = {
@@ -239,7 +242,7 @@ export function gridInsert(p: Plat, item: ItemRef): void {
   const old = gridPut(idx.levels[item.level].dynamic, key, part.id, itemBox(p, item));
   if (old !== undefined) idx.partitions[old.partition].pending.delete(key);
   part.pending.add(key);
-  record(idx, 'insert', item, item.level, part.id);
+  record(idx, 'insert', item, item.level, part.id, old);
 }
 
 /** Deletes the item from the grid of `item.level`; false when the grid held none. */
@@ -249,7 +252,7 @@ export function gridDelete(p: Plat, item: ItemRef): boolean {
   const old = gridTake(idx.levels[item.level].dynamic, key);
   if (old === undefined) return false;
   idx.partitions[old.partition].pending.delete(key);
-  record(idx, 'delete', item, item.level, -1);
+  record(idx, 'delete', item, item.level, -1, old);
   return true;
 }
 

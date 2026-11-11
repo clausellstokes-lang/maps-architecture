@@ -1,17 +1,17 @@
-// The transaction's overlay at M0: a before-image of the arena and its index, taken when the transaction opens and put
-// back when it rejects, so a rejected batch leaves the arena at its version, bit for bit (§2.2 rule 8, §3.3). M0-a-06.
+// THE STAGE IMAGE: a before-image of the arena and its index, taken between batches and put back between batches — the
+// pipeline runner's (layout/src/pipeline/runner.ts: taken once a stage, put back when the stage's run is rolled back),
+// the only restore that moves the arena's restore generation (C-0299, C-0313), and the oracle the frames' undo is tested
+// against. M0-a-06.
 //
-// §3.3's scratch overlay is copy-on-write records in overlay-local slots. The writers M0-a-02 … M0-a-05 built (the
-// arena's primitives, insertChain, splitThrough, the re-walk) write the arena's typed arrays in place and no item may
-// edit them, so at M0 the overlay is the arena itself, written in place, with this before-image as its undo; the
-// copy-on-write overlay with overlay-local slots and its merge are the derivation pool's, M1 (§4b; C-0185 (1)). The
-// image copies every table (O(arena) memory, no work charged — work is the batch's operation count, §3.3) and the
-// index's mutable state: the dynamic grids, the tombstone sets, the partitions' grid shares and the partition lists
-// (the packed trees are replaced, never mutated, by a rebuild, and no batch rebuilds; their references are kept).
+// A batch keeps NO image since hardening round S9 (amendment z item 985, J627): a batch, an op savepoint and a dry run
+// undo through the batch's undo log (frames.ts), at O(what they wrote). The image here copies every table (O(arena)
+// memory, no work charged) and the index's mutable state: the dynamic grids, the tombstone sets, the partitions' grid
+// shares and the partition lists (the packed trees are replaced, never mutated, by a rebuild, and no batch rebuilds;
+// their references are kept). It is put back only while no batch is open on the arena (below): no kernel path puts an
+// image back inside a batch, and a frame opened after such an image would replay its log over the image's arrays.
 import type { Five, Plat } from '../arena/index.js';
 import type { GridEntry, PackedIndex, SpatialIndex } from '../index/index.js';
 import type { Level } from '../types/index.js';
-import { frameObserver } from './frames.js';
 
 /** A typed array the image copies (every column of §2.2's tables). */
 type Column = Int32Array | Int16Array | Uint16Array | Uint8Array;
@@ -33,7 +33,7 @@ interface IndexImage {
   readonly log: SpatialIndex['log'];
 }
 
-/** The before-image of one arena. */
+/** The before-image of one arena (the stage image). */
 export interface Savepoint {
   readonly plat: Plat;
   readonly version: number;
@@ -155,9 +155,15 @@ export function takeSavepoint(p: Plat): Savepoint {
   const t = takenOf(p);
   t.count += 1;
   NUMBER.set(s, t.count);
-  // An image taken while a batch is open on the arena is an op frame (opSave's): the frame observer's mark (frames.ts).
-  if (frameObserver !== null && p.index !== undefined && p.index.log !== null) frameObserver.opOpen(p, s);
   return s;
+}
+
+/**
+ * How many images were ever taken of `p` (kernel-internal, by path): after hardening round S9 no batch, op savepoint or
+ * dry run takes one, so a kerb read, a splitFace and a rejected batch leave it unchanged (savepoint.test.ts's pin).
+ */
+export function imagesTaken(p: Plat): number {
+  return TAKEN.get(p)?.count ?? 0;
 }
 
 function image(p: Plat): Savepoint {
@@ -207,7 +213,7 @@ const RESTORES = new WeakMap<Plat, number>();
 
 /**
  * The arena's restore generation: 0 until a before-image is put back across a committed batch, then one more per such
- * restore. A rejected or thrown batch restores at its own version and never moves it. Keyed with `version`, it names
+ * restore. A rejected or thrown batch undoes through its log (frames.ts) and never moves it. Keyed with `version`, it names
  * one arena state: (generation, version) is never reached twice with different content — within one generation the
  * version only rises, and every restore that discards a committed span moves the generation; a dead image (one that
  * could land on a version the generation already reached, with other content) is refused (session round S7).
@@ -219,10 +225,11 @@ export function restoreGeneration(p: Plat): number {
 /**
  * Puts the before-image back: every table, slot counter, the handle table, the version and the index as they were when
  * the image was taken. The image's arrays become the arena's, so an image is put back at most once; images are put back
- * last-taken first (one taken after an image since put back is dead); and an image is put back between batches, or
- * inside the batch it was taken in — never while another batch is open on the arena. Each misuse throws (a programming
- * error) and changes nothing. Putting it back across committed batches (the version moved since the image) bumps the
- * arena's restore generation.
+ * last-taken first (one taken after an image since put back is dead); and an image is put back BETWEEN BATCHES only —
+ * never while a batch is open on the arena, whether the image was taken before the batch or inside it (hardening round
+ * S9: a batch's frames undo through its log, which a put-back inside the batch would leave replaying over the image's
+ * arrays). Each misuse throws (a programming error) and changes nothing. Putting it back across committed batches (the
+ * version moved since the image) bumps the arena's restore generation.
  */
 export function restoreSavepoint(s: Savepoint): void {
   const p = s.plat;
@@ -230,11 +237,7 @@ export function restoreSavepoint(s: Savepoint): void {
   if (log !== null && log !== (s.index === null ? null : s.index.log)) {
     throw new Error('tx: a savepoint is put back while a batch it was not taken in is open on the arena (restore between batches)');
   }
-  putBack(s);
-}
-
-/** The open batch's own before-image put back (its rejection or rollback: tx.ts) — taken before the batch's log opened. */
-export function restoreBatchImage(s: Savepoint): void {
+  if (log !== null) throw new Error('tx: a savepoint is put back while a batch is open on the arena (images are put back between batches)');
   putBack(s);
 }
 
@@ -245,8 +248,6 @@ function putBack(s: Savepoint): void {
   if (n === undefined) throw new Error('tx: a savepoint is put back that takeSavepoint did not take');
   if (USED.has(s)) throw new Error('tx: a savepoint is put back twice (an image is put back at most once)');
   if (isDead(t, n)) throw new Error('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
-  const observer = frameObserver;
-  if (observer !== null) observer.beforePutBack(p, s);
   USED.add(s);
   killAfter(t, n);
   if (p.version !== s.version) RESTORES.set(p, restoreGeneration(p) + 1);
@@ -297,15 +298,4 @@ function putBack(s: Savepoint): void {
   for (const l of LV) p.slots.holesTop[l] = s.slots.holesTop[l];
   p.frame = { ...s.frame };
   if (s.index !== null) restoreIndex(p, s.index);
-  if (observer !== null) observer.afterPutBack(p, s);
-}
-
-/** Was face slot `f` of `level` live in the image? */
-export function wasFaceLive(s: Savepoint, level: Level, f: number): boolean {
-  return f >= 0 && f < s.slots.face[level].top && s.faces[level].kind[f] !== 0xffff;
-}
-
-/** The face's owner handle in the image (−1 when it had none or was not live). */
-export function ownerBefore(s: Savepoint, level: Level, f: number): number {
-  return wasFaceLive(s, level, f) ? s.faces[level].owner[f] : -1;
 }

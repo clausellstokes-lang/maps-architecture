@@ -44,9 +44,10 @@ export {
 } from './profile.js';
 export { resolveStretch, runsOfPairs, type Span } from './chains.js';
 /**
- * The before-image every batch keeps (C-0185 (1)), exported for the pipeline runner's stage image: `takeSavepoint` before
- * a stage, `restoreSavepoint` after; a restore across committed batches bumps the arena's `restoreGeneration`, which
- * version-keyed state (the level digests) keys on too (C-0287, C-0299). Never a batch's substitute (§3.3's batches stay
- * the unit of writing); an image is put back at most once, last-taken first, between batches (session round S7).
+ * The stage image (savepoint.ts; a batch keeps none since hardening round S9 — its frames undo through its log), exported
+ * for the pipeline runner: `takeSavepoint` before a stage, `restoreSavepoint` after; a restore across committed batches
+ * bumps the arena's `restoreGeneration`, which version-keyed state (the level digests) keys on too (C-0287, C-0299).
+ * Never a batch's substitute (§3.3's batches stay the unit of writing); an image is put back at most once, last-taken
+ * first, between batches only (session round S7; refused while a batch is open on the arena, S9).
  */
 export { restoreGeneration, restoreSavepoint, takeSavepoint, type Savepoint } from './savepoint.js';

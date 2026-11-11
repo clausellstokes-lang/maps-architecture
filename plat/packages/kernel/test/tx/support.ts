@@ -30,33 +30,26 @@ import {
   type VertexId,
 } from '../../src/arena/index.js';
 import {
-  attachRecorder,
   COL_ROLES_KIND,
   COLUMN_COUNT,
   columnName,
   columnOf,
-  detachRecorder,
   FACE_BASE,
   FACE_STRIDE,
   FK_FACES_HOLES,
   FK_FACES_OUTER,
   forEachEntry,
   HANDLES_BASE,
-  hasRecorder,
-  markArena,
   OBJ_HALF_EDGES,
   OBJ_VERTICES,
   OWNER_HEAD_BASE,
   ROLE_HEAD_BASE,
-  undoArena,
-  type ArenaMark,
 } from '../../src/arena/write.js';
 import { checkIndexState } from '../../src/index/index.js';
 import { encodeArena } from '../../src/io/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import { routeLines, tx, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../../src/tx/index.js';
-import { setFrameObserver, type FrameObserver } from '../../src/tx/frames.js';
-import type { Savepoint } from '../../src/tx/savepoint.js';
+import { setFrameObserver, type BatchFrame, type Frame, type FrameObserver } from '../../src/tx/frames.js';
 import type { ChainRef, LatticePoint, Level, StageId } from '../../src/types/index.js';
 import { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, snapshot as shellSnapshot, tx as shell, vertexAtPoint } from '../insert/step3-5/support.js';
 
@@ -296,16 +289,14 @@ export function churn(p: Plat): { faces: FaceId[] } {
   return { faces };
 }
 
-// ---- the frame observer (hardening round S8, line 4 (b)): the oracle round 1B (S9) inherits -------------------------
+// ---- the frame observer (hardening round S8, line 4 (b); its hook points moved to the frames in round S9, line 5 (a)) ---
 
 /** A frame's kind: the batch's, an op's (`opSave`), or the kerb read's dry run (an op frame `dryInsert` opens). */
 export type FrameKind = 'batch' | 'op' | 'dry-run';
 
 interface ObservedMark {
   readonly kind: FrameKind;
-  readonly image: Savepoint;
-  readonly mark: ArenaMark;
-  readonly arena: string;
+  readonly frame: Frame | BatchFrame;
   readonly all: string;
 }
 
@@ -313,7 +304,7 @@ interface ObservedMark {
 export interface FrameStats {
   readonly marks: Record<FrameKind, number>;
   readonly compared: Record<FrameKind, number>;
-  /** Replacement entries the observer's undos put back, by kind of replacement (inside frames that were undone). */
+  /** Replacement entries the frames' undos put back, by kind of replacement (inside frames that were undone). */
   readonly undone: Map<string, number>;
   readonly failures: string[];
 }
@@ -348,7 +339,7 @@ function replacementKind(id: number, old: unknown, now: unknown): string {
 }
 
 /** The first difference of two labelled prints: its line's label and, for a column, the first differing slot. */
-function firstDifference(a: string, b: string): string {
+export function firstDifference(a: string, b: string): string {
   const la = a.split('\n');
   const lb = b.split('\n');
   for (let i = 0; i < Math.max(la.length, lb.length); i++) {
@@ -373,39 +364,37 @@ function fail(msg: string): void {
   stats.failures.push(msg);
 }
 
+function push(p: Plat, kind: FrameKind, frame: Frame | BatchFrame): void {
+  const marks = stacks.get(p);
+  if (marks === undefined) return;
+  stats.marks[kind]++;
+  marks.push({ kind, frame, all: bits(p) });
+}
+
 const OBSERVER: FrameObserver = {
-  batchOpen(p, image) {
+  batchMarked(p, b) {
     try {
-      if (hasRecorder(p)) {
-        fail('a batch opened on an arena whose recorder was still attached (a batch that never ended)');
-        detachRecorder(p);
-      }
-      attachRecorder(p);
       stacks.set(p, []);
-      push(p, 'batch', image);
+      push(p, 'batch', b);
     } catch (e) {
-      fail(`batch open: ${(e as Error).message}`);
+      fail(`batch mark: ${(e as Error).message}`);
     }
   },
-  opOpen(p, image) {
+  marked(p, f) {
     try {
-      if (!hasRecorder(p)) return;
       const stack = new Error().stack ?? '';
-      push(p, stack.includes('dryInsert') ? 'dry-run' : 'op', image);
+      push(p, stack.includes('dryInsert') ? 'dry-run' : 'op', f);
     } catch (e) {
-      fail(`op open: ${(e as Error).message}`);
+      fail(`op mark: ${(e as Error).message}`);
     }
   },
-  beforePutBack(p, image) {
+  beforeUndo(p, f) {
     try {
       const marks = stacks.get(p);
       if (marks === undefined) return;
-      const i = marks.findIndex((m) => m.image === image);
-      if (i < 0) return;
-      marks.length = i + 1; // a put-back discards the marks above it (their frames were dropped into it)
-      const m = marks[i];
+      if (!marks.some((m) => m.frame === f)) return;
       const latest = new Map<number, unknown[]>();
-      forEachEntry(p, m.mark, {
+      forEachEntry(p, f.arena, {
         column() {},
         replacement(id, ref) {
           const l = latest.get(id) ?? [];
@@ -420,60 +409,42 @@ const OBSERVER: FrameObserver = {
           stats.undone.set(key, (stats.undone.get(key) ?? 0) + 1);
         });
       }
-      try {
-        undoArena(p, m.mark);
-      } catch (e) {
-        fail(`CHECK B (${m.kind} frame): undoArena threw: ${(e as Error).message}`);
-        return;
-      }
-      const now = arenaBits(p);
-      if (now !== m.arena) fail(`CHECK B (${m.kind} frame): the door's log does not undo the frame — ${firstDifference(m.arena, now)}`);
     } catch (e) {
-      fail(`before put-back: ${(e as Error).message}`);
+      fail(`before undo: ${(e as Error).message}`);
     }
   },
-  afterPutBack(p, image) {
+  afterUndo(p, f) {
     try {
       const marks = stacks.get(p);
       if (marks === undefined) return;
-      const i = marks.findIndex((m) => m.image === image);
+      const i = marks.findIndex((m) => m.frame === f);
       if (i < 0) return;
       const m = marks[i];
-      marks.length = i;
+      marks.length = i; // an undo discards its frame and the frames above it (dropped into it)
       stats.compared[m.kind]++;
       const now = bits(p);
-      if (now !== m.all) fail(`CHECK A (${m.kind} frame): the put-back is not exact — ${firstDifference(m.all, now)}`);
-      if (m.kind === 'batch') end(p);
+      if (now !== m.all) fail(`CHECK A (${m.kind} frame): the undo is not exact — ${firstDifference(m.all, now)}`);
+      if (m.kind === 'batch') stacks.delete(p);
     } catch (e) {
-      fail(`after put-back: ${(e as Error).message}`);
+      fail(`after undo: ${(e as Error).message}`);
     }
   },
   commit(p) {
     try {
-      end(p);
+      stacks.delete(p);
     } catch (e) {
       fail(`commit: ${(e as Error).message}`);
     }
   },
 };
 
-function push(p: Plat, kind: FrameKind, image: Savepoint): void {
-  const marks = stacks.get(p);
-  if (marks === undefined) return;
-  stats.marks[kind]++;
-  marks.push({ kind, image, mark: markArena(p), arena: arenaBits(p), all: bits(p) });
-}
-
-function end(p: Plat): void {
-  stacks.delete(p);
-  detachRecorder(p);
-}
-
 /**
- * Installs the frame observer (idempotent): from now on every batch frame attaches its arena's recorder, every frame's
- * mark keeps `markArena` and `bits`, and every put-back of a marked image is preceded by `undoArena` to its mark —
- * CHECK B, `arenaBits` equal to the mark's: the door's log is complete — and followed by CHECK A, `bits` whole equal to
- * the mark's: the restore is exact. A mismatch or a throw never reaches the kernel: it is recorded in `frameStats()`.
+ * Installs the frame observer (idempotent): from now on every frame's mark (the batch's and each op's, tx/frames.ts)
+ * keeps `bits`, and after every frame's undo CHECK A compares `bits` whole with the mark's — every column to its
+ * capacity, every counter, the hash tables with their counts, the frame and the version, and the index with its Maps and
+ * Sets by content: the undo is exact (round S9: the undo log IS the undo, so S8's CHECK B, the log replayed beside the
+ * image, retires; the batch frame attaches the recorder). A mismatch or a throw never reaches the kernel: it is recorded
+ * in `frameStats()`.
  */
 export function installFrameObserver(): void {
   if (installed) return;
@@ -481,7 +452,7 @@ export function installFrameObserver(): void {
   setFrameObserver(OBSERVER);
 }
 
-/** Removes the frame observer (the arenas' recorders are detached as their batches end). */
+/** Removes the frame observer. */
 export function uninstallFrameObserver(): void {
   installed = false;
   setFrameObserver(null);

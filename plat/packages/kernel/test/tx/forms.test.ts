@@ -8,6 +8,7 @@ import * as kernel from '../../src/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { insertTx } from '../../src/insert/classes.js';
 import { isOpenTx } from '../../src/tx/state.js';
+import { setHalfEdgesNext } from '../../src/arena/write.js';
 import type { KernelError } from '../../src/num/index.js';
 import { clearFiner, kernelOp, opInsertChain, opRemoveEdges, removeEdges, retypeEdges, setOwner, tx, type Overlay } from '../../src/tx/index.js';
 import type { Polygon } from '../../src/types/index.js';
@@ -302,7 +303,7 @@ describe('N-53 (3): a throw inside a batch rolls it back whole and is rethrown w
     healthy(p);
   };
 
-  it('a callback throwing after several writes: the image back, the error prefixed `tx <stage>/L<level>/callback/fn: ` with its cause', () => {
+  it('a callback throwing after several writes: the batch undone to its frame, the error prefixed `tx <stage>/L<level>/callback/fn: ` with its cause', () => {
     const p = start();
     const before = bits(p);
     const version = p.version;
@@ -318,14 +319,15 @@ describe('N-53 (3): a throw inside a batch rolls it back whole and is rethrown w
     unchanged(p, before, version);
   });
 
-  it('a callback that corrupts a rotation (a planted invalid write) and then throws: the image back, bit for bit', () => {
+  it('a callback that corrupts a rotation (a planted invalid write through the door) and then throws: the batch undone, bit for bit', () => {
     const p = start();
     const before = bits(p);
     const version = p.version;
     const e = thrown(() => tx(p, spec(1), (o) => {
       must(insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
       const h = between(o.plat, [2000, 2000], [4000, 2000]);
-      o.plat.halfEdges.next[h] = h; // the rotation at (4000,2000) no longer closes
+      // planted through the door (re-pinned in hardening round S9): the throw's undo restores what passed the door
+      setHalfEdgesNext(o.plat, h, h); // the rotation at (4000,2000) no longer closes
       throw new Error('planted');
     }));
     expect(e.message).toBe('tx 8/L1/callback/fn: planted');
@@ -339,7 +341,7 @@ describe('N-53 (3): a throw inside a batch rolls it back whole and is rethrown w
     const e = thrown(() => tx(p, spec(1), (o) => {
       must(insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
       const h = between(o.plat, [2000, 2000], [4000, 2000]);
-      o.plat.halfEdges.next[h] = h;
+      setHalfEdgesNext(o.plat, h, h); // planted through the door (S9): the throw's undo restores it
       return { ok: true as const, value: null, warnings: [] };
     }));
     expect(e.message).toMatch(/^tx 8\/L1\/callback\/commit: /);
@@ -365,7 +367,7 @@ describe('N-53 (3): a throw inside a batch rolls it back whole and is rethrown w
     expect(e2.message).toBe('tx 5/L1/callback/fn: after the writer');
   });
 
-  it('a declared op throwing after an earlier op wrote: the image back, the error names the op\'s kind', () => {
+  it('a declared op throwing after an earlier op wrote: the batch undone, the error names the op\'s kind', () => {
     const p = start();
     const before = bits(p);
     const version = p.version;
