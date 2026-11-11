@@ -56,7 +56,7 @@ export function runSkeleton<A = unknown>(
     const bad = offLattice<Skeleton<A>>(ring);
     if (bad !== null) return bad;
   }
-  const prep = prepareRings(rings);
+  const prep = prepareRings(rings, use);
   if (!prep.ok) {
     const cause: SkeletonFailure = prep.at === undefined ? { code: 'contract', refusal: prep.refusal } : { code: 'contract', refusal: prep.refusal, at: prep.at };
     return downgrade(rings, use, cause, 0, opts);

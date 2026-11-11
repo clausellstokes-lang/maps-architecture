@@ -5,17 +5,30 @@
 // ring counter-clockwise, holes clockwise, so the interior lies left of every edge), the canonical start (each ring at
 // its lowest-leftmost vertex — the order ties are broken in), and the contract's refusals, decided exactly on lattice
 // integers before anything runs: a ring with fewer than three vertices or no area, a ring that is not simple, a corner
-// sharper than 5° on either side (an interior angle below 5° or above 355°; a fold-back the clean leaves is a 0°
-// corner), a hole touching the outer ring or another hole, and a hole outside the outer ring or inside another hole
-// (C-0168 (3)). A refused ring set takes its reader's downgrade without running (§3.8). The contact and containment
-// tests are the kernel's shared exact predicates (`num/exact.ts`, C-0314), read here on lattice points.
+// sharper than the use's bound on either side — 5° for `roof` (an interior angle below 5° or above 355°), 1° for
+// `spine` and `regions` (below 1° or above 359°; §3.8 as amended by item 130 (f), RL5 / J749, the hardening round S6);
+// a fold-back the clean leaves is a 0° corner —, a hole touching the outer ring or another hole, and a hole outside the
+// outer ring or inside another hole (C-0168 (3)). The pre-clean is a function of the ring alone, the same for every use
+// (§3.8): its fold-back bound is the roof's 5°. A refused ring set takes its reader's downgrade without running (§3.8).
+// The contact and containment tests are the kernel's shared exact predicates (`num/exact.ts`, C-0314), read here on
+// lattice points.
 import { area2, LATTICE, orient2d } from '../num/index.js';
 import { insideLatticeRing, segmentsMeet as segmentsMeetXY } from '../num/exact.js';
 import type { LatticePoint } from '../types/index.js';
-import type { ContractRefusal, SkeletonEdge } from './types.js';
+import type { ContractRefusal, SkeletonEdge, SkeletonUse } from './types.js';
 
 /** tan 5°, to the double nearest it: a corner is sharper than 5° when |cross| < tan 5° · dot with dot > 0. */
 export const TAN_5_DEG = 0.08748866352592401;
+
+/** tan 1°, to the double nearest it (0.0174550649282175857…): the `spine` and `regions` readers' bound (§3.8). */
+export const TAN_1_DEG = 0.017455064928217585;
+
+/**
+ * Each reader's contract bound on a corner, as the tangent (§3.8 *Numeric contract*, item 130 (f); RL5 / J749): `roof`
+ * 5° (a 1 cm edit never flips a ridge, GEO-8), `spine` and `regions` 1° (the engine's fold threshold). The validator stays
+ * the net: a face the bound admits and the validator rejects still takes the reader's downgrade (skeleton.ts).
+ */
+export const SHARP_TAN: Readonly<Record<SkeletonUse, number>> = Object.freeze({ roof: TAN_5_DEG, spine: TAN_1_DEG, regions: TAN_1_DEG });
 
 /** The cleaned input: rings in engine order with their source indices, or the contract's refusal. */
 export interface PreparedRings {
@@ -89,8 +102,9 @@ const ATTRACT2 = BigInt(LATTICE.attractCm * LATTICE.attractCm);
 
 /**
  * Is vertex v, between p and q, the tip of an inexact spur (§3.8 as amended by item 130 (f); census D-01, RQ7 (A))?
- * The ring folds back at v — a corner sharper than 5° (|(q − v) × (p − v)| < tan 5° · (p − v) · (q − v), the contract's
- * own test, so the clean touches only a corner the contract would refuse) — and the end s of the shorter arm lies
+ * The ring folds back at v — a corner sharper than 5° (|(q − v) × (p − v)| < tan 5° · (p − v) · (q − v), the roof
+ * contract's own test, so the clean touches only a corner the roof would refuse; the clean is a function of the ring
+ * alone, §3.8, so the `spine` and `regions` readers, whose bound is 1°, read the same cleaned ring) — and the end s of the shorter arm lies
  * within `attractCm` of the longer arm's segment v–l, its foot strictly inside it: 0 < (s − v) · (l − v) < |l − v|²
  * and |(l − v) × (s − v)|² ≤ attractCm² · |l − v|², exact (the cross in BigInt). An exact spur (s = l) is `dropSpurs`'s:
  * its foot is l itself.
@@ -215,8 +229,11 @@ export function insideRing(ring: readonly LatticePoint[], p: LatticePoint): bool
   return insideLatticeRing(ring, p.x, p.y);
 }
 
-/** The first vertex of a ring with a corner sharper than 5° on either side, or −1. Exact integer cross and dot. */
-function sharpCorner(ring: readonly LatticePoint[]): number {
+/**
+ * The first vertex of a ring with a corner sharper than the bound on either side (|cross| < tan · dot with dot > 0), or
+ * −1. Exact integer cross and dot; `tan` is the use's `SHARP_TAN`.
+ */
+function sharpCorner(ring: readonly LatticePoint[], tan: number): number {
   const n = ring.length;
   for (let i = 0; i < n; i += 1) {
     const v = ring[i];
@@ -228,7 +245,7 @@ function sharpCorner(ring: readonly LatticePoint[]): number {
     const wy = q.y - v.y;
     const cross = wx * uy - wy * ux;
     const dot = wx * ux + wy * uy;
-    if (dot > 0 && Math.abs(cross) < TAN_5_DEG * dot) return i;
+    if (dot > 0 && Math.abs(cross) < tan * dot) return i;
   }
   return -1;
 }
@@ -236,9 +253,10 @@ function sharpCorner(ring: readonly LatticePoint[]): number {
 /**
  * Cleans and checks the rings (§3.8): `rings[0]` is the outer ring, every other ring a hole, each in either
  * orientation. The caller has already refused an off-lattice coordinate (E_OUT_OF_RANGE). Returns the engine's rings
- * or the refusal, with the offending vertex where there is one.
+ * or the refusal, with the offending vertex where there is one. `use` chooses the corner bound (`SHARP_TAN`; `roof`'s
+ * 5° when omitted); the clean and every other check are the same for every use.
  */
-export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepared {
+export function prepareRings(input: readonly (readonly LatticePoint[])[], use: SkeletonUse = 'roof'): Prepared {
   if (input.length === 0) return { ok: false, refusal: 'empty' };
   const rings: Src[][] = [];
   /** Each kept ring's index in the caller's list (a hole that cleans away is not kept). */
@@ -270,7 +288,7 @@ export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepa
   }
   const pts = rings.map((r) => r.map((s) => s.p));
   for (let k = 0; k < pts.length; k += 1) {
-    const s = sharpCorner(pts[k]);
+    const s = sharpCorner(pts[k], SHARP_TAN[use]);
     if (s >= 0) return { ok: false, refusal: 'sharpCorner', at: pts[k][s] };
   }
   for (let k = 0; k < pts.length; k += 1) if (!simple(pts[k])) return { ok: false, refusal: 'notSimple', at: pts[k][0] };

@@ -342,3 +342,173 @@ The closing checker's notes. No row here fails the round (N-45, J180). The verdi
 |---|---|---|---|
 | N-s5c-1 | **The 5° pin fixes the clean's bound to a band of about 0.4°.** `spur.test.ts`'s spikes are at 4.95° (cleaned) and 5.33° (kept). Any bound from about tan 4.95° to tan 5.33° passes, while 5.4° (K6c), 10° (K6) and the literal criterion (K5) are red. The contract's own `sharpCorner` test uses the same `TAN_5_DEG`, which a contract pin holds. So an off-by-a-fraction bound only between the two can survive, and it would move nothing the contract accepts outside that band. | None needed. If the hardening pass wants the bound exact, it can add one spike each side within 0.05° of 5°. | M4 |
 | N-s5c-2 | **N-s3c-5 is closed.** `golden.test.ts` now pins relief-60 seed 3's water face by its whole result on every reader. `relief-60-3-water.json` equals this seat's own `deriveSpike(relief-60, 3, 'default', 'city')` dump, ring for ring. T3, T3b (0.9 cm) and T13 are red 3/3 on it. | None. | — |
+
+## Hardening round S6 (build/M0-a-11-fix-s6, 2026-11-10): the builder's row-by-row outcome (J237 (2), J264, J290 / N-58; RL5 / J749)
+
+The round has one line: **Q67 (B)**, the skeleton's contract angle (docs/M0-FIX-QUEUE.md row Q67, read whole; RQ7 (B),
+N-61 (7), J358; RL5 ruled at J749, OWNER-VETOABLE). §3.8 *Numeric contract* and §3's edge table ('degenerate geometry')
+already say "5° for `roof`, 1° for `spine` and `regions`"; the code held 5° for every use (C-0377 (4), a declared
+deviation). The round followed the ruling's order: (1) measure, no source change; (2) adopt only if the validator passes
+every face the 1° bound newly admits; (3) otherwise adopt nothing and report. Choices row: C-0474. Every probe and mutant
+ran in the lane's scratch mirror /home/user/maps-scratch/waves/selfcheck-build-M0-a-11-fix-s6/plat (a `cp -a` of
+`plat/`, node_modules included; `find … -type l -lname '/home/user/maps-architecture*'` printed nothing; `realpath` of
+`bench/node_modules/@plat/kernel` lies inside the mirror). The mirror is deleted.
+
+### (1) The measurement (today's tree, the mirror, before any change in `plat/`)
+
+The probe (`bench/probe-s6/measure.ts`, mirror only) ran every face of each family through `skeleton(rings, 'roof')`
+with the tree's code (5°, which was every use's bound before the round), and through `skeleton(rings, 'spine')` and
+`skeleton(rings, 'regions')` with the mirror's `prepare.ts` reading tan 1° for those two readers. The clean was unchanged.
+For each face that roof refused `sharpCorner`, the probe took the cleaned rings' sharpest corner (atan2, probe only). A
+face counts **in band** when that corner lies in [1°, 5°). The probe then checked that every face not refused
+`sharpCorner` gave spine and regions results equal to roof's apart from `use` (and, for a downgrade, `to`).
+
+| family | faces | roof `sharpCorner` | in [1°, 5°) | validated under 1° (spine = regions) | rejected by the validator | below 1° (still `sharpCorner`) |
+|---|---|---|---|---|---|---|
+| skeleton corpus (`bench/fixtures/skeleton-corpus/`, seed 20261004) | 2 000 | 0 | 0 | — | — | 0 |
+| §13.1 holed polygons (seeds 1, 2, 3) + 3 000 snapped rotated squares | 6 000 | 0 | 0 | — | — | 0 |
+| M0 (b) face set (`bench/src/bentcut/faces.ts` `faceSet`, 7 kinds × 500, seed 1) | 3 500 | 12 | 11 | **11** | **0** | 1 |
+| M0 (b) face set (7 kinds × 2 000, seed 2) | 14 000 | 41 | 36 | **36** | **0** | 5 |
+| fusion harness, test size (900 ha / 30 ha), flat and river × fusion and integrated, seeds 1 – 8: L1 district faces (`ins.districtFaces`) and water faces | 481 | 5 | 5 | **5** | **0** | 0 |
+| the same, seeds 9 – 24 | 1 023 | 38 | 36 | **36** | **0** | 2 |
+| site spike CITY, default config, relief-60 and relief-3000, seeds 1 – 8 (`deriveSpike`, `spikeFaces`: district and water) | 1 025 | 39 | 36 | **36** | **0** | 3 |
+| the same, relief-60 seeds 9 – 16 | 164 | 6 | 6 | **6** | **0** | 0 |
+| the same, relief-3000 seeds 9 – 16 | 434 | 16 | 15 | **15** | **0** | 1 |
+| **total** | **28 627** | **157** | **145** | **145** | **0** | **12** |
+
+All of the 145 faces the 1° bound newly admits validate, on spine and on regions alike. They range from 1.011° (M0 (b)
+curved #69, seed 1) to 4.996° (fusion river integrated seed 7, district #23). They include triangles of 3 vertices,
+district faces of up to 365 vertices, and two relief water faces (relief-60 seeds 2 and 7: 887 and 878 vertices, at 3.01°
+and 4.25°). The 12 below 1° are still refused for every use (curved #70, #185, #906, #998, #1336, #1723; fusion river seed
+15's district #2 / #0; relief-3000-5 #42, #45, #73; relief-3000-11 #30). **0 faces moved** that the 5° bound did not refuse:
+the 28 482 others gave equal results on every reader. The §13.1 fixtures (24 397 faces) are `fixtures.test.ts`'s, which
+asserts that every reader validates every one; it is green on the round's code (NEAR below).
+
+**The earlier failure, and why it does not decide this round.** The round S3's probe (2026-10-14; N-s3c-3, which the
+closing check S3 confirmed) found one face out of 28 in band that the validator rejected under a 1° bound: relief-3000
+seed 7, district #56, at 4.64° (`planarity arc 42 crosses arc 46`). That face **cannot be derived on today's tree**. With
+the other items' in-flight edits restored from the WSL tree (M0-e-03 s1 site/water, M0-e-04 s2 layout/districts; the
+session's note), relief-3000 seed 7 derives **0** district faces. So do relief-60 seeds 1 and 11 – 16, relief-3000
+seeds 4, 6, 9, 10, 12 and 13, and fusion river seeds 8, 14, 19 and 23 (both runs). No copy of that ring exists under `plat/`. The
+ruling sets the measurement on today's tree and families, and there all 145 validate, so by (2) the bound is **adopted**.
+The validator stays the net (pinned below). A face like #56 therefore takes its reader's downgrade, `W_DOWNGRADE` with
+cause `validator planarity` and events > 0, in place of `contract sharpCorner` with events 0. That is fail-safe: never
+unvalidated output and never a refusal count above today's. N-s6-1 reports it to the session, who can veto (RL5 is
+OWNER-VETOABLE).
+
+### (2) The adoption (inside the item's owns)
+
+* `src/skeleton/prepare.ts` gains `TAN_1_DEG` (0.017455064928217585, the double nearest tan 1°; checked against a
+  60-digit series) and `SHARP_TAN` (roof → `TAN_5_DEG`, spine and regions → `TAN_1_DEG`). `sharpCorner` takes the bound.
+  `prepareRings(input, use = 'roof')` checks the cleaned rings against `SHARP_TAN[use]`. **The pre-clean does not
+  change.** `inexactTip` keeps the roof's 5° for every use, because §3.8 makes the clean "a function of the ring alone":
+  every reader reads the same cleaned rings, and the validated graphs of spine and regions are equal apart from `use`.
+  Neither `prepare.ts` nor the barrel exports anything new to callers (`index.ts` is unchanged; the API is frozen, J263
+  Q1).
+* `src/skeleton/skeleton.ts` passes `use` to `prepareRings`. The validator path is unchanged, so a face the bound admits
+  and the validator rejects still takes the reader's downgrade.
+
+### Rows
+
+| line | outcome | evidence | pin and mutants (mirror, `packages/kernel/test/skeleton`, `--maxWorkers=1 --bail=1`, each file restored and `cmp`-clean) |
+|---|---|---|---|
+| Q67 (B): the contract angle, 1° for spine and regions, 5° for roof | **FIXED** (a declared shift; the measurement above) | §3.8 and §3's edge table are the source; the code now follows them, and C-0377 (4)'s deviation is closed. | `contract.test.ts` 'the use's bound: 5° for roof, 1° for spine and regions (… hardening round S6)', three tests. **(i)** A 2.98° apex, a 357.6° slit notch and a 3.4° spike whose tip ends 30 cm from its root: roof refuses each `sharpCorner` without running (events 0, at the corner). Spine and regions each validate with no warning, and their graphs are equal apart from `use`. **(ii)** A 0.86° apex is refused for every use, and a 1.09° apex runs for spine and regions while roof refuses it. **(iii)** The validator stays the net: the 2.98° face, admitted for spine and regions, with its finished output corrupted by an interior node with no arc (`EngineHooks.finished`) in both readings, takes the reader's downgrade (`validator topology`, events > 0, the spine's injected axis, one `W_DOWNGRADE`). Mutants, **all red**: **B1** spine and regions left at 5° (the code before the round) red on (i). **B1r** regions alone left at 5°: red on (i). **B2** roof lowered to 1°: red, first on the existing '4.81° apex is refused' test. **B3** the validator's net removed for spine and regions (`!verdict.ok && use === 'roof'`): red on (iii). **B3b** the net removed only for faces the 5° bound refuses (`!verdict.ok && prepareRings(rings, 'roof').ok`): red on (iii). **B4** bound 0.5°: red on (ii). **B5** bound 1.2°: red on (ii). **B6** `use` not passed to `prepareRings`: red on (i). |
+
+The item's own test that read the old contract changed with the shift. `contract.test.ts` 'the typed downgrade per
+reader' used a 4.81° triangle as its "sharp" ring for all three readers. Spine and regions now validate that triangle,
+so the test reads a 0.86° apex instead: `[(0, 0), (2 000, −15), (2 000, 15)]`, whose far end lies 30 cm from the other
+arm, so the clean keeps it. `downgrade.test.ts`'s 4.81° hook test reads roof and is unchanged.
+
+### Declared shift (§3.8 *Decision*; J237 rule (3))
+
+* **This item's moved output.** `skeleton(rings, 'spine')` and `skeleton(rings, 'regions')` on a face whose sharpest
+  corner (after the clean) lies in [1°, 5°). Before the round: the reader's downgrade (`W_DOWNGRADE`, cause
+  `contract sharpCorner` at the corner, events 0; spine → the injected medial axis, regions → `reflexPreCut`). After:
+  the validated `SkeletonGraph`, with no warning (or the validator's downgrade where the net rejects it). In the
+  measured families that is 145 faces per reader. Unmoved: every roof result, and every spine and regions result on a
+  face the 5° bound did not refuse (28 482 faces probed, 0 moved). **Nothing to re-record in this item:**
+  `golden.test.ts`'s digests (corpus 556, 1236, 1144, 1840, the relief-60-3 water face's roof `5a9d3bb6690c0709`,
+  spine `4f9f6abc3bf42fd0` and regions `5bb448fc1a8603c7`, and the rest) are unchanged and green, because none of their
+  faces has a corner below 5°.
+* **Other items' files that move (NOT this item's; for the session's seams):** the six RELATED reds below and the
+  summaries named in N-s6-2.
+
+### Refusal census of the item's registered families (J264 (4), N-58)
+
+Per use, before → after (today's tree). Roof is unchanged on every family. Spine = regions:
+
+| family | roof | spine = regions |
+|---|---|---|
+| §13.1 fixtures (24 397) | 0 → 0 | 0 → 0 |
+| holed polygons 3 × 1 000 + squares 3 000 | 0 → 0 | 0 → 0 |
+| skeleton corpus (2 000) | 0 → 0 | 0 → 0 |
+| relief CITY seeds 1 – 8 (1 025; the S3 family) | 46 → 46 (sharpCorner 39, notSimple 6, validator faces 1) | **46 → 10** (sharpCorner 3, notSimple 6, validator faces 1) |
+| M0 (b) seed 1 (3 500) | 12 → 12 | **12 → 1** |
+| fusion test size seeds 1 – 8 (481) | 9 → 9 (sharpCorner 5, notSimple 2, validator planarity 2) | **9 → 4** (notSimple 2, validator planarity 2) |
+
+The count fell and nothing rose. The registered families of the S3 table give 46 → 46 for roof and **46 → 10** for
+spine and regions. The census's 43 of S3 was taken on the 2026-10-14 tree's derivations, and the relief faces differ
+today (above). The fall comes from LAWFUL faces that now succeed (MAKE-IT-SUCCEED, N-58). The remaining refusals, by
+verdict:
+
+* **sharpCorner below 1°** (12 across the measured families): LAWFUL slivers sharper than the engine's fold threshold.
+  REFUSE, typed, with each reader's downgrade as the layer (§3.8, as ruled).
+* **notSimple** (relief 6 + 1 + 4; fusion 2): LAWFUL pinched faces. REFUSE, with the reader's downgrade as the layer, as
+  ruled (rulings §7; S3).
+* **validator** (unchanged by the round, on every use): relief-60-3 #9 (`faces: face 5 is open at node 6`),
+  relief-3000-11 #25 (`planarity arc 6 crosses arc 8`), and the fusion harness's river seed 7 water face #0, in both
+  runs (`planarity arc 34 crosses arc 36`). LAWFUL. MAKE-IT-SUCCEED is an engine repair (N-s3-3's class) and a session
+  finding (N-s6-3).
+
+### Gates (in the tree)
+
+* `install --frozen-lockfile`: 0.
+* `lint`: 0 (`eslint 1291 files, 0 errors, 0 warnings`; `lint: probe-red ok`; 9 whole-tree checks).
+* `build`: 0.
+* NEAR at W=1 (`packages/kernel/test/skeleton` + `test/num/equivalence.test.ts`): 13 files, 131 / 131.
+* `fixtures.test.ts` at `PLAT_SKELETON_SEED` 1 (in NEAR), 2 and 3: 7 / 7 each.
+* RELATED@1000 at W=1 over `src/skeleton/prepare.ts` and `skeleton.ts` (05:16 – 08:16, 10 764 s): **397 files, 5 127
+  passed, 6 failed, exit 1**. No J176 file is red. All six reds are in other items' files. Each pins the old 5° bound
+  for `spine`. The **attribution replay** confirms this: in the mirror, with the bound set back to 5° for every use (B1,
+  the code before the round), the five files `bench/test/fuzz-bar/entry.test.ts`, `bench/test/site/summary.test.ts`,
+  `bench/test/skeleton/runner.test.ts`, `testkit/test/runner/ladders.test.ts` and `testkit/test/runner/constructive.test.ts`
+  pass 194 / 195. The one failure is `constructive.test.ts`'s bundle check, which needs `packages/testkit/dist`, and a
+  copied mirror has none; it is green in the tree. The red files, by owner:
+
+  | owner | file and test | why it is red | the seam (the session's) |
+  |---|---|---|---|
+  | M0-a-12 | `bench/test/skeleton/runner.test.ts:264–269` 'spine: a face the contract refuses downgrades with the kernel's sampled medial axis' | its 2.9° spike `[(0,0),(4000,0),(4000,200)]` now validates for `spine` (`sharpCorner` 0, expected 1) | a spike below 1° (e.g. `(4000, 60)`, 0.86°), or the same face read by `roof` |
+  | M0-k-02 (the draw) / M0-k-04 (the judge) | `packages/testkit/test/runner/constructive.test.ts` 'limit/degen-skeleton-sharp-corner' (seed 2: "expected the reader's downgrade, got the skeleton path") | `constructive/cases/limits.ts` `buildSharpCorner` draws tan θ ≤ 0.08 and the use from {roof, spine}; a `spine` draw at θ ≥ 1° now validates | `buildSharpCorner`: tan θ < tan 1° when the use is `spine` (or roof only for the 1° – 5° band), its validity predicate (`limits.ts:851–855`) likewise; `coverage.ts:161`'s clause text "a corner sharper than 5°" → "than its use's bound (5° roof, 1° spine and regions)" |
+  | M0-k-04 | `packages/testkit/test/runner/ladders.test.ts:71` 'every built row run here reaches its rung on every draw' (the spine row reached 1 of 6 draws) | `invariants/ladders.ts`'s spine row reads `limit/degen-skeleton-sharp-corner` with use `spine` | follows the draw above |
+  | M0-x-05 | `packages/testkit/test/ladders/coverage.test.ts:45` 'every built stage rung is reached …; covered' (`kernel.covered` false) | the same spine row, uncovered | follows the draw above |
+  | M0-k-04 | `bench/test/fuzz-bar/entry.test.ts:90` 'a whole toy run …, the bar decided' (`pass` false; the run prints "kernel ladders 16 rows, covered false") | the same spine row | follows the draw above |
+  | M0-e-06 | `bench/test/site/summary.test.ts:196` 'the canary CITY record re-derived on this tree is the run's' (relief-60 coarse seed 46: `4c9647bf15914e6d…`, the summary's `eb2046ddce3ce2c1…`) | the canary's record carries the corpus receipts, whose `spine` downgrade counts on district and water faces fall | `summaries/M0-e-06.json` re-run by the Q36 procedure (the session's) |
+
+### Notes
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s6-1 | **The 1° bound's one known validator rejection is not on today's tree.** S3 recorded relief-3000 seed 7, district #56 (4.64°), and the closing check S3 confirmed it (N-s3c-3): under a 1° bound the validator rejects it (`planarity arc 42 crosses arc 46`). Today relief-3000 seed 7 derives no district faces, because of the other items' in-flight edits, so that face could not be measured. The 145 faces that today's tree admits under 1° all validate. If the edits are reverted, or the face comes back, it takes the reader's downgrade through the validator. That is a typed `W_DOWNGRADE` with cause `validator planarity` and events > 0, never unvalidated output (the net is pinned by B3 and B3b). The census does not rise: the face was a refusal before, and it is a downgrade now. | Session: confirm the adoption against the ruling's (2) / (3) split, or veto it (RL5 is OWNER-VETOABLE). If the committed tree derives relief-3000-7, re-measure #56 there. If it still fails, pin it as a fixture in a later round. | hardening |
+| N-s6-2 | **The declared shift's seams in other items' files** (rule (1): not built here). Tests: the six RELATED reds above, owned by M0-a-12, M0-k-02 / M0-k-04 and M0-x-05 (one draw fixes four of them), and M0-e-06. Committed records that go stale with no test red: `summaries/M0-e-06.json` (district and water `spine` downgrade counts and causes: on today's tree relief CITY seeds 1 – 8 fall from 46 to 10, `contract.sharpCorner` 39 → 3), and `summaries/M0-c-06.json`'s `corpusSpine` (the fusion gate's corpus rows: test size seeds 1 – 8, 9 → 4; seeds 9 – 24, 38 → 2). The roof rows of both stay. `summaries/M0-a-12.json` is unchanged: its corpus has 0 `sharpCorner`, and its runner test reads only the roof count. `bench/test/worklimits/fixtures/summaries/*.json` are frozen fixtures and do not move. No layout or site test pins a `W_DOWNGRADE` count from a real skeleton run (`layout/test/pipeline/core/runner.test.ts` stubs its warnings). | Session's seams, in the round's commit or right after it, before the closing check runs RELATED. | hardening |
+| N-s6-3 | **Lawful-input validator downgrades the round does not touch, every use** (N-58, J264): relief-60 seed 3 district #9 (`faces: face 5 is open at node 6`); relief-3000 seed 11 district #25 (`planarity arc 6 crosses arc 8`); the fusion harness's river seed 7 water face #0, in both the fusion and integrated runs (`planarity arc 34 crosses arc 36`). | MAKE-IT-SUCCEED is an engine repair (N-s3-3's class). Session finding with these seeds. | M4 |
+| N-s6-4 | **Derivations with no district faces on today's tree** (the session's note, not this item's). relief-60 seeds 1 and 11 – 16, relief-3000 seeds 4, 6, 7, 9, 10, 12 and 13 (CITY, default config), and the fusion harness's river runs at seeds 8, 14, 19 and 23 (both runs), derive 0 district faces. The 2026-10-14 tree had districts at those seeds (S3's census). These seeds come from the other items' in-flight edits restored from the WSL tree. | Session: attribute the seeds when M0-e-03 s1 and M0-e-04 s2 land. | — |
+
+| N-s6-5 | **J761 (2026-11-10, the session's ruling on the 08:23Z hand-back): the block is lifted; the build returns ready-for-check.** The adoption is confirmed (28 627 faces; 145 in [1°, 5°) all validate for spine and regions; 12 below 1° still refused; roof unchanged). The six reds are the declared shift's, not the round's failing lines: five are closed by the session's seam (lane session/a11s6-seams-1), which is the session's and not this item's edit: `packages/testkit/src/constructive/cases/limits.ts` (sha256 9089535e...ed25fcedb5d2... as given: 9089535ed22030e01858443968cd66ad20b07ac58a10b181bd4c6e25fcedb5d2), `packages/testkit/src/constructive/coverage.ts` (0bb46598c2d12b43affbc7ad02dc78722e54020bcf791f597e0c6fc6ff48cd35) and M0-a-12's `bench/test/skeleton/runner.test.ts` (2b1f6675b501d370b91173467bd57298174451a6b058b1de37d9c19fc5112d6a); hashes re-read on this tree and equal. The sixth, `bench/test/site/summary.test.ts`'s canary (M0-e-06), is the stale-summary class, a declared red until the summary re-run (N-s6-2). N-s6-1's face is re-measured by the session on the merged tree. Returned from disk; nothing rebuilt. |
+
+## Closing check S6 (check/M0-a-11-close-s6, 2026-11-10 to 2026-11-11)
+
+The closing checker's notes. No row here fails the round (N-45, J180). The verdict is in `checks/M0-a-11-s6.md`: PASS. The
+probe sources and their results are in `checks/M0-a-11-s6-evidence/` (claimed by the record `check-M0-a-11-notes`):
+`band-lib.mjs`, `measure-band.mjs`, `stress-band.mjs`, `stress-results.json`, `stress-rejections.json`. Run from `plat/`:
+`corepack pnpm exec tsx --conditions=plat-source docs/build/checks/M0-a-11-s6-evidence/measure-band.mjs <out.json> <family> [args…]`
+(families: `corpus`, `holed <seeds>`, `squares <seeds>`, `faceset <seed> <n>`, `fusion <seeds>`, `relief <fixture> <config> <seeds>`).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s6c-1 | **The builder's measurement probe was not quoted in its notes** (RL5 asked for it quoted; the builder's mirror is deleted). This seat re-measured with its own probe, committed above. The two agree where they overlap: the fusion harness's test-size faces, seeds 1 – 8, are 481 faces with 5 in band, all 5 validated on spine and on regions, and 9 → 4 downgrades, figure for figure. The relief CITY rows agree too: 1 025 faces (518 + 507), 36 in band (16 + 20), all validated, 46 → 10 downgrades on spine and regions. Every band face this seat measured validates (100 of 100 over 39 506 faces). On relief-3000, seeds 4, 6 and 7 derive no district on this tree, so N-s6-1's district #56 is not readable here either. | None for the round. The session runs `measure-band.mjs relief relief-3000 default 7` on the merged tree to read N-s6-1's district #56 (J761 (1)). | — |
+| N-s6c-2 | **The band's validator rejections under stress: 21 of 88 180 band faces (0.024 %)**, typed `W_DOWNGRADE` on spine and on regions alike (planarity 16, faces 5; 17 at a convex tip, 4 at a reflex one; kinds: star 11, multi-feature rectangle 7, holed slab 2, spike 1; 3 lie within 0.01° of 1° and 1 within 0.01° of 5°). Each face is kept in `stress-rejections.json` with its rings, cause and detail. The same generator just above the band ([5.05°, 9°)) has 9 rejections in 24 034 faces (0.037 %) on roof and spine alike, so this is the engine's spike-shaped class, not the band's. LAWFUL input; verdict MAKE-IT-SUCCEED (N-58). | An engine repair, with N-s6-3's seeds; the 21 faces are fixture candidates. | M4 |
+| N-s6c-3 | **The 1° edge is pinned to a band of about 0.23°.** `contract.test.ts` reads a 0.86° apex (refused) and a 1.09° apex (runs). A bound of 0.95° (M4b) survives the item's own tests and is red only on M0-a-12's `runner.test.ts` (its 0.9548° spike); a bound of 1.05° (M5b) survives every test this seat ran. | Add one lattice triangle on each side within 0.01° of 1° to `contract.test.ts` (the stress drew 8 295 faces in [1°, 1.01°) with no surprise). | M4 |
+| N-s6c-4 | **The use's bound is pinned on the outer ring's convex and slit corners only.** Three deliberate-writer mutants survive: a hole's corners checked at roof's 5° for every use (M9), a hole's corners not checked for spine and regions (M9b), and spine and regions checked on the convex side only, so a slit above 359° is admitted (M10a). The honest code passes one bound to every ring through one `Math.abs(cross)`, which roof's 357.6° slit pins. The stress read 20 682 holed band faces, a wedge-shaped hole among their kinds, and 21 809 reflex ones on the real code. | Pin a holed face whose hole has a 3° corner (validates for spine and regions, refused for roof), a hole with a 0.86° corner (refused for every use), and a slit above 359° (refused for spine and regions). | M4 |
+| N-s6c-5 | **The seam's fixture no longer draws roof's own band.** The session's `buildSharpCorner` draws tan θ ≤ 0.017 (under 0.98°) for either use, where it drew up to tan θ = 0.08 before. The fixture is sound (the verdict's seam section). The roof reader's refusal between 1° and 5° is now exercised only by the kernel's `contract.test.ts` (the 2.98° apex, the 357.6° slit and the 3.43° spike, each refused for roof). | None needed. If the ladder should reach it, a second roof-only draw in [1°, 5°). The session's file. | — |
+| N-s6c-6 | **A band face that also breaks a later check changes its refusal's name, not its outcome.** The contract checks the sharp corner first. A face with a corner in [1°, 5°) that is also not simple, or whose hole touches a ring, was `contract sharpCorner` for every use and is now `contract notSimple` (or `holeContact`) for spine and regions: 2 397 and 254 of the stress's 104 000 draws. It downgrades either way and the total never rises, but a summary's per-cause counts move between classes (`contract.sharpCorner` falls, `contract.notSimple` may rise) — one more figure for N-s6-2's stale summaries. In the measured pipeline families (fusion, relief-60, relief-3000: 1 506 faces) no face changed its cause this way (0); the 8 `notSimple` faces there have no corner under 5°. | The session's summary re-run reads the new split; no code change. | — |
+| N-s6c-7 | **The refusals that remain on spine and regions in the measured families, classed (N-58, J264).** Of 39 506 faces: 9 `contract sharpCorner` below 1° (M0 (b) face set 6, relief-3000 3) — LAWFUL slivers; REFUSE as the design's edge table has it, typed and visible, the reader's downgrade the layer that gives the alternative. 8 `contract notSimple` (fusion 2, relief-3000 6) — OUR OWN INTERMEDIATE, pinched faces an earlier stage made; MAKE-IT-SUCCEED upstream. 3 `validator` rejections (fusion planarity 2, relief-60 faces 1) — LAWFUL; MAKE-IT-SUCCEED, the engine's repair. None is new with the round and the census fell (72 → 15 on spine and on regions over the four families read before and after; roof 72 → 72). | The session routes the `notSimple` faces to the stage that makes them (the probe's `groups` name the family: `measure-band.mjs … fusion 1 … 8`, `… relief relief-3000 default 1 … 8`) and the validator's three to the engine's repair with N-s6-3. | M4 (the `notSimple` faces earlier, if a stage round owns them) |

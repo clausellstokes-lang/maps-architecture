@@ -1,12 +1,14 @@
 // M0-a-11: §3.8's numeric contract — "a ring set that breaks either takes its reader's downgrade without running" —
-// and the typed downgrades per reader (§3.8 *Readers and their downgrades*, §5.2 F-SKELETON): a corner sharper than 5°
-// on either side (an interior angle below 5° or above 355°) and a hole touching the outer ring or another hole, with
+// and the typed downgrades per reader (§3.8 *Readers and their downgrades*, §5.2 F-SKELETON): a corner sharper than its
+// use's bound on either side — 5° for `roof` (an interior angle below 5° or above 355°), 1° for `spine` and `regions`
+// (item 130 (f); RL5 / J749, the hardening round S6) — and a hole touching the outer ring or another hole, with
 // the input checks before them (C-0168 (3)): no rings, a ring of fewer than three vertices or no area, a ring that is
 // not simple, a hole outside the outer ring or inside another hole. An off-lattice coordinate is the caller's bug,
 // E_OUT_OF_RANGE as every geometry service returns it.
 import { describe, expect, it } from 'vitest';
 import { runSkeleton } from '../../src/skeleton/skeleton.js';
-import { skeleton, type ContractRefusal, type SkeletonUse } from '../../src/skeleton/index.js';
+import { skeleton, validateSkeleton, type ContractRefusal, type SkeletonUse } from '../../src/skeleton/index.js';
+import type { RawNode } from '../../src/skeleton/engine.js';
 import type { Cm, LatticePoint } from '../../src/types/index.js';
 import { pt } from './support.js';
 
@@ -26,9 +28,9 @@ function refusal(rings: LatticePoint[][], use: SkeletonUse = 'roof'): { refusal:
   return v.cause.at === undefined ? { refusal: v.cause.refusal } : { refusal: v.cause.refusal, at: v.cause.at };
 }
 
-function validated(rings: LatticePoint[][]): boolean {
-  const r = skeleton(rings, 'roof');
-  return r.ok && r.value.kind === 'skeleton';
+function validated(rings: LatticePoint[][], use: SkeletonUse = 'roof'): boolean {
+  const r = skeleton(rings, use);
+  return r.ok && r.value.kind === 'skeleton' && r.warnings.length === 0;
 }
 
 describe('the numeric contract refuses without running (§3.8)', () => {
@@ -92,8 +94,68 @@ describe('the numeric contract refuses without running (§3.8)', () => {
   });
 });
 
+describe('the use’s bound: 5° for roof, 1° for spine and regions (§3.8 as amended by item 130 (f); Q67 (B), RL5 / J749, hardening round S6)', () => {
+  const USES: SkeletonUse[] = ['roof', 'spine', 'regions'];
+  /** A 2.98° apex (tan of its half 26/1 000): inside [1°, 5°). */
+  const TRI3 = [pt(0, 0), pt(1_000, -26), pt(1_000, 26)];
+  /** A slit notch of 357.6° (a 2.4° reflex corner on the far side): inside [1°, 5°) on either side. */
+  const SLIT = [pt(0, 0), pt(2_000, 0), pt(2_000, 2_000), pt(1_021, 2_000), pt(1_000, 1_000), pt(979, 2_000), pt(0, 2_000)];
+  /** A 3.4° spike whose tip ends 30 cm beside its root, beyond attractCm: the pre-clean keeps it for every use. */
+  const SPIKE = [pt(0, 0), pt(1_000, 0), pt(1_000, 1_000), pt(530, 1_000), pt(500, 1_500), pt(500, 1_000), pt(0, 1_000)];
+
+  it('a 3° corner validates for spine and for regions and still takes the roof’s downgrade without running', () => {
+    for (const [ring, at] of [[TRI3, pt(0, 0)], [SLIT, pt(1_000, 1_000)], [SPIKE, pt(500, 1_500)]] as const) {
+      expect(refusal([[...ring]], 'roof')).toEqual({ refusal: 'sharpCorner', at });
+      for (const use of ['spine', 'regions'] as const) {
+        const r = skeleton([[...ring]], use);
+        if (!r.ok || r.value.kind !== 'skeleton') throw new Error(`${use}: expected a validated skeleton, got ${JSON.stringify(r).slice(0, 300)}`);
+        expect(r.warnings).toEqual([]);
+        expect(r.value.use).toBe(use);
+        expect(r.value.events).toBeGreaterThan(0);
+        expect(validateSkeleton(r.value).ok).toBe(true);
+      }
+      // the two readers read the same cleaned rings and get the same graph
+      const s = skeleton([[...ring]], 'spine');
+      const g = skeleton([[...ring]], 'regions');
+      if (!s.ok || s.value.kind !== 'skeleton' || !g.ok || g.value.kind !== 'skeleton') throw new Error('expected skeletons');
+      expect({ ...g.value, use: 'spine' }).toEqual(s.value);
+    }
+  });
+
+  it('the 1° bound on either side of it: a 0.86° apex is refused for every use, a 1.09° apex runs for spine and regions', () => {
+    // tan of the half-angle 15/2 000 (0.86°) and 19/2 000 (1.09°); each far end lies beyond attractCm of the other arm
+    for (const use of USES) expect(refusal([[pt(0, 0), pt(2_000, -15), pt(2_000, 15)]], use)).toEqual({ refusal: 'sharpCorner', at: pt(0, 0) });
+    const just = [pt(0, 0), pt(2_000, -19), pt(2_000, 19)];
+    expect(refusal([just], 'roof')).toEqual({ refusal: 'sharpCorner', at: pt(0, 0) });
+    expect(validated([just], 'spine')).toBe(true);
+    expect(validated([just], 'regions')).toBe(true);
+  });
+
+  it('the validator stays the net: a 3° face the 1° bound admits, its output failing the validator, takes the reader’s downgrade', () => {
+    for (const use of ['spine', 'regions'] as const) {
+      let finished = 0;
+      // an interior node with no arc (engine coordinates: the bounding-box corner (0, −26) is the origin)
+      const corrupt = (nodes: RawNode[]): void => {
+        finished += 1;
+        nodes.push({ x: 300, y: 26, t: 5 });
+      };
+      const r = runSkeleton([TRI3], use, { medialAxis: () => 'axis' }, { finished: corrupt });
+      expect(finished).toBe(2); // the face ran in both readings: admitted by the bound, rejected by the validator
+      if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`${use}: expected a downgrade, got ${JSON.stringify(r).slice(0, 300)}`);
+      expect(r.value.cause).toMatchObject({ code: 'validator', check: 'topology' });
+      expect(r.value.to).toBe(use === 'spine' ? 'medialAxis' : 'reflexPreCut');
+      expect(r.value.events).toBeGreaterThan(0);
+      expect(r.value.axis).toBe(use === 'spine' ? 'axis' : undefined);
+      expect(r.warnings).toEqual([{ code: 'W_DOWNGRADE', count: 1 }]);
+    }
+  });
+});
+
 describe('the typed downgrade per reader (§3.8, §5.2 F-SKELETON), reported W_DOWNGRADE', () => {
-  const sharp = [[pt(0, 0), pt(1_000, -42), pt(1_000, 42)]];
+  // a 0.86° apex: sharper than every use's bound (5° roof, 1° spine and regions); its far end lies 30 cm from the other
+  // arm, beyond attractCm, so the pre-clean keeps it (hardening round S6: the 4.81° apex this test read before runs for
+  // spine and regions now)
+  const sharp = [[pt(0, 0), pt(2_000, -15), pt(2_000, 15)]];
 
   it('roof → a plain roof; spine → the sampled medial axis; regions → the caller’s reflex pre-cut', () => {
     const paths: [SkeletonUse, string][] = [
