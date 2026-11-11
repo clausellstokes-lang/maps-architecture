@@ -162,6 +162,14 @@ describe('the keys and the carry map this item declares (C-0041, C-0089, C-0112 
     // @ts-expect-error orphaned is the literal true
     const notOrphaned: ResolveVertexAt = () => ({ orphaned: false });
     expect([three, typeof numeric, typeof bare, typeof notOrphaned]).toEqual([3, 'function', 'function', 'function']);
+    // nearest? is optional and a LatticePoint (checks/M0-a-16-notes.md note 19): an orphan with no nearest point compiles…
+    const lost: ResolveVertexAt = () => ({ orphaned: true });
+    const orphan = lost(GROUND, pt(10, 20), { v: [], e: [] }, new Map<Id, Id>());
+    expect(orphan).toEqual({ orphaned: true });
+    expect('nearest' in orphan).toBe(false);
+    // @ts-expect-error …and a nearest that is no lattice point does not
+    const offLattice: ResolveVertexAt = () => ({ orphaned: true, nearest: 0 });
+    expect(typeof offLattice).toBe('function');
     // the façade member stays the notBuilt('M2a') stub until M2a puts this function there
     expect(isNotBuilt(kernel().k.geom.resolveVertexAt)).toBe(true);
   });

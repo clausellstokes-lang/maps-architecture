@@ -112,6 +112,15 @@ export const DESIGN_WORDS: readonly string[] = Object.freeze([
   'a district carries its quarter (§9.1) and a check names its invariant',
 ]);
 
+/**
+ * A two-line file for the scan's reach: line 1 a comment, line 2 code (an `it` title, a string), both narrating. A scan
+ * of any file but this list's own reads both lines and finds two hits; a scan of this list's own file reads line 1 only.
+ */
+export const SCAN_FIXTURE: readonly string[] = Object.freeze([
+  '// kept since round 3',
+  "it('the QuarterNode record (kept since round 3)', () => {});",
+]);
+
 /** The names of the patterns a line matches, in the list's order (empty when the line states the design). */
 export function narrationIn(line: string): string[] {
   return NARRATION.filter((p) => p.re.test(line)).map((p) => p.name);

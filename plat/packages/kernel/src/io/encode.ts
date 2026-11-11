@@ -38,6 +38,7 @@ import {
 } from '../arena/index.js';
 import { H128 } from '../hash/index.js';
 import { ITEM_EDGE, ITEM_FACE, ITEM_VERTEX, OUTSIDE, partitionKeyOf, routeHandlePair, type ItemRef } from '../index/index.js';
+import { notBuilt } from '../tx/state.js';
 import type { Handle, Level } from '../types/index.js';
 import { ByteWriter } from './bytes.js';
 import { FORMAT_VERSION, KIND_PARTITION, KIND_ROUTES, layerCodeOf, MAGIC, ringKey } from './format.js';
@@ -110,7 +111,7 @@ function runsAt(p: Plat, r: Level): Runs {
     hs = hs.concat(forward);
     let a = T.origin[hs[0]];
     let b = dest(p, hs[hs.length - 1]);
-    if (a === b) fail(`a level-${r} route is a loop off one vertex (${a}): not written at M0 (C-0207)`);
+    if (a === b) notBuilt('M1', `encodeArena: a level-${r} route is a loop off one vertex (${a}): not written at M0 (C-0207)`);
     if (compareVertices(p, b, a) < 0) {
       hs = hs.reverse().map((h) => h ^ 1);
       const t = a;

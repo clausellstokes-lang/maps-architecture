@@ -140,3 +140,44 @@ a further hardening test or a contrived escape of a guard that fails safe).
 | N-s1-1 | The no-narration guard's reach over a file's NON-comment lines (an `it` title, a string) is held by no assertion of its own: a mutant that scans every file by its comment lines only (`const only = true ? …`, the list file's exemption widened to all) with "(kept since round 3)" planted in the QuarterNode `it` title of `records.test.ts` survives (vitest exit 0), while the same planted line under the unmutated guard is red (the checker's X4). The guard as written does scan every line (read, and X4); what is missing is a test of the test. | Assert the scan's line count equals the files' line count for every file but `narration.ts`, or run the scan over a two-line fixture (one comment line, one string line, both narrating) and expect two hits. | M4 |
 | N-s1-2 | Phrasings that pass the eleven patterns (probed with `narrationIn`): "kept as the round-two text" (the round pattern needs whitespace), "tightened in the S1 pass" (a pass is caught only after consolidation / hardening / session / closing), "the closing checker kept this" (`closing check\b` and `checker's` both miss "checker" bare), "see checks/M0-m-01-s1.md" (a verdict file's path), "a stub until the fix lands". The author's own observation (2) of round S1 names the class: the deny-list fails safe (no design line refused) and narrows with each phrase added. | Add the hyphenated round form, `\b(?:the )?(?:first|second|closing|independent) checker\b`, a `checks/M\d+-` path pattern and `\bthe fix lands\b`, each with its probe in `NARRATION_CAUGHT`; or move to the allow-list form (a comment cites a design section, a choices row or a ruling) when the shared home is named. | M4 |
 | N-s1-3 | `lawLimit` (`stage/vocab.ts`, unchanged by the round) refuses a non-finite floor or perUnit but not a negative one: the checker's census law `{ perUnit: -2, floor: 5 }` gives `lawLimit(f, 2^31)` = −4294967291 and `lawLimit(f, Number.MAX_VALUE)` = −∞, a limit every count exceeds. No lawful input reaches it: the table door refuses such a row first (`tables/src/workLimits/table.ts:71`, "perUnit must be a number ≥ 0"; `law.ts:49` for a fixed law's floor), so the class is UNLAWFUL and fails safe at that door; the census counts it as unlawful, not refused by `lawLimit`. | Detect-and-refuse in `lawLimit` too (a RangeError for `floor < 0` or `perUnit < 0`, the message in the existing form, pinned verbatim), so the operation states its own domain rather than leaning on the table's parser. | M4 |
+
+## Hardening round S2 (lane `build/M0-m-01-fix-s2`, 2026-11-11; J237 (2), J186, J192, J722, J733; leg 3 of the merged round M0-a-15 S2 → M0-a-16 S4 → M0-m-01 S2, J443)
+
+The session's hardening round S2 of the item: ONE row, `m-01:N-s1-1` (this file's closing-check-S1 row N-s1-1, read
+whole), a pin only — no source change. Both edits lie in `model/test/types/`, inside the item's owns; nothing is
+REPORTED. Choices row: C-0468. Mutants ran in the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-m-01-fix-s2/`
+(a real copy of `plat/`, isolation proven: no link into the tree, `@plat/kernel` resolving inside the copy), each run
+`vitest run --maxWorkers=1 --bail=1` over `test/{types,records,schema,stage}`, each mutated file restored from the tree
+and `cmp`-checked before the next; the mirror deleted after (node_modules first).
+
+| row | outcome | what changed | pin and mutant (red with the pin; the receipt without it) |
+|---|---|---|---|
+| N-s1-1 | PINNED (both of the note's forms; the second, preferred, as the `it` of its own) | `types.test.ts`: the guard's per-file scan is one function, `narrationScan(f, text)` → `{ read, hits }` (every line of a file; the pattern list's own file `NARRATION_LIST` by its comment lines only), which the guard "no comment narrates a round, a check or a landing …" (title kept) calls for every file of the four folders' src and test. (a) The note's second form: a new `it` "the scan reads a file's every line: a comment line and a code line (an `it` title) of a two-line fixture, both narrating, are two hits; the pattern list's own file is read by its comment line only" runs `narrationScan` over `narration.ts`'s new `SCAN_FIXTURE` (line 1 `// kept since round 3`, line 2 an `it` title holding "(kept since round 3)") as a records test file: read 2, hits at lines [1, 2], each 'a round, a pass or a phase'; as the list's own file: read 1, hit [1]. The fixture lives in `narration.ts` because that file's code lines are the one place the guard does not read. (b) The note's first form: the guard asserts `read` equals the file's line count for every file but `narration.ts`. | P1 (the note's mutant, `const only = true ? commentLines(…) : null` — every file by its comment lines): red (the guard "src/types/identity.ts: every line read: expected 32 to be 146"; without bail the fixture `it` red too, "expected 1 to be 2"). P2 (P1 with "(kept since round 3)" planted in the QuarterNode `it` title of `records.test.ts`, the note's whole scenario): red. P3 (the exemption widened, `f.endsWith('.ts')`): red, both `it`s. P4 (a comment-prefix test `/^\s*(\/\/\|\/?\*)/` skipping code lines): red, both. P5 (the scan drops a file's last line): red, both ("expected 145 to be 146"; the fixture "expected 1 to be 2"). P6 (the list's exemption removed): red, both (`narration.ts`'s 32 pattern and probe lines; the fixture "expected 2 to be 1"). Control C0 (the plant alone, guard unmutated): red ("test/records/records.test.ts: expected [ Array(1) ] to deeply equal []"). Receipt R0 — the round-S1 `types.test.ts` and `narration.ts` with P1 and the plant: exit 0, 43 of 43 (the escape the pin closes). |
+
+6 targeted mutants, 6 red (P1 – P6), each by both assertions; the control red; the receipt on the S1 guard exit 0.
+
+API (J263 Q1): no `@plat/model` export changes — the round touches no file under `src/`; `narration.ts` (a test
+module) gains the export `SCAN_FIXTURE`. No message text of the package changed. NO-SHIFT: a test only — no output,
+digest or golden moves; nothing re-recorded.
+
+Refusal census (J264, N-58), the S1 probe's operations re-run against the built `@plat/model` (`dist/index.js`) before
+and after: lawful 108 refused 0 → lawful 108 refused 0 (`schemaOrder` over the 15 M0 kinds; `lawLimit` over 5 laws × 17
+counts; `generatedLifecycle` over 8 whole epochs 0 … 2^53 − 1); unlawful 16 refused 16 → 16 refused 16 (`schemaOrder`
+of 4 kinds with no M0 schema; `lawLimit` of 4 bad counts and 2 bad laws; `generatedLifecycle` of −1, 0.5, NaN, ∞,
+−0.0001, 2^53) — each UNLAWFUL → REFUSE, a typed RangeError naming the value; no user reaches it through §11.4's doors.
+Lawful refusals 0 → 0; the census does not rise.
+
+Gates of the round (W = 1): install `--frozen-lockfile` 0; lint 0 (probe-red ok, 9 whole-tree checks); build 0;
+`tsc -b packages/model/test` 0; NEAR (`test/{types,records,schema,stage}`, 5 files) 44 of 44; RELATED@1000: the round
+changed no source under `packages/*/src/`, so `vitest related` ran over its two changed test files
+(`narration.ts`, `types.test.ts`), selecting `types.test.ts` alone: exit 0, 1 file, 15 of 15.
+
+## Closing check of hardening round S2 — notes (lane `check/M0-m-01-close-s2`, 2026-11-11)
+
+One observation of the closing checker (`checks/M0-m-01-s2.md`); it is not a failing line (the brief's blocker rule:
+both probes are deliberate rewrites of a test-side scan that fails safe, beyond the row's promise, which holds —
+the note's mutant and seventeen further ones are red).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2-1 | What the two pins of N-s1-1 do not hold, probed in the checker's mirror (both exit 0, 44 of 44): X1 — the guard's body rewritten to take its hits from a second, comment-lines-only filter while still reporting `narrationScan`'s `read`, with "(kept since round 3)" planted in the QuarterNode `it` title (the guard and `narrationScan` are held equal only by the guard calling it once and destructuring both values); X2 — `narrationScan` blanking template literals before the match, with a narrating template literal appended to `stage.test.ts` (every line is still counted, and `SCAN_FIXTURE`'s code line carries its phrase in a single-quoted string; the single-quoted twin of X2 is red, the checker's M7). Under the guard as written both plants are red (controls C0, C2). Neither is a comment-lines-only scan, a dropped line or a widened exemption — those are red by one pin or both (M1 – M18). | None asked: a test of the test of the test. If the hardening pass wants the literal forms held, one more `SCAN_FIXTURE` line with the phrase in a template literal (three hits); X1 has no pin short of running the guard's body over a planted folder. Recommended: close without a round. | M4 |
