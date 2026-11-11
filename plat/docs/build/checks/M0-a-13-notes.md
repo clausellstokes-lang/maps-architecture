@@ -223,3 +223,46 @@ not change (the before-image gives the same results), and the code is right on e
 | N-s1c-1 | **placeOnRoute's charge before test (i) is unpinned.** Mutant W4e (tryOne tests `onRoutePixel` first, then charges) survives `test/warp/` at 10⁴: every pinned count (1, 2, 30) comes from candidates that all pass (i). C-0338 (4) keeps the loop because it charges an (i)-refused point. Probe: shore (0, 2 000)–(4 000, 2 000), way:1 foot (2 000, 2 000) dragged −1 990 cm (P clamped to (26, 2 000)), an unlocked L1 way:2 foot at (40, 2 000) outside the region. At full strength every candidate fails; the band holds the route's end (0, 2 000), which (i) refuses. The code charges it: `insert.placementCandidates` 54, `warp.halvings` 1, then `slide 1005,2000`. Under W4e the count is 53. | Add the probe as a fixture that pins 54 (it pins N-r10-1's class through the warp's door). | M4 |
 | N-s1c-2 | **The attractCm boundary of the band is unpinned.** Mutant R2attr (`hotPixelCandidates`: `d > ATTRACT_SQ` → `d >= ATTRACT_SQ`, a point exactly 26 cm from P dropped) survives. The code keeps the point, like placement.ts's `placementCandidates` (`d > reach2`). No fixture places a slide or re-seat on a point exactly attractCm away. | A fixture whose qualifying point is the first one exactly 26 cm from P. | M4 |
 | N-s1c-3 | **Test (i)'s `<=` at the hot-pixel boundary.** Mutant R4le (`o * o < HOT_PIXEL_SQ * len2`) survives. On the lattice, exact equality o² = 0.71² · len² needs o = 71m and len = 100m. A route of length 100m has both components divisible by 2^(2+v₂(m)), so o is too, while 71m is divisible only by 2^(v₂(m)): impossible. Only float rounding of `HOT_PIXEL_SQ * len2` can tie, and only for len² beyond about 2³⁸, so the mutant is equivalent below that size. The title "exact at the boundary" of validate.test.ts's 'test (i)' claims more than its asserts (705 and 712). | Optional: retitle, or pin a float-tie input if one is found. placementBoundProblem uses the matching `>`. | M4 |
+
+## Hardening round S2 (build/M0-a-13-fix-s2, 2026-11-10) — the builder's outcomes, mutants and census
+
+The round takes the two rows the second re-triage left open on this item (N-s1c-1, N-s1c-2; leg 2 of a merged round
+after M0-a-04 S6, J443, J733) and closes each with a pin (choices C-0467). Both are pins only: no source file changes,
+no output moves, no export changes (`warp/index.ts` and the barrel untouched). Both probes give the designed result on
+the code, which is right on each input: the charge comes before test (i) (C-0338 (4)), and the band keeps a point
+exactly `attractCm` from P (`d > ATTRACT_SQ`, like placement.ts's `placementCandidates`' `d > reach2`). The mutants ran
+one at a time in the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-13-fix-s2/plat` (built by
+`cp -a`; no link out of it, every `@plat/*` link resolving inside it), each as `vitest run --maxWorkers=1 --bail=1
+packages/kernel/test/warp/` (B-FUZZ at 10⁴ included), the mutated file restored from the tree and `cmp`-checked after
+each; the mirror was deleted after.
+
+| row | outcome | pin (test, `test/warp/fixtures.test.ts`) | mutant: the fault it re-introduces → red on |
+|---|---|---|---|
+| N-s1c-1 (W4e) | pinned | 'a point test (i) refuses is charged before it is tested: the shore's end in the band of a slide clamped beside it (N-s1c-1)' in the describe 'the placement rule's work …' — the checker's probe as a case (`clampedSlideArena(40)`: shore (0, 2 000)–(4 000, 2 000), way:1's junction (2 000, 2 000) dragged −1 990 cm, clamped to P = (26, 2 000), an unlocked L1 way:2 foot at (40, 2 000) outside the region): counts `{ insert.placementCandidates: 54, warp.halvings: 1 }`, no warning, `slide 1005,2000` after one halving, healthy; plus `onRoutePixel` refusing (0, 2 000) and the band holding 52 points | W4e (`tryOne` tests `onRoutePixel` first, then charges) → that test only (the folder with `--bail`: 1 failed, 47 passed; `insert.placementCandidates` 54 → 53) |
+| N-s1c-2 (R2attr) | pinned | new describe 'the placement rule's band reaches attractCm inclusive: a slide seated on the one point exactly 26 cm from P (N-s1c-2)' — `clampedSlideArena(27)`, the same drag: every point 1 … 51 lies within minEdge of the shore's end or of the foot at (27, 2 000), (0, 2 000) fails (i), so the slide seats at (52, 2 000), 25 cm from the foot and exactly 26 cm from P (the band's last point): `W_PLACED 52,2000`, 53 candidates, no halving, `slide 52,2000`, the foot unmoved, healthy; plus the band's last two points (0, 2 000), (52, 2 000) | R2attr (`d > ATTRACT_SQ` → `d >= ATTRACT_SQ`) → this test (the band's ends (1, 2 000), (51, 2 000); with that direct assert removed in the mirror, still red through the warp's door: no `W_PLACED 52,2000`) and N-s1c-1's band length (52 → 50) |
+
+2 targeted mutants, 2 red on their rows' new tests; the tree (the code unchanged) green: fixtures 46/46, `test/warp/`
+81/81 at full strength.
+
+**Refusals (J264, J290), the item's families before → after.** No source file changed, so the census is the same by
+construction; measured: B-FUZZ 0 of 10⁴ plus its two found cases (every case asserts `r.ok`; seed 1300328005, the NEAR
+run), unchanged from S1's 0 of 10 002; the fixtures' refusals are S1's (two E_WORK_LIMIT under a caller-set work limit —
+LAWFUL with a budget, REFUSE typed and visible, the caller's budget the alternative — and the fromLevel misuse throw, a
+programming error): the two new cases commit and add none. No lawful-input refusal; the census does not rise.
+
+**Gates (J193, W = 1).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1 283 files, 0 errors; `lint: probe-red ok`;
+9 whole-tree checks); `build` 0; NEAR `vitest run packages/kernel/test/warp/` at full strength (B-FUZZ at 10⁴, seed
+1300328005) 5 files 81/81; RELATED `PLAT_FUZZ_RUNS=1000 vitest related --run` over `packages/kernel/src/warp/warp.ts`
+(the file the pins hold; unchanged this round) 386 files 5 103/5 103, exit 0 (seed 140048441, 8 833 s).
+
+## Closing check of S2 (check/M0-a-13-close-s2, 2026-11-10) — new minor notes (none fails the item)
+
+The checker's own 13 targeted mutants ran in its mirror `/home/user/maps-scratch/waves/check-M0-a-13/s2/mirror` (deleted
+after; verdict: `checks/M0-a-13-s2.md`): all 13 red on the round's two pins, the two note mutants W4e and R2attr also
+with the pins' direct helper asserts deleted (red through the warp's door alone), and both green again on the base's
+`fixtures.test.ts` (the before-image: the pins are what kill them). Two rows, neither on a fault of the code.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2c-1 | **The builder's table understates W4e's reach.** "W4e → that test only" was read under `--bail=1`. Without it W4e turns both new cases red: N-s1c-1's count 54 → 53 and N-s1c-2's 53 → 52 (its 53 also counts the (i)-refused end (0, 2 000), tried before (52, 2 000) by the tie order y, then x). The same holds for the checker's W4f, W4nocharge and W4late. The pins are stronger than the table says; nothing is wrong. | None; a record for whoever reads the table. | — |
+| N-s2c-2 | **Both pins sit on one geometry.** The (i)-refused charge and the `attractCm` boundary are pinned on a slide along an axis-aligned shore, the boundary point on the route's axis (d² = 26² as 26² + 0²). A re-seat, a steep route (the band's other branch of `shallow`) and an off-axis boundary point (10² + 24² = 26² on a sloped route) run the same lines of `placeOnRoute` and `hotPixelCandidates`, so every mutant of those lines tried dies; a mutant that tells the branches apart would have to be written on purpose. | Optional: one sloped-route case with an off-axis point exactly 26 cm from P. | M4 |

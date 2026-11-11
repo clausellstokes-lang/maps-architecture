@@ -8,7 +8,8 @@
 // E_KEPT and over a generated and an edited water gate moves neither gate's bank vertices. And the checks each fixture
 // isolates (hardening round S1, C-0364): the rotation and the mover-path checks one at a time, the placement bound's
 // call site, the slide clamp on both sides of a held vertex, a two-round closure, the region against a wider brush,
-// a rounding tie read through the warp's door, and the placement rule's per-candidate charge.
+// a rounding tie read through the warp's door, and the placement rule's per-candidate charge. Hardening round S2
+// (C-0467): the charge of a point test (i) refuses (N-s1c-1) and the band's attractCm boundary (N-s1c-2).
 import { describe, expect, it } from 'vitest';
 import { VERTEX_SPLIT, VERTEX_STEINER } from '../../src/arena/index.js';
 import { pointLocate } from '../../src/index/index.js';
@@ -18,6 +19,7 @@ import { clearFiner, removeEdges, setOwner, tx, type Committed } from '../../src
 import { openTx } from '../../src/tx/state.js';
 import { closerThan } from '../../src/warp/validate.js';
 import { heldSet, warp, type MoveReport } from '../../src/warp/index.js';
+import { hotPixelCandidates, onRoutePixel } from '../../src/warp/warp.js';
 import { at, box, brush, commit, contentPrint, drag, edgeRows, framed, healthy, movedLists, must, P, pointwise, pt, report, S4, S8, spec, state, vertexAtPoint, warpBatch } from './support.js';
 
 const noVersion = (s: string): string => s.replace(/#v\d+$/, '');
@@ -794,21 +796,38 @@ describe('§3.6 order within a step: a rounded target on a tie, read through the
   });
 });
 
-describe('the placement rule\'s work: every candidate charged to insert.placementCandidates (N-r10c-1)', () => {
-  /** One warp batch at `level` and the batch's per-counter work when the warp returned. */
-  function charged(p: Parameters<typeof warpBatch>[0], level: 1 | 2, field: Parameters<typeof warpBatch>[2], region: Parameters<typeof warpBatch>[3]): { counts: Record<string, number>; warnings: string[] } {
-    let counts: Record<string, number> = {};
-    let warnings: string[] = [];
-    const r = tx(p, spec(level, { rederivesFrom: 0 as never }), (o) => {
-      const x = warp(o, field, level, region);
-      counts = Object.fromEntries(openTx(o).work.counts);
-      if (x.ok) warnings = x.value.warnings.map((w) => `${w.code} ${w.at?.x},${w.at?.y}`);
-      return x;
-    });
-    expect(r.ok).toBe(true);
-    return { counts, warnings };
-  }
+/**
+ * The shore (0, 2 000)–(4 000, 2 000) with way:1's L1 junction at (2 000, 2 000) and an unlocked L1 way:2 foot at
+ * (`footX`, 2 000), outside the region of the drag `clampDrag` — the junction dragged −1 990 cm, clamped 26 cm from the
+ * shore's end at P = (26, 2 000) (hardening round S2, C-0467).
+ */
+function clampedSlideArena(footX: number) {
+  const p = framed();
+  commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
+  commit(p, 1, (o) => {
+    must(insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    return insertChain(o, [pt(footX, 2000), pt(footX, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
+  });
+  return p;
+}
+const clampDrag = pointwise([[2000, 2000, -1990, 0]]);
+const clampRegion = box(1900, 1900, 2100, 2100);
 
+/** One warp batch at `level` and the batch's per-counter work when the warp returned. */
+function charged(p: Parameters<typeof warpBatch>[0], level: 1 | 2, field: Parameters<typeof warpBatch>[2], region: Parameters<typeof warpBatch>[3]): { counts: Record<string, number>; warnings: string[] } {
+  let counts: Record<string, number> = {};
+  let warnings: string[] = [];
+  const r = tx(p, spec(level, { rederivesFrom: 0 as never }), (o) => {
+    const x = warp(o, field, level, region);
+    counts = Object.fromEntries(openTx(o).work.counts);
+    if (x.ok) warnings = x.value.warnings.map((w) => `${w.code} ${w.at?.x},${w.at?.y}`);
+    return x;
+  });
+  expect(r.ok).toBe(true);
+  return { counts, warnings };
+}
+
+describe('the placement rule\'s work: every candidate charged to insert.placementCandidates (N-r10c-1)', () => {
   it('a slide whose nearest point qualifies: one candidate', () => {
     const p = framed();
     commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
@@ -833,5 +852,46 @@ describe('the placement rule\'s work: every candidate charged to insert.placemen
     const c = charged(p, 1, pointwise([[2000, 2000, 90, 0]]), box(1900, 1900, 2050, 2100));
     expect(c.warnings).toEqual(['W_PLACED 2075,2000']);
     expect(c.counts).toEqual({ 'insert.placementCandidates': SLIDE_CANDIDATES });
+  });
+
+  it('a point test (i) refuses is charged before it is tested: the shore\'s end in the band of a slide clamped beside it (N-s1c-1)', () => {
+    // Hardening round S2 (C-0467): the checker's probe. The junction dragged −1 990 cm is clamped 26 cm from the shore's
+    // end, P = (26, 2 000); the unlocked way:2 foot at (40, 2 000) (outside the region) refuses every point from 16 to 64
+    // by minEdge, the shore's end every point from 1 to 24 (and 25 is 15 from the foot). The band's 53 points 0 … 52 are
+    // all charged — (0, 2 000), the route's end, among them though (i) refuses it (C-0338 (4)) — none qualifies, the step
+    // halves once (one warp.halvings) and P = (1 005, 2 000)'s nearest point qualifies (one more): 53 + 1 = 54. Charging
+    // after (i) would give 53.
+    expect(onRoutePixel(0, 2000, 4000, 2000, 0, 2000)).toBe(false);
+    expect(hotPixelCandidates(0, 2000, 4000, 2000, 26, 2000, P(26, 2000))?.length).toBe(52);
+    const c = charged(clampedSlideArena(40), 1, clampDrag, clampRegion);
+    expect(c.warnings).toEqual([]);
+    expect(c.counts).toEqual({ 'insert.placementCandidates': 54, 'warp.halvings': 1 });
+    const p = clampedSlideArena(40);
+    const r = report(warpBatch(p, 1, clampDrag, clampRegion));
+    expect(r.report.halvings).toBe(1);
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 1005,2000']);
+    healthy(p);
+  });
+});
+
+describe('the placement rule\'s band reaches attractCm inclusive: a slide seated on the one point exactly 26 cm from P (N-s1c-2)', () => {
+  it('the junction clamped to P = (26, 2 000) beside an unlocked foot at (27, 2 000) slides to (52, 2 000), 26 cm from P', () => {
+    // Hardening round S2 (C-0467): the band keeps a point exactly `attractCm` from P (`d > ATTRACT_SQ` drops only points
+    // beyond it), like placement.ts's `placementCandidates` (`d > reach2`). Every point 1 … 51 lies within minEdge of the
+    // shore's end (0, 2 000) or of the foot (27, 2 000) — the foot's own point included — and (0, 2 000) fails test (i),
+    // so the first qualifying point is (52, 2 000), 25 cm from the foot and exactly 26 cm from P, the band's last.
+    // Charged: the nearest (26, 2 000) and the 52 band points, 53; no halving.
+    const band = hotPixelCandidates(0, 2000, 4000, 2000, 26, 2000, P(26, 2000)) ?? [];
+    expect(band.slice(-2)).toEqual([{ x: 0, y: 2000 }, { x: 52, y: 2000 }]);
+    const c = charged(clampedSlideArena(27), 1, clampDrag, clampRegion);
+    expect(c.warnings).toEqual(['W_PLACED 52,2000']);
+    expect(c.counts).toEqual({ 'insert.placementCandidates': 53 });
+    const p = clampedSlideArena(27);
+    const foot = vertexAtPoint(p, 27, 2000);
+    const r = report(warpBatch(p, 1, clampDrag, clampRegion));
+    expect(r.report.halvings).toBe(0);
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 52,2000']);
+    expect(at(p, foot)).toBe('27,2000');
+    healthy(p);
   });
 });
