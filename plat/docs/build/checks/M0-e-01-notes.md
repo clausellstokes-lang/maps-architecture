@@ -183,3 +183,66 @@ mirror (`scratchpad/waves/check-M0-e-01/`), with 32 targeted mutants and its own
 | id | observation | suggested handling | milestone |
 |---|---|---|---|
 | N-s1-2 | **Two equivalent survivors, and a reading of N-s1-1, recorded so that a later checker does not report them again.** (a) Mutants N3 (`inverse`'s guard as `v > -1`) and N9 (as `v >= 0.5`) pass `test/terrain` and `test/noise` (86/86). Both are equivalent. `ratio(1, v, 'length')` refuses `\|v\| < 1` (`RATIO_FLOOR.length = 1`, `kernel/src/num/ratio.ts:9, 16`), and `inverse` reports that refusal with the same text, so the refused set and every message are unchanged. For the values the callers pass (finite, or an integer step count ≥ 1), `inverse`'s second check (`primitives.ts:38–39`) is unreachable after the guard; it stays as C-0044's ratio discipline. CONFIRMED (executed). (b) The author's N-s1-1, one read-only `git status --short` from the repository root, is a breach of the working rule "run no git command". This checker reads it as procedural, of the same class as the harness-injected git status that J355 Q11 settles by disclosure. It is not a clean-room breach of content: no research-side file was opened or read, the output was not used, and attribution is by the landed record's sha256 alone. PLAUSIBLE: the checker cannot see what the command printed. | (a) None. (b) The session's ruling on N-s1-1; the round's verdict does not depend on it. | — |
+
+## Hardening round S2 (lane `build/M0-e-01-fix-s2`, 2026-11-10) — the builder's row-by-row outcome
+
+The session's hardening round S2 of M0-e-01 (J237 (2), J238, J186, J192), leg 1 of the merged round M0-e-01 S2 →
+M0-e-02 S2 → M0-e-03 S4 (J443, J733), on the one row routed to the item: the queue's Q87 (`docs/M0-FIX-QUEUE.md`, read
+whole by `grep '^| Q87 '`). The builder's form was read in M0-m-01's L30 (`checks/M0-m-01-notes.md`), C-0426 (6) and
+C-0463 (Q87). Edits stay inside the item's owns: `src/terrain/heightfield.ts`, `src/terrain/index.ts` (comment only)
+and `test/terrain/strategy.test.ts`. No index or barrel export was added, removed or renamed (J263 Q1); no message
+text of the item changed. Choices row: C-0489.
+
+| row | outcome | what changed | pin (test title) | mutants killed |
+|---|---|---|---|---|
+| Q87-e01 | **fixed** (the row's shape: the builder called) | `heightfield.ts` imports `generatedLifecycle` from `@plat/model` (`stage/lifecycle.ts`); its hand-written copy (C-0334 (3)) is deleted. `record()` — under `buildTerrain` and `flatTerrain` — writes `lifecycle: generatedLifecycle(spec.epoch)`. The file-level name stays as `export { generatedLifecycle };`, the very function, so `hydro/strategy.ts:15` and `water/faces.ts:38` (M0-e-02's and M0-e-03's files, not this leg's to edit) keep their path import and stamp through the builder too. `index.ts`'s header comment and `TerrainSpec.epoch`'s doc say so. | `strategy.test.ts` "stamps the record with @plat/model's one lifecycle builder: the same function, −0 written as 0, an unlawful epoch thrown": the file-level name `toBe` `@plat/model`'s; a stage record at epoch −0 has `since.epoch` +0 (`Object.is`); `buildTerrain` and `flatTerrain` at −1, 1.5, NaN, ∞, 2^53 throw a `RangeError` with the builder's text verbatim; 2^53 − 1 stamps. Red on the pre-round `heightfield.ts`. | Q1 (the pre-round file), Q2 (a literal in `record()`), Q3 (a local copy exported), Q4 (a copy with the check, −0 kept), Q5 (the RangeError swallowed), Q8 (−0 flushed, no check); with the standing pins: Q6 (epoch dropped: "writes the record: … lifecycle"), Q7 (one stamp per epoch: "gives every record a lifecycle of its own …") |
+
+**Mutant table** (J183, the lane's one mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-e-01-fix-s2`, a
+`cp -a` copy: no link into the tree, `@plat/kernel`'s and `@plat/model`'s realpaths inside it). Each mutant ran
+`vitest run --maxWorkers=1 --bail=1 packages/site/test/terrain packages/kernel/test/noise`, and the file was restored
+by copy and checked with `cmp -s`. **8 mutants, 8 killed**, each first by the assertion named: Q1 and Q3 by the
+identity (`strategy.test.ts:119`), Q2 and Q4 by −0 (`:121`), Q5 and Q8 by the RangeError (`:137`), Q6 by
+`since { epoch: 3 }` (`:66`), Q7 by `not.toBe` (`:108`). The clean mirror: 9 files, 87/87. No survivor.
+
+**NO-SHIFT** (the brief's bar). The probe (in the mirror, before-image = the tree at the round's start, sha256 of
+`heightfield.ts` `e27aba2a…`, equal to the landed record) ran 72 lawful `baseTerrain` runs — TOWN, CITY, METROPOLIS ×
+plain, rolling, hilly, mountainous × {no primitive, a hill, a cliff + a terrace} × epochs 0 and 3 — and hashed each
+record canonically (typed arrays by sha256, −0 told apart from 0). The 72 lines are byte-identical before and after
+(their digest `aaac27fd…`), and so are the stage, `buildTerrain` and `flatTerrain` records at epoch 0. The terrain
+suites: 9 files, 87/87 (86 before + the new pin). The builder's value equals the copy's key for key, in key order,
+fresh per call, for every whole epoch ≥ 0 — with one exception, reported as N-s2-1 below rather than declared.
+
+**Refusals (J264, N-58).** Lawful runs 72, refused **0 before, 0 after**; no lawful-input refusal seen. The unlawful
+corpus (epochs no document holds) moved:
+
+| input (kind) | before | after | verdict |
+|---|---|---|---|
+| epoch −1, 1.5, NaN, ∞, 2^53 through `baseTerrain` (UNLAWFUL: §6.1's epoch is a u32) | THROW `RangeError: rng: epoch must be a u32 (§6.1); got <e>` | the same | REFUSE (unchanged; the stream refuses before S1 stamps anything) |
+| the same epochs at the raw doors `buildTerrain` / `flatTerrain` (UNLAWFUL) | BUILT, `since.epoch` the bad value (silently wrong) | THROW `RangeError: generatedLifecycle: epoch <e> is not a whole number ≥ 0` | REFUSE, the builder's (L30's "the refusal of an unlawful epoch inherited"). A repair would guess the epoch; the caller holding the document's epoch is the layer with the alternative, and §11.4's doors hand no raw epoch to S1. |
+| epoch −0 (the stream accepts it) | BUILT, `since.epoch` −0 | BUILT, `since.epoch` +0, the record otherwise identical to epoch 0's | see N-s2-1 |
+
+**Gates** (W = 1): `install --frozen-lockfile` 0; `lint` 0 (eslint 1 283 files, 0 errors, 0 warnings; `probe-red ok`,
+the planted lines reported; 9 whole-tree checks); `build` 0; NEAR (`packages/site/test/terrain` and
+`packages/kernel/test/noise`, PR size, the relief bar inside) 9 files, 87/87. RELATED@1000 over `heightfield.ts` and
+`index.ts`: 280 files, 3 523/3 523, exit 0 (02:32 – 04:41, W = 1, fast-check seed −764785806). A first RELATED run
+was cut at 1 h 57 min by this seat's own `timeout 7000` wrapper (exit 124, no failure in its output) — a seat error
+against 'never stop a run for being slow'; the run above is the full re-run, with no cap.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2-1 | **REPORTED for the session: the one field where the builder's value differs from the copy's.** On an epoch of −0 the hand-written copy wrote `since: { epoch: -0, seq: 0 }`; the builder writes `since: { epoch: 0, seq: 0 }` (its documented −0 flush, C-0385's G5). The stage reaches it: `siteContext(5, 'TOWN', -0)` builds (the stream takes −0 as a u32). Before, the −0 record differed from the epoch-0 record only in that sign (their JSON hashes equal: stage `511a1ed4…`, build `3c514581…`, flat `795cdf58…`); after, it equals the epoch-0 record outright (`820d1eda…`, `92b07abc…`, `5c9d0b72…`). The two values are equal under `===` and in JSON, and the digest's leaf does not read `since` (`model/src/digest/leaf.ts:139`), so no persisted form or digest moves; only `Object.is` sees it. The brief's NO-SHIFT clause says a differing field is a finding to report: it is reported here with both values, and the switch was made because the difference is the builder's canonical form, not a defect — the session may rule otherwise (then Q4's shape, the copy keeping −0, is the alternative, and the −0 assertion goes). | The session's ruling on the −0 flush (accept, or keep −0). | — |
+| N-s2-2 | **The file-level re-export is a bridge.** `heightfield.ts`'s `export { generatedLifecycle };` exists only because `hydro/strategy.ts:15` and `water/faces.ts:38` import the name by path. When legs 2 and 3 switch those imports to `@plat/model`, the re-export, its index comment, and `strategy.test.ts`'s path import (line 10) can go in M0-e-01's next round. | One-line removal after legs 2 and 3 land. | M0 hardening |
+| N-s2-3 | **An unlawful epoch now throws from a `KernelResult` door, after the raster work.** `buildTerrain` / `flatTerrain` reach `record()` last, so the builder's RangeError comes after the heights are computed (nothing is written outside the call). A typed `E_OUT_OF_RANGE 'epoch'` up front would be a new refusal text on an exported function (a contract change, J263 Q6), so it is left for a ruling; the throw is the same class the stage's stream raises for these epochs. | Hardening pass, if the session wants a typed refusal. | M0 hardening (KI) |
+| N-s2-4 | **Procedure disclosure.** At the start this seat ran one read-only `git log --oneline -1` (piped to `head -0`, output discarded) inside a status command. The working rules forbid any git command. Nothing was written and nothing was used: attribution is by the landed record's hashes. | None. Recorded for the closing checker. | — |
+
+## Hardening round S2 — the closing check's notes (lane `check/M0-e-01-close-s2`, 2026-11-10)
+
+The closing check of the round above (verdict in `checks/M0-e-01-s2.md`). None of these rows is a blocker (the brief's
+blocker rule); each is a note for the hardening pass or for the session.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2-5 | **Two non-equivalent survivors on the `buildTerrain` path: the stamp's `existence` and `flags` are asserted in full only on the flat path.** The checker's mutants M14 (`record()` calls the builder, then sets `flags.locked: true` when `request !== null`) and M16 (the same with `existence: 'authored'`) pass NEAR 87/87. On the stage / `buildTerrain` path the suite pins the function's identity, `since` (`strategy.test.ts:66`), the −0 flush, the RangeError and freshness; the whole value is compared only for `flatTerrain` (`raster.test.ts:163`, and the pin's 2^53 − 1 line), which kills the flat-path twins M15 and M17. No source or test outside `site/test/terrain` reads a terrain record's `lifecycle` (grep of `packages/*/src`, `packages/*/test`, `bench/`), and no M0 digest entry is a terrain, so RELATED would not kill them either (PLAUSIBLE: by grep, the two were not run under RELATED). The gap predates the round (the pre-round tests had it too) and needs a writer who overwrites the builder's value on one path only — a deliberate-writer escape, not a wrong result on an honest input: the tree's records are the builder's value on both paths (the checker's probe: 216 stage records and 9 flat records, every lifecycle `generated`, no flag, `since {epoch, 0}`). | One line in "writes the record: … lifecycle": `expect(t.lifecycle).toEqual(modelLifecycle(3))`. | M4 hardening (or the item's next round, with N-s2-2's removal) |
+| N-s2-6 | **The checker's reading of N-s2-1 (epoch −0), for the session's ruling.** Re-measured with the checker's own before-image (the hand-written literal `since: { epoch, seq: 0 }`, reconstructed from Q87 and the standing copy in testkit `ladders/support.ts`, its code lines equal to the pre-round file the author kept): through the stage door `baseTerrain` at epoch −0 the record's `since.epoch` was −0 and is +0; its JSON is identical, `leaf.ts:139` keeps `since` out of the leaf digest, and every other field of the record is byte-identical. For every lawful epoch tried (0, 3, 2^32 − 1 through the stage; 2^53 − 1 at the raw door) the records are byte-identical. −0 is not an epoch a document holds (an epoch counts edit epochs), so this is not a wrong result on an honest input and no persisted form moves; the brief's NO-SHIFT clause still asks that a differing field be reported rather than declared — the author reported it and made the switch, and the pin asserts the new value (`strategy.test.ts:121`). | The session rules: accept the builder's −0 flush (nothing to do), or keep −0 (then the pin's −0 line goes and the terrain stage cannot use the builder unwrapped). | — (session) |
+| N-s2-7 | **The author's N-s2-4** (one read-only `git log --oneline -1`, output discarded, disclosed in L-0797): the second such slip by an author seat of this item (N-s1-1 was a `git status`). Read as procedural, not a clean-room breach of content — no research-side path is involved and attribution is by sha256; PLAUSIBLE, the checker cannot see the command's output. | Routed to the session, as N-s1-2 did. | — |
+| N-s2-8 | **A comment in another item's file disagrees with the digest.** `model/src/stage/lifecycle.ts:3` (M0-m-01's) says "the digest's leaf reads `since`"; `model/src/digest/leaf.ts:139` says `since` is not in the leaf (C-0194 (3)). The code follows `leaf.ts`. Not M0-e-01's file; seen while judging N-s2-1. | A comment fix in M0-m-01's next round. | M0 hardening (comment) |
