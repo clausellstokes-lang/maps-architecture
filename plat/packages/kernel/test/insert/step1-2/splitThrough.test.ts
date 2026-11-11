@@ -387,4 +387,28 @@ describe('the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0321)
     // a key no row holds reads no set: not carried
     expect(carriesRow(p, r.value, anchor, h, 1)).toBe(false);
   });
+
+  it('N-c5-2: a row on vertex slot 0 (its element mark −2, the assertion’s boundary) — carriesRow answers true and does not throw', () => {
+    const b = indexed(QUARTERS);
+    const p = b.plat;
+    // spec vertex 0, the corner (0, 0), takes slot 0 in the default allocation order; its set's element mark is −2 − 0
+    expect(b.v[0]).toBe(0);
+    // pt(10, 5) on (0, 0)–(250, 0): its foot lies 10 cm from (0, 0), so the op lands on that vertex (§3.6 step 2)
+    const t = insertTx(p, 2);
+    const r = splitThrough(t, b.he[0], pt(10, 5), { role: 'anchor', entity: 'district:3' });
+    expect(r.ok && r.value).toBe(0);
+    const anchor = roleIdOf('anchor');
+    const h = handleOf(p, 'district:3');
+    const [row] = rowsOfKey(p, anchor, h, 0);
+    expect(p.roles.nextInSet[row]).toBeLessThanOrEqual(-2);
+    expect(rowElement(p, row)).toBe(0);
+    expect(carriesRow(p, 0, anchor, h, 0)).toBe(true);
+    expect(carriesRow(p, b.v[1], anchor, h, 0)).toBe(false);
+    // the writer asks the same question before adding a row: a repeat of the key on slot 0 is the pinned `already carries`
+    const before = fingerprint(p);
+    expect(() => splitThrough(t, b.he[0], pt(10, 5), { role: 'anchor', entity: 'district:3', ordinal: 0 })).toThrow(
+      /^insert: the vertex at \(0, 0\) already carries \(anchor, district:3, 0\)$/,
+    );
+    expect(fingerprint(p)).toBe(before);
+  });
 });
