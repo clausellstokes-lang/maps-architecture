@@ -1,0 +1,2 @@
+DEFAULT_MIX: ops 720, refused 462, ops returning with a ring claimed twice 0; commits holding coincident-class vertices 0, max per arena 0
+ALONG_MIX: ops 720, refused 472, ops returning with a ring claimed twice 0; commits holding coincident-class vertices 0, max per arena 0

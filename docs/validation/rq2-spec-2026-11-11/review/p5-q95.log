@@ -1,0 +1,11 @@
+seed 44509828 step 0 insert way L1: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 1 insert lane L2: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 2 remove lane L2: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 3 insert way L1: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 4 insert lane L2: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 5 setOwner L1: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 6 remove way L1: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 7 insert lane L2: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 8 insert lane L2: re-parented and unlisted 0; duplicate in a list: false
+seed 44509828 step 11 stretch (rekeyed) L1: re-parented and unlisted 1 — L2 record 1: parent 1448,0|4000,0 → 0,0|1448,0; duplicate in a list: false
+batches with an unlisted re-parent, by kind (all runs): [["stretch (rekeyed)",2],["remove way",2]]

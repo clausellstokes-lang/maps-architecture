@@ -1,0 +1,18 @@
+=== setup
+ v1 (2400, 2891) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ v2 (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+=== StretchRef removal v1 → (499,2966): true 
+ v1 (the stretch END, C on one side only now) (2400, 2891) L2 split=false pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ v2 (interior) (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2]
+ lines only after the stretch removal: e 1800,2915-2400,2891 L2 [28/base:A/2/0] || e 499,2966-1800,2915 L2 [28/base:A/2/0] || f2 0,0 4000,0 4000,4000 0,4000 | 1800,2915 499,2966 1800,2915 2400,2891 3142,2862 2400,2891 k0 o- s0 p(0,0 4000,0 4000,4000 0,4000) || v 1800,2915 L2 f4 [29/base:C/2/0] || v 2400,2891 L2 f0 [29/base:C/2/0]
+ lines only in the fresh insertion: e 499,2966-2400,2891 L2 [28/base:A/2/0] || f2 0,0 4000,0 4000,4000 0,4000 | 2400,2891 499,2966 2400,2891 3142,2862 k0 o- s0 p(0,0 4000,0 4000,4000 0,4000) || v 2400,2891 L2 f4 []
+=== rekey of the stretch v1 → (499,2966) to base:K: true 
+ v1 (cut) (2400, 2891) L2 split=false pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ v2 (moved part, interior) (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:K/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2;invisible/base:K/0/L2]
+=== whole-chain removal of C, proxy rows planted (today: no strip): true v1 (2400, 2891) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2] | vertices 8 | dissolvable 0
+  (stretch) hand strip in a batch: true  — rows left 2
+  (stretch) then a bare strip — rows left 0
+=== after the stretch, the rest removed: equal to A alone? false | v1 (2400, 2891) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2] | vertices 8 vs 6
+  (rekey) hand strip in a batch: true  — rows left 2
+  (rekey) then a bare strip — rows left 0
+=== after the rekey, the rest removed: equal to A alone? false | v1 (2400, 2891) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2] | vertices 7 vs 6
