@@ -16,3 +16,20 @@ What a successor does with it: read rulings-provisional.md first; if no review f
 adversarial review again (the brief is ledger row J775's); fold the rulings into the three entries; write the
 design text (draft.md (c)) into docs/ARCHITECTURE.md as an amendment; bind the entries in specs.json; launch after
 M0-a-05 S14's landing.
+
+## The counting probe's reading (shape-count.mjs on the merged tree 55042d29; five CITY derivations, the END state)
+
+| derivation | live vertices | with the split flag | in the class (split, unpinned, degree 2, identical rows of two or more keys, no vertex row) | what they are |
+|---|---|---|---|---|
+| relief-60 default seed 1 | 12 009 | 243 | 9 | all on L0 edges carrying `enceinte:1` (a level-1 row) beside the river's two bank rows: the wall on a bank |
+| relief-60 default seed 2 | 7 995 | 134 | 0 | |
+| relief-60 default seed 3 | 9 244 | 177 | 0 | |
+| relief-3000 default seed 13 | 7 574 | 132 | 1 | an L1 edge carrying `way:0`, a seam and `enceinte:1` |
+| relief-3000 default seed 4 | 8 401 | 149 | 0 | |
+
+So the class leg 3 guards DOES occur in M0's pipelines (the wall on a bank, as RQ2 predicted), in some cities and a
+handful of vertices each: ten in five cities. Leg 3's content shift is therefore real but narrow — the roots and
+prints of the cities that hold such vertices move, the others do not. The count is an upper bound read on the end
+state (it cannot tell a chain's own point from a leftover), and today each of these vertices is unguarded: a
+later chain attached there and removed would dissolve it.
+

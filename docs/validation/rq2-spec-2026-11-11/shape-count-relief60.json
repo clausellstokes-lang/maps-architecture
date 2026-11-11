@@ -1,0 +1,95 @@
+[
+ {
+  "fixture": "relief-60",
+  "config": "default",
+  "seed": 1,
+  "plats": {
+   "ground/0": {
+    "live": 12009,
+    "split": 243,
+    "coincidentClass": 9,
+    "coincidentClassWithVertexRows": 0,
+    "oneKeyOrNone": 0,
+    "byLevel": {
+     "L0": 9
+    },
+    "sample": [
+     {
+      "x": 46955,
+      "y": -31360,
+      "level": "L0",
+      "rows": "4/enceinte:1/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     },
+     {
+      "x": 48099,
+      "y": -31160,
+      "level": "L0",
+      "rows": "4/enceinte:1/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     },
+     {
+      "x": -54383,
+      "y": -72608,
+      "level": "L0",
+      "rows": "4/enceinte:2/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     },
+     {
+      "x": -55369,
+      "y": -74041,
+      "level": "L0",
+      "rows": "4/enceinte:2/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     },
+     {
+      "x": -89269,
+      "y": -84666,
+      "level": "L0",
+      "rows": "4/enceinte:2/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     },
+     {
+      "x": -65014,
+      "y": -87783,
+      "level": "L0",
+      "rows": "4/enceinte:2/0/1;6/water:river:0/0/0;7/water:river:0/0/0",
+      "vertexRows": 0
+     }
+    ]
+   }
+  }
+ },
+ {
+  "fixture": "relief-60",
+  "config": "default",
+  "seed": 2,
+  "plats": {
+   "ground/0": {
+    "live": 7995,
+    "split": 134,
+    "coincidentClass": 0,
+    "coincidentClassWithVertexRows": 0,
+    "oneKeyOrNone": 0,
+    "byLevel": {},
+    "sample": []
+   }
+  }
+ },
+ {
+  "fixture": "relief-60",
+  "config": "default",
+  "seed": 3,
+  "plats": {
+   "ground/0": {
+    "live": 9244,
+    "split": 177,
+    "coincidentClass": 0,
+    "coincidentClassWithVertexRows": 0,
+    "oneKeyOrNone": 0,
+    "byLevel": {},
+    "sample": []
+   }
+  }
+ }
+]
