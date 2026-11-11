@@ -129,3 +129,30 @@ The session writes the amendment into docs/ARCHITECTURE.md BEFORE the launch (dr
 (c) 1 reads "through which the chain passes once … whatever its degree", and gains "when no other chain's row remains
 on either side and nothing else meets the vertex, the row is stripped and the flag cleared: the vertex is the chain's
 own shape vertex"; (c) 4 names the strip doors; (c) 7 and (c) 8 are scoped to the transaction writers the pins cover).
+
+## Amended at the fold (J777) — these bind with the rulings above and overrule them where they differ
+
+The spec seat's fold of these rulings into the three entries found four places where a ruling was wrong or silent on
+the code (changes.md, 'Could not be folded'); ruled:
+
+- **R3, M1** reads "e's edge rows are on FEWER THAN TWO of the vertex's incident edges → the row is stripped". On three
+  or more — a later chain of the same entity under an 'any' role (shore, bank, margin, border) adds an edge at the
+  vertex, and no maintenance runs at an insert — the row is KEPT (M4): stripped there, the third edge's later removal
+  would leave the point unguarded. W still asks EXACTLY two at the write (as probed); a same-entity branch standing at
+  an own point at the chain's commit writes nothing — a notes row in N-13's class.
+- **R3, the commit hook** reads every vertex whose split flag the batch cleared, however the log records it: the log's
+  `unflagged`, and its `moved` for a warp step (warp's commitStep clears a moved free vertex's flag and logs it in
+  `moved` alone).
+- **R3, the place in `rewriteRows`**: after rule 3 (b)'s flag step and BEFORE step (c) (vertices) and the dissolution —
+  (c) keeps a vertex live while a vertex row is on it, so a row stripped later could leave an isolated live vertex.
+- **R10, the converse oracle** reads "e's edge rows lie on AT LEAST two of its incident edges".
+- **R4, PIN-SHAPE2** is pinned through clearFiner (the one writer that puts a `shape` row into the pin rule's strip
+  set); if a pinned own point cannot be cleared that way the builder says so and the exclusion is shown by PIN-SHAPE
+  alone.
+- **R14, OVER-LIST**: if the builder shows by the code that no live child of a freed record can keep its parent at the
+  re-parent loop, the mutant is stated equivalent with that proof and F2-OFF stays the line's mutant.
+- **R16's seeds**, a floor: the counting probes' five derivations (relief-60 default seeds 1, 2, 3; relief-3000 default
+  seeds 13, 4) and the root runs (fusion 3, integrated 4); the session may add seeds at the launch.
+- **The design text** is amendment ab (docs/AMENDMENTS-2026-11-11ab.md, items 997 – 1005), binding on the round as
+  written there; the base docs/ARCHITECTURE.md is edited at the amendments' next apply pass, not before the launch.
+

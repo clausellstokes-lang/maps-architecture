@@ -7,18 +7,21 @@ entries are not in specs.json, and the rulings are provisional until the adversa
 | file | what |
 |---|---|
 | draft.md | the spec seat's draft: its findings, the lines of each leg, the clause text, the design text, the persisted-format consequences, the open questions and its own weak points |
-| spec-a02-s4.json, spec-a06-s10.json, spec-a05-s15.json | the three entries in specs.json's form, as drafted (the rulings are folded in after the review) |
+| spec-a02-s4.json, spec-a06-s10.json, spec-a05-s15.json | THE THREE ENTRIES AS THEY WILL BE BOUND (4, 7 and 6 lines): the rulings and the review's changes folded in, no open marker left; their one placeholder is the measured list (R15) |
+| draft-v2.md, changes.md | the fold: every line of each leg as it now stands with the design text's final wording, and one row per change with the finding or ruling it implements ('Could not be folded' at its end — ruled at J777) |
+| v1/ | the three entries as first drafted |
 | rulings-final.md | THE SESSION'S RULINGS AFTER THE REVIEW (R1 – R17, J776): what binds the three entries |
 | rulings-provisional.superseded.md | the provisional rulings the review was run on — replaced by rulings-final.md |
 | review/ | the adversarial review (review.md: twenty findings, a section per attacked area, the numbered changes, and a 'Follow-up' on the session's refined rule) with its probe scripts and their logs |
 | shape-count.mjs | the session's counting probe: on M0's pipeline arenas, the live vertices that are split, unpinned, of degree 2 between identical rows of two or more keys — an upper bound of the rows leg 3 would write |
 | rq2-measure.sh, rq2-base.sh | J757's measurement as run in the session's container: the registry's version raised to 2 with the `shape` row appended, the whole suite one test folder per unit at reduced strength; then every red unit again on the unchanged tree |
 
-What a successor does with it: read rulings-final.md and review/review.md; if the three entries here still carry
-'[OPEN' markers the fold was not finished — fold the rulings and the review's changes into them (ledger row J776 says
-how); finish the measured list (every red unit of the version-raised run again on the unchanged tree, R15); write the
-design text into docs/ARCHITECTURE.md as an amendment; bind the entries in specs.json; launch after M0-a-05 S14's
-landing, when few rounds are in flight.
+What a successor does with it: the entries are folded and the design text is written (docs/AMENDMENTS-2026-11-11ab.md,
+items 997 – 1006). What is left before the launch: (1) finish the measured list — every red unit of the version-raised
+run again on the unchanged tree at the same strength, each labelled THE RAISE, THE STRENGTH or THE HEAD (R15) — and
+put it into the placeholder of each entry; (2) wait for M0-a-05 S14's landing, re-read leg 3's cites on that head and
+re-key leg 3 if S14 ran fix rounds; (3) append the three entries to specs.json's rounds; (4) launch ONE child for the
+merged round (launch-DI.md is the model), build opus/high, the three closing checks fable/high.
 
 ## The counting probe's reading (shape-count.mjs on the merged tree 55042d29; five CITY derivations, the END state)
 
