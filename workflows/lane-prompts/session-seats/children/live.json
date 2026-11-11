@@ -5,7 +5,6 @@
  "terminal_minutes": 45,
  "children": [
   {"letter": "DJ", "session": "session_01FE9mEt74RJKcNHTtkisrF2", "branch": "wip/child-e03s4", "created": "2026-11-10T00:25:51Z", "round": "MERGED: M0-e-01 S2, M0-e-02 S2, M0-e-03 S4", "lanes": ["build/M0-e-01-fix-s2", "check/M0-e-01-close-s2", "build/M0-e-02-fix-s2", "check/M0-e-02-close-s2", "build/M0-e-03-fix-s4", "check/M0-e-03-close-s4"]},
-  {"letter": "DQ", "session": "session_01FE9mEugvQYQcyxzdVR7CdH", "branch": "wip/child-a11s6", "created": "2026-11-10T04:24:47Z", "round": "M0-a-11 S6", "lanes": ["build/M0-a-11-fix-s6", "check/M0-a-11-close-s6"]},
   {"letter": "DR", "session": "session_01FE9mEuAgy1J7hSgMwptMRQ", "branch": "wip/child-c01s4", "created": "2026-11-10T04:44:57Z", "round": "M0-c-01 S4", "lanes": ["build/M0-c-01-fix-s4", "check/M0-c-01-close-s4"]},
   {"letter": "DS", "session": "session_01FE9mEtG884CXFEi8XM8Zih", "branch": "wip/child-c05s3", "created": "2026-11-10T07:17:17Z", "round": "M0-c-05 S3", "lanes": ["build/M0-c-05-fix-s3", "check/M0-c-05-close-s3"]},
   {"letter": "DT", "session": "session_01FE9mEvCAo9Sr6sFM2vUdJM", "branch": "wip/child-e06s4", "created": "2026-11-10T07:17:17Z", "round": "M0-e-06 S4", "lanes": ["build/M0-e-06-fix-s4", "check/M0-e-06-close-s4"]},
