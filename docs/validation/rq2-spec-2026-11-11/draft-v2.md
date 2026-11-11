@@ -1,5 +1,11 @@
 # The RQ2 merged round — draft v2 (what changed under J776's final rulings and the adversarial review)
 
+> NOTE (the session, J777): this file is the fold as the spec seat wrote it. The three JSON entries beside it carry
+> four later corrections ruled at J777 (rulings-final.md, 'Amended at the fold'): M1 reads 'fewer than two' with one
+> more pin (m); the converse oracle reads 'at least two'; pin (h) names the planted row's level; the design text is
+> amendment ab (docs/AMENDMENTS-2026-11-11ab.md), whose item 997 words the keep-and-strip rule as M1 – M4 have it —
+> the wording of (c) 1 below ('keeps the row only while that still holds') is superseded by it.
+
 Second pass, 2026-11-11. Only what changed since draft.md: the lines of each leg as they now stand (rendered from the
 bound entries spec-a02-s4.json, spec-a06-s10.json, spec-a05-s15.json; the v1 entries are kept beside them as *.v1.json),
 and the design text (c) 1 – 9 in its final wording with its exact place in docs/ARCHITECTURE.md. The rulings
