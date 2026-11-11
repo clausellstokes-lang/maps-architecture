@@ -1,0 +1,8 @@
+relief/relief-60/default seed 1: 94 district, 1 water faces; bugs 0
+relief/relief-60/default seed 11: 94 district, 1 water faces; bugs 0
+relief/relief-60/default seed 12: 80 district, 1 water faces; bugs 0
+relief/relief-60/default seed 13: 95 district, 1 water faces; bugs 0
+relief/relief-60/default seed 14: 79 district, 1 water faces; bugs 0
+relief/relief-60/default seed 15: 97 district, 1 water faces; bugs 0
+relief/relief-60/default seed 16: 66 district, 1 water faces; bugs 0
+{"family":"relief","args":["relief-60","default","1","11","12","13","14","15","16"],"faces":612,"classes":{"plain":589,"band":23},"roof":{"validated":589,"downgrade contract:sharpCorner":23},"spine":{"validated":612},"regions":{"validated":612},"band":{"faces":23,"spineValidated":23,"regionsValidated":23,"roofRefusedSharp":23,"convex":21,"reflex":2,"holed":0,"minDeg":1.5840725530825526,"maxDeg":4.972654168461749},"movedOutsideBand":0,"causeMoved":0,"causeMoves":{},"spineNeRegions":0,"independentFails":0,"maxMs":3354.7185719999834,"downgrades":{"roof":23,"spine":0,"regions":0}}

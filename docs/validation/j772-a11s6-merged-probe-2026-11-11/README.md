@@ -21,3 +21,17 @@ sharpest corner in [1°, 5°) — #10 3.43°, #13 4.48°, #15 1.31°, #23 3.57°
 4.48° — and all seven validate for `spine` and for `regions` (`roof` refuses the seven, as before). One face
 is refused `notSimple` for every use (the class N-s6c-7 routes upstream). No face of the seed has a 4.64°
 corner: October's district #56 is not derived on today's tree, so its rejection cannot be read or pinned.
+
+## The other seeds N-s6-4 named (the same probe, the same tree)
+
+The round's notes (N-s6-4) listed seeds that derived no district face on the round's tree. On the merged tree
+every one of them derives districts:
+
+| file | seeds | district faces | with a corner in [1°, 5°) | of those, validated for spine and regions | other |
+|---|---|---|---|---|---|
+| relief60.json / .log | relief-60 default 1, 11 – 16 | 94, 94, 80, 95, 79, 97, 66 | 23 | 23 | spine validates 612 of 612 faces |
+| relief3000.json / .log | relief-3000 default 4, 6, 9, 10, 12, 13 | 104, 102, 124, 93, 114, 86 | 30 | 30 | 12 faces `notSimple` for every use; 2 below 1° refused |
+
+With seed 7 above: 60 band faces on these fourteen derivations, all 60 validated; 13 `notSimple` district faces,
+all on relief-3000 (fix queue Q180 (c)).
+
