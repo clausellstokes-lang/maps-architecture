@@ -18,6 +18,7 @@ import { orient2d } from '../../src/num/index.js';
 import { tx } from '../../src/tx/index.js';
 import { randomBatch, rng, type Live } from '../tx/fuzzgen.js';
 import { spec } from '../tx/support.js';
+import { buildArena, type ArenaSpec } from '../arena/support.js';
 import { CELLS, framed, load, print, randomArena, roundTrip, type LevelMoves } from './support.js';
 
 /** The quadrant of a direction counter-clockwise from +x, as the load's angle sort reads it (decode.ts). */
@@ -90,7 +91,7 @@ describe('the arena block round trip (§13.1, §3.9)', () => {
     }
   });
 
-  it('carries the face kind column: residue faces at L0, L1 (routes chunk) and L2, L3 (partition chunks) round-trip (§3.9 faces row; fix round 1, check B1)', () => {
+  it('carries the face kind column: residue faces at L0, L1 (routes chunk) and L2 – L4 (partition chunks) round-trip (§3.9 faces row; fix round 1, check B1; checks/M0-a-15-notes.md N-s1c-4)', () => {
     // The honest path (M0-a-07): absorbSliver retypes a sliver whose every boundary is structural or coarser as
     // `residue` (FACE_KIND_RESIDUE, 1) and leaves its edges. At each level two structural chains of that level 100 cm
     // apart bound a sliver below the floor; the L1 sliver also takes its neighbour's owner (the setOwner door).
@@ -251,4 +252,59 @@ describe('the arena block round trip (§13.1, §3.9)', () => {
       expect(moves.demotions).toBeGreaterThan(0);
     }, 120_000);
   }
+});
+
+/** The thrown message of `fn`, or '' where it returns. */
+function thrown(fn: () => unknown): string {
+  try {
+    fn();
+  } catch (e) {
+    return (e as Error).message;
+  }
+  return '';
+}
+
+describe('what the block does not write at M0 (C-0207 (3))', () => {
+  // An L1 route loop off its one L1 vertex (the top of an L1 stem from the L0 bottom side); the loop's other vertices
+  // are L2, so at level 1 the loop is one route edge whose two ends are one vertex. C-0207 (3) stages the loop to M1
+  // with the document writer (§4b): the staged-branch refusal notBuilt('M1') of tx/state.ts, its text pinned verbatim
+  // (J263 Q6; queue row Q75, checks/M0-a-15-notes.md note 9 and N-s1c-8, hardening round S2).
+  const LOOP: ArenaSpec = {
+    vertices: [
+      [0, 0, 0], [1000, 0, 0], [1000, 1000, 0], [0, 1000, 0],
+      [500, 0, 1], [500, 100, 1],
+      [700, 400, 2], [500, 700, 2], [300, 400, 2],
+    ],
+    edges: [
+      [0, 4, 0], [4, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0],
+      [4, 5, 1],
+      [5, 6, 1], [6, 7, 1], [7, 8, 1], [8, 5, 1],
+    ],
+  };
+
+  it('a route that is a loop off one vertex is refused notBuilt(\'M1\'), the staged branch, with its text verbatim', () => {
+    const built = buildArena(LOOP);
+    expect(built.v[5]).toBe(5); // the loop's one L1 vertex, the slot the message names
+    expect(thrown(() => encodeArena(built.plat))).toBe(
+      "notBuilt('M1'): encodeArena: a level-1 route is a loop off one vertex (5): not written at M0 (C-0207)",
+    );
+  });
+
+  it('two route edges of one level between one pair of vertices stay a plain programming-error throw, not a staged branch', () => {
+    // §3.3's key totality broken: an invalid arena, not a feature M1 builds (note 9), so it keeps encodeArena's own fail.
+    const LENS: ArenaSpec = {
+      vertices: [
+        [0, 0, 0], [1000, 0, 0], [1000, 1000, 0], [0, 1000, 0],
+        [500, 0, 1], [500, 600, 1],
+        [300, 300, 2], [700, 300, 2],
+      ],
+      edges: [
+        [0, 4, 0], [4, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0],
+        [4, 6, 1], [6, 5, 1], [4, 7, 1], [7, 5, 1],
+      ],
+    };
+    const built = buildArena(LENS);
+    expect([built.v[4], built.v[5]]).toEqual([4, 5]);
+    expect(thrown(() => encodeArena(built.plat))).toBe('encodeArena: two level-1 route edges join vertices 4 and 5');
+  });
 });
