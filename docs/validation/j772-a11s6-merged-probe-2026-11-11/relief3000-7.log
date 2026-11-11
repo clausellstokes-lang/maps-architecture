@@ -1,0 +1,6 @@
+relief/relief-3000/default seed 7: 129 district, 1 water faces; bugs 0
+{"family":"relief","args":["relief-3000","default","7"],"faces":130,"classes":{"plain":122,"band":7,"refused:notSimple":1},"roof":{"validated":122,"downgrade contract:sharpCorner":7,"downgrade contract:notSimple":1},"spine":{"validated":129,"downgrade contract:notSimple":1},"regions":{"validated":129,"downgrade contract:notSimple":1},"band":{"faces":7,"spineValidated":7,"regionsValidated":7,"roofRefusedSharp":7,"convex":6,"reflex":1,"holed":1,"minDeg":1.3086542516087247,"maxDeg":4.4848838649986655},"movedOutsideBand":0,"causeMoved":0,"causeMoves":{},"spineNeRegions":0,"independentFails":0,"maxMs":195.779137000005,"downgrades":{"roof":8,"spine":1,"regions":1}}
+
+real	2m33.152s
+user	2m27.960s
+sys	0m1.201s
