@@ -34,11 +34,13 @@ function section4b(): string[][] {
 /**
  * §4b's kernel entries, by their first cell verbatim — an explicit list (checks/M0-a-16-notes.md note 9): the rows whose
  * deferral is a kernel member, branch or hook — a `notBuilt` stub, a `KernelTx` field, the transient key, the pool's
- * `E_SCOPE`, the replaceable `Plat.frame`, the multi-part `PlatKey`, the kernel's `sampleProfile`, or S9's kernel op
- * (whose row holds `claimSubFace`'s score form, S7b's).
+ * `E_SCOPE`, the replaceable `Plat.frame`, the multi-part `PlatKey`, the kernel's `sampleProfile`, S9's kernel op
+ * (whose row holds `claimSubFace`'s score form, S7b's), or the arena block (the `.plat` document's row: `encodeArena`
+ * refuses a route that is a loop off one vertex, `notBuilt('M1')`, C-0207; Q75).
  */
 const KERNEL_ROWS: readonly string[] = [
   'S7b, S9, S10 (step (0) and plots), S10b, S11, S12a–c, S13a, S14',
+  'the `.plat` document, `zod` schemas, the unit lint (§2.9, §2.1)',
   'the derivation pool and overlays, pool sizes 1–3 in the contract tests (§3.3)',
   'the stretch-state profile Write protocol and its fixtures (§2.2 rule 5)',
   'clear regions, prepared contacts, carves, S1\'s water operator; the raised ways and their arena parts',
@@ -58,7 +60,6 @@ const OTHER_ROWS: readonly string[] = [
   'S3 (1), (2), (8), (10), (11), (12)\'s market score, (13)\'s typed destinations beyond plaza and gates; polycentric forms; F-SITE\'s nuclei rungs',
   'S1 (2) coast, (4) islands, (6) harbour, (7) bank classes, the oasis, the geology flag, `Terrain.mining`',
   'the deck strip\'s geometry (S9\'s band on a span), the extra-bridge rung and the rest of F-ROUTE',
-  'the `.plat` document, `zod` schemas, the unit lint (§2.9, §2.1)',
   '`plat calibrate register --check` over M0\'s calibratable cells (§16\'s preamble; V12 §3.11)',
   '§12.1\'s in-Chrome re-measure of §12.3\'s model budgets at TOWN and CITY',
   'the MFCG street-signature rows that measure lots: R4 and wall alignment as gates, lots per block (§13.5)',
@@ -247,7 +248,7 @@ describe('the stub table equals M0.md §4b\'s kernel entries (the exit bar)', ()
     const cited = [...new Set(STUB_TABLE.map((s) => s.deferred))].sort();
     const kernel = kernelRows().map((r) => r[0]).sort();
     expect(cited).toEqual(kernel);
-    expect(kernel).toHaveLength(8);
+    expect(kernel).toHaveLength(9);
   });
 
   it('every §4b row is judged by its first cell verbatim: a kernel entry or not, never both, none left out (an explicit list)', () => {
@@ -281,7 +282,8 @@ describe('the stub table equals M0.md §4b\'s kernel entries (the exit bar)', ()
     expect(STUB_TABLE.map((s) => s.member)).toEqual([
       'geom.transientArena', 'geom.readBack', 'geom.release', 'KernelTx.key (a TransientKey)', 'geom.resolveVertexAt', 'pool',
       'geom.claimSubFace (the score form)', 'KernelTx.clearRegion', 'KernelTx.prepared',
-      'geom.sampleProfile (an Order-valued stretch-state profile)', 'Plat.frame (replaceable)', 'PlatKey.part (multi-part arenas)',
+      'geom.sampleProfile (an Order-valued stretch-state profile)', 'encodeArena (a route that is a loop off one vertex)',
+      'Plat.frame (replaceable)', 'PlatKey.part (multi-part arenas)',
     ]);
   });
 
@@ -297,7 +299,9 @@ describe('the stub table equals M0.md §4b\'s kernel entries (the exit bar)', ()
     const listed = new Set<string>();
     for (const s of STUB_TABLE) for (const site of s.sites) listed.add(`${site} ${s.milestone}`);
     expect([...thrown].sort()).toEqual([...listed].sort());
-    expect(thrown.size).toBeGreaterThanOrEqual(5);
+    // six file / milestone pairs today: tx/tx.ts M6-P and M3a, insert/attractVertex.ts M3a, faces/claim.ts M1,
+    // tx/profile.ts M2b and io/encode.ts M1 (the arena block's loop route, Q75)
+    expect(thrown.size).toBeGreaterThanOrEqual(6);
   });
 });
 

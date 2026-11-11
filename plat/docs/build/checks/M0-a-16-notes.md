@@ -342,3 +342,97 @@ inside the copy), each mutant alone, restored from the tree with a `cmp` check; 
     kernel's layering, so this is a contrived escape, not a fail.
     * **Suggested handling (M4):** seed the helper set with `refusalHelpers` over `facade/notBuilt.ts` too (it finds
       `refuseNotBuilt` by its parametrised template), keeping `facade/` out of the site scan.
+
+## Hardening round S4 (build/M0-a-16-fix-s4, 2026-11-10): the row-by-row outcome (J237 (2), J263, J264, J290 / N-58)
+
+Leg 2 of the merged round M0-a-15 S2 → M0-a-16 S4 → M0-m-01 S2 (J443; RL9 of J637 as J733 orders it). The session's
+rows for this item: queue row Q75 (M0-a-16's half) and note 19. Choices row: C-0491 (seat cell `build/M0-a-16-fix-s4`).
+**Base:** the tree carries leg 1 (`io/encode.ts:114` throws `notBuilt('M1', …)` for a route that is a loop off one
+vertex). The before-image of the three files this round edits equals `landed/M0-a-16.json` hash for hash (`notBuilt.ts`
+b495c9a1…, `stubs.test.ts` 111b9425…, `reflection.test.ts` e3736920…). The declared red was confirmed first: on that
+base `stubs.test.ts` gave "1 failed | 10 passed (11)", and the census case's diff was exactly `+ "io/encode.ts M1"`.
+Every mutant ran alone in the lane's one mirror (`/home/user/maps-scratch/waves/selfcheck-build-M0-a-16-fix-s4/`).
+Isolation was shown first: no link into the tree, and testkit's `@plat/kernel` resolved inside the copy. Each mutant was
+restored from the tree with a `cmp -s` check, and the mirror was deleted after.
+
+### What changed
+
+* `src/facade/notBuilt.ts` gained one REFUSED row, placed after the last refused row and before the two hooks:
+  `{ member: 'encodeArena (a route that is a loop off one vertex)', milestone: 'M1', form: 'refused', deferred: DOCUMENT,
+  choices: ['C-0207'], sites: ['io/encode.ts'] }`. `DOCUMENT` is §4b's first cell verbatim: ``the `.plat` document, `zod`
+  schemas, the unit lint (§2.9, §2.1)``. The header comment names the branch and C-0207. The member text avoids the word
+  "block": the lint's kernel-boundary check refuses that town noun in a kernel string. A first draft that read "an
+  arena-block route" was red there, so the member is named by the arena block's encoder, `encodeArena`.
+* `test/facade/stubs.test.ts`:
+  * That first cell left `OTHER_ROWS` (32 → 31). It joined `KERNEL_ROWS` at its place in §4b's order, after the S7b / S9
+    row and before the derivation pool's row (8 → 9). The list's doc comment names the arena block.
+  * Every count the file pins moved, each for one reason:
+    * `expect(kernel).toHaveLength(8)` → `9`, because the `.plat` row is now a kernel entry (line 251).
+    * The member list gained `'encodeArena (a route that is a loop off one vertex)'` after `geom.sampleProfile`'s row
+      (12 → 13 rows).
+    * `thrown.size ≥ 5` → `≥ 6`: six file / milestone pairs, named in a comment at line 304.
+  * The helper list stays `['notBuilt']`, because `io/encode.ts` imports `tx/state.ts`'s helper.
+* `test/facade/reflection.test.ts` gained the note 19 pin inside the existing `ResolveVertexAt` type test (lines 165 – 172).
+  * The bind `lost: ResolveVertexAt = () => ({ orphaned: true })` compiles, returns `{ orphaned: true }` and has no
+    `nearest` key.
+  * The line `// @ts-expect-error` over `() => ({ orphaned: true, nearest: 0 })` holds that a non-point `nearest` does
+    not compile.
+* Nothing else changed:
+  * No describe or it title changed.
+  * `facade/index.ts`, the barrel, `kernel.ts`, `types.ts` and `M0.md` were not edited.
+  * Vitest 106 → 106 cases (no `it` was added).
+
+### Rows
+
+| row (source) | outcome | evidence | mutant / probe |
+|---|---|---|---|
+| Q75, M0-a-16's half (queue row Q75; leg 1's `encode.ts:114`) | **FIXED** | `notBuilt.ts:72`, the REFUSED row. `stubs.test.ts:290` is the census case 'every notBuilt('…') the kernel's sources throw is a refused row's site with its milestone, and every site throws it'. It is green with both halves: the tree's facade folder is 5 files, 106/106. It is red with either half reverted. | **Q75a** (the row removed): KILLED, census case red; the stubs file had 3 failed \| 8 passed (the census case, 'the §4b rows the table answers…' and the member list). **Q75b** (`encode.ts`'s call put back to `fail(…)`, mirror only): KILLED, census case red (1 failed \| 10 passed, `- "io/encode.ts M1"`). **Q75c** (the row's `sites: []`): KILLED. **Q75d** (the row's milestone `'M3a'`): KILLED. **Q75e** (the lists not moved: the `.plat` cell back in `OTHER_ROWS`): KILLED ('the §4b rows the table answers are exactly §4b's kernel entries'). |
+| Q75, the M0.md reading (the session's, RL9) | **CONFIRMED** (no M0.md change needed; nothing REPORTED) | On M0.md as it stands, every assertion of `stubs.test.ts` is green. The marks' cross-check only constrains rows that carry a mark, and the `.plat` row's hook cell (`the arena block (C-0037); C-0012, C-0044`) carries none. With the session's future text, the row's third cell appended with ``; `encodeArena` refuses a route that is a loop off one vertex, `notBuilt('M1')` (C-0207)`` in the mirror's copy of M0.md only (probe **PM0**), the file stays green: 11/11. With that text plus the pre-round lists (**PM0-Q75e**), it is red: 2 failed, the cross-check ('every §4b row is judged…') and 'the §4b rows the table answers…'. So the list move is what lets the session's hook text land green. | PM0 green (the closing checker's proof, made here in the mirror too); PM0-Q75e KILLED |
+| Q75's second sentence = note 12 (writer()'s check of the exported `isOpenTx`) | **CONFIRMED** (built by S3; nothing changed) | `src/facade/kernel.ts:170` holds `if (!isOpenTx(o)) fail(isClosed(o) ? CLOSED_OVERLAY : UNMINTED_OVERLAY);`. The helper is imported at `kernel.ts:43` from `tx/state.ts:91` (`export function isOpenTx(o: object): boolean`). The pins are `facade.test.ts:981` 'a fabricated InsertTx shell carrying open: true: every writer throws, …', `:1003` (a copy of an open overlay) and `:1020` (a shell that says it is closed). | **N12a** (the old guard, `if (isClosed(o)) fail(CLOSED_OVERLAY);`): KILLED, by `facade.test.ts:981` first (`--bail=1`: 1 failed) |
+| a-16:19 (note 19: `ResolveVertexAt`'s `nearest?` unheld) | **PINNED** (pin only; no source change, as asked) | `reflection.test.ts:165 – 172`. The tree compiles: `tsc -b packages/kernel/test` exits 0, and the facade folder is 106/106. | **T3** (`nearest?: LatticePoint` made required): KILLED by tsc, exit 2, `reflection.test.ts(166,41): error TS2322: Type '{ orphaned: true; }' is not assignable to type '{ vertex: number; } \| { orphaned: true; nearest: LatticePoint; }'`. **T6** (`nearest?: unknown`): KILLED by tsc, exit 2, `reflection.test.ts(170,5): error TS2578: Unused '@ts-expect-error' directive`. Controls: T3 and T6 each SURVIVE the pre-round `reflection.test.ts` (tsc 0), so the pin is what kills them. |
+
+### Behaviour, API, refusals
+
+* **NO-SHIFT:** a table row and tests only. No source line on any path moved, and no digest, golden or record format
+  changed. The only runtime change is that `STUB_TABLE` gains one frozen row. Q145 was held back (J722 (5)): no export
+  and no `Milestone` member changed.
+* **API frozen (J263 Q1):** `facade/index.ts` and `src/index.ts` were not edited. `STUB_TABLE`'s row type is unchanged.
+* **Refusal census (J264, N-58):** the census counts every `kernel: ` and `notBuilt(` error the five façade files
+  construct. It used a mirror-only setup hook over `Error`.
+  * Before the round: 255 + 10. After: 255 + 10. The sorted lists are byte-identical, so the multiset is the same.
+  * The 10 `notBuilt(` errors are M1 ×2 (claimSubFace's score form), M3a ×2 and M6-P ×6. All are UNLAWFUL or staged
+    input, and every verdict is REFUSE (a typed throw, visible). A named notBuilt milestone is the alternative.
+  * Lawful-input refusals: 0 before, 0 after.
+  * The loop refusal itself (`io/encode.ts`, REFUSE as `notBuilt('M1')`) is leg 1's family. The item has no B-FUZZ
+    family of its own.
+* **Gates (the tree, W=1):**
+  * `install --frozen-lockfile`: 0.
+  * `lint`: 0, with "eslint 1283 files, 0 errors, 0 warnings", "lint: probe-red ok", "lint: kernel-boundary ok" and
+    "lint: 9 whole-tree checks".
+  * `build`: 0.
+  * NEAR (`packages/kernel/test/facade/`, PR size): 5 files, 106/106.
+  * RELATED@1000 over `src/facade/notBuilt.ts` (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1`, seed
+    -520558125): Test Files 377 passed (377), Tests 4910 passed (4910), exit 0 (8 791 s). No red; the session's known
+    foreign reds did not appear.
+* **Session note:** M0.md §4b's hook-cell text is still the session's to write at the landing (RL9). The suite is
+  proven green both before and after that text (PM0).
+
+## Closing check of hardening round S4 (check/M0-a-16-close-s4, 2026-11-10): hardening notes (N-45, J202)
+
+21. **KI (closing check S4; M4) — a stub-table row's `choices` cell is held by its form only.**
+    Own mutants QI (the new row's `choices: ['C-0207']` → `[]`), QI2 (→ `['C-0041']`) and QI3 (an old row,
+    `geom.transientArena`'s `['C-0041']` → `['C-9999']`, an id no row of `choices.md` carries) leave `stubs.test.ts` green
+    (11/11): the file checks each id against `/^C-\d{4}$/` and nothing else. The tree is right (CONFIRMED by reading: the
+    new row cites C-0207, whose clause (3) stages the loop route to M1, refined by C-0466), and the gap is the same for
+    all thirteen rows and older than this round, so it is a hardening test, not a fail.
+    * **Suggested handling (M4):** in the case 'a stub row's member is a façade stub of its milestone; …', pin the cited
+      ids per member (a `toEqual` beside the member list), or read `docs/build/choices.md` and require a row of each id.
+22. **KI (closing check S4; M4; with note 8) — an aliased helper import written BELOW its call escapes the `notBuilt`
+    site census.** Own probe QLlate (in the mirror, `io/decode.ts` appended `export function zzQL(): never { return
+    zzNB('M1', 'a second io site'); }` and, after it, `import { notBuilt as zzNB } from '../tx/state.js';`) leaves
+    `stubs.test.ts` green (11/11): `refusalSites` learns an alias when its walk meets the import specifier, and the call
+    was walked first. The same site with the import above the call (QL) and as a literal throw (QL2) is red, as is an
+    unaliased helper wherever its import stands (the helper's own name is in the set from the start). No source does
+    this today (every kernel import stands at the head of its file), and it takes a deliberate writer, so this is a
+    contrived escape, not a fail.
+    * **Suggested handling (M4):** collect the import aliases of a file in a first pass, then walk the calls.
