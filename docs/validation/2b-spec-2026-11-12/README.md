@@ -8,7 +8,9 @@ READ THIS FIRST if you take the work over. Nothing in this folder is bound; `spe
 | `spec-2b.json` | the entry as DRAFTED (M0-a-09 S21, twelve lines) — NOT to be bound as it stands (the review's two blockers) |
 | `rulings-provisional.md` | the session's first rulings, written to be attacked (ruling 3 is withdrawn and ruling 5 suspended since) |
 | `review/review.md` | the adversarial review: R-1 … R-21, its answers to the session's questions A – E; its probes beside it |
-| `rulings-after-review.md` | where the rulings stand NOW: what the review settled, what waits for the measurement |
+| `rulings-after-review.md` | what the review settled (still in force where `rulings-after-measurement.md` does not replace it) |
+| `measurement/` | the scratch prototype's result files (BASE, P and the lay-planned read P′ side by side) and its two patches — its whole-suite red list and final report still to come |
+| `rulings-after-measurement.md` | WHERE THE RULINGS STAND NOW: P as drafted REFUSED on its measured figures; the lay-planned read P′ is the session's choice, vetoable; what the round must provide; what is still open |
 
 STILL RUNNING when this was written (07:30Z 2026-11-12), in the managing session's container:
 the PROTOTYPE / MEASUREMENT seat (`/home/user/maps-scratch/2b-proto/`: the served read switched to X in a scratch mirror
