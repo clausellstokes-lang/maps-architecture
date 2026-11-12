@@ -3,10 +3,13 @@
 // terrain — a constant height raster through M0-m-01's Terrain record (@plat/site's `flatTerrain`), no water — the
 // land of §12.2's CITY matched walled area, 220 ha, split by §1.1's CITY shares (C-0016: stage 1 0.55, stage 2 0.33,
 // ribbon 0.12 of the walled 0.88 → 137.5 / 82.5 / 30 ha), and a single nucleus at the frame's centre (C-0032). The
-// fixture writes no arena; S3's streams are keyed by the town root (§6.1) under S3's stage id.
+// fixture writes no arena; S3's streams are keyed by the town root (§6.1) under S3's stage id. Its tables view is, by
+// default, the registered one the runner gives every stage — M0's shipped tables and layout's own `s6`,
+// `tableView(TABLE_IDS, [s6Table()])` (Q99, RL8; C-0475) — so a bare fixture and a run read one view.
 import { createRng, entityKey, ratio, seedKey, STAGES, type ConcernId, type LatticePoint, type Stream } from '@plat/kernel';
 import { flatTerrain, GROUND_KEY, siteFrame, terrainParams, TERRAIN_ID } from '@plat/site';
-import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
+import { rungProfile, TABLE_IDS, tableView, type BaseRung, type TableView } from '@plat/tables';
+import { s6Table } from '../districts/table.js';
 import type { Site, WaterPlan } from '../siting/types.js';
 
 /**
@@ -25,6 +28,7 @@ export interface FlatFixtureOptions {
   water?: WaterPlan;
   /** The terrain's constant height (cm above datum); default 0. */
   heightCm?: number;
+  /** The tables view; default the registered view the runner gives every stage, `tableView(TABLE_IDS, [s6Table()])` (Q99). */
   tables?: TableView;
 }
 
@@ -40,7 +44,7 @@ function hectares(v: number): number {
 export function flatFixture(seed: number, opts: FlatFixtureOptions = {}): Site {
   if (!Number.isSafeInteger(seed)) throw new RangeError(`flatFixture: the seed is a safe integer, got ${String(seed)}`);
   const rung: BaseRung = 'CITY';
-  const tables = opts.tables ?? tableView();
+  const tables = opts.tables ?? tableView(TABLE_IDS, [s6Table()]);
   const profile = rungProfile(rung);
   const frame = siteFrame(opts.frameAreaHa === undefined ? { aspect: 1 } : { areaHa: opts.frameAreaHa, aspect: 1 }, profile, tables);
   if (!frame.ok) throw new RangeError(`flatFixture: the frame: ${frame.code} ${frame.detail}`);
