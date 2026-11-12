@@ -140,7 +140,7 @@ describe('the use’s bound: 5° for roof, 1° for spine and regions (§3.8 as a
         nodes.push({ x: 300, y: 26, t: 5 });
       };
       const r = runSkeleton([TRI3], use, { medialAxis: () => 'axis' }, { finished: corrupt });
-      expect(finished).toBe(2); // the face ran in both readings: admitted by the bound, rejected by the validator
+      expect(finished).toBe(3); // the face ran in all three readings (hardening round S7): admitted by the bound, rejected by the validator
       if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`${use}: expected a downgrade, got ${JSON.stringify(r).slice(0, 300)}`);
       expect(r.value.cause).toMatchObject({ code: 'validator', check: 'topology' });
       expect(r.value.to).toBe(use === 'spine' ? 'medialAxis' : 'reflexPreCut');
@@ -148,6 +148,74 @@ describe('the use’s bound: 5° for roof, 1° for spine and regions (§3.8 as a
       expect(r.value.axis).toBe(use === 'spine' ? 'axis' : undefined);
       expect(r.warnings).toEqual([{ code: 'W_DOWNGRADE', count: 1 }]);
     }
+  });
+});
+
+describe('the use’s bound at its edges, on every ring and on both sides of a corner (Q180 (b), N-s6c-3, N-s6c-4; hardening round S7)', () => {
+  // Every angle below is computed from its definition: the corner at v between the arms u = p − v and w = q − v has the
+  // exact integer cross u × w and dot u · w of the lattice vectors, and its fold angle is atan2(|cross|, dot) — the
+  // interior angle on the convex side, 360° minus it on the reflex side. tan 1° = 0.0174550649282175857651…; the bounds a
+  // mutant might hold: tan 0.95° 0.016582, tan 0.995° 0.017368, tan 1.005° 0.017542, tan 1.05° 0.018328.
+  const USES: SkeletonUse[] = ['roof', 'spine', 'regions'];
+
+  /** Spine and regions validate with no warning and their graphs are equal apart from `use`. */
+  function runsForSpineAndRegions(rings: LatticePoint[][]): void {
+    const s = skeleton(rings, 'spine');
+    const g = skeleton(rings, 'regions');
+    if (!s.ok || s.value.kind !== 'skeleton') throw new Error(`spine: expected a validated skeleton, got ${JSON.stringify(s).slice(0, 300)}`);
+    if (!g.ok || g.value.kind !== 'skeleton') throw new Error(`regions: expected a validated skeleton, got ${JSON.stringify(g).slice(0, 300)}`);
+    expect(s.warnings).toEqual([]);
+    expect(g.warnings).toEqual([]);
+    expect(s.value.events).toBeGreaterThan(0);
+    expect(validateSkeleton(s.value).ok).toBe(true);
+    expect({ ...g.value, use: 'spine' }).toEqual(s.value);
+  }
+
+  it('the 1° edge within 0.01°: a 0.9982° apex is refused for every use; a 1.0016° apex runs for spine and regions and is refused for roof', () => {
+    // apex (0, 0), arms u = (1 722, −15) and w = (1 722, 15): cross 51 660, dot 2 965 059, atan2 → 0.998159° (in
+    // [0.995°, 1°)); the far ends lie 30 cm apart, beyond attractCm, so the clean keeps the apex
+    const below = [pt(0, 0), pt(1_722, -15), pt(1_722, 15)];
+    for (const use of USES) expect(refusal([below], use)).toEqual({ refusal: 'sharpCorner', at: pt(0, 0) });
+    // arms (1 716, ∓15): cross 51 480, dot 2 944 431, atan2 → 1.001649° (in [1°, 1.005°))
+    const above = [pt(0, 0), pt(1_716, -15), pt(1_716, 15)];
+    expect(refusal([above], 'roof')).toEqual({ refusal: 'sharpCorner', at: pt(0, 0) });
+    runsForSpineAndRegions([above]);
+  });
+
+  it('a corner exactly at the bound as the contract computes it (|cross| = tan 1° · dot in doubles) is not sharper than it: it runs for spine and regions', () => {
+    // apex v = (−8 388 000, −8 388 000), arms u = (8 213 921, 10 684 686) and w = (9 525 818, 11 953 519): cross
+    // 3 595 113 485 149, dot 205 963 913 622 412 (both exact in doubles); cross / dot exceeds tan 1° by 2.3 · 10⁻¹⁹
+    // (the angle is 1° to 13 digits) and the double product 0.017455064928217585 · dot rounds to the cross exactly, so
+    // the strict test |cross| < tan · dot (a corner sharper than the bound) is false here and an inclusive one true
+    const v = pt(-8_388_000, -8_388_000);
+    const exact = [v, pt(1_137_818, 3_565_519), pt(-174_079, 2_296_686)];
+    expect(0.017455064928217585 * 205_963_913_622_412).toBe(3_595_113_485_149);
+    expect(refusal([exact], 'roof')).toEqual({ refusal: 'sharpCorner', at: v });
+    runsForSpineAndRegions([exact]);
+  });
+
+  /** A 60 × 60 m square: the outer ring of the holed pins. */
+  const OUTER = [pt(0, 0), pt(6_000, 0), pt(6_000, 6_000), pt(0, 6_000)];
+
+  it('a hole’s corner is held to the use’s bound: a 2.98° hole corner runs for spine and regions and is refused for roof', () => {
+    // the hole's apex (2 000, 3 000), arms (2 000, ∓52): cross 208 000, dot 3 997 296, atan2 → 2.9787° (the face's
+    // interior angle there 357.02°); its far ends lie 104 cm apart
+    const rings = [OUTER, [pt(2_000, 3_000), pt(4_000, 2_948), pt(4_000, 3_052)]];
+    expect(refusal(rings, 'roof')).toEqual({ refusal: 'sharpCorner', at: pt(2_000, 3_000) });
+    runsForSpineAndRegions(rings);
+  });
+
+  it('a hole’s corner sharper than 1° is refused for every use', () => {
+    // the hole's apex (2 000, 3 000), arms (2 000, ∓15): cross 60 000, dot 3 999 775, atan2 → 0.8594°; far ends 30 cm apart
+    const rings = [OUTER, [pt(2_000, 3_000), pt(4_000, 2_985), pt(4_000, 3_015)]];
+    for (const use of USES) expect(refusal(rings, use)).toEqual({ refusal: 'sharpCorner', at: pt(2_000, 3_000) });
+  });
+
+  it('a slit notch above 359° (its far side under 1°) is refused for spine and regions as for roof', () => {
+    // the notch's floor (2 000, 1 000), arms (15, 2 000) and (−15, 2 000): cross 60 000, dot 3 999 775, atan2 → 0.8594°
+    // on the far side, an interior angle of 359.1406°; the slit is 30 cm wide at its mouth, beyond attractCm
+    const slit = [pt(0, 0), pt(4_000, 0), pt(4_000, 3_000), pt(2_015, 3_000), pt(2_000, 1_000), pt(1_985, 3_000), pt(0, 3_000)];
+    for (const use of USES) expect(refusal([slit], use)).toEqual({ refusal: 'sharpCorner', at: pt(2_000, 1_000) });
   });
 });
 
