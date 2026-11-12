@@ -79,3 +79,42 @@ depth across some of them. X is right to the lattice and unservable as it stands
 * The needle itself: §3.7's flat junction end beside a width-less edge leaves a sliver that is kerb by the definition
   and that nothing can build. P′ never serves it; whether the DEFINITION should say so (the end rule) is a text question
   for the amendment item, not a build question.
+
+## After the reviewer's second pass (`review/review-2.md`; 11:10Z) — P′ stands as the DIRECTION and is NOT yet bindable
+
+The reviewer would bind P′ as the direction, not on the rulings above: one blocker, nine majors.
+
+* **S-1 (BLOCKER) — ACCEPTED.** P′'s commit is P's commit: S9 still hands the door X's outline. The rise the measurement
+  found under P in the B-FUZZ bands population (the commit's 'replays' refusals 5 → 15 and 1 → 29: "no route … keeps
+  clearance within the fidelity bound") is therefore P′'s too, and a lay read would refuse on the same outlines. The
+  table's "no refusal" for P′ is true of the CITY runs only. The measurement seat has been told to run that population
+  under P′, to DISSECT the refused pieces, and to test whether X's outline brought to the arena's resolution by a pure
+  rule (vertices nearer than minEdge merged; parts thinner than the attraction distance removed) lays. THE REMEDY IS
+  RULED BEFORE THE LAUNCH, never in a fix round: either such a rule, stated and pinned, or a different hand-over to the
+  door. Until then nothing of P′ binds.
+* **S-5 — ACCEPTED; ruling 3's "no contract changes" is WITHDRAWN.** P′ REVERSES the core of the decision the owner
+  holds under item 991 (b) — "`kerb(F)` is §3.7's definition computed exactly on the kerb state, the construction's
+  arena-attracted read being its oracle": under P′ the kerb SERVED is the door's lay of the exact outline, and the exact
+  region is ITS oracle (they differ only by parts thinner than the attraction distance). The second half of 991 (b)
+  stands (the S8 ≡ S9 contract as KI-13 states it, the ratchet 0.91 and the target 0.95 — measured 0.973 – 1.000). Item
+  986 (c) (the kept state, the derived children) is not built; 986 (e) (1) – (3) are unmet or moot. The amendment item
+  withdraws or re-declares each by name, and the owner is told in these words: the decision accepted on 2026-10-28 is
+  reversed in its core, for measured reasons. The architecture's sentences are worded as the reviewer proposes ("the
+  same engine"; "one face wherever the arena beside the face is the same at the commit"), not claimed to stand
+  literally; GEO-9's exception reads: an exact boolean writes no arena and no caller receives its output; every kerb
+  served or committed is that outline as `insertChain` lays it.
+* **Accepted as requirements of the round** (each with its pin): S-2 — on a face the read-back classes `whole` the read
+  returns F's own L2 child ring, never X; S-3 — a face with no owner is laid under a placeholder entity (`kerb()` stays a
+  general service); S-4 — the lay leaves NOTHING behind and the check must see more than the arena's bits: the batch's
+  work charge and its distance to the work limit, the shell's `failed` / `closed` state and journal, the open-transaction
+  set, `CLOSINGS` and `CENSUS`, and M0-a-06's frame classes (a lay frame is a dry-run frame); S-6 — pins on the L2-content
+  dependence (a neighbour district's kerb on a shared seam; the other faces of one S9 batch), `kerb()` equal on a
+  slot-renumbered and on a decoded arena, and a queue row on the order M1 commits districts in; S-7 — the kerb-caused
+  'unresolved' rungs of S8 counted per seed, FAILING if above the base, and the faces whose lone lay refuses while the
+  district's commit succeeds (and the reverse) REPORTED one by one; S-8 — a FAILING bar that a laid kerb differs from X
+  only by pieces thinner than the attraction distance (S8 ≡ S9 alone compares the lay with its own commit and cannot
+  see a wrong read-back); S-9 — the lay is handed the read, X computed once; S-10 — the lay's home and the
+  kernel-boundary rows are designed before the launch (kerb.ts and bandUnion.ts both stand at their caps; a cycle
+  between them; a registration import would be shaken out of the bundle).
+* **One round or legs:** one round on M0-a-09 for the code; legs expected on M0-a-06 (the frame classifier; a tx view
+  if the dry-run shell cannot carry the engine) and possibly M0-a-05 (if the remedy of S-1 is the door's).

@@ -1,0 +1,4 @@
+bandUnion.ts (head): {"ident kerb":14,"string kerb":6,"ident band":28,"ident block":5,"string band":12,"string corridor":2}
+"import { bandCore, type BandResult } from './bandUnion.js';" → {"ident band":2,"string band":1}
+"import { layFace } from './bandUnion.js';" → {"string band":1}
+"const r = layFace(t, face, { widths, edgeRole: 'kerb', vertexContacts: true });" → {"string kerb":1}
