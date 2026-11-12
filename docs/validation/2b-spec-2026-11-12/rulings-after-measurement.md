@@ -190,3 +190,50 @@ request for the rule as defined. Nothing binds until that measurement is in and 
   form in which the reversal of item 991 (b)'s first clause is put to the owner.
 * Also taken: a refused kerb read silently passes S8's needle floor (bentCutFabric.ts :938) — counted and REPORTED by
   the round, and a queue row for M0-b-03's fabric round.
+
+## After the reviewer's third pass (`review/review-3.md`; 12:31Z) — the round is SPLIT; R takes four fixes; K2 with a guard
+
+No blocker; seven majors. The reviewer would not bind the re-draft yet, and neither does the session.
+
+* **T-7 — ACCEPTED: THE ROUND IS SPLIT IN TWO, as 2A and 2B were.** ROUND A, NO-SHIFT (M0-a-09 S21): the fold of the
+  exact code into kerb.ts; R and the lay built as kernel-internal functions NOT YET SERVED; X's and R's failures typed;
+  the frame-side end rule (test-side); a SHADOW that computes R(X) and the lay beside the served construction at CITY
+  and in the B-FUZZ population, with the roots unchanged shadow on and off. ROUND B, THE SHIFT (S22): the served reads
+  switched, the construction debug-only with its control, S9's commit and `offRead`'s retirement, the L2 dependence's
+  pins, the L3 read, the bands folder with Q152's six and B-FUZZ's kerb row, the declared shift with its measured red
+  list, the CITY and B-FUZZ bars, the cost; the amendment text applied. Round A's tables — R and the lay AS BUILT —
+  replace the prototype's as the evidence round B binds on.
+* **T-5 — K2 KEPT, WITH A GUARD AND A RULING ON RQ4.** The lay's view is checked sound field by field on today's
+  transaction. It stays in bandUnion.ts for round A, with (a) a pin that fails when the transaction type gains or loses
+  a field (so a field M0-a-06 adds later cannot be shared unseen) and (b) THE SESSION'S RULING: the view is the ONE
+  transaction-shaped object made outside tx/, a declared exception to "transactions are made only in tx/" (RQ4), for as
+  long as M0-a-06 is the item of the merged RQ2 round and of Q181's round; M0-a-06's next round after those moves its
+  constructor into tx/state.ts, built from an explicit field list (NO-SHIFT) — a queue row at the binding. A leg on
+  M0-a-06 now would put this round behind two others for a constructor's address.
+* **T-1, T-2, T-3, T-8 — R TAKES FOUR FIXES** (sent to the measurement seat as the variant to measure): S keeps a move
+  only if the moved vertex's two edges meet F's own boundary nowhere but within 1 cm of it; a step P0 drops X's
+  straight-through rounding vertices before P2, so that P2 judges a corner by the block's real corner vertices; thinness
+  is stated with its tolerance (the erosion by half the attraction distance less two hot pixels and the round join's
+  sagitta) and pinned on strips of 26 and 27 cm; P1's pre-filter takes the slack for holes and each hole belongs to its
+  innermost enclosing ring. AND THE TEXT TELLS THE TRUTH (T-2): R does not remove "what no arena can hold and nothing
+  else" — it also removes components that hold no disc of the attraction distance although the door could hold them
+  (triangles with sides under about 45 cm), may cut an acute tip whose neighbours stand within reach, and along a way
+  whose half-width is no more than the attraction distance it draws the kerb onto the way's centre line, in the plan and
+  in the commit alike, as the door does. The amendment's sentences say what R removes AND what it adds.
+* **T-4 — the widened family's dangling-tip network** (the base commits it; no rule so far cures it): dissected by the
+  measurement; cured by R, or named as a declared class with its cause and a queue row — never left to fail the bar.
+* **T-6 — ACCEPTED: the FAILING form of S8 ≡ S9** is `beyond` 0, the harness's 0.95 floor, and EVERY non-exact block
+  classed from a closed list of causes each checked mechanically (another face of the same commit has a laid L2 vertex
+  within the attraction distance of the difference; a neighbour district's kerb on a shared seam; a fold thinner than
+  the attraction distance that the lone lay did not make) — an unclassed block fails. The contract sentence names those
+  causes instead of "the arena beside the face", and the provisional A6.1 (blocks compared with the base's one to one)
+  is dropped: the shifted trajectory gives no such correspondence.
+* **The minors T-9 – T-13** are taken as written: the lint table gains the debug hook and the provider branch; GEO-9's
+  sentence says "no stage and no façade caller receives it"; pins that can fail in place of pins that print; every
+  refusal left under R classed by shape; and T-13 — a refused kerb read on a child PASSES S8's needle floor
+  (bentCutFabric.ts :938), which is a wrong-result path, not a count: a queue row for M0-b-03's fabric round, "a
+  refused child read refuses the cut".
+
+NEXT: the measurement of R with the four fixes (B-FUZZ, CITY, the red list); then the spec seat re-drafts ONCE MORE as
+two entries on these rulings and the measured figures; the reviewer reads the two entries; then round A binds — on
+S20's landed tree.
