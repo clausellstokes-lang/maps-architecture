@@ -473,6 +473,223 @@ describe("the per-seed start marker (queue row Q146; x-06 row 10): a planted han
   });
 });
 
+describe("the watchdog's one clock and the whole-replay deadline (queue rows Q198 and Q175 (b) / N-11, (c) / N-13; hardening round S2)", () => {
+  // Real children in their own process group, watched through the injected clock (`now`) with the poll timer faked:
+  // the clock moves only when the test moves it and a poll runs only when the test advances the timer, so every
+  // verdict below is decided by the clock's value at a poll — never by a race with the machine's load.
+  type Spawner = NonNullable<Parameters<typeof replayFixture>[2]['spawner']>;
+  const HANG = 1_500;
+  const POLL = 100;
+  const T0 = 1_000;
+  const alive = (pid: number): boolean => {
+    try {
+      process.kill(pid, 0);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const realSleep = (ms: number): Promise<void> => new Promise((r) => void setTimeout(r, ms));
+  const settled = async <T>(p: Promise<T>, ms: number): Promise<T | 'pending'> => Promise.race([p, realSleep(ms).then(() => 'pending' as const)]);
+  const linesOf = (file: string): number => (existsSync(file) ? readFileSync(file, 'utf8').split('\n').filter((l) => l !== '').length : 0);
+  // a child that appends each protocol line to its marker file and prints it, then stays alive (it never exits by itself)
+  const childOf = (lines: object[]): string =>
+    `const fs = require('fs'); const m = process.env.PLAT_EDGE_MARKS; for (const l of ${JSON.stringify(lines)}) { fs.appendFileSync(m, JSON.stringify(l) + '\\n'); console.log(JSON.stringify(l)); } setInterval(() => {}, 1000);`;
+
+  /**
+   * Replays a child printing `lines` under the injected clock: spawned at clock 0, its lines applied at clock T0 (by
+   * stdout or by one poll; a silent child has none, so its time runs from the spawn at 0), the clock then set to the
+   * base + HANG exactly (one poll: nothing may be declared), then to the base + HANG + 0.3 (one poll: the stop).
+   */
+  async function drive(lines: object[]): Promise<{ atLimit: ReplayResult | 'pending'; result: ReplayResult | 'pending'; pid: number }> {
+    const pids: number[] = [];
+    const spawner = ((cmd: string, args: readonly string[], o: SpawnOptions) => {
+      const c = spawn(cmd, args, o);
+      if (c.pid !== undefined) pids.push(c.pid);
+      return c;
+    }) as unknown as Spawner;
+    const marks = join(tree(), 'marks.jsonl');
+    let t = 0;
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+    try {
+      const p = replayFixture('X', 3, { hangMs: HANG, pollMs: POLL, argv: [node, '-e', childOf(lines)], marks, now: () => t, spawner });
+      // spawned at 0; every line arrives at T0 (no I/O event runs before the first await), so the deadline runs from
+      // the last line, not from the spawn
+      const base = lines.length > 0 ? T0 : 0;
+      t = base;
+      // the child's lines on disk (a silent child: a moment for it to start), then one poll applies any not yet applied
+      for (let i = 0; i < 400 && linesOf(marks) < lines.length; i += 1) await realSleep(25);
+      expect(linesOf(marks)).toBe(lines.length);
+      if (lines.length === 0) await realSleep(200);
+      vi.advanceTimersByTime(POLL);
+      t = base + HANG;
+      vi.advanceTimersByTime(POLL);
+      const atLimit = await settled(p, 300);
+      t = base + HANG + 0.3;
+      vi.advanceTimersByTime(POLL);
+      const result = await settled(p, 5_000);
+      return { atLimit, result, pid: pids[0] };
+    } finally {
+      vi.useRealTimers();
+      for (const pid of pids) {
+        try {
+          process.kill(-pid, 'SIGKILL');
+        } catch {
+          // stopped already
+        }
+      }
+    }
+  }
+
+  it('Q198: a wait of hangMs exactly declares nothing; hangMs + 0.3 declares the in-seed hang and reports hangMs + 1 (the whole milliseconds never under the wait)', async () => {
+    const r = await drive([{ start: 11 }, { done: 11, ms: 1 }, { start: 33 }]);
+    expect(r.atLimit).toBe('pending');
+    expect(r.result).toEqual({ returned: 1, crashed: [], hang: { seed: 33, ms: HANG + 1 }, code: null });
+    expect(alive(r.pid)).toBe(false);
+  }, 30_000);
+
+  it('Q175 (b): a child that prints nothing and never exits is stopped within hangMs plus one poll, a hang outside any seed before its first start', async () => {
+    const r = await drive([]);
+    expect(r.atLimit).toBe('pending');
+    expect(r.result).toEqual({ returned: 0, crashed: [], hang: null, outside: { after: null, ms: HANG + 1 }, code: null });
+    expect(alive(r.pid)).toBe(false);
+  }, 30_000);
+
+  it('Q175 (b): a child that hangs after a done (no next start) is stopped within hangMs plus one poll, a hang outside any seed after the seed that ended', async () => {
+    const r = await drive([{ start: 11 }, { done: 11, ms: 1 }, { start: 22 }, { crash: 22 }, { start: 33 }, { done: 33, ms: 1 }]);
+    expect(r.atLimit).toBe('pending');
+    expect(r.result).toEqual({ returned: 2, crashed: [22], hang: null, outside: { after: 33, ms: HANG + 1 }, code: null });
+    expect(alive(r.pid)).toBe(false);
+    // the seed that ended may have thrown: it is the one named
+    const thrown = await drive([{ start: 11 }, { done: 11, ms: 1 }, { start: 22 }, { crash: 22 }]);
+    expect(thrown.atLimit).toBe('pending');
+    expect(thrown.result).toEqual({ returned: 1, crashed: [22], hang: null, outside: { after: 22, ms: HANG + 1 }, code: null });
+  }, 30_000);
+
+  /**
+   * Replays a child whose lines arrive in TWO clock values (fix round S3; the closing check S2's survivor C14): `early`
+   * printed at once and applied at clock T0 (a seed left in flight), `late` printed only once the test drops a go file
+   * and applied at clock T0 + LATE. Then the clock is set to T0 + LATE + HANG exactly (one poll: nothing may be
+   * declared, the deadline runs from the LAST line, not from the last start) and to T0 + LATE + HANG + 0.3 (one poll:
+   * the stop outside any seed). The child writes a line only when the test lets it, so each line's clock is fixed.
+   */
+  const LATE = 1_000;
+  async function driveLate(early: object[], late: object[]): Promise<{ beforeLate: ReplayResult | 'pending'; atLimit: ReplayResult | 'pending'; result: ReplayResult | 'pending'; pid: number }> {
+    const pids: number[] = [];
+    const spawner = ((cmd: string, args: readonly string[], o: SpawnOptions) => {
+      const c = spawn(cmd, args, o);
+      if (c.pid !== undefined) pids.push(c.pid);
+      return c;
+    }) as unknown as Spawner;
+    const dir = tree();
+    const marks = join(dir, 'marks.jsonl');
+    const go = join(dir, 'go');
+    const code =
+      `const fs = require('fs'); const m = process.env.PLAT_EDGE_MARKS; ` +
+      `const emit = (l) => { fs.appendFileSync(m, JSON.stringify(l) + '\\n'); console.log(JSON.stringify(l)); }; ` +
+      `for (const l of ${JSON.stringify(early)}) emit(l); ` +
+      `const w = setInterval(() => { if (fs.existsSync(${JSON.stringify(go)})) { clearInterval(w); for (const l of ${JSON.stringify(late)}) emit(l); setInterval(() => {}, 1000); } }, 20);`;
+    let t = 0;
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+    try {
+      const p = replayFixture('X', 3, { hangMs: HANG, pollMs: POLL, argv: [node, '-e', code], marks, now: () => t, spawner });
+      // the early lines: on disk, then one poll at T0 applies any stdout has not
+      t = T0;
+      for (let i = 0; i < 400 && linesOf(marks) < early.length; i += 1) await realSleep(25);
+      expect(linesOf(marks)).toBe(early.length);
+      vi.advanceTimersByTime(POLL);
+      // the late lines: the clock moved first, then the child let go; applied at T0 + LATE (by stdout or one poll)
+      t = T0 + LATE;
+      vi.advanceTimersByTime(POLL);
+      const beforeLate = await settled(p, 100);
+      writeFileSync(go, '');
+      for (let i = 0; i < 400 && linesOf(marks) < early.length + late.length; i += 1) await realSleep(25);
+      expect(linesOf(marks)).toBe(early.length + late.length);
+      vi.advanceTimersByTime(POLL);
+      t = T0 + LATE + HANG;
+      vi.advanceTimersByTime(POLL);
+      const atLimit = await settled(p, 300);
+      t = T0 + LATE + HANG + 0.3;
+      vi.advanceTimersByTime(POLL);
+      const result = await settled(p, 5_000);
+      return { beforeLate, atLimit, result, pid: pids[0] };
+    } finally {
+      vi.useRealTimers();
+      for (const pid of pids) {
+        try {
+          process.kill(-pid, 'SIGKILL');
+        } catch {
+          // stopped already
+        }
+      }
+    }
+  }
+
+  it('Q175 (b), fix round S3: the deadline runs from the LAST line — a done (or a crash) applied LATE after its start moves it; hangMs after it exactly declares nothing, + 0.3 stops the child outside any seed', async () => {
+    // a long seed: started at T0, its done applied at T0 + 1 000, then silence
+    const done = await driveLate([{ start: 11 }, { done: 11, ms: 1 }, { start: 44 }], [{ done: 44, ms: LATE }]);
+    expect(done.beforeLate).toBe('pending');
+    expect(done.atLimit).toBe('pending');
+    expect(done.result).toEqual({ returned: 2, crashed: [], hang: null, outside: { after: 44, ms: HANG + 1 }, code: null });
+    expect(alive(done.pid)).toBe(false);
+    // the same with the seed's crash applied late
+    const crash = await driveLate([{ start: 11 }, { done: 11, ms: 1 }, { start: 22 }], [{ crash: 22 }]);
+    expect(crash.beforeLate).toBe('pending');
+    expect(crash.atLimit).toBe('pending');
+    expect(crash.result).toEqual({ returned: 1, crashed: [22], hang: null, outside: { after: 22, ms: HANG + 1 }, code: null });
+    expect(alive(crash.pid)).toBe(false);
+  }, 30_000);
+
+  it('Q175 (b): edgeHangs names a hang outside a seed (both forms, the text pinned) and replays nothing after it; exit 1', async () => {
+    const out = tree({ 'edge-suite/a.test.ts.jsonl': `${JSON.stringify({ id: 'A', seed: 1, handling: 'absorbed' })}\n` });
+    const fixtures: FixtureLike[] = ['A', 'B', 'C'].map((id) => ({ id, run: () => null }));
+    for (const [outside, returned, line] of [
+      [{ after: null, ms: 120_001 }, 0, 'tier-jobs edge-hangs: B outside any seed, before its first seed started: no progress line in 120001 ms (a hang, over 120000 ms) after 0 seed(s) returned'],
+      [{ after: 2651453823, ms: 120_250 }, 41, 'tier-jobs edge-hangs: B outside any seed, after seed 2651453823 ended: no progress line in 120250 ms (a hang, over 120000 ms) after 41 seed(s) returned'],
+    ] as const) {
+      const asked: string[] = [];
+      const lines: string[] = [];
+      const replay = (id: string): Promise<ReplayResult> => {
+        asked.push(id);
+        return Promise.resolve({ returned, crashed: [], hang: null, outside, code: null });
+      };
+      expect(await edgeHangs({ out, hangMs: 120_000, seeds: 1000, fixtures, replay, log: quietLog(lines) })).toBe(1);
+      expect(asked).toEqual(['B']);
+      expect(lines).toEqual(['tier-jobs edge-hangs: 2 built fixture(s) never returned in the logs: B, C', line, 'tier-jobs edge-hangs: not replayed after the hang: C']);
+    }
+  });
+
+  it("Q175 (b): edgeHangs' default replay stops a real child silent from its spawn and names it outside any seed", async () => {
+    const out = tree({ 'edge-suite/a.test.ts.jsonl': `${JSON.stringify({ id: 'A', seed: 1, handling: 'absorbed' })}\n` });
+    const pids: number[] = [];
+    const spawner = ((_cmd: string, _args: readonly string[], o: SpawnOptions) => {
+      const c = spawn(node, ['-e', 'setInterval(() => {}, 1000)'], o);
+      if (c.pid !== undefined) pids.push(c.pid);
+      return c;
+    }) as unknown as Spawner;
+    const lines: string[] = [];
+    try {
+      expect(await edgeHangs({ out, hangMs: 60, seeds: 3, fixtures: [{ id: 'A', run: () => null }, { id: 'B/x', run: () => null }], spawner, log: quietLog(lines) })).toBe(1);
+    } finally {
+      for (const pid of pids) {
+        try {
+          process.kill(-pid, 'SIGKILL');
+        } catch {
+          // stopped already
+        }
+      }
+    }
+    expect(lines[1]).toMatch(/^tier-jobs edge-hangs: B\/x outside any seed, before its first seed started: no progress line in \d+ ms \(a hang, over 60 ms\) after 0 seed\(s\) returned$/);
+    expect(pids).toHaveLength(1);
+    expect(alive(pids[0])).toBe(false);
+  }, 20_000);
+
+  it('Q175 (c) / N-13: a marker-only child that finishes, polled never during its run (pollMs 60 000), counts its 3 returns by the close-time read alone', async () => {
+    const markOnly = `const fs = require('fs'); const m = process.env.PLAT_EDGE_MARKS; for (const s of [11, 22, 33]) { fs.appendFileSync(m, JSON.stringify({ start: s }) + '\\n'); fs.appendFileSync(m, JSON.stringify({ done: s, ms: 1 }) + '\\n'); }`;
+    expect(await replayFixture('X', 3, { hangMs: 10_000, pollMs: 60_000, argv: [node, '-e', markOnly] })).toEqual({ returned: 3, crashed: [], hang: null, code: 0 });
+  }, 30_000);
+});
+
 describe('the command line: every command checks its arguments (exit 64 on a bad one)', () => {
   it('refuses missing or malformed arguments and unknown commands', async () => {
     const out = tree();
