@@ -1,22 +1,22 @@
 {
   "schema": "plat-landed-record/1",
   "item": "check-M0-a-09-notes",
-  "lane": "check/M0-a-09-close-s19",
-  "lanes": ["check/M0-a-09-close-r1", "check/M0-a-09-close-s1", "check/M0-a-09-close-s2", "check/M0-a-09-close-s3", "check/M0-a-09-close-s4", "check/M0-a-09-close-s6", "check/M0-a-09-close-s7", "check/M0-a-09-close-s9", "check/M0-a-09-close-s14", "check/M0-a-09-close-s15", "check/M0-a-09-close-s16", "check/M0-a-09-close-s17", "check/M0-a-09-close-s18", "check/M0-a-09-close-s19"],
+  "lane": "check/M0-a-09-close-s21",
+  "lanes": ["check/M0-a-09-close-r1", "check/M0-a-09-close-s1", "check/M0-a-09-close-s2", "check/M0-a-09-close-s3", "check/M0-a-09-close-s4", "check/M0-a-09-close-s6", "check/M0-a-09-close-s7", "check/M0-a-09-close-s9", "check/M0-a-09-close-s14", "check/M0-a-09-close-s15", "check/M0-a-09-close-s16", "check/M0-a-09-close-s17", "check/M0-a-09-close-s18", "check/M0-a-09-close-s19", "check/M0-a-09-close-s20", "check/M0-a-09-close-s21"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-10T09:44:22.164Z",
+  "date": "2026-11-12T22:42:35.412Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-a-09-notes.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-a-09-notes.md", "status": "created", "sha256": "0368339c8aa5bc2e12b8e2b10adbc0172afa1995dfb3a97ee0715eaf70d698c0", "size": 271533 }
+    { "path": "plat/docs/build/checks/M0-a-09-notes.md", "status": "created", "sha256": "185756d51739ac5edb56c4f4f432b8269cead3334598c52fa8ea521e6726fc5b", "size": 365137 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0202", "L-0349", "L-0378", "L-0495", "L-0570", "L-0572", "L-0643", "L-0662", "L-0664", "L-0666", "L-0668", "L-0781", "L-0783"],
-      "lines": ["873f1d8dabca5585", "3c05bd7b547eaf4c", "9d80082cac023d18", "7887cd3e34526ad5", "fba4da169388d2e2", "dd3e862ce9238ae5", "7e8d659e5e6887ce", "574edbea1a3f482f", "ee381092a30cf515", "ae6e2468472caafe", "d89dd48abe8ca28a", "c3d5851aedc61814", "fadb331607c776f1"],
+      "ids": ["L-0202", "L-0349", "L-0378", "L-0495", "L-0570", "L-0572", "L-0643", "L-0662", "L-0664", "L-0666", "L-0668", "L-0781", "L-0783", "L-0802", "L-0804"],
+      "lines": ["873f1d8dabca5585", "3c05bd7b547eaf4c", "9d80082cac023d18", "7887cd3e34526ad5", "fba4da169388d2e2", "dd3e862ce9238ae5", "7e8d659e5e6887ce", "574edbea1a3f482f", "ee381092a30cf515", "ae6e2468472caafe", "d89dd48abe8ca28a", "c3d5851aedc61814", "fadb331607c776f1", "82f3e7746df4c379", "1c84196d698186c6"],
       "removed": []
     }
   ]
