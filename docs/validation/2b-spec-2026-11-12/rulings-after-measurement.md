@@ -80,7 +80,7 @@ depth across some of them. X is right to the lattice and unservable as it stands
   and that nothing can build. P′ never serves it; whether the DEFINITION should say so (the end rule) is a text question
   for the amendment item, not a build question.
 
-## After the reviewer's second pass (`review/review-2.md`; 11:10Z) — P′ stands as the DIRECTION and is NOT yet bindable
+## After the reviewer's second pass (`review/review-2.md`; 11:00Z) — P′ stands as the DIRECTION and is NOT yet bindable
 
 The reviewer would bind P′ as the direction, not on the rulings above: one blocker, nine majors.
 
