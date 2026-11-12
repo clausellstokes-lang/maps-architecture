@@ -1,0 +1,18 @@
+{
+  "id": "M0-a-06",
+  "from": 11,
+  "round": "S11",
+  "session": "OPTION S of the ruling seat's draft on Q181 (/home/user/maps-scratch/q181/ruling-draft.md section 4; NOT recommended - the draft recommends folding the line into the merged RQ2 round as leg 2's LINE 8, line-fold.json). This round would be opened by the SESSION as M0-a-06's HARDENING ROUND S11 AFTER the merged RQ2 round (M0-a-02 S4 -> M0-a-06 S10 -> M0-a-05 S15) has LANDED - never before it: the amended run test keeps flags that, without RQ2's `(shape, e)` row and its maintenance M1 - M4, let a later removal dissolve a chain's own point landed on another chain's run (the ruling seat's probe p1-forms G and the fuzzer's 13 cases without the row; 0 with it). THE RULES OF A HARDENING ROUND as in S10's entry (J237 (2), J238, J567): the write scope is M0-a-06's owns (plat/packages/kernel/src/tx/ and plat/packages/kernel/test/tx/); every row a pin with its mutant table; a declared shift stated with before and after; the refusal census never rising; no API change; the gates NEAR and RELATED@1000 at W=1; the notes file gains 'Hardening round S11'. The design sentence is the session's ruling on Q181 (amendment ab's item 1007 if the session writes it there, or the next amendment file's first item), read with ab's 997 (whose scope sentence is widened to the stretch end and the rekey cut) and J776 R3 / J777 (M1 - M4 unchanged).",
+  "lines": [
+    {
+      "line": "LINE 1 - Q181, RULE 3 (b)'S RUN TEST: identical to line-fold.json's LINE 8 'line' text, its references to 'LINE 1' read as S10's LINE 1 (landed).",
+      "evidence": "identical to line-fold.json's LINE 8 'evidence', plus the landed S10 tree: rewriteRows' maintenance step (after (b), before (c)), its commit hook in tx.ts, and S10's LINE 1 pins (e) and (f) in kernel/test/tx/ (the stretch end and the rekey cut, their flag 'left as rule 3 (b) leaves it').",
+      "required_change": "identical to line-fold.json's LINE 8 'required_change', with three changes: (i) the `shape` rows in Q7 and Q8 are WRITTEN by insertChain (leg 3 landed), not planted; (ii) S10's LINE 1 pins (e) and (f) are EXTENDED in place, not re-worded in a spec: after the stretch end (e) and after the rekey cut (f), C's rest (and K) removed -> equal to A alone - red on the S10 head; (iii) the declared shift is measured as S10's LINE 7 did (the golden probe base mirror -> tree, the refusal census, the roots fusion 3 and integrated 4, R16's CITY seeds with both oracles - every moved root named by seed with the vertices whose flag the line kept)."
+    },
+    {
+      "line": "LINE 2 - THE SHIFT, DECLARED AND GATED: LINE 1 moves output wherever a removal or retype leaves a split vertex's run with a row in common on both sides that are not identical.",
+      "evidence": "S10's LINE 7 commands and the RQ2 round's measured list; kernel/test/tx/fuzz.test.ts's families; the ruling seat's fuzzer (/home/user/maps-scratch/q181/probes/fuzz.mts) as a scratch cross-check, never a committed test.",
+      "required_change": "MEASURED base mirror -> tree: (a) the golden probe's files differ only on batches whose `unflagged` lost a vertex LINE 1 keeps, or a later batch's dissolution of that vertex - each named; (b) the refusal census identical; (c) the roots identical or each moved root named by seed; (d) NEAR at full strength, RELATED@1000 over relevel.ts; (e) any other item's red DECLARED (owner, file, test, before, after) and LISTED for the seams, never edited."
+    }
+  ]
+}

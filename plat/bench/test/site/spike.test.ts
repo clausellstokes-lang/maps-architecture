@@ -181,6 +181,11 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     const slice = d.model.data.get('s3.slice') as S3Slice;
     const water = d.model.data.get('water') as WaterSet;
     expect(commit.waterGates.length).toBeGreaterThanOrEqual(1);
+    // Hardening round S4: on the round's tree S5 commits at this seed (the stage landings since S3), and its enceinte:2
+    // crosses the river at water gates of its own; the arena's wall then carries both stages' water gates, each read
+    // the same way (S5's gates from the model's `gates`, as the receipt reads them).
+    const s5 = s5Walls(d);
+    const gates = [...commit.waterGates, ...(s5?.gates ?? []).filter((g): g is (typeof commit.waterGates)[number] => g.kind === 'water' && !commit.waterGates.some((x) => x.id === g.id))];
     const rings = riverRings(d);
     expect(rings.length).toBeGreaterThan(0);
     const all = edges(p);
@@ -198,8 +203,8 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
         return c;
       });
     const over = wall.filter((e) => !e.rows.some((r) => r.role === 'shore' || r.role === 'bank') && inside({ x: (e.a.x + e.b.x) / 2, y: (e.a.y + e.b.y) / 2 }));
-    expect(over.length).toBe(commit.waterGates.length);
-    for (const g of commit.waterGates) {
+    expect(over.length).toBe(gates.length);
+    for (const g of gates) {
       expect(g.kind).toBe('water');
       expect(g.way).toBeNull();
       expect(g.banks).toEqual([
@@ -228,9 +233,9 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     const mains = commit.gates.filter((g) => g.kind === 'main');
     expect(mains).toHaveLength(slice.gateSites.length);
     expect(commit.enceinte.gates).toEqual([...mains.map((g) => g.id), ...commit.waterGates.map((g) => g.id)]);
-    // the harness's receipt reads the same
-    const r = waterGateReceipt(k, p, water, commit, slice);
-    expect(r).toMatchObject({ gates: commit.waterGates.length, wallOverWater: over.length, wallOverWaterGated: over.length, gatesWithOneEdge: commit.waterGates.length, endsResolved: 2 * commit.waterGates.length, endsOnShore: 2 * commit.waterGates.length, stripVerticesInWater: 0, mainGates: slice.gateSites.length, gateSites: slice.gateSites.length });
+    // the harness's receipt reads the same (with S5's walls, as the run's record reads them)
+    const r = waterGateReceipt(k, p, water, commit, slice, s5);
+    expect(r).toMatchObject({ gates: gates.length, wallOverWater: over.length, wallOverWaterGated: over.length, gatesWithOneEdge: gates.length, endsResolved: 2 * gates.length, endsOnShore: 2 * gates.length, stripVerticesInWater: 0, mainGates: slice.gateSites.length, gateSites: slice.gateSites.length });
     expect(r.stripFaces).toBeGreaterThanOrEqual(2 * (slice.gates.length + commit.waterGates.length));
   });
 
@@ -314,7 +319,10 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     const slice = d.model.data.get('s3.slice') as S3Slice;
     const water = d.model.data.get('water') as WaterSet;
     const v1 = k.view(GROUND, 1);
-    const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer]);
+    // Hardening round S4: S5 commits at this seed on the round's tree, so the strips are both enceintes' (S5's walls
+    // handed to the receipt, as the run's record hands them).
+    const s5 = s5Walls(d);
+    const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer, ...(s5?.enceintes ?? []).flatMap((e) => [e.strips.inner.owner, e.strips.outer.owner])]);
     const strips = v1.faces().filter((f) => owners.has(v1.owner(f) ?? ''));
     expect(strips.length).toBeGreaterThanOrEqual(2);
     // the S1 land face under the strips (the L0 owner at a strip vertex)
@@ -337,10 +345,10 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     for (const f of strips) for (const ring of v1.rings(f)) for (const q of ring) if (insideRings(landRings, q) && ringsDist(landRings, q) > TOLERANCE_CM) inside += 1;
     expect(inside).toBeGreaterThan(0);
     const asWater = { ...water, bodies: [{ ...water.bodies[0], id: land as string }] } as WaterSet;
-    const r = waterGateReceipt(k, p, asWater, commit, slice);
+    const r = waterGateReceipt(k, p, asWater, commit, slice, s5);
     expect(r.stripVerticesInWater).toBe(inside);
     // with the river as the water the same count is 0 (the strips end at the banks)
-    expect(waterGateReceipt(k, p, water, commit, slice).stripVerticesInWater).toBe(0);
+    expect(waterGateReceipt(k, p, water, commit, slice, s5).stripVerticesInWater).toBe(0);
   });
 
   it('the tolerance: a point or an edge\'s midpoint 1 cm inside the river is not over the water; 10 cm and 50 cm inside are; 10 cm outside is not; 1.2 – 1.9 cm inside is not, 2.1 – 2.9 cm is (2 cm, not a window)', { timeout: HEAVY }, () => {
@@ -540,8 +548,10 @@ describe('every enceinte\'s wall over water is read against its own water gates 
 });
 
 describe('containment never counts an S1 land face as held (§4.5; C-0265)', () => {
-  it('relief-60, seed 2 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar', { timeout: HEAVY }, () => {
-    const d = derivation(fixtureNamed('relief-60') as SiteFixture, 2);
+  // Re-pinned in hardening round S4: on the round's tree relief-60 seed 2 commits S5 and S6 (the stage landings since
+  // S3), so the arena S4 left is relief-3000 seed 1's (test size; S5 refused E_INVARIANT, S6 not reached, on that tree).
+  it('relief-3000, seed 1 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar', { timeout: HEAVY }, () => {
+    const d = derivation(fixtureNamed('relief-3000') as SiteFixture, 1);
     expect(d.model.data.get('s6')).toBeUndefined();
     const p = ground(d);
     const k = d.model.kernel;

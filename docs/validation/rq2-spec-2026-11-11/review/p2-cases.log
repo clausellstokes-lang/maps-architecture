@@ -1,0 +1,68 @@
+
+=== (1) T-junction: B (1800,1500)→(1800,2915) ends on A
+  result true  
+   placed (1800, 1500) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:B/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:B/0/L2] {"draft":false,"ruling2":false,"why":"deg 3, own-carrying 1"}
+
+=== (2) end on a run shared on one side
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"deg 2, own-carrying 1"}
+
+=== (3) own point on an existing split vertex (B's T-junction), then B removed — draft
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] {"draft":false,"ruling2":true,"why":"deg 3, own-carrying 2"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  B removed true  v v7: dead vertices 6
+  equal to A + C never B? false
+  then C removed true vertices 6 dissolvable 0
+
+=== (3) own point on an existing split vertex (B's T-junction), then B removed — ruling2
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] {"draft":false,"ruling2":true,"why":"deg 3, own-carrying 2"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  planted proxy true
+  B removed true  v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] vertices 7
+  equal to A + C never B? true
+  then C removed true vertices 7 dissolvable 0
+
+=== (4) closed chain, seam on A between two shared runs
+  result true  W_ATTRACTED,W_STRETCH_SHARED
+   placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:R/0/L2] | L2[invisible/base:A/0/L2;invisible/base:R/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+   placed (1200, 2939) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:R/0/L2] | L2[invisible/base:R/0/L2] {"draft":false,"ruling2":false,"why":"deg 3, own-carrying 2"}
+   placed (1200, 1500) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:R/0/L2] | L2[invisible/base:R/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (2600, 1500) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:R/0/L2] | L2[invisible/base:R/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (2600, 2883) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:R/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:R/0/L2] {"draft":false,"ruling2":false,"why":"deg 3, own-carrying 2"}
+
+=== (5) L2 chain along an L1 chain
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L1 split=false pinned=false deg=1 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L1[invisible/base:A/0/L1;invisible/base:C/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+   placed (499, 2966) L1 split=false pinned=false deg=1 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+
+=== (6) three coincident chains
+  result true  W_ATTRACTED,W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2;invisible/base:E/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2;invisible/base:E/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2;invisible/base:E/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2;invisible/base:E/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+
+=== (7) one chain, two rows of two entities
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:C2/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:C2/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:C2/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:C2/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   (for base:C2) {"draft":false,"ruling2":false,"why":"no split flag"}
+   (for base:C2) {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+   (for base:C2) {"draft":false,"ruling2":false,"why":"no split flag"}
+
+=== (8) same key again: A, C straight (no point at 1800), B T-junction at 1800, then C again WITH the point
+  result true  W_STRETCH_SHARED
+   placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+   placed (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:B/0/L2] {"draft":false,"ruling2":true,"why":"deg 3, own-carrying 2"}
+   placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  the copy changed the arena? false

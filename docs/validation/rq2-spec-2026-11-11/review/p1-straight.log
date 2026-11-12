@@ -1,0 +1,37 @@
+
+=== straight form (draft leg 2 LINE 1 / leg 3 LINE 1 (a))
+A true   vertices 6
+C true  W_STRETCH_SHARED placed (3142,2862) (1800,2915) (499,2966) vertices 7
+v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  placed (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+  placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+allProblems 0 dissolvable 0
+x true   v now (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/x:1/0/L2]
+x removed true  vertices 7 -> 6 print equal to before x: false v v6: dead
+
+=== N-23 P3 fold-back
+A true   vertices 6
+C true  W_STRETCH_SHARED,W_ATTRACTED placed (3142,2862) (499,2966) (2431,2890) vertices 7
+v (2431, 2890) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  placed (3142, 2862) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  placed (499, 2966) L2 split=false pinned=false deg=1 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":false,"ruling2":false,"why":"no split flag"}
+  placed (2431, 2890) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] {"draft":true,"ruling2":true,"why":"deg 2, own-carrying 2"}
+allProblems 0 dissolvable 0
+x true   v now (2431, 2890) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/x:1/0/L2]
+x removed true  vertices 7 -> 6 print equal to before x: false v v6: dead
+
+=== A removed while C lives; today (no row)
+v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+remove A true  v v6: dead vertices 6 allProblems 0 dissolvable 0
+equal to C alone (input points)? false | (placed points)? false
+  lines only in A+C−A: e 499,2966-3142,2862 L2 [28/base:C/2/0] || f2 0,0 4000,0 4000,4000 0,4000 | 3142,2862 499,2966 k0 o- s0 p(0,0 4000,0 4000,4000 0,4000)
+  lines only in C alone (placed): e 1800,2915-3142,2862 L2 [28/base:C/2/0] || e 499,2966-1800,2915 L2 [28/base:C/2/0] || f2 0,0 4000,0 4000,4000 0,4000 | 1800,2915 499,2966 1800,2915 3142,2862 k0 o- s0 p(0,0 4000,0 4000,4000 0,4000) || v 1800,2915 L2 f0 []
+
+=== A removed while C lives; a proxy non-indexed non-knot vertex row (junction, base:C) PLANTED on v
+planted true
+v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+remove A true  v (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2] vertices 7 allProblems 0 dissolvable 0
+equal to C alone (input points)? false | (placed points)? false
+  lines only in A+C−A: v 1800,2915 L2 f4 [29/base:C/2/0]
+  lines only in C alone (placed): v 1800,2915 L2 f0 []

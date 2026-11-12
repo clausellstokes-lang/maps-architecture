@@ -1,0 +1,55 @@
+--- a/plat/packages/kernel/src/tx/relevel.ts
++++ b/plat/packages/kernel/src/tx/relevel.ts
+@@ -402,8 +402,9 @@
+   // moves the far end of the next, which was placed within the hot pixel of the piece it split, not of the restored edge
+   // (C-0223).
+   const onRunBefore = new Map<VertexId, [number, number][]>();
+-  // (b): each split vertex's run candidates — pairs of its incident edges of its lowest incident level with identical rows
+-  // there; a pair is one of its runs when it is also on onRunBefore's list.
++  // (b): each split vertex's run candidates — every pair of its incident edges of its lowest incident level; a pair is one
++  // of its runs when it is also on onRunBefore's list, and that run survives the batch whole when the two edges, after it,
++  // still carry a row in common (Q181: the run's own row, whatever rides along on either side — see the flag step).
+   const runsBefore = new Map<VertexId, [number, number][]>();
+   for (const v of vstar) {
+     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+@@ -420,14 +421,10 @@
+     for (const h of inc) m0 = Math.min(m0, T.level[h >> 1]);
+     const at = inc.filter((h) => T.level[h >> 1] === m0);
+     const pairs: [number, number][] = [];
+-    for (let i = 0; i < at.length; i++) {
+-      for (let j = i + 1; j < at.length; j++) {
+-        // Identical rows before the batch are read with the batch's stripped rows left out, C-0287: a run a removed chain
+-        // shared at the run's own level carried that chain's row on the shared side only, yet the run it split survives
+-        // whole. The pre-batch arena and the batch's own strip set decide — no history is needed.
+-        if (sameList(levelRows(p, at[i], m0, strip), levelRows(p, at[j], m0, strip))) pairs.push([at[i] >> 1, at[j] >> 1]);
+-      }
+-    }
++    // No row comparison before the batch (Q181): the identity of a run is read after it, as a row both edges still carry —
++    // which subsumes C-0287's reading (a removed chain's row on the shared side only) and the rows a rekey or a retype
++    // writes on both sides.
++    for (let i = 0; i < at.length; i++) for (let j = i + 1; j < at.length; j++) pairs.push([at[i] >> 1, at[j] >> 1]);
+     runsBefore.set(v, pairs);
+   }
+   // The records beside every edge that vanishes from a level's view, and the cleared records.
+@@ -646,12 +643,18 @@
+     onRunBefore.set(v, on);
+   }
+   const isOn = (v: VertexId, x: number, y: number): boolean => (onRunBefore.get(v) ?? []).some(([a, b]) => (a === x && b === y) || (a === y && b === x));
+-  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
++  // (b) flags: a split vertex keeps its flag only while a run it split survives whole — a pair of its incident edges of its
++  // lowest incident level, on a run it split (isOn), whose two edges both survive the batch at one level (after step (a))
++  // carrying a row of that level in common: the run's own row, whatever else rides along on either side (Q181: a stretch
++  // of a chain along the run ending at the vertex, a rekey cut there, a rider ending there, leave the run whole).
+   for (const v of canonical(vstar)) {
+     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+     const before = runsBefore.get(v) ?? [];
+-    const survives = before.some(([x, y]) => isHalfEdgeLive(p, 2 * x) && isHalfEdgeLive(p, 2 * y) && T.level[x] === T.level[y]
+-      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])) && isOn(v, x, y));
++    const survives = before.some(([x, y]) => {
++      if (!isHalfEdgeLive(p, 2 * x) || !isHalfEdgeLive(p, 2 * y) || T.level[x] !== T.level[y] || !isOn(v, x, y)) return false;
++      const ys = new Set(levelRows(p, 2 * y, T.level[y]));
++      return levelRows(p, 2 * x, T.level[x]).some((r) => ys.has(r));
++    });
+     if (!survives) {
+       setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
+       t.log.unflagged.push(v);

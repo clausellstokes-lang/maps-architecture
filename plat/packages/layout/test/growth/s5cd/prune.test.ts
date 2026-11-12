@@ -80,7 +80,10 @@ describe('the prune and trim on the CITY town (frame 900 ha)', () => {
       for (const s of stages) {
         const gs = state.stages[s.k - 1];
         const block = s.pr.blockWidthCm;
-        expect(block).toBe(gs.regime === 'dense_core' ? 3_000 : gs.regime === 'walled_rings' ? 4_500 : 3_000);
+        // The block width is the regime row's block-depth floor, read from regimes.json here (queue Q98, round S3): never a
+        // literal, so a re-signed floor (M0-b-05a's dense core at 37 m, §4.4's row) moves the expectation with the table.
+        expect(block).toBe(tables.table('regimes').pair(gs.regime, 'blockDepthFloorM')[0] * 100);
+        expect(block).toBeGreaterThan(0);
         // The trim: each trimmed street now ends at its first exit from the boundary, nothing of it beyond.
         for (const t of s.pr.trimmed) {
           trimmed += 1;

@@ -28,7 +28,10 @@
 //      offsets) fails the same check, the fault is the line's own and halving cannot cure it: the re-trace also
 //      closes the line's failing cells (the cell of the first cut past the cap; the later touching stretch; the stuck
 //      cell), so the re-run descent takes another way. The draws of a knot ordinal are made once and reused at every
-//      re-trace, so a re-trace reads no new stream (a tier-2 repair, §5.1). The third rung — moving the inlet
+//      re-trace, so a re-trace reads no new stream (a tier-2 repair, §5.1). When RETRACE_MAX re-traces leave the
+//      course failing, the halving is taken to its limit (hardening round S2, Q123): one last re-trace, whole, from
+//      the inlet, with no offsets — the course through the river's descent line itself on the surface walled at the
+//      inlet's edge alone — delivered when it fits, else the last try stands. The third rung — moving the inlet
 //      (attempt) — is the strategy's (./strategy.ts).
 import { ratio, type Stream } from '@plat/kernel';
 import type { HydroGrid, Terrain } from '@plat/model';
@@ -100,7 +103,7 @@ export interface RiverTrace {
   plan: CarvePlan;
   /** How the descent ended: at the frame edge, beside a joined river (its cell), or stuck. */
   end: { kind: 'frame' | 'join' | 'stuck'; cell: number };
-  /** The offsets' scale of the last try (1, ½, ¼, …). */
+  /** The offsets' scale of the last try (1, ½, ¼, …; 0 for the descent line itself, the halving's limit). */
   scale: number;
   events: TraceEvent[];
 }
@@ -399,18 +402,7 @@ export function traceRiver(grid: HydroField, inlet: Inlet, stream: Stream | Mean
     if (startCell !== inlet.cell) walls[startCell] = 0;
     const surface = riverSurface(grid, masks.outlet, walls, surfaceCapCm(opts.carveMaxCm));
     const line = descentLine(grid, surface, startCell, opts.stop, events);
-    const lastCell = line.cells[line.cells.length - 1];
-    let endAt: XY;
-    if (line.end.kind === 'frame') {
-      const lc = lastCell % g.cols;
-      endAt = edgePoint(g, lastCell, opts.reach, outwardCode(g, lc, rowOf(lastCell, lc, invOfCols(g.cols))));
-    } else if (line.end.kind === 'join') {
-      const p = centreOf(g, line.end.cell);
-      endAt = { x: Math.round(p.x), y: Math.round(p.y) };
-    } else {
-      const p = centreOf(g, lastCell);
-      endAt = { x: Math.round(p.x), y: Math.round(p.y) };
-    }
+    const endAt = lineEnd(g, line, opts.reach);
     const startAt = kept[kept.length - 1].at;
     const fresh = knotsAlong(g, startAt, line.cells, endAt, kept.length, draws, scale, opts);
     const knots = [...kept, ...fresh];
@@ -457,7 +449,41 @@ export function traceRiver(grid: HydroField, inlet: Inlet, stream: Stream | Mean
     startCell = kept.length === 1 ? inlet.cell : kc;
   }
   if (last === null) throw new Error('traceRiver: no try ran');
-  return last;
+  if (last.ok) return last;
+  // F-RIVER's second rung at its limit (hardening round S2, Q123): RETRACE_MAX re-traces have not cured the failure, so
+  // the course is re-traced once more, whole, from the inlet, with the offsets at their limit — none: the course
+  // through the river's descent line itself (the inlet, the line's cells' centres, its end) on the surface with only
+  // the inlet's edge walled. Delivered when it fits (no touch, no cut past the cap, an outlet reached); else the last
+  // try stands, degraded.
+  const surface = riverSurface(grid, masks.outlet, masks.edge, surfaceCapCm(opts.carveMaxCm));
+  const tried: TraceEvent[] = [];
+  const line = descentLine(grid, surface, inlet.cell, opts.stop, tried);
+  if (line.end.kind === 'stuck') return last;
+  const endAt = lineEnd(g, line, opts.reach);
+  const knots: Knot[] = [{ ordinal: 0, at: { x: inlet.at.x, y: inlet.at.y }, base: { x: inlet.at.x, y: inlet.at.y }, offsetCm: 0 }];
+  for (let q = 1; q < line.cells.length; q += 1) {
+    const b = centreOf(g, line.cells[q]);
+    const at = { x: Math.round(b.x), y: Math.round(b.y) };
+    knots.push({ ordinal: knots.length, at, base: b, offsetCm: Math.sqrt((at.x - b.x) * (at.x - b.x) + (at.y - b.y) * (at.y - b.y)) });
+  }
+  knots.push({ ordinal: knots.length, at: endAt, base: endAt, offsetCm: 0 });
+  const course = rounded(chaikin(knots.map((k) => k.at), CHAIKIN_ROUNDS));
+  if (course.length >= 4 && firstSelfTouch(course, opts.clearanceCm) !== null) return last;
+  const plan = planCarve(opts.terrain, course, opts.carveMaxCm);
+  if (plan.firstExceed >= 0) return last;
+  events.push({ rung: 'retrace', value: 0, cause: last.failure ?? 'carve' }, ...tried);
+  return { ok: true, failure: null, failAt: -1, cutAt: -1, course, knots, plan, end: line.end, scale: 0, events };
+}
+
+/** Where a descent line's course ends: on the arena's edge past its outlet cell, or at the centre of its join or stuck cell. */
+function lineEnd(g: HydroGrid, line: { cells: readonly number[]; end: RiverTrace['end'] }, reach: { x: number; y: number }): XY {
+  const lastCell = line.cells[line.cells.length - 1];
+  if (line.end.kind === 'frame') {
+    const lc = lastCell % g.cols;
+    return edgePoint(g, lastCell, reach, outwardCode(g, lc, rowOf(lastCell, lc, invOfCols(g.cols))));
+  }
+  const p = centreOf(g, line.end.kind === 'join' ? line.end.cell : lastCell);
+  return { x: Math.round(p.x), y: Math.round(p.y) };
 }
 
 /**

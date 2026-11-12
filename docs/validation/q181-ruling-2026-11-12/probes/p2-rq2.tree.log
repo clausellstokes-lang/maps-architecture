@@ -1,0 +1,56 @@
+=== W1 stretch end, then the rest
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [2400,2891 ; 1800,2915]
+  stretch v1 → end: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  C's rest removed: ok | v6: dead
+  W1 final (A alone): equal? true | vertices 6 vs 6 | ok
+=== W2 stretch end, the stretch re-inserted, all of C removed
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [2400,2891 ; 1800,2915]
+  stretch v1 → end: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  insert base:C: ok; W writes at [2400,2891 ; 1800,2915]
+  after the re-insert: (2400, 2891) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  C removed (ChainRef): ok | v6: dead
+  W2 final (A alone): equal? true | vertices 6 vs 6 | ok
+=== W3 rekey cut, then C and K removed
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [2400,2891 ; 1800,2915]
+  rekey v1 → end to K: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  C removed: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2]
+  K removed: ok | v6: dead
+  W3 final (A alone): equal? true | vertices 6 vs 6 | ok
+=== G stretch of A ending at C's own point, then A's rest
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [1800,2915]
+  stretch of A v → (499,2966): ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  A's rest removed: ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  G final (C alone): equal? true | vertices 7 vs 7 | ok
+=== G2 A removed by two stretches meeting at C's own point
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [1800,2915]
+  stretch of A (3142,2862) → v: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  stretch of A v → (499,2966): ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  G2 final (C alone): equal? true | vertices 7 vs 7 | ok
+=== G3 three coincident: A, C (own point v), D along A; A removed; then D removed → C alone
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [1800,2915]
+  insert base:D: ok; W writes at []
+  before: (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2]
+  A removed: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:C/0/L2;invisible/base:D/0/L2] | L2[invisible/base:C/0/L2;invisible/base:D/0/L2]
+    after A: (fresh: C then D): equal? false | vertices 7 vs 7 | ok
+    only here:   v 1800,2915 L2 f4 [29/base:C/2/0]
+    only fresh:  v 1800,2915 L2 f0 []
+  D removed: ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  G3 final (C alone): equal? true | vertices 7 vs 7 | ok
+=== G3 three coincident: A, C (own point v), D along A; A removed; then C removed → D alone
+  insert base:A: ok; W writes at []
+  insert base:C: ok; W writes at [1800,2915]
+  insert base:D: ok; W writes at []
+  before: (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2;invisible/base:D/0/L2]
+  A removed: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:C/0/L2;invisible/base:D/0/L2] | L2[invisible/base:C/0/L2;invisible/base:D/0/L2]
+    after A: (fresh: C then D): equal? false | vertices 7 vs 7 | ok
+    only here:   v 1800,2915 L2 f4 [29/base:C/2/0]
+    only fresh:  v 1800,2915 L2 f0 []
+  C removed: ok | v6: dead
+  G3 final (D alone): equal? true | vertices 6 vs 6 | ok
+SUMMARY tree maint junction {"W1":true,"W2":true,"W3":true,"G":true,"G2":true,"G3-D":true,"G3-C":true}

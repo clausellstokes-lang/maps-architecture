@@ -1,0 +1,138 @@
+== bench_test_calibrate — with the raise (seed: this run's seed is -216227449)
+ FAIL  |bench| test/calibrate/calibrate.test.ts > calibrate() (§12.1) > returns the score — the sum of the four kernels' medians, in ms — with the host record
+ FAIL  |bench| test/calibrate/calibrate.test.ts > corepack pnpm bench:calibrate (the dispatcher entry run) > prints a few capped lines — the scores, the drift, the host, the stamp (contended: no reference score) — and writes the record truncated
+ FAIL  |bench| test/calibrate/calibrate.test.ts > the four frozen kernels (C-0050) > give the same checksums on the x64 leg under Rosetta 2 (kernels.ts is self-contained)
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+AssertionError: expected false to be true // Object.is equality
+== bench_test_calibrate — on the unchanged tree (seed: this run's seed is 1996757232)
+ FAIL  |bench| test/calibrate/calibrate.test.ts > calibrate() (§12.1) > returns the score — the sum of the four kernels' medians, in ms — with the host record
+ FAIL  |bench| test/calibrate/calibrate.test.ts > corepack pnpm bench:calibrate (the dispatcher entry run) > prints a few capped lines — the scores, the drift, the host, the stamp (contended: no reference score) — and writes the record truncated
+ FAIL  |bench| test/calibrate/calibrate.test.ts > the four frozen kernels (C-0050) > give the same checksums on the x64 leg under Rosetta 2 (kernels.ts is self-contained)
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+AssertionError: expected false to be true // Object.is equality
+
+== bench_test_host — with the raise (seed: this run's seed is 467562783)
+ FAIL  |bench| test/host/host.test.ts > the host record (§12.1) > names the same machine with arch x64 and kind rosetta under Rosetta 2 (the universal binary's x86_64 slice)
+ FAIL  |bench| test/host/host.test.ts > the host record (§12.1) > names this machine: Apple M1, 8 cores (4P + 4E), 16 GB, macOS 14.7.8, Node 24.12.0, arm64 native
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+== bench_test_host — on the unchanged tree (seed: this run's seed is 2106360298)
+ FAIL  |bench| test/host/host.test.ts > the host record (§12.1) > names the same machine with arch x64 and kind rosetta under Rosetta 2 (the universal binary's x86_64 slice)
+ FAIL  |bench| test/host/host.test.ts > the host record (§12.1) > names this machine: Apple M1, 8 cores (4P + 4E), 16 GB, macOS 14.7.8, Node 24.12.0, arm64 native
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+
+== bench_test_site — with the raise (seed: this run's seed is 1723323015)
+ FAIL  |bench| test/site/compose.test.ts > hardening round S3: a refused stage's record carries the runner's code and detail (Q122) > relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner's code and its detail text, and the class carries it once
+ FAIL  |bench| test/site/spike.test.ts > containment never counts an S1 land face as held (§4.5; C-0265) > relief-60, seed 2 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar
+ FAIL  |bench| test/site/spike.test.ts > the river fixture's trace crosses the river only at water gates; every gate_end vertex lies on a shore and resolves; the strips end at the banks (C-0087) > relief-60, seed 2: two water gates, the wall over the water only on their edges, each end on the river's shore, N unchanged
+ FAIL  |bench| test/site/spike.test.ts > the water-gate receipt's own readings: the strip count counts, and the 2 cm tolerance holds on both sides (C-0087; C-0271 (6)) > the strip receipt is not blind: with the town's land face read as the water, it counts every strip vertex inside that face past the tolerance, as the arena read
+ FAIL  |bench| test/site/summary.test.ts > the summary is anchored to what it was derived on (hardening round S3, Q36) > the canary CITY record re-derived on this tree is the run's: a stage change that moves it makes the summary stale (re-run, Q36)
+AssertionError: expected +0 to be 1 // Object.is equality
+AssertionError: expected 4 to be 2 // Object.is equality
+AssertionError: expected 466 to be 138 // Object.is equality
+AssertionError: expected { …(9) } to be undefined
+AssertionError: relief-60 coarse seed 46 moved: re-run the summary (Q36): expected '4c9647bf15914e6d5f21b2986131f1600cb44…' to be 'eb2046ddce3ce2c1d605e075f6b0228c8d28d…' // Object.is equality
+== bench_test_site — on the unchanged tree (seed: this run's seed is 1436391191)
+ FAIL  |bench| test/site/compose.test.ts > hardening round S3: a refused stage's record carries the runner's code and detail (Q122) > relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner's code and its detail text, and the class carries it once
+ FAIL  |bench| test/site/spike.test.ts > containment never counts an S1 land face as held (§4.5; C-0265) > relief-60, seed 2 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar
+ FAIL  |bench| test/site/spike.test.ts > the river fixture's trace crosses the river only at water gates; every gate_end vertex lies on a shore and resolves; the strips end at the banks (C-0087) > relief-60, seed 2: two water gates, the wall over the water only on their edges, each end on the river's shore, N unchanged
+ FAIL  |bench| test/site/spike.test.ts > the water-gate receipt's own readings: the strip count counts, and the 2 cm tolerance holds on both sides (C-0087; C-0271 (6)) > the strip receipt is not blind: with the town's land face read as the water, it counts every strip vertex inside that face past the tolerance, as the arena read
+ FAIL  |bench| test/site/summary.test.ts > the summary is anchored to what it was derived on (hardening round S3, Q36) > the canary CITY record re-derived on this tree is the run's: a stage change that moves it makes the summary stale (re-run, Q36)
+AssertionError: expected +0 to be 1 // Object.is equality
+AssertionError: expected 4 to be 2 // Object.is equality
+AssertionError: expected 466 to be 138 // Object.is equality
+AssertionError: expected { …(9) } to be undefined
+AssertionError: relief-60 coarse seed 46 moved: re-run the summary (Q36): expected '4c9647bf15914e6d5f21b2986131f1600cb44…' to be 'eb2046ddce3ce2c1d605e075f6b0228c8d28d…' // Object.is equality
+
+== bench_test_timing — with the raise (seed: this run's seed is -435773831)
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > a Chromium launched through playwright-core from the cache contends as "process: chromium"; inside ownPids its whole tree is own
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > a synthetic load (a busy child process) contends, named as a process; passed in ownPids it is the harness's own
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > reads every process: launchd, other users' daemons, this process
+ FAIL  |bench| test/timing/harness.test.ts > corepack pnpm bench -- timing (the dispatcher entry run) > times a probe batch and writes the stamped TimingResult; bad arguments exit 64
+ FAIL  |bench| test/timing/harness.test.ts > timeBatch on this machine > with the real calibrate and reference-score.json at null, no result is authoritative (C-0075)
+ FAIL  |bench| test/timing/harness.test.ts > timeBatch with a battery reading taken only through the batch (fix round 2, note N-r1-3) > the worker's planted battery reading contends the result: the power through the batch is read, never assumed
+ FAIL  |bench| test/timing/sampler.test.ts > the batch sampler reads every process on the machine (C-0103) > each sample's power is the worker's own pmset reading, never assumed: a planted battery reading is battery, none is unknown (note N-r1-3)
+ FAIL  |bench| test/timing/sampler.test.ts > the batch sampler reads every process on the machine (C-0103) > the default period is 30 s; every sample holds launchd (pid 1, root's), more than 100 rows and this process
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+AssertionError: expected 'native-x64' to be 'native-arm64' // Object.is equality
+AssertionError: expected 'process_api' to be '/sbin/launchd' // Object.is equality
+AssertionError: expected 'unknown' to be 'battery' // Object.is equality
+AssertionError: expected 95 to be greater than 100
+AssertionError: expected [ Array(1) ] to deeply equal [ 'process: node (node, pid 31170)' ]
+AssertionError: expected [ …(4) ] to include 'power: battery'
+== bench_test_timing — on the unchanged tree (seed: this run's seed is -1142295473)
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > a Chromium launched through playwright-core from the cache contends as "process: chromium"; inside ownPids its whole tree is own
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > a synthetic load (a busy child process) contends, named as a process; passed in ownPids it is the harness's own
+ FAIL  |bench| test/timing/contention.test.ts > the detector over every process on this machine (C-0103) > reads every process: launchd, other users' daemons, this process
+ FAIL  |bench| test/timing/harness.test.ts > corepack pnpm bench -- timing (the dispatcher entry run) > times a probe batch and writes the stamped TimingResult; bad arguments exit 64
+ FAIL  |bench| test/timing/harness.test.ts > timeBatch on this machine > with the real calibrate and reference-score.json at null, no result is authoritative (C-0075)
+ FAIL  |bench| test/timing/harness.test.ts > timeBatch with a battery reading taken only through the batch (fix round 2, note N-r1-3) > the worker's planted battery reading contends the result: the power through the batch is read, never assumed
+ FAIL  |bench| test/timing/sampler.test.ts > the batch sampler reads every process on the machine (C-0103) > each sample's power is the worker's own pmset reading, never assumed: a planted battery reading is battery, none is unknown (note N-r1-3)
+ FAIL  |bench| test/timing/sampler.test.ts > the batch sampler reads every process on the machine (C-0103) > the default period is 30 s; every sample holds launchd (pid 1, root's), more than 100 rows and this process
+AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality
+AssertionError: expected 'native-x64' to be 'native-arm64' // Object.is equality
+AssertionError: expected 'process_api' to be '/sbin/launchd' // Object.is equality
+AssertionError: expected 'unknown' to be 'battery' // Object.is equality
+AssertionError: expected 88 to be greater than 100
+AssertionError: expected [ Array(1) ] to deeply equal [ 'process: node (node, pid 24777)' ]
+AssertionError: expected [ …(3) ] to include 'power: battery'
+
+== packages_kernel_test_arena — with the raise (seed: this run's seed is 1128332516)
+ FAIL  |kernel| test/arena/roles.test.ts > the role registry (§2.2 rule 7, C-0005) > carries every rule 7 role exactly once with its flags, and nothing else at version 1
+ FAIL  |kernel| test/arena/roles.test.ts > the role registry (§2.2 rule 7, C-0005) > looks roles up by name and id; an unknown name is −1 and an unknown id or name a programming error
+ FAIL  |kernel| test/arena/roles.test.ts > the role registry (§2.2 rule 7, C-0005) > refuses a malformed document whole: ids not dense, a name twice, a shared or out-of-range rank, a bad kind, a structural vertex role, a knot that is not an indexed vertex role, a since past the version
+AssertionError: expected 2 to be 1 // Object.is equality
+AssertionError: expected [ Array(57) ] to have a length of 56 but got 57
+AssertionError: expected [Function] to throw an error
+== packages_kernel_test_arena — on the unchanged tree (seed: this run's seed is -645778119)
+
+== packages_kernel_test_arr — with the raise (seed: this run's seed is 513703248)
+ FAIL  |kernel| test/arr/bands/closing.test.ts > C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded > seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along
+ FAIL  |kernel| test/arr/bands/closing.test.ts > an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing > fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along 
+ FAIL  |kernel| test/arr/bands/dryrun.test.ts > the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) > draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9)
+ FAIL  |kernel| test/arr/bands/hardening-s15.test.ts > B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested > the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it
+AssertionError: expected 2 to be 3 // Object.is equality
+AssertionError: expected [ 2 ] to deeply equal [ 1, 2 ]
+AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]
+AssertionError: expected [ [ +0, [] ], [ 1, …(1) ], …(2) ] to deeply equal [ [ +0, [] ], [ 1, …(1) ], …(2) ]
+AssertionError: expected [] to match object [ { kind: 'along', face: +0, …(5) } ]
+== packages_kernel_test_arr — on the unchanged tree (seed: this run's seed is 1507112347)
+ FAIL  |kernel| test/arr/bands/closing.test.ts > C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded > seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along
+ FAIL  |kernel| test/arr/bands/closing.test.ts > an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing > fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along 
+ FAIL  |kernel| test/arr/bands/dryrun.test.ts > the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) > draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9)
+ FAIL  |kernel| test/arr/bands/hardening-s15.test.ts > B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested > the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it
+AssertionError: expected 2 to be 3 // Object.is equality
+AssertionError: expected [ 2 ] to deeply equal [ 1, 2 ]
+AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]
+AssertionError: expected [ [ +0, [] ], [ 1, …(1) ], …(2) ] to deeply equal [ [ +0, [] ], [ 1, …(1) ], …(2) ]
+AssertionError: expected [] to match object [ { kind: 'along', face: +0, …(5) } ]
+
+== packages_kernel_test_insert — with the raise (seed: this run's seed is -1806464159)
+ FAIL  |kernel-tiny| test/insert/step1-2/bfuzz.test.ts > B-FUZZ: attractVertex (the attraction class; the bound of §3.6 Existing geometry wins) > never throws; the arena keeps §3.10’s rows; an incoming vertex moves at most √2 · attractCm but by the placement’s fallback, which lands on the nearer endpoint of its exact po
+ FAIL  |kernel| test/insert/step1-2/bfuzz.test.ts > B-FUZZ: attractVertex (the attraction class; the bound of §3.6 Existing geometry wins) > never throws; the arena keeps §3.10’s rows; an incoming vertex moves at most √2 · attractCm but by the placement’s fallback, which lands on the nearer endpoint of its exact positio
+AssertionError: expected 0 to be greater than 0
+== packages_kernel_test_insert — on the unchanged tree (seed: this run's seed is -475892834)
+
+== packages_kernel_test_tx — with the raise (seed: this run's seed is 1265048238)
+ FAIL  |kernel-tiny| test/tx/oracle.test.ts > the oracle fuzz (S8 line 4 (c)): the door's log undoes every frame the kernel opens, and every put-back is exact > PLAT_FUZZ_RUNS batches (25) with the frame observer on — tiny tables
+AssertionError: undone inside frames: grow faces[3]: expected 0 to be greater than 0
+== packages_kernel_test_tx — on the unchanged tree (seed: this run's seed is -1666739489)
+ FAIL  |kernel-tiny| test/tx/oracle.test.ts > the oracle fuzz (S8 line 4 (c)): the door's log undoes every frame the kernel opens, and every put-back is exact > PLAT_FUZZ_RUNS batches (25) with the frame observer on — tiny tables
+AssertionError: undone inside frames: grow faces[3]: expected 0 to be greater than 0
+
+== packages_layout_test_enceinte — with the raise (seed: this run's seed is 160253691)
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)
+Error: No test found in suite F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)
+== packages_layout_test_enceinte — on the unchanged tree (seed: this run's seed is 799183875)
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)
+Error: No test found in suite F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)
+
+== packages/kernel/test/insert/step1-2/bfuzz.test.ts on the unchanged tree with the raise run's seed (PLAT_FUZZ_SEED=-1806464159, PLAT_FUZZ_RUNS=25)
+      Tests  2 failed | 6 passed (8)
+ FAIL  |kernel-tiny| test/insert/step1-2/bfuzz.test.ts > B-FUZZ: attractVertex (the attraction class; the bound of §3.6 Existing geometry wins) > never throws; the arena keeps §3.10’s rows; an incoming vertex moves at most √2 · attractCm but by the placement’s fallback, which lands on the nearer endpoint of its exact po
+ FAIL  |kernel| test/insert/step1-2/bfuzz.test.ts > B-FUZZ: attractVertex (the attraction class; the bound of §3.6 Existing geometry wins) > never throws; the arena keeps §3.10’s rows; an incoming vertex moves at most √2 · attractCm but by the placement’s fallback, which lands on the nearer endpoint of its exact positio
+ Test Files  2 failed (2)
+AssertionError: expected 0 to be greater than 0

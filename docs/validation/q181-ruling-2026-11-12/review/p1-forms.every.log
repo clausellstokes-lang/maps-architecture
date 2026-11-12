@@ -1,0 +1,50 @@
+=== F1 stretch end
+ v after C: (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ stretch v → (499,2966): ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  after the stretch (fresh: A, then C's rest): equal to the survivors inserted fresh? true | vertices 7 vs 7 | ok
+ C's rest removed: ok | v6: dead
+  F1 final (fresh: A alone): equal to the survivors inserted fresh? true | vertices 6 vs 6 | ok
+=== F2 rekey cut
+ rekey v → (499,2966) to K: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  after the rekey (fresh: A, C's rest, K): equal to the survivors inserted fresh? true | vertices 7 vs 7 | ok
+ C removed: ok | (2400, 2891) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:K/0/L2] | L2[invisible/base:A/0/L2]
+ K removed: ok | v6: dead
+  F2 final (fresh: A alone): equal to the survivors inserted fresh? true | vertices 6 vs 6 | ok
+=== F3 crossing at v, then a rider B along A ending at v; the crossing removed; B removed
+ v after X: (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:X/0/L2]
+ v after B: (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2] | L2[invisible/base:X/0/L2]
+ X removed: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2]
+  after X (fresh: A, then B): equal to the survivors inserted fresh? true | vertices 7 vs 7 | ok
+ B removed: ok | v8: dead
+  F3 final (fresh: A alone): equal to the survivors inserted fresh? true | vertices 6 vs 6 | ok
+=== F3b T at v, then a rider B along A ending at v; the T removed; B removed
+ v after X: (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:X/0/L2]
+ v after B: (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2] | L2[invisible/base:X/0/L2]
+ X removed: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2]
+  after X (fresh: A, then B): equal to the survivors inserted fresh? true | vertices 7 vs 7 | ok
+ B removed: ok | v7: dead
+  F3b final (fresh: A alone): equal to the survivors inserted fresh? true | vertices 6 vs 6 | ok
+=== F4 crossing X at v, rider B to v; X's far half removed by a stretch ending at v; X's rest; B
+ stretch of X v → (1800,3400): ok | (1800, 2915) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2] | L2[invisible/base:X/0/L2]
+ X's rest removed: ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:B/0/L2]
+ B removed: ok | v8: dead
+  F4 final (fresh: A alone): equal to the survivors inserted fresh? true | vertices 6 vs 6 | ok
+=== F5 mixed levels: A L1, C L2 along A whole, a crossing at L1 at v; A's stretch v → far end removed; the crossing; A's rest → C alone
+ v after X: (1800, 2915) L1 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L1[invisible/base:X/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L1[invisible/base:X/0/L1]
+ stretch of A v → (499,2966) at L1: ok | (1800, 2915) L1 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:C/0/L2] | L1[invisible/base:X/0/L1] | L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L1[invisible/base:X/0/L1]
+ X removed (L1): ok | (1800, 2915) L1 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L1[invisible/base:A/0/L1;invisible/base:C/0/L2]
+ A's rest removed (L1): ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  F5 final (fresh: C alone at L2): equal to the survivors inserted fresh? false | vertices 7 vs 6 | ok
+    only here:   e 1800,2915-3142,2862 L2 [28/base:C/2/0] || e 499,2966-1800,2915 L2 [28/base:C/2/0] || v 1800,2915 L2 f0 []
+    only fresh:  e 499,2966-3142,2862 L2 [28/base:C/2/0]
+=== F6 mixed levels: A L1, C L2 along A whole, a crossing at L2 at v; A's stretch v → far end removed; the crossing; A's rest → C alone
+ v after X: (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2]
+ stretch of A v → (499,2966) at L1: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level | cause: tx: a run has route vertices at its own level
+=== G (guard) C's own point v on A; a stretch of A ending at v removed; A's rest removed → C alone (no shape row on this head)
+ v after C: (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ stretch of A v → (499,2966): ok | (1800, 2915) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+ A's rest removed: ok | v6: dead
+  G final (fresh: C alone): equal to the survivors inserted fresh? false | vertices 6 vs 7 | ok
+    only here:   e 499,2966-3142,2862 L2 [28/base:C/2/0]
+    only fresh:  e 1800,2915-3142,2862 L2 [28/base:C/2/0] || e 499,2966-1800,2915 L2 [28/base:C/2/0] || v 1800,2915 L2 f0 []
+SUMMARY tree {"F1":true,"F2":true,"F3":true,"F3b":true,"F4":true,"F5":false,"F6":false,"G":false}

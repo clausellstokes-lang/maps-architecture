@@ -1,0 +1,58 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/q181/tree/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is -1038019647 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=-1038019647 draws the same cases (Q96, C-0057)
+ ❯ |kernel| test/tx/removals.test.ts (32 tests | 1 failed) 420ms
+   ❯ C-0185 (4): which identical-row pairs are runs (7)
+     × N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it 30ms
+ ❯ |kernel-tiny| test/tx/removals.test.ts (32 tests | 1 failed) 453ms
+   ❯ C-0185 (4): which identical-row pairs are runs (7)
+     × N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |kernel| test/tx/removals.test.ts > C-0185 (4): which identical-row pairs are runs > N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it
+AssertionError: expected 4 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 4
+
+ ❯ test/tx/removals.test.ts:308:48
+    306|     healthy(p);
+    307|     expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
+    308|     expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(0);
+       |                                                ^
+    309|     expect(c.record?.unflagged).toEqual([v]);
+    310|     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |kernel-tiny| test/tx/removals.test.ts > C-0185 (4): which identical-row pairs are runs > N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it
+AssertionError: expected 4 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 4
+
+ ❯ test/tx/removals.test.ts:308:48
+    306|     healthy(p);
+    307|     expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
+    308|     expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(0);
+       |                                                ^
+    309|     expect(c.record?.unflagged).toEqual([v]);
+    310|     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 36 passed (38)
+      Tests  2 failed | 657 passed | 1 skipped (660)
+   Start at  06:55:54
+   Duration  318.23s (tests 95%, import 3%, transform 2%)
+
+EXIT 1

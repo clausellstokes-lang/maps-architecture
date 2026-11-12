@@ -1,0 +1,44 @@
+[
+ {
+  "fixture": "relief-3000",
+  "config": "default",
+  "seed": 13,
+  "plats": {
+   "ground/0": {
+    "live": 7574,
+    "split": 132,
+    "coincidentClass": 1,
+    "coincidentClassWithVertexRows": 0,
+    "oneKeyOrNone": 0,
+    "byLevel": {
+     "L1": 1
+    },
+    "sample": [
+     {
+      "x": 42244,
+      "y": 52439,
+      "level": "L1",
+      "rows": "0/way:0/0/1;11/seam:ds0nva4wkc41n/0/1;4/enceinte:1/0/1",
+      "vertexRows": 0
+     }
+    ]
+   }
+  }
+ },
+ {
+  "fixture": "relief-3000",
+  "config": "default",
+  "seed": 4,
+  "plats": {
+   "ground/0": {
+    "live": 8401,
+    "split": 149,
+    "coincidentClass": 0,
+    "coincidentClassWithVertexRows": 0,
+    "oneKeyOrNone": 0,
+    "byLevel": {},
+    "sample": []
+   }
+  }
+ }
+]

@@ -9,10 +9,17 @@
 // blocks in M0-f-03b's reader's form for every counter each spike stage charges (Q118), and is anchored to what it was
 // derived on (Q36): the harness's sources byte for byte and one CITY record re-derived on the tree — a stale summary is
 // red, not a passing shape.
-import { readFileSync } from 'node:fs';
+//
+// Hardening round S4 (checks/M0-e-06-notes.md 'Hardening round S4'): each refusal class carries every distinct text
+// with its seeds (note 25), the harness digest is taken over ledger-id-normalised bytes so a landing's citation
+// renumber never moves it while any other edit does (Q137), and the summary is the 200-seed re-run on the round's tree
+// (Q122's batched re-run), its digest computed once under that rule.
+import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { loadWorkLimits } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { HARNESS_SCOPE, recordDigest, scopeDigest, SOURCE_SCOPE } from '../../src/site/anchor.js';
+import { HARNESS_SCOPE, normaliseLedgerIds, recordDigest, scopeDigest, SOURCE_SCOPE } from '../../src/site/anchor.js';
 import { BAR_NAMES, DEFAULT_SEEDS, PLAT_ROOT, runSpikeTask, SUMMARY_PATH } from '../../src/site/index.js';
 import { STAGE_WORK } from '../../src/site/report.js';
 import { fitWorkLimits, inputPath, STAGE_CHARGES, SUMMARY_IDS, type SummaryId } from '../../src/worklimits/index.js';
@@ -32,7 +39,7 @@ interface Group {
   bars: Record<string, { verdict: string }>;
   work: Record<string, { stage: string; units: Q; perUnit: Q }>;
   batches: Record<string, { committed: number; refused: number; maxShare: number }>;
-  refusals: { stage: string; code: string; count: number; seeds: number[]; message: string | null; messages: number }[];
+  refusals: { stage: string; code: string; count: number; seeds: number[]; message: string | null; messages: number; texts: { text: string | null; seeds: number[] }[] }[];
   stageWork: Record<string, Record<string, { stage: string; unit: string; units: Q; unitsTotal: number; perUnit: Q; charged: number }>>;
 }
 interface Digest {
@@ -115,8 +122,8 @@ describe('the committed summary is the full CITY run (note 1)', () => {
 const ordered = (q: Q): boolean => q.p50 <= q.p99 && q.p99 <= q.p999 && q.p999 <= q.max;
 const ran = (g: Group, stage: string): number => (g.stages[stage]?.ok ?? 0) + Object.values(g.stages[stage]?.refused ?? {}).reduce((a, b) => a + b, 0);
 
-describe('the refusal census names its seeds (hardening round S3, Q122)', () => {
-  it('every refusal class of every group: stage × code → the sorted seeds, their count the stage\'s refused count, the message once', () => {
+describe('the refusal census names its seeds (hardening round S3, Q122) and each text with its seeds (S4, note 25)', () => {
+  it('every refusal class of every group: stage × code → the sorted seeds, their count the stage\'s refused count, the message once, every distinct text with its seeds', () => {
     for (const g of s.groups) {
       const at = `${g.fixture} ${g.config}`;
       expect(Array.isArray(g.refusals), at).toBe(true);
@@ -131,6 +138,14 @@ describe('the refusal census names its seeds (hardening round S3, Q122)', () => 
         for (const seed of c.seeds) expect(Number.isInteger(seed) && seed >= s.seeds.first && seed < s.seeds.first + s.seeds.count, where).toBe(true);
         expect(c.message === null || (typeof c.message === 'string' && c.message.length > 0), where).toBe(true);
         expect(Number.isInteger(c.messages) && c.messages >= (c.message === null ? 0 : 1) && c.messages <= c.count, where).toBe(true);
+        // hardening round S4 (note 25): every distinct text with its seeds — the texts partition the class's seeds, by
+        // each text's lowest seed (the first is `message`), the non-null ones `messages` in number, no text twice
+        expect(c.texts.flatMap((t) => t.seeds).sort((a, b) => a - b), where).toEqual(c.seeds);
+        expect(c.texts.map((t) => t.seeds[0]), where).toEqual(c.texts.map((t) => t.seeds[0]).sort((a, b) => a - b));
+        for (const t of c.texts) expect(t.seeds, where).toEqual([...t.seeds].sort((a, b) => a - b));
+        expect(c.texts[0].text, where).toBe(c.message);
+        expect(new Set(c.texts.map((t) => t.text)).size, where).toBe(c.texts.length);
+        expect(c.texts.filter((t) => t.text !== null).length, where).toBe(c.messages);
       }
     }
   });
@@ -187,6 +202,53 @@ describe('the summary is anchored to what it was derived on (hardening round S3,
 
   it('the harness (bench/src/site) is byte for byte the code the summary was derived and folded with: a changed harness re-runs the summary', () => {
     expect(scopeDigest(PLAT_ROOT, HARNESS_SCOPE)).toEqual(s.anchor.harness);
+  });
+
+  it('hardening round S4 (Q137): a citation renumber in a copy of the harness keeps its digest; an edit of its code moves it', () => {
+    const root = mkdtempSync(join(tmpdir(), 'plat-e06-anchor-'));
+    try {
+      cpSync(join(PLAT_ROOT, 'bench', 'src', 'site'), join(root, 'bench', 'src', 'site'), { recursive: true });
+      const tree = scopeDigest(PLAT_ROOT, HARNESS_SCOPE);
+      expect(scopeDigest(root, HARNESS_SCOPE)).toEqual(tree);
+      const file = (name: string): string => join(root, 'bench', 'src', 'site', name);
+      const raw = (): string[] => readdirSync(join(root, 'bench', 'src', 'site')).sort().map((name) => readFileSync(file(name), 'latin1'));
+      const edit = (name: string, from: string, to: string): void => {
+        const text = readFileSync(file(name), 'utf8');
+        expect(text.includes(from), `${name}: ${from}`).toBe(true);
+        writeFileSync(file(name), text.split(from).join(to));
+      };
+      // the ID RULE's renumber (C-0104) of a choices row, a notes row, in comments and in a message text alike — the
+      // landing of e-06 S3 renumbered C-0449 → C-0453 in one comment of anchor.ts (J670)
+      const copied = raw();
+      edit('anchor.ts', 'C-0453', 'C-0461');
+      edit('anchor.ts', 'C-0104', 'C-0105');
+      edit('index.ts', 'C-0091', 'C-1091');
+      edit('compose.ts', 'C-0264', 'C-0270');
+      edit('receipts.ts', 'N-54', 'N-154');
+      edit('report.ts', 'N-54', 'N-9');
+      expect(raw().filter((t, n) => t !== copied[n]).length, 'the renumber edited five files').toBe(5);
+      expect(scopeDigest(root, HARNESS_SCOPE), 'a citation renumber moved the harness digest').toEqual(tree);
+      // a CLEAN-ROOM row's id the same way (no L- token in the harness today: one on a line added beside its renumber)
+      writeFileSync(file('timing.ts'), `${readFileSync(file('timing.ts'), 'utf8')}// L-0702\n`);
+      const withRow = scopeDigest(root, HARNESS_SCOPE);
+      expect(withRow.sha256, 'an added line is an edit').not.toBe(tree.sha256);
+      edit('timing.ts', '// L-0702', '// L-0743');
+      expect(scopeDigest(root, HARNESS_SCOPE), 'a ledger row renumber moved the harness digest').toEqual(withRow);
+      edit('timing.ts', '// L-0743\n', '');
+      expect(scopeDigest(root, HARNESS_SCOPE)).toEqual(tree);
+      // a ledger-shaped token that is not a whole id is code: a fifth digit, an id inside a word, three digits, no digit
+      expect(normaliseLedgerIds(Buffer.from('C-04530 XC-0453 C-045 N-x M0-c-0453')).toString()).toBe('C-04530 XC-0453 C-045 N-x M0-c-0453');
+      expect(normaliseLedgerIds(Buffer.from('§C-0453 (L-0702; N-69)')).toString()).toBe('§C-# (L-#; N-#)');
+      // an edit of code moves the digest: a constant's digit, one character of a statement
+      edit('report.ts', 'export const WARD_SHARE_MIN = 0.9;', 'export const WARD_SHARE_MIN = 0.8;');
+      expect(scopeDigest(root, HARNESS_SCOPE).sha256, 'a code edit left the harness digest').not.toBe(tree.sha256);
+      edit('report.ts', 'export const WARD_SHARE_MIN = 0.8;', 'export const WARD_SHARE_MIN = 0.9;');
+      expect(scopeDigest(root, HARNESS_SCOPE)).toEqual(tree);
+      edit('anchor.ts', '(token: string) => `${token[0]}-#`', '(token: string) => `${token[0]}-?`');
+      expect(scopeDigest(root, HARNESS_SCOPE).sha256, 'a code edit left the harness digest').not.toBe(tree.sha256);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   });
 
   it('the canary CITY record re-derived on this tree is the run\'s: a stage change that moves it makes the summary stale (re-run, Q36)', { timeout: 3_600_000 }, () => {

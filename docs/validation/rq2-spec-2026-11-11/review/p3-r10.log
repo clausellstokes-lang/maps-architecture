@@ -1,0 +1,7 @@
+P16 compact: isCurrent(compactSlots(p), stamp(p)) = true at version 1
+P16 load:    isCurrent(decode(encode(p)), stamp(p)) = false (load version 0 )
+q: generation 1 version 1
+p: generation 1 version 1 — content differs from q: true
+COLLISION: isCurrent(q, stamp(p)) = true
+copy: has digests true builds 1
+after the generation moved under an attached state: levelDigest == recompute at every level: true ; builds now 2

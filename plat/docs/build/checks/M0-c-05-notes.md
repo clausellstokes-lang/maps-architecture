@@ -355,3 +355,175 @@ hardening pass (M4) unless it says otherwise. The mutant names are the verdict f
 | N-s2c-2 | Z19 (`snapArm`'s arms reversed) survives the folder 100 / 100, and Z19t (`snapArm` throws on entry) passes NEAR's 15 files 146 / 146; the 44 registered runs end 0 streets by a snap. Judged by this seat (not from the builder's label): equivalent by unreachability on M0's lawful inputs, because every junction S5c meets is an exact end of an indexed way segment, `crossParams` accepts t = 1, and the step meets that way in a T before a snap is read (the verdict file's §(2)). The premise is pinned: P2 (a snap taken before the hit at t = 1) is red on *a junction a way runs through is never snapped to …*. | When squares or free junction points enter S5c's area (M1's presets), `snapArm` becomes reachable: add N-c1-1's hand case for it then (a street snapping onto an S5c junction whose existing arm sorts after the new way). | M1 |
 | N-s2c-3 | NO-SHIFT was not re-measured byte for byte by this seat: no pre-round image of `proposals.ts` exists in the tree without git. The seat's after-image aggregate over the state's ways, lines and junctions, the streets and the prune of the 44 runs is `9030605526592793` (its own field set, not comparable with the builder's `58802231b599ab93`, which folds `refused` and `intermediates` into one count). Every count and proposal id equals the C1 check's recorded before-figures, RELATED's goldens are green, and the round's code change is one counter's key, so the claim is PLAUSIBLE. | Optional for the session: re-run the census probe on main's `proposals.ts` (fetched read-only) at the round's commit to make it CONFIRMED. | session (optional) |
 | N-s2c-4 | Refusals met (J264, J290, N-58). M0-c-05's 44 registered runs (plain 1 – 24, 900 ha 1 – 10, small 1 – 10, `fixtureRun`) refuse 0 runs after the round, as before. The six inner events (`W_END_UNMARKED` ×1 at plain 9, 17, 20, 23 under `intermediates`; F-NUM `re_propose` + `reject E_BELOW_MIN_EDGE` at plain 20 proposal 35 and 23 proposal 20, in `rungs`) are lawful input, class OUR OWN INTERMEDIATE, absorbed inside S5c (verdict (a)); reported refusals 4 → 0, runs refused 0 → 0, the census did not rise. Separately, RELATED's bench output printed `site: relief-60 (default): 2 runs, S6 ok 1; refused S5 E_SELF_INTERSECT ×1` (the `site` harness, relief-60 × default, seeds 1 – 2, test size), outside c-05's families. | For the session: the relief-60 S5 refusal stays with its owner (Q46's class, M0-c-02), replayable by the `site` harness at relief-60 default seeds 1 – 2. Nothing for c-05. | session (fix queue) |
+
+
+## Hardening round S3 (lane `build/M0-c-05-fix-s3`, 2026-11-10): Q150 (R13), Q98, Q149
+
+The session opened this round as M0-c-05's hardening round S3 (J237 (2), J238; the second re-triage's entry M0-c-05,
+class COMPOUNDS, J722; rulings J751) on three open queue rows: Q150 (the session's line, under R13) first, then Q98 and
+Q149. **No source file changed.** The six owned growth sources hash as round S2's landed record has them
+(`proposals.ts` e98c7926…, `heading.ts` a7151d06…, `legality.ts` 806db60f…, `capacity.ts` 30c60abe…, `prune.ts`
+25ae79b2…, `index.ts` 3cef1142…). The edits are tests inside the owns: `test/growth/s5cd/prune.test.ts` (changed) and the
+new `test/growth/s5cd/through.ts` (support), `draws.test.ts` (Q150) and `seeds.test.ts` (Q149). `boundary.ts`,
+`mainRoads.ts` and `test/growth/s5ab/` (M0-c-04's) and M0-x-04's `pipeline/base.ts` were read, never edited. No export,
+index or message text moved; no digest, golden or register is re-recorded, because no output moves. Choices row
+C-0495; CLEAN-ROOM row L-0814. No git.
+
+| row | outcome | change | pin (test) | mutant → result |
+|---|---|---|---|---|
+| Q150 (R13) | **MEASURED; outcome (a): the frame is the cause; NO source change; CARRIED to M1** (J238 (1)'s proof in C-0495 and below) | none to the code | `draws.test.ts`: *Q150: the growth stage draws at every seed of the site fixture from the sweep's boundary frame (1 100 ha, 50 ha walled)* (seeds 1 – 12: stage 1 seeded, proposals made, the growth stage's own streams drawn); *… below the boundary, at M0-d-09's test frame (400 ha, 12 ha walled), the growth stage has nothing to draw for* (seeds 1, 4, 9: no seed in any stage, no top-up, 0 draws; at seed 4 the `{ S5: 1 }` reroll moves S5's root with 0 growth draws, so the move is S5b's) | Q150-a (S5c's stage reads `growthStreams(slice)`, never its own `ctx.stream`) red; Q150-b (no seed ever pushed) red; both at *seed 1 … expected 0 to be greater than 0* (Q150-a at `draws.test.ts:31`, the draws; Q150-b at `:29`, stage 1's seeds) |
+| Q98 | **FIXED and PINNED** | `prune.test.ts:83` (now :85, under a two-line comment): the dense core's (and every regime's) prune block width is derived from regimes.json — `tables.table('regimes').pair(gs.regime, 'blockDepthFloorM')[0] × 100` — and is no longer the literal 3 000 / 4 500 / 3 000 cm | the test itself: green on the shipped table (6 / 6); green on a mirror copy of regimes.json with the dense core's floor at 37 m (6 / 6; the prune then runs at 3 700 cm) | Q98-a (the literal restored, floor at 37 m) red: *seed 1 … expected 3700 to be 3000* |
+| Q149 | **JUDGED: the EXPECTED OUTCOME of the frame under C-0254 (3), not a growth defect; PINNED with its reason; the seed lattice's phase REPORTED (N-s3-1)** | none to the code | `seeds.test.ts`: *Q149: no secondary street at flat seeds 2, 3 and 6 on the 900 ha / 30 ha walled frame — the frame, not a defect* (per seed: the replay equals the registered run's S5 root; 0 growth draws; every stage's S5c record `[k, 0 seeds, 0 proposals, 0 streets]`; stage 1's clear stretches each shorter than the 80 m pitch; stages 2 and 3 with no arterial point clear by D; the same seed at 1 100 / 50 ha grows secondaries) | Q149-a (the seeds' clearance from bands and reservations dropped) red: *expected 38 to be +0*; Q149-b (the pitch halved, S / 4) red: *expected 19 to be +0* (both at `seeds.test.ts:156`, the run's growth draws) |
+
+**Q150: the sweep.** The probe ran in the lane's mirror. It used the base registration (M0-x-04's `registerBase`) with S6
+and S8 as no-op stages, and S5's context wrapped so that every call on a stream S5 opens is counted. Each draw is
+assigned to its sub-stage by the call stack (`capacityStep` → S5d, `growthStep` → S5c, `mainRoadsStep` → S5b). Each
+seed ran at reroll 0 and under `{ S5: 1 }`, and S5's stage root was read. The site fixture (`RIVER_BLUEPRINT`), seeds
+1 – 12, on eight frames (frame ha / walled ha), each frame at reroll 0 and 1 (192 runs):
+
+| frame (ha / walled ha) | seeds run | S5c draws (seeds) | S5d draws (seeds) | S5b draws (seeds) | S5 root moved under {S5: 1} (seeds) | moved with no S5c / S5d draw | stage-1 seeds min-max | stage-2 seeds | stage-3 seeds min-max | refusals | ms per run |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 400/12 | 12 | 0 | 0 | 6: 1, 2, 4, 6, 8, 9 | 2: 4, 9 | 2: 4, 9 | 0-0 | [0] | 0-0 | 0 | 7 s |
+| 900/30 | 12 | 9: 1, 2, 4, 6, 7, 8, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 10: 1, 2, 3, 6, 7, 8, 9, 10, 11, 12 | 1: 9 | 0-2 | [0] | 0-1 | 0 | 17 s |
+| 1000/40 | 12 | 10: 1, 2, 3, 4, 6, 7, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 11: 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12 | 1: 5 | 0-2 | [0] | 0-3 | 0 | 28 s |
+| 1100/50 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 9: 1, 2, 3, 6, 7, 8, 9, 10, 11 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 3-7 | [0] | 0-7 | 0 | 25 s |
+| 1200/60 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 5-7 | [0] | 0-12 | 0 | 31 s |
+| 1600/100 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 7-16 | [0] | 0-22 | 0 | 45 s |
+| 2000/160 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 23-28 | [0] | 2-44 | 0 | 56 s |
+| CITY 2500/220 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 35-42 | [0, 1] | 15-52 | 0 | 72 s |
+
+The fusion fixture (`FLAT_BLUEPRINT`) on the same frames (1 000 / 40 and 1 100 / 50 aside; 144 runs), and at 1 100 / 50
+apart (24 runs: S5c draws at 12 / 12, the root moved at 12 / 12, stage-1 seeds 6 at every seed):
+
+| frame (ha / walled ha) | seeds run | S5c draws (seeds) | S5d draws (seeds) | S5b draws (seeds) | S5 root moved under {S5: 1} (seeds) | moved with no S5c / S5d draw | stage-1 seeds min-max | stage-2 seeds | stage-3 seeds min-max | refusals | ms per run |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 400/12 | 12 | 0 | 0 | 8: 1, 2, 3, 5, 6, 9, 11, 12 | 2: 6, 9 | 2: 6, 9 | 0-0 | [0] | 0-0 | 0 | 1 s |
+| 900/30 | 12 | 9: 1, 4, 5, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 3: 2, 3, 6 | 0-2 | [0] | 0-0 | 0 | 2 s |
+| 1200/60 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 8-8 | [0] | 0-1 | 0 | 3 s |
+| 1600/100 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 15-18 | [0] | 0-1 | 0 | 4 s |
+| 2000/160 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 28-30 | [0] | 0-3 | 0 | 6 s |
+| CITY 2500/220 | 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 12: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 | 0 | 42-44 | [0] | 2-9 | 0 | 8 s |
+
+Over the 360 runs no stage was refused. **The verdict, outcome (a).** S5c draws only for a proposal. Every proposal
+draws its first curvature and its first step's length, and a proposal comes only from a seed. S5d draws only when an
+unwalled stage's top-up grows its rim. The draws vanish below **1 100 ha with 50 ha walled**. In the sweep's frames, the
+growth stage draws at every seed of the sample from 1 100 / 50 up (1 100, 1 200, 1 600, 2 000 and CITY: 12 / 12 each,
+and the reroll moves S5's root at 12 / 12 each). Below it the count falls: 10 / 12 at 1 000 / 40, 9 / 12 at 900 / 30
+and 0 / 12 at M0-d-09's test frame, 400 / 12.
+
+**Why a small frame gives S5c and S5d nothing to draw for:**
+- **Seeds (C-0254 (3)).** A seed is a point every S / 2 (80 m at walled CITY) along an arterial run, from S / 2. It must
+  lie at least the clearance D (83 m walled, 33 m ribbon) from setback lines, walls, shores and reservations, and at
+  least S / 2 from standing junctions.
+- **Stage 1 on a small frame.** The radial runs go from the plaza to past the wall. They are clear only on a stretch
+  shorter than the pitch, between the plaza's clearance and the wall's. The seed points at 80 m and 160 m fall inside
+  the two clearances. This was traced at the fusion fixture's seed 2 on 900 / 30: three runs of 251 – 274 m, clear from
+  88 – 112 m to 140 – 160 m.
+- **The walled ring and the ribbon.** No arterial point of the region is clear by D at all. The ring's best is 24 – 28 m
+  against D = 83 m; the ribbon's is 8 – 22 m against 33 m.
+- **S5d draws at no seed of any frame.** On the fixture's stand-in demand no unwalled stage is short by more than 5 %
+  (`topUp` `none` in all 360 runs), and a walled stage's top-up is M1's (C-0254 (11)). That is the design's "a stage
+  within 5 % takes none". **No seed of the sample fails to draw at or above the boundary.**
+
+**For M0-d-09's pair.** At its test frame the growth stage proper (S5c, S5d) draws at no seed. The `{ S5: 1 }` pair's
+moves there come from S5b's draws alone: site seeds 4 and 9, fusion seeds 6 and 9 (`growth.mainroad`, M0-c-04's). This
+matches the queue row's figures. The session's seam at seed 4 (J712) therefore reads an S5b re-draw. No file of another
+item moves (no source change). `bench/test/determinism/runner.test.ts` was read, never edited.
+
+**Carried to M1 (J238 (1)).** The question for the growth stage's owners, whether S5c and S5d should draw at every seed
+of a small frame, is answered: by its rules they have nothing to draw for there. Whether a small frame should seed
+otherwise (N-s3-1) is a change of S5c's seeding contract, carried with S2's real demand to M1.
+
+**Q98 in detail.** The literal was the only reading of the floor in the item's tests. `legality.test.ts`'s clearances
+(83 m walled, 33 m ribbon) and seed spacings are unchanged by a 37 m floor: max(37, 80) + 3 = 83 m. A 37 m floor moves
+the prune's block width to 3 700 cm and the prune with it; the test follows the table.
+
+**Q149 in detail.** The rows are integration-g15's N-2 and CP's hand-back. On the 900 ha / 30 ha walled frame the fusion
+fixture's seeds 2, 3 and 6 hold no S5c seed in any stage. This holds in the base run and in the replay alike.
+
+| seed | stage 1 (dense core, ≈ 18.6 ha): clear stretches (m) vs the 80 m pitch | stage 2 (walled rings, ≈ 11 ha): best clearance vs D 83 m | stage 3 (ribbon, ≈ 4 ha): best clearance vs D 33 m |
+|---|---|---|---|
+| 2 | 65, 55, 65 (sampled every 5 m; none holds a seed point) | 24.6 m | 22.3 m |
+| 3 | 65, 60, 45 | 24.5 m | 8.0 m |
+| 6 | 45, 40, 50 | 25.8 m | 21.3 m |
+
+(seeds 1, 4, 5 on the same frame: stage-1 stretches 40 – 60 m, and a seed point fell in one, 1 – 2 seeds, 1 – 2
+streets.)
+
+Read against §4.4 S5c, the outcome follows the design's rules:
+- walled regimes grow district-scale secondaries only, with a separation floor of 160 m at CITY;
+- legality forbids a run within D of a wall, a setback band or a reservation within 30° of parallel, and a seed's
+  proposal leaves square to its radial arterial, along the plaza and the wall;
+- "a stage with no seed inside its boundary … grows nothing".
+
+The frame is a seventh of §12.2's 220 ha walled. On Q150's boundary frame the same three seeds seed stage 1 (6 seeds
+each) and grow 7, 4 and 8 streets (the pin's witness). **The refusal census does not rise:** no refusal is involved,
+and growing nothing is not a refusal.
+
+**The refusal census (J264 (5), N-58), before = after.** No source changed, so the census holds by construction. It was
+also measured on the round's tree (round S2's 44 registered runs in the mirror: `flatFixture` → S3 → S4 → `runS5`, plain
+1 – 24, 900 ha 1 – 10, small 1 – 10): runs refused 0 / 44; S5c and rim `refused` {} everywhere; `intermediates` `W_END_UNMARKED` 4; F-NUM `re_propose` then `reject` (`E_BELOW_MIN_EDGE`) 3 — plain 20 p35 and plain 23 p20 as round S2 measured, and small 6 p4, new on the current base since round S2 (M0-c-04 S5's and M0-c-02 S6's landings moved S5's input there; this round changed no source): OUR OWN INTERMEDIATE, absorbed by F-NUM's ladder (C-0085), the run whole; batch and prune refused 0 / 0; streets ending `snap` 0. Over the sweep's 360 pipeline runs: 0 stages refused. Lawful-input
+refusals 0 → 0.
+
+**Notes for the session (not built here).**
+- **N-s3-1 (REPORTED; C-0254 (3) contract; carried to M1 with Q150).** The seed lattice is anchored at each arterial
+  run's start, with its first point at S / 2 = 80 m. That point lies inside the clearance D = 83 m of whatever the run
+  starts on (the plaza, or the wall where a run starts there). A stage-1 stretch between the plaza's clearance and the
+  wall's is therefore seeded only where a lattice point (160 m, 240 m, …) falls in it. A lattice anchored on each clear
+  stretch would seed stage 1 at the fusion fixture's seeds 2, 3 and 6 on 900 / 30 (traced: their stretches exist). The
+  frames' other seeds that do not draw were not traced: the site fixture's 3, 5 and 9 on 900 / 30, and 5 and 8 on
+  1 000 / 40. Such a lattice would also move every S5 output at every frame. That is a change of S5c's seeding contract (rule (3) of the round),
+  for the session's ruling. Each case fails safe: the stage grows nothing, reported by its record.
+- **N-s3-2 (PLAUSIBLE, read from the code; M0-x-04 / M0-c-05 contract).**
+  - In the pipeline, `s5cStage(k)` and `s5dStage(k)` open the growth streams afresh through `ctx.stream` at each stage
+    k (`proposals.ts:1015 – 1016`, `capacity.ts:404 – 405`). The stream key holds no k (`runner.ts` `ctx.stream`), so
+    each stage's S5c, and S5d's rim, starts the same draw sequence.
+  - `runS5`, this item's composition outside the runner, continues one set of streams across the stages. C-0254's "the
+    rim grows from them, continued" reads as that.
+  - Both are deterministic, with no refusal. The draws are correlated across stages in the pipeline only.
+  - Not this round's to change, because it touches the stage's contract with the runner. Reported.
+- **N-s3-3 (informative).**
+  - The walled-rings stage holds no seed at any frame up to 2 000 / 160, and at most one at CITY (site; none on the
+    fusion fixture). A ring between two walls is narrower than about twice the clearance, so the design's legality
+    leaves it nothing to grow (its lanes are S8's).
+  - `draws.test.ts` costs about 5 minutes at W = 1 (12 site runs at 1 100 / 50, 4 at 400 / 12).
+- **N-s3-4 (for the session: foreign RELATED reds, not this item's).**
+  - RELATED@1000 (2026-11-11) failed four tests in two bench files, all on relief-60 default seed 2 at the test size:
+    `bench/test/site/compose.test.ts:268` (Q122's "refuses at S5": expected 1 refused stage, got 0) and three in
+    `bench/test/site/spike.test.ts` (the water-gate count, expected 2 got 4; the strip receipt, expected 138 got 466;
+    `:545`, "S5 refused, S6 not reached": `s6` is now defined).
+  - Cause: S5 no longer refuses at relief-60 seed 2 (the `site` harness printed `relief-60 (default): 2 runs, S6 ok 2;
+    refused none`; rounds S1 – S2 met `refused S5 E_SELF_INTERSECT ×1` there, N-c1-4 / N-s2c-4, Q46's class, M0-c-02).
+    These tests pin that old refusal. The move came with the base of 2026-11-10 07:17 (M0-c-04 S5's held enclosure,
+    M0-c-02 S6's landing, `boundary.ts`, `pipeline/base.ts`, `enceinte/*`), or with M0-c-01 S4's siting in flight. It
+    did not come from this item: none of its sources changed in this round, and they hash as round S2's record.
+  - Refusal census: one lawful S5 refusal fewer outside c-05's families (good news). The bench tests' owners re-pin
+    relief-60 seed 2. Replay: the `site` harness, relief-60 default, seeds 1 – 2, test size.
+
+**Mutant table (the lane's mirror, W = 1, `--bail=1` on the pin's file; each mutated file restored by copy and `cmp`
+before the next).**
+
+| mutant | where | pin | result |
+|---|---|---|---|
+| Q98-ctl (control) | regimes.json dense core `[37, 45]` | `prune.test.ts` | green 6 / 6 |
+| Q98-a | the literal restored, floor `[37, 45]` | `prune.test.ts` | **red**: seed 1, expected 3700 to be 3000 (`prune.test.ts:85`) |
+| Q150-a | `s5cStage.run`'s streams from `growthStreams(slice, reroll)`, not `ctx.stream` | `draws.test.ts` | **red**: seed 1, expected 0 to be greater than 0 (`:31`, the draws) |
+| Q150-b | `growthArea` pushes no seed | `draws.test.ts` | **red**: seed 1, expected 0 to be greater than 0 (`:29`, stage 1's seeds) |
+| Q149-a | `growthArea`'s seed clearance only from shores | `seeds.test.ts` | **red**: seed 2, expected 38 to be +0 (`:156`, the growth draws) |
+| Q149-b | the seed pitch S / 4 | `seeds.test.ts` | **red**: seed 2, expected 19 to be +0 (`:156`) |
+
+**Gates (W = 1, in the tree, after the last test edit).** install --frozen-lockfile 0; lint 0 (eslint 1302 files, 0 errors, the probe red on every planted line, 9 whole-tree checks); build 0 (tsc -b ok) — re-run 2026-11-11 after a container restart, no file under `packages/`, `bench/` or `tools/` changed since NEAR; NEAR (full strength) `test/growth/s5cd/` + `testkit/test/layout/growth-s5cd/` 17 files 164 / 164 exit 0 (1 203 s); RELATED@1000 over the six owned growth sources: exit 1, 273 files (271 passed, 2 failed), 3 442 tests (3 438 passed, 4 failed), 9 540 s (2026-11-11 18:49 – 21:28, W = 1, re-run after the container restart killed the 2026-11-10 09:00 run). Every one of the item's own test files is green; the four reds are foreign (N-s3-4), none on a file this item changed (it changed no source). The lane's mirror was deleted once the mutants were done.
+
+## Closing check S3 (lane `check/M0-c-05-close-s3`, 2026-11-11 – 12): hardening round S3
+
+Verdict PASS (`checks/M0-c-05-s3.md`). Q150 is confirmed at outcome (a) and carried to M1; Q98 is fixed and pinned; Q149
+is judged and pinned. None of these rows is a blocker. The mutant and log names are the verdict file's.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 | **The seed lattice's phase decides the band below Q150's boundary** (confirms the builder's N-s3-1 with the seat's own figures). K7t (the same rules, the lattice shifted by S / 4 = 40 m) seeds stage 1 at flat 900 / 30 seeds 2, 3 and 6 (3 seeds each) and leaves 2, 3 and 1 secondaries after the prune (31 – 167 m; at seeds 2 and 3 one reaches the wall's band; one more pruned at each seed; 19 / 36 / 10 draws; 0 refusals). The site fixture's seeds that draw nothing below the boundary are the same case: at 900 / 30 seeds 3, 5 and 9 and at 1 000 / 40 seeds 5 and 8, stage 1 holds clear stretches of 3 – 63 m on one to three primaries (e.g. 900 / 30 seed 9: 90 – 117 m and 89 – 102 m along the run; 1 000 / 40 seed 8: 166 – 222, 84 – 147, 89 – 137 m), each shorter than the 80 m pitch, with every lattice point (80 / 160 / 240 m) inside the clearance (0.6 – 82 m from the reservation or the band against D = 83 m); stages 2 and 3 hold no arterial point clear by D (greatest 2 – 45 m against 83 m; 4 – 38 m against 33 m, one 5 m stretch without a lattice point). At M0-d-09's test frame (400 / 12) the cause is the geometry whatever the lattice: no arterial point of any stage is clear by D at seeds 1 – 12 (stage 1's greatest clearance 34.7 – 73.5 m). | The session's ruling with Q150 at M1: whether C-0254 (3)'s lattice should be anchored on each clear stretch (a change of S5c's seeding contract; every S5 output moves). Each case fails safe today (the stage grows nothing, its record says so). | M1 (session's ruling) |
+| N-s3c-2 | **One sentence of the builder's section and of C-0495 is inaccurate.** "`topUp` `none` in all 360 runs" / "none is short on the fixture's stand-in demand": on the site fixture at 400 / 12, seed 11, stage 3 (the ribbon) is short and S5d's top-up runs — `topUp: 'grown'` at reroll 0 and under `{ S5: 1 }` (`sweep-river-400x12.jsonl`, and the seat's replay) — with a rim of 0 seeds, 0 proposals and 0 draws. The claim that matters stands: S5d draws at no seed of any frame (the seat's tally holds no growth draw at 400 / 12 at all). `draws.test.ts` reads seeds 1, 4 and 9 only, where `topUp` is `none`. | Correct the sentence at the item's next round (text only): "S5d's top-up ran once in the sweep (site 400 / 12 seed 11, stage 3) and its rim held no seed". | M1 (with Q150) |
+| N-s3c-3 | **Q98's class in two other lines of the item's tests.** `legality.test.ts:44` reads the ribbon's floor as the literal `3_000` (`Math.max(3_000, 750) + 150`) and `:51` the walled rings' block depth as `4_500`. Neither is the dense core's row Q98 names: under a mirror regimes.json with the dense core's floor at 37 m the item's other 15 NEAR files stay green, 146 / 146 (F37), so M0-b-05a's re-signed dense-core floor turns no other test of this item red. | Derive both from regimes.json if M0-b-05a (or a later table round) re-signs the ribbon's or the walled rings' floor. | M4 (or b-05a's wave if it moves those rows) |
+| N-s3c-4 | **RELATED's foreign reds (confirms the builder's N-s3-4).** RELATED@1000 over the six owned growth sources (tree, W = 1, run seed `PLAT_FUZZ_SEED=-1222870520`): 271 of 273 files, 3 438 of 3 442 tests. The four reds are `bench/test/site/compose.test.ts:268` (*relief-60 default seed 2 (test size) refuses at S5 …*: expected 1 refused stage, got 0) and three in `bench/test/site/spike.test.ts` (`:201` expected 2 water-gate wall edges, got 4; `:341` the strip receipt, expected 138, got 466; `:545` *relief-60, seed 2 (S5 refused, S6 not reached)*: `s6` is defined). All four pin an S5 refusal at relief-60 seed 2 that the base no longer makes (`site: relief-60 (default): 2 runs, S6 ok 2; refused none`). No test of this item is red and the round changed no source (the six sources hash as the landed record; their files carry the tree's restore time, before the round). | The owners of the two bench files re-pin on the current base (one lawful S5 refusal fewer). Nothing for c-05. | session (fix queue) |
+| N-s3c-5 | **A refusal met outside the registered families (J264, J290, N-58): the trim's `removeEdges` answers `E_DEGENERATE` ('stretch') when the cut falls on the street's own end.** Site fixture, 2 000 / 160, seed 5, reroll 0, stage 3 (the ribbon): `way:65` (a provisional secondary of 33 m ending at the boundary) has its first exit, rounded to the lattice, at its end vertex (41442, 61855); `pruneAndTrim` splits there and asks `removeEdges` for the stretch from that point to itself; the kernel refuses; the prune counts `refused: { E_DEGENERATE: 1 }`, takes its new junction row back and leaves the street as it stood — still `provisional: true` in the S5 record, `ends: 'boundary'` (`degen.jsonl`; the same count at CITY seeds 4 and 8 under `{ S5: 1 }`, stage 3). The run is whole (0 stages refused, 13 trims and 11 prunes of the same batch committed) and the geometry is right (nothing lies beyond the boundary); the record's flag and the counted refusal are the shortfall. Input LAWFUL; class OUR OWN INTERMEDIATE; verdict MAKE-IT-SUCCEED. Not in the item's 44 registered runs (prune `refused` {} at all 44). Not this round's (no source changed). | A fix round of c-05: in the trim, a cut that equals the street's end is "nothing to trim" — mark the street final (`provisional: false`, an `end` junction as a trimmed street gets) without a `removeEdges` call; pin on site 2 000 / 160 seed 5. | session (fix queue; M0 hardening) |
+| N-s3c-6 | **The census's inner events on the current base** (the 44 registered runs, `fixtureRun`: plain 1 – 24, 900 ha 1 – 10, small 400 / 60 1 – 10): 0 / 44 runs refused; S5c, rim, batch and prune `refused` {} everywhere; `intermediates` `W_END_UNMARKED` × 1 at plain 9, 17, 20, 23 (as round S2); F-NUM `re_propose` then `reject` (`E_BELOW_MIN_EDGE`) at plain 20 proposal 35 and plain 23 proposal 20 (as round S2) and at small 6 proposal 4 (not in round S2's figures), and one `re_propose` that then succeeds at plain 19 proposal 36; `topUp` `none` at every stage of the 44; 0 streets ending `snap`. These are the builder's figures. The third reject came with the base between rounds S2 and S3 (M0-c-04 S5's and M0-c-02 S6's landings), not with this round, which changed no source: before = after. LAWFUL input, OUR OWN INTERMEDIATE, absorbed by F-NUM's ladder (the proposal ends, the run whole). | With N-c1 / N-s2c-4's class at the hardening pass: the short-edge re-proposal that still rejects (three proposals in 44 runs). | M4 |

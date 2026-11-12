@@ -10,6 +10,10 @@
 //   S6) — so the pin runs the base registration through S4, then S5's growth start and stage 2's S5a / S5b
 //   (`mainRoadsStep`) on S5's rank, and reads the boundary handed to the trace (about 20 – 40 s). Q88's CITY reading,
 //   relief-60 default seed 1, the same (nine points up to 2.3 m outside; about 1 – 2 min).
+//   SINCE M0-e-02 S2 (C-0498: a river whose re-traces fail is re-traced along its descent line; the session's seam at
+//   that landing, J786) seed 2 derives another river at the test size — its stage-1 wall stands inside stage 2's plain
+//   boundary and the repair no longer runs there — so the test-size case is SEED 12, the first seed of 1 – 70 on which
+//   the plain boundary leaves the wall outside on that tree (nine points up to 5.4 m; seeds 13, 22, 38, 58 and 68 likewise).
 // * The seeds whose S5 now commits (M0-e-06 S3's relief-60 default S5 E_SELF_INTERSECT seeds 13, 84, 156, 162: the trace
 //   handed a boundary through stage 1's wall): each derived through S5 at CITY (about 1 – 3.5 min each; ≈ 5 – 14 min).
 // The coarse configuration's seeds are held-coarse.test.ts's.
@@ -67,7 +71,7 @@ function stage2(bp: BaseBlueprint, seed: number): { line: readonly { x: Cm; y: C
 
 describe('the enclosure of stage k − 1 is held with the standing wall (C-0475 (2))', () => {
   const handed: readonly [string, BaseBlueprint, number, string][] = [
-    ['relief-60 default at the test size, seed 2 (Q88)', testSized(RELIEF_60), 2, 'two points up to 22 m'],
+    ['relief-60 default at the test size, seed 12 (Q88\'s class; seed 2 until M0-e-02 S2 moved its river)', testSized(RELIEF_60), 12, 'nine points up to 5.4 m'],
     ['relief-60 default at CITY, seed 1 (Q88\'s CITY reading)', RELIEF_60, 1, 'nine points up to 2.3 m'],
   ];
   for (const [name, bp, seed, was] of handed) {

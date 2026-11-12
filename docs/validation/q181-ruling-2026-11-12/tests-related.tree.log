@@ -1,0 +1,204 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/q181/tree/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1377497190 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1377497190 draws the same cases (Q96, C-0057)
+ ❯ |kernel| test/tx/removals.test.ts (32 tests | 1 failed) 445ms
+   ❯ C-0185 (4): which identical-row pairs are runs (7)
+     × N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it 34ms
+ ❯ |kernel| test/arr/bands/closing.test.ts (8 tests | 2 failed) 2106ms
+   ❯ an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing (4)
+     × fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along to (2546, 3998)); every read after the commit the read before it 290ms
+   ❯ C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded (3)
+     × seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along to (0, 1631), a vertex kerb(F) holds after the op; B-FUZZ’s judge holds 52ms
+ ❯ |kernel| test/arr/bands/hardening-s15.test.ts (15 tests | 1 failed) 2502ms
+   ❯ B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested (2)
+     × the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame face is the frame, one hole round the bands’ union and a 1 436 cm² island inside it — corridorUnion commits it so 355ms
+ ❯ |kernel| test/arr/bands/dryrun.test.ts (10 tests | 1 failed) 2368ms
+   ❯ the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) (3)
+     × draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9) 147ms
+ ❯ |kernel| test/arr/bands/restage.test.ts (3 tests | 2 failed) 703ms
+   ❯ the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) (3)
+     × N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end 286ms
+     × N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it 375ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |kernel| test/tx/removals.test.ts > C-0185 (4): which identical-row pairs are runs > N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it
+AssertionError: expected 4 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 4
+
+ ❯ test/tx/removals.test.ts:308:48
+    306|     healthy(p);
+    307|     expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
+    308|     expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(0);
+       |                                                ^
+    309|     expect(c.record?.unflagged).toEqual([v]);
+    310|     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  |kernel| test/arr/bands/closing.test.ts > an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing > fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along to (2546, 3998)); every read after the commit the read before it
+AssertionError: expected [ [ +0, [] ], [ 1, …(1) ], …(2) ] to deeply equal [ [ +0, [] ], [ 1, …(1) ], …(2) ]
+
+- Expected
++ Received
+
+@@ -4,11 +4,11 @@
+      [],
+    ],
+    [
+      1,
+      [
+-       "35,0 4000,0 4000,3933 3948,3934 3898,3936 3796,3938 3746,3940 3644,3942 3593,3944 3543,3945 3492,3946 3441,3948 3391,3949 3340,3950 3289,3952 3239,3953 3188,3955 3137,3956 3087,3957 3036,3959 2985,3960 2935,3961 2884,3963 2782,3965 2732,3967 2630,3969 2580,3971 2543,3938 2515,3894 2487,3851 2460,3807 2404,3719 2376,3676 2292,3544 2264,3501 2237,3457 2181,3369 2153,3326 2069,3194 2042,3151 1958,3019 1930,2976 1846,2844 1819,2801 1707,2625 1679,2582 1623,2494 1596,2450 1568,2407 1484,2275 1456,2232 1428,2188 1401,2144 1373,2100 1345,2057 1261,1925 1233,1882 1205,1838 1178,1794 1150,1750 1122,1707 1038,1575 1010,1532 983,1488 927,1400 899,1357 787,1181 760,1138 676,1006 648,963 564,831 537,788 453,656 425,613 369,525 342,481 314,438 230,306 202,263 146,175 119,131 91,88",
++       "35,0 4000,0 4000,3933 3948,3934 3898,3936 3796,3938 3746,3940 3644,3942 3593,3944 3543,3945 3492,3946 3441,3948 3391,3949 3340,3950 3289,3952 3239,3953 3188,3955 3137,3956 3087,3957 3036,3959 2985,3960 2935,3961 2884,3963 2782,3965 2580,3971 2543,3938 2515,3894 2487,3851 2460,3807 2404,3719 2376,3676 2292,3544 2264,3501 2237,3457 2181,3369 2153,3326 2069,3194 2042,3151 1958,3019 1930,2976 1846,2844 1819,2801 1707,2625 1679,2582 1623,2494 1596,2450 1568,2407 1484,2275 1456,2232 1428,2188 1401,2144 1373,2100 1345,2057 1261,1925 1233,1882 1205,1838 1178,1794 1150,1750 1122,1707 1038,1575 1010,1532 983,1488 927,1400 899,1357 787,1181 760,1138 676,1006 648,963 564,831 537,788 453,656 425,613 369,525 342,481 314,438 230,306 202,263 146,175 119,131 91,88",
+      ],
+    ],
+    [
+      2,
+      [
+
+ ❯ test/arr/bands/closing.test.ts:134:26
+    132|     ]);
+    133|     faithfulNoClosing(r);
+    134|     expect([...r.after]).toEqual([...r.before]);
+       |                          ^
+    135|     expect(r.cu.blocks.length).toBe(2);
+    136|     expect(r.cu.wholeBand).toEqual([0, 3]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  |kernel| test/arr/bands/closing.test.ts > C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded > seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along to (0, 1631), a vertex kerb(F) holds after the op; B-FUZZ’s judge holds
+AssertionError: expected [] to match object [ { kind: 'along', face: +0, …(5) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "contact": {
+-       "x": 15,
+-       "y": 887,
+-     },
+-     "end": 0,
+-     "face": 0,
+-     "kind": "along",
+-     "piece": 0,
+-     "pin": {
+-       "x": 0,
+-       "y": 1631,
+-     },
+-     "tip": {
+-       "x": 41,
+-       "y": 887,
+-     },
+-   },
+- ]
++ []
+
+ ❯ test/arr/bands/closing.test.ts:225:22
+    223|     };
+    224|     const closings = bandClosings(p);
+    225|     expect(closings).toMatchObject([{ kind: 'along', face: 0, piece: 0…
+       |                      ^
+    226|     expect(closingsBeyond(closings, kerbOf)).toEqual([]);
+    227|     expect(normals(kerbOf(0) ?? []).join(' ')).toContain('0,1631');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  |kernel| test/arr/bands/dryrun.test.ts > the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) > draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9)
+AssertionError: expected [ 2 ] to deeply equal [ 1, 2 ]
+
+- Expected
++ Received
+
+  [
+-   1,
+    2,
+  ]
+
+ ❯ test/arr/bands/dryrun.test.ts:314:44
+    312|     expect(d1109.kerbs.get(1)).toEqual([]);
+    313|     expect(d1109.blocksIn.has(1)).toBe(false);
+    314|     expect([...d1109.cu.wholeBand].sort()).toEqual([1, 2]);
+       |                                            ^
+    315|     expect(d1109.cu.blocks.length).toBe(1);
+    316|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  |kernel| test/arr/bands/hardening-s15.test.ts > B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested > the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame face is the frame, one hole round the bands’ union and a 1 436 cm² island inside it — corridorUnion commits it so
+AssertionError: expected 2 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 2
+
+ ❯ test/arr/bands/hardening-s15.test.ts:65:27
+     63|     const k = readL1(n.p, 1, ws);
+     64|     if (typeof k === 'string') throw new Error(k);
+     65|     expect(k.kerb.length).toBe(3);
+       |                           ^
+     66|     expect(normals(k.kerb)).toEqual(['0,0 4000,0 4000,4000 0,4000', ho…
+     67|     // the engine's read is well nested (outer 1 > hole 0 > island 1),…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end
+AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+  [
+-   "449,0 712,0 2390,92 2425,85 2455,65 2475,35 2482,0 4000,0 4000,2553 447,72",
++   "2482,0 4000,0 4000,2553 447,69 448,15 2390,92 2425,85 2455,65 2475,35",
+  ]
+
+ ❯ test/arr/bands/restage.test.ts:104:21
+    102|     const f2 = r.reads.get(2) as Read;
+    103|     // the census refused (one savepoint) and the restaged read was ac…
+    104|     expect(f2.kerb).toEqual(['449,0 712,0 2390,92 2425,85 2455,65 2475…
+       |                     ^
+    105|     // round S16 (C-0430): its region holds a vertex deeper than attra…
+    106|     // third savepoint); that read is not shallower, so the restaged r…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  |kernel| test/arr/bands/restage.test.ts > the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) > N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it
+AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+  [
+-   "0,0 4000,0 4000,71 3972,71 3972,99 3948,3321 3915,3341 3878,3374 3854,3416 3843,3464 3452,3971 3453,4000 0,4000",
++   "0,0 4000,0 4000,71 3972,71 3972,150 3971,202 3971,253 3970,304 3970,407 3969,458 3969,561 3968,612 3968,664 3967,715 3967,818 3966,869 3966,972 3965,1023 3965,1074 3964,1126 3964,1228 3963,1280 3963,1331 3962,1382 3962,1485 3961,1536 3961,1639 3960,1690 3960,1742 3959,1793 3959,1896 3958,1947 3958,2050 3957,2101 3957,2152 3956,2203 3956,2306 3955,2357 3955,2409 3954,2460 3954,2563 3953,2614 3953,2717 3952,2768 3952,2819 3951,2871 3951,2973 3950,3025 3950,3076 3949,3127 3949,3230 3948,3281 3947,3330 3915,3341 3878,3374 3854,3416 3843,3464 3482,3932 3452,3971 3453,4000 0,4000",
+  ]
+
+ ❯ test/arr/bands/restage.test.ts:134:21
+    132|     // savepoint) — the corner where way:1's strip edge (x = 3948 at y…
+    133|     // where the restaged read of round S11 left it on way:1's CENTREL…
+    134|     expect(f0.kerb).toEqual(['0,0 4000,0 4000,71 3972,71 3972,99 3948,…
+       |                     ^
+    135|     expect(f0.saves).toBe(1);
+    136|     expect(f0.census).toEqual({ face: 0, reaching: ['way:way:2'], refu…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  5 failed | 82 passed (87)
+      Tests  7 failed | 1458 passed (1465)
+   Start at  07:07:54
+   Duration  2380.33s (tests 99%, import 1%)
+
+    Isolate  87 workers spawned · ~156ms startup each (spawn + environment, per file)
+             at least ~13.40s faster with isolate: false — reuses workers across files instead of one per file
+
+EXIT 1

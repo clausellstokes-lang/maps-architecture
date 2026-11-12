@@ -226,3 +226,176 @@ hardening test).
 | N-s1c-1 | **The corridor's last cell's own neighbours are unpinned.** Mutant D2c (`recomputeCorridors`' neighbour scan skips each corridor's last cell: `cor.cells.slice(0, -1)`) survives the hydro set (62/62) and the pre-round set (56/56). It is not equivalent: on a level 7 × 7 field a corridor (3,2) → (3,5) then diagonally to (4,6) on the north border re-points 15 neighbours, D2c 13 — (5,5) keeps E instead of NW and (5,6) N instead of W (this checker's probe). N-c1-2's pin (a corridor ending straight on the border) cannot see it: the last cell's neighbours are all beside the previous cell or off the grid. The round's statement that a corridor short of the border is impossible holds for `exit: -1` only; a tributary corridor (`exit ≥ 0`) ends short of the border. The census (318 runs) is identical under D2c because it digests the water bodies, not the field. | One fixture in `pipeline.test.ts`: a corridor whose last step is diagonal onto the border (or a tributary ending at its exit beside a cell no other corridor touches); assert the two cells beside the last cell only re-point onto it. D2c must go red. | M4 (hardening) |
 | N-s1c-2 | **The degraded pick's tie-break ("then the earlier attempt", `betterRiver`'s doc) is unpinned.** K20t (`a.dist2 < b.dist2` → `<=`, the later attempt wins a tie) survives 62/62 and 56/56. Ties occur on lawful input: the census changes on 2 of 318 runs — `valleyFallingEast` and `eastward`, bearing 45°, seed 3: delivered attempt 0 → 2 (water digest `9dd88857…` → `5e7acffd…`). Deterministic either way, so it fails safe. | Assert attempt 0 is delivered on `valleyFallingEast` at 45°, seed 3 (or a hand-built two-attempt tie). K20t must go red. | M4 (hardening) |
 | N-s1c-3 | **`edgePoint`'s clamp of the cross coordinate to ±reach is unpinned.** N02c (the `y` clamp removed) survives 62/62 and 56/56; the census is identical. Not proven equivalent: `coveringGrid` can overshoot the height extent by up to one hydro cell, so a corner cell's centre can lie up to half a cell beyond `reach.y`. | An `edgePoint` case on a grid whose corner centres lie beyond reach (an east corner cell gives `y = ±reach.y`). N02c must go red. | M4 (hardening) |
+
+
+## Hardening round S2 (lane `build/M0-e-02-fix-s2`, 2026-11-10 – 11; leg 2 of the merged round M0-e-01 S2 → M0-e-02 S2 → M0-e-03 S4, J443, J733; J237 (2), J238, J263, J264, J290, N-45, N-58) — the builder's row-by-row outcome
+
+The session's hardening round S2 of M0-e-02 on the rows the second re-triage found still open: the queue row Q123
+(`docs/M0-FIX-QUEUE.md`, read whole) and this file's notes N-s1c-1 – N-s1c-3 (the closing check of round S1, read
+whole above). Leg 1 (M0-e-01 S2, C-0489) changed `terrain/heightfield.ts`; this leg reads it (`hydro/strategy.ts`
+still imports `generatedLifecycle` by path from there) and edits none of it. Inside the item's owns only:
+`src/hydro/trace.ts` (the fix and one comment), `src/hydro/params.ts` (one comment), and four test files plus the
+fixtures (`fixtures.ts` `gully`; `pipeline.test.ts`, `river.test.ts`, `relief-bar.test.ts`). No export of
+`hydro/index.ts` or the barrel added, removed or renamed (J263 Q1); no message text changed. The hydro set goes from
+62 to 67 tests (5 files), green in the tree and in the lane's mirror.
+
+| row | outcome | the pin (title) and what it asserts | mutant (the lane's mirror, `vitest run --maxWorkers=1 --bail=1 packages/site/test/hydro`) |
+|---|---|---|---|
+| N-s1c-1 | **pinned** | `pipeline.test.ts` "the corridor's last cell's own neighbours re-point onto it: a last step diagonal onto the border (…)": the source note's level 7 × 7 field, corridor (3,2) → (3,5) then diagonally to (4,6) on the north border, bed falling 10 cm a cell: `{ corridorCells: 5, neighbours: 15 }`, the corridor's codes N N N NE N, (5,5) → NW and (5,6) → W with rank 0, and each of the 15 cells beside the corridor (counted by the test's own scan) drains onto it | D2c (the neighbour scan over `cor.cells.slice(0, -1)`): **red** (13 neighbours) |
+| N-s1c-2 | **pinned** | `river.test.ts` "the degraded pick breaks a tie on the distance by the earlier attempt (…)": `valleyFallingEast` and `eastward` at 45°, seed 3 — the three attempts arrive at one inlet (the corner clamp beside the frame, asserted per attempt), each fits, none reaches the core, all three pass the centre nearest at that inlet (one distance, recomputed with the test's own point–segment distance), attempt 2's course differs from attempt 0's; the run delivers attempt 0 and its course | K20t (`betterRiver`'s `<` → `<=`): **red** (attempt 2 delivered) |
+| N-s1c-3 | **pinned** | `river.test.ts` "edgePoint clamps the cross coordinate to the reach where the grid overshoots the arena (…)": 5 × 9 cells of 25 m reaching a whole cell past a reach of (3 750, 8 750) cm, so the corner centres lie 1 250 cm beyond it on both axes (asserted): the four corner cells under E, W, N and S each give the reach's corner; two inner east cells keep their centre's row | N02c (the `y` clamp removed): **red**; N02x (the `x` clamp removed, its twin): **red** |
+| Q123 | **fixed** (the trigger was wrong for the degrades whose descent line fits — outcome (a), a declared shift) **and pinned as the fixture's** (the rest — outcome (b), reported) | `river.test.ts` "re-trace at its limit (rung 2): when no halving of the offsets cures the course, the descent line itself is re-traced from the inlet and delivered if it fits — a gully (…)" on the new fixture `gully` (a straight gully along x = 12.5 m, walls 1 : 1): five streams, each three re-traces failing on the carve, then the fourth from the inlet; ok, scale 0, the knots the inlet, one per line cell 25 m apart on the axis with offset 0 and the outlet, the course their Chaikin smoothing (the test's own), within the cap; through `runRivers` at seeds 1 – 3: attempt 0, full at tier 2, no inlet rung, retraces 0 0 0 0, the carve bars. `relief-bar.test.ts` "Q123: on the 3 000 m relief with the river fixture's bearing (from the west) …" (CITY, `RELIEF_3000`, `{ inflowBearingCdeg: 27000, mouth: 'none' }`): keys 2, 4, 8 — degraded before the round — fit, leave by the frame with every bar, the delivered attempt's last re-trace from the inlet, its controls exactly the inlet, the cell centres of the descent line on the surface walled at the inlet's edge alone, and the outlet; keys 12, 14, 28 stay degraded (outfall sink, tier 4, F-RIVER) and for every attempt the descent on the river's surface stalls at the inlet (`[inlet.cell]`, stuck), and on the surface at carveMaxCm itself the line stalls or its course cuts the raster past the cap | Q1 (the last re-trace removed): **red** (gully); Q2 (its carve check removed): **red**; Q4 (its stall check removed): **red**; Q6 (its re-trace event dropped): **red**; Q9 (`scale: 0` → 1): **red**; Q8 (the closed cells walled in it too): **red**; Q10 (a knot every other line cell): **red**; LE1 (`lineEnd` reads a join's end from the last line cell, not the joined cell — the refactor's): **red** (the tributary title, which now asserts the confluence point); Q3 (its touch check removed): **survives** — not proven equivalent; see below |
+
+**Q123 — measured first, then classified (the brief's order; no source change before the classification).**
+*The probe* (vitest files in the mirror only): S1 alone through `@plat/layout`'s base registration and runner — the
+site spike's `relief-3000` fixture (`bench/src/site/fixtures.ts`: RIVER_BLUEPRINT's river from the west on a 3 000 m
+hill of 1 200 m radius under the centre, hilly ground) at CITY, seeds 1 – 200, the default configuration and the
+coarse one (`hydroCoarsen` and the `hydro.cells` limit as the spike passes them), the stage's own context with fresh
+streams; each attempt replayed with the module's exported pieces (`inletOf`, `traceRiver`) and its failure classed,
+then the river stage run on the tree's sources at the round's start (`src/hydro` hash-verified 19 / 19 against
+`landed/M0-e-02.json`) and on the round's. *Before:* the river fits on 145 of 200 default seeds and 137 of 200 coarse
+(the queue's 144 of 199 and 137 of 200: the spike's one missing default run is its own, after S1), reaches the core
+on none (the hill stands on it). Every degraded run is one where all three attempts fail. *Why* (the replay, seeds
+1 – 67 / 1 – 66, 133 runs, 399 attempts): two kinds and no other. **(A)** 131 attempts fail after their three
+re-traces — on the carve (118), a touch (7) or a line stalled by the cells the re-traces closed (6) — while the
+river's descent line from the same inlet, the course through its cells' centres with no offset, fits the cap; 14 of
+the 39 degraded runs are of this kind only. **(B)** 75 attempts stall at the inlet itself: on the river's surface
+(flooded from the open edges, the inlet's edge walled, C-0175 (1) – (2)) no neighbour of the inlet is admitted, so the
+descent has nowhere to go; 25 degraded runs have all three attempts so. Judged against §4.2 S1 (3) and §5.2 F-RIVER:
+(A) is a river the rules admit — "a self-touching course is re-traced with the offsets halved", "a course that would
+need more [carve] is re-routed by F-RIVER, never trenched", and the descent line is that re-route at the halving's
+limit — degraded only because C-0173 (5)'s three re-traces ran out (each keeps the knots before its root at their
+offsets): **the trigger was wrong, outcome (a).** (B) is a river the rules do not admit at M0: on relief-bar's keys
+12, 14, 28, 29 the surface admits a neighbour of the inlet only at a cap of 250 – 5 000 cm, and even on the surface at
+carveMaxCm (F-RIVER's carve rung at its own limit) the line stalls or its course cuts the raster past 400 cm — a
+trench, which §4.2 S1 (3) forbids; the design's next rungs, S3's centre to the bank and the lake a sink becomes, are
+M1's (§5.2, §4b). Where the land by the requested west inlet sits in a hollow of the hilly ground that drains out by
+that walled edge, closed from the open edges by a rim deeper than the cap allows, no lawful course leaves it:
+**the fixture's property, outcome (b)** — pinned (keys 12, 14, 28 above) and reported for the session to close the
+rest of Q123 as the fixture's. Nothing needs a design-level rule or another item's file (outcome (c) not taken).
+
+**The fix** (`trace.ts`, `traceRiver`): when RETRACE_MAX re-traces leave the course failing, F-RIVER's second rung is
+taken to its limit — one re-trace more, whole, from the inlet, with the offsets at their limit, none: the course
+through the river's descent line itself (the inlet, the line's cells' centres, its end on the arena's edge or at the
+joined cell) on the surface walled at the inlet's edge alone (not the cells the earlier re-traces closed: they were
+closed for knot courses, and the 6 class-A attempts that stalled did so on them); delivered when it passes
+the same checks (no touch at the class's clearance, no raster cut past carveMaxCm, an outlet reached), its re-trace
+reported (rung 2, value 0 — the inlet — with the line's own carve-rung events), `scale` 0; else the last try stands,
+degraded, exactly as before. The draws are untouched (no knot of the line draws), so the stream and every later
+attempt and tributary read what they read before. The course's end is now read by one helper (`lineEnd`) for every
+try — the same three cases as before. A variant also re-tracing the line on the surface at carveMaxCm (rung 1 at its
+limit) was measured and dropped: 0 more fits of 400 runs, every output identical.
+
+**Declared shift (C-0104's form).** Only a trace that failed all its re-traces can change, and only where its descent
+line fits; nothing else moves. *This item's tests:* no golden or digest — every assertion of the 62 earlier tests
+holds unchanged; the relief bar's highest-edge runs (keys 60 and 3 000, ± `hydroCoarsen`), its valley run and its TOWN
+switch run keep their water and terrain byte-identical (probe), the 3 000 m runs' report gaining the non-delivered
+attempts' line re-traces (ladder uses 226 → 246 default, 355 → 394 coarse). *The census below:* 19 of 440 outputs
+move — 16 on the new `gully` fixture (measured, not asserted before) and `valleyWithCrater` at seed 2 (bearing 0, its
+estuary, its tributary request; default): attempt 1 at tier 3 → attempt 0 at tier 2, full both. *The spike's S1
+(probe above, 200 seeds):* relief-3000 default fits 145 → 173 (rescued seeds 2, 8, 12, 20, 34, 39, 48, 57 – 58, 62,
+75, 78, 100 – 101, 104, 114, 121 – 122, 134, 136 – 137, 145, 148, 151, 158, 167, 173, 180), coarse 137 → 152 (12, 31, 34,
+63, 80, 103, 122, 145, 151, 158, 167, 175, 181, 183, 186); none lost; the water moves on 68 default and 48 coarse runs
+(40 and 33 of them fitting before and after: a newly fitting attempt now nearer the centre), the report alone on 63
+and 61 more; reachesCore 0 → 0. Residual degraded: default 27 (9, 28 – 29, 33, 37, 42, 46, 50, 61, 68, 87 – 89, 97, 102,
+118, 129, 132, 139, 155, 165, 171, 185, 188 – 190, 194), coarse 48 — every one class (B). relief-60: fits 199 → 199 in
+each configuration, reachesCore 55 → 56 default (seed 25) and 54 → 55 coarse (seed 156), the water moving on 16 and
+15 runs; its one degrade (seed 46) is class (B). **Other items' files that will move, for M0-e-06 S4's re-run (not
+this leg's to edit):** `plat/docs/build/summaries/M0-e-06.json` — relief-3000's `bedMonotone.numbers` (`fits`,
+`frameOutfall`, `fittingMonotone`, `degraded`, `degradedMonotone`, `minFittingBedCells`, `minDegradedBedCells`, the
+`observed` count) in both configurations, relief-60's `reachesCore` (55 → 56, 54 → 55), and whatever of the carve,
+water-gate, span and census figures and the content anchor reads the moved courses; the site spike's refusal census
+(the derivations whose river moved run S3 – S6 on another river). M0-e-03's water tests and every later stage that
+reads S1's river on a moved seed are on the RELATED path (the gates below).
+
+**The declared shift on the RELATED path: two pinned tests of other items move (named, not edited; rule (1)).** The
+round's first RELATED@1000 (2026-11-10, ended unfinished with the seat) showed two red files; each was replayed in the
+lane's mirror at `PLAT_FUZZ_RUNS=1000`, `--maxWorkers=1`, on the round's start sources (`src/hydro` hash-verified
+against the before-image) — **12 / 12 green** — and on the round's — **6 of 12 red**, the same titles: the shift's,
+not a foreign red. (i) `site/test/water/exit-bar.test.ts` (M0-e-03's; leg 3 of this merged round, M0-e-03 S4, reads
+this leg's change): "three full CITY frames, …": seed 4's fast-ring fallback texts gain
+`water:tributary:0: mouth: a pocket inside a pocket` beside `water:river:0: offset: a pocket inside a pocket` (the
+kernel's buffer takes the ring: a fallback, not a refusal — `refused` 0, every hard invariant, deck and shore check
+still pass on all three frames); the pin `fallbacks[4]` is the figure that moves. (ii)
+`bench/test/site/spike.test.ts` (M0-e-06's; for M0-e-06 S4's re-run): the relief-60 fixture at the test size, seed 2
+(900 ha frame; the derivation that three titles of "the river fixture's trace crosses the river only at water
+gates …", one of "the water-gate receipt's own readings" and one of "containment never counts an S1 land face as held"
+read): before, S1
+delivered attempt 2 (full, tier 3, carve 390 cm, ladder uses 84) and S5 refused `E_SELF_INTERSECT`; after, attempt 0
+— the course the line re-trace now fits, nearer the centre, so `betterRiver` takes it (full, tier 2, carve 231 cm,
+ladder uses 54; water `80a57022…` → `b15aadbd…`, the probe's own hash of the water set) — and S3 refuses
+`E_SELF_INTERSECT` on `town:10bqcwtcw044g`, so S3's commit and slice the five titles read are absent. The derivation's
+refusals stay one (S5 → S3); relief-60 seed 1 is unchanged (attempt 1, water `422cb5c0…`, no refusal). Both S1
+outputs are lawful (each course fits the cap, leaves by the frame, reaches the core); the refusal is S3's on a lawful
+river — a downstream class for its owner, with this seed. The spike test's choice of seed 2 for its two-gates
+derivation and the M0-e-06 summary figures above are the re-run's. No other red file had been seen when that run
+ended; the full RELATED@1000 of this round is in the gates paragraph below.
+
+**Refusals (J264 (5), J290, N-58).** The lane's census probe (a vitest file in the mirror only): the eight small CITY
+fixtures (`valley`, `valleyWithSink`, `valleyWithCrater`, `valleyWithRidge`, `valleyFallingEast`, `eastward`,
+`valleyWithSide`, `gully`) × nine requests (bearings 0, 23.63°, 45°, 60°, 90°, 240°, the highest edge, an estuary, a
+tributary from 90°) × seeds 1 – 3 × {default, `hydroCoarsen`}, plus F-WORK on each — 440 `runRivers` runs, on the
+round's start and on its end: refusals **0 → 0**; delivered river full 185 → 190, degraded 255 → 250 (a delivery tier,
+not a refusal), tributaries full 48 → 48. The spike's S1 at 2 × 200 seeds × 2 reliefs: refusals 0 → 0. No refusal to
+class.
+
+**The surviving mutant.** Q3 — the last re-trace's touch check removed — survives the 67: the course through a descent
+line's cells' centres touching itself at the class's clearance (10 m river, 3 m tributary, more than twice that apart
+along it) needs the line to cross or double back within a cell, which the steepest strictly-lower step and the
+surface's parent chain on a flat (a shortest path) are not seen to make on any fixture of the set (reasoned, PLAUSIBLE;
+not measured over the census). Not proven equivalent; it fails safe (a touching
+course is never delivered, the last try stands): a note for the hardening pass (N-45), not a fix.
+
+**Mutant table (16 targeted; each file restored from the tree and confirmed with `cmp -s` before the next).** The one
+mirror `waves/selfcheck-build-M0-e-02-fix-s2` (a `cp -a` copy; isolation proven before the first mutant: no link into
+the tree, `@plat/kernel` and `@plat/layout` resolving inside the mirror), its sources equal to the tree's (`cmp`);
+`--bail=1`, so the first failing title is the killer. D2c → the corridor's-last-cell title; K20t → the tie-break
+title; N02c, N02x → the edgePoint clamp title; Q1, Q9 → the gully title; Q2 → "re-trace from the last good knot …"
+(its ridge is invisible to the grid, so the line's course cuts past the cap and must not be delivered); Q4, Q6, Q8, Q10
+→ the relief-bar Q123 title (the first of the two Q123 titles run; the gully title's 25 m knot spacing also asserts
+Q10's case); LE1 → the
+tributary title. Q3 survives (above). D2c, K20t and N02c each survived the pre-round set (the closing check's notes
+above, 56 / 56 and 62 / 62); the gully and relief Q123 titles are red on the round's start (Q1 is that state's trace).
+
+**Seat note.** Twice in this seat a probe and a short pin run of mine overlapped for under a minute (a 3-title
+`-t N-s1c` run while the first probe ran; a probe restart whose orphaned worker went on appending until killed —
+its mixed rows filtered out by their missing fields); no gate, census or mutant ran beside another run. The seat of 2026-11-10 ended on a usage limit while its RELATED@1000 ran; a
+fresh seat continued from the lane's CHECKPOINT lines (2026-11-11): the tree's 19 hydro files hash-equal to the
+gates' snapshot, the mutants above not re-run, the mirror rebuilt for the attribution replays above and removed.
+
+**Gates (this round's tree; W=1, rule (6)).** `corepack pnpm install --frozen-lockfile` 0 ("Already up to date");
+`corepack pnpm lint` 0 (eslint 1283 files, 0 errors, 0 warnings; `lint: probe-red ok`; the 9 whole-tree checks),
+re-run after this paragraph, 0; `corepack pnpm build` 0. **NEAR** at full strength (PR size, `PLAT_FUZZ_RUNS` unset):
+`vitest run --maxWorkers=1 packages/site/test/hydro` — 5 files, **67 / 67** (2026-11-11 19:05, seed 1552970066).
+**RELATED@1000**: `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1 packages/site/src/hydro/trace.ts
+packages/site/src/hydro/params.ts` (2026-11-11 19:06 – 21:16, seed 1091786238) — 273 files, 3 459 tests: **271 files
+green, 6 tests red in 2 files, exactly the two attributed above** — `site/test/water/exit-bar.test.ts` "three full CITY
+frames, …" (`fallbacks[4]` gains `water:tributary:0: mouth: a pocket inside a pocket`; for M0-e-03 S4, leg 3) and
+`bench/test/site/spike.test.ts`'s five relief-60 seed 2 titles (S3 refuses `E_SELF_INTERSECT` on
+`town:10bqcwtcw044g`, so `s3.commit` / `s3.slice` are absent; for M0-e-06 S4). No other red: none of J176's five
+Mac-reference files and no KI red appeared (green or not on the path). By the RELATED rule these two reds are the
+item's (`trace.ts`, changed, is on both files' import path), and they can be cleared only in other items' files
+(rule (1)): the declared shift's two named re-pins, **for the session's ruling** (let leg 3 and M0-e-06 S4 absorb
+them, or narrow the fix). The landed records and `landed:verify` follow this paragraph (the lane's log).
+
+**Session ruling J766 (2026-11-11, on the hand-back of 21:20Z; the block is lifted).** (1) Q123's fix stands as the declared shift stated above (relief-3000 CITY fits 145 -> 173 of 200 default, 137 -> 152 coarse, none lost; refusal census 0 -> 0); the closing check judges it on its own evidence. (2) The six RELATED reds are the shift's, not this leg's failing lines: `site/test/water/exit-bar.test.ts` "three full CITY frames" is M0-e-03's (leg 3 re-pins it as its first act; a declared red through this leg's check) and `bench/test/site/spike.test.ts`'s five relief-60 seed 2 titles are M0-e-06's (re-pinned by the session's seam at the landing, measured on the merged tree). The check confirms the attribution (both files green on the start sources, red on the round's) and that no other test moves. (3) No source change on this re-entry; records re-landed; ready-for-check. (4) Residual class B of Q123 (27 of 200 default, 48 of 200 coarse) is the fixture's property, for the session to close or route at the landing.
+
+
+## Closing check of hardening round S2 (lane `check/M0-e-02-close-s2`, 2026-11-11) — the checker's notes
+
+The verdict is `checks/M0-e-02-s2.md`. None of the rows below is a blocker of the round (N-45; the blocker rule of the
+closing check): N-s2c-1 is older than the round — identical on main `a8011be`'s sources (blob-verified) — and fails
+safely; N-s2c-2 – N-s2c-5 are pin gaps on behaviour that is correct today on the round's new path. Probes and mutants
+were the checker's own (its mirrors under `maps-scratch/waves/check-M0-e-02/s2/`; `--maxWorkers=1 --bail=1
+packages/site/test/hydro` for the mutants; a census of 1 620 `runRivers` runs — ten small CITY fixtures (the item's
+eight and the checker's `dome` and `basin`) × nine bearings × {plain, two tributaries, estuary} × {default,
+`hydroCoarsen`}).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s2c-1 | **A joining tributary's carve digs a pit in the river's bed at the confluence; the cumulative cut can pass carveMaxCm (older than this round: identical on the round's start sources).** `runRivers` carves the plans in order, each against the raster as the earlier carves left it. A tributary whose own bed (a running minimum along its course) arrives lower than the river's bed at the joined cell lowers the river's channel cells inside its half-width. On the item's registered `valleyWithSide`, river from 90°, one tributary from 180°, seeds 1 and 2: river `fits`, `frame`; tributary `fits`, `join`; at the default cell the river's course and bed alone are monotone (2 940 cm at the confluence), the tributary ends at 2 808 cm and one or two river-bed cells at (5 200, −74 800) cm read 2 808 — a pit of 132 cm, after which the bed rises 116 cm (seed 1) and 90 cm (seed 2); with `hydroCoarsen` the rises are 164 and 122 cm. The test's own reading (`nonIncreasing(bedAlong(terrain, course))`, what `carveBars` asserts) is `false` there. A sweep of 720 tributary runs (ten fixtures × nine bearings × one or two tributaries at ±90° of the river × seeds 1 – 2 × both cells): a rising bed on 63 runs before the round and 66 after (registered fixtures: 5 of 288 one-tributary runs both, 34 → 33 of 288 two-tributary runs; the largest rise 400 cm). The round's rescue moves the count through this older mechanism only (a tributary that was degraded now fits, joins and digs: `basin` +4 runs, `gully` −1). On the checker's `basin` (ground rising 5 % to every edge) the summed cut of two courses on a few raster cells reads up to 430 cm against the cap of 400 (8 of 72 runs before, 6 after); each course's own `maxCarveCm` is ≤ 400, so the report does not show it. No refusal, no throw, deterministic; D8 stays defined on 100 % (the hydrology field is not re-sampled from the raster). The pipeline's fixtures request no tributary, so no committed summary or digest reads it. | Reconcile a later course's carve with the earlier channels (clamp a joining tributary's bed at the joined cell's bed, or lower the joined river downstream of the confluence to keep it monotone; measure the cap against the raster before any carve), with a pin on `valleyWithSide` at 90° / 180°, seeds 1 – 2, and a tributary sweep in the census. A declared shift for every run with a joining tributary (M0-e-03's water tests read some). | the item's next hardening round (M0 — it is the exit bar's own reading on a registered fixture), not M4 |
+| N-s2c-2 | **The line re-trace's self-touch check is unpinned** (the builder's Q3, re-run as QB: the `firstSelfTouch` line removed survives 67 / 67). The checker's census is identical under QB (0 of 1 620 outputs move): no descent line's own course touched itself there. Not proven equivalent. | A hand-built field whose descent line doubles back inside the clearance (a hairpin one cell apart at the tributary clearance), asserting the last try stands. QB must go red. | M4 (hardening) |
+| N-s2c-3 | **The line re-trace after a touch or a stuck third re-trace is unpinned.** QI (`if (last.ok \|\| last.failure !== 'carve') return last`) and QN (the event's cause written as `'carve'` always) survive 67 / 67; the census is identical under QI. The cases are real: on the spike's relief-3000, 10 of 84 class-A attempts (default; 5 of 43 coarse) end their third re-trace on `stuck` or `touch` and are rescued by the line. | One relief-bar key (or a small fixture) whose delivered attempt's third re-trace failed on `touch` or `stuck`, asserting the fourth re-trace and its cause. QI and QN must go red. | M4 (hardening) |
+| N-s2c-4 | **A tributary's line re-trace ending beside the river is unpinned.** QJ (the last `descentLine` called without `opts.stop`) survives 67 / 67 and is not equivalent: 24 of 1 620 census outputs move (23 on `basin`, 1 on `gully`, two-tributary requests) — the rescued tributary runs on to the frame instead of joining. The code as written joins (the census: every rescued tributary `fits`, `join`). | A tributary fixture whose knot courses fail three re-traces while its line fits (a gully running into the river's corridor), asserting `flowTo`, `outfall: 'join'` and the confluence point. QJ must go red. | M4 (hardening) |
+| N-s2c-5 | **The delivered line's carve-rung events are unpinned.** QF2 (the `...tried` events dropped, the re-trace event kept) survives 67 / 67; report-only (the ladder uses of rung 1 on the delivered line), no output moves in the census. | In the relief-bar Q123 title, assert the delivered attempt's carve uses after its last re-trace equal the line's own sink crossings. QF2 must go red. | M4 (hardening) |
+| N-s2c-6 | **The declared shift moves a downstream refusal from S5 to S3 on one spike derivation (another stage's refusal on S1's river; J264, J290).** The site spike's relief-60 fixture at the test size, seed 2: on the round's start sources S5 refuses `E_SELF_INTERSECT` (the spike test's own title: "S5 refused, S6 not reached"; by the builder's probe S1 delivered attempt 2); on the round's sources S1 delivers another river (by the builder's probe attempt 0, which the line re-trace now fits) and S3 refuses `E_SELF_INTERSECT` on `town:10bqcwtcw044g` (key `S3@town:10bqcwtcw044g`) — read in this check's RELATED@1000 log and in its attribution replay (`bench/test/site/spike.test.ts:179`, five titles red; green 12 / 12 on the start sources). One refusal on the derivation on both sides; S1 itself refuses nothing and commits (the report's S1 entries are empty). Input kind: OUR OWN INTERMEDIATE (S1's river from lawful input); verdict: MAKE-IT-SUCCEED. Not counted in this item's census (0 → 0), which is S1's. The finishing seat also re-ran `site/test/water/exit-bar.test.ts` in its mirror with `fallbacks[4]` given the received text: 2 / 2 green, so the declared red there masks nothing (frames 10 and 3 pass unchanged, `refused` 0). | For S3's owner, with the seed: make S3 commit on this river (the session's seam re-pins the five titles on the merged tree, J766 (2) (ii); the refusal itself is the row). Nothing to change in `hydro/`. | the session's routing (S3's item; M0 if the spike's census reads it, else M4) |

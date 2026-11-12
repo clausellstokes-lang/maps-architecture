@@ -77,3 +77,14 @@ export function valleyWithSide(x: number, y: number): number {
   const side = 44 + 0.002 * xm + 0.001 * ym * ym;
   return Math.min(base, side);
 }
+
+/**
+ * A straight gully from the north edge to the south edge along x = 12.5 m (the centre of a 25 m hydrology column, the
+ * course's raster column centred 0.5 m off it): its floor falls 2 % southward from 50 m at the centre and its walls rise
+ * 1 m per metre on either side, to 30 m above the floor. The river's descent line runs down the axis and needs no cut,
+ * but a knot offset of a few metres sets the course on a wall, more than carveMaxCm above the bed — at the full offsets
+ * and at every halving of them (hardening round S2, Q123).
+ */
+export function gully(x: number, y: number): number {
+  return 50 + 0.02 * (y / 100) + Math.min(Math.abs(x / 100 - 12.5), 30);
+}

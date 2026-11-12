@@ -16,6 +16,9 @@
 // (F-ROUTE, §5.2). A gate on a deck edge whose point is dry stands as before: the rule's fuller reach (a gate anywhere
 // on a raised stretch, or nearer it than the gatehouse's foot) reads §2.7's laws' gatehouse and band rows, M1's. The
 // loop ends because every round re-draws, drops, re-solves or reroutes within those caps. C-0397.
+// The stage-1 boundary keeps the main plaza inside and clear (`keepClear`, Q122; C-0496): the lattice triangles within
+// the attraction distance of the reservation are selected whole, so the boundary S3's trace pins never crosses the core
+// it must enclose (§4.2 S3 (9), F-WALL) — where T alone already holds them (every flat CITY seed), nothing moves.
 import { CONCERNS, STAGES, type LatticePoint } from '@plat/kernel';
 import type { Destination, GateSite } from '@plat/model';
 import { workLimitOf, loadWorkLimits } from '@plat/tables';
@@ -46,9 +49,17 @@ export const GATE_REDRAWS = 3;
 function boundaryOf(lattice: Lattice, fieldRoutes: GateRoute[], routes: GateRoute[], a1: number, areaCm2: number, pull: FieldOptions['pull']): { field: ReturnType<typeof fieldT>; threshold: Threshold; set: LevelSet; gates: (Gate | null)[] } {
   const field = fieldT(lattice, fieldRoutes, a1, pull === undefined ? {} : { pull });
   const threshold = stageThreshold(field, areaCm2);
-  const set = levelSet(field, threshold.t);
+  const set = levelSet(field, threshold.t, { keepClear: reservedRings(lattice) });
   const gates = gatesOnBoundary(routes, threshold.t, set);
   return { field, threshold, set, gates };
+}
+
+/**
+ * The rings the stage-1 boundary keeps inside and clear (Q122, C-0496): the reservations the lattice was built around
+ * (the main plaza) — the trace pins the boundary's course and may not cross the core (§4.2 S3 (9), F-WALL).
+ */
+function reservedRings(lattice: Lattice): LatticePoint[][] {
+  return lattice.costs.reservations.map((r) => r.ring);
 }
 
 /** The first pair of gates at one point, as [earlier, later] route positions, or null. */
@@ -216,7 +227,7 @@ function finish(
   const gates: Gate[] = [];
   for (const g of b.gates) if (g !== null) gates.push(g);
   // The boundary's outline keeps the gates as its vertices (the trace pins them, M0-c-02).
-  const set = levelSet(b.field, b.threshold.t, { pins: gates.map((g) => g.at) });
+  const set = levelSet(b.field, b.threshold.t, { pins: gates.map((g) => g.at), keepClear: reservedRings(lattice) });
   const gateSites: GateSite[] = gates.map((g) => ({ ordinal: g.ordinal, at: g.at, bearingCdeg: g.bearingCdeg as GateSite['bearingCdeg'], kind: 'main', forced: false }));
   const destinations: Destination[] = [];
   thePlaza.ring.forEach((p: LatticePoint, i: number) => destinations.push({ id: `plaza:0/attach:${String(i)}`, kind: 'plaza_attach', at: p }));

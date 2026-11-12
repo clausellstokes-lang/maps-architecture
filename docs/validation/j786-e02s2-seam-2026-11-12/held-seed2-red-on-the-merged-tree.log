@@ -1,0 +1,28 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-e0203/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 279681903 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=279681903 draws the same cases (Q96, C-0057)
+ ❯ |layout| test/growth/s5ab/held.test.ts (7 tests | 1 failed | 6 skipped) 20574ms
+   ❯ the enclosure of stage k − 1 is held with the standing wall (C-0475 (2)) (7)
+     × relief-60 default at the test size, seed 2 (Q88): stage 2's boundary holds stage 1's wall (was two points up to 22 m outside), the handed boundary clear of it 20572ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |layout| test/growth/s5ab/held.test.ts > the enclosure of stage k − 1 is held with the standing wall (C-0475 (2)) > relief-60 default at the test size, seed 2 (Q88): stage 2's boundary holds stage 1's wall (was two points up to 22 m outside), the handed boundary clear of it
+AssertionError: expected 0 to be greater than 0
+ ❯ test/growth/s5ab/held.test.ts:77:74
+     75|       const { line, selection, state, plain, m } = stage2(bp, seed);
+     76|       // The plain boundary (over stage 1's selection alone) leaves po…
+     77|       expect(line.filter((p) => !insideOf(plain.set.outline, p)).lengt…
+       |                                                                          ^
+     78|       expect(m.ok).toBe(true);
+     79|       if (!m.ok) return;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  08:44:06
+   Duration  23.62s (tests 88%, transform 10%, import 2%)
+

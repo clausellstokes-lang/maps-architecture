@@ -1,0 +1,400 @@
+{
+ "summary": {
+  "family": "relief",
+  "args": [
+   "relief-60",
+   "default",
+   "1",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16"
+  ],
+  "faces": 612,
+  "classes": {
+   "plain": 589,
+   "band": 23
+  },
+  "roof": {
+   "validated": 589,
+   "downgrade contract:sharpCorner": 23
+  },
+  "spine": {
+   "validated": 612
+  },
+  "regions": {
+   "validated": 612
+  },
+  "band": {
+   "faces": 23,
+   "spineValidated": 23,
+   "regionsValidated": 23,
+   "roofRefusedSharp": 23,
+   "convex": 21,
+   "reflex": 2,
+   "holed": 0,
+   "minDeg": 1.5840725530825526,
+   "maxDeg": 4.972654168461749
+  },
+  "movedOutsideBand": 0,
+  "causeMoved": 0,
+  "causeMoves": {},
+  "spineNeRegions": 0,
+  "independentFails": 0,
+  "maxMs": 3354.7185719999834,
+  "downgrades": {
+   "roof": 23,
+   "spine": 0,
+   "regions": 0
+  }
+ },
+ "groups": {
+  "relief/relief-60/default/district": {
+   "faces": 605,
+   "classes": {
+    "plain": 582,
+    "band": 23
+   },
+   "roof": {
+    "validated": 582,
+    "downgrade contract:sharpCorner": 23
+   },
+   "spine": {
+    "validated": 605
+   },
+   "regions": {
+    "validated": 605
+   },
+   "band": {
+    "faces": 23,
+    "spineValidated": 23,
+    "regionsValidated": 23,
+    "roofRefusedSharp": 23,
+    "convex": 21,
+    "reflex": 2,
+    "holed": 0,
+    "minDeg": 1.5840725530825526,
+    "maxDeg": 4.972654168461749
+   },
+   "movedOutsideBand": 0,
+   "causeMoved": 0,
+   "causeMoves": {},
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "maxMs": 154.21528599993326,
+   "kept": [
+    {
+     "id": "relief/relief-60/default-1-district#15",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.3587,
+     "reflex": false,
+     "n": 136,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-1-district#39",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.0336,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-11-district#10",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.9727,
+     "reflex": false,
+     "n": 68,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-11-district#27",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.0446,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-11-district#33",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.2516,
+     "reflex": false,
+     "n": 7,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-11-district#90",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.135,
+     "reflex": false,
+     "n": 81,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-12-district#20",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.3049,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-12-district#21",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.9216,
+     "reflex": false,
+     "n": 6,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-12-district#22",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.122,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-12-district#23",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.3366,
+     "reflex": false,
+     "n": 5,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#11",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.4271,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#26",
+     "why": "band",
+     "cls": "band",
+     "deg": 1.6279,
+     "reflex": false,
+     "n": 58,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#30",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.0846,
+     "reflex": true,
+     "n": 125,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#33",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.855,
+     "reflex": false,
+     "n": 118,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#35",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.3736,
+     "reflex": false,
+     "n": 17,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-13-district#49",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.743,
+     "reflex": false,
+     "n": 4,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-14-district#0",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.1624,
+     "reflex": false,
+     "n": 112,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-14-district#4",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.0812,
+     "reflex": false,
+     "n": 4,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-14-district#31",
+     "why": "band",
+     "cls": "band",
+     "deg": 3.3593,
+     "reflex": true,
+     "n": 146,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-14-district#45",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.694,
+     "reflex": false,
+     "n": 190,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-15-district#33",
+     "why": "band",
+     "cls": "band",
+     "deg": 2.0208,
+     "reflex": false,
+     "n": 5,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-15-district#35",
+     "why": "band",
+     "cls": "band",
+     "deg": 1.5841,
+     "reflex": false,
+     "n": 4,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    },
+    {
+     "id": "relief/relief-60/default-16-district#6",
+     "why": "band",
+     "cls": "band",
+     "deg": 4.1217,
+     "reflex": false,
+     "n": 3,
+     "holes": 0,
+     "roof": "downgrade contract:sharpCorner",
+     "spine": "validated",
+     "regions": "validated"
+    }
+   ]
+  },
+  "relief/relief-60/default/water": {
+   "faces": 7,
+   "classes": {
+    "plain": 7
+   },
+   "roof": {
+    "validated": 7
+   },
+   "spine": {
+    "validated": 7
+   },
+   "regions": {
+    "validated": 7
+   },
+   "band": {
+    "faces": 0,
+    "spineValidated": 0,
+    "regionsValidated": 0,
+    "roofRefusedSharp": 0,
+    "convex": 0,
+    "reflex": 0,
+    "holed": 0,
+    "minDeg": 360,
+    "maxDeg": 0
+   },
+   "movedOutsideBand": 0,
+   "causeMoved": 0,
+   "causeMoves": {},
+   "spineNeRegions": 0,
+   "independentFails": 0,
+   "maxMs": 3354.7185719999834,
+   "kept": []
+  }
+ }
+}

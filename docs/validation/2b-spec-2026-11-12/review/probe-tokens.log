@@ -1,0 +1,36 @@
+S20 kerb.ts: {"ident kerb":20,"string kerb":8}
+   ident :204 KerbRead
+   ident :213 kerb
+   string :269 `kerb: a spine's ends are round or square, got ${
+   string :272 `kerb: a half-width is a finite number ≥ 0, got ${
+   string :275 'kerb: a half-width profile interpolates linear or step'
+   string :276 'kerb: a half-width profile holds finite numbers ≥ 0'
+   string :279 `kerb: a run of (${
+   string :349 `kerb: face ${
+   string :349 } is not a live L1 face (§3.7: kerb reads an L1 face)`
+   string :366 'kerb: an L1 ring has at least two route vertices'
+   ident :655 kerbParts
+   ident :1733 kerbParts
+   ident :1747 kerbParts
+   ident :1915 kerbCensus
+   ident :2180 readKerb
+   ident :2180 KerbRead
+   ident :2220 KerbRead
+   ident :2220 kerb
+   ident :2248 kerbRings
+   ident :2249 kerbRings
+   ident :2256 kerb
+   ident :2257 readKerb
+   ident :2259 kerb
+   ident :2496 kerbRings
+   ident :2523 kerbRings
+   ident :2532 kerbRings
+   ident :2538 kerbRings
+   ident :2545 kerbRings
+S20 kerbExact.ts: {"ident kerb":2,"string kerb":1}
+   ident :77 kerb kerbParts
+   string :87 kerb './kerb.js'
+   ident :677 kerb kerbParts
+W2 kerb.ts (fold only, readKerb not yet rewritten): {"ident kerb":20,"string kerb":8}
+W5 kerb.ts (served read cut out): {"ident kerb":13,"string kerb":8}
+W5 kerbExact.ts (served read appended): {"ident kerb":9,"string kerb":1}

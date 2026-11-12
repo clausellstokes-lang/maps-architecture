@@ -1,7 +1,7 @@
 // The flat fixture (M0-c-01; C-0016, C-0032; §1.1's CITY row, §12.2's 220 ha) and the land law (§4.2 S3 (4)).
-import { loadTable, parseTable, tableView, type TableView } from '@plat/tables';
+import { loadTable, parseTable, TABLE_IDS, tableView, type TableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { CITY_MATCHED_WALLED_HA, flatFixture, gateCount } from '../../src/index.js';
+import { CITY_MATCHED_WALLED_HA, flatFixture, gateCount, s6Table } from '../../src/index.js';
 import { sliceOf } from './support.js';
 
 describe('the flat fixture (C-0016, C-0032)', () => {
@@ -57,6 +57,26 @@ describe('the flat fixture (C-0016, C-0032)', () => {
 
   it('refuses a seed that is not a safe integer', () => {
     expect(() => flatFixture(1.5)).toThrow(RangeError);
+  });
+});
+
+describe("the fixture's tables view (Q99; RL8 — c-01's line: fixtures/flat.ts; C-0496)", () => {
+  // the registered view the runner gives every stage (runner.ts, M0-x-02 S3): M0's shipped tables and layout's own `s6`
+  const REGISTERED = tableView(TABLE_IDS, [s6Table()]);
+
+  it('a bare flatFixture reads the registered view: its hash is REGISTERED.hash, never the bare tableView()', () => {
+    const bare = flatFixture(1);
+    expect(bare.tables.hash).toEqual(REGISTERED.hash);
+    expect(bare.tables.hash).not.toEqual(tableView().hash);
+    // the view carries layout's `s6` (the bare tableView() does not list it)
+    expect(bare.tables.table('s6').hash).toEqual(s6Table().hash);
+    expect(flatFixture(2, { frameAreaHa: 400, walledHa: 30 }).tables.hash).toEqual(REGISTERED.hash);
+  });
+
+  it('a caller that passes a view keeps it unchanged (the same object)', () => {
+    const view = tableView();
+    expect(flatFixture(1, { tables: view }).tables).toBe(view);
+    expect(flatFixture(1, { tables: REGISTERED }).tables).toBe(REGISTERED);
   });
 });
 

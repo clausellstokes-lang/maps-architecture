@@ -1,0 +1,23 @@
+=== K1 reverse order: C (own point v), then A along it, then C removed
+  v after C: (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  v after A: (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  C removed: ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2]
+  K1 final (A alone): equal? false | vertices 7 vs 6 | ok
+    only here:   e 1800,2915-3142,2862 L2 [28/base:A/2/0] || e 499,2966-1800,2915 L2 [28/base:A/2/0] || v 1800,2915 L2 f0 []
+    only fresh:  e 499,2966-3142,2862 L2 [28/base:A/2/0]
+=== K1b reverse order with a crossing X at v laid after A and removed before C
+  v after X: (1800, 2915) L2 split=false pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:X/0/L2]
+  X removed: ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  C removed: ok | (1800, 2915) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2]
+  K1b final (A alone): equal? false | vertices 7 vs 6 | ok
+    only here:   e 1800,2915-3142,2862 L2 [28/base:A/2/0] || e 499,2966-1800,2915 L2 [28/base:A/2/0] || v 1800,2915 L2 f0 []
+    only fresh:  e 499,2966-3142,2862 L2 [28/base:A/2/0]
+=== K3 B L2 crossing A L1 at v; A removed → B alone
+  v: (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:B/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:B/0/L2]
+  A removed (L1): ok | v8: dead
+  K3 final (B alone): equal? true | vertices 6 vs 6 | ok
+=== K4 B L2 crossing A L2 at v; A removed → B alone
+  v: (1800, 2915) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:B/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:B/0/L2]
+  A removed (L2): ok | v8: dead
+  K4 final (B alone): equal? true | vertices 6 vs 6 | ok
+SUMMARY tree {"K1":false,"K1b":false,"K3":true,"K4":true}

@@ -1,0 +1,84 @@
+unit | rc with the raise | tests with the raise | rc on the unchanged tree | tests on the unchanged tree
+bench_test_baselines-check | 0 |  Tests 8 passed (8) | (not re-run: green with the raise) | 
+bench_test_bentcut-ng | 0 |  Tests 68 passed (68) | (not re-run: green with the raise) | 
+bench_test_bentcut | 0 |  Tests 117 passed (117) | (not re-run: green with the raise) | 
+bench_test_calibrate | 1 |  Tests 3 failed | 8 passed (11) | 1 |  Tests 3 failed | 8 passed (11)
+bench_test_crosshost | 0 |  Tests 10 passed (10) | (not re-run: green with the raise) | 
+bench_test_determinism | 0 |  Tests 60 passed (60) | (not re-run: green with the raise) | 
+bench_test_fusion-ng | 0 |  Tests 42 passed (42) | (not re-run: green with the raise) | 
+bench_test_fusion | 0 |  Tests 140 passed (140) | (not re-run: green with the raise) | 
+bench_test_fuzz-bar | 0 |  Tests 12 passed (12) | (not re-run: green with the raise) | 
+bench_test_host | 1 |  Tests 2 failed | 6 passed (8) | 1 |  Tests 2 failed | 6 passed (8)
+bench_test_ladder-coverage | 0 |  Tests 6 passed (6) | (not re-run: green with the raise) | 
+bench_test_parity | 0 |  Tests 9 passed (9) | (not re-run: green with the raise) | 
+bench_test_profile | 0 |  Tests 26 passed (26) | (not re-run: green with the raise) | 
+bench_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+bench_test_scan | 0 |  Tests 9 passed (9) | (not re-run: green with the raise) | 
+bench_test_site | 1 |  Tests 5 failed | 95 passed (100) | 1 |  Tests 5 failed | 95 passed (100)
+bench_test_skeleton | 0 |  Tests 24 passed (24) | (not re-run: green with the raise) | 
+bench_test_tier-jobs | 0 |  Tests 63 passed (63) | (not re-run: green with the raise) | 
+bench_test_tiers | 0 |  Tests 69 passed (69) | (not re-run: green with the raise) | 
+bench_test_timing-phase | 0 |  Tests 93 passed (93) | (not re-run: green with the raise) | 
+bench_test_timing | 1 |  Tests 8 failed | 141 passed (149) | 1 |  Tests 8 failed | 141 passed (149)
+bench_test_worklimits | 0 |  Tests 73 passed (73) | (not re-run: green with the raise) | 
+packages_kernel_test_arena | 1 |  Tests 3 failed | 114 passed (117) | 0 |  Tests 117 passed (117)
+packages_kernel_test_arr | 1 |  Tests 6 failed | 305 passed (311) | 1 |  Tests 6 failed | 305 passed (311)
+packages_kernel_test_digest | 0 |  Tests 64 passed (64) | (not re-run: green with the raise) | 
+packages_kernel_test_dmath | 0 |  Tests 39 passed (39) | (not re-run: green with the raise) | 
+packages_kernel_test_facade | 0 |  Tests 106 passed (106) | (not re-run: green with the raise) | 
+packages_kernel_test_faces | 0 |  Tests 137 passed (137) | (not re-run: green with the raise) | 
+packages_kernel_test_gate | 0 |  Tests 20 passed (20) | (not re-run: green with the raise) | 
+packages_kernel_test_geom | 0 |  Tests 88 passed (88) | (not re-run: green with the raise) | 
+packages_kernel_test_hash | 0 |  Tests 30 passed (30) | (not re-run: green with the raise) | 
+packages_kernel_test_index | 0 |  Tests 69 passed (69) | (not re-run: green with the raise) | 
+packages_kernel_test_insert | 1 |  Tests 2 failed | 940 passed (942) | 0 |  Tests 942 passed (942)
+packages_kernel_test_invariants | 0 |  Tests 127 passed (127) | (not re-run: green with the raise) | 
+packages_kernel_test_io | 0 |  Tests 38 passed (38) | (not re-run: green with the raise) | 
+packages_kernel_test_medial | 0 |  Tests 40 passed (40) | (not re-run: green with the raise) | 
+packages_kernel_test_noise | 0 |  Tests 18 passed (18) | (not re-run: green with the raise) | 
+packages_kernel_test_num | 0 |  Tests 112 passed (112) | (not re-run: green with the raise) | 
+packages_kernel_test_rng | 0 |  Tests 99 passed (99) | (not re-run: green with the raise) | 
+packages_kernel_test_scaffold | 0 |  Tests 2 passed (2) | (not re-run: green with the raise) | 
+packages_kernel_test_skeleton | 0 |  Tests 106 passed (106) | (not re-run: green with the raise) | 
+packages_kernel_test_tx | 1 |  Tests 1 failed | 658 passed | 1 skipped (660) | 1 |  Tests 1 failed | 658 passed | 1 skipped (660)
+packages_kernel_test_types | 0 |  Tests 7 passed (7) | (not re-run: green with the raise) | 
+packages_kernel_test_warp | 0 |  Tests 81 passed (81) | (not re-run: green with the raise) | 
+packages_layout_test_backbone | 0 |  Tests 122 passed (122) | (not re-run: green with the raise) | 
+packages_layout_test_districts | 0 |  Tests 136 passed (136) | (not re-run: green with the raise) | 
+packages_layout_test_enceinte | 1 |  Tests 191 passed (191) | 1 |  Tests 191 passed (191)
+packages_layout_test_fields | 0 |  Tests 59 passed (59) | (not re-run: green with the raise) | 
+packages_layout_test_growth | 0 |  Tests 196 passed (196) | (not re-run: green with the raise) | 
+packages_layout_test_infill | 0 |  Tests 331 passed (331) | (not re-run: green with the raise) | 
+packages_layout_test_pipeline | 0 |  Tests 141 passed (141) | (not re-run: green with the raise) | 
+packages_layout_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+packages_layout_test_siting | 0 |  Tests 110 passed (110) | (not re-run: green with the raise) | 
+packages_model_test_digest | 0 |  Tests 74 passed (74) | (not re-run: green with the raise) | 
+packages_model_test_identity | 0 |  Tests 49 passed (49) | (not re-run: green with the raise) | 
+packages_model_test_match | 0 |  Tests 47 passed (47) | (not re-run: green with the raise) | 
+packages_model_test_records | 0 |  Tests 5 passed (5) | (not re-run: green with the raise) | 
+packages_model_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+packages_model_test_schema | 0 |  Tests 5 passed (5) | (not re-run: green with the raise) | 
+packages_model_test_stage | 0 |  Tests 16 passed (16) | (not re-run: green with the raise) | 
+packages_model_test_types | 0 |  Tests 18 passed (18) | (not re-run: green with the raise) | 
+packages_site_test_hydro | 0 |  Tests 62 passed (62) | (not re-run: green with the raise) | 
+packages_site_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+packages_site_test_terrain | 0 |  Tests 69 passed (69) | (not re-run: green with the raise) | 
+packages_site_test_water | 0 |  Tests 81 passed (81) | (not re-run: green with the raise) | 
+packages_tables_test_cell | 0 |  Tests 75 passed (75) | (not re-run: green with the raise) | 
+packages_tables_test_data | 0 |  Tests 53 passed (53) | (not re-run: green with the raise) | 
+packages_tables_test_loader | 0 |  Tests 82 passed (82) | (not re-run: green with the raise) | 
+packages_tables_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+packages_tables_test_workLimits | 0 |  Tests 58 passed (58) | (not re-run: green with the raise) | 
+packages_testkit_test_constructive | 0 |  Tests 584 passed (584) | (not re-run: green with the raise) | 
+packages_testkit_test_crosshost | 0 |  Tests 78 passed (78) | (not re-run: green with the raise) | 
+packages_testkit_test_determinism | 0 |  Tests 54 passed (54) | (not re-run: green with the raise) | 
+packages_testkit_test_edge | 0 |  Tests 171 passed (171) | (not re-run: green with the raise) | 
+packages_testkit_test_fuzz | 0 |  Tests 141 passed (141) | (not re-run: green with the raise) | 
+packages_testkit_test_kernel | 0 |  Tests 252 passed (252) | (not re-run: green with the raise) | 
+packages_testkit_test_ladders | 0 |  Tests 78 passed (78) | (not re-run: green with the raise) | 
+packages_testkit_test_layout | 0 |  Tests 79 passed (79) | (not re-run: green with the raise) | 
+packages_testkit_test_oracles | 0 |  Tests 122 passed (122) | (not re-run: green with the raise) | 
+packages_testkit_test_parity | 0 |  Tests 87 passed (87) | (not re-run: green with the raise) | 
+packages_testkit_test_runner | 0 |  Tests 246 passed (246) | (not re-run: green with the raise) | 
+packages_testkit_test_scaffold | 0 |  Tests 3 passed (3) | (not re-run: green with the raise) | 
+packages_testkit_test_scanner | 0 |  Tests 55 passed (55) | (not re-run: green with the raise) | 
