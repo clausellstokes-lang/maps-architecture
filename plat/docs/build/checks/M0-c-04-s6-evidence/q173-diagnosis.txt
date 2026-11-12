@@ -1,0 +1,78 @@
+# Q173 diagnosis (M0-c-04 hardening round S6, lane build/M0-c-04-fix-s6, 2026-11-10): the stage-2 trace of the site spike
+# on this round's base (design head 3a5d75b0: M0-c-04 S5 79cccb90, M0-c-02 S6 4d490aa7, M0-e-04 S5 daccc648), CITY, S6 dropped.
+# Probe: an instrumented copy (scratch mirror) with hooks in the kernel's role check (tx.ts roleProblems: the vertex of
+# degree > 2, its incident edges and their rows, the call stack) and in enceinte/trace.ts inside the wall batch after
+# insertChain (per gate: the boundary as given ring0, the ring after the water splice, the pulled line, the final line,
+# the placed vertices, the arena's edges within 6 m). Coordinates in cm. Every refusal is raised in traceBase's L1 wall batch
+# (trace.ts :307 k.tx) or by its read-back (trace.ts gate check), called by growth/boundary.ts traceStage :552 from traceStep.
+
+## relief-60 default seed 118: S5 E_INVARIANT "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   branch: vertex 2575 at (80389, -38974) degree 3 in (wall, enceinte:2); incident edges: -> 2574 (79307, -39045) [way:way:3]; -> 4057 (80444, -38971) [way:way:3, wall:enceinte:2]; -> 4188 (77337, -39842) [wall:enceinte:2]; -> 4189 (75801, -37697) [wall:enceinte:2]
+   branch: vertex 2807 at (-66846, -58751) degree 3 in (wall, enceinte:2); incident edges: -> 2806 (-65553, -58729) [way:way:7]; -> 4058 (-66937, -58750) [way:way:7, wall:enceinte:2]; -> 4129 (-62828, -57667) [wall:enceinte:2]; -> 4130 (-62348, -59658) [wall:enceinte:2]
+   gate:8 at (80444, -38971) on its way; the way's vertex 2575 at (80389, -38974) 55 cm beside it; the final line's V there: (77337, -39842) -> gate -> (75801, -37697), apex 31 deg; pull offsets of the gate's neighbours in the boundary as given (m) [24.8, 14.9, 14.9, 24.8]; defect after smoothing None, rungs []
+      boundary as given near the gate (index, x, y): [[218, 79557, -41592], [219, 80523, -40469], [220, 80444, -38971], [221, 80365, -37473], [222, 79619, -36501]]
+   gate:10 at (-66937, -58750) on its way; the way's vertex 2807 at (-66846, -58751) 91 cm beside it; the final line's V there: (-62828, -57667) -> gate -> (-62348, -59658), apex 26 deg; pull offsets of the gate's neighbours in the boundary as given (m) [29.8, 14.9, 5.0, 9.9]; defect after smoothing None, rungs []
+      boundary as given near the gate (index, x, y): [[113, -65914, -55927], [114, -66913, -57250], [115, -66937, -58750], [116, -66961, -60250], [117, -66180, -60814]]
+
+## relief-60 coarse seed 118: S5 E_INVARIANT "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   branch: vertex 2513 at (80389, -38974) degree 3 in (wall, enceinte:2); incident edges: -> 2512 (79307, -39045) [way:way:3]; -> 3995 (80444, -38971) [way:way:3, wall:enceinte:2]; -> 4126 (77337, -39842) [wall:enceinte:2]; -> 4127 (75801, -37697) [wall:enceinte:2]
+   branch: vertex 2745 at (-66846, -58751) degree 3 in (wall, enceinte:2); incident edges: -> 2744 (-65553, -58729) [way:way:7]; -> 3996 (-66937, -58750) [way:way:7, wall:enceinte:2]; -> 4067 (-62828, -57667) [wall:enceinte:2]; -> 4068 (-62348, -59658) [wall:enceinte:2]
+
+## relief-3000 default seed 32: S5 E_INVARIANT "trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9))"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   gate:7 at (42362, -80007) on its way; the way's vertex 1663 at (42320, -79956) 66 cm beside it; the final line's V there: (39065, -78174) -> gate -> (41750, -78065), apex 43 deg; pull offsets of the gate's neighbours in the boundary as given (m) [19.9, 14.9, 14.9, 19.9]; defect after smoothing self_touch, rungs [('reoffset', False, 'pin_lost'), ('union_simplify', True, None)]; the gate's knot placed on vertex 1663 (42320, -79956)
+      boundary as given near the gate (index, x, y): [[176, 40706, -80858], [177, 41207, -80964], [178, 42362, -80007], [179, 43517, -79050], [180, 43594, -78384]]
+
+## relief-3000 coarse seed 32: S5 E_INVARIANT "trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9))"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   gate:7 at (42362, -80007) on its way; the way's vertex 1588 at (42320, -79956) 66 cm beside it; the final line's V there: (39065, -78174) -> gate -> (41750, -78065), apex 43 deg; pull offsets of the gate's neighbours in the boundary as given (m) [19.9, 14.9, 14.9, 19.9]; defect after smoothing self_touch, rungs [('reoffset', False, 'pin_lost'), ('union_simplify', True, None)]; the gate's knot placed on vertex 1588 (42320, -79956)
+      boundary as given near the gate (index, x, y): [[176, 40706, -80858], [177, 41207, -80964], [178, 42362, -80007], [179, 43517, -79050], [180, 43594, -78384]]
+
+## relief-3000 default seed 81: S5 E_INVARIANT "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   branch: vertex 3512 at (-42508, -78580) degree 3 in (wall, enceinte:2); incident edges: -> 4511 (-42478, -78345) [way:way:12, wall:enceinte:2]; -> 4208 (-42525, -78659) [way:way:12, wall:enceinte:2]; -> 4212 (-41074, -75448) [wall:enceinte:2]
+   gate:11 at (-42525, -78659) on its way; the way's vertex 3512 at (-42508, -78580) 81 cm beside it; the final line's V there: (-42304, -75749) -> gate -> (-41074, -75448), apex 20 deg; pull offsets of the gate's neighbours in the boundary as given (m) [19.9, 14.9, 14.9, 14.9]; defect after smoothing self_touch, rungs [('reoffset', False, 'pin_lost'), ('union_simplify', True, None)]
+      boundary as given near the gate (index, x, y): [[296, -43856, -77719], [297, -43991, -78343], [298, -42525, -78659], [299, -41059, -78975], [300, -40793, -79026]]
+
+## relief-3000 coarse seed 81: S5 E_INVARIANT "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   branch: vertex 3013 at (-42508, -78580) degree 3 in (wall, enceinte:2); incident edges: -> 4012 (-42478, -78345) [way:way:12, wall:enceinte:2]; -> 3709 (-42525, -78659) [way:way:12, wall:enceinte:2]; -> 3713 (-41074, -75448) [wall:enceinte:2]
+
+## relief-3000 default seed 188: S5 E_INVARIANT "trace: gate gate:9 is not on the committed trace at its point (§4.2 S3 (9))"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   gate:9 at (-50133, 78731) on its way; the way's vertex 2556 at (-50080, 78701) 61 cm beside it; the final line's V there: (-47322, 76994) -> gate -> (-48630, 77303), apex 12 deg; pull offsets of the gate's neighbours in the boundary as given (m) [29.8, 14.9, 14.9, 19.9]; defect after smoothing self_touch, rungs [('reoffset', False, 'pin_lost'), ('union_simplify', True, None)]; the gate's knot placed on vertex 2556 (-50080, 78701)
+      boundary as given near the gate (index, x, y): [[472, -47617, 79198], [473, -49396, 80037], [474, -50133, 78731], [475, -50870, 77425], [476, -50285, 77148]]
+
+## relief-3000 coarse seed 188: S5 E_INVARIANT "trace: gate gate:9 is not on the committed trace at its point (§4.2 S3 (9))"
+   stage-2 boundary (this item's): stage 1's wall points outside it 0, crossesCore False; handed boundary hooks below
+   gate:9 at (-50133, 78731) on its way; the way's vertex 2556 at (-50080, 78701) 61 cm beside it; the final line's V there: (-47322, 76994) -> gate -> (-48630, 77303), apex 12 deg; pull offsets of the gate's neighbours in the boundary as given (m) [29.8, 14.9, 14.9, 19.9]; defect after smoothing self_touch, rungs [('reoffset', False, 'pin_lost'), ('union_simplify', True, None)]; the gate's knot placed on vertex 2556 (-50080, 78701)
+      boundary as given near the gate (index, x, y): [[472, -47617, 79198], [473, -49396, 80037], [474, -50133, 78731], [475, -50870, 77425], [476, -50285, 77148]]
+
+## The mechanism, common to the eight runs
+   The boundary this item hands the trace (ring0 above: after `insertOnOutline` and `squareGates`) is simple, touches itself
+   nowhere at the attraction distance, holds stage 1's wall (0 points outside, crossesCore false) and meets each culprit
+   gate squared to its way (its two neighbours on the line through the gate square to the way, 14.9 m off). The trace then
+   pulls (`pullAndPin`, enceinte/pull.ts; §4.4 S5a *Trace* (2)) the gate's neighbours 15 - 30 m inward while the gate stays
+   pinned, the smoothing and (32, 81, 188) F-WALL's union-simplify rung keep a V of 12 - 46 deg with its apex at the gate,
+   both sides within about 22 deg of the gate's way; the kernel's insertion (insertChain, §3.6 steps 2 - 3: attraction at
+   26 cm) then routes both sides through the way's own vertex 55 - 91 cm inward of the gate (the gate's split lies just
+   beyond this item's snap distance, 2 x TOUCH_CM = 52 cm): the wall chain takes that vertex twice (degree 3: "branches",
+   118, 81) or the gate's knot lands on it (the gate leaves the trace: "trace: gate gate:N is not on the committed trace at
+   its point", 32, 188 since M0-c-02 S6). Owner: the enceinte (M0-c-02: trace.ts / pull.ts, the V; the kernel's
+   attraction is the stated §3.6 behaviour). REPORTED; nothing of enceinte/ changed.
+## Minimal reproductions
+   (1) The cut-down fixture, pinned in packages/layout/test/growth/s5ab/q173.test.ts: the base registration through S4,
+       S5's growth start, stage 2's mainRoadsStep and traceStep on relief-60 default 118 and relief-3000 default 32 (CITY):
+       the stage boundary clean (selfTouches false, stage 1's wall inside, defectOf null) and the trace's refusal verbatim.
+   (2) A hand-state SKETCH at the kernel for M0-c-02's pin, from the dumps' coordinates (its outcome as the first seat of
+       the lane recorded it; no script of it is in the lane's scratch and the round does not rely on it — (1) is
+       the reproduction the round pins): on the small flat site (flatFixture(2,
+       { frameAreaHa: 400, walledHa: 30 })) with its outer ring, a way laid at L1 S4 through
+       (79307,-39045) (80389,-38974) (80444,-38971) (81500,-38900), then one L1 S5 batch inserting the closed wall chain
+       (wall, enceinte:2) through (75348,-44399) (75734,-42222) (77337,-39842) (80444,-38971) (75801,-37697) (74082,-36620)
+       (60000,-20000) (60000,-60000), the gate knot (gate, gate:7) pinned at (80444,-38971): the gate's vertex comes out at
+       (80389,-38974), the way's vertex 55 cm inside the V. The same with relief-3000 32's coordinates (way (41754,-79403)
+       (42046,-79677) (42320,-79956) (42362,-80007) (42562,-80248) (42792,-80547); chain (42362,-80007) (41750,-78065)
+       (40776,-75937) (41678,-72862) (30000,-60000) (30000,-78000) (36689,-77385) (39065,-78174)): the gate at (42320,-79956).

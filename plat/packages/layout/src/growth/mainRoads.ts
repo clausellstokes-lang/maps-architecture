@@ -1142,7 +1142,8 @@ export function traceStep(state: GrowthState, k: number): KernelResult<GrowthSta
     const prev = lastWall(state);
     if (prev === null) return err('E_INVARIANT', `S5a: stage ${String(k)} is walled with no earlier enceinte standing`);
     // The stage's water gates take the lowest gate:w<i> no earlier enceinte holds (C-0324 (3)): no count is handed on.
-    const t = traceStage(k, b.set.outline, xs, state.slice, state.plaza, prev, state.kernel, { key: state.key, water: state.water, firstOrdinal: state.nextGateOrdinal });
+    // The strips read every arena way they meet at its own local width from its Way record (Q132; C-0474).
+    const t = traceStage(k, b.set.outline, xs, state.slice, state.plaza, prev, state.kernel, { key: state.key, water: state.water, firstOrdinal: state.nextGateOrdinal, ways: state.ways });
     if (!t.ok) return err(t.code, t.detail);
     rec.trace = t.value;
     rec.gates = t.value.gates.slice();
