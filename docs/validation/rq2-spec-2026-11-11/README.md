@@ -17,9 +17,9 @@ entries are not in specs.json, and the rulings are provisional until the adversa
 | rq2-measure.sh, rq2-base.sh | J757's measurement as run in the session's container: the registry's version raised to 2 with the `shape` row appended, the whole suite one test folder per unit at reduced strength; then every red unit again on the unchanged tree |
 
 What a successor does with it: the entries are folded and the design text is written (docs/AMENDMENTS-2026-11-11ab.md,
-items 997 – 1006). What is left before the launch: (1) finish the measured list — every red unit of the version-raised
-run again on the unchanged tree at the same strength, each labelled THE RAISE, THE STRENGTH or THE HEAD (R15) — and
-put it into the placeholder of each entry; (2) wait for M0-a-05 S14's landing, re-read leg 3's cites on that head and
+items 997 – 1006). The measured list is FINAL and in each entry (J779; measured/: 83 folders, nine red, ONE the raise's —
+test/arena/roles.test.ts's three tests, which leg 1 re-pins itself; no seam is owed for the raise). What is left
+before the launch: (2) wait for M0-a-05 S14's landing, re-read leg 3's cites on that head and
 re-key leg 3 if S14 ran fix rounds; (3) append the three entries to specs.json's rounds; (4) launch ONE child for the
 merged round (launch-DI.md is the model), build opus/high, the three closing checks fable/high.
 
