@@ -12,6 +12,11 @@
 //   relief-60 default seed 1, the same (nine points up to 2.3 m outside; about 1 – 2 min).
 // * The seeds whose S5 now commits (M0-e-06 S3's relief-60 default S5 E_SELF_INTERSECT seeds 13, 84, 156, 162: the trace
 //   handed a boundary through stage 1's wall): each derived through S5 at CITY (about 1 – 3.5 min each; ≈ 5 – 14 min).
+// * C-0475 (2)'s narrowing as it stands (N-47; M0-c-04 hardening round S6, its line 3 REPORTED for the session's ruling:
+//   the held enclosure on every stage k ≥ 2 met t_k = 0 and a level set split by the river on the measured seeds, see
+//   the round's notes): an unwalled stage reads the selection. On relief-60 default seed 13 stage 3's t_3, its outline and
+//   the points of stage 2's wall left outside it are pinned (mutant M6, the held set on an unwalled stage too, moves all
+//   three).
 // The coarse configuration's seeds are held-coarse.test.ts's.
 import { ok, stageText, type Cm, type Seed } from '@plat/kernel';
 import type { WaterSet } from '@plat/model';
@@ -64,6 +69,11 @@ function stage2(bp: BaseBlueprint, seed: number): { line: readonly { x: Cm; y: C
   const m = mainRoadsStep(state, 2, mainRoadStream(slice));
   return { line: wall as readonly { x: Cm; y: Cm }[], selection: selection as Uint8Array, state, plain, m };
 }
+
+/** relief-60 default seed 13 at CITY, stage 3 (unwalled) on the selection: its t_3 (cm), outline points, stage 2's wall points outside. */
+const T3_SEED13 = 82753.02515500419;
+const OUTLINE3_SEED13 = 218;
+const WALL2_OUTSIDE_SEED13 = 26;
 
 describe('the enclosure of stage k − 1 is held with the standing wall (C-0475 (2))', () => {
   const handed: readonly [string, BaseBlueprint, number, string][] = [
@@ -118,6 +128,21 @@ describe('the enclosure of stage k − 1 is held with the standing wall (C-0475 
       expect(d.growth.stages.length).toBe(3);
       expect(d.growth.stages[1].walled).toBe(true);
       expect(roundBreaks(d.growth)).toEqual([]);
+      if (seed === 13) {
+        // C-0475 (2)'s narrowing as it stands (N-47; the S6 round's line 3, REPORTED for the session's ruling): an
+        // unwalled stage reads the selection, never the held enclosure — stage 3 (the ribbon) takes the plain level set
+        // over stage 2's selection, so its t_3 and its outline are the plain ones, and stage 2's pulled wall stands partly
+        // outside it (N-48's measure, pinned here as it is). Held on the unwalled stage too (mutant M6), t_3 falls to
+        // 815.1 m, the outline holds 468 points before its destinations and none of the wall stands outside.
+        const s3 = d.growth.stages[2];
+        expect(s3.walled).toBe(false);
+        expect(s3.boundary).not.toBeNull();
+        if (s3.boundary === null) return;
+        expect(s3.boundary.threshold.t).toBe(T3_SEED13);
+        expect(s3.boundary.set.outline.length).toBe(OUTLINE3_SEED13);
+        const wall2 = d.growth.stages[1].wall ?? [];
+        expect(wall2.filter((p) => !insideOf(s3.boundary?.set.outline ?? [], p)).length).toBe(WALL2_OUTSIDE_SEED13);
+      }
     });
   }
 });

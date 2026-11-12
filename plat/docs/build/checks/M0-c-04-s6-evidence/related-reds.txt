@@ -1,0 +1,11 @@
+# M0-c-04 hardening round S6 — RELATED@1000 over growth/boundary.ts + growth/mainRoads.ts on the round's tree (W=1..budget,
+# PLAT_FUZZ_RUNS=1000, fast-check seed 766729881): Test Files 2 failed | 272 passed (274); Tests 4 failed | 3424 passed (3428).
+# Each red file replayed on the BASE mirror (the round's code files set back to the base) with PLAT_FUZZ_SEED=766729881:
+# Test Files 2 failed (2); Tests 4 failed | 18 passed (22) — the same four tests red with the same assertion, so NONE is moved
+# by the round (no declared red of Q132's shift); all four are pre-existing reds of the base, foreign (bench site spike, M0-e-06's).
+#
+# test | tree (after) | base (before)
+|bench| test/site/compose.test.ts > hardening round S3: a refused stage's record carries the runner's code and detail (Q122) > relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner's code and its detail text, and the class carries it once | AssertionError: expected +0 to be 1 // Object.is equality | AssertionError: expected +0 to be 1 // Object.is equality
+|bench| test/site/spike.test.ts > the river fixture's trace crosses the river only at water gates; every gate_end vertex lies on a shore and resolves; the strips end at the banks (C-0087) > relief-60, seed 2: two water gates, the wall over the water only on their edges, each end on the river's shore, N unchanged | AssertionError: expected 4 to be 2 // Object.is equality | AssertionError: expected 4 to be 2 // Object.is equality
+|bench| test/site/spike.test.ts > the water-gate receipt's own readings: the strip count counts, and the 2 cm tolerance holds on both sides (C-0087; C-0271 (6)) > the strip receipt is not blind: with the town's land face read as the water, it counts every strip vertex inside that face past the tolerance, as the arena reads them | AssertionError: expected 466 to be 138 // Object.is equality | AssertionError: expected 466 to be 138 // Object.is equality
+|bench| test/site/spike.test.ts > containment never counts an S1 land face as held (§4.5; C-0265) > relief-60, seed 2 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar | AssertionError: expected { …(9) } to be undefined | AssertionError: expected { …(9) } to be undefined

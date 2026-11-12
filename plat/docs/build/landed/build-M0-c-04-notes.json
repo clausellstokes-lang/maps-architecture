@@ -1,28 +1,34 @@
 {
   "schema": "plat-landed-record/1",
   "item": "build-M0-c-04-notes",
-  "lane": "build/M0-c-04-fix-s5",
-  "lanes": ["build/M0-c-04-consolidate-1", "build/M0-c-04-fix-s4", "build/M0-c-04-fix-s5"],
+  "lane": "build/M0-c-04-fix-s6",
+  "lanes": ["build/M0-c-04-consolidate-1", "build/M0-c-04-fix-s4", "build/M0-c-04-fix-s5", "build/M0-c-04-fix-s6"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-10T05:32:39.491Z",
+  "date": "2026-11-12T02:55:41.619Z",
   "ownsSource": "declared",
-  "owns": ["plat/docs/build/checks/M0-c-04-notes.md"],
-  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "owns": ["plat/docs/build/checks/M0-c-04-notes.md", "plat/docs/build/checks/M0-c-04-s6-evidence/census-after.txt", "plat/docs/build/checks/M0-c-04-s6-evidence/census-before.txt", "plat/docs/build/checks/M0-c-04-s6-evidence/line3-tables.txt", "plat/docs/build/checks/M0-c-04-s6-evidence/q132-shift.txt", "plat/docs/build/checks/M0-c-04-s6-evidence/q173-diagnosis.txt", "plat/docs/build/checks/M0-c-04-s6-evidence/related-reds.txt"],
+  "counts": { "created": 7, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-c-04-notes.md", "status": "created", "sha256": "3c98370f925ac83ba6a6bbaa385c5e9834790e08da1727f677877c58c1aef272", "size": 106689 }
+    { "path": "plat/docs/build/checks/M0-c-04-notes.md", "status": "created", "sha256": "482ef4ed7d2a46f623cb55d01a099526cb279a3853517814897dd3ad53abfa67", "size": 125926 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/census-after.txt", "status": "created", "sha256": "a4a0abc943e3fe6d62ff218d580803aaf9567bf3a0b5510f5dce8ae427d122e8", "size": 2082 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/census-before.txt", "status": "created", "sha256": "8dab127de2dc121e6e1d87d716c9be1575393ca59658b5f5a8b423f6a7e784a7", "size": 1971 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/line3-tables.txt", "status": "created", "sha256": "b69463519115e5513ad00f15143e0048c0c08240cd82bfd98eae6a54e79e19c3", "size": 25109 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/q132-shift.txt", "status": "created", "sha256": "1081b1b1736183ad8b949e334872f83ff56b4b014c23ca333c8134ce787ef49c", "size": 13102 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/q173-diagnosis.txt", "status": "created", "sha256": "b92ae80c96c01f1e25f40a661b1daaae0db5fc8c781baccdc72f2b29fea74b46", "size": 11278 },
+    { "path": "plat/docs/build/checks/M0-c-04-s6-evidence/related-reds.txt", "status": "created", "sha256": "74a8d5d29097d3774f67f515d44eebedbc42e27a50a9db67ce2afbea02ba416c", "size": 2315 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0511", "L-0708", "L-0765"],
-      "lines": ["e524726d2c84398c", "88ed84958201406d", "ac4acf44f1c43bb5"],
+      "ids": ["L-0511", "L-0708", "L-0765", "L-0776"],
+      "lines": ["e524726d2c84398c", "88ed84958201406d", "ac4acf44f1c43bb5", "3289e247e697c1a0"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0354", "C-0452", "C-0475"],
-      "lines": ["b83fd873a9fc5128", "296e69a6000fa43e", "8bfd7c191d9c0aeb"],
+      "ids": ["C-0354", "C-0452", "C-0475", "C-0480"],
+      "lines": ["b83fd873a9fc5128", "296e69a6000fa43e", "8bfd7c191d9c0aeb", "f6368aa0d95049b7"],
       "removed": []
     }
   ]

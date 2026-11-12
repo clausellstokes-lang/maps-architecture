@@ -995,3 +995,226 @@ session now; the others are for the hardening pass.
     W2 (the pull) rests on the lost dump alone and was not re-measured, and N-50 shows one of its mechanism labels
     wrong. Suggested handling: take row 41's seeds and messages as established, its W1 / W2 labels as unverified.
     Tightening of a claim; no action in this item. PLAUSIBLE (the scratch path is absent on this machine).
+
+## Hardening round S6 (lane `build/M0-c-04-fix-s6`, 2026-11-10 – 2026-11-11) — the builder's row-by-row outcome
+
+The session's hardening round S6 of the item (J751, under the owner's delegation; J237 (2), J238, J264 / N-58, J290, J263
+Q1 / Q6) on four lines: Q132 (the S5 caller's wiring of the arena's Way records into the strips), Q173 (the `(wall,
+enceinte:2) branches` class on relief-60 118 and relief-3000 32, 81, 188), Q174 (c) (N-47 / N-48: an unwalled stage's
+boundary and the wall before it) and Q174 (d) (N-49's missing pin; N-50's correction). Seats of one lane on a Claude Code
+cloud container (Linux x64, Intel Xeon 4 cpu, 16 GiB, Node 24.12.0; `tools/test_budget.py` = 1 throughout); the second
+seat continued on 2026-11-11 after a restart of the machine (CONTINUE RULE), the long runs handed to the workflow's waiter
+(J758). The round's base is the tree as the first seat found it: design head 3a5d75b0, carrying M0-c-04 S5 (79cccb90),
+M0-c-02 S6 (4d490aa7) and M0-e-04 S5 (daccc648); the working tree held no other item's edit. Choices row C-0480; ledger
+row L-0776 (renumber at the landing if either collides). The lane's one mirror is
+`/home/user/maps-scratch/waves/selfcheck-build-M0-c-04-fix-s6/plat` (a real copy, proved isolated: no link into the tree,
+`@plat/kernel` resolving inside it). It served as the census's instrumented copy (hooks behaviour-neutral unless switched:
+the boundary hooks in `heldBoundary` and `mainRoadsStep`, the Q132 bite probe in `layStrips`, the branching vertex in the
+kernel's role check — every hook reading `globalThis.__c04`, set only by the probe scripts; a switch `C04_UNWALLED=1` for
+table (ii) of line 3) and, restored file by file from the tree (`cp` + `cmp -s`), as the mutant mirror. Every measurement
+this section cites is copied under `checks/M0-c-04-s6-evidence/` (N-52's lesson).
+
+53. **N-53 Line 1 — Q132 FIXED: the S5 caller hands the arena's Way records to the strips.** `traceStep`
+    (`growth/mainRoads.ts`) passes the growth state's `ways` (S4's and every earlier S5b road) to `traceStage`, whose
+    options gain `ways?: readonly Pick<Way, 'id' | 'width'>[]` (`growth/boundary.ts`; an optional member of an options
+    record, no export added, removed or renamed — J263 Q1), forwarded to `layStrips` as `LayStripsOptions.ways` (C-0474,
+    built and pinned by M0-c-02 S6). Of the row's two alternatives the Way records, not a half-width per extra stop
+    through `stageStops`: `layStrips`' `localStretches` already reads a way's `width_knot` profile along its run and cuts
+    the run into stretches of one half-width, so one way with two widths stops each strip at the corridor beside it
+    (§4.8 "the strips stop at each gate's corridor"); a half-width per stop could give a way only one width and would
+    copy the enceinte's profile reading into the growth stage. **Pin:** `test/growth/s5ab/ways.test.ts` — a hand state
+    (the small flat site 400 ha / 30 ha, S3's commits, one S4 way north through stage 2's square outline, a hand way 9 m
+    outside the outline's east side whose south half is a lane 6 m wide and north half a street 14 m wide, two
+    `width_knot`s on its middle vertex): stage 2's trace commits, the outer strip beside the lane's stretch owns the
+    point 4.5 m outside the wall (the lane's corridor edge 6 m out) and beside the street's stretch that point lies in the
+    street's corridor (no strip's). Red without the wiring: mutants MQ132a (`ways: state.ways` dropped in `traceStep`)
+    and MQ132b (`ways` not forwarded in `traceStage`) both fail it with ``expected '' to be 'wall_strip:2-outer'`` (before
+    the round the lane took the widest gate way's half-width, 700 cm, and the strip stopped 2 m out). **Declared shift:**
+    measured by the census's Q132 bite probe (where `layStrips`, not handed the records, would lay another set of
+    corridors had it been) and the after census re-deriving every bitten seed (`M0-c-04-s6-evidence/q132-shift.txt`, one
+    line per seed with both digests): the probe bites on **92 of the 797 S5-reaching seeds** — relief-3000 default 45,
+    relief-3000 coarse 46, relief-60 coarse 1 (seed 96), relief-60 default none. On all 92 S5's outcome is unchanged
+    (ok → ok), the growth stages' record is unchanged (`sig` — every stage's boundary outline, picks, wall chain and road
+    ids — equal on all 92) and S5's product moves (`s5sig`, the arena with its strips, moved on all 92): the shift is the
+    strips' alone, as the row asks (each strip beside a narrower stretch now stops at that stretch's corridor). The 20
+    unbitten controls (5 per group) are identical in both digests. On the item's own flat frames (the probe's seven:
+    `900/90` 1, 2; `240` 1; `400/30` 1, 3, 4, 7) the probe bites on `240` seed 1 only: S5 ok → ok, its stages' `sig`
+    f547a00cc7e538c0 unchanged (the strips move; no s5ab test reads them on that frame); on the bar fixture (flat CITY seeds 1 – 100) it bites on none, so the bar's rows are
+    unchanged by construction (the NEAR run's bar rows equal row 30's seed for seed: 3.752 – 4.267, mean 4.020, 15
+    gates). No golden of this item is re-recorded: every s5ab test but the new and changed ones below passes unchanged
+    on the round's tree (NEAR, 19 files, 100 / 100).
+54. **N-54 Line 2 — Q173 DIAGNOSED; the enceinte's, REPORTED to M0-c-02 with two cut-down fixtures.** Each of the
+    eight runs derived through S5 on this base with the branching vertex and the trace's per-gate state dumped
+    (`M0-c-04-s6-evidence/q173-diagnosis.txt`, one block per run). On this base (M0-c-02 S6 in) 118 and 81 still branch in
+    both configurations; 32 and 188 now refuse `E_INVARIANT trace: gate gate:N is not on the committed trace at its point
+    (§4.2 S3 (9))` — the same mechanism with M0-c-02 S6's read-back catching it first.
+
+    | run | refusal on this base | the vertex where `wall` branches / the gate's knot lands | the two chains meeting there | the gate and its V |
+    |---|---|---|---|---|
+    | relief-60 default 118 | branches | v2575 (80389, −38974), degree 3; v2807 (−66846, −58751), degree 3 | the wall's two sides of gate:8 (its V's legs (77337, −39842), (75801, −37697)) and `way:3`; likewise gate:10 and `way:7` | gate:8 (80444, −38971), the way's vertex 55 cm beside it, apex 31°; gate:10 (−66937, −58750), 91 cm, 26° |
+    | relief-60 coarse 118 | branches | v2513 (80389, −38974); v2745 (−66846, −58751) | as default | as default |
+    | relief-3000 default 32 | gate:7 off the trace | gate:7's knot placed on v1663 (42320, −79956) | the wall's V and `way` through the gate | gate:7 (42362, −80007), 66 cm, apex 43° |
+    | relief-3000 coarse 32 | gate:7 off the trace | v1588 (42320, −79956) | as default | as default |
+    | relief-3000 default 81 | branches | v3512 (−42508, −78580), degree 3 | the wall's V legs and `way:12` | gate:11 (−42525, −78659), 81 cm, apex 20° |
+    | relief-3000 coarse 81 | branches | v3013 (−42508, −78580) | as default | as default |
+    | relief-3000 default 188 | gate:9 off the trace | gate:9's knot placed on v2556 (−50080, 78701) | the wall's V and the gate's way | gate:9 (−50133, 78731), 61 cm, apex 12° |
+    | relief-3000 coarse 188 | gate:9 off the trace | v2556 (−50080, 78701) | as default | as default |
+
+    **The code path of each chain.** The boundary this item hands the trace (after `insertOnOutline` and `squareGates`)
+    is clean on all eight: simple, touching itself nowhere at the attraction distance, holding stage 1's wall (0 points
+    outside, `crossesCore` false), each culprit gate squared to its way (its two neighbours on the line through the gate
+    square to the way, 14.9 m off). The V is made inside the trace: its pull (`pullAndPin`, `enceinte/pull.ts`; §4.4 S5a
+    *Trace* (2)) draws the gate's neighbours 15 – 30 m inward while the gate stays pinned, and the smoothing (and on 32,
+    81, 188 F-WALL's union-simplify rung after the re-offset rung lost a pin) keeps a V of 12 – 43° with its apex at the
+    gate, both legs within about 22° of the gate's way; the kernel's insertion (`insertChain`, §3.6 steps 2 – 3,
+    attraction 26 cm) then routes both legs through the way's own vertex 55 – 91 cm inward of the gate: the wall takes
+    that vertex twice (degree 3, "branches") or the gate's knot lands on it (the gate leaves the trace). **Verdict:** OUR
+    OWN INTERMEDIATE, MAKE-IT-SUCCEED — but the cause is in `enceinte/trace.ts` / `pull.ts` (M0-c-02's), not in this
+    item's files, so nothing is changed here (the round's rule (1)); REPORTED to M0-c-02's next round with the mechanism,
+    the coordinates and **a minimal reproduction**: `test/growth/s5ab/q173.test.ts` runs the base registration through
+    S4, S5's growth start, stage 2's `mainRoadsStep` and `traceStep` on relief-60 default 118 and relief-3000 default 32
+    and pins (i) the handed boundary clean (`selfTouches` false, stage 1's wall inside, `defectOf` null) and (ii) the
+    trace's refusal verbatim — M0-c-02's fix turns (ii) into a commit, a DECLARED move of this file's pins for that round
+    (cost: two derivations through stage 2's trace, about 0.5 – 1.5 min each here). A kernel hand-state sketch from the
+    dumps' coordinates is in the evidence file, marked as a sketch. No mutant: the file pins a refusal this round does
+    not fix (the row's REPORT branch).
+55. **N-55 Line 3 — Q174 (c) REPORTED for the session's ruling; C-0475 (2)'s narrowing pinned as it stands (N-47).**
+    Measured first (tables in `M0-c-04-s6-evidence/line3-tables.txt`, made by the lane's `tables.py` from the census):
+    (i) N-48's hook — the unwalled stage 3's plain boundary against stage 2's standing wall, over the WHOLE census (every
+    S5-reaching seed of the four groups): relief-60 default 145 of 199 seeds that reach stage 3 leave wall points outside
+    (1 / 3 / 170 points, min / median / max; `crossesCore` on 152), relief-60 coarse 147 of 198 (1 / 3 / 167; 154),
+    relief-3000 default 0 of 195, relief-3000 coarse 0 of 196; the item's own seven flat frames: `240` seed 1 only (66
+    points); the bar fixture's 100: none. (ii) The held enclosure on EVERY stage k ≥ 2 (`C04_UNWALLED=1`), every seed ≤ 100
+    of each group that (i) bites (159: relief-60 default 78, coarse 81; relief-3000 none; the unbitten identical by
+    construction): S5's outcome unchanged on all 159; wall points outside after → 0 on 157; `t_3` = 0 (the held set alone
+    ≥ the asked land) on 2 — relief-60 default 1 and relief-60 coarse 44; picks same / fewer / more / moved: default
+    0 / 25 / 23 / 30, coarse 1 / 21 / 24 / 35; no stage folded. (iii) The refusal census of the sample (every S5-reaching
+    seed ≤ 100, 400 runs) before and under (ii): relief-60 default 100 ok → 100 ok; relief-60 coarse 100 → 100;
+    relief-3000 default 98 ok + 2 `E_INVARIANT` (32, 81) → the same; relief-3000 coarse the same — no class rises. What the
+    measurement shows (the whole sample; the first 78 relief-60 default seeds read the same): the union on the ribbon stage
+    nests the wall on 157 of the 159 (stage 2's wall points outside stage 3's boundary → 0; S5's outcome unchanged on all)
+    while it moves `t_3` (a few metres lower), the outline and the ribbon's picks on nearly every one: a
+    DECLARED shift of the ribbon on most relief-60 seeds, and with it every downstream pin of other items that reads the
+    ribbon. On **relief-60 default 1** the held set alone already holds stages 1 … 3's asked land, so `t_3` = 0 (835.4 m
+    → 0): at T = 0 the region is the held set itself, which the river splits (six rings at `t` = 0; the level set adds no
+    land to spread across it), and M0's boundary — one outer ring — keeps one bank: stage 3 commits with 189 points of
+    stage 2's wall outside it (91 before) and picks 15 → 0 — a silently worse committed result; **relief-60 coarse 44**
+    is the same case (839.7 m → 0, 125 → 164 points outside, picks 16 → 0). The design's text cannot
+    be met there by M0's one-ring boundary: making it succeed needs either a fold when the union adds no land beyond the
+    held enclosure (§4.4's fold reads "a stage whose capped boundary adds no land to stage k − 1's"; C-0475 (2) and the
+    code read the fold off the selection, under which this stage adds land — so the fold's trigger itself would change,
+    and with it what S5c / S5d receive on such a seed, M0-c-05's side) or a stage boundary of several rings (design not
+    built). By the round's rule (3) and the line's own branch ("applying the fold rule would change … another stage's
+    contract → build NOTHING; REPORT") **nothing is built for Q174 (c)**: the tables, seed 1's case and the size of the
+    declared shift go to the session for its ruling (bind an unwalled stage as rule (2) binds a walled one, with the fold
+    read off the held enclosure where `t_k` = 0 — the seat's reading of what the design's text supports — or declare the
+    limit to M1). **Pin of the narrowing as it stands** (N-47): `test/growth/s5ab/held.test.ts`,
+    relief-60 default 13 at CITY: stage 3 (unwalled) reads stage 2's selection — `t_3` 82 753.025 cm, 218 outline points,
+    26 points of stage 2's wall outside it (N-48's measure, pinned as it is). Mutant M6 (the held set on an unwalled stage
+    too — `const wall = lastWall(state)`) fails it with `expected 81512.89627690235 to be 82753.02515500419`. The
+    property "no point of a standing wall lies outside a later stage's boundary" is NOT added (it is false under the
+    narrowing; it belongs to the ruling's fix).
+56. **N-56 Line 4 — Q174 (d) N-49 PINNED; N-50 corrected.** *N-49:* `test/growth/s5ab/held-unit.test.ts` — on the
+    small flat site (400 ha / 30 ha), S3 and S4 as `support.ts` runs them, S5's growth start, stage 1's standing wall
+    replaced by a hand ring 3 % beyond stage 2's plain outline (so that boundary crosses it and the repair runs) and one
+    dry interior node between the two, outside stage 1's selection, cut off from T (T set infinite, as water or a
+    reservation would cut it off): every other candidate node inside the hand wall is held into stage 2's selection, the
+    cut-off node is not. Mutant M9 (`!(T[u] < Infinity)` dropped in `heldEnclosure`) fails it at the last assertion
+    (`expected 1 to be +0`). *N-50 — correction of rows 39 and 41 (and C-0475's wording; the round's choices row C-0480
+    amends it, C-0475 stays as written):* the `E_DEGENERATE` `empty` class on relief-3000 seeds 21 and 59 (both
+    configurations) is raised by the WALL STRIPS after the stage-2 trace commits — `layStrips` (`enceinte/strips.ts`)
+    inserts a free piece of a way corridor's ring of 28 – 30 cm (2 – 3 points, beside a gate pair 14 m apart), which
+    passes its 26 cm floor and lands on existing vertices — not by the trace's re-offset rung as rows 39 and 41 say. The
+    seeds and the message are unchanged; the owner is unchanged (M0-c-02; Q174 (a) routes the class to its next round);
+    nothing of `enceinte/` is touched. On this round's base (M0-c-02 S6 in) the class is GONE: relief-3000 21 and 59
+    commit S5 in both configurations (`census-before.txt`; no `E_DEGENERATE` in the census at all), so the correction is
+    of the record only.
+57. **N-57 The refusal census (J264 (4), N-58) and the declared shift's reach.** The item's registered family — e-06's
+    four groups, every seed derived through S5 (S6 dropped), one derivation per process, CITY — re-measured BEFORE on
+    this round's base (the S5 check's evidence did not survive, N-52) and AFTER on the round's tree (the AFTER derives
+    every seed the Q132 probe bit plus five unbitten controls per group; every other seed is the BEFORE's by
+    construction). Seeds 1 – 200 of each group, 800 derived, 797 reach S5 (pre-S5: relief-3000 109 refused at S4 in both
+    configurations, `(way, way:13) branches`; relief-3000 default 184 refused at S1, the river's ring — not this item's
+    stage). **BEFORE → AFTER, S5 ok / refused:** relief-60 default 199 / 1 → 199 / 1; relief-60 coarse 198 / 2 →
+    198 / 2; relief-3000 default 195 / 3 → 195 / 3; relief-3000 coarse 196 / 3 → 196 / 3 — **9 → 9, no class rises**,
+    every seed and message identical (`M0-c-04-s6-evidence/census-before.txt`, `census-after.txt`). Each refusal classed
+    (J290 / N-58): `(wall, enceinte:2) branches` on relief-60 118 (both configurations) and relief-3000 81 (both) and
+    `trace: gate gate:N is not on the committed trace at its point` on relief-3000 32 (gate:7) and 188 (gate:9) (both) —
+    Q173's eight, OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED, the enceinte's (row 54, REPORTED to M0-c-02 with the fixtures);
+    `S5a: the gate vertices could not be put on their ways: … crosses bridge:24's …` on relief-60 coarse 151 — LAWFUL,
+    REFUSE as C-0475 (3) states (notBuilt M3a, a gate on a bridge's span). Moved pins of other items (RELATED@1000 over
+    `growth/boundary.ts` and `growth/mainRoads.ts`, fast-check seed 766729881; each red replayed on the base mirror with
+    the same seed — `M0-c-04-s6-evidence/related-reds.txt`): **none**. RELATED ran 274 files, 3 428 tests, 4 red in 2
+    files — `bench/test/site/compose.test.ts` (Q122's "relief-60 default seed 2 (test size) refuses at S5": expected 1,
+    got 0) and `bench/test/site/spike.test.ts` (three cases on relief-60 seed 2: water gates 4 vs 2, the strip receipt
+    466 vs 138, the containment record not undefined) — and all four are red on the base with the same assertions
+    (base replay: 2 files, 4 red / 18 green): reds of the round's base (relief-60 seed 2 at test size now commits S5,
+    after M0-c-02 S6 / M0-e-04 S5), foreign to this round, for the session (M0-e-06 S4 re-runs the summary). The
+    declared reds of the design head (Q152's six in
+    `kernel/test/arr/bands`, J176's bench Mac pins, Q153's flake) are notes, never the round's.
+
+**Gates on the round's tree.** install `--frozen-lockfile` 0; lint 0 (eslint over 1 302 files, the probe-red check
+red as it must be); build 0; NEAR `test/growth/s5ab/` at full strength 0 (19 files, 100 / 100, 4 250.73 s, W = 1,
+fast-check seed 1768826491; no code or test file of the round changed after it — re-confirmed by the closing seat on
+2026-11-12, when install, lint (1 302 files, `probe-red ok`, 9 whole-tree checks) and build were re-run: each 0);
+RELATED@1000 over `growth/boundary.ts` and `growth/mainRoads.ts` (W from the budget, fast-check seed 766729881): 274
+files, 3 428 tests — 3 424 green, 4 red in 2 bench files, all four red on the base mirror with the same assertions (row
+57; `M0-c-04-s6-evidence/related-reds.txt`): none the round's. **Mutants** (one mirror, each restored by `cp` + `cmp -s`;
+each run on its pin's file, W = 1, `--bail=1` — the whole s5ab folder takes 71 min here, and each pin's file is the
+one the mutant's line names; the folder is green without them, NEAR above): MQ132a, MQ132b → `ways.test.ts` red; M9 →
+`held-unit.test.ts` red; M6 → `held.test.ts` (relief-60 default 13) red; control (the three pins unmutated) 3 / 3
+green.
+
+## Closing check of hardening round S6 (lane `check/M0-c-04-close-s6`, 2026-11-12)
+
+Verdict PASS (`checks/M0-c-04-s6.md`). None of the rows below is a blocker; each is a note with its handling. The
+lane's evidence is in the verdict file's tables; its scratch (`/home/user/maps-scratch/waves/check-M0-c-04/chain/`:
+the logs, `census-fold.txt`, `q173-analysis.txt`, `line3b-summary.txt`, `mutants.md`) is not under `plat/`.
+
+58. **N-58 For M0-c-02's next round (with Q173): `q173.test.ts` pins two of the four seeds, in the default
+    configuration.** The file pins relief-60 default 118 (`(wall, enceinte:2) branches`) and relief-3000 default 32
+    (`trace: gate gate:7 is not on the committed trace at its point`) — one seed per message. The closing checker ran
+    the file's own harness (`stage2Trace`, unchanged) on relief-3000 default 81 and 188 in its mirror: 2 / 2 green,
+    the boundary clean and the refusal verbatim (81 branches; 188 `gate:9` off the trace), 323 s. So the fixture
+    reproduces every seed by its number alone. Suggested: when the enceinte's fix lands, that round adds the two rows
+    and the coarse configuration (which refuses with the same message at the same coordinates on all four) to its
+    declared move of this file's pins. Handling: M0-c-02's next round; not a failing line of S6.
+59. **N-59 For the session, with line 3's ruling (Q174 (c)): a third case where the union does not nest, and the
+    ribbon's shortfall under it.** On the item's own `240` seed-1 flat frame (the one own frame where N-48's hook
+    bites: 66 points of stage 2's wall outside stage 3's plain boundary) the held enclosure on the unwalled stage
+    changes nothing — stage 3 is capped at the frame (`t_3` 98 003 cm, land 223.8 of 250 ha) and the 66 points stay
+    outside. The builder's table (ii) covers the census seeds, not the own frames. And of the seven sampled seeds where
+    the union does nest the wall (relief-60 default 2, 11, 13, 44, 46; coarse 1, 29), four leave stage 3 short of
+    approachable destinations under it (short 3, 12, 17, 24 of N − c). The two `t_3` = 0 seeds (relief-60 default 1,
+    coarse 44: 6 and 4 rings, wall points outside 91 → 189 and 125 → 164, no pick) were reproduced with the checker's
+    own switch. Handling: the session's ruling on line 3; whichever fix it rules must name the capped case too.
+60. **N-60 KI: `heldEnclosure`'s water guard has no pin on a wet hand state.** Mutant M9w (`lattice.water[u] !== 0`
+    dropped) survives `held-unit.test.ts`: its hand state is a dry flat site, so no node is water. Not a line of the
+    round (N-49 asked for the T-finite guard, which M9 shows pinned). Suggested: a second hand node set as water inside
+    the wall's clearance, asserted out of the held set. Handling: hardening milestone M4.
+61. **N-61 Context for Q173's fix (M0-c-02's): the gate's split stands 55 – 91 cm from a vertex of its own way.**
+    `placeGateVertices` snaps a crossing to an existing way vertex only within 2 · `TOUCH_CM` = 52 cm (C-0244); on the
+    eight runs the culprit gate's vertex is a split 55 – 91 cm beside one. With a wall that crosses square this short
+    sub-edge is harmless (the handed boundary is square and clean on all eight); with the pull's V (apex 11.8° – 43.4°
+    at the gate, both legs within 22.2° of the way) the way's vertex lies within the attraction distance, 26 cm, of
+    BOTH legs (2.3 – 24.7 cm), and the insertion routes them through it. Handling: read with Q173 by M0-c-02's round;
+    nothing of this item's is asked.
+62. **N-62 For the session: RELATED@1000's four reds are M0-e-06's pins of a refusal the base no longer makes.**
+    `bench/test/site/compose.test.ts` (Q122's "relief-60 default seed 2 (test size) refuses at S5": `expected +0 to be
+    1`) and `bench/test/site/spike.test.ts` (three cases on relief-60 seed 2: `expected 4 to be 2`, `expected 466 to be
+    138`, `expected { …(9) } to be undefined`) — red in the tree, red alone, and red with the same assertions on the
+    checker's mirror with the round's wiring dropped (PLAT_FUZZ_RUNS=1000, PLAT_FUZZ_SEED=20261112; 274 files, 3 428
+    tests, 3 424 green). They are not moved by Q132's shift and are not among the declared reds of the design head
+    (Q152, J176, Q153). Handling: the session's seam for M0-e-06 (its round S4 re-runs the summary on this base); these
+    four tests want their expectation re-recorded there.
+63. **N-63 For the session (J264): the family's refusals after the round, and the line's message.** The checker's
+    census of the round's tree (800 derivations, 797 reach S5): S5 refuses on 9, the builder's 9 before and after —
+    relief-60 default 118 and coarse 118, relief-3000 default and coarse 81 (`(wall, enceinte:2) branches`); relief-3000
+    default and coarse 32 (`trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9))`) and 188
+    (`gate:9`, the same message) — Q173's eight, OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED, the enceinte's; relief-60
+    coarse 151 (`S5a: the gate vertices could not be put on their ways: … crosses bridge:24's span …`) — LAWFUL, held
+    at REFUSE by C-0475 (3), notBuilt M3a. Pre-S5, other items' stages: relief-3000 109 at S4 in both configurations
+    (`(way, way:13) branches`), relief-3000 default 184 at S1 (the river's ring). The round's line 2 names one message
+    for Q173's four seeds; on this base it is two (M0-c-02 S6's read-back catches 32 and 188 first) — same seeds, same
+    count, same mechanism. Handling: Q173 to M0-c-02's next round; 151 stays with M3a; the three pre-S5 runs with
+    their owners' queues.

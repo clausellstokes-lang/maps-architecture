@@ -13,7 +13,8 @@
 // * for k ≥ 2 the trace is the strategy's, right after S5b, every arterial crossing of the stage's boundary on ground
 //   part 0 pinned as a gate: each crossing's vertex is split onto its way, so the wall chain meets the way exactly at
 //   its gate vertex, then the trace (with the previous enceinte as its core) and the strip stand-in (C-0033), its stops
-//   read from the arena at the gates. The gate splits run inside the trace's own L1 batch, before its insertion, so a
+//   read from the arena at the gates, every other arena way the strips meet taking its corridor at its own local width
+//   from the Way records the caller hands (Q132; C-0474's `LayStripsOptions.ways`). The gate splits run inside the trace's own L1 batch, before its insertion, so a
 //   refused trace leaves no split behind (N-54 (3); C-0285); where the gates stand is planned first in a batch that is
 //   always rejected (the strategy needs the gate points before its batch opens, and only the kernel's split knows them:
 //   C-0452 (10)), and the trace's batch refuses if the splits land anywhere else. A crossing on a bridge's span (the way's
@@ -46,7 +47,7 @@ import {
   type StageId,
   type VertexId,
 } from '@plat/kernel';
-import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
+import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet, Way } from '@plat/model';
 import { commitS3Batch, PLAZA_ID, siteContext, traceWithStrips, type S3Batch, type S3Commit } from '../enceinte/commit.js';
 import { crossParams, distToRing, lat, selfTouches, TOUCH_CM, unitOf } from '../enceinte/plane.js';
 import { layStrips, stripWidths, traceLine } from '../enceinte/strips.js';
@@ -467,6 +468,13 @@ export interface StageTraceOptions {
    * stage's; kept so the exported options keep their shape (J263 Q1).
    */
   readonly earlierWaterGates?: number;
+  /**
+   * The arena's Way records (the growth state's `ways`: S4's and every earlier S5b road), handed to the strips as
+   * `LayStripsOptions.ways` (Q132; C-0474): an arena way the strips meet beside the stage's trace takes its corridor at its
+   * own local width — its `width_knot` profile read along its run — never the widest gate way's half-width (§4.8 "the strips
+   * stop at each gate's corridor"). Absent: none, the strips as before (the widest given stop's half-width).
+   */
+  readonly ways?: readonly Pick<Way, 'id' | 'width'>[];
 }
 
 /** What `traceStage` laid: the trace, its gates with their ways, and the gate vertices it split onto the ways. */
@@ -584,7 +592,7 @@ export function traceStage(
     if (!s.ok) return err(s.code, `S5a's strips: ${s.detail}`);
     return wetSetback(kernel, arena, t.enceinte.id, rings);
   }, "S5a's strips");
-  const strips = layStrips(t.enceinte, era, proved.kernel, { key: arena, stops, frame: site.frameRing });
+  const strips = layStrips(t.enceinte, era, proved.kernel, { key: arena, stops, frame: site.frameRing, ...(opts.ways === undefined ? {} : { ways: opts.ways }) });
   if (!strips.ok) return err(strips.code, strips.detail);
   const gateWays = crossings.map((c) => c.way);
   const gates: Gate[] = t.gates.map((g) => {
