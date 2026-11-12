@@ -17,6 +17,9 @@ kernel's tx, insert, faces, arr, warp and invariants folders is ONE test that pi
 dissolve a chain's own point that landed on another's run: 13 of 3 000 fuzzed sequences; with the row emulated: 0).
 The seat recommends F.
 
+REACH MEASURED (see `reach.md`): WIDE — the amended rule keeps the flag of every shore foot on the frame, on every
+derivation with water at the frame; the session now leans to option S.
+
 WHAT IS OWED BEFORE ANYTHING BINDS (the managing session, J631 (2) (a)): an adversarial review of the draft; a
 measurement of the patch's REACH outside the kernel's own folders (does any stage output, root or pinned figure of M0
 move under it — if so the fold turns a round that moves nothing into one with a declared shift, and option S is the
