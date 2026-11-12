@@ -478,3 +478,23 @@ re-declaration; a queue row at the binding).
 NEXT: the spec seat renders `v4/` — round A's entry final but for its base (S20's landed tree), round B's entry with
 its three open slots named (U-1's routing after S14 lands; the red list under the ladder; round A's own figures). ROUND
 A BINDS on S20's landing with the nine fixes in; ROUND B is not bound.
+
+## The final render (`v4/`; 15:24Z) — round A is READY TO BIND on S20's landed tree; round B carries three named slots
+
+The spec seat rendered `v4/` from the rulings on Q1 – Q17 and on U-1 – U-18 (`v4/changes.md` says where each landed).
+This seat read round A's entry WHOLE — its session clause and its seven lines (the fold; the exact read with typed
+failures; the lay on its view; both ladders and the one-arena debug switch; the frame-side end rule; the shadow and the
+build's own measurement, with its failing bars, bounds, literals and controls; the NO-SHIFT comparison with the
+production bundle holding none of the new functions) — and finds no ruling dropped. Three things the seat could not fold
+in as written are ACCEPTED as it did them: the arena copy of U-2 is made by encode → decode and compared by its encoded
+bytes (a decoded copy may number its slots otherwise), bit-identity before each rung being asserted on the original;
+Q2's "above 0" is a failing non-vacuity item, only the three upper bounds turning an excess into REPORTED; round B's
+mixed-face literal is round A's own count. The sixth queue row the amendment carries (a refused child read refuses the
+cut) is Q199, already queued.
+
+* **ROUND A (M0-a-09 S21, NO-SHIFT)** binds when (1) child DW's M0-a-09 S20 has landed, (2) child DV's M0-a-05 S14 has
+  landed, (3) the session has re-run S20's quoted runner on the merged tree (J769). At the binding the entry's DECLARED
+  REDS paragraph is brought to that head's list, its cites re-read on that head, and the queue rows owed are written.
+* **ROUND B (M0-a-09 S22, THE SHIFT)** is NOT bound: SLOT 1 (Q152's six routed assertion by assertion, after S14),
+  SLOT 2 (the red list under the ladder), SLOT 3 (round A's own figures); then the amendment file and the paragraph for
+  the owner (`v4/amendment-draft.md` §4), and a last read by the reviewer of the three filled slots.
