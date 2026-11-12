@@ -1,14 +1,14 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-04",
-  "lane": "build/M0-c-04-fix-s5",
-  "lanes": ["build/M0-c-04", "build/M0-c-04-fix1", "build/M0-c-04-fix-s1", "build/M0-c-04-fix-s2", "build/M0-c-04-fix-s3", "build/M0-c-04-consolidate-1", "build/M0-c-04-fix-s4", "build/M0-c-04-fix-s5"],
+  "lane": "session/e02s2-seams-1",
+  "lanes": ["build/M0-c-04", "build/M0-c-04-fix1", "build/M0-c-04-fix-s1", "build/M0-c-04-fix-s2", "build/M0-c-04-fix-s3", "build/M0-c-04-consolidate-1", "build/M0-c-04-fix-s4", "build/M0-c-04-fix-s5", "session/e02s2-seams-1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-10T05:32:38.803Z",
+  "date": "2026-11-12T09:28:39.319Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/growth/boundary.ts", "plat/packages/layout/src/growth/mainRoads.ts", "plat/packages/layout/test/growth/s5ab/"],
-  "counts": { "created": 22, "changed": 0, "unchanged": 0, "deleted": 1 },
+  "counts": { "created": 22, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/growth/boundary.ts", "status": "created", "sha256": "81b01da61f6316ca756409eced23c2c74203905358ff9250279c3b09c41bf97f", "size": 48030 },
     { "path": "plat/packages/layout/src/growth/mainRoads.ts", "status": "created", "sha256": "47c0a062e2bd57e6804ae19df0cf110a82eba3703d39d27874c598000948060e", "size": 61559 },
@@ -23,10 +23,9 @@
     { "path": "plat/packages/layout/test/growth/s5ab/growth.test.ts", "status": "created", "sha256": "ae13325a00166471faf6ca59a8e15243a3d1b1544ab7b813103e99ac21cc89c6", "size": 17348 },
     { "path": "plat/packages/layout/test/growth/s5ab/guards.test.ts", "status": "created", "sha256": "41ea1c804ceba09d79cb37e6e8c5db331eb24fcf6a8b0bd552d12ff8888d7a34", "size": 9269 },
     { "path": "plat/packages/layout/test/growth/s5ab/held-coarse.test.ts", "status": "created", "sha256": "61f41a9f150448de8ee2330f165b7cba7ca30795100aaa6ea5dcd50411de1da7", "size": 1492 },
-    { "path": "plat/packages/layout/test/growth/s5ab/held.test.ts", "status": "created", "sha256": "d6cd8ec8e8318f9f537ac695dd27f3f45d5040cece19ce66e4a8e5bf564fa64f", "size": 7492 },
+    { "path": "plat/packages/layout/test/growth/s5ab/held.test.ts", "status": "created", "sha256": "9d020a0f976498434206e9c72212836dfe2254788f550fe8d2fa58bdb7afcc69", "size": 8037 },
     { "path": "plat/packages/layout/test/growth/s5ab/proof.test.ts", "status": "created", "sha256": "a5b82582c428e8cb46cacd4691bf29d26fab18c64176fea0d1305cc8cf1d2248", "size": 9839 },
     { "path": "plat/packages/layout/test/growth/s5ab/resettle.test.ts", "status": "created", "sha256": "26161bc169b7134eb9259d4565bc42dd4aa52000c7d20f49dcc2aba6dc549c81", "size": 7422 },
-    { "path": "plat/packages/layout/test/growth/s5ab/site-coarse.test.ts", "status": "deleted", "sha256": null, "was": "0bae12b1a61653b59a2e614a1f19ff9b2ce009418a62cf29e3972b6cec03ba19" },
     { "path": "plat/packages/layout/test/growth/s5ab/site.test.ts", "status": "created", "sha256": "ed99b3a4b679f19c49f8c696926405f75c0bef71ec420476afc04acd3160a3b1", "size": 1887 },
     { "path": "plat/packages/layout/test/growth/s5ab/sitefix.ts", "status": "created", "sha256": "72f88d1f0699d4d70c63e9ed531915aab88bbb7ce5d2a4104d148d715dd37f75", "size": 4749 },
     { "path": "plat/packages/layout/test/growth/s5ab/span.test.ts", "status": "created", "sha256": "a37756755cf9eec2ab82c529e2cfb71676853ab9dc5ac5901e9967480ae568c8", "size": 30089 },
@@ -37,8 +36,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0268", "L-0279", "L-0360", "L-0372", "L-0393", "L-0511", "L-0708", "L-0765"],
-      "lines": ["2ac99534690301d5", "0a0c8a897091427f", "b3d57b9ee1d2bd5e", "772b76bacce237e7", "0fc55083b62c9560", "e524726d2c84398c", "88ed84958201406d", "ac4acf44f1c43bb5"],
+      "ids": ["L-0268", "L-0279", "L-0360", "L-0372", "L-0393", "L-0511", "L-0708", "L-0765", "L-0825"],
+      "lines": ["2ac99534690301d5", "0a0c8a897091427f", "b3d57b9ee1d2bd5e", "772b76bacce237e7", "0fc55083b62c9560", "e524726d2c84398c", "88ed84958201406d", "ac4acf44f1c43bb5", "d0f30881d850b9e5"],
       "removed": []
     },
     {
