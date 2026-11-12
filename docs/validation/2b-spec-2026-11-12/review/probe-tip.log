@@ -1,0 +1,50 @@
+A (≈ 9.7°): hw 150 cm, way:2 to (4000, 1600)
+   X main: 3 pts; the construction's main: 3 pts (warnings ); X vs construction 0.00 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 0.00 cm
+   S9 under P (X served): ok; committed vs X 0.00 cm (bound 73.54) => within
+   X main ring: 2263,1150 4000,1150 4000,1448
+   X all rings: 2263,1150 4000,1150 4000,1448
+   construction all rings: 2263,1150 4000,1150 4000,1448
+   S9 under P, face of the seed (3421, 1249): 4000,1448 2263,1150 4000,1150
+B (≈ 16.0°): hw 150 cm, way:2 to (4000, 2000)
+   X main: 3 pts; the construction's main: 3 pts (warnings ); X vs construction 0.00 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 0.00 cm
+   S9 under P (X served): ok; committed vs X 0.00 cm (bound 73.54) => within
+   X main ring: 1570,1150 4000,1150 4000,1844
+   X all rings: 1570,1150 4000,1150 4000,1844
+   construction all rings: 1570,1150 4000,1150 4000,1844
+   S9 under P, face of the seed (3190, 1381): 4000,1844 1570,1150 4000,1150
+C (≈ 29.7°): hw 150 cm, way:2 to (4000, 3000)
+   X main: 3 pts; the construction's main: 3 pts (warnings ); X vs construction 0.00 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 0.00 cm
+   S9 under P (X served): ok; committed vs X 0.00 cm (bound 73.54) => within
+   X main ring: 1064,1150 4000,1150 4000,2828
+   X all rings: 1064,1150 4000,1150 4000,2828
+   construction all rings: 1064,1150 4000,1150 4000,2828
+   S9 under P, face of the seed (3021, 1709): 4000,2828 1064,1150 4000,1150
+D (≈ 6.5°): hw 100 cm, way:2 to (4000, 1400)
+   X main: 3 pts; the construction's main: 3 pts (warnings ); X vs construction 1.00 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 1.00 cm
+   S9 under P (X served): ok; committed vs X 0.00 cm (bound 73.54) => within
+   X main ring: 2252,1100 4000,1100 4000,1300
+   X all rings: 2252,1100 4000,1100 4000,1300
+   construction all rings: 2251,1100 4000,1100 4000,1300
+   S9 under P, face of the seed (3417, 1167): 4000,1300 2252,1100 4000,1100
+E (9.7°, a vertex-only contact): hw 150 cm, way:2 to (3000, 1429)
+   X main: 8 pts; the construction's main: 7 pts (warnings W_ATTRACTED,W_STRETCH_SHARED); X vs construction 5.66 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 5.66 cm
+   S9 under P (X served): ok; committed vs X 12.00 cm (bound 73.54) => within
+   X main ring: 0,1150 487,1150 2850,1556 2850,3900 2857,3946 2879,3988 2891,4000 0,4000
+   X all rings: 0,1150 487,1150 2850,1556 2850,3900 2857,3946 2879,3988 2891,4000 0,4000 | 2262,1150 4000,1150 4000,4000 3109,4000 3121,3988 3143,3946 3150,3900 3150,1429 3148,1416 3148,1407 3145,1398 3143,1383 3138,1374 3135,1363 3126,1350 3121,1341 3115,1335 3107,1324 3095,1315 3088,1308 3081,1304 3070,1296 3057,1292 3046,1286 3035,1284 3025,1281
+   construction all rings: 0,1150 500,1150 2854,1552 2850,3900 2857,3946 2891,4000 0,4000 | 2261,1150 4000,1150 4000,4000 3121,4000 3143,3946 3150,3900 3133,1499 3148,1454 3148,1407 3135,1363 3107,1324 3070,1296 3025,1281 2957,1269
+   S9 under P, face of the seed (1852, 2961): 0,1150 487,1150 2850,1556 2850,3900 2857,3946 2879,4000 0,4000
+   [construction] the L2 face at (2500, 1165): face level 2 4000,1209 3946,1187 3900,1180 1500,1180 1454,1187 1412,1209 1379,1242 1357,1284 1357,1318 1064,1150 4000,1150
+   [P] the L2 face at (2500, 1165): face level 2 4000,1221 3946,1187 3900,1180 1500,1180 1454,1187 1412,1209 1379,1242 1357,1284 1352,1315 1064,1150 4000,1150
+F (a 30 cm strip between two bands): hw 150 cm, way:2 to (4000, 3000)
+   X main: 6 pts; the construction's main: 5 pts (warnings W_ATTRACTED,W_STRETCH_SHARED); X vs construction 3.76 cm
+   S9 under the construction: ok; committed vs construction 0.00 cm; committed vs X 3.76 cm
+   S9 under P (X served): ok; committed vs X 12.00 cm (bound 73.54) => within
+   X main ring: 4000,1439 4000,2828 1642,1480 3900,1480 3946,1473 3988,1451
+   X all rings: 1064,1150 4000,1150 4000,1221 3988,1209 3946,1187 3900,1180 1500,1180 1454,1187 1412,1209 1379,1242 1357,1284 1352,1315 | 4000,1439 4000,2828 1642,1480 3900,1480 3946,1473 3988,1451
+   construction all rings: 1064,1150 4000,1150 4000,1209 3946,1187 3900,1180 1500,1180 1454,1187 1412,1209 1379,1242 1357,1284 1357,1318 | 4000,1439 4000,2828 1640,1480 3900,1480 3946,1473
+   S9 under P, face of the seed (3579, 1692): 4000,2828 1642,1480 3900,1480 3946,1473 4000,1451

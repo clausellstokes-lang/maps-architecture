@@ -1,0 +1,8 @@
+X (reduced parts): 2 ring(s)
+   3 pts, area 2000.0 cm², x-extent 4000 cm, mean width 0.500 cm: 0,1000 4000,1000 4000,1001
+   4 pts, area 6798000.0 cm², x-extent 4000 cm, mean width 1699.500 cm: 0,1300 4000,1301 4000,3000 0,3000
+X (A with a collinear T-vertex at (1900, 1000)): 2 ring(s)
+   3 pts, area 1050.0 cm², x-extent 2100 cm, mean width 0.500 cm: 1900,1000 4000,1000 4000,1001
+   4 pts, area 6798000.0 cm², x-extent 4000 cm, mean width 1699.500 cm: 0,1300 4000,1301 4000,3000 0,3000
+Hausdorff X vs X-with-T (boundary samples, cm): 300.40
+Hausdorff of the large components only: 0.00
