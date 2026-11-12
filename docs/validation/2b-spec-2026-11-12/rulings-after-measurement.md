@@ -405,3 +405,76 @@ fourth pass attacks them with the entries.
 The five inconsistencies the seat names are these same corrections (Q8, Q14, Q3 with Q7, Q10, Q15). NEXT: the
 reviewer's fourth pass on `v3/` and on the two sections above; the red list under the ladder into round B's entry
 when the suite ends; then round A binds on S20's landed tree.
+
+## After the reviewer's fourth pass (`review/review-4.md`; 15:16Z) — the ladder STANDS as the design, its claim restated; round A may bind once nine fixes are folded in; round B may not bind yet
+
+The reviewer read the ladder's two patches, the prototype's counters, the transaction code and both entries line by
+line: 1 BLOCKER (round B's alone), 13 MUST-FIX, 4 NOTES. This seat read the review whole. Every finding is ACCEPTED;
+the rulings below say how.
+
+**THE CLAIM IS RESTATED (U-3) — and this seat's own sentence is corrected.** "By construction no network the base
+commits can be refused" was too strong. It holds BY CONSTRUCTION only for an operation that meets the base's own arena
+within the batch's work limit — a network's first operation. A later operation of the same network (a band laid after a
+corridor union that took the first rung), every later district batch, and S8's shifted trajectory meet an arena the
+base never had: there the claim is A MEASURED FACT at one seed (none refused of 12 000 networks), and stays a FAILING
+bar at the seed. And at a FINITE work limit the first rung's work stays charged (Q5), so a first rung can exhaust the
+batch and the operation refuses where the base, spending only the second rung's work, commits: a DECLARED CLASS, pinned
+by a planted limit (the refusal typed E_WORK_LIMIT; no silent second rung on a doomed batch), not met at M0 (no
+registered S9 limit; B-FUZZ's is 10⁶), and closed at M1 by a work law declared over both rungs (item 989's
+re-declaration; a queue row at the binding).
+
+* **U-1 (BLOCKER, round B): ACCEPTED.** Q152's six are red on the head WITH the construction serving, so re-pointing
+  them to the construction cannot turn them green, and Q13's table (accepted above) is WITHDRAWN. Round B's line names,
+  for each of the six, which ASSERTION goes where: laws and internals to the construction's read; every kerb or face
+  LITERAL re-judged by the two-sided check against the served value, with group A's proposed values and group B's
+  cause quoted from M0-a-05 S14's verdict; a literal that stays red on the construction for M0-a-05's reason stays a
+  DECLARED red with its queue row and is no failing condition of the round. Written when S14 has landed.
+* **U-2: ACCEPTED.** The second rung is compared with a CONSTRUCTION-ONLY run of the same operation on a COPY of the
+  arena taken before the first rung — bit-identity of the arena asserted before the first rung and before the second —
+  on EVERY operation the build's own B-FUZZ run sends to the second rung; byte-equality with the base mirror is kept
+  only for each network's first operation. (The measurement showed "commits", never byte-equality; 29 of the 44
+  second-rung operations are band unions that meet an arena a first-rung corridor union changed.)
+* **U-4: ACCEPTED.** The switch is `setServedMode(p, mode)` — state of one arena, honoured only where DEBUG_BUILD.
+  Round A's bundle pin: the production code holds NONE of the exact read, the lay, the view, the ladders or the
+  switch's body (its size quoted) — which is what NO-SHIFT means; round B's: the ladder and the construction PRESENT.
+  The line that asserted the production bundle "holds the lay" in round A is dropped.
+* **U-5: ACCEPTED.** With the switch absent a refused operation runs ONE rung, exactly today's — pinned by a counter
+  (a refused operation run twice would charge its work twice and rewrite the closings, and no census line would show it).
+* **U-6, U-11: ACCEPTED.** Every list, bound and literal is keyed to the build's OWN run under the switch, never to
+  the prototype's; both entries are re-rendered from the rulings on Q1 – Q17 with every closed [OPEN] marker removed
+  (Q2's REPORTED-on-exceed, Q7's stop-at-REPORTED on a thick piece, Q15's presence pin, Q14's one sentence, Q5's pin).
+* **U-7: ACCEPTED; the thin measure is fixed as an EXACT test.** A piece is thin when its erosion by 13 cm (with §3.7's
+  own buffer parts) leaves no residue piece that holds a disc of 1 cm radius — decided on the residue piece ITSELF
+  (each of its vertices and edge midpoints within 2 cm of an edge not incident to it), never by a second buffer at
+  1 cm, whose arcs are one chord per half turn. Pins at three rotations: strips of 26 and 27 cm thin, 29 and 30 cm not
+  thin, a 26 cm sliver that leaves a residue ring thin; a strip between 27.5 and 28.5 cm is the measure's declared
+  tolerance and carries no pin.
+* **U-8: ACCEPTED.** Cause (iii) of the closed list gets a WITNESS — the commit's insertion placed or attracted a
+  vertex within the attraction distance of the difference onto content the lone lay did not meet, and that content is
+  named (another face's laid piece, a seam kerb, a pinned contact of this operation) — or it is dropped; the planted
+  control (a non-exact block 2 cm thick near no other face) must then FAIL.
+* **U-9: ACCEPTED; the contract sentence is what is barred, no more:** the planned and the committed block differ only
+  by pieces thinner than the attraction distance (to the lattice's tolerance of 2 cm), everywhere; at every registered
+  seed they are equal within the bound, every inexact block by a named cause. §3.7's text says what each rung serves:
+  the first omits needles and slivers and may include the half-band of a way narrower than twice the attraction
+  distance; the second serves what the construction reads. Round A REPORTS (no bar) bound-plus-causes on every
+  first-rung face of the population.
+* **U-10: ACCEPTED; the paragraph for the owner is corrected in four places** — "none of the layouts today's method
+  accepts was refused in our test population" (not "can be"); "barred at every seed we test before release, counted
+  everywhere else"; "about 26 cm"; and one sentence that today's method becomes a PERMANENT part of the product as the
+  second rung. This seat's own status line to the owner at 15:05Z said the ladder "refuses nothing that today's method
+  builds"; the next status says it as measured.
+* **U-12: ACCEPTED.** The second rung's `offRead` re-reads through the second rung's own read source; the corrected
+  byte-equality of U-2 is run on a closing network too.
+* **U-13: ACCEPTED.** The key-list pin's runtime half compares against the list less its optional keys, and pins a
+  declared batch (which carries `prepared`) as well as a callback batch.
+* **U-14: ACCEPTED.** GEO-9's exception names the outlines that `kerb`, `corridorUnion` and `bandUnion` lay.
+* **U-15 – U-18 (notes): TAKEN.** The price is harmless to what S8 hands on at M0 (lane ends sit on spines or
+  width-less edges, never on the kerb outline; seeds are poles) and is watched at M1 through the S9 receipt's rung
+  count; round A's harness REPORTS the faces read on different rungs within one S8 run; the withdrawal of item
+  990 (b)'s planned removal is written into the amendment; the closings are cleared at the start of each rung under
+  the ladder (the base path's diagnostic untouched in round A).
+
+NEXT: the spec seat renders `v4/` — round A's entry final but for its base (S20's landed tree), round B's entry with
+its three open slots named (U-1's routing after S14 lands; the red list under the ladder; round A's own figures). ROUND
+A BINDS on S20's landing with the nine fixes in; ROUND B is not bound.
