@@ -152,7 +152,7 @@ definition (the prototype's spike-eating does not cut a long wedge between two l
 what happens to a hole that becomes thin) and the L3-over-L2 input are DESIGNED in the re-draft, measured on the same
 population (the refusal classes at or below the base's, class by class), and attacked before anything binds.
 
-## The re-draft (`v2/design.md`, `v2/spec-2b-v2.json`; 12:25Z) and the session's provisional rulings on its open questions
+## The re-draft (`v2/design.md`, `v2/spec-2b-v2.json`; 12:21Z) and the session's provisional rulings on its open questions
 
 A spec seat re-drafted the round on the lay-planned read with a resolution rule: fifteen lines, every review finding
 answered (its section 10), the rule R defined, the lay's kernel form designed, the contract text written, a measurement
