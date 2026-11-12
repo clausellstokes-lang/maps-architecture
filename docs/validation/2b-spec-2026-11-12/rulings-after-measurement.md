@@ -270,3 +270,65 @@ control" (it remains the control too). What the ladder gives up: nothing of the 
 and no op fell to rung 2 there in any P′ run); in the rare district where the commit falls to rung 2 after its faces
 were planned on rung 1, the committed block differs from the planned one by what the construction differs from the lay
 — to be measured (step 11) and stated. The measurement seat is running the ladder on the same population and seeds.
+
+## The ladder measured (`measurement/step11-ladder.md`; 14:50Z) — THE LADDER IS THE SESSION'S CHOICE; its price is declared, counted and barred
+
+The measurement seat built the ladder with no rule at all (`measurement/ladder-kerb.diff`, `ladder-bandUnion.diff`) and
+ran it on the same population and seeds.
+
+* **B-FUZZ, seed 20261112.** 9 997 main and 2 000 widened networks committed (the base: 9 984 and 1 987). It refuses 4
+  networks, and the base refuses all 4: NO NETWORK THE BASE COMMITS IS REFUSED, and 30 of the base's 34 refused networks
+  commit. No kerb read refuses. The second rung served 9 of 28 673 reads and 44 of 22 698 operations; 4 operations
+  refuse on both rungs (two the construction's own post-conditions, two 'no route … keeps clearance').
+* **The harness (four test-size seeds; fusion 3 and integrated 4 at CITY).** No read and no operation fell to the second
+  rung at any seed, so the figures are the lay-planned read's: the S8 ≡ S9 exact share 0.973, 1.000, 0.983, 1.000 and
+  0.998, 0.999 (the base 0.961 – 0.991); none beyond the bound; no S8 or S9 refusal; no 'unresolved' rung. Every
+  non-exact block is listed with its cause and every difference is thin; four blocks the base does not list differ by
+  one sliver 0.4 – 1 cm thick — the lone lay against the district's commit, a hot pixel apart.
+* **Cost at CITY (source mode).** 11.95 ms a read (the construction 38.8); S8 34.5 ms a cut (the construction 98.0).
+* **THE PRICE, measured (step 11 §3).** Where the two rungs differ inside ONE district the planned block and the
+  committed block can differ beyond the bound by a NEEDLE. Over the 46 networks P or the lay refused: 44 faces in 13
+  networks were read on rung 1 and committed on rung 2 — Hausdorff 0 on 23, at most 1 cm on 3, 1 – 73.5 cm on 16, and
+  beyond 73.5 cm on 2 (299 and 514 cm); the reverse (a lone lay on rung 2, its district on rung 1) on 2 faces (0 and
+  406.7 cm). EVERY difference piece is thin (44 of 44; 2 of 2: erosion by 13 cm leaves nothing). It was never seen at a
+  harness seed.
+* **The undo before the second rung.** Every refusal inside the engine's loop returns through the operation's own
+  savepoint — except the work-limit exit (`overLimit` after `dropSpurs`), where the batch is doomed and the ladder takes
+  no second rung (0 times in every run).
+* **Under the ladder** Q152's six bands tests stay red with the assertions they show under P and the lay (each pins the
+  construction's served read or a literal on the exact outline), and kernel/test/tx/savepoint.test.ts :425 is red (a
+  kerb read now opens the lay's operation frames, not 'dry-run' frames; cost.test.ts and oracle.test.ts are green).
+  The whole-suite red list under the ladder is still running.
+
+RULED (provisional, vetoable; a change of a kernel contract — it binds only after the reviewer's fourth pass):
+
+1. **THE LADDER IS ROUND 2B's DESIGN.** P is refused, H is refused, R is dropped (above); the ladder is the one design
+   measured that clears every bar at once. The construction stays in the kernel as the second rung.
+2. **THE PRICE IS DECLARED, COUNTED AND BARRED — never silent.**
+   (a) *Counted.* The commit says which rung it took: `corridorUnion` and `bandUnion` report it in their result, and a
+   `kerb(F)` read likewise — additive members whose names and standing under the frozen API the spec seat proposes and
+   the reviewer attacks.
+   (b) *Barred where the product lives.* At every harness seed M0 registers (the fusion and integrated families, test
+   size and CITY) NO read and NO operation takes the second rung — a FAILING bar of the shift round. There `beyond` 0
+   stands unqualified, with the 0.95 floor and the closed list of causes (to which 'the lone lay against the district's
+   commit, a hot pixel apart: one sliver under 1 cm thick' is added, mechanically checked).
+   (c) *Barred in the stress population.* On every face of every network of the B-FUZZ bands population, the mixed
+   faces among them, every piece of the two-way difference between the face's served read and its committed block is
+   THIN — erosion by 13 cm leaves nothing (the radius the measurement used; the 9.58 cm of the third review's T-3 fails
+   its own strip pin) — a FAILING bar; and the count of mixed faces at the seed is pinned as a literal.
+   (d) *Declared.* The contract's sentence: a planned block equals its committed block within the bound; in a district
+   whose commit took another rung than a face's read, they may differ by pieces thinner than the attraction distance,
+   of any length, and by nothing else.
+3. **NO REPLAN IS BUILT.** Re-reading a district's faces on the commit's rung after a second-rung commit would need a
+   read that can be told its rung — kept state, the objection that refused H. M0's pipeline counts second-rung commits
+   in its S9 receipt (0 at every registered seed, pinned); if a registered seed ever shows one, the replan is the open
+   alternative, with its own ruling. A queue row at the binding.
+4. **The work-limit exit takes no second rung** (a doomed batch refuses as today) — pinned by a planted limit.
+5. **The split stands.** Round A (no shift) builds the lay and the ladder UNSERVED and measures them as a shadow beside
+   the served construction at CITY and in B-FUZZ (the figures above re-made by the build's own harness, the rung
+   counts among them); round B serves the ladder, retires `offRead` as ruled, re-points or re-judges Q152's six and
+   savepoint.test.ts :425 with the measured red list, and carries the bars of 2.
+
+NEXT: the spec seat re-drafts as two entries on these rulings and figures (no rule R anywhere); the reviewer's fourth
+pass reads them and this section; the measured red list under the ladder joins round B's entry when the suite ends;
+round A binds on S20's landed tree.

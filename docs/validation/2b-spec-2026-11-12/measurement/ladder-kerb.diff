@@ -1,0 +1,688 @@
+--- s20-src/kerb.ts	2026-11-12 07:05:44.065448222 +0000
++++ kerb.LAD.ts	2026-11-12 13:50:56.528028798 +0000
+@@ -146,14 +146,16 @@
+ import { HOT_PIXEL_CM, query } from '../index/index.js';
+ import { addWarning, insertTx, type InsertTx } from '../insert/classes.js';
+ import { insertChain } from '../insert/insertChain.js';
+-import { nearParallel } from '../insert/stretch.js';
++import { nearParallel, withinSegment } from '../insert/stretch.js';
+ import { area2, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+ import { cutKnot, knotLines, routeLines } from '../tx/profile.js';
+-import { check, openTx, type OpenTx } from '../tx/state.js';
++import { check, markOpen, openTx, type OpenTx } from '../tx/state.js';
+ import type { Overlay } from '../tx/index.js';
+ import type { ChainProfile, ChainRef, Cm, Level, LatticePoint } from '../types/index.js';
+ import { bufferParts, SAGITTA_CM } from './buffer.js';
+ import { canonicalRing, compareRings, dropStraight, simpleLoops, type Ring } from './winding.js';
++import { exactKeyContentOfRead, exactRegion, exactRegionOfKey } from './kerbExact.js';
++import { bandCore, type BandResult } from './bandUnion.js';
+ 
+ /** A spine's declared ends (§3.7: round joins, "square ends where declared"). */
+ export type SpineEnd = 'round' | 'square';
+@@ -2178,6 +2180,42 @@
+  * only: the arena, its index and the batch's work, warnings and journals are as the read found them.
+  */
+ export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
++  // THE LADDER's rung 2 for an op (step 11): while the engine re-runs an op that refused on X, every read is the construction's
++  if (CONSTRUCTION_READS) return constructionRead(o, face, widths, cache, vertexContacts);
++  // the lay's own read handed to its engine (v2 design 3.3, S-9: no second X)
++  if (HANDED !== null && HANDED.face === face && HANDED.vertexContacts === vertexContacts && HANDED.p === openTx(o).plat) return ok(HANDED.read, []);
++  // ROUND 2B PROTOTYPE P (a scratch mirror; draft 2.1): the served read is the pure exact function X — readFace, the
++  // key's content, X = exactRegionOfKey(content), the spine map (edge spines plus the reaching vertex-only ones), the
++  // splits on X. No dry run, no savepoint, no insertChain. The construction stays callable as `constructionRead`.
++  const t = openTx(o);
++  const p = t.plat;
++  const f = readFace(p, face, widths, cache, vertexContacts);
++  const content = exactKeyContentOfRead(f, vertexContacts);
++  if (!content.ok) {
++    CENSUS.set(p, { face, reaching: [], refusedAt: null, faithful: 'none' });
++    return err(content.code, content.detail);
++  }
++  const c = content.value;
++  const env = (globalThis as unknown as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
++  const X0 = exactRegionOfKey(c);
++  // THE LADDER (step 11): no resolution rule — X as exactRegionOfKey gives it
++  const X = X0;
++  void env;
++  const spines = new Map<string, Spine>(f.spines);
++  for (const s of f.through) if (c.reaching.includes(s.key)) spines.set(s.key, s);
++  CENSUS.set(p, { face, reaching: c.reaching.slice(), refusedAt: null, faithful: 'none' });
++  const sp = splitsOn(p, f.edges, spines, X.map((r) => r.slice()));
++  if (!sp.ok) return err(sp.code, sp.detail);
++  const census = f.through.length > 0 ? { census: { base: ok<Ring[]>(c.edgeRegion.map((r) => r.slice())), reaching: c.reaching.slice() } } : {};
++  const value: KerbRead = { face, rings: f.rings, edges: f.edges, spines, kerb: sp.value.rings, splits: sp.value.splits, warnings: [], region: X.map((r) => r.slice()), ...census };
++  return ok(value, []);
++}
++
++/**
++ * The construction (round 2B prototype: the base's `readKerb` body, unchanged) — the dry run on the open transaction's
++ * arena, kept callable for the cross-check.
++ */
++export function constructionRead(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
+   const t = openTx(o);
+   const p = t.plat;
+   const sh = readShadow;
+@@ -2254,9 +2292,620 @@
+  * Read-only, on the open transaction's arena (the dry-run); the warnings are its insertions' (§3.7's split reads them).
+  */
+ export function kerb(tx: Overlay, face: FaceId, widths: SpineWidths): KernelResult<Ring[]> {
+-  const r = readKerb(tx, face, widths);
+-  if (!r.ok) return err(r.code, r.detail);
+-  return ok(r.value.kerb, r.value.warnings);
++  // ROUND 2B PROTOTYPE P': the served kerb is X as the door lays it
++  // THE LADDER (step 11): rung 1 the lay of X; where it refuses, rung 2 the construction's read
++  {
++    const l1 = layRead(tx, face, widths);
++    if (l1.ok) {
++      LADDER.reads1 += 1;
++      ladderDump(false);
++      return l1;
++    }
++    const l2 = constructionRead(tx, face, widths);
++    if (l2.ok) {
++      LADDER.reads2 += 1;
++      if (LADDER.reads2Why.length < 40) LADDER.reads2Why.push(`${l1.code} ${l1.detail.slice(0, 120)}`);
++      ladderDump(true);
++      return ok(l2.value.kerb, l2.value.warnings);
++    }
++    LADDER.readsBoth += 1;
++    ladderDump(true);
++    return err(l2.code, l2.detail);
++  }
++}
++
++/**
++ * ROUND 2B PROTOTYPE P' (the lay-planned read; the review's third design): X read as P serves it, then X's outline and
++ * splits laid by the COMMIT'S OWN CODE — `bandCore` on this one face at L2, corridorUnion's spec — in the open
++ * transaction under an op savepoint, the built blocks read back (the L2 faces the engine classes as blocks; the face
++ * itself where it is left whole; none where it is all band), and everything put back. Mirror-only; served by kerb() (S9's own reads, readKerb, stay X).
++ */
++function layRead(o: Overlay, face: FaceId, widths: SpineWidths): KernelResult<Ring[]> {
++  const G = (globalThis as unknown as { __p2b?: Record<string, number>; __p2bLay?: unknown[] });
++  const now = (): number => (globalThis as unknown as { performance: { now(): number } }).performance.now();
++  const t0 = now();
++  const r = readKerb(o, face, widths);
++  if (!r.ok) {
++    if (G.__p2b !== undefined) G.__p2b.layXRefused = (G.__p2b.layXRefused ?? 0) + 1;
++    return err(r.code, r.detail);
++  }
++  const t = openTx(o);
++  const ic0 = G.__p2b?.insertChain ?? 0;
++  const t1 = now();
++  const p = t.plat;
++  const h = p.faces[1].owner[face];
++  // S-3 (v2 design 3.3): an unowned face is laid under a placeholder entity (its rows are undone with the rest)
++  const entity = h >= 0 ? idOf(p, h) : 'kerb-lay:placeholder';
++  // a face walk as simple rings (a hole touching the outer ring at a vertex is a loop of the walk, `simpleLoops`)
++  const walkLoops = (walk: readonly HalfEdgeId[]): Ring[] => {
++    const out: Ring[] = [];
++    for (const loop of simpleLoops(walk.map((hh) => p.halfEdges.origin[hh]))) {
++      const q = unspiked(loop.map((v) => ({ x: p.vertices.x[v] as Cm, y: p.vertices.y[v] as Cm })) as Ring);
++      if (q.length >= 3 && area2(q) !== 0) out.push(canonicalRing(q));
++    }
++    return out;
++  };
++  const save = opSave(t);
++  // the batch's work as the read found it (opSave keeps work charged; a read charges nothing, as the dry run's shell did not)
++  const w0 = { total: t.work.total, counts: new Map(t.work.counts) };
++  // the view (v2 design 3.2): the batch's arena and frames at max(2, level), its own work from 0 under the declared limit
++  const t2 = { ...t, level: (t.level < 2 ? 2 : t.level) as Level, work: { total: 0, counts: new Map<string, number>() }, failed: null } as OpenTx;
++  markOpen(t2); // the copy at L2 is an open transaction of the same batch (mirror-only)
++  let out: KernelResult<Ring[]>;
++  let why = 'ok';
++  try {
++    HANDED = { p, face, vertexContacts: true, read: r.value };
++    IN_LAY = true;
++    let res: KernelResult<BandResult>;
++    try {
++      res = bandCore(t2, [face], { widths, edgeRole: 'kerb', entityOf: () => entity, owner: null, vertexContacts: true });
++    } finally {
++      HANDED = null;
++      IN_LAY = false;
++    }
++    if (!res.ok) {
++      out = err(res.code, res.detail);
++      why = `refused ${res.code} ${res.detail}`;
++    } else {
++      const rings: Ring[] = [];
++      if (res.value.whole.includes(face)) {
++        // S-2 (review 2): a face left whole is its own child at L2 — the commit's block is F itself, so the lay serves F's
++        // own rings (its L1 walk), never X
++        const own: Ring[] = [];
++        for (const walk of faceWalk(p, 1, face)) own.push(...walkLoops(walk));
++        for (const q of own) rings.push(q);
++      }
++      for (const c of res.value.blocks) {
++        for (const walk of faceWalk(p, t2.level, c)) rings.push(...walkLoops(walk));
++      }
++      out = ok(rings.sort(compareRings), []);
++      if (res.value.wholeBand.includes(face)) why = 'wholeBand';
++    }
++  } finally {
++    rollback(t, save, err('E_INVARIANT', 'lay: the dry lay put back'));
++    (t.work as { total: number }).total = w0.total;
++    t.work.counts.clear();
++    for (const [k, v] of w0.counts) t.work.counts.set(k, v);
++  }
++  const t3 = now();
++  if (G.__p2b !== undefined) {
++    const C = G.__p2b;
++    C.layReads = (C.layReads ?? 0) + 1;
++    C.layMs = (C.layMs ?? 0) + (t3 - t1);
++    C.layXMs = (C.layXMs ?? 0) + (t1 - t0);
++    C.layInsertChain = (C.layInsertChain ?? 0) + ((C.insertChain ?? 0) - ic0);
++    C.layWork = (C.layWork ?? 0) + t2.work.total;
++    if (!out.ok) C.layRefused = (C.layRefused ?? 0) + 1;
++  }
++  if (G.__p2bLay !== undefined) G.__p2bLay.push({ face, why, F: r.value.rings, spines: [...r.value.spines.keys()], X: r.value.kerb, laid: out.ok ? out.value : null });
++  return out;
++}
++
++/** THE LADDER's state and counters (step 11; mirror-only). */
++let CONSTRUCTION_READS = false;
++let IN_LAY = false;
++const LADDER = { reads1: 0, reads2: 0, readsBoth: 0, ops1: 0, ops2: 0, opsBoth: 0, opsSkipped: 0, reads2Why: [] as string[], ops2Why: [] as string[] };
++export function ladderStats(): typeof LADDER {
++  return LADDER;
++}
++export function ladderInLay(): boolean {
++  return IN_LAY;
++}
++export function setConstructionReads(on: boolean): void {
++  CONSTRUCTION_READS = on;
++}
++let ladderN = 0;
++/** Writes the ladder's counters to P2B_LSTATS (every op event, every 200 reads; mirror-only). */
++export function ladderDump(now: boolean): void {
++  ladderN += 1;
++  if (!now && ladderN % 200 !== 0) return;
++  const pr = (globalThis as unknown as { process?: { env?: Record<string, string | undefined>; getBuiltinModule?: (n: string) => { writeFileSync(p: string, s: string): void } } }).process;
++  const out = pr?.env?.P2B_LSTATS;
++  const fs = pr?.getBuiltinModule?.('node:fs');
++  if (out !== undefined && fs !== undefined) fs.writeFileSync(out, JSON.stringify(LADDER));
++}
++
++/** The lay's handed read (v2 design 3.3): readKerb returns it for its face while the lay's engine runs. */
++let HANDED: { p: Plat; face: FaceId; vertexContacts: boolean; read: KerbRead } | null = null;
++
++/** The rule's checks (env P2B_RCHECK=1; mirror-only): idempotence, start / order freedom (1 %), X Δ R(X) thin. */
++interface RCheck { p2NoP0: number; p2NoP0Over5: number; reads: number; notIdempotent: number; sampled: number; orderDependent: number; diffPieces: number; diffPiecesThick: number; thickExamples: string[]; bThin: number; bThinKeptByP1: number }
++const R_CHECK: RCheck = { p2NoP0: 0, p2NoP0Over5: 0, reads: 0, notIdempotent: 0, sampled: 0, orderDependent: 0, diffPieces: 0, diffPiecesThick: 0, thickExamples: [], bThin: 0, bThinKeptByP1: 0 };
++export function rCheckStats(): RCheck {
++  return R_CHECK;
++}
++function rCheck(X0: readonly Ring[], RX: readonly Ring[], B: readonly (readonly LatticePoint[])[], extra: readonly RSeg[]): void {
++  const save = { ...R_STATS };
++  const T = (rs: readonly Ring[]): string => JSON.stringify(rs);
++  R_CHECK.reads += 1;
++  if (T(resolutionRuleR(RX, B, extra)) !== T(RX)) R_CHECK.notIdempotent += 1;
++  {
++    const p2a = R_STATS.p2Dropped;
++    const p2b = R_STATS.p2DroppedOver5;
++    resolutionRuleR(X0, B, extra, true);
++    R_CHECK.p2NoP0 += R_STATS.p2Dropped - p2a;
++    R_CHECK.p2NoP0Over5 += R_STATS.p2DroppedOver5 - p2b;
++  }
++  if (R_CHECK.reads % 100 === 1) {
++    R_CHECK.sampled += 1;
++    // every ring rotated to start at its middle vertex, and the ring list reversed
++    const rot = [...X0].reverse().map((r) => { const k = Math.floor(r.length / 2); return [...r.slice(k), ...r.slice(0, k)] as Ring; });
++    if (T(resolutionRuleR(rot, B, extra)) !== T(RX)) R_CHECK.orderDependent += 1;
++  }
++  // rule (b)'s 2A/P < 26 components that P1 keeps (it holds a disc of diameter A)
++  for (const r of X0) {
++    const a2 = area2(r);
++    if (!(a2 > 0)) continue;
++    let per = 0;
++    for (let i = 0; i < r.length; i += 1) per += Math.hypot(r[(i + 1) % r.length].x - r[i].x, r[(i + 1) % r.length].y - r[i].y);
++    if (per > 0 && a2 / per < R_A) {
++      R_CHECK.bThin += 1;
++      const hs = X0.filter((h) => area2(h) < 0 && rInOrOn(r, h[0]));
++      if (!rErodesEmpty([r, ...hs])) R_CHECK.bThinKeptByP1 += 1;
++    }
++  }
++  // every piece of X Δ R(X) thin (its erosion by A/2 empty)
++  if (T(X0) !== T(RX)) {
++    const pieces = [...(X0.length ? exactRegion(X0, RX) : []), ...(RX.length ? exactRegion(RX, X0) : [])];
++    for (const q of pieces) {
++      if (!(area2(q) > 0)) continue;
++      R_CHECK.diffPieces += 1;
++      if (!rErodesEmpty([q])) {
++        R_CHECK.diffPiecesThick += 1;
++        if (R_CHECK.thickExamples.length < 10) R_CHECK.thickExamples.push(q.map((v) => `${String(v.x)},${String(v.y)}`).join(' ').slice(0, 400));
++      }
++    }
++  }
++  Object.assign(R_STATS, save);
++  const env = (globalThis as unknown as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
++  const out = env.P2B_RSTATS;
++  if (out !== undefined && R_CHECK.reads % 200 === 0) rDump(out);
++}
++/** Writes the rule's counters to a file (mirror-only). */
++export function rDump(path: string): void {
++  const pr = (globalThis as unknown as { process?: { getBuiltinModule?: (n: string) => { writeFileSync(p: string, s: string): void } } }).process;
++  const fs = pr?.getBuiltinModule?.('node:fs');
++  if (fs !== undefined) fs.writeFileSync(path, JSON.stringify({ stats: R_STATS, check: R_CHECK }));
++}
++
++// ---- ROUND 2B (v2 design, section 11): THE RESOLUTION RULE R (mirror-only) -----------------------------------------
++//
++// R(X, B) exactly as the measurement request writes it (A = attractCm = 26; lattice integers; exact predicates): the
++// fixpoint of S (each vertex of X off B snapped onto B within A: a vertex of B first, else the snapped foot on the nearest
++// edge; the move kept only where its ring stays simple, crosses no other ring and keeps its area's sign), P1 (components and
++// holes holding no disc of diameter A: area2 ≤ (A + 1)·perimeter, then the exact erosion by A/2 with the kernel's own
++// buffers is empty) and P2 (spike tips: neighbours nearer than A, the tip farther from their line than they are apart, no
++// other vertex in the closed triangle). B: F's L1 route rings; at a read of batch level n ≥ 3 (the L3 variant, env
++// P2B_R_L3=1) also every edge of levels 2 … n−1 with both ends on or inside F's rings.
++
++interface RStats { reads: number; snapped: number; undone: number; undoneLeavesF: number; ringsDropped: number; p1Components: number; p1Holes: number; p0Dropped: number; p2Dropped: number; p2DroppedOver5: number; passes: number; maxPasses: number; changedReads: number; ms: number }
++const R_STATS: RStats = { reads: 0, snapped: 0, undone: 0, undoneLeavesF: 0, ringsDropped: 0, p1Components: 0, p1Holes: 0, p0Dropped: 0, p2Dropped: 0, p2DroppedOver5: 0, passes: 0, maxPasses: 0, changedReads: 0, ms: 0 };
++/** The rule's counters (mirror-only; read by the probes). */
++export function rStats(): RStats {
++  return R_STATS;
++}
++const R_A = LATTICE.attractCm;
++/** R+ (review-3 T-3): thinness = the erosion by A/2 − 2·HOT_PIXEL_CM − the round join's sagitta (2 cm) is empty. */
++// MEASURED (step 10): the formula's radius A/2 − 2·HOT_PIXEL_CM − 2 = 9.58 cm calls a 26 cm strip NOT thin (and a 25 cm
++// one), failing T-3's own pin (26 thin, 27 not); A/2 = 13 cm passes it (26 thin, 27 not). The runs use 13 cm.
++export const R_EROSION_FORMULA_CM = R_A / 2 - 2 * HOT_PIXEL_CM - 2;
++export const R_EROSION_CM = R_A / 2;
++
++type RSeg = readonly [LatticePoint, LatticePoint];
++
++function rArea2(r: readonly LatticePoint[]): number {
++  return area2(r as Ring);
++}
++function rPerimeter(r: readonly LatticePoint[]): number {
++  let s = 0;
++  for (let i = 0; i < r.length; i += 1) {
++    const a = r[i];
++    const b = r[(i + 1) % r.length];
++    s += Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
++  }
++  return s;
++}
++/** Exact: is q inside the ring or on it (non-zero winding with the boundary included)? */
++function rInOrOn(r: readonly LatticePoint[], q: LatticePoint): boolean {
++  let w = 0;
++  for (let k = 0; k < r.length; k += 1) {
++    const a = r[k];
++    const b = r[(k + 1) % r.length];
++    const o = orient2d(a.x, a.y, b.x, b.y, q.x, q.y);
++    if (o === 0 && q.x >= Math.min(a.x, b.x) && q.x <= Math.max(a.x, b.x) && q.y >= Math.min(a.y, b.y) && q.y <= Math.max(a.y, b.y)) return true;
++    if (a.y <= q.y) {
++      if (b.y > q.y && o > 0) w += 1;
++    } else if (b.y <= q.y && o < 0) w -= 1;
++  }
++  return w !== 0;
++}
++/** Exact squared distance of q to the segment e as a comparable pair: (num, den) with d² = num / den. */
++function rSegD2(q: LatticePoint, e: RSeg): [bigint, bigint] {
++  const [a, b] = e;
++  const dx = BigInt(b.x - a.x);
++  const dy = BigInt(b.y - a.y);
++  const l2 = dx * dx + dy * dy;
++  const px = BigInt(q.x - a.x);
++  const py = BigInt(q.y - a.y);
++  const dot = px * dx + py * dy;
++  if (dot <= 0n || l2 === 0n) return [px * px + py * py, 1n];
++  if (dot >= l2) {
++    const qx = BigInt(q.x - b.x);
++    const qy = BigInt(q.y - b.y);
++    return [qx * qx + qy * qy, 1n];
++  }
++  const cr = px * dy - py * dx;
++  return [cr * cr, l2];
++}
++function rCmp(u: [bigint, bigint], v: [bigint, bigint]): number {
++  const l = u[0] * v[1];
++  const r = v[0] * u[1];
++  return l < r ? -1 : l > r ? 1 : 0;
++}
++function rSegOrder(a: RSeg, b: RSeg): number {
++  const ka = [Math.min(a[0].y, a[1].y), Math.min(a[0].x, a[1].x), Math.max(a[0].y, a[1].y), Math.max(a[0].x, a[1].x)];
++  const kb = [Math.min(b[0].y, b[1].y), Math.min(b[0].x, b[1].x), Math.max(b[0].y, b[1].y), Math.max(b[0].x, b[1].x)];
++  for (let i = 0; i < 4; i += 1) if (ka[i] !== kb[i]) return ka[i] - kb[i];
++  return 0;
++}
++/** Do the closed segments a–b and c–d meet at a point that is not an endpoint both share? (exact) */
++function rMeetsOffShared(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): boolean {
++  if (!segmentsMeet(a, b, c, d)) return false;
++  const same = (u: LatticePoint, v: LatticePoint): boolean => u.x === v.x && u.y === v.y;
++  const shared = [a, b].filter((u) => same(u, c) || same(u, d));
++  if (shared.length === 0) return true;
++  // they share an endpoint: a meeting elsewhere is an overlap along a common line (collinear, beyond the shared point)
++  const o1 = orient2d(a.x, a.y, b.x, b.y, c.x, c.y);
++  const o2 = orient2d(a.x, a.y, b.x, b.y, d.x, d.y);
++  if (o1 !== 0 || o2 !== 0) return false;
++  const s = shared[0];
++  const other1 = same(s, a) ? b : a;
++  const other2 = same(s, c) ? d : c;
++  return (other1.x - s.x) * (other2.x - s.x) + (other1.y - s.y) * (other2.y - s.y) > 0;
++}
++/** Does ring i (as it now stands) cross any other ring (segments meeting off shared vertices)? */
++function rCrossesOthers(rings: readonly LatticePoint[][], i: number): boolean {
++  const r = rings[i];
++  for (let j = 0; j < rings.length; j += 1) {
++    if (j === i) continue;
++    const s = rings[j];
++    for (let k = 0; k < r.length; k += 1) {
++      const a = r[k];
++      const b = r[(k + 1) % r.length];
++      for (let m = 0; m < s.length; m += 1) if (rMeetsOffShared(a, b, s[m], s[(m + 1) % s.length])) return true;
++    }
++  }
++  return false;
++}
++/** The exact erosion test: is the region of `rings` (one component, or one hole reversed) within A/2 of its boundary? */
++function rErodesEmpty(rings: readonly LatticePoint[][]): boolean {
++  const parts: Ring[] = [];
++  for (const r of rings) {
++    const n = r.length;
++    if (n < 2) continue;
++    const pts = [...r, r[0], r[1 % n]];
++    const bp = bufferParts([pts], R_EROSION_CM, 'round', 'flat');
++    if (!bp.ok) return false;
++    for (const q of bp.value) parts.push(q);
++  }
++  return exactRegion(rings, parts).length === 0;
++}
++
++function resolutionRuleR(X: readonly Ring[], Brings: readonly (readonly LatticePoint[])[], extra: readonly RSeg[], noP0 = false): Ring[] {
++  const t0 = rNow();
++  const A2 = R_A * R_A;
++  const rings: LatticePoint[][] = X.map((r) => r.slice());
++  const bEdges: RSeg[] = [];
++  for (const r of Brings) for (let i = 0; i < r.length; i += 1) bEdges.push([r[i], r[(i + 1) % r.length]]);
++  for (const e of extra) bEdges.push(e);
++  const bVerts: LatticePoint[] = [];
++  {
++    const seen = new Set<string>();
++    for (const [a, b] of bEdges) for (const v of [a, b]) {
++      const k = `${String(v.x)},${String(v.y)}`;
++      if (!seen.has(k)) {
++        seen.add(k);
++        bVerts.push(v);
++      }
++    }
++  }
++  const onB = (q: LatticePoint): boolean => bEdges.some(([a, b]) => withinSegment(q.x, q.y, a.x, a.y, b.x, b.y, 1));
++  const order = (): [number, number][] => {
++    const out: [number, number][] = [];
++    rings.forEach((r, ri) => r.forEach((_, vi) => out.push([ri, vi])));
++    out.sort((u, v) => {
++      const p = rings[u[0]][u[1]];
++      const q = rings[v[0]][v[1]];
++      return p.y !== q.y ? p.y - q.y : p.x !== q.x ? p.x - q.x : u[0] !== v[0] ? u[0] - v[0] : u[1] - v[1];
++    });
++    return out;
++  };
++  let passes = 0;
++  let any = false;
++  for (;;) {
++    passes += 1;
++    let changed = false;
++    // S
++    {
++      // the pass's order is read once at its start (a vertex is addressed by its identity, the point object)
++      const ids = order().map(([ri, vi]) => rings[ri][vi]);
++      for (const q0 of ids) {
++        let ri = -1;
++        let vi = -1;
++        for (let r = 0; r < rings.length && ri < 0; r += 1) {
++          const k = rings[r].indexOf(q0);
++          if (k >= 0) {
++            ri = r;
++            vi = k;
++          }
++        }
++        if (ri < 0) continue;
++        const q = rings[ri][vi];
++        if (onB(q)) continue;
++        let target: LatticePoint | null = null;
++        let best: LatticePoint | null = null;
++        let bd = Infinity;
++        for (const b of bVerts) {
++          const d2 = (q.x - b.x) * (q.x - b.x) + (q.y - b.y) * (q.y - b.y);
++          if (d2 > A2) continue;
++          if (best === null || d2 < bd || (d2 === bd && (b.y < best.y || (b.y === best.y && b.x < best.x)))) {
++            best = b;
++            bd = d2;
++          }
++        }
++        if (best !== null) target = { x: best.x, y: best.y } as LatticePoint;
++        else {
++          let be: RSeg | null = null;
++          let bdd: [bigint, bigint] | null = null;
++          for (const e of bEdges) {
++            if (!withinSegment(q.x, q.y, e[0].x, e[0].y, e[1].x, e[1].y, R_A)) continue;
++            const d = rSegD2(q, e);
++            if (be === null || bdd === null || rCmp(d, bdd) < 0 || (rCmp(d, bdd) === 0 && rSegOrder(e, be) < 0)) {
++              be = e;
++              bdd = d;
++            }
++          }
++          if (be === null) continue;
++          const [a, b] = be;
++          const dx = b.x - a.x;
++          const dy = b.y - a.y;
++          const l2 = dx * dx + dy * dy;
++          const tt = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / l2));
++          const s = snap(a.x + tt * dx, a.y + tt * dy);
++          if (!s.ok) continue;
++          target = s.value;
++        }
++        if (target === null || (target.x === q.x && target.y === q.y)) continue;
++        const before = rings[ri].slice();
++        const sign0 = Math.sign(rArea2(before));
++        const moved = before.slice();
++        moved[vi] = target;
++        // remove a vertex equal to its predecessor
++        const ded: LatticePoint[] = [];
++        for (const v of moved) if (ded.length === 0 || ded[ded.length - 1].x !== v.x || ded[ded.length - 1].y !== v.y) ded.push(v);
++        while (ded.length > 1 && ded[0].x === ded[ded.length - 1].x && ded[0].y === ded[ded.length - 1].y) ded.pop();
++        rings[ri] = ded;
++        const a2 = ded.length >= 3 ? rArea2(ded) : 0;
++        if (ded.length >= 3 && a2 === 0) {
++          rings.splice(ri, 1);
++          R_STATS.ringsDropped += 1;
++          R_STATS.snapped += 1;
++          changed = true;
++          continue;
++        }
++        if (ded.length < 3 || !ringSimple(ded) || rCrossesOthers(rings, ri) || Math.sign(a2) !== sign0) {
++          rings[ri] = before;
++          R_STATS.undone += 1;
++          continue;
++        }
++        // R+ (T-1): the moved vertex's two edges meet B only on B — no proper crossing of an edge of B, and each edge's
++        // midpoint inside F or on its boundary (an edge never leaves F)
++        {
++          const k = ded.findIndex((v) => v.x === target.x && v.y === target.y);
++          let leaves = false;
++          if (k >= 0) {
++            for (const [u, w] of [[ded[(k + ded.length - 1) % ded.length], ded[k]], [ded[k], ded[(k + 1) % ded.length]]] as const) {
++              for (const [ba, bb] of bEdges) if (crossProperly(u, w, ba, bb)) leaves = true;
++              const mid = { x: (u.x + w.x) / 2, y: (u.y + w.y) / 2 } as LatticePoint;
++              let inF = false;
++              let wsum = 0;
++              for (const br of Brings) {
++                if (rInOrOn(br, mid) && br.length > 0) {
++                  // on a ring's boundary counts as inside; a winding count decides the rest
++                }
++                for (let m = 0; m < br.length; m += 1) {
++                  const a0 = br[m];
++                  const b0 = br[(m + 1) % br.length];
++                  const o = orient2d(a0.x, a0.y, b0.x, b0.y, mid.x, mid.y);
++                  if (o === 0 && mid.x >= Math.min(a0.x, b0.x) && mid.x <= Math.max(a0.x, b0.x) && mid.y >= Math.min(a0.y, b0.y) && mid.y <= Math.max(a0.y, b0.y)) inF = true;
++                  if (a0.y <= mid.y) {
++                    if (b0.y > mid.y && o > 0) wsum += 1;
++                  } else if (b0.y <= mid.y && o < 0) wsum -= 1;
++                }
++              }
++              if (!inF && wsum === 0) leaves = true;
++            }
++          }
++          if (leaves) {
++            rings[ri] = before;
++            R_STATS.undone += 1;
++            R_STATS.undoneLeavesF += 1;
++            continue;
++          }
++        }
++        R_STATS.snapped += 1;
++        changed = true;
++      }
++    }
++    // P1: thin components and thin holes
++    {
++      const outers = rings.map((r, i) => [r, i] as const).filter(([r]) => rArea2(r) > 0);
++      const holes = rings.map((r, i) => [r, i] as const).filter(([r]) => rArea2(r) < 0);
++      const ownerOf = new Map<number, number>();
++      for (const [h, hi] of holes) {
++        // R+ (T-8): the hole's INNERMOST enclosing outer ring
++        let best = -1;
++        let bestA = Infinity;
++        for (const [o, oi] of outers) if (rInOrOn(o, h[0]) && rArea2(o) < bestA) { best = oi; bestA = rArea2(o); }
++        if (best >= 0) ownerOf.set(hi, best);
++      }
++      const drop = new Set<number>();
++      for (const [o, oi] of outers) {
++        const hs = holes.filter(([, hi]) => ownerOf.get(hi) === oi).map(([h]) => h);
++        const area = rArea2(o) + hs.reduce((s, h) => s + rArea2(h), 0);
++        const per = rPerimeter(o) + hs.reduce((s, h) => s + rPerimeter(h), 0);
++        // R+ (T-8): the pre-filter's slack π·(A/2)²·max(0, h − 1) for h holes (in area2's units, twice the area)
++        if (area <= (R_A + 1) * per + 2 * Math.PI * (R_A / 2) * (R_A / 2) * Math.max(0, hs.length - 1) && rErodesEmpty([o, ...hs])) {
++          drop.add(oi);
++          for (const [, hi] of holes) if (ownerOf.get(hi) === oi) drop.add(hi);
++          R_STATS.p1Components += 1;
++        }
++      }
++      for (const [h, hi] of holes) {
++        if (drop.has(hi) || !ownerOf.has(hi)) continue;
++        if (Math.abs(rArea2(h)) <= (R_A + 1) * rPerimeter(h) && rErodesEmpty([h.slice().reverse()])) {
++          drop.add(hi);
++          R_STATS.p1Holes += 1;
++        }
++      }
++      if (drop.size > 0) {
++        const kept = rings.filter((_, i) => !drop.has(i));
++        rings.length = 0;
++        for (const r of kept) rings.push(r);
++        changed = true;
++      }
++    }
++    // R+ P0 (T-2 (1)): a vertex within the hot pixel of the segment joining its neighbours dropped, where the drop leaves
++    // every ring simple and crossing no other
++    for (;;) {
++      if (noP0) break;
++      let dropped0 = false;
++      for (const [ri, vi] of order()) {
++        const r = rings[ri];
++        if (r.length < 4) continue;
++        const v = r[vi];
++        const a = r[(vi + r.length - 1) % r.length];
++        const b = r[(vi + 1) % r.length];
++        if (!withinSegment(v.x, v.y, a.x, a.y, b.x, b.y, HOT_PIXEL_CM)) continue;
++        const before0 = r.slice();
++        r.splice(vi, 1);
++        if (!ringSimple(r) || rCrossesOthers(rings, ri) || rArea2(r) === 0) {
++          rings[ri] = before0;
++          continue;
++        }
++        R_STATS.p0Dropped += 1;
++        dropped0 = true;
++        changed = true;
++        break;
++      }
++      if (!dropped0) break;
++    }
++    // P2: spike tips (rings of 4 or more vertices), re-read after each drop
++    for (;;) {
++      let dropped = false;
++      for (const [ri, vi] of order()) {
++        const r = rings[ri];
++        if (r.length < 4) continue;
++        const v = r[vi];
++        const a = r[(vi + r.length - 1) % r.length];
++        const b = r[(vi + 1) % r.length];
++        const ab2 = (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
++        if (!(ab2 < A2)) continue;
++        if (!(Math.abs(orient2d(a.x, a.y, b.x, b.y, v.x, v.y)) > ab2)) continue;
++        // no other vertex of any ring in the closed triangle (a, v, b)
++        const s0 = Math.sign(orient2d(a.x, a.y, v.x, v.y, b.x, b.y));
++        let inside = false;
++        for (let rj = 0; rj < rings.length && !inside; rj += 1) {
++          for (let k = 0; k < rings[rj].length && !inside; k += 1) {
++            const w = rings[rj][k];
++            if ((rj === ri && (k === vi || w === a || w === b)) || (w.x === a.x && w.y === a.y) || (w.x === b.x && w.y === b.y) || (w.x === v.x && w.y === v.y)) continue;
++            const o1 = Math.sign(orient2d(a.x, a.y, v.x, v.y, w.x, w.y));
++            const o2 = Math.sign(orient2d(v.x, v.y, b.x, b.y, w.x, w.y));
++            const o3 = Math.sign(orient2d(b.x, b.y, a.x, a.y, w.x, w.y));
++            if ((o1 === s0 || o1 === 0) && (o2 === s0 || o2 === 0) && (o3 === s0 || o3 === 0)) inside = true;
++          }
++        }
++        if (inside) continue;
++        r.splice(vi, 1);
++        R_STATS.p2Dropped += 1;
++        {
++          const ux = a.x - v.x, uy = a.y - v.y, wx = b.x - v.x, wy = b.y - v.y;
++          const ang = Math.abs(Math.atan2(ux * wy - uy * wx, ux * wx + uy * wy)) * 180 / Math.PI;
++          if (ang > 5) R_STATS.p2DroppedOver5 += 1;
++        }
++        dropped = true;
++        changed = true;
++        break;
++      }
++      if (!dropped) break;
++    }
++    if (changed) any = true;
++    if (!changed) break;
++  }
++  R_STATS.reads += 1;
++  R_STATS.passes += passes;
++  R_STATS.maxPasses = Math.max(R_STATS.maxPasses, passes);
++  if (any) R_STATS.changedReads += 1;
++  const out = rings.filter((r) => r.length >= 3 && rArea2(r) !== 0).map((r) => canonicalRing(r as Ring)).sort(compareRings);
++  R_STATS.ms += rNow() - t0;
++  return out;
++}
++function rNow(): number {
++  const pf = (globalThis as unknown as { performance?: { now(): number } }).performance;
++  return pf === undefined ? 0 : pf.now();
++}
++/** The L3 variant's extra boundary: every edge of levels 2 … n−1 with both ends on or inside F's rings. */
++function rExtraEdges(p: Plat, level: number, fr: readonly (readonly LatticePoint[])[]): RSeg[] {
++  if (level < 3) return [];
++  const out: RSeg[] = [];
++  const H = p.halfEdges;
++  const inF = (q: LatticePoint): boolean => {
++    let w = 0;
++    let on = false;
++    for (const r of fr) {
++      for (let k = 0; k < r.length; k += 1) {
++        const a = r[k];
++        const b = r[(k + 1) % r.length];
++        const o = orient2d(a.x, a.y, b.x, b.y, q.x, q.y);
++        if (o === 0 && q.x >= Math.min(a.x, b.x) && q.x <= Math.max(a.x, b.x) && q.y >= Math.min(a.y, b.y) && q.y <= Math.max(a.y, b.y)) on = true;
++        if (a.y <= q.y) {
++          if (b.y > q.y && o > 0) w += 1;
++        } else if (b.y <= q.y && o < 0) w -= 1;
++      }
++    }
++    return on || w !== 0;
++  };
++  for (let e = 0; e < H.level.length; e += 1) {
++    const lv = H.level[e];
++    if (lv < 2 || lv > level - 1) continue;
++    const o0 = H.origin[2 * e];
++    const o1 = H.origin[2 * e + 1];
++    if (o0 < 0 || o1 < 0) continue;
++    const a = { x: p.vertices.x[o0] as Cm, y: p.vertices.y[o0] as Cm } as LatticePoint;
++    const b = { x: p.vertices.x[o1] as Cm, y: p.vertices.y[o1] as Cm } as LatticePoint;
++    if (inF(a) && inF(b)) out.push([a, b]);
++  }
++  return out;
+ }
+ 
+ // ---- the junctions and their corridor_split chains -------------------------------------------------------------------

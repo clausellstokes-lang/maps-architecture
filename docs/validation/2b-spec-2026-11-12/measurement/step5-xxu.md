@@ -61,3 +61,15 @@ reads between 2 and 5 cm and the 17 over 75.5 cm outside the ten dissected keys 
   380, 432), and lacks ones it does (face 430). A Hausdorff bar on X (or against X) reads such a needle as 1.6 m.
 - These needles are the same class that makes S9's commit of X miss the plan beyond the bound (step 3: every far vertex
   is a planned vertex at an F route vertex).
+
+## integrated 4 CITY (S20's 176.50 cm column) — `scripts/xxu-run.sh integrated 4 city` (results/step5/integrated-4-city.{json,log}, needles-i4.json; 3 090 s)
+Root e9e96e0e6a2e88e587c968796e0ef03e (= S20 T7), 5 967 reads (= T1), X ≠ X_U on **5 690** (= T2 i4), max **176.50 cm** (= T2).
+Histogram: 0: 277; (0,1): 2 482; [1,5): 3 158; [5,30): 3; [30,75.5]: 0; > 75.5: 47. The spine sets differ on 129 reads (72 a
+spine only in X's set, 58 only in the construction's), moving nothing by 1 cm. Over 2 cm: **S 0, I 0, R 60** (47 over 75.5,
+3 in [5, 30), 10 in [2, 5)). The ten largest distinct keys (faces 738 – 740, 559, 1026 / 1028, 869 / 877, 876; 176.50 –
+165.86 cm): every one a NEEDLE whose apex is an F route vertex, apex angle 0.35 – 0.73°, width 0.15 – 0.32 cm at 25 cm,
+0.61 – 1.27 cm at 100 cm. Witnesses (the definition's truth 'undecided' within its 4 cm margin; depths measured): X's needle
+inside the buffer by 0.00 – 0.05 cm (738 – 740), 0.84 – 1.02 cm (1026 / 1028), 0.81 – 1.01 cm (869 / 877) — X wrong by ≤ 1.02
+cm; X_U's needle outside the buffer by 0.74 – 1.05 cm (559) and 0.39 cm (876) — kerb by the definition, X lacking it: X wrong
+by ≤ 1.05 cm. **Across both CITY seeds, X departs from the definition by at most 1.05 cm in depth wherever X and X_U differ by
+more than 2 cm; never by a spine set.**
