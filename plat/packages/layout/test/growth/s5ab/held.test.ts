@@ -10,6 +10,10 @@
 //   S6) — so the pin runs the base registration through S4, then S5's growth start and stage 2's S5a / S5b
 //   (`mainRoadsStep`) on S5's rank, and reads the boundary handed to the trace (about 20 – 40 s). Q88's CITY reading,
 //   relief-60 default seed 1, the same (nine points up to 2.3 m outside; about 1 – 2 min).
+//   SINCE M0-e-02 S2 (C-0498: a river whose re-traces fail is re-traced along its descent line; the session's seam at
+//   that landing, J786) seed 2 derives another river at the test size — its stage-1 wall stands inside stage 2's plain
+//   boundary and the repair no longer runs there — so the test-size case is SEED 12, the first seed of 1 – 70 on which
+//   the plain boundary leaves the wall outside on that tree (nine points up to 5.4 m; seeds 13, 22, 38, 58 and 68 likewise).
 // * The seeds whose S5 now commits (M0-e-06 S3's relief-60 default S5 E_SELF_INTERSECT seeds 13, 84, 156, 162: the trace
 //   handed a boundary through stage 1's wall): each derived through S5 at CITY (about 1 – 3.5 min each; ≈ 5 – 14 min).
 // * C-0475 (2)'s narrowing as it stands (N-47; M0-c-04 hardening round S6, its line 3 REPORTED for the session's ruling:
@@ -70,14 +74,19 @@ function stage2(bp: BaseBlueprint, seed: number): { line: readonly { x: Cm; y: C
   return { line: wall as readonly { x: Cm; y: Cm }[], selection: selection as Uint8Array, state, plain, m };
 }
 
-/** relief-60 default seed 13 at CITY, stage 3 (unwalled) on the selection: its t_3 (cm), outline points, stage 2's wall points outside. */
-const T3_SEED13 = 82753.02515500419;
-const OUTLINE3_SEED13 = 218;
-const WALL2_OUTSIDE_SEED13 = 26;
+/**
+ * relief-60 default seed 13 at CITY, stage 3 (unwalled) on the selection: its t_3 (cm), outline points, stage 2's wall points outside.
+ * RE-RECORDED by the session's seam at the round's landing (J789): the round measured them on a base before M0-e-02 S2
+ * (C-0498), which gives this seed another river — there they read 82 753.025 155 004 19, 218 and 26. Any stage or site fix
+ * that moves this derivation moves them again: a declared shift re-records them and checks that M6 still moves all three.
+ */
+const T3_SEED13 = 82824.21830212144;
+const OUTLINE3_SEED13 = 700;
+const WALL2_OUTSIDE_SEED13 = 6;
 
 describe('the enclosure of stage k − 1 is held with the standing wall (C-0475 (2))', () => {
   const handed: readonly [string, BaseBlueprint, number, string][] = [
-    ['relief-60 default at the test size, seed 2 (Q88)', testSized(RELIEF_60), 2, 'two points up to 22 m'],
+    ['relief-60 default at the test size, seed 12 (Q88\'s class; seed 2 until M0-e-02 S2 moved its river)', testSized(RELIEF_60), 12, 'nine points up to 5.4 m'],
     ['relief-60 default at CITY, seed 1 (Q88\'s CITY reading)', RELIEF_60, 1, 'nine points up to 2.3 m'],
   ];
   for (const [name, bp, seed, was] of handed) {
@@ -133,7 +142,7 @@ describe('the enclosure of stage k − 1 is held with the standing wall (C-0475 
         // unwalled stage reads the selection, never the held enclosure — stage 3 (the ribbon) takes the plain level set
         // over stage 2's selection, so its t_3 and its outline are the plain ones, and stage 2's pulled wall stands partly
         // outside it (N-48's measure, pinned here as it is). Held on the unwalled stage too (mutant M6), t_3 falls to
-        // 815.1 m, the outline holds 468 points before its destinations and none of the wall stands outside.
+        // 820.2 m, the outline holds 898 points and none of the wall stands outside (the merged tree's reading, J789).
         const s3 = d.growth.stages[2];
         expect(s3.walled).toBe(false);
         expect(s3.boundary).not.toBeNull();
