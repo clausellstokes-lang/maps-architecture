@@ -498,3 +498,41 @@ cut) is Q199, already queued.
 * **ROUND B (M0-a-09 S22, THE SHIFT)** is NOT bound: SLOT 1 (Q152's six routed assertion by assertion, after S14),
   SLOT 2 (the red list under the ladder), SLOT 3 (round A's own figures); then the amendment file and the paragraph for
   the owner (`v4/amendment-draft.md` §4), and a last read by the reviewer of the three filled slots.
+
+## The red list under the ladder (`measurement/step2-redlist.md` section D; 21:25Z) — round B's second slot has its material; five things to examine first
+
+The whole suite ran at FULL strength on the ladder's mirror (109 chunks; 32 red files, 121 red tests) and every red file
+again on the base mirror (12 red files, 28 red tests). The measurement seat was cut off by a restart of this seat's
+container at the classification and could not be resumed; THIS SEAT classed the 121 itself by reading each test's title
+and first failing assertion (`measurement/step2-classes-LD.json`; the two lists are `step2-redlist-LD.json` and
+`step2-redlist-B.json`; the seat's unfinished report is `REPORT-partial.md` — the step files are the record).
+
+* **121 = B 28 + X 18 + I 17 + R 38 + F 7 + C 13.** B: red on the base too (Q152's six, J176's thirteen, the summary
+  canary — declared — and eight that were NOT declared: see below). X: the prototype's or the box's (S20's shadow hook
+  the prototype dropped, a mirror's missing allow rows, a busy neighbour process). I: pins of the construction's
+  internals (re-pointed to the second rung; M0-a-06's savepoint.test.ts :425 by the session's seam). R: the READ's shift
+  (kerb rings and bounds). F: pinned refusals that no longer happen. C: the COMMIT's shift and counts downstream of it.
+* **The ladder's own shift is R + F + C = 58 tests in 17 files; 16 of them lie outside M0-a-09's files** — M0-a-05's
+  q104.test.ts (6), M0-b-03's fabric/seeds.test.ts and fabric/strips.test.ts (2), M0-x-05's ladders/rungs-s8.test.ts
+  (1), M0-d-09's determinism/runner.test.ts (1) — with M0-a-09's testkit folder (1) and M0-a-06's one internal pin
+  beside them. That is round B's cross-item list (its SLOT 2), to be re-measured by the round on the build itself.
+* **Ten files red under the first prototype (P) are green under the ladder** (the fusion harness's drift and Hausdorff
+  tests and the F-CUT bench among them).
+* **FIVE THINGS TO EXAMINE BEFORE ROUND B BINDS** (each by a single-file run on the build of round A under its switch,
+  or on the mirror): (1) kernel/test/arr/bands/corridor.test.ts :322 — the kernel's own property 'S8's kerb ≡ S9's
+  block over every face, at least the share measured before round S9' FAILS after 32 tests under the ladder: is its
+  pinned share a floor the ladder must meet, or the construction's own figure? (2) layout/test/infill/fabric/strips.test.ts
+  :119 — a lane end on the setback line reads 77.6° where 85 – 95° is pinned: a property of S8's OUTPUT, so the fourth
+  review's 'harmless to what S8 hands on' (U-15, by reading) is not yet shown; (3) fabric/seeds.test.ts :161 (267
+  against a bound of 100); (4) q104.test.ts — the ladder changes Q104's residual class (five 'no seat within the bound'
+  pins read false, one Hausdorff 11.18 cm where more than 26 was pinned): M0-a-05's owner judges, with S14's verdict;
+  (5) three pinned BOUNDS, not literals, in M0-a-09's own folder: hardening-s16 :110 (a committed block vertex 10.6 cm
+  deep in a way's band, 1 cm allowed), hardening-s15 :179 and :247 (1.29 and 3.15 cm, 1 cm allowed), hardening :170
+  (27.02 cm against 26). determinism/runner.test.ts :57 is NOT a loss of determinism (`runs` 2 and `differing` 0 still
+  match; the report's pinned counts moved).
+* **FOUND ON THE BASE, NOT DECLARED (J793):** the seven full-strength-only 'later rungs' cases of
+  layout/test/enceinte/s5seeds.test.ts are red on the design head itself (confirmed by this seat's own run) — a red of
+  M0-c-02's pins made by M0-c-04 S5's landing on 2026-11-10, unseen because those cases register only with
+  PLAT_FUZZ_RUNS unset; queue row Q202; nothing of round 2B's. testkit's agreement-corridor.test.ts :25 is red on the
+  base MIRROR only (it carries S20's files as of an early snapshot): GREEN on the design head — to be read again on
+  S20's landed tree.
