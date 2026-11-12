@@ -152,6 +152,21 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
           }
           const cv = s.value;
           const cutAt = { x: p.vertices.x[cv], y: p.vertices.y[cv] } as LatticePoint;
+          // Nothing to trim (round S4, N-s3c-5): the cut vertex IS the street's end. The exit lies on its last segment
+          // within `attractCm` of its end, so §3.6's placement (step 2) lands the cut on the end vertex itself: its last
+          // step stopped on the boundary, and nothing of it lies beyond. The new row comes back off the end (as a refusal
+          // took it back), no stretch is removed and no refusal counted, and the street is made final as a trimmed street
+          // is — not provisional, a dead end meeting nothing — its end keeping the `end` row it holds there (the row a
+          // trim gives its cut: kind `end`, the street its one arm).
+          const endRow = st.way.to.kind === 'junction' ? junctionOf(st.way.to.id) : undefined;
+          if (cutAt.x === endAt.x && cutAt.y === endAt.y && exit.seg === pts.length - 2 && endRow?.kind === 'end' && endRow.arms.length === 1 && endRow.arms[0] === st.way.id) {
+            kernel.geom.removeEdges(o, { role: 'junction', entity: newEnd, ordinal: 0 });
+            st.way.provisional = false;
+            st.provisional = false;
+            st.ends = 'dead';
+            st.meets = null;
+            continue;
+          }
           const removed = kernel.geom.removeEdges(o, { chain: { role: 'way', entity: st.way.id }, from: cutAt, to: endAt as LatticePoint });
           if (!removed.ok) {
             refuse(removed.code);

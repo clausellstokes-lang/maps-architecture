@@ -527,3 +527,200 @@ is judged and pinned. None of these rows is a blocker. The mutant and log names 
 | N-s3c-4 | **RELATED's foreign reds (confirms the builder's N-s3-4).** RELATED@1000 over the six owned growth sources (tree, W = 1, run seed `PLAT_FUZZ_SEED=-1222870520`): 271 of 273 files, 3 438 of 3 442 tests. The four reds are `bench/test/site/compose.test.ts:268` (*relief-60 default seed 2 (test size) refuses at S5 …*: expected 1 refused stage, got 0) and three in `bench/test/site/spike.test.ts` (`:201` expected 2 water-gate wall edges, got 4; `:341` the strip receipt, expected 138, got 466; `:545` *relief-60, seed 2 (S5 refused, S6 not reached)*: `s6` is defined). All four pin an S5 refusal at relief-60 seed 2 that the base no longer makes (`site: relief-60 (default): 2 runs, S6 ok 2; refused none`). No test of this item is red and the round changed no source (the six sources hash as the landed record; their files carry the tree's restore time, before the round). | The owners of the two bench files re-pin on the current base (one lawful S5 refusal fewer). Nothing for c-05. | session (fix queue) |
 | N-s3c-5 | **A refusal met outside the registered families (J264, J290, N-58): the trim's `removeEdges` answers `E_DEGENERATE` ('stretch') when the cut falls on the street's own end.** Site fixture, 2 000 / 160, seed 5, reroll 0, stage 3 (the ribbon): `way:65` (a provisional secondary of 33 m ending at the boundary) has its first exit, rounded to the lattice, at its end vertex (41442, 61855); `pruneAndTrim` splits there and asks `removeEdges` for the stretch from that point to itself; the kernel refuses; the prune counts `refused: { E_DEGENERATE: 1 }`, takes its new junction row back and leaves the street as it stood — still `provisional: true` in the S5 record, `ends: 'boundary'` (`degen.jsonl`; the same count at CITY seeds 4 and 8 under `{ S5: 1 }`, stage 3). The run is whole (0 stages refused, 13 trims and 11 prunes of the same batch committed) and the geometry is right (nothing lies beyond the boundary); the record's flag and the counted refusal are the shortfall. Input LAWFUL; class OUR OWN INTERMEDIATE; verdict MAKE-IT-SUCCEED. Not in the item's 44 registered runs (prune `refused` {} at all 44). Not this round's (no source changed). | A fix round of c-05: in the trim, a cut that equals the street's end is "nothing to trim" — mark the street final (`provisional: false`, an `end` junction as a trimmed street gets) without a `removeEdges` call; pin on site 2 000 / 160 seed 5. | session (fix queue; M0 hardening) |
 | N-s3c-6 | **The census's inner events on the current base** (the 44 registered runs, `fixtureRun`: plain 1 – 24, 900 ha 1 – 10, small 400 / 60 1 – 10): 0 / 44 runs refused; S5c, rim, batch and prune `refused` {} everywhere; `intermediates` `W_END_UNMARKED` × 1 at plain 9, 17, 20, 23 (as round S2); F-NUM `re_propose` then `reject` (`E_BELOW_MIN_EDGE`) at plain 20 proposal 35 and plain 23 proposal 20 (as round S2) and at small 6 proposal 4 (not in round S2's figures), and one `re_propose` that then succeeds at plain 19 proposal 36; `topUp` `none` at every stage of the 44; 0 streets ending `snap`. These are the builder's figures. The third reject came with the base between rounds S2 and S3 (M0-c-04 S5's and M0-c-02 S6's landings), not with this round, which changed no source: before = after. LAWFUL input, OUR OWN INTERMEDIATE, absorbed by F-NUM's ladder (the proposal ends, the run whole). | With N-c1 / N-s2c-4's class at the hardening pass: the short-edge re-proposal that still rejects (three proposals in 44 runs). | M4 |
+
+## Hardening round S4 (lane `build/M0-c-05-fix-s4`, 2026-11-12): Q189 (a) N-s3c-5, (b) N-s3c-3, (c) N-s3c-2
+
+The session opened this round as M0-c-05's hardening round S4 (J237 (2), J238, J783) on queue row Q189's three rows, in
+the order it set: (a) N-s3c-5, the round's one source change (`prune.ts`'s trim); (b) N-s3c-3, tests only; (c) N-s3c-2,
+text only. Files: `packages/layout/src/growth/prune.ts` (changed), `packages/layout/test/growth/s5cd/legality.test.ts`
+(changed), `packages/layout/test/growth/s5cd/trim.test.ts` (new). No export, folder index or barrel moved; no message
+text moved; `PruneRecord` and every other record type are unchanged (J263 Q1, Q6). Q189 (d) (N-s3-1 / N-s3c-1, the seed
+lattice's phase) is M1's by J783 and is untouched; `draws.test.ts` still pins Q150's boundary. No git.
+
+| row | outcome | change | pin (test) | mutant → result |
+|---|---|---|---|---|
+| N-s3c-5 (Q189 (a)) | **FIXED and PINNED** (MAKE-IT-SUCCEED; a declared shift of the record) | `prune.ts`'s trim: when the cut vertex the kernel commits IS the street's end, on its last segment, and the street's `to` is its own `end` row, the new row is taken back, nothing is removed, no refusal is counted, and the street is made final as a trimmed street is | `trim.test.ts`: three hand cases (the exit 0.4, 2 and 26 cm short of the end), two real trims beside them (10 m and 30 m), and the two runs the closing check met (site 2 000 / 160 seed 5, `way:65`; CITY seed 8 under `{ S5: 1 }`, `way:82`) | L1-a (the fix reverted) red on the counted refusal AND the flag; L1-b, L1-c, L1-d, L1-e red (table below) |
+| N-s3c-3 (Q189 (b)) | **FIXED and PINNED** (tests only, NO-SHIFT) | `legality.test.ts` *the clearance and its rules*: every regime figure read from regimes.json (the ribbon's floor, the walled rings' block depth, and with them the dense core's floor and separation and the ribbon's clearances and seed spacing) | the test itself under a regimes.json with the ribbon's floor 30 → 33 m and the walled rings' 45 → 48 m: green 40 / 40 | L2-a, L2-b (either literal restored) red; L2-c, L2-d (the source reading the old number for that regime) red |
+| N-s3c-2 (Q189 (c)) | **CORRECTED** (text only; the ledgers append-only) | this section and this round's choices row carry the correction; round S3's section and C-0495 stand as written | none (rule (2): the text is the deliverable) | — |
+
+**N-s3c-5: the trace, and where the session's reading differs from the code.** The queue row reads the cut as the first
+exit "rounded to the lattice". On the code it is not: at the site fixture 2 000 / 160, seed 5, stage 3, `way:65`'s first
+exit rounds to (41442, 61853), 2 cm short of its end (41442, 61855). `splitThrough` then places the cut by §3.6's
+placement rule (step 2): a foot within `attractCm` (26 cm, `kernel/src/num/lattice.ts`) of an endpoint of the edge lands
+on that endpoint. So the committed cut vertex IS the end, and `removeEdges` is asked for the stretch from the end to
+itself (`E_DEGENERATE`, detail `stretch`). A first version of the fix, keyed on the lattice exit as the row reads, never
+fired on the three runs (the mirror's probe: `way:65` and `way:82` still provisional, `E_DEGENERATE` still counted). The
+fix therefore judges the cut vertex the kernel commits. It does what the finding needs: the street ends on the boundary
+and nothing of it lies beyond. The arena takes the same writes as before (the split that lands on the end vertex, then the
+new row taken back off it, as the refused path took it back); only the refused `removeEdges` call is gone.
+
+The same case: CITY 2 500 / 220, seed 8 under `{ S5: 1 }`, stage 3, `way:82` (end (-49945, -78878)); and seed 4 under
+`{ S5: 1 }`, stage 3, whose street the prune then removes (it is short and dangling, before and after), so there only the
+counted refusal goes.
+
+**What a trimmed street carries at its end, and what the untrimmed street now carries** (`prune.ts`, the trim's success
+path, read field by field):
+
+| field / row | a trimmed street (unchanged) | the untrimmed street (this round) |
+|---|---|---|
+| `st.provisional`, `st.way.provisional` | `false`, `false` | `false`, `false` |
+| `st.ends`, `st.meets` | `'dead'`, `null` | `'dead'`, `null` |
+| `st.way.to` | `{ kind: 'junction', id: <the cut's new row> }` | unchanged: `{ kind: 'junction', id: <its own end row> }` |
+| the end's junction row | new: kind `end`, arms `[street]`, `generated(0)`, vertex row `junction:<n>` ordinal 0 at the cut; pushed to the record (and the state where the way stands there) | its own, already that shape (kind `end`, arms `[street]`, `generated(0)`, its vertex row at the end); kept in place |
+| the old end's `end` row | dropped from the record and the state, its vertex row removed | it IS the end's row; kept |
+| `st.points` | cut back to the cut | unchanged (it ends at the cut) |
+| `jN` (the next junction id) | advanced by one | not advanced, so no later row of the batch is renumbered |
+| `PruneRecord.trimmed` | one entry `{ way, cutAt, removedCm }` | no entry (nothing was removed; the record's type is not changed, J263 Q1) |
+| `PruneRecord.refused` | — | no `E_DEGENERATE` (it was counted 1) |
+
+The branch is guarded: the cut vertex equal to the end, the exit on the last segment, the street's `to` an `end` row whose
+one arm is the street. Every provisional street S5c makes carries that row (`tryInsert`: a step that ends at the
+boundary takes an `end` knot at its last point). Any other shape falls to the old path, whose refusal stays typed and
+counted. The S5d rim's trim (`capacity.ts`, at the grown boundary) runs through the same code.
+
+**The declared shift, before and after** (the lane's chain, `/home/user/maps-scratch/lanes/c05s4/chain/`, in the
+mirror under a toggled `prune.ts`: every run derived twice, the old trim (`__PLAT_PRUNE_OLD`) and the fix, and every
+firing of the new branch reported with its stage and street).
+
+- *The item's 44 registered runs* (`fixtureRun`'s families: plain seeds 1 – 24, 900 ha seeds 1 – 10, 400 / 60 seeds
+  1 – 10): **44 / 44 unchanged** — the S5 record's digest, the arena's way lines and junction vertices, every count and
+  every refusal equal before and after; the branch fires in none of them (no such street).
+- *Round S3's sweep frames* (flat 7 frames and river 8 frames, seeds 1 – 12, reroll 0 and `{ S5: 1 }`: 360 runs): the
+  branch fires in **three runs, one street each**, and those three are the only runs whose S5 record moves. In every one
+  the old record with the declared shift applied (the street's two `provisional` flags false, `ends` 'dead', `meets`
+  null, one `E_DEGENERATE` fewer in that stage's prune) is byte-equal to the new record (`shiftExact` true on all 360).
+  **No root moves** (the arena takes the same writes; only the refused call is gone), so no other item's pinned root
+  moves with it. 357 runs: root and record unchanged.
+
+| run (fixture, frame, seed, reroll) | stage, street | S5 root before = after | S5 record | stage 3 prune `refused` before → after | street before → after |
+|---|---|---|---|---|---|
+| river 2 000 / 160, seed 5, reroll 0 (the site case) | 3, `way:65` | `89f45edf09968b337de070c362f45678` | moved, exactly the declared shift | `{ E_DEGENERATE: 1 }` → `{}` | provisional → final |
+| river 2 500 / 220 (CITY), seed 4, `{ S5: 1 }` | 3, `way:98` | `87317a1a1e26bd0567e9eb7f1c2358ff` | moved, exactly the declared shift | `{ E_DEGENERATE: 1 }` → `{}` | provisional, then pruned (short and dangling) → final, then pruned: no provisional street left before or after |
+| river 2 500 / 220 (CITY), seed 8, `{ S5: 1 }` | 3, `way:82` | `73779461c698d3efba38c0f6afd20241` | moved, exactly the declared shift | `{ E_DEGENERATE: 1 }` → `{}` | provisional → final |
+
+(The before figures of the three runs were re-measured raw by the second seat: the sweep's store computed its `B`
+refusal and provisional fields after applying the declared shift to the old record, so they read as the after; the raw
+re-run gives the figures in the table.) *Other items' tests that move with it:* **none**. No root moves; RELATED@1000
+over the item's six growth sources is green but for one test, bench `test/site/summary.test.ts`'s canary (relief-60
+coarse seed 46), the head's declared stale summary (J772 (7)): its record digest is `4c9647bf…` under the OLD trim and
+under the new alike (the mirror, the toggled `prune.ts`; the branch fires in neither), against the summary's `eb2046dd…`,
+so this round does not move it. Nothing listed for the session's seams.
+
+**The refusal census (J264 (5), N-58), before and after.**
+
+| family | runs | stage refusals | S5c batch / growth refusals | prune refusals |
+|---|---|---|---|---|
+| the 44 registered runs | 44 | 0 → 0 | 0 → 0 | 0 → 0 |
+| round S3's sweep frames | 360 | 0 → 0 | 0 → 0 | `E_DEGENERATE` 3 → 0 |
+
+The census never rises; it FALLS by three lawful-input refusals. Their class: LAWFUL input (the sweep's frames are
+registered fixtures), the refused stretch OUR OWN INTERMEDIATE (S5c's provisional street, its end placed by S5c on the
+boundary); verdict MAKE-IT-SUCCEED, done in this round. The F-NUM rungs and the inner `W_END_UNMARKED` counts of the 44
+runs stand as round S3's (`re_propose` / `reject E_BELOW_MIN_EDGE` at plain 20 p35, plain 23 p20, small 6 p4; the
+`re_propose` at plain 19 p36 that succeeds; `W_END_UNMARKED` 1 at plain 9, 17, 20, 23 — N-s3c-6, no row). S5d's
+top-up: `grown` at river 400 / 12 seed 11 stage 3 under both rerolls, its rim with no seed, no draw — the figure the
+N-s3c-2 correction below states, seen again; every other run `none`. Draw counts equal before and after in all 360.
+
+**N-s3c-3 in detail.** `legality.test.ts` read the ribbon's floor as `3_000` (`Math.max(3_000, 750) + 150`) and the
+walled rings' block depth as `4_500`. The same test also held the ribbon's secondary clearance `3_300` and seed spacing
+`6_000`, which follow the ribbon's floor too, and the dense core's `8_300` and `16_000`. Under the moved table those
+would have turned the file red. Every one is now read from regimes.json (and ways.json for the block-scale separations and
+the half widths): `floorCm(regime)` is `blockDepthFloorM[0] × 100`, a walled regime's separation is its own
+`separationM.CITY`, and the ribbon (no such cell, asserted) reads the class's. The test's name keeps the design's receipt
+(83 m, 33 m as the table is signed). No other literal in the file is a value of regimes.json's rows: the 8 300 cm of
+lines 90 and 236 are a clearance the test sets on its own context.
+
+**N-s3c-2, the correction (text only).** Round S3's section (*S5d draws at no seed of any frame*: "`topUp` `none` in
+all 360 runs") and C-0495 ("none is short on the fixture's stand-in demand") are inaccurate in one sentence. The
+correction: S5d's top-up ran once in round S3's sweep (site 400 / 12, seed 11, stage 3) and its rim held no seed; S5d
+draws at no seed of any frame.
+
+**Mutant table** (the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-05-fix-s4`, W = 1; each mutated
+file restored by copy from the tree and `cmp -s` before the next; the mirror's isolation proved first: no link into the
+tree, `@plat/kernel` resolving inside the mirror).
+
+| mutant | where | run | result |
+|---|---|---|---|
+| L1-a | the fix reverted (the branch removed) | `trim.test.ts`, no bail | **red** 5 / 7: the three hand cases *expected { E_DEGENERATE: 1 } to deeply equal {}* and *expected { provisional: true, … } to deeply equal { provisional: false, … }*; site seed 5 and CITY seed 8 the same two (the prune's `[3, { E_DEGENERATE: 1 }]`, `way:65` / `way:82` provisional); the two real trims green |
+| L1-a | the same, on the item's own test folder (`test/growth/s5cd/` + `testkit/test/layout/growth-s5cd/`), `--bail=1` | **red** (the chain's step 1): `trim.test.ts` *the exit 0.4 cm short of the end …* — *expected { E_DEGENERATE: 1 } to deeply equal {}*; 1 failed, 93 passed of 98 run before the bail; the mirror's `prune.ts` restored and `cmp -s` |
+| L1-b | the branch leaves the flags (`provisional` kept) | `trim.test.ts`, `--bail=1` | **red**: *expected { provisional: true, …(5) } to deeply equal { provisional: false, …(5) }* |
+| L1-c | the branch still counts `E_DEGENERATE` | `trim.test.ts`, `--bail=1` | **red**: *expected { E_DEGENERATE: 1 } to deeply equal {}* |
+| L1-d | the branch leaves the new row on the end vertex | `trim.test.ts`, `--bail=1` | **red**: *expected 1 to be +0* (the vertex row of `junction:2`) |
+| L1-e | the branch leaves `ends` as it stood (`'boundary'`) | `trim.test.ts`, `--bail=1` | **red**: *expected { provisional: false, …(5) } to deeply equal { provisional: false, …(5) }* (the `ends` field) |
+| L2-ctl (control) | regimes.json: ribbon floor `[33, 50]`, walled rings `[48, 70]` | `legality.test.ts` | green 40 / 40 |
+| L2-a | the ribbon's literal restored (`Math.max(3_000, 750) + 150`), table moved | `legality.test.ts`, `--bail=1` | **red**: *expected 3450 to be 3150* |
+| L2-b | the walled rings' literal restored (`4_500`), table moved | `legality.test.ts`, `--bail=1` | **red**: *expected 4800 to be 4500* |
+| L2-c | the source reads the ribbon's old floor (`growthRules`: `regime === 'ribbon' ? 3_000 : …`), table moved | `legality.test.ts`, `--bail=1` | **red**: *expected 3300 to be 3600* |
+| L2-d | the source reads the walled rings' old floor (`… ? 4_500 : …`), table moved | `legality.test.ts`, `--bail=1` | **red**: *expected 4500 to be 4800* |
+
+**Gates (W = 1, in the tree).** install --frozen-lockfile 0; lint 0 (eslint 1311 files, 0 errors, 0 warnings; probe-red
+ok, every planted line reported); build 0. In the tree before the chain: `trim.test.ts` + `legality.test.ts` 47 / 47.
+NEAR at full strength (the item's two test folders, `PLAT_FUZZ_RUNS` unset; W as `tools/test_budget.py` printed):
+**18 files, 171 tests, all green** (1 333 s; fast-check seed -1658591312). RELATED@1000 over the six owned growth
+sources (`proposals.ts`, `heading.ts`, `legality.ts`, `capacity.ts`, `prune.ts`, `index.ts`): **274 / 275 files, 3 462 /
+3 463 tests**; the one red is bench `test/site/summary.test.ts`'s canary (relief-60 coarse seed 46 *moved: re-run the
+summary (Q36)*, `4c9647bf…` vs `eb2046dd…`) — the head's declared red (J772 (7)), not moved by this round (above). No
+red of the item's own. A timing above is informative only (not the reference machine). No source or test file changed
+after these runs; the tree's files carry the hashes the chain ran (`prune.ts` `df11390d…`, `legality.test.ts`
+`9e0036f0…`, `trim.test.ts` `eb4c968c…`).
+
+**Notes for the session.** (i) An untrimmed street has no `PruneRecord.trimmed` entry (nothing was removed; the record's
+type is unchanged, J263 Q1). (ii) Q189 (a)'s reading — the cut as the first exit "rounded to the lattice" — is corrected
+by the code: the exit rounds up to 2 cm short of the end and §3.6's placement (`attractCm` 26 cm) lands the split on the
+end vertex; the fix judges the committed cut vertex. (iii) The summary canary's staleness predates this round (the old
+trim gives the same digest). Nothing reported, no contract changed.
+
+## Closing check S4 (lane `check/M0-c-05-close-s4`, 2026-11-12): hardening round S4
+
+Verdict FAIL on one new line (`checks/M0-c-05-s4.md`, B-1). N-s3c-5 is fixed and pinned, N-s3c-3 is fixed and pinned,
+N-s3c-2 is corrected; the gates hold (RELATED's one red is the head's declared canary); the refusal census falls by
+three (the sweep's prune `E_DEGENERATE` 3 → 0; the 44 registered runs 0 → 0). The blocker is a missing pin, not the
+trim: N-s4c-1 is recorded here for the trail and is this check's failing line, not a hardening row. N-s4c-2 … N-s4c-4
+are notes. The mutant and log names are the verdict file's.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s4c-1 | **(This check's failing line B-1.) A junction id burnt by the trim's new branch has no pin.** With `jN += 1` added to the "nothing to trim" branch (`prune.ts:163 – 168`; mutant M8) `trim.test.ts` stays green, 7 / 7, while S5's root moves on both runs the file pins: site 2 000 / 160 seed 5 `48322b0b…` against `89f45edf…` (`way:70`'s new `end` row `junction:159` in place of `junction:158`), CITY seed 8 under `{ S5: 1 }` `f64e4dac…` against `73779461…` (`way:83`'s `junction:191` for `junction:190`). The run pins read the batch's trims and prunes by count (13 / 11, 9 / 9) and each hand case holds one street, so a renumbered row passes. The clause is stated by the round (the session's line: "it must move NOTHING ELSE"; C-0496 (1): "`jN` not advanced", `trim.test.ts` named as the row's test; the test's header). The fix as landed takes no id (the seat's before / after: roots equal on the three runs the branch fires in; 401 other runs unmoved). | The fix round of this check: one test red under M8 and green on the tree. The seat ran one in its mirror — `ribbonCase(5_000, 4_998)` with a second provisional secondary `way:4` from (10 000, 0) to (10 000, 6 000) (rows `junction:2` T, `junction:3` end) after `way:3`: on the tree `way:4` is cut at (10 000, 4 998) onto `junction:4`, the record's rows `junction:0, 1, 2, 4`; under M8 it is `junction:5` (red). A root line in each run pin kills M8 too, at the price of a re-pin when an earlier stage moves. Tests only, NO-SHIFT. | M0 (this round's fix) |
+| N-s4c-2 | **The branch's guard on the end row has no pin.** With the conditions `endRow?.kind === 'end' && endRow.arms.length === 1 && endRow.arms[0] === st.way.id` dropped (M11) the hand cases stay green: every street the tests, the three hit runs, the 44 registered runs and the 360 sweep runs meet ends on its own `end` row. A provisional street whose end is not such a row (a `to` that names no row, or a row that holds a second arm) and whose cut lands on its end still takes the old path — `E_DEGENERATE` counted, the street left provisional. That is the round's stated behaviour ("any other shape keeps the typed refusal") and fails safe; it was met in no run: after the fix prune `refused` is `{}` and no street is left provisional in all 404 runs. Unlike M8, M11 changes no output on any input the seat found. | A hand case for the guard (a street whose `to` is not its own `end` row: the typed refusal stays), or drop the guard and make such a street final too — the session's choice at the hardening pass. If a run ever meets the shape, it is a lawful-input refusal (OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED) and a fix row. | M4 |
+| N-s4c-3 | **"Ran once" is one seed and stage, under both rerolls.** The corrected sentence of round S4's section and of C-0496 (3) — "S5d's top-up ran once in round S3's sweep (site 400 / 12, seed 11, stage 3)" — is the session's wording; the seat's sweep holds the top-up in two of its 360 runs, seed 11 at reroll 0 and under `{ S5: 1 }` (`topUp: 'grown'`, rim 0 seeds, 0 proposals, 0 streets), as N-s3c-2 and the builder's census paragraph say. `none` at every stage of the other 358 runs. The claim that matters is exact: S5d draws at no seed of any frame. | None needed; if the sentence is touched again: "at one seed and stage (site 400 / 12, seed 11, stage 3; both rerolls)". | — |
+| N-s4c-4 | **RELATED's one foreign red, with its seed.** RELATED@1000 over the six owned growth sources (tree, W = 1, run seed `PLAT_FUZZ_SEED=-1144362952`): 274 of 275 files, 3 462 of 3 463 tests. The red is `bench/test/site/summary.test.ts:258`, the canary (*relief-60 coarse seed 46 moved: re-run the summary (Q36)*: received `4c9647bf15914e6d…`, the committed summary holds `eb2046ddce3ce2c1…`). `prune.ts` is on its import path, so the seat ran the canary alone in its mirror under the pre-round `prune.ts` and under the tree's: the received digest is `4c9647bf…` in both. The round does not move it; it is the head's declared stale summary (J772 (7)). No test of this item is red; the run met none of Q152's bands reds, J176's reference-machine files or Q153's flake. | The session's re-run of the site summary (J772 (7)). Nothing for c-05. | session |
+
+## Fix round S5 (lane `build/M0-c-05-fix-s5`, 2026-11-12): the closing check S4's line B-1 (N-s4c-1)
+
+The closing check S4 (`checks/M0-c-05-s4.md`) failed the round on one line, B-1 (mutant M8, notes id N-s4c-1): the
+trim's "nothing to trim" branch (`prune.ts`, round S4) takes no junction id — C-0496 (1)'s "`jN` not advanced", the
+session's "it must move NOTHING ELSE" — and no test held it: with `jN += 1` added inside the branch `trim.test.ts` stayed
+green 7 / 7 while S5's root moved on both runs the file pins. The tree's code is right; this round adds the missing pin.
+TESTS ONLY, NO-SHIFT: one file changed, `packages/layout/test/growth/s5cd/trim.test.ts` (one test added); no source,
+record, export or message text moved (the six owned growth sources hash as round S4 left them: `prune.ts` `df11390d…`,
+`proposals.ts` `e98c7926…`, `legality.ts` `806db60f…`, `capacity.ts` `30c60abe…`, `heading.ts` `a7151d06…`, `index.ts`
+`3cef1142…`). No git.
+
+| row | outcome | change | pin (test) | mutant → result |
+|---|---|---|---|---|
+| B-1 / N-s4c-1 | **PINNED** (tests only, NO-SHIFT; the code unchanged) | none in the source | `trim.test.ts` *a real trim after it in the same batch takes the next junction id: the untrimmed street burns none (B-1, M8)* — the checker's mirror case: `ribbonCase(5_000, 4_998)` plus a second provisional secondary `way:4` from (10 000, 0) to (10 000, 6 000), its rows `junction:2` (T, arms `way:10`, `way:4`) and `junction:3` (end, arm `way:4`), appended after `way:3` to the record's streets and junctions and the state's ways and junctions. Expected: `refused` `{}`; `trimmed` `[way:4]` cut at (10 000, 4 998); `way:3`'s `to` still `junction:1` and its end shape final; `way:4`'s `to` `junction:4`, not provisional; the record's and the state's rows `junction:0, 1, 2, 4` | M8 → **red**; M1 → **red** (table below) |
+
+The pin reads no S5 root, so no earlier stage's move re-pins it (the alternative the line offered — a root line in each
+run pin — was not taken: the hand case kills M8 without that price). Under the pre-round trim the second street's row is
+`junction:4` too, so the case also shows the fix takes no id, as the refused path took none.
+
+**Mutant table** (the lane's mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-05-fix-s5/plat`, a `cp -a` of
+`plat/`; isolation proved first: no link into the tree, `@plat/kernel` resolving inside the mirror; W = 1; each mutated
+file restored by copy from the tree and `cmp -s` before the next).
+
+| mutant | where | run | result |
+|---|---|---|---|
+| M8 | `jN += 1;` added inside the "nothing to trim" branch, before its `continue` | `trim.test.ts` -t 'the trim: a provisional street' | **red** 1 failed / 5 passed: the new pin, *expected { kind: 'junction', id: 'junction:5' } to deeply equal { kind: 'junction', id: 'junction:4' }* |
+| M8 | the same, on the item's test folder `packages/layout/test/growth/s5cd/`, `--bail=1` | the folder | **red**, exit 1: the same assertion (1 failed, 20 passed of 23 run before the bail) |
+| M1 | the fix reverted (the round-S4 block removed; the file hashes `25ae79b2ca78d634…`, the pre-round `prune.ts`) | `trim.test.ts`, whole, no bail | **red** 6 failed / 2 passed — as before (the three hand cases and both run pins on the counted `E_DEGENERATE` and the provisional flag; the two real trims green) plus the new pin (*expected { E_DEGENERATE: 1 } to deeply equal {}*) |
+
+**Gates (in the tree).** install --frozen-lockfile 0; lint 0 (eslint 1311 files, 0 errors, 0 warnings; `lint:
+probe-red ok`, every planted line reported); build 0. NEAR at full strength (the item's two test folders,
+`packages/layout/test/growth/s5cd/` and `packages/testkit/test/layout/growth-s5cd/`, `PLAT_FUZZ_RUNS` unset, W as
+`tools/test_budget.py` printed): **18 files, 172 tests, all green**, exit 0 (W = 1; 1 382 s; fast-check seed -284543895; round S4's 171 plus the new pin). RELATED@1000 is not re-run: this round changed no source file, and the six
+owned growth sources hash as round S4's RELATED@1000 ran them (274 / 275 files, the one red the head's declared summary
+canary, N-s4c-4); the one test file added imports only inside its package. A timing above is informative only.
+
+**Refusal census.** Unchanged (no source change): the 44 registered runs 0 → 0, round S3's 360 sweep runs as round S4
+left them (prune `E_DEGENERATE` 0). Nothing reported; no contract changed. N-s4c-2 (the end-row guard's pin) stays the
+hardening row the closing check wrote; N-s4c-3 and N-s4c-4 are notes.
