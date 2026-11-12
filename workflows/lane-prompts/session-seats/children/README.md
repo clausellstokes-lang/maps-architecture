@@ -36,3 +36,4 @@ what each child was told, and re-create a child from the same text.
 | launch-DU.md | DU | M0-c-04 S6 (S5a / S5b: Q132's caller wiring, Q173's branching wall chain — diagnose first, Q174 (c)'s unwalled-stage boundary — measure first, Q174 (d)'s pin and wording) |
 | launch-DV.md | DV | M0-a-05 S14 (the router's round after the frames; twelve lines), on M0-a-06 S9's landed head |
 | launch-DW.md | DW | M0-a-09 S20 (the wiring and measurement round: the exact kerb as a debug-only shadow; the tables round 2B is ruled on), beside M0-a-05 S14 |
+| launch-DX.md | DX | M0-a-11 S7 (the skeleton's follow-up on Q180: two test-only pin lines; the engine's spike class, diagnose first), launched when DT's seat freed (J782) |
