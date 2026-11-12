@@ -16,8 +16,11 @@ was already clear.
 | 16 | `packages/site/test/water/faces.test.ts` |
 | 8 | `packages/layout/test/enceinte/bend.test.ts` |
 
-ONE CLASS: a vertex on the arena's frame where a water body's shore meets it — three L0 edges, the pair "frame alone /
-shore + frame" sharing the frame's row. Three sample lines (file, decisions, vertex, the row lists of the lowest-level
+TWO CLASSES, by the rows' kinds (909 events in all): (i) 854 — a vertex on the arena's frame where a water body's shore
+meets it: three L0 edges, the pair "frame alone / shore + frame" sharing the frame's row (row kinds 9 alone, 6 + 9,
+6 + 7); (ii) 47 — a vertex where two water bodies' shores meet (a confluence or a mouth): three L0 edges, a pair
+sharing one body's shore row while the other body's shore rides on one side (kinds 6 + 7, 6 + 6, 6 alone); 8 others
+mix the two. Three sample lines (file, decisions, vertex, the row lists of the lowest-level
 pairs as kind/entity/ordinal/level):
 
 ```
@@ -28,7 +31,7 @@ packages/site/test/water/slow-rings.test.ts	old=false new=true	v=(-43818,-9707)	
 
 WHAT IT MEANS: under the amended rule the flag byte of every such vertex changes on every derivation whose water
 touches the frame, so every such arena's bytes and every root downstream move — a declared shift far wider than the
-forms Q181 names. The fold into the merged RQ2 round (option F) would take away that round's strongest net (its
+forms Q181 names (the confluence class likewise). The fold into the merged RQ2 round (option F) would take away that round's strongest net (its
 LINE 7: roots and the golden probe identical on arenas without a `shape` row). THE SESSION'S LEANING IS THEREFORE
 OPTION S — the rule as its own round after the RQ2 round, with its own measured re-pin list — pending the adversarial
 review, which has been told this figure.
