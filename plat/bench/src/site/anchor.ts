@@ -2,9 +2,10 @@
 // was derived on, recorded in it so `summary.test.ts` can hold a stale summary RED rather than pass its shape alone.
 //
 // Three parts, each with its scope (C-0453 states the trade-off and the re-run rule):
-//   * `harness` — sha256 over the harness's own sources (bench/src/site, every file): compared byte for byte. A change to
-//     the code that derives, reads or folds the records is a change to the summary's meaning; the round that makes it
-//     re-runs the summary.
+//   * `harness` — sha256 over the harness's own sources (bench/src/site, every file): compared byte for byte, the
+//     ledger-id tokens of the ID RULE aside (S4, Q137: `normaliseLedgerIds` — a landing's citation renumber, C-0104,
+//     never moves it; any other byte does). A change to the code that derives, reads or folds the records is a change to
+//     the summary's meaning; the round that makes it re-runs the summary.
 //   * `canary` — one CITY record of the run (one that ends every stage ok, with the least charged work: `canaryIndex`)
 //     and its sha256: re-derived on the tree and compared. A change in any package the spike derives through (kernel,
 //     model, tables and its data, site, layout, the corpus runner) that moves the canary's record turns the test red:
@@ -65,13 +66,31 @@ function filesUnder(root: string, dir: string, out: string[]): void {
   }
 }
 
-/** sha256 over a scope under `root` (plat/): each file's path and content digest, in path order. */
+/**
+ * The ledger-id tokens the ID RULE renumbers at a landing (C-0104; M0-e-06 S4, Q137): a choices row `C-dddd`, a
+ * CLEAN-ROOM row `L-dddd`, a notes row `N-d…`, each a whole token (not inside a longer word or number).
+ */
+export const LEDGER_ID_TOKEN = /\b([CL])-\d{4}\b|\bN-\d+\b/g;
+
+/**
+ * A file's bytes with every ledger-id token replaced by its kind's placeholder (`C-#`, `L-#`, `N-#`; Q137): two files
+ * that differ only by a citation's number give the same bytes, every other byte is kept as it was (the bytes read as
+ * latin1, one character per byte, so no decoding moves them).
+ */
+export function normaliseLedgerIds(bytes: Buffer): Buffer {
+  return Buffer.from(bytes.toString('latin1').replace(LEDGER_ID_TOKEN, (token: string) => `${token[0]}-#`), 'latin1');
+}
+
+/**
+ * sha256 over a scope under `root` (plat/): each file's path and the digest of its ledger-id-normalised content
+ * (`normaliseLedgerIds`, Q137), in path order — a citation renumber leaves it, any other edit moves it.
+ */
 export function scopeDigest(root: string, scope: readonly string[]): ScopeDigest {
   const files: string[] = [];
   for (const d of scope) filesUnder(root, d, files);
   files.sort();
   const h = createHash('sha256');
-  for (const f of files) h.update(`${f}\u0000${createHash('sha256').update(readFileSync(join(root, f))).digest('hex')}\n`);
+  for (const f of files) h.update(`${f}\u0000${createHash('sha256').update(normaliseLedgerIds(readFileSync(join(root, f)))).digest('hex')}\n`);
   return { scope: [...scope], files: files.length, sha256: h.digest('hex') };
 }
 

@@ -463,16 +463,43 @@ describe('hardening round S3: the refusal classes (Q122) and the per-stage work 
     const rs = [refusedAt(9, 'S5', 'E_SELF_INTERSECT', 'F-WALL: b'), refusedAt(3, 'S5', 'E_SELF_INTERSECT', 'F-WALL: a'), refusedAt(5, 'S3', 'E_INVARIANT', 'gate x'), refusedAt(7, 'S5', 'E_SELF_INTERSECT', 'F-WALL: a'), good(1), good(2)];
     const g = foldGroup('relief-60', 'default', rs);
     expect(g.refusals).toEqual([
-      { stage: 'S3', code: 'E_INVARIANT', count: 1, seeds: [5], message: 'gate x', messages: 1 },
-      { stage: 'S5', code: 'E_SELF_INTERSECT', count: 3, seeds: [3, 7, 9], message: 'F-WALL: a', messages: 2 },
+      { stage: 'S3', code: 'E_INVARIANT', count: 1, seeds: [5], message: 'gate x', messages: 1, texts: [{ text: 'gate x', seeds: [5] }] },
+      { stage: 'S5', code: 'E_SELF_INTERSECT', count: 3, seeds: [3, 7, 9], message: 'F-WALL: a', messages: 2, texts: [{ text: 'F-WALL: a', seeds: [3, 7] }, { text: 'F-WALL: b', seeds: [9] }] },
     ]);
     for (const c of g.refusals) expect(g.stages[c.stage].refused[c.code]).toBe(c.count);
     // a record with no runner detail for its refused stage names the seed with no message
     const bare = foldGroup('relief-60', 'default', [good(4, { stages: { S1: 'refused E_INVARIANT', S3: 'not reached', S4: 'not reached', S5: 'not reached', S6: 'not reached' } })]);
-    expect(bare.refusals).toEqual([{ stage: 'S1', code: 'E_INVARIANT', count: 1, seeds: [4], message: null, messages: 0 }]);
+    expect(bare.refusals).toEqual([{ stage: 'S1', code: 'E_INVARIANT', count: 1, seeds: [4], message: null, messages: 0, texts: [{ text: null, seeds: [4] }] }]);
     // the summary carries the classes per group
     const sum = summaryOf(foldReport('test', 1, 6, ['relief-60'], ['default'], rs), []) as { groups: { refusals: unknown }[] };
     expect(sum.groups[0].refusals).toEqual(g.refusals);
+  });
+
+  it('hardening round S4 (note 25): a class with two failure sites names both — each distinct text with its seeds, by its lowest seed; the seeds partitioned, a record with no detail apart', () => {
+    // relief-60 coarse S5 E_INVARIANT at S3's run: seed 118 the wall's branches, seed 151 S5a's gate vertices — one code,
+    // two sites; S3's class carried seed 118's text only
+    const branches = '(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)';
+    const gates = 'S5a: the gate vertices could not be put on their ways';
+    const bare = good(140, { stages: { S1: 'ok', S3: 'ok', S4: 'ok', S5: 'refused E_INVARIANT', S6: 'not reached' } });
+    const rs = [refusedAt(151, 'S5', 'E_INVARIANT', gates), refusedAt(118, 'S5', 'E_INVARIANT', branches), bare, refusedAt(160, 'S5', 'E_INVARIANT', branches), refusedAt(152, 'S5', 'E_INVARIANT', gates), good(1)];
+    const [c] = foldGroup('relief-60', 'default', rs).refusals;
+    expect(c).toEqual({
+      stage: 'S5',
+      code: 'E_INVARIANT',
+      count: 5,
+      seeds: [118, 140, 151, 152, 160],
+      message: branches,
+      messages: 2,
+      texts: [
+        { text: branches, seeds: [118, 160] },
+        { text: null, seeds: [140] },
+        { text: gates, seeds: [151, 152] },
+      ],
+    });
+    expect(c.texts.flatMap((t) => t.seeds).sort((a, b) => a - b)).toEqual(c.seeds);
+    expect(c.texts.filter((t) => t.text !== null).length).toBe(c.messages);
+    // the order of the records is not the order of the texts: the same records reversed give the same class
+    expect(foldGroup('relief-60', 'default', [...rs].reverse()).refusals).toEqual([c]);
   });
 
   it('a stage\'s blocks: a kernel counter one sample per batch (its count over the batch\'s units), route.nodes and growth.* from the stage rows, every charged counter', () => {
