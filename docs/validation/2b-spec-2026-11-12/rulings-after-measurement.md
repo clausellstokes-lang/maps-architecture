@@ -237,3 +237,36 @@ No blocker; seven majors. The reviewer would not bind the re-draft yet, and neit
 NEXT: the measurement of R with the four fixes (B-FUZZ, CITY, the red list); then the spec seat re-drafts ONCE MORE as
 two entries on these rulings and the measured figures; the reviewer reads the two entries; then round A binds — on
 S20's landed tree.
+
+## The rule R measured (`measurement/step10-R.md`; 13:49Z) — R IS DROPPED; the design under measurement is THE LADDER
+
+The measurement seat built R with the third review's four fixes (R+) and ran it on the B-FUZZ bands population and at
+CITY.
+
+* **At CITY and the test size every bar holds:** the S8 ≡ S9 exact share 0.973 – 1.000 (above the base's on every
+  seed), none beyond, no lay refusal, no 'unresolved' rung, every laid-against-X difference thin; 41.7 and 45.2 ms a
+  cut (source mode) against the base's 98. R+ itself is idempotent and order-free on every read (0 of 143 400).
+* **In the B-FUZZ population it FAILS the bar it exists for:** 20 networks that the base commits are refused (rule (b),
+  the crude first rule, left 4). Two causes. (1) THE SNAP MAKES A NEW CLASS: where a dead-end, bent or ring way stands
+  inside a face (an antenna of the face's own walk), S puts kerb vertices on it and the outline then ends on a dangling
+  tip — 11 networks of the widened family, all committed by the base, by P and by rule (b). (2) THE DOOR REFUSES SHALLOW
+  EDGE CONVERGENCES — an edge of the exact outline running 1 – 26 cm from the face's boundary or from another piece at
+  under 10°, with no vertex near — and NO vertex rule reaches them (12 of the 13 refusals left in the main family). The
+  exact erosion (P1) also keeps about half the thin components the crude 2A/P test removed, and the door refuses some
+  of those. The L3 variant commits nothing more.
+
+RULED (provisional, vetoable): **THE RESOLUTION RULE IS DROPPED.** Two designed rules and one crude one have now been
+measured; each trades one refusal class for another, because what the door refuses is an edge-to-edge relation with the
+arena's content that only the door computes. The remedy the measurements point to needs no new geometry:
+
+**THE LADDER — the lay of the exact outline, with the construction as its second rung.** `kerb(F)`: rung 1, X laid by
+the commit's own engine in an undone dry run (the lay-planned read, measured at 0.973 – 1.000); if the door refuses that
+lay, rung 2, the construction's read of F — §3.7's original method, today's served read. S9's commit: rung 1, the engine
+with the exact outlines; if the op refuses, it is undone and run again with the construction's reads. By construction
+no network the base commits can be refused, and every network either method commits is committed (P and the base
+refuse only 8 networks in common, against the base's 34). The construction therefore STAYS in the kernel as a rung — it
+is GEO-9's own engine and the architecture's "pre-decided fallback" pattern — and is no longer "kept one round as a
+control" (it remains the control too). What the ladder gives up: nothing of the measured plan ≡ commit at CITY (no read
+and no op fell to rung 2 there in any P′ run); in the rare district where the commit falls to rung 2 after its faces
+were planned on rung 1, the committed block differs from the planned one by what the construction differs from the lay
+— to be measured (step 11) and stated. The measurement seat is running the ladder on the same population and seeds.
