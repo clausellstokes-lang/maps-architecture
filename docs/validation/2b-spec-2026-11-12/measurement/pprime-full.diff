@@ -1,0 +1,183 @@
+--- kerb.P.ts	2026-11-12 07:06:55.999042204 +0000
++++ probeL/plat/packages/kernel/src/arr/kerb.ts	2026-11-12 09:46:52.417863737 +0000
+@@ -149,12 +149,13 @@
+ import { nearParallel } from '../insert/stretch.js';
+ import { area2, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+ import { cutKnot, knotLines, routeLines } from '../tx/profile.js';
+-import { check, openTx, type OpenTx } from '../tx/state.js';
++import { check, markOpen, openTx, type OpenTx } from '../tx/state.js';
+ import type { Overlay } from '../tx/index.js';
+ import type { ChainProfile, ChainRef, Cm, Level, LatticePoint } from '../types/index.js';
+ import { bufferParts, SAGITTA_CM } from './buffer.js';
+ import { canonicalRing, compareRings, dropStraight, simpleLoops, type Ring } from './winding.js';
+ import { exactKeyContentOfRead, exactRegionOfKey } from './kerbExact.js';
++import { bandCore, type BandResult } from './bandUnion.js';
+ 
+ /** A spine's declared ends (§3.7: round joins, "square ends where declared"). */
+ export type SpineEnd = 'round' | 'square';
+@@ -2178,24 +2179,33 @@
+  * bandUnion's false). The overlay must be open (`openTx`: a shell or a closed transaction is a programming error). Reads
+  * only: the arena, its index and the batch's work, warnings and journals are as the read found them.
+  */
+-export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
++function readKerbInner(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
+   // ROUND 2B PROTOTYPE P (a scratch mirror; draft 2.1): the served read is the pure exact function X — readFace, the
+   // key's content, X = exactRegionOfKey(content), the spine map (edge spines plus the reaching vertex-only ones), the
+   // splits on X. No dry run, no savepoint, no insertChain. The construction stays callable as `constructionRead`.
+   const t = openTx(o);
+   const p = t.plat;
++  const GT = (globalThis as unknown as { __p2b?: Record<string, number> }).__p2b;
++  const T0 = GT !== undefined ? P2BNOW() : 0;
+   const f = readFace(p, face, widths, cache, vertexContacts);
++  const T1 = GT !== undefined ? P2BNOW() : 0;
+   const content = exactKeyContentOfRead(f, vertexContacts);
++  const T2 = GT !== undefined ? P2BNOW() : 0;
++  if (GT !== undefined) { GT.msReadFace = (GT.msReadFace ?? 0) + (T1 - T0); GT.msKey = (GT.msKey ?? 0) + (T2 - T1); }
+   if (!content.ok) {
+     CENSUS.set(p, { face, reaching: [], refusedAt: null, faithful: 'none' });
+     return err(content.code, content.detail);
+   }
+   const c = content.value;
++  const T3 = GT !== undefined ? P2BNOW() : 0;
+   const X = exactRegionOfKey(c);
++  if (GT !== undefined) GT.msExact = (GT.msExact ?? 0) + (P2BNOW() - T3);
+   const spines = new Map<string, Spine>(f.spines);
+   for (const s of f.through) if (c.reaching.includes(s.key)) spines.set(s.key, s);
+   CENSUS.set(p, { face, reaching: c.reaching.slice(), refusedAt: null, faithful: 'none' });
++  const T4 = GT !== undefined ? P2BNOW() : 0;
+   const sp = splitsOn(p, f.edges, spines, X.map((r) => r.slice()));
++  if (GT !== undefined) GT.msSplits = (GT.msSplits ?? 0) + (P2BNOW() - T4);
+   if (!sp.ok) return err(sp.code, sp.detail);
+   const census = f.through.length > 0 ? { census: { base: ok<Ring[]>(c.edgeRegion.map((r) => r.slice())), reaching: c.reaching.slice() } } : {};
+   const value: KerbRead = { face, rings: f.rings, edges: f.edges, spines, kerb: sp.value.rings, splits: sp.value.splits, warnings: [], region: X.map((r) => r.slice()), ...census };
+@@ -2250,6 +2260,54 @@
+   return ok(value, k.warnings);
+ }
+ 
++const P2BNOW = (): number => (globalThis as unknown as { performance: { now(): number } }).performance.now(); // P2B-INSTR
++// P2B-INSTR: the served read wrapped with inert counters (globalThis.__p2b)
++export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
++  const G = (globalThis as unknown as { __p2b?: Record<string, number> }).__p2b;
++  if (G === undefined) return readKerbInner(o, face, widths, cache, vertexContacts);
++  const ic0 = G.insertChain ?? 0;
++  const os0 = G.opSave ?? 0;
++  const t0 = P2BNOW();
++  const r = readKerbInner(o, face, widths, cache, vertexContacts);
++  G.readMs = (G.readMs ?? 0) + (P2BNOW() - t0);
++  G.reads = (G.reads ?? 0) + 1;
++  if (!r.ok) G.readRefused = (G.readRefused ?? 0) + 1;
++  else {
++    // R-8's census of the served kerb: components (outer rings) narrower than 26 cm (2·area ⁄ perimeter) or under 4 m²; edges under 25 cm
++    let thin = 0;
++    let small = 0;
++    let short = 0;
++    for (const ring of r.value.kerb) {
++      let a2 = 0;
++      let per = 0;
++      for (let i = 0; i < ring.length; i += 1) {
++        const a = ring[i];
++        const b = ring[(i + 1) % ring.length];
++        a2 += a.x * b.y - b.x * a.y;
++        const l = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
++        per += l;
++        if (l < 25) short += 1;
++      }
++      if (a2 > 0) {
++        if (per > 0 && a2 / per < 26) thin += 1;
++        if (a2 / 2 < 40000) small += 1;
++      }
++    }
++    G.readsOk = (G.readsOk ?? 0) + 1;
++    G.kerbRings = (G.kerbRings ?? 0) + r.value.kerb.length;
++    if (thin > 0) G.readsThinComponent = (G.readsThinComponent ?? 0) + 1;
++    if (small > 0) G.readsSmallComponent = (G.readsSmallComponent ?? 0) + 1;
++    if (thin > 0 || small > 0) G.readsThinOrSmall = (G.readsThinOrSmall ?? 0) + 1;
++    if (short > 0) G.readsShortEdge = (G.readsShortEdge ?? 0) + 1;
++    G.thinComponents = (G.thinComponents ?? 0) + thin;
++    G.smallComponents = (G.smallComponents ?? 0) + small;
++    G.shortEdges = (G.shortEdges ?? 0) + short;
++  }
++  G.readInsertChain = (G.readInsertChain ?? 0) + ((G.insertChain ?? 0) - ic0);
++  G.readOpSave = (G.readOpSave ?? 0) + ((G.opSave ?? 0) - os0);
++  return r;
++}
++
+ /**
+  * The junctions' corridor_split chains on a region read for F (`KerbRead.region`), each split end spliced into it: the
+  * kerb's rings and the splits (C-0212 (5)) — `readKerb`'s last step, on the region its dry-run traced. Given another region
+@@ -2283,11 +2341,75 @@
+  * Read-only, on the open transaction's arena (the dry-run); the warnings are its insertions' (§3.7's split reads them).
+  */
+ export function kerb(tx: Overlay, face: FaceId, widths: SpineWidths): KernelResult<Ring[]> {
++  if ((globalThis as unknown as { __p2bMode?: string }).__p2bMode === 'lay') return layRead(tx, face, widths);
+   const r = readKerb(tx, face, widths);
+   if (!r.ok) return err(r.code, r.detail);
+   return ok(r.value.kerb, r.value.warnings);
+ }
+ 
++/**
++ * ROUND 2B PROTOTYPE P' (the lay-planned read; the review's third design): X read as P serves it, then X's outline and
++ * splits laid by the COMMIT'S OWN CODE — `bandCore` on this one face at L2, corridorUnion's spec — in the open
++ * transaction under an op savepoint, the built blocks read back (the L2 faces the engine classes as blocks; the face
++ * itself where it is left whole; none where it is all band), and everything put back. Mirror-only, switched by
++ * globalThis.__p2bMode === 'lay' (kerb() only: S9's own reads, readKerb, stay X).
++ */
++function layRead(o: Overlay, face: FaceId, widths: SpineWidths): KernelResult<Ring[]> {
++  const G = (globalThis as unknown as { __p2b?: Record<string, number>; __p2bLay?: unknown[] });
++  const now = (): number => (globalThis as unknown as { performance: { now(): number } }).performance.now();
++  const t0 = now();
++  const r = readKerb(o, face, widths);
++  if (!r.ok) return err(r.code, r.detail);
++  const t = openTx(o);
++  const p = t.plat;
++  const h = p.faces[1].owner[face];
++  const entity = h >= 0 ? idOf(p, h) : null;
++  const ic0 = G.__p2b?.insertChain ?? 0;
++  const t1 = now();
++  const save = opSave(t);
++  // the batch's work as the read found it (opSave keeps work charged; a read charges nothing, as the dry run's shell did not)
++  const w0 = { total: t.work.total, counts: new Map(t.work.counts) };
++  const t2 = { ...t, level: 2 as Level } as OpenTx;
++  markOpen(t2); // the copy at L2 is an open transaction of the same batch (mirror-only)
++  let out: KernelResult<Ring[]>;
++  let why = 'ok';
++  try {
++    const res = entity === null ? err<BandResult>('E_INVARIANT', 'lay: the face has no owner') : bandCore(t2, [face], { widths, edgeRole: 'kerb', entityOf: () => entity, owner: null, vertexContacts: true });
++    if (!res.ok) {
++      out = err(res.code, res.detail);
++      why = `refused ${res.code} ${res.detail}`;
++    } else {
++      const rings: Ring[] = [];
++      if (res.value.whole.includes(face)) for (const q of r.value.kerb) rings.push(q.slice());
++      for (const c of res.value.blocks) {
++        for (const walk of faceWalk(p, 2, c)) {
++          const q = walk.map((hh) => ({ x: p.vertices.x[p.halfEdges.origin[hh]] as Cm, y: p.vertices.y[p.halfEdges.origin[hh]] as Cm }));
++          if (q.length >= 3 && area2(q) !== 0) rings.push(canonicalRing(q));
++        }
++      }
++      out = ok(rings.sort(compareRings), []);
++      if (res.value.wholeBand.includes(face)) why = 'wholeBand';
++    }
++  } finally {
++    rollback(t, save, err('E_INVARIANT', 'lay: the dry lay put back'));
++    (t.work as { total: number }).total = w0.total;
++    t.work.counts.clear();
++    for (const [k, v] of w0.counts) t.work.counts.set(k, v);
++  }
++  const t3 = now();
++  if (G.__p2b !== undefined) {
++    const C = G.__p2b;
++    C.layReads = (C.layReads ?? 0) + 1;
++    C.layMs = (C.layMs ?? 0) + (t3 - t1);
++    C.layXMs = (C.layXMs ?? 0) + (t1 - t0);
++    C.layInsertChain = (C.layInsertChain ?? 0) + ((C.insertChain ?? 0) - ic0);
++    if (!out.ok) C.layRefused = (C.layRefused ?? 0) + 1;
++    if (entity === null) C.layNoOwner = (C.layNoOwner ?? 0) + 1;
++  }
++  if (G.__p2bLay !== undefined) G.__p2bLay.push({ face, why, F: r.value.rings, spines: [...r.value.spines.keys()], X: r.value.kerb, laid: out.ok ? out.value : null });
++  return out;
++}
++
+ // ---- the junctions and their corridor_split chains -------------------------------------------------------------------
+ //
+ // Computed with the kerb, so the kerb point each split reaches is a vertex of kerb(F) itself (C-0212 (4), (5)); the

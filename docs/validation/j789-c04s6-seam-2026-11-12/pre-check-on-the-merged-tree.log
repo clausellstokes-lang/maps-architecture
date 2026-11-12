@@ -1,0 +1,24 @@
+ RUN  v5.0.3 /home/user/maps-scratch/pre-c04s6/plat
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 2006070159 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=2006070159 draws the same cases (Q96, C-0057)
+ ❯ |layout| test/growth/s5ab/held.test.ts (7 tests | 1 failed) 778063ms
+   ❯ the enclosure of stage k − 1 is held with the standing wall (C-0475 (2)) (7)
+     × relief-60 default seed 13 at CITY: S5 commits (was E_SELF_INTERSECT, F-WALL), every walled stage's boundary holding the wall before it 114774ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  |layout| test/growth/s5ab/held.test.ts > the enclosure of stage k − 1 is held with the standing wall (C-0475 (2)) > relief-60 default seed 13 at CITY: S5 commits (was E_SELF_INTERSECT, F-WALL), every walled stage's boundary holding the wall before it
+AssertionError: expected 82824.21830212144 to be 82753.02515500419 // Object.is equality
+- Expected
++ Received
+- 82753.02515500419
++ 82824.21830212144
+ ❯ test/growth/s5ab/held.test.ts:145:41
+    143|         expect(s3.boundary).not.toBeNull();
+    144|         if (s3.boundary === null) return;
+    145|         expect(s3.boundary.threshold.t).toBe(T3_SEED13);
+       |                                         ^
+    146|         expect(s3.boundary.set.outline.length).toBe(OUTLINE3_SEED13);
+    147|         const wall2 = d.growth.stages[1].wall ?? [];
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 10 passed (11)
+   Start at  14:40:01
+   Duration  781.63s (tests 99%, transform 1%)

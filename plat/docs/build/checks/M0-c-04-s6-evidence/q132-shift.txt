@@ -1,0 +1,129 @@
+# M0-c-04 hardening round S6 — Q132's DECLARED SHIFT, per re-derived seed (census BEFORE on the base vs AFTER on the round's tree)
+# sig   = sha256 of the growth stages (each stage's boundary outline, picks, wall chain, road ids) — the S5a/S5b record
+# s5sig = sha256 of S5's whole product (the arena with its strips; typed arrays by length) — moves where the strips move
+# q132 bite (BEFORE) = layStrips, not handed the Way records, would have laid another set of corridors had it been.
+# columns: run | role | S5 before -> after | sig equal | s5sig before -> after
+relief-3000-coarse-1 | control | ok -> ok | sig same | 3966f1c93ce9f2e3 -> 3966f1c93ce9f2e3
+relief-3000-coarse-101 | bitten | ok -> ok | sig same | a1342b2d8829d08d -> 1f2dc72b2c592788  (moved)
+relief-3000-coarse-104 | bitten | ok -> ok | sig same | 0885550341853e02 -> f1b1d99040e71a9d  (moved)
+relief-3000-coarse-11 | bitten | ok -> ok | sig same | 337f7220d3f6785b -> ef66487a5b5d24d0  (moved)
+relief-3000-coarse-114 | bitten | ok -> ok | sig same | b817b7ff9ba450a5 -> 1af5c971ebd65e8c  (moved)
+relief-3000-coarse-116 | bitten | ok -> ok | sig same | eda735f0f25f701d -> 8ebc1f0d8ea865a3  (moved)
+relief-3000-coarse-120 | bitten | ok -> ok | sig same | a8e47cd84d6b34fb -> 23748e7a6aa8b363  (moved)
+relief-3000-coarse-122 | bitten | ok -> ok | sig same | 72274f1c4578914b -> 61e9bb8aa48e0afd  (moved)
+relief-3000-coarse-128 | bitten | ok -> ok | sig same | 8fc0a36fdf797fb8 -> dc74a2f44d269f2e  (moved)
+relief-3000-coarse-130 | bitten | ok -> ok | sig same | 68c36a7a6369fe80 -> 3c058942ee6206b8  (moved)
+relief-3000-coarse-133 | bitten | ok -> ok | sig same | ea4e0d63eb4ec8c9 -> b4cf320204af614e  (moved)
+relief-3000-coarse-143 | bitten | ok -> ok | sig same | 1936716985831b76 -> b5884b4adab1f8a7  (moved)
+relief-3000-coarse-144 | bitten | ok -> ok | sig same | 65939cded4887e23 -> 950e60b1b005691c  (moved)
+relief-3000-coarse-163 | bitten | ok -> ok | sig same | c746e5d7bcd69786 -> 5e6d83ad2bef5d53  (moved)
+relief-3000-coarse-164 | bitten | ok -> ok | sig same | 530e3797074b720f -> 3ef5d513a605da6a  (moved)
+relief-3000-coarse-172 | bitten | ok -> ok | sig same | 31620bfcddf11cdf -> dd022196f9d57daa  (moved)
+relief-3000-coarse-180 | bitten | ok -> ok | sig same | 20bd548138c97155 -> 599caffad6c393e9  (moved)
+relief-3000-coarse-181 | bitten | ok -> ok | sig same | f5ebfd4c827d5e16 -> 773e3e62b6cf5f6c  (moved)
+relief-3000-coarse-184 | bitten | ok -> ok | sig same | 95f413100f7fd959 -> 534a40726b9f8c01  (moved)
+relief-3000-coarse-187 | bitten | ok -> ok | sig same | fe1c54045e6ffc29 -> b893c6fc1a84da07  (moved)
+relief-3000-coarse-190 | bitten | ok -> ok | sig same | 12d306261d23c3b4 -> cd74cf584496a239  (moved)
+relief-3000-coarse-192 | bitten | ok -> ok | sig same | 2b2565e7da43bcbb -> e5f0f8a9faa8c4e2  (moved)
+relief-3000-coarse-2 | bitten | ok -> ok | sig same | 337f324bcf4501f8 -> 40653c9f30732b14  (moved)
+relief-3000-coarse-27 | bitten | ok -> ok | sig same | 835d435e6c49012a -> 8ab1fa728a019f34  (moved)
+relief-3000-coarse-28 | bitten | ok -> ok | sig same | bbc93be7d09c33cb -> 6e6112861161f221  (moved)
+relief-3000-coarse-3 | bitten | ok -> ok | sig same | 33cf8fdb90ba6251 -> e1202110c5a17410  (moved)
+relief-3000-coarse-30 | bitten | ok -> ok | sig same | 9d7e5e29be0fd981 -> 3bc26daa8e13bf96  (moved)
+relief-3000-coarse-33 | bitten | ok -> ok | sig same | cde2ab11707ad317 -> 9c5364b9802817e7  (moved)
+relief-3000-coarse-39 | bitten | ok -> ok | sig same | 86ce0266a9ec6d2c -> 68874c9b74e27e2f  (moved)
+relief-3000-coarse-4 | control | ok -> ok | sig same | 0f043237c55b7e25 -> 0f043237c55b7e25
+relief-3000-coarse-40 | bitten | ok -> ok | sig same | f3344d3736166ea9 -> 3055bad8b00af442  (moved)
+relief-3000-coarse-43 | bitten | ok -> ok | sig same | ee70338b3cd73e95 -> 99a7f38c3fc5478d  (moved)
+relief-3000-coarse-48 | bitten | ok -> ok | sig same | 6d8f511ffe9466c9 -> 91cd259b4906f939  (moved)
+relief-3000-coarse-5 | control | ok -> ok | sig same | 554c18cad08b7f7f -> 554c18cad08b7f7f
+relief-3000-coarse-50 | bitten | ok -> ok | sig same | 3e95a8d1c1b392db -> d408cdafa03dff01  (moved)
+relief-3000-coarse-51 | bitten | ok -> ok | sig same | 15ce598b9124e062 -> 76efa9975f529ce1  (moved)
+relief-3000-coarse-6 | control | ok -> ok | sig same | 7032d3d63f5c015f -> 7032d3d63f5c015f
+relief-3000-coarse-62 | bitten | ok -> ok | sig same | cd7557583d9faae9 -> d8ffcb77a13e808f  (moved)
+relief-3000-coarse-68 | bitten | ok -> ok | sig same | cc051a74242d0c83 -> e656bf4d7a07878a  (moved)
+relief-3000-coarse-7 | control | ok -> ok | sig same | 3039f1cf4be28059 -> 3039f1cf4be28059
+relief-3000-coarse-71 | bitten | ok -> ok | sig same | bf2736a7b37d8946 -> 1f3cb9338b1f1f69  (moved)
+relief-3000-coarse-72 | bitten | ok -> ok | sig same | f3e8134bb14eb178 -> 2b6181258e2ebfdf  (moved)
+relief-3000-coarse-76 | bitten | ok -> ok | sig same | 634cdb008020a2e8 -> 949e4d1413b56c00  (moved)
+relief-3000-coarse-86 | bitten | ok -> ok | sig same | 155bbbce44b2277f -> 028f0ed9714dbdbc  (moved)
+relief-3000-coarse-88 | bitten | ok -> ok | sig same | f4e38166bf4a2c11 -> 5e6704a44fb7b80a  (moved)
+relief-3000-coarse-89 | bitten | ok -> ok | sig same | 4389febeefa00066 -> fe412f15160b60f6  (moved)
+relief-3000-coarse-90 | bitten | ok -> ok | sig same | 1019f811ac4dba43 -> 0fca50598123c611  (moved)
+relief-3000-coarse-91 | bitten | ok -> ok | sig same | 7d57411feca16ab4 -> 441f070ead2311af  (moved)
+relief-3000-coarse-92 | bitten | ok -> ok | sig same | ee10644651d7a19e -> d3f961ee600a33bb  (moved)
+relief-3000-coarse-94 | bitten | ok -> ok | sig same | 56fa979f94601ae1 -> 47c4fa24e03d1bb8  (moved)
+relief-3000-coarse-99 | bitten | ok -> ok | sig same | b9e7829f9852c107 -> f3e62baef712a72b  (moved)
+relief-3000-default-1 | control | ok -> ok | sig same | 3966f1c93ce9f2e3 -> 3966f1c93ce9f2e3
+relief-3000-default-101 | bitten | ok -> ok | sig same | a1342b2d8829d08d -> 1f2dc72b2c592788  (moved)
+relief-3000-default-104 | bitten | ok -> ok | sig same | 0885550341853e02 -> f1b1d99040e71a9d  (moved)
+relief-3000-default-11 | bitten | ok -> ok | sig same | 0fcb22e1023e0d4e -> f34f7dd8fce9c7f9  (moved)
+relief-3000-default-114 | bitten | ok -> ok | sig same | b817b7ff9ba450a5 -> 1af5c971ebd65e8c  (moved)
+relief-3000-default-116 | bitten | ok -> ok | sig same | 4dba96654bd40a0d -> 195017682e9a1d4f  (moved)
+relief-3000-default-120 | bitten | ok -> ok | sig same | a7fc4ae05c6d1d88 -> e8be0ca09b4073a0  (moved)
+relief-3000-default-122 | bitten | ok -> ok | sig same | 72274f1c4578914b -> 61e9bb8aa48e0afd  (moved)
+relief-3000-default-128 | bitten | ok -> ok | sig same | c52fbc1fa7a33d52 -> 33fc2e809f4aa0af  (moved)
+relief-3000-default-130 | bitten | ok -> ok | sig same | 68c36a7a6369fe80 -> 3c058942ee6206b8  (moved)
+relief-3000-default-133 | bitten | ok -> ok | sig same | b295cdf1d90d74c9 -> 19b804c5e2274044  (moved)
+relief-3000-default-143 | bitten | ok -> ok | sig same | 1936716985831b76 -> b5884b4adab1f8a7  (moved)
+relief-3000-default-144 | bitten | ok -> ok | sig same | 65939cded4887e23 -> 950e60b1b005691c  (moved)
+relief-3000-default-163 | bitten | ok -> ok | sig same | 2a21c49857562a09 -> 9db0cc1fc74bf434  (moved)
+relief-3000-default-164 | bitten | ok -> ok | sig same | e83c06b4fefb0e73 -> 1d4ce5950cab4a52  (moved)
+relief-3000-default-172 | bitten | ok -> ok | sig same | 31620bfcddf11cdf -> dd022196f9d57daa  (moved)
+relief-3000-default-180 | bitten | ok -> ok | sig same | 20bd548138c97155 -> 599caffad6c393e9  (moved)
+relief-3000-default-181 | bitten | ok -> ok | sig same | e0adf73a0fd7a482 -> 33ad6e10205018c2  (moved)
+relief-3000-default-187 | bitten | ok -> ok | sig same | c6038c9eef6702b2 -> 302b0440ca7cc978  (moved)
+relief-3000-default-190 | bitten | ok -> ok | sig same | 12d306261d23c3b4 -> cd74cf584496a239  (moved)
+relief-3000-default-192 | bitten | ok -> ok | sig same | 2b2565e7da43bcbb -> e5f0f8a9faa8c4e2  (moved)
+relief-3000-default-2 | bitten | ok -> ok | sig same | 0d468f3c82573f47 -> 79973d705b7e61c9  (moved)
+relief-3000-default-27 | bitten | ok -> ok | sig same | 89d101e918188922 -> fbc169f4030e6c9f  (moved)
+relief-3000-default-28 | bitten | ok -> ok | sig same | bbc93be7d09c33cb -> 6e6112861161f221  (moved)
+relief-3000-default-3 | bitten | ok -> ok | sig same | 1a3472452dac6941 -> 958f743032b4ca8e  (moved)
+relief-3000-default-30 | bitten | ok -> ok | sig same | 9d7e5e29be0fd981 -> 3bc26daa8e13bf96  (moved)
+relief-3000-default-33 | bitten | ok -> ok | sig same | cde2ab11707ad317 -> 9c5364b9802817e7  (moved)
+relief-3000-default-39 | bitten | ok -> ok | sig same | 86ce0266a9ec6d2c -> 68874c9b74e27e2f  (moved)
+relief-3000-default-4 | control | ok -> ok | sig same | 0f043237c55b7e25 -> 0f043237c55b7e25
+relief-3000-default-40 | bitten | ok -> ok | sig same | c93464eff4f9b6c9 -> 889b1ffed8841eb1  (moved)
+relief-3000-default-43 | bitten | ok -> ok | sig same | ee70338b3cd73e95 -> 99a7f38c3fc5478d  (moved)
+relief-3000-default-48 | bitten | ok -> ok | sig same | 55a4483234ff88b3 -> 5115f4fdbcc67ae9  (moved)
+relief-3000-default-5 | control | ok -> ok | sig same | 554c18cad08b7f7f -> 554c18cad08b7f7f
+relief-3000-default-50 | bitten | ok -> ok | sig same | 3e95a8d1c1b392db -> d408cdafa03dff01  (moved)
+relief-3000-default-51 | bitten | ok -> ok | sig same | be1b6cf983027953 -> 081f2b98416eecfc  (moved)
+relief-3000-default-6 | control | ok -> ok | sig same | 5052b74d11ac5c98 -> 5052b74d11ac5c98
+relief-3000-default-62 | bitten | ok -> ok | sig same | cd7557583d9faae9 -> d8ffcb77a13e808f  (moved)
+relief-3000-default-68 | bitten | ok -> ok | sig same | cc051a74242d0c83 -> e656bf4d7a07878a  (moved)
+relief-3000-default-7 | control | ok -> ok | sig same | 3039f1cf4be28059 -> 3039f1cf4be28059
+relief-3000-default-71 | bitten | ok -> ok | sig same | bf2736a7b37d8946 -> 1f3cb9338b1f1f69  (moved)
+relief-3000-default-72 | bitten | ok -> ok | sig same | f3e8134bb14eb178 -> 2b6181258e2ebfdf  (moved)
+relief-3000-default-76 | bitten | ok -> ok | sig same | 73b3289d09fd60b8 -> 1fbabf92941267c5  (moved)
+relief-3000-default-86 | bitten | ok -> ok | sig same | 6e1df7c4f3b22985 -> ab969f5ef25acb32  (moved)
+relief-3000-default-88 | bitten | ok -> ok | sig same | f4e38166bf4a2c11 -> 5e6704a44fb7b80a  (moved)
+relief-3000-default-89 | bitten | ok -> ok | sig same | 4389febeefa00066 -> fe412f15160b60f6  (moved)
+relief-3000-default-90 | bitten | ok -> ok | sig same | 1019f811ac4dba43 -> 0fca50598123c611  (moved)
+relief-3000-default-91 | bitten | ok -> ok | sig same | 7d57411feca16ab4 -> 441f070ead2311af  (moved)
+relief-3000-default-92 | bitten | ok -> ok | sig same | ee10644651d7a19e -> d3f961ee600a33bb  (moved)
+relief-3000-default-94 | bitten | ok -> ok | sig same | e840bcd529d507c7 -> 5392b8a729a5c66e  (moved)
+relief-3000-default-99 | bitten | ok -> ok | sig same | 6b6afb91aeff7e6d -> 82cb834d17300424  (moved)
+relief-60-coarse-1 | control | ok -> ok | sig same | 4d00e2f3dfe26829 -> 4d00e2f3dfe26829
+relief-60-coarse-2 | control | ok -> ok | sig same | 1468d531ddcdd16b -> 1468d531ddcdd16b
+relief-60-coarse-3 | control | ok -> ok | sig same | 2af1158762a3e338 -> 2af1158762a3e338
+relief-60-coarse-4 | control | ok -> ok | sig same | f06e7642bdb25117 -> f06e7642bdb25117
+relief-60-coarse-5 | control | ok -> ok | sig same | 18dba28d79b248e3 -> 18dba28d79b248e3
+relief-60-coarse-96 | bitten | ok -> ok | sig same | bd2adf46a7fb0938 -> 281d64c7f25ef0b3  (moved)
+relief-60-default-1 | control | ok -> ok | sig same | f2bc795fac3b773b -> f2bc795fac3b773b
+relief-60-default-2 | control | ok -> ok | sig same | 3589829100a2a5ac -> 3589829100a2a5ac
+relief-60-default-3 | control | ok -> ok | sig same | 59966b4dc3322435 -> 59966b4dc3322435
+relief-60-default-4 | control | ok -> ok | sig same | 2d65c69b3db7b910 -> 2d65c69b3db7b910
+relief-60-default-5 | control | ok -> ok | sig same | 18dba28d79b248e3 -> 18dba28d79b248e3
+# SUMMARY: bitten 92: S5 outcome changed 0, sig moved 0, s5sig moved 92; controls 20: s5sig moved 0, sig moved 0
+# bitten per group: {'relief-3000-coarse': 46, 'relief-3000-default': 45, 'relief-60-coarse': 1}
+#
+# The item's own flat frames (bench/probe6/flat.ts: runS5ab on the frames of growth.test / held / proof; sig as above)
+frame 900/90 seed 1 | S5 ok -> ok | q132 bite before [False] after [False] | sig 2e2a82b150e89ffa -> 2e2a82b150e89ffa (same)
+frame 900/90 seed 2 | S5 ok -> ok | q132 bite before [False] after [False] | sig bb0c83b4a01a5140 -> bb0c83b4a01a5140 (same)
+frame 240 seed 1 | S5 ok -> ok | q132 bite before [True] after [False] | sig f547a00cc7e538c0 -> f547a00cc7e538c0 (same)
+frame 400/30 seed 3 | S5 ok -> ok | q132 bite before [False] after [False] | sig 478d5bbc8e548460 -> 478d5bbc8e548460 (same)
+frame 400/30 seed 1 | S5 ok -> ok | q132 bite before [False] after [False] | sig e10c9a5f15d4ab9f -> e10c9a5f15d4ab9f (same)
+frame 400/30 seed 4 | S5 ok -> ok | q132 bite before [False] after [False] | sig 5e4c36850d54a4e2 -> 5e4c36850d54a4e2 (same)
+frame 400/30 seed 7 | S5 ok -> ok | q132 bite before [False] after [False] | sig 337c8684fbb2820a -> 337c8684fbb2820a (same)
+# The bar fixture (flat CITY seeds 1-100): the probe bites on none (census/flat-bar-before.jsonl) - unchanged by construction.

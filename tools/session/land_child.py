@@ -157,6 +157,16 @@ def land(args):
     b = args.branch
     git('fetch', '-q', '--force', 'origin', f'+refs/heads/{b}:refs/remotes/origin/{b}')
     assert not git('diff', '--cached', '--name-only').strip(), 'the index is not empty'
+    # 0. the lanes each record carries on the HEAD (J789): a session seam re-lands an item's record under its own lane, and a
+    # branch whose base predates the seam overlays the record WITHOUT that lane — the seam's ledger row is then claimed by
+    # no record and the whole landed:verify fails (the seventy-ninth landing: L-0825). The lanes the branch's record lacks
+    # are landed again first, in the HEAD's order, before the round's own lane.
+    head_lanes = {}
+    for rec in list(args.pre_records) + list(args.records):
+        name = rec.split('=')[0]
+        fp = f'{R}/plat/docs/build/landed/{name}.json'
+        if os.path.isfile(fp):
+            head_lanes[name] = json.load(open(fp, encoding='utf-8')).get('lanes', [])
     # 1. overlay per file
     diff = git('diff', '--name-only', 'HEAD', f'origin/{b}', '--', *overlay_paths(args)).split()
     removed = 0
@@ -183,6 +193,9 @@ def land(args):
     skip = {x for x in (args.skip_rows or '').split(',') if x}
     for path, prefix in (('plat/CLEAN-ROOM.md', 'L'), ('plat/docs/build/choices.md', 'C')):
         rows = new_rows(b, path, prefix)
+        # the ids the branch's rows hold free on the HEAD, the SKIPPED ones included (J789): a later leg of the same merged
+        # round keeps them, so this landing's renumbered rows must not take them (else the later leg's citation map chains)
+        reserved = {rid for rid, collides, _ in rows if not collides}
         skipped = [rid for rid, _, _ in rows if rid in skip]
         rows = [r for r in rows if r[0] not in skip]
         if skipped:
@@ -192,7 +205,7 @@ def land(args):
         out = []
         # a branch row whose id is free keeps it; a renumbered row never takes an id a free branch row already holds
         # (a checker that read main and chose a later id itself, e.g. L-0507 beside its builder's colliding L-0493)
-        free_ids = {rid for rid, collides, _ in rows if not collides}
+        free_ids = {rid for rid, collides, _ in rows if not collides} | reserved
         candidate = next_id(path, prefix)
         for rid, collides, l in rows:
             if collides:
@@ -238,6 +251,13 @@ def land(args):
         parts = rec.split('=')
         name, lane = parts[0], parts[1]
         owns = ''.join(f' --owns {o}' for o in parts[2].split(',')) if len(parts) > 2 else ''
+        fp = f'{R}/plat/docs/build/landed/{name}.json'
+        have = json.load(open(fp, encoding='utf-8')).get('lanes', []) if os.path.isfile(fp) else []
+        for carried in [x for x in head_lanes.get(name, []) if x not in have and x != lane]:
+            rc, out = run(f'corepack pnpm landed -- {name} --lane {carried} --wave flow-7{owns}', cwd=f'{R}/plat')
+            print('carried lane', carried, 'of', name, '(on the HEAD, not on the branch; J789)')
+            if rc != 0:
+                sys.exit(f'landed failed for {name} under the carried lane {carried}')
         rc, out = run(f'corepack pnpm landed -- {name} --lane {lane} --wave flow-7{owns}', cwd=f'{R}/plat')
         last = out.strip().splitlines()[-1] if out.strip() else ''
         print('landed', name, '|', last[:160])
@@ -250,6 +270,14 @@ def land(args):
         print('verify', name, '|', (lines[-1] if lines else '')[:160])
         if rc != 0:
             sys.exit(f'verify failed for {name}')
+    # the WHOLE verify too (J789): a row or a path that no record claims fails only this one
+    rc, out = run('corepack pnpm landed:verify -- flow-7', cwd=f'{R}/plat')
+    lines = [l for l in out.strip().splitlines() if 'ELIFECYCLE' not in l and 'landed:verify note' not in l]
+    print('verify WHOLE |', (lines[-1] if lines else '')[:200])
+    if rc != 0:
+        print('WARNING: the whole landed:verify FAILS on this tree — read it before the commit is pushed:')
+        for l in lines[-6:]:
+            print('   ', l[:300])
     # 5. busy, plan, stage
     busy = [x for x in open(args.busy_file).read().strip().split(',') if x and x != args.item]
     busy_s = ','.join(busy)

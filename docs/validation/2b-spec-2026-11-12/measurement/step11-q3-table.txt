@@ -1,0 +1,21 @@
+networks 46
+op rungs: Counter({'1': 30, '2': 13, 'both refused': 3})
+faces read on rung 1 whose district committed on rung 2: 44 in 13 networks
+  hausdorff: 0 on 23 ; ≤1 cm 3 ; (1,73.5] 16 ; >73.5 2 ; max 514.05
+  difference all thin: 44 of 44 ; not thin: []
+faces read on rung 2 whose district committed on rung 1: 2
+    {'face': 0, 'readRung': 2, 'hausdorffCm': 0, 'allThin': True} [{"a": 9977, "b": 7967, "hw": 17, "knots": null, "ends": "round"}, {"a": 8915, "b": 31, "hw": 19, "knots": [344, 410], "
+    {'face': 1, 'readRung': 2, 'hausdorffCm': 406.67, 'allThin': True} [{"a": 3776, "b": 8026, "hw": 1, "knots": null, "ends": "round"}, {"a": 12880, "b": 7972, "hw": 253, "knots": [363, 339]
+  net [{"a": 6794, "b": 7995, "hw": 10, "knots": [42, 7], "ends": "round"}, {"a": 14271, "b": 45 | faces [(0, 1, 0, True), (1, 1, 0, True), (2, 2, 0, True), (3, 1, 3, True)]
+  net [{"a": 13543, "b": 30, "hw": 1, "knots": null, "ends": "square"}, {"a": 14579, "b": 58, "h | faces [(0, 1, 514.05, True), (1, 2, 0, True), (2, 1, 0, True), (3, 1, 0, True)]
+  net [{"a": 10402, "b": 7415, "hw": 15, "knots": null, "ends": "round"}, {"a": 12021, "b": 7961 | faces [(0, 1, 71.01, True), (1, 1, 0, True), (2, 1, 0, True)]
+  net [{"a": 12090, "b": 34, "hw": 2, "knots": null, "ends": "square"}, {"a": 14707, "b": 16, "h | faces [(0, 1, 0.46, True), (1, 2, 0, True), (2, 1, 0, True)]
+  net [{"a": 10515, "b": 7971, "hw": 17, "knots": null, "ends": "round"}, {"a": 13813, "b": 15,  | faces [(0, 1, 0, True), (1, 1, 0, True), (2, 1, 0, True), (3, 1, 0, True)]
+  net [{"a": 2779, "b": 7983, "hw": 11, "knots": null, "ends": "square"}, {"a": 2502, "b": 6058, | faces [(0, 1, 0, True), (1, 1, 9, True), (2, 1, 10.23, True), (3, 1, 24.04, True), (4, 1, 15, True), (5, 1, 3, True)]
+  net [{"a": 14911, "b": 47, "hw": 197, "knots": [7, 11], "ends": "square"}, {"a": 8578, "b": 32 | faces [(0, 1, 9, True), (1, 2, 0, True), (2, 1, 0, True)]
+  net [{"a": 1089, "b": 12046, "hw": 239, "knots": null, "ends": "square"}, {"a": 11092, "b": 79 | faces [(0, 1, 0, True), (1, 1, 7.76, True), (2, 1, 0, True), (3, 1, 9.85, True), (4, 1, 0, True)]
+  net [{"a": 7903, "b": 8020, "hw": 21, "knots": null, "ends": "square"}, {"a": 15536, "b": 8009 | faces [(0, 1, 0, True), (1, 1, 17.03, True), (2, 1, 299, True)]
+  net [{"a": 15997, "b": 14, "hw": 28, "knots": [425, 347], "ends": "square"}, {"a": 10734, "b": | faces [(0, 1, 0, True), (1, 1, 5, True), (2, 1, 0, True)]
+  net [{"a": 3882, "b": 8014, "hw": 12, "knots": null, "ends": "square"}, {"a": 5595, "b": 4253, | faces [(0, 1, 1, True), (1, 1, 0, True)]
+  net [{"a": 632, "b": 7996, "hw": 20, "knots": [202, 101], "ends": "round"}, {"a": 7304, "b": 8 | faces [(0, 1, 3.18, True), (1, 1, 11, True), (2, 1, 0, True), (3, 2, 0, True), (4, 1, 0, True), (5, 1, 2.62, True)]
+  net [{"kind": "dead", "a": 4198, "b": 3263, "x": 1149, "y": 2640, "w": 1274, "h": 649, "hw": 1 | faces [(0, 1, 0.73, True), (1, 1, 72.01, True), (2, 1, 0, True), (3, 2, 1252.28, True)]

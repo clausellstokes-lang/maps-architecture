@@ -1,0 +1,53 @@
+--- treeL/plat/packages/kernel/src/arr/bandUnion.ts	2026-11-12 10:49:23.567812515 +0000
++++ bandUnion.LAD.ts	2026-11-12 13:50:19.041620986 +0000
+@@ -77,7 +77,7 @@
+ import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
+ import type { LineageHash } from '../hash/index.js';
+ import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
+-import { bridgesOf, div, interiorPoint, nearestOn, outlineCrosses, readKerb, RING_CROSSES, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
++import { bridgesOf, div, interiorPoint, ladderDump, ladderInLay, ladderStats, nearestOn, outlineCrosses, readKerb, RING_CROSSES, setConstructionReads, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+ import type { Ring } from './winding.js';
+ 
+ /**
+@@ -546,7 +546,41 @@
+ }
+ 
+ /** The engine on the open transaction (see the module comment). */
++/**
++ * THE LADDER (round 2B prototype, step 11; mirror-only): the op on X reads (rung 1); where it refuses — everything it wrote
++ * put back by its own savepoint — the SAME op again with the construction's reads for every face (rung 2, BASE's commit).
++ * A lay (kerb.ts) calls the engine without the ladder; a batch doomed by its work limit takes no second rung.
++ */
+ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: EngineSpec): KernelResult<BandResult> {
++  const r1 = bandCoreOnce(t, faces, spec);
++  if (ladderInLay()) return r1;
++  const L = ladderStats();
++  if (r1.ok) {
++    L.ops1 += 1;
++    ladderDump(true);
++    return r1;
++  }
++  if (t.failed !== null) {
++    L.opsSkipped += 1;
++    ladderDump(true);
++    return r1;
++  }
++  setConstructionReads(true);
++  let r2: KernelResult<BandResult>;
++  try {
++    r2 = bandCoreOnce(t, faces, spec);
++  } finally {
++    setConstructionReads(false);
++  }
++  if (r2.ok) {
++    L.ops2 += 1;
++    if (L.ops2Why.length < 60) L.ops2Why.push(`${r1.code} ${r1.detail.slice(0, 120)}`);
++  } else L.opsBoth += 1;
++  ladderDump(true);
++  return r2;
++}
++
++function bandCoreOnce(t: OpenTx, faces: readonly FaceId[], spec: EngineSpec): KernelResult<BandResult> {
+   const p = t.plat;
+   const unique = [...new Set(faces)];
+   for (const f of unique) check(isFaceLive(p, 1, f), `band: face ${String(f)} is not a live L1 face`);

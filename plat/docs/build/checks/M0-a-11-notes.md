@@ -512,3 +512,283 @@ probe sources and their results are in `checks/M0-a-11-s6-evidence/` (claimed by
 | N-s6c-5 | **The seam's fixture no longer draws roof's own band.** The session's `buildSharpCorner` draws tan θ ≤ 0.017 (under 0.98°) for either use, where it drew up to tan θ = 0.08 before. The fixture is sound (the verdict's seam section). The roof reader's refusal between 1° and 5° is now exercised only by the kernel's `contract.test.ts` (the 2.98° apex, the 357.6° slit and the 3.43° spike, each refused for roof). | None needed. If the ladder should reach it, a second roof-only draw in [1°, 5°). The session's file. | — |
 | N-s6c-6 | **A band face that also breaks a later check changes its refusal's name, not its outcome.** The contract checks the sharp corner first. A face with a corner in [1°, 5°) that is also not simple, or whose hole touches a ring, was `contract sharpCorner` for every use and is now `contract notSimple` (or `holeContact`) for spine and regions: 2 397 and 254 of the stress's 104 000 draws. It downgrades either way and the total never rises, but a summary's per-cause counts move between classes (`contract.sharpCorner` falls, `contract.notSimple` may rise) — one more figure for N-s6-2's stale summaries. In the measured pipeline families (fusion, relief-60, relief-3000: 1 506 faces) no face changed its cause this way (0); the 8 `notSimple` faces there have no corner under 5°. | The session's summary re-run reads the new split; no code change. | — |
 | N-s6c-7 | **The refusals that remain on spine and regions in the measured families, classed (N-58, J264).** Of 39 506 faces: 9 `contract sharpCorner` below 1° (M0 (b) face set 6, relief-3000 3) — LAWFUL slivers; REFUSE as the design's edge table has it, typed and visible, the reader's downgrade the layer that gives the alternative. 8 `contract notSimple` (fusion 2, relief-3000 6) — OUR OWN INTERMEDIATE, pinched faces an earlier stage made; MAKE-IT-SUCCEED upstream. 3 `validator` rejections (fusion planarity 2, relief-60 faces 1) — LAWFUL; MAKE-IT-SUCCEED, the engine's repair. None is new with the round and the census fell (72 → 15 on spine and on regions over the four families read before and after; roof 72 → 72). | The session routes the `notSimple` faces to the stage that makes them (the probe's `groups` name the family: `measure-band.mjs … fusion 1 … 8`, `… relief relief-3000 default 1 … 8`) and the validator's three to the engine's repair with N-s6-3. | M4 (the `notSimple` faces earlier, if a stage round owns them) |
+
+## Hardening round S7 (build/M0-a-11-fix-s7, 2026-11-12): the builder's row-by-row outcome (J237 (2), J264, J290 / N-58; Q180 (a), (b))
+
+The round's three lines are queue row Q180 (a) and (b) (read whole; J772, J774): LINE 1 = N-s6c-3 (the 1° edge), LINE 2 =
+N-s6c-4 (the bound on holes and on both sides of a corner), LINE 3 = N-s6-3, N-s6c-2 and N-s6c-7's validator class (the
+engine's spike class). Lines 1 and 2 are tests only. Line 3 was diagnosed first, with no change to the tree's source,
+and the table below was written before any source change. Every probe and mutant ran in the lane's mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-a-11-fix-s7/plat` (a `cp -a` of `plat/`, node_modules included;
+`find … -type l -lname '/home/user/maps-architecture*'` printed nothing; `realpath` of
+`packages/layout/node_modules/@plat/kernel` and `bench/node_modules/@plat/kernel` lie inside the mirror). The probes are
+the mirror's own (`probe-s7/`): a copy of `engine.ts` with a trace of every candidate event and of the arc each event
+makes (`engine-traced.ts`), and a re-reading of the committed S6 probes (`band-lib.mjs`, `stress-band.mjs`,
+`measure-band.mjs`) extended to keep every face the validator rejects on any use. The committed evidence folder was not
+edited.
+
+### LINE 3 (i): the diagnosis, before any source change
+
+**Which faces.** Every kept face was re-run on today's head (the tree as it stood at the round's start):
+
+* the 21 faces of `checks/M0-a-11-s6-evidence/stress-rejections.json`: **all 21 still reject**, with the S6 checker's
+  check and detail on spine and on regions, roof `contract sharpCorner`;
+* N-s6-3's three, re-derived on today's head (`deriveSpike(relief-60, 3)`, `deriveSpike(relief-3000, 11)`, CITY, default;
+  the fusion harness `derive(kind, 7, { frameHa: 900, walledHa: 30, river: true })`): **all three still reject**, same
+  indices, same check and detail, on roof, spine and regions — relief-60 seed 3 district #9 (`faces: face 5 is open at
+  node 6`), relief-3000 seed 11 district #25 (`planarity arc 6 crosses arc 8`), the river seed 7 water face #0 in both
+  the fusion and integrated runs (`planarity arc 34 crosses arc 36`). Each is the only validator rejection of its
+  derivation;
+* **the 9 just above the band** (N-s6c-2): the S6 checker's run `stress-band.mjs <out> <seed> <draws> 5.05 9` is not
+  recorded with its seed, and none of the seeds this seat tried reproduces its counts (24 034 faces, 9 rejections):
+  seeds 1, 2, 3, 4, 5, 6, 13 × 2 000 per kind give 23 995 – 24 057 faces at or above 5° and 5, 8, 8, 11, 6, 9, 10
+  validator rejections. The class was therefore re-derived on seeds 1 – 3 (21 faces, in the table) and the fix was also
+  read on seeds 4, 5, 6 and 13 (36 more faces). Every one of these faces is lawful input (snapped lattice rings, simple,
+  no contact).
+
+**How each was traced.** Each face ran through `prepareRings`, then `runEngine` in the strict and the tolerant reading
+with the trace on, then `coalesce` and `validateSkeleton`, exactly as `skeleton.ts` composes them. For a planarity
+failure the trace names the event that made each of the two crossing arcs; for an open face, the event at which the
+angular order failed to alternate (`pairing`). At every event the trace lists every other candidate event within 1 mm in
+offset time and 1 cm in position of the one taken, and whether the resolution joined it, and every split whose point
+lies within 1 cm of an end of the edge it splits.
+
+**The text.** §3.8 *Numeric contract*: "Events closer than 1 mm in offset time and 1 cm in position are coalesced into one
+multi-edge event; ties are broken by the input vertex's index in the ring". The engine applies this sentence in three
+places: in the strict reading it coalesces only events coincident to the coordinates' rounding scale (`eps`, 10⁻⁹ of the
+extent) plus its two millimetre rules (C-0168 (4)); the 1 cm is applied to the finished graph by `coalesce.ts`, which
+contracts arcs shorter than 1 cm; the tolerant reading (S3) joins a neighbouring vertex standing within 1 cm of the
+event's point, but never an end of an edge the event splits (T13's pin), and does not join a second event by its time.
+
+**The cause classes found** (the strict reading's first wrong event; the tolerant reading fails at the same kind of event
+later, or at the same one):
+
+* **(1) Events within §3.8's 1 mm and 1 cm resolved apart — the engine departs from the sentence above.** Three forms, one
+  sentence:
+  * **(1a) two or three collapses resolved apart.** A sharp spike's tip (a convex vertex moving at 1 / sin(θ / 2), 11 to
+    57 cm per unit of offset time) meets both of its base vertices within a fraction of a millimetre: star-12#510's event
+    1 takes the collapse of edge 11 at t = 569.593213 and leaves the collapse of edge 10 at t = 569.594094, 0.0088 mm
+    later in offset time and 0.20 mm away. A 0.2 mm wavefront edge is left; its two ends move almost in parallel, so it
+    collapses only 728 units later, and the two arcs that run in between (here 1 009 cm and 1 791 cm long) cross the
+    tip's arc — `planarity`. The tolerant reading joins this pair (the 1 cm join), and fails later at a (1b).
+  * **(1b) a split taken alone beside the collapse at its edge's end.** spike-2#1510's event 3: the near-straight vertex
+    8 (lines 1 and 5, k = −8.4 · 10⁻⁶) reaches line 6 at t = 5 314.285677; the collapse of the wavefront edge from 8 to
+    vertex 6 — the start of the edge split — falls at t = 5 314.291700, 0.06 mm later and 0.065 mm away, and vertex 6
+    stands 0.26 mm from the split point. The split is resolved alone, 0.26 mm past the edge's start, so the order at the
+    node is in6 out5 out6 in1 — it does not alternate — `pairing`, and the face is open (`faces: face 0 is open at node
+    1`). The tolerant reading does the same, because its join excludes the ends of a split edge.
+  * **(1c) a split within 1 cm of the split edge's end vertex.** relief-3000 seed 11 district #25's event 4: the reflex
+    vertex 133 reaches line 125 at t = 193.186871, and the reflex vertex 126, the end of the edge it splits, stands 1.7 mm
+    from that point at that moment (two reflex vertices meeting). The engine splits the edge 1.7 mm from its end; the
+    1.7 mm edge left collapses only at t = 227.25 (event 5), and its arc crosses the arc of event 4 — `planarity arc 6
+    crosses arc 8`. relief-60 seed 3 district #9 has the same at events 17 and 22 and fails to alternate at event 66.
+* **(2) A near-straight vertex born off one of its lines (residual after (1)'s repair; not decided by the text).** A
+  vertex between two lines within about 10⁻⁵ rad of one direction cannot be solved from its lines (their meeting point is
+  ill-conditioned), so it starts at its event's node (`anchor`, C-0168 (2)); when that node lies up to a few millimetres
+  off one of its lines it keeps that offset for its whole life. A later event at the same point then falls more than 1 mm
+  apart in offset time: multi-1#1383, in the repaired reading's event 13, has a split at t = 15 665.142 and the collapse
+  at the split edge's end at t = 15 665.586 — 4.4 mm apart in time, 0.04 mm in position. §3.8 joins events closer than
+  1 mm in time *and* 1 cm in position, so the text does not join these. multi-2#257 (above the band) ends the same way:
+  vertices 19 and 20 are born 0.25 and 0.80 cm off a line, and a cascade of folds at t = 9 418 between nearly parallel
+  lines puts node 30 9 419 cm from its edge's line (`heights`).
+* **(3) A fast reflex vertex meeting another, within 1 mm in time but beyond 1 cm in position (not decided by the
+  text).** multi-2#9: the tip of a 1.1° slit (vertex 2, k = −104, moving 104 cm per unit of offset time) and the tip of a
+  second slit (vertex 6) meet at t = 224.2: vertex 6 reaches the edge vertex 2 bounds 1.61 cm from vertex 2, which is
+  0.155 mm in offset time at vertex 2's speed. §3.8's 1 cm in position does not join them; the split leaves a 1.6 cm
+  edge, and vertex 2's arc (events 3 and 4) crosses vertex 6's — `planarity arc 3 crosses arc 4`.
+* **(4) A collapse spread over just more than 1 cm (not decided by the text).** The fusion harness's river seed 7 water
+  face (332 vertices): at the strict reading's event 29 (t = 500.1115) four vertices collapse within 0.4 mm in offset
+  time, three within 0.15 mm in position and the fourth 1.08 cm away. §3.8's 1 cm does not join the fourth; a 1.08 cm
+  ridge is left (longer than `coalesce.ts`'s 1 cm, so not contracted), and a 41 m arc entering one end of it crosses the
+  arc entering the other at the validator's millimetre — `planarity arc 34 crosses arc 36` (the coalesced graph's
+  numbering; arcs 47 and 49 in the engine's). The tolerant reading fails the same way.
+
+**The table** (the use's check and detail are the same on every use that runs: spine and regions for a band face, whose
+roof is `contract sharpCorner`; roof, spine and regions for the others; "first wrong event" is the strict reading's;
+"the class repaired" reads the face again with a third reading that applies §3.8's sentence at the event — a probe copy
+of the engine in the mirror, before the tree changed):
+
+| face | kind, sharpest corner | uses | the validator's check: detail | first wrong event (strict) | cause class | the class repaired |
+|---|---|---|---|---|---|---|
+| multi-1#180 | multi 1.9107° reflex | spine, regions | planarity: arc 2 crosses arc 17 | event 1; the crossing arcs made at events 2 and 11 | (1a) | validates |
+| multi-1#1383 | multi 1.0083° convex | spine, regions | planarity: arc 4 crosses arc 18 | event 1; the crossing arcs made at events 3 and 12 | (1a), then (2) | still rejected: faces: face 1 is open at node 2 |
+| multi-1#1385 | multi 1.0210° reflex | spine, regions | planarity: arc 0 crosses arc 8 | event 1; the crossing arcs made at events 1 and 5 | (1a) | validates |
+| star-1#515 | star 2.1705° convex | spine, regions | planarity: arc 0 crosses arc 3 | event 1; the crossing arcs made at events 1 and 2 | (1a) | validates |
+| star-1#529 | star 2.8382° convex | spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| star-1#867 | star 4.9667° convex | spine, regions | planarity: arc 0 crosses arc 5 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-1#1749 | star 4.9910° convex | spine, regions | planarity: arc 0 crosses arc 3 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| spike-2#1510 | spike 4.6921° convex | spine, regions | faces: face 0 is open at node 1 | event 3; the order fails to alternate at event 3 | (1b) | validates |
+| multi-2#9 | multi 1.1006° reflex | spine, regions | planarity: arc 3 crosses arc 4 | events 3 and 4 (the two slit tips) | (3) | still rejected: planarity: arc 4 crosses arc 5 |
+| multi-2#1550 | multi 1.0130° convex | spine, regions | planarity: arc 2 crosses arc 8 | event 1; arcs made at events 2 and 5 | (1a) | validates |
+| multi-2#1828 | multi 1.2348° convex | spine, regions | planarity: arc 5 crosses arc 31 | event 1; arcs made at events 5 and 17 | (1a) | validates |
+| star-2#426 | star 1.1052° convex | spine, regions | planarity: arc 0 crosses arc 3 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| star-2#982 | star 4.8323° convex | spine, regions | faces: face 1 is open at node 21 | event 7; fails to alternate at event 7 | (1b) | validates |
+| holed-slab-2#1318 | holed slab 4.7666° convex | spine, regions | faces: face 0 is open at node 1 | event 9; fails to alternate at event 9 | (1b) | validates |
+| multi-3#223 | multi 1.3395° reflex | spine, regions | planarity: arc 0 crosses arc 10 | event 1; arcs made at events 1 and 7 | (1a) | validates |
+| star-3#1072 | star 4.7831° convex | spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-3#1900 | star 4.6713° convex | spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-11#401 | star 1.0024° convex | spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-11#547 | star 1.0042° convex | spine, regions | faces: face 1 is open at node 19 | event 5; fails to alternate at event 5 | (1b) | validates |
+| holed-slab-11#413 | holed slab 1.0068° convex | spine, regions | faces: face 0 is open at node 1 | event 13; fails to alternate at event 13 | (1b) | validates |
+| star-12#510 | star 4.9984° convex | spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| relief-60 seed 3 district #9 (N-s6-3) | district 11.18° | roof, spine, regions | faces: face 5 is open at node 6 | event 17 (and 22); fails to alternate at event 66 | (1c) | validates |
+| relief-3000 seed 11 district #25 (N-s6-3) | district 19.56° | roof, spine, regions | planarity: arc 6 crosses arc 8 | event 4; arcs made at events 4 and 5 | (1c) | validates |
+| fusion river seed 7 water #0, fusion and integrated runs (N-s6-3; one ring set) | water 44.64° | roof, spine, regions | planarity: arc 34 crosses arc 36 | event 29 (both crossing arcs) | (4) | still rejected: the same |
+| spike-1#249 | spike 6.9103° convex | roof, spine, regions | faces: face 2 is open at node 3 | event 3; fails to alternate at event 3 | (1b) | validates |
+| spike-1#1946 | spike 7.2795° convex | roof, spine, regions | faces: face 2 is open at node 3 | event 3; fails to alternate at event 3 | (1b) | validates |
+| star-1#1843 | star 6.8010° convex | roof, spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| holed-slab-1#1401 | holed slab 8.9777° convex | roof, spine, regions | faces: face 2 is open at node 3 | event 8; fails to alternate at event 8 | (1b) | validates |
+| holed-slab-1#1859 | holed slab 6.7664° convex | roof, spine, regions | faces: face 0 is open at node 1 | event 14; fails to alternate at event 14 | (1b) | validates |
+| spike-2#1971 | spike 5.6537° convex | roof, spine, regions | faces: face 0 is open at node 1 | event 3; fails to alternate at event 3 | (1b) | validates |
+| multi-2#257 | multi 5.2339° convex | roof, spine, regions | planarity: arc 4 crosses arc 6 | event 1; arcs made at events 3 and 4 | (1a), then (2) | still rejected: heights: node 30 lies 9 419 cm from edge 13's line |
+| star-2#30 | star 5.8024° convex | roof, spine, regions | planarity: arc 0 crosses arc 3 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| star-2#1229 | star 7.3874° convex | roof, spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| star-2#1517 | star 8.6960° convex | roof, spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-2#1906 | star 6.9676° convex | roof, spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| holed-slab-2#1177 | holed slab 5.8703° convex | roof, spine, regions | planarity: arc 10 crosses arc 13 | event 8; arcs made at events 8 and 9 | (1a) | validates |
+| holed-slab-2#1277 | holed slab 5.2615° convex | roof, spine, regions | faces: face 0 is open at node 1 | event 9; fails to alternate at event 9 | (1b) | validates |
+| multi-3#283 | multi 5.9028° convex | roof, spine, regions | planarity: arc 4 crosses arc 14 | event 1; arcs made at events 3 and 9 | (1a) | validates |
+| multi-3#418 | multi 6.5583° reflex | roof, spine, regions | planarity: arc 0 crosses arc 10 | event 1; arcs made at events 1 and 6 | (1a) | validates |
+| multi-3#1161 | multi 5.3252° convex | roof, spine, regions | planarity: arc 4 crosses arc 18 | event 1; arcs made at events 3 and 11 | (1a) | validates |
+| multi-3#1756 | multi 6.2440° reflex | roof, spine, regions | planarity: arc 4 crosses arc 16 | event 3; arcs made at events 3 and 10 | (1a) | validates |
+| star-3#443 | star 5.8457° convex | roof, spine, regions | planarity: arc 0 crosses arc 4 | event 1; arcs made at events 1 and 3 | (1a) | validates |
+| star-3#1186 | star 8.4831° convex | roof, spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| star-3#1887 | star 7.0308° convex | roof, spine, regions | planarity: arc 0 crosses arc 2 | event 1; arcs made at events 1 and 2 | (1a) | validates |
+| holed-slab-3#1609 | holed slab 8.0546° convex | roof, spine, regions | faces: face 0 is open at node 1 | event 8; fails to alternate at event 8 | (1b) | validates |
+
+(The band faces' ids are the S6 checker's, from `stress-rejections.json`; the faces above the band are this seat's,
+`stress-band.mjs`'s generator at seeds 1 – 3, 2 000 per kind, angles in [5.05°, 9°).)
+
+**The classes counted** over the 46 rows (45 ring sets; the river face counted once per run): **(1a) 27** (of which 2 meet
+(2) after (1) is repaired), **(1b) 12**, **(1c) 2**, **(2) 2** (both after a (1a)), **(3) 1**, **(4) 2** (one ring
+set). On the 36 further faces above the band (seeds 4, 5, 6, 13) the same repaired reading validates 32; the 4 left
+(multi-4#380, multi-5#659, multi-13#231, multi-13#1800) are all multi-feature rectangles, the shape of (2) and (3).
+**No face of the table no longer rejects on today's head.**
+
+**What this decides (LINE 3 (ii)).** Class (1) is the engine departing from §3.8's sentence at the event: the events are
+within 1 mm in offset time and 1 cm in position and the engine resolves them apart. It is this item's to FIX. Classes
+(2), (3) and (4) are the engine doing what the text says — the two events are more than 1 mm apart in time ((2)) or the
+vertices more than 1 cm apart in position ((3), (4)) — and the doubles' error then gives a graph the validator rejects.
+They are REPORTED with their faces and traces for the session's ruling, and their faces are pinned at today's outcome.
+
+### LINE 3 (ii): the fix (inside the item's owns; a declared shift)
+
+The sentence §3.8 states and the engine did not apply at the event — "Events closer than 1 mm in offset time and 1 cm in
+position are coalesced into one multi-edge event" — is applied in a **third reading**, `coalescing`, which `skeleton()`
+takes only when the strict and the tolerant readings both give no validated graph, under what is left of the same work
+law. It is the tolerant reading with two additions, both at the event:
+
+* every candidate event of the current wavefront within 1 mm in offset time (`NEAR_CM`) and 1 cm in position
+  (`JOIN_CM`) of the earliest joins it — its vertices are forced into the event and its split target with them (the
+  strict and tolerant readings join only events within `eps`, the coordinates' rounding scale) — classes (1a) and (1b);
+* a split whose point lies within 1 cm of an end of the edge it splits is that end vertex's event: the nearer end joins
+  and nothing is split (the strict and tolerant readings split whenever the point is strictly inside) — class (1c).
+
+`engine.ts`: `EngineReading` gains `'coalescing'` (`tolerant` is every reading but `strict`), the forced-join test and the
+split test read the two tolerances under `coalescing` and are unchanged otherwise. `skeleton.ts`: the readings are
+`['strict', 'tolerant', 'coalescing']`. Nothing else changes: the clean, the contract, the validator, `coalesce.ts`, the
+work law, every export of the folder index and the barrel (the API is frozen, J263 Q1; `EngineReading` is a module type of
+`engine.ts`, not exported by `skeleton/index.ts`). A widening of the split candidates' look-ahead to 1 mm, tried in the
+prototype, moved no face of the class (57 faces read with and without it) and was dropped, so the change is the smallest
+the class needs.
+
+**Why a third reading and not the tolerant one changed:** the tolerant reading validates the water class and corpus
+1144 / 1840 today (golden digests); applying the sentence there first moves those outputs (mutant L8 below: the order
+swapped turns the digests of corpus 1144 and relief-60 seed 3's water face red). Taken last, the reading cannot move any
+output either earlier reading validates — it runs only on a would-be downgrade.
+
+### Rows
+
+| line | outcome | evidence | pin and mutants (mirror; `packages/kernel/test/skeleton`, `--maxWorkers=1 --bail=1`; each file restored from `plat/` and `cmp`-clean) |
+|---|---|---|---|
+| LINE 1 — Q180 (b) / N-s6c-3: the 1° edge | **PINNED** (tests only, no source change for the line) | `contract.test.ts` 'the use's bound at its edges, on every ring and on both sides of a corner (… hardening round S7)': **'the 1° edge within 0.01°'** — the apex (0, 0) with arms (1 722, ∓15): cross 51 660, dot 2 965 059, 0.998159° (in [0.995°, 1°)), refused `sharpCorner` for every use without running; arms (1 716, ∓15): cross 51 480, dot 2 944 431, 1.001649° (in [1°, 1.005°)), refused for roof, validated for spine and for regions with no warning and equal graphs apart from `use`. **'a corner exactly at the bound as the contract computes it'** — apex (−8 388 000, −8 388 000), arms (8 213 921, 10 684 686) and (9 525 818, 11 953 519): cross 3 595 113 485 149, dot 205 963 913 622 412; cross / dot exceeds tan 1° by 2.3 · 10⁻¹⁹, and the double product 0.017455064928217585 · dot rounds to the cross exactly (found by a continued-fraction search over lattice arms; the test asserts the equality with its own literal), so the contract's strict test (`\|cross\| < tan · dot`) admits it: refused for roof, validated for spine and regions. Every angle computed from the definition (exact integer cross and dot; atan2), never with the code under test. | **M4b** (spine and regions bound tan 0.95°) red on the edge test alone (the item's own tests; it was red only on M0-a-12's runner test before); **M5b** (tan 1.05°) red; **M4c** (tan 0.995°) red; **M5c** (tan 1.005°) red; **Mle** (`<` → `<=` in `sharpCorner`) red on the exact-bound test — **killed**, not equivalent: the lattice reaches the equality. |
+| LINE 2 — Q180 (b) / N-s6c-4: holes and both sides | **PINNED** (tests only) | the same describe, over a 60 × 60 m square: **(a)** a hole whose apex (2 000, 3 000) has arms (2 000, ∓52): cross 208 000, dot 3 997 296, 2.9787° (the face's angle there 357.02°) — refused `sharpCorner` for roof, validated for spine and regions (no warning, the two graphs equal apart from `use`); **(b)** a hole whose apex has arms (2 000, ∓15): cross 60 000, dot 3 999 775, 0.8594° — refused for every use; **(c)** a slit notch whose floor (2 000, 1 000) has arms (15, 2 000) and (−15, 2 000): 0.8594° on its far side, an interior angle of 359.1406°, 30 cm wide at its mouth (beyond `attractCm`) — refused for spine and regions as for roof. | Each mutant red **on its pin alone** (`-t` filtered to the one test): **M9** (a hole's corners at roof's 5° for every use: `sharpCorner(pts[k], k === 0 ? SHARP_TAN[use] : TAN_5_DEG)`) red on (a); **M9b** (a hole's corners not checked for spine and regions) red on (b); **M10a** (spine and regions checked on the convex side only: `cross >= 0 && cross < tan · dot` below roof's bound) red on (c) (and, on the whole folder, first on (b): the hole's corner is reflex from the face). |
+| LINE 3 — Q180 (a): the spike class | **(1) FIXED and PINNED** (a declared shift); **(2), (3), (4) REPORTED**, their faces pinned at today's outcome | The diagnosis above. After the fix: of the table's 41 class-(1) faces, **41 validate** on every use they failed on; on 36 more faces above the band (seeds 4, 5, 6, 13) 32 validate. The 4 left in the table are the reported classes. | `spikeclass.test.ts` with `spike-class.json` (the 45 ring sets): each of the **41** class-(1) faces validates for every use it failed on, its whole result pinned by digest per use (golden.test.ts's digest), spine equal to regions apart from `use`, a band face still refused `sharpCorner` for roof; each of the **4** reported faces gives today's outcome on every use it runs (`W_DOWNGRADE`, cause `{ validator, check, detail }`, events > 0). Mutants, **all red on the final code** (the folder with `--bail=1`, re-run after the look-ahead was dropped); the counts in brackets are `spikeclass.test.ts` without `--bail`, read before the drop: **L1** the fix reverted (two readings) — red (41 of 41 fixtures); **L2** no event join by 1 mm / 1 cm — red (29 of 41); **L3** no split-end join — red (4, both (1c) faces among them); **L5** time 0.5 mm and **L10** time 2 mm — red; **L6** position 0.5 cm and **L11** 2 cm — red; **L7** split-end radius 2 cm — red (on the reported (3) face, whose outcome it moves); **L8** the third reading taken before the tolerant one — red on the class's digests and on golden.test.ts's corpus 1144 and the relief-60-3 water face (the no-shift guard); **L9** the third reading not tolerant — red; **L12** the split's end chosen as the strict reading chooses it (`s <= sa`) instead of the nearer — red (relief-60 seed 3 #9). `contract.test.ts` 'the validator stays the net' and `downgrade.test.ts`'s corrupted-output helper count the `finished` hook 3 times now (all three readings run on a corrupted face, and the validator still downgrades it). |
+
+### Declared shift (§3.8 *Decision*; J237 rule (3)) and LINE 3 (iii): it moves nothing else
+
+* **This item's moved output.** A face whose strict and tolerant readings both fail the validator and whose third
+  reading validates now returns that validated graph, with no warning, for every use; before, the reader's downgrade
+  (`W_DOWNGRADE`, cause `validator`). A face that fails all three readings keeps its downgrade and its cause (the strict
+  reading's, as before) and now charges the third reading's events too, under the same law (`events` rises; the fusion
+  river seed 7 water face: 590 → 781 on every use). Nothing a strict or tolerant reading validates moves: the third
+  reading never runs on it.
+* **Measured before and after** (the mirror; every face dumped once from today's head, then read with the head's
+  `src/skeleton/` and with the round's, per face and use the outcome and the SHA-256 of the whole value): the skeleton
+  corpus (2 000), §13.1's holed polygons and snapped rotated squares at seeds 1, 2, 3 (3 000 + 3 000), the M0 (b) face sets
+  (`faceAt`, 6 kinds × 2 scales: seed 1 × 500 = 6 000, seed 2 × 2 000 = 24 000), the fusion harness at test size (flat
+  and river, both runs, seeds 1 – 8: 542 faces) and the site spike CITY, default config (relief-60 seeds 1 – 8: 612;
+  relief-3000 seeds 1 – 8: 841) — **40 995 faces × 3 uses: 0 validated results moved (equal digests), 3 validator
+  downgrades became validated (relief-60 seed 3 district #9 on roof, spine and regions), 6 changed only their downgrade's
+  `events` (the fusion river seed 7 water face, both runs, every use; cause and detail unchanged), no throw, no
+  `E_WORK_LIMIT`.** §13.1's fixtures (24 397) are validated by the strict reading (`fixtures.test.ts` green, seeds 1, 2, 3).
+  `golden.test.ts`'s digests (corpus 556, 1236, 1144, 1840, the four holed faces, the relief-60-3 water face on every
+  reader) are unchanged and green: **nothing re-recorded**.
+* **Time.** The slowest call of the 122 985 is the same face before and after — relief-60 seed 1's water face, validated
+  by the first two readings, so untouched — 2 376 ms before, 2 568 ms after (this shared container, CONTENDED; noise).
+  A face that reaches the third reading pays for it: the fusion river water face 31 → 43 – 51 ms per call.
+
+### Refusal census of the item's registered families (J264 (4), N-58), per use, before → after
+
+| family | faces | roof | spine | regions |
+|---|---|---|---|---|
+| skeleton corpus | 2 000 | 0 → 0 | 0 → 0 | 0 → 0 |
+| holed polygons, seeds 1 – 3 | 3 000 | 0 → 0 | 0 → 0 | 0 → 0 |
+| snapped rotated squares, seeds 1 – 3 | 3 000 | 0 → 0 | 0 → 0 | 0 → 0 |
+| M0 (b) face set, seed 1 | 6 000 | 17 → 17 | 1 → 1 | 1 → 1 |
+| M0 (b) face set, seed 2 | 24 000 | 48 → 48 | 5 → 5 | 5 → 5 |
+| fusion harness test size, seeds 1 – 8 | 542 | 13 → 13 (validator planarity 2) | 4 → 4 (validator planarity 2) | 4 → 4 |
+| relief-60 CITY, seeds 1 – 8 | 612 | 19 → **18** | 1 → **0** | 1 → **0** |
+| relief-3000 CITY, seeds 1 – 8 | 841 | 48 → 48 | 13 → 13 | 13 → 13 |
+| **total** | **40 995** | **145 → 144** | **24 → 23** | **24 → 23** |
+
+The census fell by the fixed face and nothing rose. By verdict (N-58), what remains: `contract sharpCorner` (roof's 5°
+band and below 1°) — LAWFUL, REFUSE as §3.8's edge table has it, the reader's downgrade the layer; `contract notSimple`
+(relief-3000 10, fusion 2) — Q180 (c), the corpus readers' (J774), not this round's; `validator planarity` 2 — the fusion
+river seed 7 water face, class (4), REPORTED below. On the stress families (not registered; the S6 checker's generator):
+the band's 21 rejections → 2 (multi-1#1383, multi-2#9), the 21 above the band at seeds 1 – 3 → 1 (multi-2#257).
+
+### Notes
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s7-1 | **Class (2), REPORTED: a near-straight vertex born off one of its lines.** A vertex between two lines within about 10⁻⁵ rad of one direction starts at its event's node (its lines' meeting point is ill-conditioned; `anchor`, C-0168 (2)) and keeps the node's offset from one line — up to the 1 cm an event may be coalesced over. A later event at the same point then falls more than §3.8's 1 mm apart in offset time (multi-1#1383: 4.4 mm apart, 0.04 mm in position) and is resolved apart (`faces`, `planarity`), or a fold cascade between nearly parallel lines lands a node at the wrong time (multi-2#257: `heights`, node 30 9 419 cm from its edge's line). Faces: `spike-class.json` `reported` (multi-1#1383, multi-2#257; 4 more of the shape on seeds 4, 5, 13 above the band). Fail-safe: a typed downgrade, cause `validator`. | Session ruling (a design question): whether such a vertex starts on one of its lines (projected onto the line of the edge it bounds) or the coalescing reads a near-straight vertex's events by position alone. | hardening (M4) |
+| N-s7-2 | **Class (3), REPORTED: a fast reflex vertex meeting another, within 1 mm in time but beyond 1 cm in position.** multi-2#9: a 1.1° slit's tip (k = −104) is 1.61 cm from the point where the other slit's tip reaches the edge it bounds — 0.155 mm in offset time at its speed. §3.8's 1 cm in position does not join them. (The mutant L7, a 2 cm split-end radius, changes this face's outcome; §3.8 says 1 cm, so the fix keeps 1 cm.) | Session ruling: whether §3.8's position tolerance is read along a vertex's travel (1 mm of offset time × its speed) for a fast vertex. | hardening (M4) |
+| N-s7-3 | **Class (4), REPORTED: a collapse spread over just more than 1 cm.** The fusion harness's river seed 7 water face (both runs; N-s6-3): four vertices collapse within 0.4 mm in offset time, the fourth 1.08 cm from the others; the 1.08 cm ridge left is beyond both the event coalescing and `coalesce.ts`'s 1 cm, and a 41 m arc entering one end crosses the arc entering the other at the validator's millimetre. | Session ruling with N-s7-2 (the same tolerance question for a cluster). | hardening (M4) |
+| N-s7-4 | **The S6 checker's run above the band is not recorded with its seed** (`stress-band.mjs … 5.05 9`; 24 034 faces, 9 rejections). Seeds 1 – 6 and 13 at 2 000 per kind give 23 995 – 24 057 faces and 5 – 11 rejections each, none the recorded pair. The class was read on seeds 1 – 3 (21 faces, all in the table) and 4, 5, 6, 13 (36). | None needed; a later stress run records its arguments with its counts. | — |
+| N-s7-5 | **One more figure for the session's batched summary re-run (Q180 (d)).** relief-60 seed 3 (CITY, default) district #9 now validates on every use: `summaries/M0-e-06.json`'s district `validator` downgrade count for that derivation falls by one per use (roof, spine, regions). A face downgrading on all three readings charges more `skeleton.events` (the fusion river seed 7 water face 590 → 781), which `summaries/M0-c-06.json`'s rows may carry. Neither summary is this item's; no test of the item reads them. | The session's batched re-run (R25, Q36) after the stage rounds land. | hardening |
+| N-s7-6 | **Met, not this round's:** the `contract notSimple` district faces (relief-3000 seeds 1 – 8: 10 per use; fusion 2) are Q180 (c), the corpus readers' (J774); the M0-k-02 sharp-corner fixture (N-s6c-5) is the session's. Nothing built for either. | — | — |
+
+### Gates (in the tree, 2026-11-12)
+
+* `install --frozen-lockfile`: 0.
+* `lint`: 0 (`lint: eslint 1308 files, 0 errors, 0 warnings`; `lint: probe-red ok`; `lint: 9 whole-tree checks`), run
+  again after the last source edit: the same.
+* `build`: 0.
+* NEAR at full strength (`PLAT_FUZZ_RUNS` unset), W=1 (`test_budget.py`): `packages/kernel/test/skeleton` +
+  `packages/kernel/test/num/equivalence.test.ts`: **14 files, 182 / 182**, exit 0 (run seed 1523479374). The item's
+  folder alone: 13 files, 157 / 157.
+* `fixtures.test.ts` at `PLAT_SKELETON_SEED` 2 and 3: 7 / 7 each (seed 1 in NEAR): 0 crashes, 0 validator failures on
+  3 × 1 000 holed polygons.
+* M0-a-12's `bench/test/skeleton` (the corpus runner, its seam test): 4 files, 24 / 24.
+* `landed:verify -- flow-7 --item M0-a-11`: ok (1 record).
+* RELATED@1000, W=1, over `packages/kernel/src/skeleton/engine.ts` and `skeleton.ts`: **404 files, 5 259 passed, 1 failed, exit 1** (`Duration 11947.83s`; run seed -2066755226 (`PLAT_FUZZ_SEED` unset); W=1; 03:44:09Z – 07:03:34Z, run by the waiter's chain and read by the continuing seat; a first launch at 03:26Z died with a container restart and is not a result). The one red is DECLARED and not the item's: `bench/test/site/summary.test.ts` 'the canary CITY record re-derived on this tree is the run's' (M0-e-06's; relief-60 coarse seed 46 received `4c9647bf15914e6d…`, the summary's `eb2046ddce3ce2c1…`) — the stale summary of Q180 (d) / J772 (7), with the SAME received digest as at S6's closing check (row above), so this round's third reading did not move the canary's record. No test of `packages/kernel/test/skeleton/` and no other test whose import path runs through `engine.ts` / `skeleton.ts` fails; S6's seam reds (M0-a-12 runner, M0-k-02/-04 sharp-corner draw and ladders, M0-x-05 coverage, fuzz-bar entry) are not among the reds: the canary's file is the run's only failing file of 404 (the reporter lists failing files only).
+
+
+## Closing check S7 (check/M0-a-11-close-s7, 2026-11-12)
+
+The closing checker's notes. No row here fails the round (N-45, J180). The verdict is in `checks/M0-a-11-s7.md`. The
+probes are the committed S6 ones (`checks/M0-a-11-s6-evidence/`, not edited) read through this seat's own before/after
+wrapper in its probe mirror; every run's arguments are in the verdict's table. Two seats of one lane (J714): the
+first ran the probes, the mutants and the short gates; the second read the long runs and wrote the verdict.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s7c-1 | **The third reading's work law is pinned only through the second.** A mutant that runs the `coalescing` reading under a fresh law (`limit` instead of `limit − spent`, L10) survives the item's tests: `tolerant.test.ts` 'one work law for both readings' exhausts the law in the second reading only. The honest loop passes one `limit − spent` to every reading, so the escape is a deliberate writer's. It is observable only on a face that fails all three readings within reach of 4 · (n + r) + 64; the seven such faces measured spend 17 – 38 % of the law over three readings. | Extend the work-law test to the third reading: with the `skipResolution` hook burn the law in the third reading and expect the first reading's `validator` cause, `events` ≤ the law + 1. | M4 |
+| N-s7c-2 | **The lawful-input validator downgrades that remain after the round, with their seeds** (N-58: LAWFUL, MAKE-IT-SUCCEED; each a typed `W_DOWNGRADE`, cause `validator`, on every use that runs). The S6 generator (`stress-band.mjs <out> <seed> <draws> [lo hi]`), read before and after on 299 000 draws: spine 87 → 5. The five: multi-1#1383 (`1 2000`), multi-2#9 (`2 2000`), multi-2#257 (`2 2000 5.05 9`) — the three pinned as reported — and two on seeds the builder did not read, multi-31#1001 (`31 2000`; `planarity arc 2 crosses arc 5`) and multi-33#1763 (`33 2000 5.05 9`; `planarity arc 2 crosses arc 7`). All five are multi-feature rectangles, the shape of classes (2) and (3). In the registered families: the fusion harness's river seed 7 water face (class (4), both runs). | With the session's ruling on N-s7-1 … N-s7-3; the two new faces are fixture candidates for that round (re-derive with the arguments given). | M4 |
+| N-s7c-3 | **The header's words against the split candidates' look-ahead.** `engine.ts` says of the third reading that "every candidate event of the wavefront within 1 mm in offset time and 1 cm in position of the earliest joins it"; the queue gathers a reflex vertex's split candidates only up to the earliest event plus `eps` (`if (c.t > bt + eps) break`), so a split later than the earliest by more than the rounding scale and less than 1 mm is not a candidate and does not join. Every edge collapse is gathered. The builder tried the wider look-ahead and dropped it (no face of 57 moved). Fail-safe either way (the validator is the net). | Reword the header to what the queue gathers, or widen the look-ahead with the classes (2) – (4) ruling and a measured face. | M4 |
+| N-s7c-4 | **The third reading is sound only as the last reading.** Taken alone on every face the contract admits it ends `pairing` on faces the strict reading validates: 947 of 317 877 probe faces (0.1 % of the stress faces, 131 of 6 000 and 462 of 24 000 of the M0 (b) face sets, 12 of 540 of the fusion harness's). `skeleton()` never reaches it for those (the order is pinned: L7a, L7b red on `golden.test.ts`). | None for the round. A later proposal to apply §3.8's sentence in an earlier reading has to measure this first. | — |
+| N-s7c-5 | **A validated graph with two arcs inside the validator's millimetre** (not the round's: the strict reading's, byte-equal before and after). multi-1#563 of `stress-band.mjs <out> 1 2000 5.05 9` (10 vertices, sharpest corner 5.56°; rings `[[-280034,125555],[-271104,124891],[-269106,151773],[-271243,151932],[-271681,153663],[-271431,151946],[-275686,152263],[-275134,154555],[-275922,152280],[-278035,152437]]`): arcs 4 and 9, 37.6 m and 48.8 m long, run within 1.5 mm of each other at 0.0018° and cross 1.47 cm from their ends by a double-precision reading (`band-lib.mjs`'s independent check); the validator's planarity, on nodes rounded to the millimetre, passes it on every use. One face of 299 000 draws. | A fixture candidate for the engine's hardening with N-s7-1 … N-s7-3 (the two spikes' ridges meet within the coalescing tolerances); no change to the validator (§3.8 defines its millimetre). | M4 |
+| N-s7c-6 | **N-s7-4 confirmed.** The S6 check's run above the band (24 034 faces, 9 rejections) was recorded without its seed; `stress-results.json` holds the five band runs only. This check's runs are recorded with their arguments (the verdict's table): above the band at seeds 1 – 3 the "before" reading gives 5, 8 and 8 rejections (21) and the round's 0, 1 and 0. | None. | — |
+| N-s7c-7 | **The builder's total of faces is 1 000 too high.** 'Hardening round S7' (the shift paragraph and the census table's total row) and C-0500 give 40 995 faces × 3 uses (122 985 calls); the eight family rows — 2 000 + 3 000 + 3 000 + 6 000 + 24 000 + 542 + 612 + 841 — sum to 39 995 (119 985 calls), which is what this check's own probe read. Every per-family row and every refusal count (145 → 144, 24 → 23, 24 → 23) is right. | Correct the figure where the session next touches the row (a later choices row may state it; rows are append-only). | — |
+| N-s7c-8 | **RELATED@1000 of the closing check** (W=1, run seed 1191642842, 07:37 – 10:58): 404 files, 5 259 passed, 1 failed — `bench/test/site/summary.test.ts`'s canary alone (relief-60 coarse seed 46 received `4c9647bf15914e6d…`, the digest the S6 round recorded on its head, row above in 'Hardening round S6': the third reading did not move the canary's record). DECLARED (Q180 (d), J772 (7)); for the session's batched summary re-run with N-s7-5. | The session's (R25, Q36). | hardening |

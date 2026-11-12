@@ -56,7 +56,7 @@ export interface RunTierOptions {
   /** The tier's output folder (PLAT_BENCH_OUT's tiers/<tier>/); the jobs get <out>/jobs. */
   out: string;
   mode?: TierMode;
-  /** The fallback switch (§13.8): fuzz 10⁴ → 5 × 10³, seeds 50 → 25, the constructive set never cut. */
+  /** The fallback switch (§13.8): fuzz 10⁴ → 5 × 10³, seeds 50 → 25, the constructive set never cut — tier:pr only (Q175 (d)). */
   fallback?: boolean;
   exec?: Executor;
   probe?: HarnessProbe;
@@ -153,10 +153,16 @@ interface Planned {
   failBefore: string | null;
 }
 
-/** Runs one tier. Never throws on a failing job: a failure is a job record; a malformed manifest throws. */
+/** Runs one tier. Never throws on a failing job: a failure is a job record; a malformed manifest, or the fallback switch on a tier that is not tier:pr, throws. */
 export async function runTier(manifest: TierManifest, opts: RunTierOptions): Promise<TierReport> {
   const problems = manifestProblems(manifest);
   if (problems.length > 0) throw new Error(`tier ${manifest.tier}: the manifest is malformed: ${problems.join('; ')}`);
+  // §13.8's pre-decided fallback is the PR tier's ("the nightly tier absorbs the difference"): the switch is refused here,
+  // for every caller, on any other tier, before a status is derived or a unit runs (Q175 (d), Q151, C-0241 (11)); the
+  // command line refuses the flag first with its own message (index.ts).
+  if (opts.fallback === true && manifest.tier !== 'pr') {
+    throw new Error(`tier ${manifest.tier}: the fallback switch is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:${manifest.tier} runs at its own sizes; run it without the fallback`);
+  }
   const mode: TierMode = opts.mode ?? 'plain';
   const exec = opts.exec ?? spawnExecutor;
   const probe = opts.probe ?? importProbe;

@@ -6,7 +6,7 @@
 // neither reading validates, its cause the first failure. Two inputs show it: (a) a natural one, a 14-vertex rotated
 // orthogonal ring whose strict skeleton has two arcs crossing — the tolerant reading validates it (the hardening round
 // S3's declared shift: a downgrade before the round) — and (b) the engine's finished output corrupted through the test
-// hook `EngineHooks.finished` in both readings the way each of the four checks guards against, so the path stays
+// hook `EngineHooks.finished` in every reading the way each of the four checks guards against, so the path stays
 // covered whatever an engine repair does to (a). Every reader takes its typed downgrade: `to` = DOWNGRADE_OF[use], the
 // cause the validator with its check, the events that ran (> 0), exactly one W_DOWNGRADE warning, and the spine
 // reader's injected axis (C-0171).
@@ -53,7 +53,7 @@ function validatorDowngrade(rings: LatticePoint[][], use: SkeletonUse, corrupt: 
       corrupt(nodes, arcs);
     },
   });
-  expect(finished).toBe(2); // the wavefront collapsed in both readings: status ok, no work limit, no stall
+  expect(finished).toBe(3); // the wavefront collapsed in all three readings (the third, coalescing, since hardening round S7): status ok, no work limit, no stall
   expect(r.ok).toBe(true);
   if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`expected a downgrade, got ${JSON.stringify(r).slice(0, 200)}`);
   const v = r.value;

@@ -1,0 +1,14 @@
+packages/kernel/src/arr/x.ts {"ident band":1,"string kerb":1,"ident block":1}
+    ident band :27 "bandCore"
+    string kerb :27 "'kerb'"
+    ident block :31 "blocks"
+packages/kernel/src/arr/x.ts {"ident kerb":1}
+    ident kerb :10 "kerb"
+packages/kernel/src/arr/x.ts {"string band":1,"ident kerb":2}
+    string band :1 "'./bandUnion.js'"
+    ident kerb :2 "kerb"
+    ident kerb :3 "readKerb"
+packages/kernel/src/arr/x.ts {"ident kerb":3}
+    ident kerb :1 "kerb"
+    ident kerb :2 "readKerb"
+    ident kerb :4 "kerb"

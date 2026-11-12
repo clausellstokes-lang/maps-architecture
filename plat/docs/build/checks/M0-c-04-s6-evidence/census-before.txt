@@ -1,0 +1,17 @@
+# M0-c-04 hardening round S6 — refusal census BEFORE (round's base: design head 3a5d75b0 + M0-c-04 S5, M0-c-02 S6, M0-e-04 S5)
+# e-06's four groups, seeds 1-200 each, CITY, one derivation per process through bench/src/site spikeRegistry with S6 dropped
+# (lane probe bench/probe6/derive.ts in the scratch mirror; hooks behaviour-neutral). Folded by the lane's fold.py.
+# Totals: 800 derived, 797 reach S5, S5 ok 788, S5 refused 9 (all E_INVARIANT); pre-S5: relief-3000 109 (S4, both configs), relief-3000 default 184 (S1).
+== relief-60 default: derived 200, reach S5 200, S5 {'ok': 199, 'E_INVARIANT': 1}, pre-S5 {}
+   E_INVARIANT [1] (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) :: [118]
+== relief-60 coarse: derived 200, reach S5 200, S5 {'ok': 198, 'E_INVARIANT': 2}, pre-S5 {}
+   E_INVARIANT [1] (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) :: [118]
+   E_INVARIANT [1] S5a: the gate vertices could not be put on their ways: S5a: the stage boundary crosses bridge:24's s :: [151]
+== relief-3000 default: derived 200, reach S5 198, S5 {'ok': 195, 'E_INVARIANT': 3}, pre-S5 {'S4': 1, 'S1': 1}
+   E_INVARIANT [1] (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) :: [81]
+   E_INVARIANT [1] trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9)) :: [32]
+   E_INVARIANT [1] trace: gate gate:9 is not on the committed trace at its point (§4.2 S3 (9)) :: [188]
+== relief-3000 coarse: derived 200, reach S5 199, S5 {'ok': 196, 'E_INVARIANT': 3}, pre-S5 {'S4': 1}
+   E_INVARIANT [1] (wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency) :: [81]
+   E_INVARIANT [1] trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9)) :: [32]
+   E_INVARIANT [1] trace: gate gate:9 is not on the committed trace at its point (§4.2 S3 (9)) :: [188]

@@ -1,0 +1,4 @@
+ RUN  v5.0.3 /home/user/maps-scratch/pre-c04s6/plat
+ Test Files  1 passed (1)
+      Tests  1 passed | 6 skipped (7)
+   Duration  121.95s (tests 97%, transform 2%)

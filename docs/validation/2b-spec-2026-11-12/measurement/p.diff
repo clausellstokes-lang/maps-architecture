@@ -1,0 +1,45 @@
+--- /home/user/maps-scratch/2b-proto/s20-src/kerb.ts	2026-11-12 07:05:44.065448222 +0000
++++ plat/packages/kernel/src/arr/kerb.ts	2026-11-12 07:06:03.554898206 +0000
+@@ -154,6 +154,7 @@
+ import type { ChainProfile, ChainRef, Cm, Level, LatticePoint } from '../types/index.js';
+ import { bufferParts, SAGITTA_CM } from './buffer.js';
+ import { canonicalRing, compareRings, dropStraight, simpleLoops, type Ring } from './winding.js';
++import { exactKeyContentOfRead, exactRegionOfKey } from './kerbExact.js';
+ 
+ /** A spine's declared ends (§3.7: round joins, "square ends where declared"). */
+ export type SpineEnd = 'round' | 'square';
+@@ -2178,6 +2179,34 @@
+  * only: the arena, its index and the batch's work, warnings and journals are as the read found them.
+  */
+ export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
++  // ROUND 2B PROTOTYPE P (a scratch mirror; draft 2.1): the served read is the pure exact function X — readFace, the
++  // key's content, X = exactRegionOfKey(content), the spine map (edge spines plus the reaching vertex-only ones), the
++  // splits on X. No dry run, no savepoint, no insertChain. The construction stays callable as `constructionRead`.
++  const t = openTx(o);
++  const p = t.plat;
++  const f = readFace(p, face, widths, cache, vertexContacts);
++  const content = exactKeyContentOfRead(f, vertexContacts);
++  if (!content.ok) {
++    CENSUS.set(p, { face, reaching: [], refusedAt: null, faithful: 'none' });
++    return err(content.code, content.detail);
++  }
++  const c = content.value;
++  const X = exactRegionOfKey(c);
++  const spines = new Map<string, Spine>(f.spines);
++  for (const s of f.through) if (c.reaching.includes(s.key)) spines.set(s.key, s);
++  CENSUS.set(p, { face, reaching: c.reaching.slice(), refusedAt: null, faithful: 'none' });
++  const sp = splitsOn(p, f.edges, spines, X.map((r) => r.slice()));
++  if (!sp.ok) return err(sp.code, sp.detail);
++  const census = f.through.length > 0 ? { census: { base: ok<Ring[]>(c.edgeRegion.map((r) => r.slice())), reaching: c.reaching.slice() } } : {};
++  const value: KerbRead = { face, rings: f.rings, edges: f.edges, spines, kerb: sp.value.rings, splits: sp.value.splits, warnings: [], region: X.map((r) => r.slice()), ...census };
++  return ok(value, []);
++}
++
++/**
++ * The construction (round 2B prototype: the base's `readKerb` body, unchanged) — the dry run on the open transaction's
++ * arena, kept callable for the cross-check.
++ */
++export function constructionRead(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
+   const t = openTx(o);
+   const p = t.plat;
+   const sh = readShadow;
