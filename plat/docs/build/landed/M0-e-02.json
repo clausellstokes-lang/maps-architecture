@@ -1,14 +1,14 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-e-02",
-  "lane": "build/M0-e-02-fix-s1",
-  "lanes": ["build/M0-e-02-consolidate-1", "build/M0-e-02-fix-s1"],
+  "lane": "build/M0-e-02-fix-s2",
+  "lanes": ["build/M0-e-02-consolidate-1", "build/M0-e-02-fix-s1", "build/M0-e-02-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-19T01:54:53.001Z",
+  "date": "2026-11-12T07:35:54.917Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/site/src/hydro/", "plat/packages/site/test/hydro/"],
-  "counts": { "created": 0, "changed": 16, "unchanged": 3, "deleted": 0 },
+  "counts": { "created": 0, "changed": 18, "unchanged": 1, "deleted": 0 },
   "files": [
     { "path": "plat/packages/site/src/hydro/carve.ts", "status": "changed", "sha256": "fa4e9afcde8b48140383bff21805da4e846b8b57ebc2bbb4f63de831a89f19be", "size": 6270 },
     { "path": "plat/packages/site/src/hydro/course.ts", "status": "changed", "sha256": "964058ae86d30fcb2964222cdd760871a327fcee2ae4d0893096e541265f9413", "size": 10882 },
@@ -17,15 +17,15 @@
     { "path": "plat/packages/site/src/hydro/flats.ts", "status": "changed", "sha256": "2bc781630c21d8f558c9541de808400135d58ffdb70572ad610d6bb03a2d77bc", "size": 7379 },
     { "path": "plat/packages/site/src/hydro/flood.ts", "status": "changed", "sha256": "cbb5eb137f15b2ee92222004996e610a7be1ca1155b20ab2501aefabd148067c", "size": 6259 },
     { "path": "plat/packages/site/src/hydro/index.ts", "status": "changed", "sha256": "3d292dc06cfc72e2dd50e5e7fc1750ce00fc8d705f3938fa0ba2c795ce8d5787", "size": 2730 },
-    { "path": "plat/packages/site/src/hydro/params.ts", "status": "unchanged", "sha256": "7bbabf34598095db008ca63635c5e41c670fe50101d3944af585478434098077", "size": 3976 },
+    { "path": "plat/packages/site/src/hydro/params.ts", "status": "changed", "sha256": "e0a653ac8050ed9565f08f47eb3b3d403111c1e1791fe9ba7166cfc36460873d", "size": 4088 },
     { "path": "plat/packages/site/src/hydro/strategy.ts", "status": "changed", "sha256": "03b21485da9b09170a5411fe9ca9735924b39efc15e37d7a3520f6ce04ef9834", "size": 33371 },
     { "path": "plat/packages/site/src/hydro/surface.ts", "status": "changed", "sha256": "83879f3bd023347e484dec78e816103281e5795512229998949d62de5341ee8a", "size": 5879 },
-    { "path": "plat/packages/site/src/hydro/trace.ts", "status": "changed", "sha256": "816f318a6fbf73c72e8e52634c902415e57f54895c33c0fdfc4e0937d6604b16", "size": 23233 },
+    { "path": "plat/packages/site/src/hydro/trace.ts", "status": "changed", "sha256": "858140c800ae56c4e1d93636340870d09f49e56154b1f682d21bf41e94299d7f", "size": 25578 },
     { "path": "plat/packages/site/src/hydro/types.ts", "status": "unchanged", "sha256": "f48b0aa898058b2fd2782e871daf5451458295f1389996b4918c938a8eed69b7", "size": 5200 },
-    { "path": "plat/packages/site/test/hydro/fixtures.ts", "status": "unchanged", "sha256": "925b124cdc90e653c51f846223f65c5cc564741cbe34d1c167a1a9a4bbadba44", "size": 3703 },
-    { "path": "plat/packages/site/test/hydro/pipeline.test.ts", "status": "changed", "sha256": "fe197ac9132e80c24cc1eece9744a78459a3a46f3e27308484ddaa5f067ec041", "size": 16314 },
-    { "path": "plat/packages/site/test/hydro/relief-bar.test.ts", "status": "changed", "sha256": "cb6ae49317a1956504a3dcb8cc92fe26cdc15061e75a5d867726fc2b56836421", "size": 11225 },
-    { "path": "plat/packages/site/test/hydro/river.test.ts", "status": "changed", "sha256": "f05388a6d55b655b9a7f64a96e8ebe12b7a4aa0eb298893fd59e388ee3573849", "size": 40568 },
+    { "path": "plat/packages/site/test/hydro/fixtures.ts", "status": "changed", "sha256": "21543f6ade6fdf47ee3f8e83c3f9c7ae39543aa7b3ea76b1337a5eef29ce93a2", "size": 4385 },
+    { "path": "plat/packages/site/test/hydro/pipeline.test.ts", "status": "changed", "sha256": "455ec095b70f6d96a9912818d0e29eedf738df0a96c4dbf875ece23b17eae9fb", "size": 18174 },
+    { "path": "plat/packages/site/test/hydro/relief-bar.test.ts", "status": "changed", "sha256": "886003bc58d928c5c144caf8a67be82454978c202c1cbe4b50bb591413d7753d", "size": 17251 },
+    { "path": "plat/packages/site/test/hydro/river.test.ts", "status": "changed", "sha256": "0abdf3a4547bc9f232182152434eeb76685b1f98135c0beb7b6ad2dd7c4420ce", "size": 48276 },
     { "path": "plat/packages/site/test/hydro/strategy.test.ts", "status": "changed", "sha256": "a9527c01526263aae65ebfb9f803678e3937bb75848dcf2cc20018a0cc3eb8f7", "size": 11815 },
     { "path": "plat/packages/site/test/hydro/support.ts", "status": "changed", "sha256": "8a30f52e8d0073d39f4a3af0f6e8850a7f70285491825e0e0fb186e07c52d27a", "size": 8785 },
     { "path": "plat/packages/site/test/hydro/surface.test.ts", "status": "changed", "sha256": "dda9f4ea4f98d5108f91bbc03462ef366b1dfa24600b5299589ca8c4c9200516", "size": 11571 }
@@ -33,14 +33,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0475", "L-0579"],
-      "lines": ["3557ac56b3784093", "31a66914fbed9e75"],
+      "ids": ["L-0475", "L-0579", "L-0820"],
+      "lines": ["3557ac56b3784093", "31a66914fbed9e75", "3dfbcc34eedafecc"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0339", "C-0386"],
-      "lines": ["e87446eb4482f7c6", "5082345871dd5c03"],
+      "ids": ["C-0339", "C-0386", "C-0498"],
+      "lines": ["e87446eb4482f7c6", "5082345871dd5c03", "ac6b7939ae5a76cc"],
       "removed": []
     }
   ]

@@ -4,12 +4,35 @@
 // accumulation — on the hydrology grid over frame and margin at each rung's cell (§12.4's ≈ 102 000 cells at CITY),
 // with a river from the highest edge carved into the same terrains; then the same bars with R12-5's hydroCoarsen
 // switch (the cell one step coarser, nothing else changed — every bar still holds at the coarser cell).
-import { streamFromKey } from '@plat/kernel';
+import { CONCERNS, streamFromKey } from '@plat/kernel';
 import type { Cdeg, Cm, Terrain, WaterBody } from '@plat/model';
 import { rungProfile, type BaseRung } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { arenaReach, buildTerrain, GROUND_KEY, hydroGridOver, siteFrame, terrainParams, type SiteRequest } from '../../src/terrain/index.js';
-import { accumulate, d8, hydroField, hydroParams, priorityFlood, rasterGeom, rasterise, resolveFlats, runRivers, type RiverReport } from '../../src/hydro/index.js';
+import { arenaReach, buildTerrain, GROUND_KEY, hydroGridOver, siteFrame, terrainParams, TOWN_ROOT, type SiteRequest } from '../../src/terrain/index.js';
+import {
+  accumulate,
+  chaikin,
+  d8,
+  descentLine,
+  edgePoint,
+  hydroField,
+  hydroParams,
+  hydrology,
+  inletMasks,
+  inletOf,
+  outwardCode,
+  planCarve,
+  priorityFlood,
+  rasterGeom,
+  rasterise,
+  resolveFlats,
+  riverSurface,
+  rounded,
+  runRivers,
+  surfaceCapCm,
+  type RiverReport,
+  type XY,
+} from '../../src/hydro/index.js';
 import { bedAlong, carveBars, courseOf, D8_STEPS, drainPath, nonIncreasing, siteContext, TABLES } from './support.js';
 
 /** The 60 m relief fixture: S0's rolling class (amplitude 60 m). */
@@ -177,5 +200,74 @@ describe('§13.1 / §2.3: D8 on 100 % of the hydrology grid over frame and margi
     expect(rb.value.water.bodies[0].course?.[0]).toEqual(ra.value.water.bodies[0].course?.[0]);
     expectBars(before, a, ra.value.report, 'TOWN');
     expectBars(before, b, rb.value.report, 'TOWN');
+  }, HEAVY);
+
+  it('Q123: on the 3 000 m relief with the river fixture\'s bearing (from the west), where no halving of the meander fits, the descent line itself is delivered (keys 2, 4, 8); where every attempt\'s inlet lies in a hollow its surface cannot leave (keys 12, 14, 28) the river stays degraded — the measured cause (hardening round S2)', () => {
+    const p = hydroParams(TABLES, 'CITY');
+    const f = siteFrame({}, rungProfile('CITY'), TABLES);
+    if (!f.ok) throw new Error(f.detail);
+    const reach = arenaReach(f.value);
+    const frameHalf = { x: f.value.widthCm / 2, y: f.value.heightCm / 2 };
+    const request = { inflowBearingCdeg: 27_000, mouth: 'none' as const };
+    const concern = CONCERNS['water.river'];
+    // Rescued: before this round every attempt failed its carve after three re-traces (degraded); the descent line from
+    // the inlet fits, so the delivered attempt ends on it — four re-traces, the last from the inlet — and every bar holds.
+    for (const key of [2, 4, 8]) {
+      const before = terrainOf('CITY', RELIEF_3000, key);
+      const terrain = clone(before);
+      const r = runRivers({ size: {}, site: { river: request } }, terrain, { bodies: [], bridges: [] }, siteContext(key));
+      if (!r.ok) throw new Error(r.detail);
+      expectBars(before, terrain, r.value.report, 'CITY');
+      expectFrameRiver(terrain, r.value.water.bodies[0], r.value.report);
+      const a = r.value.report.rivers[0].attempt;
+      const own = r.value.report.ladderUses.filter((u) => u.name === 'retrace' && u.key === (a === 0 ? 'S1/water.river@town' : `S1/water.river@town/a=${String(a)}`));
+      expect([key, own.length, own[own.length - 1]?.value]).toEqual([key, 4, 0]);
+      // Its control knots are the inlet, the cells' centres of the river's descent line from it — on the surface walled
+      // at the inlet's edge alone, as the first try's — and the outlet on the arena's edge: the line itself, no offset.
+      const hyd = hydrology(before, hydroGridOver(rasterGeom(before), p.hydroCellCm), p.lakeThresholdCm);
+      const g = hyd.field.grid;
+      const ctx = siteContext(key);
+      const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, a));
+      const { inlet } = inletOf(hyd.field, reach, frameHalf, 27_000, a > 0 ? stream.float01() : null, -1, p.carveMaxCm);
+      const masks = inletMasks(g, inlet.cell, undefined);
+      const line = descentLine(hyd.field, riverSurface(hyd.field, masks.outlet, masks.edge, surfaceCapCm(p.carveMaxCm)), inlet.cell, undefined, []);
+      expect(line.end.kind).toBe('frame');
+      const last = line.cells[line.cells.length - 1];
+      const centre = (c: number): XY => ({ x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm });
+      const end = edgePoint(g, last, reach, outwardCode(g, last % g.cols, Math.floor(last / g.cols)));
+      expect((r.value.water.bodies[0].controls ?? []).map((k) => ({ x: k.at.x, y: k.at.y }))).toEqual([inlet.at, ...line.cells.slice(1).map(centre), end]);
+      expect(r.value.report.requested[0]).toEqual({ feature: 'river', delivered: 'degraded', tier: 4, entity: 'water:river:0', cause: 'F-RIVER' });
+    }
+    // The residual (the fixture's): the acropolis hill's ground falls back towards the requested west edge, and at every
+    // attempt's inlet the river's surface — flooded from the open edges, the inlet's walled — admits no neighbour: the
+    // descent stalls at the inlet. Even on the surface at carveMaxCm itself (F-RIVER's carve rung at its limit) the
+    // line stalls or its course cuts the raster past the cap. Never trenched: degraded, the S3 and lake rungs M1's.
+    for (const key of [12, 14, 28]) {
+      const before = terrainOf('CITY', RELIEF_3000, key);
+      const terrain = clone(before);
+      const r = runRivers({ size: {}, site: { river: request } }, terrain, { bodies: [], bridges: [] }, siteContext(key));
+      if (!r.ok) throw new Error(r.detail);
+      expectBars(before, terrain, r.value.report, 'CITY');
+      expect(r.value.report.rivers[0]).toMatchObject({ fits: false, outfall: 'sink', corridor: false });
+      expect(r.value.report.requested[0]).toEqual({ feature: 'river', delivered: 'degraded', tier: 4, entity: 'water:river:0', cause: 'F-RIVER' });
+      const hyd = hydrology(before, hydroGridOver(rasterGeom(before), p.hydroCellCm), p.lakeThresholdCm);
+      const g = hyd.field.grid;
+      const ctx = siteContext(key);
+      for (let att = 0; att < 3; att += 1) {
+        const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, att));
+        const { inlet, edge } = inletOf(hyd.field, reach, frameHalf, 27_000, att > 0 ? stream.float01() : null, -1, p.carveMaxCm);
+        expect(edge).toBe(2);
+        const masks = inletMasks(g, inlet.cell, undefined);
+        const stalled = descentLine(hyd.field, riverSurface(hyd.field, masks.outlet, masks.edge, surfaceCapCm(p.carveMaxCm)), inlet.cell, undefined, []);
+        expect([key, att, stalled.cells, stalled.end.kind]).toEqual([key, att, [inlet.cell], 'stuck']);
+        const full = descentLine(hyd.field, riverSurface(hyd.field, masks.outlet, masks.edge, p.carveMaxCm), inlet.cell, undefined, []);
+        if (full.end.kind === 'stuck') continue;
+        const last = full.cells[full.cells.length - 1];
+        const centre = (c: number): XY => ({ x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm });
+        const end = edgePoint(g, last, reach, outwardCode(g, last % g.cols, Math.floor(last / g.cols)));
+        const course = rounded(chaikin([inlet.at, ...full.cells.slice(1).map(centre), end], 3));
+        expect([key, att, planCarve(before, course, p.carveMaxCm).firstExceed >= 0]).toEqual([key, att, true]);
+      }
+    }
   }, HEAVY);
 });

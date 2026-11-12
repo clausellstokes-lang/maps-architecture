@@ -260,6 +260,40 @@ describe('recomputeCorridors (the corridor step after a carve, §4.2 S1 (3))', (
     expect(s.flowAccum[short[3]]).toBeGreaterThanOrEqual(4 + 11);
   });
 
+  it("the corridor's last cell's own neighbours re-point onto it: a last step diagonal onto the border (hardening round S2, note N-s1c-1)", () => {
+    // A level 7 × 7 field; a corridor up column 3 from row 2 to row 5, then diagonally to (4, 6) on the north border.
+    // (5, 5) and (5, 6) lie beside the last cell only — two cells from every other corridor cell — so a scan that skips
+    // a corridor's last cell leaves them on the level field's directions (and counts 13 neighbours, not 15).
+    const f = fieldFrom(7, 7, () => 500);
+    pipeline(f);
+    const at = (i: number, j: number): number => j * 7 + i;
+    const cells = [at(3, 2), at(3, 3), at(3, 4), at(3, 5), at(4, 6)];
+    const bed = cells.map((_, k) => 400 - 10 * k);
+    const r = recomputeCorridors(f, [{ cells, bedCm: bed, exit: -1 }]);
+    expect(r).toEqual({ corridorCells: 5, neighbours: 15 });
+    expect(cells.map((c) => D8_NAMES[f.flowDir[c]])).toEqual(['N', 'N', 'N', 'NE', 'N']);
+    // The last cell's own two: each has the corridor's last cell as its only lower neighbour.
+    expect([D8_NAMES[f.flowDir[at(5, 5)]], D8_NAMES[f.flowDir[at(5, 6)]]]).toEqual(['NW', 'W']);
+    expect([f.flatRank[at(5, 5)], f.flatRank[at(5, 6)]]).toEqual([0, 0]);
+    // Every one of the 15 cells beside the corridor drains onto it.
+    const beside = new Set<number>();
+    for (const c of cells) {
+      const ci = c % 7;
+      const cj = Math.floor(c / 7);
+      for (let k = 0; k < 8; k += 1) {
+        const x = ci + D8_DX[k];
+        const y = cj + D8_DY[k];
+        if (x < 0 || y < 0 || x >= 7 || y >= 7 || cells.includes(y * 7 + x)) continue;
+        beside.add(y * 7 + x);
+      }
+    }
+    expect(beside.size).toBe(15);
+    for (const c of beside) {
+      const k = f.flowDir[c];
+      expect(cells).toContain((Math.floor(c / 7) + D8_DY[k]) * 7 + (c % 7) + D8_DX[k]);
+    }
+  });
+
   it('a tributary corridor drains into its confluence cell (exit)', () => {
     const f = fieldFrom(7, 7, () => 500);
     pipeline(f);

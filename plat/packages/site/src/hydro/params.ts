@@ -29,7 +29,10 @@ export const SURFACE_CAP_SHARE = 0.5;
 /** Chaikin's corner cutting applied this many times to the control polyline (§4.2 S1 (3)). C-0173 (4). */
 export const CHAIKIN_ROUNDS = 3;
 
-/** The re-traces from the last good knot one inlet allows, the offsets halved at each (F-RIVER's second rung). */
+/**
+ * The re-traces from the last good knot one inlet allows, the offsets halved at each (F-RIVER's second rung); past them,
+ * one re-trace of the descent line itself, offsets none (hardening round S2, Q123; ./trace.ts).
+ */
 export const RETRACE_MAX = 3;
 
 /**
