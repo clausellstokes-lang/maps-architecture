@@ -261,8 +261,10 @@ describe('the receipts on a derivation, each with its negative control (relief-6
 
 
 describe('hardening round S3: a refused stage\'s record carries the runner\'s code and detail (Q122)', () => {
-  it('relief-60 default seed 2 (test size) refuses at S5: the record names S5 with the runner\'s code and its detail text, and the class carries it once', { timeout: HEAVY }, () => {
-    const d = deriveSpike(F60, 2, 'default', 'test');
+  // Re-pinned in hardening round S4: on the round's tree relief-60 default seed 2 commits every stage (the stage landings
+  // since S3), so the refused record is relief-3000 default seed 1 at the test size (S5 E_INVARIANT on that tree).
+  it('relief-3000 default seed 1 (test size) refuses at S5: the record names S5 with the runner\'s code and its detail text, and the class carries it once', { timeout: HEAVY }, () => {
+    const d = deriveSpike(fixtureNamed('relief-3000') as SiteFixture, 1, 'default', 'test');
     const stages = stageOutcomes(d);
     const refused = Object.entries(stages).filter(([, o]) => o.startsWith('refused '));
     expect(refused.length).toBe(1);
@@ -272,8 +274,8 @@ describe('hardening round S3: a refused stage\'s record carries the runner\'s co
     expect((runner?.detail ?? '').length).toBeGreaterThan(0);
     const rec = runRecord(d);
     expect(rec.refusals).toEqual({ [stage]: { code: runner?.code, detail: runner?.detail } });
-    const g = foldGroup('relief-60', 'default', [rec]);
-    expect(g.refusals).toEqual([{ stage, code: runner?.code, count: 1, seeds: [2], message: runner?.detail, messages: 1 }]);
+    const g = foldGroup('relief-3000', 'default', [rec]);
+    expect(g.refusals).toEqual([{ stage, code: runner?.code, count: 1, seeds: [1], message: runner?.detail, messages: 1, texts: [{ text: runner?.detail, seeds: [1] }] }]);
     // an all-ok derivation carries no refusal
     expect(runRecord(derive('default')).refusals).toEqual({});
   });

@@ -386,3 +386,259 @@ None of these fails the round (the blocker rule; N-45). Verdict: `checks/M0-e-06
 | 23 | **The S2 → S3 attribution names one landing; the lane log shows two after S2's run began.** The notes say "the only landing in the derivation's package sources since S2's run is `build/M0-c-02-fix-s5`". S2's 800-run started 2026-10-27 17:00 in its own mirror, and `build/M0-x-04-fix-s1` landed `layout/src/pipeline/base.ts` at 21:19 that day (its S6 soft check, S8 and registration order; f-03b's 00:00 landing left `workLimits.json` byte-identical). Whether S2's mirror carried x-04's edit is not recorded. The moved classes are the enceinte's (S3 and S5 F-WALL, the new `E_DEGENERATE` `empty`), so the c-02 S5 attribution is plausible, but it is not bisected. The owners' briefs should cite the seeds, not the attribution. | `docs/lane-events.log` lines of `build/M0-e-06-fix-s2` (17:00 start, 03:18 done), `build/M0-x-04-fix-s1` LANDED 21:19, `build/M0-c-02-fix-s5` LANDED 07:30 / 07:47 | the session | PLAUSIBLE |
 | 24 | **The new `E_DEGENERATE` classes are the stages' own, confirmed by fresh derivations.** relief-3000 default seed 6 (S3, detail `empty`) and seed 21 (S5, `empty`) re-derived at CITY on the tree equal the store's records, and `runBase` without the harness on seed 6 gives the same stage roots S1 – S6 and the same bug (`S3 E_DEGENERATE`). Lawful-input refusals (OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED): S3 ×25 per configuration to c-01 / c-02, S5 seeds 21 and 59 to c-04, with the seed lists of the round's table. The bare detail `empty` names no rung (the builder's N-s3-1). | `out/d0.log`, `out/d2.log` (`EQUAL to store`; `BASE … roots S1:eq … BUGS-EQ`) | the session (c-01 / c-02, c-04) | CONFIRMED |
 | 25 | **A class's `message` is the lowest seed's text only; a class with two texts hides the second failure site.** relief-60 coarse S5 `E_INVARIANT` (seeds 118, 151; `messages` 2) carries seed 118's "(wall, enceinte:2) branches: a linear role forms simple chains or rings …"; seed 151, re-derived, refuses with "S5a: the gate vertices could not be put on their ways …", a different site under the same code. relief-60 default S5 `E_SELF_INTERSECT` and S6 `E_INVARIANT` also carry 2 texts. The brief asked for the message once per class, which is met; an owner routed by the message alone would miss the second site. A tightening: each distinct text with its seeds. | `out/d0.log` (relief-60 coarse 151); the committed summary's `messages` | M4, or the owners' rounds (c-04 S5, e-04 S4) reading the seeds | CONFIRMED |
+
+## Hardening round S4 (lane `build/M0-e-06-fix-s4`, 2026-11-10 – 11; the session's round J751 on the rows the second re-triage found still open: e-06:25, Q137, e-06:rerun (Q122's batched re-run, with Q173 and Q174 read from it); J237 (2), J238, J264 / N-58, J290, J263 Q1 / Q6, N-45, J758; choices C-0494). The builder's row-by-row outcome
+
+**For the session, first: no refusal class ROSE against S3's committed lists, in any group; no seed joined any class.**
+The stages' refusals on the 800 CITY derivations fell from **267 refused derivations to 12** (S3 `ecbc8c92…` → S4
+`fe78d514…`). One class held its count but **changed its failure site**: relief-3000 S5 `E_INVARIANT` (seeds 32, 81,
+188, both configurations) carried one text at S3 ("(wall, enceinte:2) branches …"); on this tree seeds 32 and 188
+refuse with "trace: gate gate:7 / gate:9 is not on the committed trace at its point (§4.2 S3 (9))" and only 81 keeps the
+branches text. Q173's `branches` class is therefore relief-60 118 (both configurations) and relief-3000 81 (both) — 4
+runs, not 8 — and a new site (the gate-on-trace check, §4.2 S3 (9)) appears on 4 runs. Every remaining class is listed
+below with its seeds and texts.
+
+The round stayed inside the item's owns (`bench/src/site/`, `bench/test/site/`, `docs/build/summaries/M0-e-06.json`)
+and the permitted appends. It read the stages the spike derives through and edited none of them. The tree is HEAD
+`3a5d75b0e235` (read from `.git` files; the round's first seat ran one `git log -1` by mistake at its start, a
+working-rule slip disclosed here and in the ledger row L-0812, its output only the hash). Per the brief it carries
+M0-c-02 S6 (`4d490aa7`), M0-c-04 S5 (`79cccb90`) and M0-e-04 S5 (`daccc648`); M0-e-03 S4 is not on it. The round ran in
+three build seats and two waiter hand-offs (J758): the first seat built the two code lines and launched the re-run; the
+container restarted at 492 / 800 and the third seat resumed the run (resumable store, nothing re-derived); this seat
+folded nothing anew (the chain folded once), re-pinned four tests (below) and ran the gates.
+
+Sources changed:
+
+* `report.ts`: `RefusalClass.texts` (e-06:25) and the type `RefusalText`.
+* `anchor.ts`: `LEDGER_ID_TOKEN`, `normaliseLedgerIds`; `scopeDigest` hashes the normalised bytes (Q137).
+
+`compose.ts`, `fixtures.ts`, `index.ts`, `pool.ts`, `receipts.ts`, `timing.ts` and `worker.ts` are unchanged, so no
+record changed: the derivation and its receipts are S3's code. No folder-index or barrel export was added, removed or
+renamed (J263 Q1: `index.ts` byte-identical; the new names are exported by `report.ts` and `anchor.ts` only). No message
+text changed (J263 Q6).
+
+Tests:
+
+* `fold.test.ts`: the S3 class case gains `texts` in its expectations; a new case "hardening round S4 (note 25)" —
+  relief-60 coarse S5 `E_INVARIANT`'s two sites (seed 118's branches text, seed 151's S5a text), a record with no
+  detail, the records' order reversed.
+* `summary.test.ts`: the census test checks each class's `texts` against the committed summary (they partition the
+  seeds, by lowest seed, the first is `message`, the non-null ones number `messages`); a new case "hardening round S4
+  (Q137)" copies `bench/src/site` to a temporary root, renumbers citations in five files (choices ids in comments and in
+  a message text, notes ids) and a ledger id, and asserts the digest equal to the tree's; then edits a constant's digit
+  and the anchor's own placeholder and asserts it moved; and unit cases of `normaliseLedgerIds` (a fifth digit, an id
+  inside a word, three digits, `M0-c-0453` stay as they are).
+* **Re-pinned (a foreign shift, not a defect; this seat):** four tests whose premise was "relief-60 default seed 2 (test
+  size) refuses at S5" went red on this tree because seed 2 now commits every stage (the stage landings since S3; a
+  probe of relief-60 default seeds 1 – 20 at the test size: every one commits S1 – S6). NEAR and RELATED@1000 of the
+  chain (2026-11-11 21:26 – 22:39Z) were red on exactly these four and nothing else. Diagnosed by a probe on seed 2: S5's
+  `enceinte:2` crosses the river at water gates of its own (`gate:w2`, `gate:w3`), so the arena's wall has 4 wet edges
+  for stage 1's 2 water gates; with S5's walls handed to the receipt (as `runRecord` hands them) the receipt reads 4
+  gates, 4 wet edges, 4 gated, 8 ends on the shore, 0 strip vertices in the water — the receipts are right and
+  unchanged. The re-pins keep each claim:
+  * `compose.test.ts` (Q122's refused-record pin): the refused record is relief-3000 default seed 1 at the test size
+    (S5 `E_INVARIANT` on this tree); the class's expectation gains `texts` (it had not been reached since S4's
+    `texts`); the test's title names the new seed.
+  * `spike.test.ts` "relief-60, seed 2: two water gates …": the water gates are stage 1's and S5's (the model's
+    `gates`, deduplicated by id); every wet wall edge is one gate's, each gate one edge between its two shore ends; "N
+    unchanged" still reads stage 1's list; the receipt is called with `s5Walls(d)`.
+  * `spike.test.ts` "the strip receipt is not blind …": the strips are both enceintes' and the receipt is called with
+    `s5Walls(d)` (without them it reads `enceinte:2` as an arena-only enceinte and counts its strips under
+    `stripOwner`, which the test's count did not include: 466 against 138).
+  * `spike.test.ts` containment "… S5 refused, S6 not reached …": the arena S4 left is relief-3000 seed 1's (test size;
+    S5 refused, S6 not reached on this tree); the title names the new seed.
+  The two new seeds are refusals of other items (the `branches` class, Q173): when their owner makes them commit, the
+  two pins go red again and are re-pinned the same way (a note for the session, N-s4-3). `bench/test/` is outside the
+  anchor's harness scope, so the recorded digest stands.
+
+### Row-by-row outcome
+
+| row | outcome | what changed | the pin (test) | mutants (red on it) |
+|---|---|---|---|---|
+| e-06:25 (note 25: a class keeps one message) | **FIXED** | Each class gains `texts`: every distinct detail text with its seeds, ordered by each text's lowest seed (so `texts[0].text` is `message`), a record with no detail apart under `null`; the entries' seeds partition the class's seeds and the non-null ones number `messages`. `message` and `messages` are kept as S3 wrote them. On the new summary relief-60 coarse S5 `E_INVARIANT` names both sites (118 branches; 151 S5a) and relief-3000 S5 `E_INVARIANT` three (32 and 188 the gate-on-trace texts, 81 branches). | `fold.test.ts` "hardening round S4 (note 25): a class with two failure sites names both …"; the S3 case "a class per stage and code …"; `summary.test.ts` "every refusal class of every group: … every distinct text with its seeds" on the committed summary | M25a (S3's fault: the lowest seed's text for every seed), M25b (no texts), M25c (texts by text, not by seed), M25d (a no-detail record folded into the lowest text) |
+| Q137 (the harness digest moves on a citation renumber) | **FIXED** | `scopeDigest` hashes each file's bytes after `normaliseLedgerIds`: every whole token `C-dddd`, `L-dddd`, `N-d…` (the ids the ID RULE renumbers, C-0104) becomes `C-#`, `L-#`, `N-#`; every other byte is kept (read as latin1, one character per byte). The row's first alternative is taken (the tokens normalised, not the comments stripped): the ID RULE renumbers exactly these tokens, and a comment stripper over TypeScript (strings, templates, regular expressions) would itself be a source of a silently wrong digest. The recorded digest was computed once under the new rule, at the re-run's fold: `af842628ee94d2b1…` (S3's raw `0d3b722a…`). | `summary.test.ts` "hardening round S4 (Q137): a citation renumber in a copy of the harness keeps its digest; an edit of its code moves it"; "the harness (bench/src/site) is … the code the summary was derived and folded with" (the recorded digest) | M137a (S3's raw digest), M137b (every digit run normalised: a code digit edit invisible), M137c (only `C-` ids), M137d (no word boundaries) |
+| e-06:rerun (Q122's batched 200-seed re-run) | **FIXED: the summary regenerated on this tree** | `docs/build/summaries/M0-e-06.json` re-derived (800 derivations) and folded once under the final harness; sha256 `fe78d51420ee96f3cc9806ba70497aa829a27cc0edea9f86482566597ea55af0`; the comparison with S3 below | `summary.test.ts` whole: the harness digest (new rule), the canary re-derived on the tree, the classes' texts, the counts and blocks | MS3 (S3's committed summary restored) |
+
+### The re-run (the 200-seed CITY summary on this tree)
+
+* 800 derivations (200 seeds × relief-60 / relief-3000 × default / coarse, CITY), S2's resumable driver and store, four
+  processes, in the lane's mirror `/home/user/maps-scratch/waves/longrun-M0-e-06-s4/plat` (a copy of the tree, no link
+  out). Started 2026-11-10 07:23Z; the container restarted with 492 stored (last write 11:21Z); resumed 2026-11-11
+  18:47Z from the store (nothing re-derived); 800 / 800 at 21:25Z.
+* The run's sources against the tree's at the end: `diff -rq` of `bench/src` and `packages/*` (without `node_modules`,
+  `dist`) empty (rc 0), and equal again at the re-entry of 11-11 18:47Z, so all 800 stand on one tree.
+* The fold: the tree's `foldReport` / `summaryOf` / `anchorOf` over the store, 800 folded, none refused. Anchor: `tree`
+  `3a5d75b0e235d714e9ca23e3ac0ca0a0dba16da8`; `harness` (9 files) `af842628ee94d2b179fd1d88141889b499b4b6559404764861de1fbf3a505e15`;
+  `sources` (350 files) `82533cfeac695df42b7d06abe94caffcaa780108bb68055238d4488ffe58a60c`; canary relief-60 coarse seed
+  46 (as at S3), record `eb2046dd…` (equal to S3's: that derivation did not move).
+* **Bar verdicts unchanged:** pass d8, bedMonotone, carve, noClamp, reliefAsNamed, waterGates, spans, containment,
+  fieldBands, weightZero; fail countLaw, gateWards, corpus (as S3; `pass` false). relief-3000's waterGates (both) and
+  coarse spans stay `unobserved` as at S3. The observed populations grew with the commits (e.g. relief-60 default
+  containment 123 → 199 derivations, waterGates 37 → 43).
+
+| group | refused derivations S3 → S4 | S3 ok | S4 ok | S5 ok | S6 ok |
+|---|---|---|---|---|---|
+| relief-60 default | 77 → 1 | 168 → 200 | 168 → 200 | 125 → 199 | 123 → 199 |
+| relief-60 coarse | 76 → 2 | 168 → 200 | 168 → 200 | 125 → 198 | 124 → 198 |
+| relief-3000 default | 57 → 5 | 170 → 199 | 169 → 198 | 144 → 195 | 143 → 195 |
+| relief-3000 coarse | 57 → 4 | 171 → 200 | 170 → 199 | 144 → 196 | 143 → 196 |
+
+(S1 ok 200 / 200 / 199 / 200, unchanged; the S4-ok column is the S4 stage's.)
+
+### Every refusal class, S3 → S4, seed for seed (with each distinct text and its seeds)
+
+"left" = in S3's list, not refused in this class now (every such seed now commits every stage: no S4 seed is refused
+or not reached outside the classes below); "joined" = none in every class. Attribution: the landing whose notes name
+the seed as committing after it; else "not attributed".
+
+| fixture, configuration | stage, code | S3 → S4 | left (seeds) | texts now (seeds) | attribution of the moves |
+|---|---|---|---|---|---|
+| relief-60 default | S3 `E_SELF_INTERSECT` | 32 → 0 | 16, 19, 20, 21, 31, 33, 35, 41, 43, 45, 48, 61, 67, 69, 73, 77, 82, 85, 86, 90, 112, 116, 117, 121, 128, 131, 143, 146, 163, 173, 194, 197 | — | M0-c-02 S6 (`checks/M0-c-02-s6.md`: `s3seeds.test.ts` 122 / 122 commit at S3). Seed 31 then refused at S5 on c-02's base (its N-59, the anchor rung); it commits here: not attributed |
+| relief-60 coarse | S3 `E_SELF_INTERSECT` | 32 → 0 | 16, 19, 20, 21, 33, 35, 41, 44, 45, 48, 62, 67, 69, 73, 76, 82, 84, 85, 86, 90, 112, 116, 117, 121, 128, 131, 143, 146, 149, 153, 163, 194 | — | M0-c-02 S6 (as above). Seeds 20, 44, 67 then refused at S5 on c-02's base (N-59); they commit here: not attributed |
+| relief-3000 default | S3 `E_DEGENERATE` | 25 → 0 | 6, 7, 10, 12, 13, 23, 25, 38, 50, 58, 60, 69, 78, 91, 100, 127, 138, 158, 165, 166, 179, 180, 189, 194, 199 | — | M0-c-02 S6 (as above). Seed 166 then refused at S6 on c-02's base (N-59, N-61: e-04's `settlementPerimeter`); it commits here: not attributed |
+| relief-3000 coarse | S3 `E_DEGENERATE` | 25 → 0 | the same 25 | — | M0-c-02 S6; 166 as above |
+| relief-3000 default | S3 `E_SELF_INTERSECT` | 4 → 0 | 4, 49, 54, 168 | — | M0-c-02 S6 |
+| relief-3000 coarse | S3 `E_SELF_INTERSECT` | 4 → 0 | 4, 49, 54, 168 | — | M0-c-02 S6 |
+| relief-60 default | S5 `E_SELF_INTERSECT` | 42 → 0 | 1, 11, 12, 13, 14, 15, 18, 23, 25, 30, 34, 39, 42, 44, 47, 62, 64, 65, 70, 72, 74, 75, 81, 84, 91, 95, 108, 109, 113, 133, 142, 153, 154, 156, 162, 175, 178, 184, 190, 193, 196, 198 | — | M0-c-02 S6 (N-60: the 32 not in its anchor-rung list); M0-c-04 S5 (§1.1: 13, 84, 156, 162, held); **1, 42, 44, 62, 91, 95 not attributed** (N-60's anchor rung on c-02's base, not named by c-04 S5) |
+| relief-60 coarse | S5 `E_SELF_INTERSECT` | 41 → 0 | 1, 9, 12, 13, 14, 15, 18, 23, 30, 31, 34, 38, 39, 42, 47, 65, 70, 72, 74, 81, 88, 97, 108, 109, 113, 114, 133, 142, 154, 162, 169, 173, 175, 178, 184, 188, 193, 196, 197, 198, 199 | — | M0-c-02 S6 (N-60: the 33 not in its anchor-rung list); M0-c-04 S5 (§1.1: 88, 178, 188, 196, 197); **13, 42, 162 not attributed** |
+| relief-3000 default | S5 `E_SELF_INTERSECT` | 20 → 0 | 9, 17, 33, 70, 80, 85, 88, 96, 99, 104, 106, 121, 136, 144, 150, 157, 162, 171, 183, 196 | — | M0-c-02 S6 (N-60: 20 → 0); M0-c-04 S5 also names 162, 196 |
+| relief-3000 coarse | S5 `E_SELF_INTERSECT` | 21 → 0 | 9, 17, 33, 70, 80, 85, 88, 96, 99, 104, 106, 121, 136, 144, 150, 157, 162, 171, 183, 184, 196 | — | M0-c-02 S6 (N-60: 21 → 0); M0-c-04 S5 also names 162, 196 |
+| relief-3000 default | S5 `E_DEGENERATE` | 2 → 0 | 21, 59 | — | M0-c-02 S6 (N-60: 4 → 0 over both configurations) |
+| relief-3000 coarse | S5 `E_DEGENERATE` | 2 → 0 | 21, 59 | — | M0-c-02 S6 (N-60) |
+| relief-60 default | S5 `E_INVARIANT` | 1 → 1 (held) | — | 118: "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)" | — |
+| relief-60 coarse | S5 `E_INVARIANT` | 2 → 2 (held) | — | 118: "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"; 151: "S5a: the gate vertices could not be put on their ways: S5a: the stage boundary crosses bridge:24's span at (25597, 119863) with 0 of its deck ends on the stage's side; its gate is the bridgehead on that side (N-54 (3))" | — |
+| relief-3000 default | S5 `E_INVARIANT` | 3 → 3 (held; **texts 1 → 3**) | — | 32: "trace: gate gate:7 is not on the committed trace at its point (§4.2 S3 (9))"; 81: "(wall, enceinte:2) branches: a linear role forms simple chains or rings (§3.10 role consistency)"; 188: "trace: gate gate:9 is not on the committed trace at its point (§4.2 S3 (9))" | the move of 32 and 188 to the gate-on-trace text: not attributed |
+| relief-3000 coarse | S5 `E_INVARIANT` | 3 → 3 (held; **texts 1 → 3**) | — | the same three texts on the same seeds | not attributed |
+| relief-60 default | S6 `E_INVARIANT` | 2 → 0 | 172, 183 | — | M0-e-04 S4 (`checks/M0-e-04-s4.md`: Q122's S6 class, 5 runs at 172 / 183 / 77, 5 → 0) |
+| relief-60 coarse | S6 `E_INVARIANT` | 1 → 0 | 183 | — | M0-e-04 S4 |
+| relief-3000 default | S6 `E_INVARIANT` | 1 → 0 | 77 | — | M0-e-04 S4 |
+| relief-3000 coarse | S6 `E_INVARIANT` | 1 → 0 | 77 | — | M0-e-04 S4 |
+| relief-3000 default | S1 `E_INVARIANT` | 1 → 1 (held) | — | 184: "S1 water: the river's ring was refused on the kernel's polygons (the fast ring: offset: a pocket inside a pocket); no further rung — the kernel's ring not clear (rings meet)" | — |
+| relief-3000 default | S4 `E_INVARIANT` | 1 → 1 (held) | — | 109: "S4: the spines' batch was refused (E_INVARIANT: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency)); on the lattice courses too: (way, way:13) branches: a linear role forms simple chains or rings (§3.10 role consistency)" | — |
+| relief-3000 coarse | S4 `E_INVARIANT` | 1 → 1 (held) | — | 109: the same text | — |
+
+Refused stage-outcomes 267 → 12; refused derivations 267 → 12 (each refused derivation refuses one stage).
+
+### Named for the session (the brief's (a) – (g)), each with its count and seeds on this tree
+
+* **(a) The S3 classes:** 0 of the 122 S3 runs refuse at S3 (M0-c-02 S6's measure confirmed at CITY on the merged
+  tree); none of the 122 refuses later either (c-02's N-59 named 6 that refused later on its base — relief-60 default
+  31, coarse 20, 44, 67 at S5, relief-3000 166 × 2 at S6 — all six commit every stage here). No S3 refusal is left.
+* **(b) The S5 classes after both landings:** c-04 S5 counted 125 on its own base (relief-60 default 39, coarse 39;
+  relief-3000 default 23, coarse 24); on this tree **9** remain (relief-60 default 1, coarse 2; relief-3000 default 3,
+  coarse 3), by text: "(wall, enceinte:2) branches …" 4 runs (relief-60 118 × 2, relief-3000 81 × 2); "trace: gate
+  gate:7 is not on the committed trace at its point (§4.2 S3 (9))" 2 runs (relief-3000 32 × 2); "… gate:9 …" 2 runs
+  (relief-3000 188 × 2); the S5a bridge-span text 1 run (relief-60 coarse 151). F-WALL's `E_SELF_INTERSECT` (112 runs
+  on c-04 S5's base by its §1.3; 18 on c-02 S6's by its N-60, the later-rung class) is **0**: no run refuses with F-WALL's
+  message on this tree.
+* **(c) The `(wall, enceinte:2) branches` class (Q173):** relief-60 118 (default and coarse) and relief-3000 81 (default
+  and coarse): 4 runs. relief-3000 32 and 188 (both configurations) no longer refuse with it; they refuse at S5 with the
+  same code and the gate-on-trace texts above (a different site under the same code — what note 25's `texts` now shows).
+* **(d) `E_DEGENERATE` `empty` on relief-3000 21 and 59 (Q174 (a)):** both commit every stage in both configurations
+  (attributed to M0-c-02 S6 by its N-60). The strips' free-piece floor that N-50 names is not reached on these seeds here.
+* **(e) relief-60 coarse seed 29 (Q174 (b)):** commits every stage (S1 – S6 ok); in no class. Not attributed.
+* **(f) Seed 151's text** (relief-60 coarse, S5 `E_INVARIANT`), verbatim: "S5a: the gate vertices could not be put on
+  their ways: S5a: the stage boundary crosses bridge:24's span at (25597, 119863) with 0 of its deck ends on the
+  stage's side; its gate is the bridgehead on that side (N-54 (3))". The runner's detail carries no `notBuilt('M3a')`
+  token: the REFUSE's milestone is C-0475 (3)'s and `M0.md` §4b's row, not the text (N-s4-2). relief-60 default 151
+  commits.
+* **(g)** S4: relief-3000 seed 109 (both configurations), 2 runs, text above (M0-c-03's). S6: **0** (closed; M0-e-04
+  S4). S1: relief-3000 default seed 184, 1 run (M0-e-03 S4 is not on this tree); relief-3000 coarse 184 commits every
+  stage (it refused at S5 at S3).
+
+### The work blocks and the worklimits dry run (Q118 unchanged)
+
+The summary carries `stageWork` in C-0453 (2)'s form on every stage that ran (`summary.test.ts` "every stage that ran
+… has a block of n > 0 …", green in NEAR). The committed reader's dry run over the new summary (`corepack pnpm bench --
+worklimits --date 2026-11-10`, `PLAT_BENCH_OUT` in the scratch) exits 1 exactly as at S3: "worklimits: 123366
+batches; E_WORK_LIMIT before 0 (8 row(s) unrecorded), after ≤ 52 on the bounded rows; worst 1.013 per 1 000 (target
+≤ 1); 29 row(s) unbounded" — 20 of the 29 are e-06's (every stage of every group, "no block for insert.points,
+insert.attractQueries, insert.placementCandidates, insert.crossings, tx.facesWalked …"), because `e06Groups`
+(`bench/src/worklimits/fit.ts`, M0-f-03b's) reads `groups[].work` one stage per counter, not `stageWork` — C-0453's
+REPORTED (i), unchanged and not this item's file. Read in the reader's form per stage (`summary.test.ts` "read in
+M0-f-03b's reader form, one stage per group, the blocks leave no e-06 row unbounded", green in NEAR on the new
+summary), **no e-06 row is unbounded**. No `E_WORK_LIMIT` refusal in any group (before 0).
+
+### The refusal census (J264 (4), N-58) and verdicts (J290)
+
+* **The harness's own failures (bench/src/site):** 0 → 0 — 800 of 800 derivations to a record, the fold refused none.
+* **The stages' refusals, REPORTED as measured:** 267 → 12 refused derivations; no class rose (above).
+* **Verdicts of the 12** (each LAWFUL input — the registered site fixtures — and each OUR OWN INTERMEDIATE at the stage
+  that refuses, so MAKE-IT-SUCCEED for its owner, except 151): S5 `branches` 4 runs and the gate-on-trace texts 4 runs
+  (the enceinte's / growth stage's, Q173 → M0-c-04 S6 by the queue; the gate-on-trace site is §4.2 S3 (9)'s check in the
+  trace); S5a 151 1 run (REFUSE `notBuilt('M3a')`, M0-c-04's C-0475 (3)); S4 109 2 runs (M0-c-03); S1 184 1 run
+  (M0-e-03, its S4 in flight elsewhere). None is this item's code; none is fixed here (the round reads the stages).
+
+### The round's mutant table (J169, J183)
+
+Mutants in the lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-e-06-fix-s4` (rebuilt by this seat under
+the CONTINUE RULE: `cp -a` of the tree after the re-pins; isolation proven — `find … -lname '/home/user/maps-architecture*'`
+empty, `bench/node_modules/@plat/kernel` resolves inside the mirror), each mutated file restored from the tree and
+`cmp`-equal after its run; the definitions in `/home/user/maps-scratch/waves/longrun-M0-e-06-s4/mutants.json`, the logs
+in `…/out/mut/` (pass 2) and `…/round2/mut/` (pass 1).
+
+* **Pass 2** (the first seat, before the fold, the content pins only: `vitest run --maxWorkers=1 fold.test.ts
+  summary.test.ts -t 'hardening round S4|a class per stage and code'`; the unmutated base exit 0): 8 of 8 red, each on
+  the pin of its row (below).
+* **Pass 1** (J183's form after the re-pins: `vitest run --maxWorkers=1 --bail=1 bench/test/site` in the mirror; its
+  base is NEAR in the tree, exit 0): 9 of 9 red (2026-11-12 00:09 – 00:31Z; the mirror equal to the tree before the pass — `diff -rq` of bench/src, bench/test and the packages' src, the summary `cmp`-equal); each `bench/src/site` mutant's first red is the harness digest pin, MS3's the census pin. The chain's first pass 1 (2026-11-11 21:55 – 22:11Z) is void: its base
+  was red on the four foreign-shift tests, so every mutant's "first red" was seed 2's water-gate test.
+
+| id | aimed at | mutation | pass 2: the content pin red | pass 1 (folder, bail 1): first red |
+|---|---|---|---|---|
+| M25a | e-06:25 (the fault) | every seed under the lowest seed's text | fold "a class per stage and code …", fold "hardening round S4 (note 25) …" | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M25b | e-06:25 | no `texts` | the same two | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M25c | e-06:25 | texts ordered by text | fold "hardening round S4 (note 25) …" | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M25d | e-06:25 | a no-detail record under the lowest text | fold "hardening round S4 (note 25) …" | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M137a | Q137 (the fault) | the raw bytes hashed | summary "hardening round S4 (Q137) …" | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M137b | Q137 | every digit run normalised | the same | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M137c | Q137 | only `C-dddd` normalised | the same | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| M137d | Q137 | the tokens without word boundaries | the same | summary "the harness (bench/src/site) is byte for byte the code …" (exit 1, restored `cmp`-equal) |
+| MS3 | e-06:rerun | S3's committed summary restored | — | summary "every refusal class of every group …" (`c.texts` undefined on S3's file; exit 1, restored `cmp`-equal) |
+
+Equivalent survivors: none. Every `bench/src/site` mutant is also red on the harness digest pin (any edit there moves
+it); pass 2 is the evidence that each row's own content pin kills it.
+
+### Gates (this seat, the tree, W = 1 by `tools/test_budget.py` before each run)
+
+* `corepack pnpm install --frozen-lockfile`: exit 0 ("Lockfile is up to date … Already up to date", 2026-11-12 00:32Z).
+* `corepack pnpm lint`: exit 0 — "lint: eslint 1299 files, 0 errors, 0 warnings"; "lint: probe-red ok" (10 probe lines,
+  each red under its rule); vendor-scan, repository-path, inline-directives, model-coverage, no-bare-pnpm, licences,
+  kernel-boundary, bench-boundary ok; "lint: 9 whole-tree checks" (2026-11-11 22:55Z, after the last edit).
+* `corepack pnpm build`: exit 0 — "build: tsc -b ok", esbuild of the six packages.
+* NEAR (`vitest run --maxWorkers=1 bench/test/site`, PLAT_FUZZ_RUNS unset, in the tree): exit 0 — "Test Files 7 passed
+  (7)", "Tests 102 passed (102)" (1679 s, informative only).
+* RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1 bench/src/site/anchor.ts
+  bench/src/site/report.ts`): exit 0 — "Test Files 14 passed (14)", "Tests 209 passed (209)" (1543 s; no J176 file on
+  the graph, no foreign red).
+* Refusal census (rule (4)): the harness's own failures 0 → 0; the stages' refused derivations 267 → 12 (REPORTED).
+* `corepack pnpm landed:verify -- flow-7 --item M0-e-06`: exit 0 — "ok (1 record)" (`docs/build/landed/M0-e-06.json`; the notes recorded as `build-M0-e-06-notes`).
+
+### Notes for the session (no row of this round; each with its evidence)
+
+* **N-s4-1 (KI, M4: a renumber inside a string literal):** the normalisation is over the whole file, so a citation
+  renumbered inside a message text (`compose.ts`' "(C-0264 (9))", `timing.ts`' "(C-0082)", "(C-0080)", "(C-0047)")
+  also keeps the digest, while the record's detail text would carry the new id. The ID RULE renumbers only a landing's
+  new row and the harness's literals cite old rows, so no landing reaches it today; it fails safely (the summary's text
+  keeps the old id, no outcome moves). A tightening is to normalise only outside string literals.
+* **N-s4-2 (session; c-04):** seed 151's runner detail (above) names no `notBuilt('M3a')`; J290 asks a REFUSE with no
+  alternative to be a numbered notBuilt milestone, and the record a user or a summary reads shows only "(N-54 (3))".
+  Not this item's text (`growth/boundary.ts:676`, M0-c-04's).
+* **N-s4-3 (session; this item's next round):** two of the re-pinned tests (`compose.test.ts`' refused record and
+  `spike.test.ts`' containment arena) now stand on relief-3000 seed 1 at the test size, which refuses at S5 with the
+  `branches` text (Q173). When Q173's owner makes it commit, those two go red with no defect of the harness and are
+  re-pinned again (another refusing seed, or a hand-built refusal), as this round did for relief-60 seed 2.
+* **N-s4-4 (session; c-02 / c-04):** the gate-on-trace texts on relief-3000 32 and 188 ("trace: gate gate:N is not on
+  the committed trace at its point (§4.2 S3 (9))") are a site no S3-era record carried on these seeds; the `branches`
+  class was 8 runs on S3's tree and on c-02 S6's and c-04 S5's bases, and is 4 here. Not attributed by any landing's
+  notes; derive relief-3000 default 32 at CITY to read it.
+
+## Closing check of hardening round S4 (lane `check/M0-e-06-close-s4`, 2026-11-12): notes 26 – 27
+
+None of these fails the round (the blocker rule; N-45). Verdict: `checks/M0-e-06-s4.md`. Evidence lives in
+`/home/user/maps-scratch/waves/check-M0-e-06/` (`mut/<id>.log`, `mut/run.log`, `q137/probe.mts`, `refold.mts`, `sample.log`).
+
+| # | note | evidence | route | label |
+|---|---|---|---|---|
+| 26 | **The summary's content past the canary is held by its own consistency only: a consistent edit of a class survives `summary.test.ts`.** The checker's mutant KRb folds relief-3000 default S5 `E_INVARIANT`'s three texts (32 and 188 the gate-on-trace texts, 81 the branches text) back to one text with `messages` 1 — exactly note 25's fault, written into the committed file with every count kept consistent — and `summary.test.ts` (every test but the canary's) stays green: the harness digest pins the code, the canary pins one ok record, the census test pins the file's internal laws, and nothing re-derives a refused record. Only a re-fold of the store (this check's `refold.mts`: byte-equal) or a re-derivation of a class's seed sees it. A deliberate-writer escape (the summary is written by `bench -- site --summary`, never by hand), C-0453's stated trade-off. A hardening: a second canary drawn from the refusal classes (the lowest seed of the largest class, its record digest recorded beside the ok canary's), at one more CITY derivation per run of the test. | `mut/KRb.log` (12 passed, 1 skipped, exit 0); `mut/summ.py` | M4 (C-0453's anchor scope; the session's ruling) | CONFIRMED |
+| 27 | **`LEDGER_ID_TOKEN`'s `\bN-\d+\b` also matches code: an identifier `N` minus a literal (`a[N-1]`) is normalised, so an edit `N-1` → `N-2` would keep the harness digest.** No such expression is in `bench/src/site` today (grep of every non-comment line: the only ledger-shaped tokens outside comments are citations inside message strings, N-s4-1's case), so no edit of today's code escapes; a contrived future escape, and with N-s4-1 the same tightening covers both: normalise the tokens only inside comments (and, if the session wants, string literals), or require a citation context (`(`, `;`, a space or `§` before the token). | own grep of `bench/src/site/*.ts`; `q137/probe.mts` (every listed edit moves or keeps the digest as stated) | M4 (with N-s4-1) | CONFIRMED (the regex) / PLAUSIBLE (no escape today) |

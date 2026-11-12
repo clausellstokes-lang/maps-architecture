@@ -81,7 +81,9 @@ export interface GroupReport {
   /**
    * The refusal census by class (M0-e-06 S3, Q122): per stage and code, the refusals' count, their seeds (sorted) and the
    * runner's detail text of the class's lowest seed with the number of distinct texts in the class; in stage, then code
-   * order. Each count equals its seed list's length and the stage's `refused[code]`.
+   * order. Each count equals its seed list's length and the stage's `refused[code]`. Since S4 (checks/M0-e-06-notes.md
+   * note 25) each class also carries EVERY distinct text with its seeds (`texts`), so a class with two failure sites
+   * names both.
    */
   readonly refusals: readonly RefusalClass[];
   /**
@@ -105,6 +107,18 @@ export interface RefusalClass {
   readonly message: string | null;
   /** The distinct detail texts in the class. */
   readonly messages: number;
+  /**
+   * Every distinct detail text of the class with its seeds (M0-e-06 S4, note 25): one entry per text — null for the
+   * records that carry no detail — ordered by each text's lowest seed, so `texts[0].text` is `message`; the entries'
+   * seeds (sorted) partition the class's seeds, and the non-null entries number `messages`.
+   */
+  readonly texts: readonly RefusalText[];
+}
+
+/** One detail text of a refusal class and the seeds that refused with it (M0-e-06 S4, note 25). */
+export interface RefusalText {
+  readonly text: string | null;
+  readonly seeds: readonly number[];
 }
 
 /** One per-stage work block (Q118): M0-f-03b's reader's form, with the charged samples beside it. */
@@ -396,7 +410,7 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
   };
 }
 
-/** The group's refusal classes (Q122): by stage and code, the seeds sorted, the lowest seed's detail. */
+/** The group's refusal classes (Q122): by stage and code, the seeds sorted, the lowest seed's detail, every distinct detail with its seeds (S4, note 25). */
 export function refusalClasses(rs: readonly RunRecord[]): RefusalClass[] {
   interface Row {
     stage: string;
@@ -422,7 +436,23 @@ export function refusalClasses(rs: readonly RunRecord[]): RefusalClass[] {
     const row = by.get(key) as Row;
     const seeds = [...row.seeds].sort((a, b) => a - b);
     const texts = new Set([...row.texts.values()].filter((t): t is string => t !== null));
-    out.push({ stage: row.stage, code: row.code, count: seeds.length, seeds, message: row.texts.get(seeds[0]) ?? null, messages: texts.size });
+    // each distinct text (null kept apart) with its seeds, in the order of the seeds: by each text's lowest seed
+    const byText = new Map<string | null, number[]>();
+    for (const seed of seeds) {
+      const t = row.texts.get(seed) ?? null;
+      const list = byText.get(t) ?? [];
+      list.push(seed);
+      byText.set(t, list);
+    }
+    out.push({
+      stage: row.stage,
+      code: row.code,
+      count: seeds.length,
+      seeds,
+      message: row.texts.get(seeds[0]) ?? null,
+      messages: texts.size,
+      texts: [...byText].map(([text, ts]) => ({ text, seeds: ts })),
+    });
   }
   return out;
 }
