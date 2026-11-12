@@ -3,7 +3,7 @@
 // M0-e-01's. The noise is the kernel's (`@plat/kernel`'s noise module, C-0065): @plat/site imports no vendored library.
 // Its files also export, at file level, helpers for the sibling folders to import by path; they are not part of the
 // package's API and so are not listed here (J263 Q1): grid.ts `rasterGrid`, `cellCentre`; primitives.ts `PI`,
-// `RAD_PER_CDEG`; heightfield.ts `generatedLifecycle`; strategy.ts `isBaseRung`.
+// `RAD_PER_CDEG`; heightfield.ts `generatedLifecycle` (`@plat/model`'s, re-exported by path, Q87); strategy.ts `isBaseRung`.
 export * from './types.js';
 export { BASE_WAVELENGTH_M, LOW_BAND_M, ROCK_SLOPE, terrainParams, type TerrainParams } from './params.js';
 export { heightWriter, INT32_HEIGHT_MAX, type HeightWriter } from './range.js';

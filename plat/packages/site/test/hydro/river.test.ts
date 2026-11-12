@@ -37,7 +37,7 @@ import {
   type RiverRequest,
   type XY,
 } from '../../src/hydro/index.js';
-import { bowl, eastward, RIDGE_Y_CM, SMALL, valley, valleyFallingEast, valleyWithCrater, valleyWithRidge, valleyWithSide, valleyWithSink } from './fixtures.js';
+import { bowl, eastward, gully, RIDGE_Y_CM, SMALL, valley, valleyFallingEast, valleyWithCrater, valleyWithRidge, valleyWithSide, valleyWithSink } from './fixtures.js';
 import { bedAlong, carveBars, CITY, cityHydrology, courseOf, drainPath, frameOf, heightsOf, nonIncreasing, northInlet, reachOf, riverBp, siteContext, terrainFrom, traceOpts } from './support.js';
 
 interface Run {
@@ -517,6 +517,48 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     expect([tr1.ok, tr1.failure]).toEqual([false, 'carve']);
   });
 
+  it('re-trace at its limit (rung 2): when no halving of the offsets cures the course, the descent line itself is re-traced from the inlet and delivered if it fits — a gully (hardening round S2, Q123)', () => {
+    // Down the gully the descent line fits with no cut; every meandered course, at the full offsets and at ½, ¼, ⅛ of
+    // them, climbs a wall past the cap. The three re-traces (C-0173 (5)'s cap) each fail on the carve, so the course is
+    // re-traced once more from the inlet with no offset: the line itself — before this round the river was degraded.
+    const terrain = terrainFrom(SMALL, gully);
+    const hyd = cityHydrology(terrain);
+    const inlet = northInlet(hyd.field.grid, reachOf(frameOf(SMALL)));
+    for (const key of [1, 2, 3, 4, 5]) {
+      const tr = traceRiver(hyd.field, inlet, streamFromKey([key, 4, 4, 4]), traceOpts(terrain, CITY.riverBandCm[0]));
+      const retraces = tr.events.filter((e) => e.rung === 'retrace');
+      expect(retraces.map((e) => [e.value, e.cause])).toEqual([
+        [0, 'carve'],
+        [0, 'carve'],
+        [0, 'carve'],
+        [0, 'carve'],
+      ]);
+      expect([tr.ok, tr.failure, tr.failAt, tr.cutAt, tr.scale, tr.end.kind]).toEqual([true, null, -1, -1, 0, 'frame']);
+      // The knots are the inlet, the line's cells' centres down the axis (no offset) and the outlet on the south edge.
+      expect(tr.knots[0].at).toEqual(inlet.at);
+      for (const k of tr.knots.slice(1, -1)) {
+        expect(k.at.x).toBe(1250);
+        expect(k.offsetCm).toBe(0);
+      }
+      expect(tr.knots.map((k) => k.ordinal)).toEqual(tr.knots.map((_, o) => o));
+      // One knot per cell of the line, which runs straight down the axis: each 25 m south of the one before.
+      for (let q = 2; q < tr.knots.length - 1; q += 1) expect(tr.knots[q - 1].at.y - tr.knots[q].at.y).toBe(2500);
+      expect(tr.knots[tr.knots.length - 1].at).toEqual({ x: 1250, y: -reachOf(frameOf(SMALL)).y });
+      // The course is their Chaikin smoothing, three rounds (the test's own), its bed within the cap.
+      expect(tr.course).toEqual(smoothed(tr.knots.map((k) => k.at)));
+      expect(planCarve(terrain, tr.course, CITY.carveMaxCm).firstExceed).toBe(-1);
+    }
+    // Through the strategy: attempt 0 delivers the line, full (tier 2: a re-trace), down the gully through the core.
+    for (const seed of [1, 2, 3]) {
+      const r = run(gully, { inflowBearingCdeg: 0 }, seed);
+      expect(r.report.rivers[0]).toMatchObject({ attempt: 0, fits: true, reachesCore: true, outfall: 'frame', corridor: true });
+      expect(r.report.requested).toEqual([{ feature: 'river', delivered: 'full', tier: 2, entity: 'water:river:0' }]);
+      expect(r.report.ladderUses.filter((u) => u.name === 'inlet')).toEqual([]);
+      expect(r.report.ladderUses.filter((u) => u.name === 'retrace').map((u) => u.value)).toEqual([0, 0, 0, 0]);
+      expectCarveBars(r);
+    }
+  });
+
   it('a degraded river reports reachesCore on the course it delivers, cut before its failure (C-0173 (6))', () => {
     const r = run(valleyWithRidge, { inflowBearingCdeg: 0 });
     const out = r.report.rivers[0];
@@ -558,6 +600,40 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     expect(near2[order[2]] - near2[order[1]]).toBeGreaterThan(10_000);
     expect(out.attempt).toBe(order[0]);
     expect(c).toEqual(cuts[order[0]]);
+  });
+
+  it('the degraded pick breaks a tie on the distance by the earlier attempt (C-0173 (6); hardening round S2, note N-s1c-2)', () => {
+    // At 45° the ray meets the arena's corner; the point is clamped beside the frame (500 m east), and every attempt's
+    // shift moves it east of that clamp and back onto it: the three attempts arrive at one inlet, each fits, none reaches
+    // the core, and each passes the centre nearest at that inlet — one distance, so the tie-break alone picks: attempt 0.
+    // (A pick of the later attempt on a tie delivers attempt 2, another course.)
+    const f = frameOf(SMALL);
+    const reach = reachOf(f);
+    const concern = CONCERNS['water.river'];
+    for (const h of [valleyFallingEast, eastward]) {
+      const r = run(h, { inflowBearingCdeg: 4500 }, 3);
+      expect(r.report.rivers[0]).toMatchObject({ attempt: 0, fits: true, reachesCore: false, outfall: 'frame' });
+      expect(r.report.requested[0]).toMatchObject({ feature: 'river', delivered: 'degraded', tier: 4, cause: 'F-RIVER' });
+      const terrain = terrainFrom(SMALL, h);
+      const field = cityHydrology(terrain).field;
+      const ctx = siteContext(3);
+      const courses: XY[][] = [];
+      for (let a = 0; a < 3; a += 1) {
+        const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, a));
+        const shift = a > 0 ? stream.float01() : null;
+        const { inlet } = inletOf(field, reach, { x: f.widthCm / 2, y: f.heightCm / 2 }, 4500, shift, -1, CITY.carveMaxCm);
+        expect(inlet.at).toEqual({ x: f.widthCm / 2, y: reach.y });
+        const tr = traceRiver(field, inlet, new MeanderDraws(stream), traceOpts(terrain, CITY.riverBandCm[0], CITY, reach));
+        expect(tr.ok).toBe(true);
+        courses.push(tr.course);
+      }
+      // One distance for all three (the inlet itself: the corner of the frame's clamp), three different courses.
+      const near2 = courses.map(originDist2);
+      expect(near2).toEqual([0, 0, 0].map(() => (f.widthCm / 2) ** 2 + reach.y ** 2));
+      expect(courses[2]).not.toEqual(courses[0]);
+      expect(courseOf(r.bodies[0])).toEqual(courses[0]);
+      expectCarveBars(r);
+    }
   });
 
   it('with no bearing the inlet lies on the highest edge by mean height, ties E, N, W, S (§4.2 S1 (3); C-0173 (2))', () => {
@@ -605,6 +681,32 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
       expect(edgePoint(g, 8 * 5 + i, reach, 2)).toEqual({ x, y: 11_250 }); // N
       expect(edgePoint(g, i, reach, 6)).toEqual({ x, y: -11_250 }); // S
     }
+  });
+
+  it('edgePoint clamps the cross coordinate to the reach where the grid overshoots the arena (hardening round S2, note N-s1c-3)', () => {
+    // The covering grid can overshoot the arena by up to a cell: here 5 × 9 cells of 25 m reaching a whole cell past it
+    // on every side, so the corner cells' centres lie half a cell (1 250 cm) beyond the reach on both axes. An east or west
+    // corner cell's point is on the reach's corner, never past it; so is a north or south corner cell's.
+    const g = { cellCm: 2500, cols: 5, rows: 9, originX: -6250, originY: -11_250 } as HydroGrid;
+    const reach = { x: 3750, y: 8750 };
+    const ne = 8 * 5 + 4;
+    const nw = 8 * 5;
+    const se = 4;
+    const sw = 0;
+    // The corner cells' own centres, beyond the reach (the case this clamp exists for).
+    expect([g.originX + 4.5 * g.cellCm, g.originY + 8.5 * g.cellCm]).toEqual([reach.x + 1250, reach.y + 1250]);
+    expect([g.originX + 0.5 * g.cellCm, g.originY + 0.5 * g.cellCm]).toEqual([-reach.x - 1250, -reach.y - 1250]);
+    expect(edgePoint(g, ne, reach, 0)).toEqual({ x: 3750, y: 8750 }); // E at the NE corner: y clamped
+    expect(edgePoint(g, se, reach, 0)).toEqual({ x: 3750, y: -8750 }); // E at the SE corner
+    expect(edgePoint(g, nw, reach, 4)).toEqual({ x: -3750, y: 8750 }); // W at the NW corner
+    expect(edgePoint(g, sw, reach, 4)).toEqual({ x: -3750, y: -8750 }); // W at the SW corner
+    expect(edgePoint(g, ne, reach, 2)).toEqual({ x: 3750, y: 8750 }); // N at the NE corner: x clamped
+    expect(edgePoint(g, nw, reach, 2)).toEqual({ x: -3750, y: 8750 }); // N at the NW corner
+    expect(edgePoint(g, se, reach, 6)).toEqual({ x: 3750, y: -8750 }); // S at the SE corner
+    expect(edgePoint(g, sw, reach, 6)).toEqual({ x: -3750, y: -8750 }); // S at the SW corner
+    // An inner cell of the east edge keeps its centre's row: the clamp touches only what lies past the reach.
+    expect(edgePoint(g, 4 * 5 + 4, reach, 0)).toEqual({ x: 3750, y: 0 });
+    expect(edgePoint(g, 7 * 5 + 4, reach, 0)).toEqual({ x: 3750, y: 7500 });
   });
 
   it('F-WORK: a low hydro.cells limit coarsens the grid one step and reports work_cut with the count; D8 still 100 %', () => {
@@ -698,6 +800,14 @@ describe('tributaries, by the same rule from secondary inlets', () => {
     const path = drainPath(field, tc[0]);
     expect(path).not.toBeNull();
     expect(path?.some((c) => mainCells.has(c))).toBe(true);
+    // It ends at the centre of the river's cell it joins (the confluence), not beside it (hardening round S2: the
+    // course's end, shared by every try since this round, read from the joined cell).
+    const g = t.hydro;
+    const end = courseOf(trib)[courseOf(trib).length - 1];
+    const ei = Math.floor((end.x - g.originX) / g.cellCm);
+    const ej = Math.floor((end.y - g.originY) / g.cellCm);
+    expect(end).toEqual({ x: g.originX + (ei + 0.5) * g.cellCm, y: g.originY + (ej + 0.5) * g.cellCm });
+    expect(mainCells.has(ej * g.cols + ei)).toBe(true);
   });
 
   it('a request for river islands or a delta at M0 is reported, never silent (M1, §4b)', () => {

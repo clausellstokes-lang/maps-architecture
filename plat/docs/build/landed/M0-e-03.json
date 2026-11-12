@@ -1,14 +1,14 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-e-03",
-  "lane": "build/M0-e-03-fix-s3",
-  "lanes": ["build/M0-e-03", "build/M0-e-03-fix1", "build/M0-e-03-int-g12-fix1", "build/M0-e-03-fix-s1", "build/M0-e-03-fix-s2", "build/M0-e-03-consolidate-1", "build/M0-e-03-fix-s3"],
+  "lane": "build/M0-e-03-fix-s4",
+  "lanes": ["build/M0-e-03", "build/M0-e-03-fix1", "build/M0-e-03-int-g12-fix1", "build/M0-e-03-fix-s1", "build/M0-e-03-fix-s2", "build/M0-e-03-consolidate-1", "build/M0-e-03-fix-s3", "build/M0-e-03-fix-s4"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-27T16:48:59.692Z",
+  "date": "2026-11-12T02:26:01.606Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/site/src/water/", "plat/packages/site/test/water/"],
-  "counts": { "created": 20, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 21, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/site/src/water/crossings.ts", "status": "created", "sha256": "a89ea84a172cadc893be1c6879617599482a12972d3c1b7251bfb57e71f50d8a", "size": 7200 },
     { "path": "plat/packages/site/src/water/faces.ts", "status": "created", "sha256": "90d0ec9d6b5a6832b23f30a8c1eb07aafdab7a3d1eb80a73e117bbf77992688c", "size": 15291 },
@@ -17,13 +17,14 @@
     { "path": "plat/packages/site/src/water/offset.ts", "status": "created", "sha256": "ec21580da1f10e77f93079adf268b27db7651cfb5f5190e33d9890e2cdd92bd1", "size": 25139 },
     { "path": "plat/packages/site/src/water/outfalls.ts", "status": "created", "sha256": "aae54449c078552e688a3577172de6f573bf1d09b19cc561b8cdd011a4eeb5f2", "size": 8666 },
     { "path": "plat/packages/site/src/water/params.ts", "status": "created", "sha256": "82d4e961cc88a09ef7ccde090aa9cb11460651eca9f7f2d9dc6f36148210d9f2", "size": 2707 },
-    { "path": "plat/packages/site/src/water/polygons.ts", "status": "created", "sha256": "1d7c7445c26e8bbf9dfbbbab73c19f16da0d7e7377654f881110d214be931dc4", "size": 32331 },
+    { "path": "plat/packages/site/src/water/polygons.ts", "status": "created", "sha256": "b4b3e6db5677f2379f485c408f652a5f66f480e8e7972b6198d49981889cba72", "size": 33045 },
     { "path": "plat/packages/site/src/water/stage.ts", "status": "created", "sha256": "dc588241562f07e34fbee51eb984e402f9513ce2fcd5d013c0278bc15b8244ff", "size": 19418 },
     { "path": "plat/packages/site/src/water/types.ts", "status": "created", "sha256": "44f201d9a2c48ce4e840f8d94e45a325e12392f7f4635e401064653dc4e85fca", "size": 4644 },
     { "path": "plat/packages/site/test/water/crossings.test.ts", "status": "created", "sha256": "5af3d6d7272ef88fe89ce211645f592ea3e8b2a25fb66b1c2d25d14d97f3260b", "size": 15617 },
-    { "path": "plat/packages/site/test/water/exit-bar.test.ts", "status": "created", "sha256": "68745cac45cd3cac8e78cf1b436eaa9aa7119ee455a794758538bca962b6ee7e", "size": 9425 },
+    { "path": "plat/packages/site/test/water/exit-bar.test.ts", "status": "created", "sha256": "f3eac2d763e7edb48dab9cd2a61bf2e2dadc061ce0f7cbe3d010bb475bc0693d", "size": 9760 },
     { "path": "plat/packages/site/test/water/faces.test.ts", "status": "created", "sha256": "ef300c11d6a1cf0ede9dd5c96acfcf34b5cbe54251e458c6493b84542d074e6f", "size": 14419 },
     { "path": "plat/packages/site/test/water/fixtures/q20-slow-rings.json", "status": "created", "sha256": "e8647bb1bd248f5c232f3abb8838215658ad235494dc36f34432f7eb500abed3", "size": 8553 },
+    { "path": "plat/packages/site/test/water/hardening-s4.test.ts", "status": "created", "sha256": "461f6fcbae23832248ead711b5ca3b901d5b22afeeb54c82e28c3af0c67f135b", "size": 13944 },
     { "path": "plat/packages/site/test/water/one-door.test.ts", "status": "created", "sha256": "1027af3e706e4cb589f3d97715e14952fe089e1336d24eba2d95418d17dc98bb", "size": 5299 },
     { "path": "plat/packages/site/test/water/outfalls.test.ts", "status": "created", "sha256": "adb8054997968db198123bc68370b69a7c85ad2dae1d2494e0bf29be5c50cd54", "size": 9527 },
     { "path": "plat/packages/site/test/water/references-row.test.ts", "status": "created", "sha256": "1e717f8941abc6d51007da0857e789cec3ededb4d7a6c830283b36462018adb0", "size": 11593 },
@@ -35,14 +36,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0225", "L-0241", "L-0282", "L-0406", "L-0413", "L-0499", "L-0673", "P-0030", "P-0031"],
-      "lines": ["09172f5f92cbd14e", "8ab34c8456e6b4f8", "8c27efc9c3c38afe", "ba64c5c792bf4cd1", "b95f39532dd9121a", "287de190982fb2e9", "0a4b8faca02118b9", "0d36844d95bae9d4", "d16cec95503b11c7"],
+      "ids": ["L-0225", "L-0241", "L-0282", "L-0406", "L-0413", "L-0499", "L-0673", "L-0751", "P-0030", "P-0031"],
+      "lines": ["09172f5f92cbd14e", "8ab34c8456e6b4f8", "8c27efc9c3c38afe", "ba64c5c792bf4cd1", "b95f39532dd9121a", "287de190982fb2e9", "0a4b8faca02118b9", "9219af11acb5f27c", "0d36844d95bae9d4", "d16cec95503b11c7"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0229", "C-0233", "C-0251", "C-0307", "C-0310", "C-0348", "C-0434"],
-      "lines": ["f9981a60ba004bb1", "31317179eae79a80", "57bc8e96c76ad5f0", "5aaa92ef33a7a611", "f104d01cc2b6bbed", "daf6cb562c9a1ffc", "d8afb4865288d14c"],
+      "ids": ["C-0229", "C-0233", "C-0251", "C-0307", "C-0310", "C-0348", "C-0434", "C-0468"],
+      "lines": ["f9981a60ba004bb1", "31317179eae79a80", "57bc8e96c76ad5f0", "5aaa92ef33a7a611", "f104d01cc2b6bbed", "daf6cb562c9a1ffc", "d8afb4865288d14c", "180be1c9647f49ee"],
       "removed": []
     }
   ]

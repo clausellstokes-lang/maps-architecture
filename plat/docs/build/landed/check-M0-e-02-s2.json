@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "check-M0-e-02-s2",
+  "lane": "check/M0-e-02-close-s2",
+  "lanes": ["check/M0-e-02-close-s2"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-11-11T23:46:13.004Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/M0-e-02-s2.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/M0-e-02-s2.md", "status": "created", "sha256": "c62934d9781e64b811384224f56842d855344170ca41f9869c0e63dbfd30d4d9", "size": 27478 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0749", "L-0750"],
+      "lines": ["a00eb74cfba85e89", "fe690e815abfc9b2"],
+      "removed": []
+    }
+  ]
+}
