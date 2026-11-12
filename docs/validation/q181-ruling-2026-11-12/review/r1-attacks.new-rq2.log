@@ -1,0 +1,138 @@
+##### MODE NEW+RQ2
+=== S1 d=20 one-step
+    [W wrote (junction, base:C) on (2000, 2000)]
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000) (3000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=20 one-step final (C alone): equal to the survivors inserted fresh? false | vertices 7 vs 7 | allProblems ok
+    only here:   e 2000,2000-3000,2000 L2 [28/base:C/2/0] || v 3000,2000 L2 f0 []
+    only fresh:  e 2000,2000-3000,2020 L2 [28/base:C/2/0] || v 3000,2020 L2 f0 []
+=== S1 d=20 two-step
+    [W wrote (junction, base:C) on (2000, 2000)]
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(3000,2000)] | v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[junction/base:C/0/L2] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=20 two-step final (C alone): equal to the survivors inserted fresh? false | vertices 7 vs 7 | allProblems ok
+    only here:   e 2000,2000-3000,2000 L2 [28/base:C/2/0] || v 3000,2000 L2 f0 []
+    only fresh:  e 2000,2000-3000,2020 L2 [28/base:C/2/0] || v 3000,2020 L2 f0 []
+=== S1 d=27 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=27 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=27 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=27 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=35 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=35 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=35 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=35 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=45 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=45 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=45 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=45 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=60 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=60 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=60 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=60 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=90 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=90 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=90 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=90 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=150 one-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A removed whole: ok unflagged=[(500,2000) (2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=150 one-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S1 d=150 two-step
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=3 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's stretch v -> (4000,2000) removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:A/0/L2;invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  A's rest removed: ok unflagged=[(500,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2]
+  S1 d=150 two-step final (C alone): equal to the survivors inserted fresh? true | vertices 7 vs 7 | allProblems ok
+=== S2 T-first dy=1
+  j after the three ways: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  way:2 removed: ok | j: (2000, 2000) L1 split=true pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1]
+  warp of (1000,2000) by (0,1): applied=true moves=free(1000,2000)->(1000,2001) report.unflagged=[] | j: (2000, 2000) L1 split=true pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1]
+  way:3 removed: ok | j: gone
+  -> j DISSOLVED (the warped spine straightened) | allProblems ok
+=== S2 T-first dy=30
+  j after the three ways: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  way:2 removed: ok | j: (2000, 2000) L1 split=true pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1]
+  warp of (1000,2000) by (0,30): applied=true moves=free(1000,2000)->(1000,2030) report.unflagged=[] | j: (2000, 2000) L1 split=true pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1]
+  way:3 removed: ok unflagged=[(2000,2000)] | j: (2000, 2000) L1 split=false pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1]
+  -> j KEPT (as §3.6 b' promises) | allProblems ok
+=== S2 rider-first dy=1
+  j after the three ways: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  warp of (1000,2000) by (0,1): applied=true moves=free(1000,2000)->(1000,2001) report.unflagged=[] | j: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  way:3 removed: ok | j: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1] | L1[way/way:2/0/L1]
+  way:2 removed: ok | j: gone
+  -> j DISSOLVED (the warped spine straightened) | allProblems ok
+=== S2 rider-first dy=30
+  j after the three ways: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  warp of (1000,2000) by (0,30): applied=true moves=free(1000,2000)->(1000,2030) report.unflagged=[] | j: (2000, 2000) L1 split=true pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1;way/way:3/0/L1] | L1[way/way:2/0/L1]
+  way:3 removed: ok unflagged=[(2000,2000)] | j: (2000, 2000) L1 split=false pinned=false deg=3 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1] | L1[way/way:2/0/L1]
+  way:2 removed: ok | j: (2000, 2000) L1 split=false pinned=false deg=2 vrows=[] edges=L1[way/way:1/0/L1] | L1[way/way:1/0/L1]
+  -> j KEPT (as §3.6 b' promises) | allProblems ok
+=== S3a rekey join then Q removed
+  v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:K/0/L2;invisible/base:Q/0/L2] | L2[invisible/base:C/0/L2;invisible/base:Q/0/L2]
+  C rekeyed whole to K: ok | v: gone
+  Q removed: ok | v: gone
+  S3a vs K inserted as (0,2000)(2000,2000)(4000,2000): equal to the survivors inserted fresh? false | vertices 6 vs 7 | allProblems ok
+    only here:   e 0,2000-4000,2000 L2 [28/base:K/2/0]
+    only fresh:  e 0,2000-2000,2000 L2 [28/base:K/2/0] || e 2000,2000-4000,2000 L2 [28/base:K/2/0] || v 2000,2000 L2 f0 []
+  S3a vs K inserted as (0,2000)(4000,2000): equal to the survivors inserted fresh? true | vertices 6 vs 6 | allProblems ok
+=== S3b control (the head): Kw and Ke, two chains of one entity, then Q removed
+    [W wrote (junction, base:K) on (2000, 2000)]
+  Kw: ok  Ke: ok | v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[junction/base:K/0/L2] edges=L2[invisible/base:K/0/L2;invisible/base:Q/0/L2] | L2[invisible/base:K/0/L2;invisible/base:Q/0/L2]
+  Q removed: ok unflagged=[(2000,2000)] | v: (2000, 2000) L2 split=false pinned=false deg=2 vrows=[] edges=L2[invisible/base:K/0/L2] | L2[invisible/base:K/0/L2]
+=== S4a A removed whole
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2]
+  A removed: ok | v: gone
+  S4a final (C alone): equal to the survivors inserted fresh? false | vertices 6 vs 7 | allProblems ok
+    only here:   e 2000,1000-2001,3000 L2 [28/base:C/2/0]
+    only fresh:  e 2000,1000-2000,2000 L2 [28/base:C/2/0] || e 2000,2000-2001,3000 L2 [28/base:C/2/0] || v 2000,2000 L2 f0 []
+=== S4b rider R on C north of v; A removed; R removed
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2]
+  R: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2;invisible/base:R/0/L2]
+  A removed: ok | v: (2000, 2000) L2 split=true pinned=false deg=2 vrows=[] edges=L2[invisible/base:C/0/L2] | L2[invisible/base:C/0/L2;invisible/base:R/0/L2]
+  R removed: ok | v: gone
+  S4b final (C alone): equal to the survivors inserted fresh? false | vertices 6 vs 7 | allProblems ok
+    only here:   e 2000,1000-2001,3000 L2 [28/base:C/2/0]
+    only fresh:  e 2000,1000-2000,2000 L2 [28/base:C/2/0] || e 2000,2000-2001,3000 L2 [28/base:C/2/0] || v 2000,2000 L2 f0 []
+=== S4c rider R; R removed; A removed (the order the head already dissolves)
+  C: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2]
+  R: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2;invisible/base:R/0/L2]
+  R removed: ok | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2] | L2[invisible/base:A/0/L2] | L2[invisible/base:C/0/L2]
+  A removed: ok | v: gone
+  S4c final (C alone): equal to the survivors inserted fresh? false | vertices 6 vs 7 | allProblems ok
+    only here:   e 2000,1000-2001,3000 L2 [28/base:C/2/0]
+    only fresh:  e 2000,1000-2000,2000 L2 [28/base:C/2/0] || e 2000,2000-2001,3000 L2 [28/base:C/2/0] || v 2000,2000 L2 f0 []
+=== S5a
+  v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+  StretchRef removal of A from v to (4000,2000) at L1: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+=== S5b
+  v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+  StretchRef removal of A from v to (4000,2000) at L1: ok unflagged=[(2000,2000)] | v: (2000, 2000) L1 split=false pinned=false deg=3 vrows=[] edges=L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+=== S5c
+  v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+  rekey of A from v to (4000,2000) at L1: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level | v: (2000, 2000) L2 split=true pinned=false deg=4 vrows=[] edges=L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2] | L1[invisible/base:A/0/L1] | L2[invisible/base:X/0/L2]
+SUMMARY NEW+RQ2 {"S1 d=20 one-step":"DIFF","S1 d=20 two-step":"DIFF","S1 d=27 one-step":"EQ","S1 d=27 two-step":"EQ","S1 d=35 one-step":"EQ","S1 d=35 two-step":"EQ","S1 d=45 one-step":"EQ","S1 d=45 two-step":"EQ","S1 d=60 one-step":"EQ","S1 d=60 two-step":"EQ","S1 d=90 one-step":"EQ","S1 d=90 two-step":"EQ","S1 d=150 one-step":"EQ","S1 d=150 two-step":"EQ","S2 T-first dy=1":"j DISSOLVED (the warped spine straightened)","S2 T-first dy=30":"j KEPT (as §3.6 b' promises)","S2 rider-first dy=1":"j DISSOLVED (the warped spine straightened)","S2 rider-first dy=30":"j KEPT (as §3.6 b' promises)","S3a":"v dissolved","S3b":"v kept","S4a":"DIFF","S4b":"DIFF","S4c":"DIFF","S5a":"THROWS","S5b":"ok unflagged=[(2000,2000)]","S5c":"THROWS"}

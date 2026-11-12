@@ -1,0 +1,9 @@
+## old
+ Test Files  1 passed (1)
+      Tests  32 passed (32)
+## every
+     × N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it 44ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  |kernel| test/tx/removals.test.ts > C-0185 (4): which identical-row pairs are runs > N-19: a split vertex whose run the batch retypes on one side only (a shore row east of it): no run survives whole with identical rows, so (b) clears its flag and lists it
+ Test Files  1 failed (1)
+      Tests  1 failed | 31 passed (32)

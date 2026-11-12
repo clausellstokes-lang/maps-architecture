@@ -1,0 +1,113 @@
+diff --git a/plat/packages/kernel/src/tx/relevel.ts b/plat/packages/kernel/src/tx/relevel.ts
+index 7c32df9c..f3251ef5 100644
+--- a/plat/packages/kernel/src/tx/relevel.ts
++++ b/plat/packages/kernel/src/tx/relevel.ts
+@@ -402,9 +402,13 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
+   // moves the far end of the next, which was placed within the hot pixel of the piece it split, not of the restored edge
+   // (C-0223).
+   const onRunBefore = new Map<VertexId, [number, number][]>();
+-  // (b): each split vertex's run candidates — pairs of its incident edges of its lowest incident level with identical rows
+-  // there; a pair is one of its runs when it is also on onRunBefore's list.
++  // (b): each split vertex's run candidates — every pair of its incident edges of its lowest incident level; a pair is one
++  // of its runs when it is also on onRunBefore's list, and that run survives the batch whole when the two edges, after it,
++  // still carry a row in common (Q181: the run's own row, whatever rides along on either side — see the flag step).
+   const runsBefore = new Map<VertexId, [number, number][]>();
++  const beforeCommon = new Map<VertexId, Map<string, boolean>>(); // SCRATCH ONLY
++  const oldIdent = new Map<VertexId, Map<string, boolean>>(); // REVIEW SCRATCH ONLY
++  const everyPairs = new Map<VertexId, [number, number][]>(); // REVIEW SCRATCH ONLY
+   for (const v of vstar) {
+     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+     const inc = outgoing(p, v);
+@@ -420,15 +424,27 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
+     for (const h of inc) m0 = Math.min(m0, T.level[h >> 1]);
+     const at = inc.filter((h) => T.level[h >> 1] === m0);
+     const pairs: [number, number][] = [];
+-    for (let i = 0; i < at.length; i++) {
+-      for (let j = i + 1; j < at.length; j++) {
+-        // Identical rows before the batch are read with the batch's stripped rows left out, C-0287: a run a removed chain
+-        // shared at the run's own level carried that chain's row on the shared side only, yet the run it split survives
+-        // whole. The pre-batch arena and the batch's own strip set decide — no history is needed.
+-        if (sameList(levelRows(p, at[i], m0, strip), levelRows(p, at[j], m0, strip))) pairs.push([at[i] >> 1, at[j] >> 1]);
++    // No row comparison before the batch (Q181): the identity of a run is read after it, as a row both edges still carry —
++    // which subsumes C-0287's reading (a removed chain's row on the shared side only) and the rows a rekey or a retype
++    // writes on both sides.
++    for (let i = 0; i < at.length; i++) for (let j = i + 1; j < at.length; j++) pairs.push([at[i] >> 1, at[j] >> 1]);
++    runsBefore.set(v, pairs);
++    { // SCRATCH ONLY (mutant 'before'): a row in common BEFORE the batch, its strip left out, at the lowest level.
++      const m = new Map<string, boolean>();
++      for (const [x, y] of pairs) {
++        const ys = new Set(levelRows(p, 2 * y, m0, strip));
++        m.set(`${x}:${y}`, levelRows(p, 2 * x, m0, strip).some((r) => ys.has(r)));
+       }
++      beforeCommon.set(v, m);
++      // REVIEW SCRATCH ONLY (mutant 'old'): the head's identical-rows-before filter, C-0287's strip-excluded reading.
++      const ident = new Map<string, boolean>();
++      for (const [x, y] of pairs) ident.set(`${x}:${y}`, sameList(levelRows(p, 2 * x, m0, strip), levelRows(p, 2 * y, m0, strip)));
++      oldIdent.set(v, ident);
++      // REVIEW SCRATCH ONLY (mutant 'every'): pairs of ONE level at EVERY level, not the lowest only.
++      const ev: [number, number][] = [];
++      for (let i = 0; i < inc.length; i++) for (let j = i + 1; j < inc.length; j++) if (T.level[inc[i] >> 1] === T.level[inc[j] >> 1]) ev.push([inc[i] >> 1, inc[j] >> 1]);
++      everyPairs.set(v, ev);
+     }
+-    runsBefore.set(v, pairs);
+   }
+   // The records beside every edge that vanishes from a level's view, and the cleared records.
+   const old: Map<FaceId, OldRecord>[] = LV.map(() => new Map());
+@@ -646,17 +662,53 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
+     onRunBefore.set(v, on);
+   }
+   const isOn = (v: VertexId, x: number, y: number): boolean => (onRunBefore.get(v) ?? []).some(([a, b]) => (a === x && b === y) || (a === y && b === x));
+-  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
++  // (b) flags: a split vertex keeps its flag only while a run it split survives whole — a pair of its incident edges of its
++  // lowest incident level, on a run it split (isOn), whose two edges both survive the batch at one level (after step (a))
++  // carrying a row of that level in common: the run's own row, whatever else rides along on either side (Q181: a stretch
++  // of a chain along the run ending at the vertex, a rekey cut there, a rider ending there, leave the run whole).
+   for (const v of canonical(vstar)) {
+     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+-    const before = runsBefore.get(v) ?? [];
+-    const survives = before.some(([x, y]) => isHalfEdgeLive(p, 2 * x) && isHalfEdgeLive(p, 2 * y) && T.level[x] === T.level[y]
+-      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])) && isOn(v, x, y));
++    const before = ((globalThis as any).process?.env?.Q181_MUT === 'every' ? everyPairs.get(v) : runsBefore.get(v)) ?? [];
++    const survives = before.some(([x, y]) => {
++      if (!isHalfEdgeLive(p, 2 * x) || !isHalfEdgeLive(p, 2 * y) || T.level[x] !== T.level[y] || !isOn(v, x, y)) return false;
++      const q181Mut = (globalThis as any).process?.env?.Q181_MUT as string | undefined; // SCRATCH ONLY: mutants
++      if (q181Mut === 'rowoff') return true;
++      if (q181Mut === 'old') return (oldIdent.get(v) ?? new Map<string, boolean>()).get(`${x}:${y}`) === true && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y]));
++      if (q181Mut === 'before') return (beforeCommon.get(v) ?? new Map<string, boolean>()).get(`${x}:${y}`) === true;
++      const ys = new Set(levelRows(p, 2 * y, T.level[y]));
++      return levelRows(p, 2 * x, T.level[x]).some((r) => ys.has(r));
++    });
+     if (!survives) {
+       setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
+       t.log.unflagged.push(v);
+     }
+   }
++  // Q181 SCRATCH ONLY (rq2-emulation.diff, never patch.diff): RQ2's maintenance M1 – M4 (J776 R3 as amended at J777),
++  // emulated on a proxy vertex role named by the environment (the review's `junction`), after (b) and before (c).
++  const q181Proxy = (globalThis as any).process?.env?.Q181_MAINT as string | undefined;
++  if (q181Proxy) {
++    for (const v of canonical(vstar)) {
++      for (const r of [...rowsOn(p, 'vertex', v)]) {
++        if (roleInfo(R.kind[r]).name !== q181Proxy) continue;
++        const e = R.entity[r];
++        const inc = outgoing(p, v);
++        const carrying = inc.filter((h) => rowsOn(p, 'edge', h).some((q) => R.entity[q] === e));
++        let drop = false;
++        let unflag = false;
++        if (carrying.length < 2) drop = true; // M1
++        else if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) drop = true; // M2
++        else if (inc.length === 2 && !inc.some((h) => rowsOn(p, 'edge', h).some((q) => R.entity[q] !== e))) { drop = true; unflag = true; } // M3
++        if (drop) {
++          noteRow(t, R.kind[r], R.entity[r], R.ordinal[r]);
++          removeRoleRow(p, r);
++        }
++        if (unflag) {
++          setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
++          t.log.unflagged.push(v);
++        }
++      }
++    }
++  }
+   // (c) vertices, in canonical order.
+   for (const v of canonical(vstar)) {
+     const lv = L[v];
