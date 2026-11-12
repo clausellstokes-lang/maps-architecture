@@ -10,6 +10,10 @@ usage:
 rows an EARLIER landing from the same branch already carried (a merged round's first ID, since renumbered on the live tree),
 or rows the branch inherited from another tree (an in-flight item's rows in a restored local snapshot). Comma-separated ids.
 
+--cite-map (J786): old=new pairs, comma-separated — branch ledger ids that an EARLIER landing from the same branch
+renumbered on the live tree (the earlier legs of a merged round; their rows are in --skip-rows). This leg's overlaid files and
+checks files cite them under the branch ids; the citations follow the rows, as the ID RULE's own renumbers do.
+
 --pre-records (J366 (b)): records re-landed FIRST, in the order given, before --records — (1) a multi-round item's record and its
 build-notes record under each EARLIER round's lane (consolidate-1 before the final consolidate-2), so the earlier round's ledger
 rows have a claiming record (flow_stage's orphan rule, Q23 (b)); (2) an older record that claims a checks file this round changed
@@ -207,19 +211,28 @@ def land(args):
     # (the ID RULE; L- ids since J354 — the three landings before it keep their builders' L- citations, traceable by the
     # row's 'Renumbered from' note)
     cmap = {old: new for old, new in renamed}
+    # --cite-map (J786): ids an EARLIER landing from the same branch renumbered (a merged round's earlier leg, whose rows
+    # are in --skip-rows here) are still cited under their branch ids in this leg's files; they follow those rows too.
+    for pair in [x for x in (args.cite_map or '').split(',') if x]:
+        old, new = pair.split('=')
+        if old in cmap:
+            sys.exit(f'--cite-map {old} is renumbered by this landing itself')
+        cmap[old] = new
+    if set(cmap) & set(cmap.values()):
+        sys.exit(f'citation map chains: {sorted(set(cmap) & set(cmap.values()))}')
     if cmap:
         import re as _re
+        pat = _re.compile(r'\b(' + '|'.join(_re.escape(o) for o in cmap) + r')\b')
         for f in list(diff) + list(args.checks):
             fp = f'{R}/{f}'
             if not os.path.isfile(fp) or f.endswith('.json'):
                 continue
             t = open(fp, encoding='utf-8').read()
-            t2 = t
-            for old, new in cmap.items():
-                t2 = _re.sub(r'\b' + _re.escape(old) + r'\b', new, t2)
+            hit = sorted(set(pat.findall(t)))
+            t2 = pat.sub(lambda m: cmap[m.group(1)], t)
             if t2 != t:
                 open(fp, 'w', encoding='utf-8').write(t2)
-                print(f'  citation {f}: ' + ', '.join(f'{o} -> {n}' for o, n in cmap.items()))
+                print(f'  citation {f}: ' + ', '.join(f'{o} -> {cmap[o]}' for o in hit))
     # 4. re-land and verify the records (the pre-records first, in order; J366 (b))
     for rec in list(args.pre_records) + list(args.records):
         parts = rec.split('=')
@@ -275,6 +288,7 @@ def main():
     ap.add_argument('--pre-records', dest='pre_records', nargs='*', default=[], help='name=lane[=owns,owns], re-landed first in order (J366 (b))')
     ap.add_argument('--stage-records', default='', help='the extra records flow_stage stages (comma list)')
     ap.add_argument('--skip-rows', dest='skip_rows', default='', help='ledger row ids on the branch that are not this landing\'s (comma list; J454)')
+    ap.add_argument('--cite-map', dest='cite_map', default='', help='old=new,... extra citation rewrites: branch ids an earlier landing from the same branch renumbered (J786)')
     ap.add_argument('--busy-file')
     ap.add_argument('--msg')
     a = ap.parse_args()
