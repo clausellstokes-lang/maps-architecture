@@ -193,6 +193,9 @@ def land(args):
     skip = {x for x in (args.skip_rows or '').split(',') if x}
     for path, prefix in (('plat/CLEAN-ROOM.md', 'L'), ('plat/docs/build/choices.md', 'C')):
         rows = new_rows(b, path, prefix)
+        # the ids the branch's rows hold free on the HEAD, the SKIPPED ones included (J789): a later leg of the same merged
+        # round keeps them, so this landing's renumbered rows must not take them (else the later leg's citation map chains)
+        reserved = {rid for rid, collides, _ in rows if not collides}
         skipped = [rid for rid, _, _ in rows if rid in skip]
         rows = [r for r in rows if r[0] not in skip]
         if skipped:
@@ -202,7 +205,7 @@ def land(args):
         out = []
         # a branch row whose id is free keeps it; a renumbered row never takes an id a free branch row already holds
         # (a checker that read main and chose a later id itself, e.g. L-0507 beside its builder's colliding L-0493)
-        free_ids = {rid for rid, collides, _ in rows if not collides}
+        free_ids = {rid for rid, collides, _ in rows if not collides} | reserved
         candidate = next_id(path, prefix)
         for rid, collides, l in rows:
             if collides:
