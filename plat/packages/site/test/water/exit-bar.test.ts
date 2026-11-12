@@ -134,9 +134,12 @@ describe('the exit bar: S1\'s L0 batch on 100 river seeds (§4.2 S1 (5), (8), (9
   }, 900_000);
 
   it('three full CITY frames, among them a ring the fast path refuses (the kernel\'s buffer takes it): the same checks', () => {
-    // each frame's fast-ring refusals by their texts (N-c1-6): the pocket inside a pocket, the offset line's
+    // each frame's fast-ring refusals by their texts (N-c1-6): the pocket inside a pocket, the offset line's. Frame 4's
+    // tributary entry is M0-e-02 S2's declared shift (leg 2 of the merged round, C-0498: Q123's re-trace delivers
+    // another course there; the tributary's mouth ring takes the kernel's buffer — a fallback, refused stays 0); re-pinned
+    // by M0-e-03 S4 (leg 3)
     const fallbacks: Record<number, string[]> = {
-      4: ['water:river:0: offset: a pocket inside a pocket'],
+      4: ['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0: mouth: a pocket inside a pocket'],
       10: ['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0: offset: a pocket inside a pocket'],
       3: [],
     };
