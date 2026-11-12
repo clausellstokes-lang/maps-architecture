@@ -118,3 +118,36 @@ The reviewer would bind P′ as the direction, not on the rulings above: one blo
   between them; a registration import would be shaken out of the bundle).
 * **One round or legs:** one round on M0-a-09 for the code; legs expected on M0-a-06 (the frame classifier; a tx view
   if the dry-run shell cannot carry the engine) and possibly M0-a-05 (if the remedy of S-1 is the door's).
+
+## The blocker's remedy, measured (`measurement/step9-replays.md`; 11:50Z) — the design is P′ WITH A RESOLUTION RULE
+
+The measurement seat ran the B-FUZZ bands population at one seed under BASE, P, P′ and P with three pure "resolution"
+rules applied to X before it is served and laid, and dissected the 37 networks that P and P′ refuse and BASE commits.
+
+* **S-1 confirmed, and its cause is what the reviewer said.** Under P′ the commit's refusals are P's (corridorUnion 15,
+  bandUnion 29 'replays'), and 9 LAY READS refuse where the construction's read refused none. In 36 of the 37 rising
+  networks the refused piece is sub-resolution: a vertex within the attraction distance of the face's boundary (32), a
+  component thinner than the attraction distance (32), an edge under minEdge (29), a spike tip (18); smallest feature
+  1.7 – 13.4 cm in 33.
+* **Rule (b) — components thinner than the attraction distance removed and spikes eaten from the tip down to where they
+  are 26 cm wide — brings the class BELOW the base:** networks refused 8 (BASE 34, P 45); all insertChain refusals 7
+  (BASE 32, P 44); the commit's 'replays' 4 and 3 (BASE 5 and 1); committed networks 9 996 and 1 999 (BASE 9 984 and
+  1 987). Rule (a) — vertices nearer than minEdge merged — halves the class but makes rings cross (5 own refusals);
+  (b) then (a) is no better than (b).
+* **What rule (b) leaves** (3 networks): two where X's vertices stand 3 – 12 cm off the face's boundary (a rule that
+  puts such a vertex ON the boundary was not tried); one that is NOT a resolution problem — `bandUnion` at L3 over a
+  kerb `corridorUnion` has just committed at L2: the band's piece converges on that L2 edge at a shallow angle, X does
+  not read L2 content, and the construction's L3 read was attracted to it. A missing input, to be designed.
+* **The reviewer's counts at the harness seeds** (P′ with the read-back fixed): no face is read back `whole`; no lay
+  read refuses; S8's kerb-caused 'unresolved' rungs are 0 under BASE, P and P′; every lay read that differs from X
+  differs only by pieces thinner than the attraction distance (0 of 2 747 and 0 of 3 132 with a thicker piece). In the
+  B-FUZZ population one network has a lone lay refusing while the district's commit succeeds, and eight the reverse.
+
+RULED (provisional, vetoable, for the re-draft and the reviewer's third pass): **the round is P′ WITH A RESOLUTION RULE
+R** — what is served is the door's lay of R(X), what is committed is R(X) through the same door; R is a PURE rule on
+X that removes what no arena can hold (parts and wedge tips thinner than the attraction distance; vertices within the
+attraction distance of the face's boundary and not on it) and nothing else, stated in the architecture's terms, with
+its own pins and a failing bar that R(X) differs from X only by pieces thinner than the attraction distance. Its exact
+definition (the prototype's spike-eating does not cut a long wedge between two long edges; whether it is an opening;
+what happens to a hole that becomes thin) and the L3-over-L2 input are DESIGNED in the re-draft, measured on the same
+population (the refusal classes at or below the base's, class by class), and attacked before anything binds.
