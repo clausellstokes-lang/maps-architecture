@@ -151,3 +151,42 @@ its own pins and a failing bar that R(X) differs from X only by pieces thinner t
 definition (the prototype's spike-eating does not cut a long wedge between two long edges; whether it is an opening;
 what happens to a hole that becomes thin) and the L3-over-L2 input are DESIGNED in the re-draft, measured on the same
 population (the refusal classes at or below the base's, class by class), and attacked before anything binds.
+
+## The re-draft (`v2/design.md`, `v2/spec-2b-v2.json`; 12:25Z) and the session's provisional rulings on its open questions
+
+A spec seat re-drafted the round on the lay-planned read with a resolution rule: fifteen lines, every review finding
+answered (its section 10), the rule R defined, the lay's kernel form designed, the contract text written, a measurement
+request for the rule as defined. Nothing binds until that measurement is in and the reviewer has made its third pass.
+
+* **A1.1 – A1.3, the rule R — ACCEPTED AS THE CANDIDATE, to be confirmed by the measurement.** R is the fixpoint of
+  three steps on X and F's own ring: S, a vertex within the attraction distance of F's boundary and more than 1 cm off
+  it is put on it (on a route vertex of F within reach, else on its rounded foot), kept only if no ring becomes
+  non-simple or crosses another; P1, a component with its holes, or a hole, that holds no disc of diameter `attractCm`
+  — its erosion by half the attraction distance with §3.7's own buffers is empty — is removed; P2, a spike tip is
+  dropped (its two neighbours nearer than `attractCm` to each other, itself farther from their line than they stand
+  apart, their triangle holding no other vertex). It is stated in the door's own vertex terms: it keeps what the door
+  holds (a 30° block corner; a long shallow wedge whose sides carry no vertex within reach of each other) and removes
+  what the door folds or refuses. The opening by a disc and the clip at the width station are REFUSED: each removes
+  geometry the arena holds (every convex corner rounded; 48 cm cut off every 30° corner).
+* **A2.1, the lay's transaction — K2 PROVISIONALLY** (a transaction-shaped VIEW made in bandUnion.ts, never minted: the
+  batch's frames and index shared; work, `failed`, `closed`, journals and log its own), because the engine meets the
+  open set only in a read the lay is handed, and because `rollback` restores neither `work` nor `failed` — so the lay
+  must charge something that is not the batch. THE REVIEWER IS ASKED TO BREAK IT; if an object typed as an open
+  transaction must not be made outside tx/, K1 (a minted dry view in tx/, a NO-SHIFT leg on M0-a-06) is taken.
+* **A2.2:** `kerb()` returns the lay's warnings. **A2.3:** the boundary rows are accepted as counted (one new row,
+  three raises by one, two rows removed) — the ratchet shows real uses; no indirection to hide them.
+* **A3.1:** the order M1 commits neighbouring districts in is a queue row at the binding. **A4.1:** the L3 read takes
+  the coarser content inside F into R's boundary set if the measurement shows that network commits and no other moves;
+  otherwise the network is a declared class and M1's row (no M0 stage lays a band at L3).
+* **A6.1, the share bar:** FAILING — the harness's existing floor 0.95 and `beyond` 0 on every seed run; and every
+  block that is exact under the base and not under the tree LISTED WITH ITS CAUSE (an unexplained one fails) — rather
+  than "not below the base's" as a bare number, which a correct build can miss by one block.
+* **A6.2, the B-FUZZ bar:** FAILING — no network the base commits is refused, and per operation the refused networks
+  are not above the base's; the cause classes REPORTED (a network the base refused as 'displaced' keeps being refused
+  under another cause string: F1-1).
+* **A7.1:** one round on M0-a-09 with session seams under K2, if the measured red list stays within 10 files and 3
+  owners outside the folder; legs otherwise. **A7.2:** the round number is keyed at render.
+* **The contract text (v2 section 6)** is taken as the basis of the amendment file; its paragraph for the owner is the
+  form in which the reversal of item 991 (b)'s first clause is put to the owner.
+* Also taken: a refused kerb read silently passes S8's needle floor (bentCutFabric.ts :938) — counted and REPORTED by
+  the round, and a queue row for M0-b-03's fabric round.
