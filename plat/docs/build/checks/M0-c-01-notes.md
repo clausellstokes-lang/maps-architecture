@@ -383,3 +383,204 @@ behaviour was right, so this round changes no source file. It adds the missing p
   `siting/{slice,routes,lattice,geom}.ts` (W = 1, started 11:27 after the container restart; the 08:37 run's log
   stopped mid-run): 220 files, 2694/2694, exit 0. Re-run after the restart: `install --frozen-lockfile` 0, `lint` 0
   (the same counts), `build` 0, NEAR `test/siting` 9 files 110/110 (W = 1, 180 s).
+
+## Hardening round S4 (lane `build/M0-c-01-fix-s4`, 2026-11-10) — the builder's row-by-row outcome
+
+The session's hardening round S4 of the item (J237 (2), J238, J750) on the two rows the second re-triage found open:
+Q99-c01 and Q122-S3-c01. Choices row C-0496 names both; ledger row in `CLEAN-ROOM.md` §2. Mutants and probes ran only in
+the lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-01-fix-s4/` (isolation proved before the first one:
+no link into the tree, `@plat/kernel`'s realpath inside the mirror); each mutated or instrumented file was restored from
+the tree and `cmp`-checked; the mirror is deleted at the end.
+
+### Q99-c01 (queue row Q99, RL8's c-01 line): FIXED, PINNED
+
+* **The defect.** `fixtures/flat.ts` built its view with a bare `tableView()` when the caller passed none, while the
+  runner gives every stage the registered view `tableView(TABLE_IDS, [s6Table()])` (M0-x-02 S3). A bare fixture and a
+  run read two views with two hashes.
+* **The fix.** The default is the registered view, `opts.tables ?? tableView(TABLE_IDS, [s6Table()])`. A caller that
+  passes a view keeps it unchanged. No export added, removed or renamed.
+* **The pin.** `test/siting/fixture.test.ts`, describe "the fixture's tables view (Q99 …)": a bare `flatFixture(1)` (and
+  a small one) reads `REGISTERED.hash`, never `tableView().hash`, and carries `s6`. A passed view is the same object.
+  Mutant **MQ99** (the default back to `tableView()`): killed, `fixture.test.ts` red.
+* **NO-SHIFT.** No source file reads a view's `hash`. Both views hold the same shipped tables, and S6's reader
+  `s6TableIn` gives `s6Table()` with either. So no committed record moves; only `site.tables` identity and its hash
+  change for callers that pass no view. Those callers are this item's tests and other items' test helpers
+  (`testkit/src/edge/rows.ts`, `testkit/src/ladders/fixtures.ts`, the growth / enceinte / backbone / districts test
+  supports). The run's own site (`baseSite`) already passes `ctx.tables`.
+
+### Q122-S3-c01 (queue row Q122, the siting's share of S3; M0-c-02 S6's N-61): FIXED (MAKE-IT-SUCCEED), PINNED
+
+* **The cause (re-derived in the mirror; probe on the slice S3 handed to the commit).** Cell `cell/bridge×frame` at
+  1918289972 is M0-x-06's Q52 E, on the small river frame (CITY, 30 ha frame, 6 ha walled, river from the west). There the
+  river runs under the main plaza: two of the plaza's seven reserved nodes are water. Node 295 lies just outside the
+  plaza's north-east side, between that side and the river's north bank. The plaza's ring and the river cut it off from
+  the sources, so T = 8 772 cm > t₁ = 7 737 cm, and it is unselected. The contour therefore crossed the lattice edge from
+  plaza node 294 to node 295. Its midpoint (2403, 1983) lies inside the plaza ring. The exact contour had 2 points inside
+  the plaza and the outline 3 (4 sides meeting it). S3's trace then refused with F-WALL `E_SELF_INTERSECT` "the trace
+  crosses the core …", the boundary as given included. Input kind: **OUR OWN INTERMEDIATE** (the slice's stage-1
+  boundary from a lawful site). Verdict: **MAKE-IT-SUCCEED**. The cause lies in this item's level set, not in the
+  plaza's geometry or S3's reading of it, so nothing is reported against another item for it.
+* **The fix (`siting/levelset.ts`, `siting/slice.ts`).** `levelSet` takes an optional `keepClear` list of rings, and
+  `selectNodes` takes it as an optional third argument. After T's selection and the spread over water, every interior
+  vertex of a lattice triangle within §3.6's attraction distance (`LATTICE.attractCm`, 26 cm, plus the snap's
+  centimetre) of such a ring is selected. Then the pocket fill runs as before. A mixed triangle, where the contour runs,
+  therefore never comes that near the ring, so the exact contour keeps the ring strictly inside and clear by 26 cm. The
+  simplify and the Chaikin passes are kept only when they keep it so (`keepsClear`, inside `keepsSides`). Otherwise the
+  unsimplified contour, or fewer passes, is taken, as for a guard node. `s3Slice` passes the lattice's reservations
+  (the main plaza) for the stage-1 boundary, in `boundaryOf` and in `finish`, so the gates and the outline read one
+  selection. The pick contour (a = 1) and S5's boundaries are called without it, so they are unchanged. T and t₁ are
+  unchanged. Where T alone already selects every such node (every flat CITY seed), the selection, outline and gates are
+  identical.
+* **After, on the cell.** The cell's run (`edgeChain` to S4) is now `defined`, with `lawful` [] and `tries` 1 (before: a
+  lawful refusal on the first state). Through `runBase` (all stages), S3 commits. The run then refuses at S5 with
+  `E_SELF_INTERSECT` "F-WALL: the trace crosses the core after the re-offset and union-simplify rungs on the pulled line,
+  the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)". That is the stage-2
+  trace, the anchor rung's class of c-02 S6's N-58 / N-60 (M1, the stage-2 boundary c-04 picks). It is REPORTED below,
+  not this item's.
+* **The pins (`test/siting/clear.test.ts`).**
+  * "Q52 E's cell 1918289972 …": `runBase` on the small river frame (testkit's `SMALL_RIVER` built from
+    `RIVER_BLUEPRINT`). It checks: no S3 bug, `s3.commit` written, the river under the plaza, the outline with no point
+    inside the plaza, keeping it clear (all plaza vertices strictly inside, 26 cm), no gate in it. It also pins the
+    declared shift: the selection is T's plus exactly one node, `landCm2 = threshold.landCm2 + one cell`, and T's own
+    outline is not clear. Red without the fix (S3 refused).
+  * "the item's small flat frame (30 ha, 6 ha walled), seeds 81 and 136": T's own contour has one vertex inside the
+    plaza; the boundary keeps it clear, one cell added.
+  * The property over the item's small sites (`smallSite` at 30 ha / 6 ha and 400 ha / 30 ha, 40 runs): no outline
+    point, contour point or gate inside the plaza; the outline keeps it clear; T's selection held.
+  * `keepsClear`'s predicate (27 cm clear, 25 cm not, on, across, outside) and "the outline's smoothing is not kept where
+    it would cut into a ring kept clear".
+* **Mutant table (J183; `vitest run --maxWorkers=1 --bail=1 packages/layout/test/siting` in the mirror; each restored and
+  `cmp`-checked).**
+  | mutant | file | the fault | result |
+  |---|---|---|---|
+  | MQ99 | fixtures/flat.ts | the default view the bare `tableView()` (Q99's fault) | killed, 149 s — `fixture.test.ts` "a bare flatFixture reads the registered view …" |
+  | MK1 | siting/slice.ts | `reservedRings` returns [] (no ring kept clear: Q122's fault re-introduced) | killed, 150 s — the cell test (S3 refused) |
+  | MK2 | siting/levelset.ts | the clearing of the selection removed, the outline check kept | killed, 17 s — the cell test |
+  | MK3 | siting/levelset.ts | the outline's clear check removed from `keepsSides` | SURVIVED the first pins (no input's simplify or smoothing came near the plaza) → two pins added (`keepsClear`; the smoothing over a ring kept clear), then killed, 21 s |
+  | MK4 | siting/slice.ts | `finish` re-derives the level set without `keepClear` | killed, 124 s — the cell test |
+  | MK5 | siting/levelset.ts | `CLEAR_CM` 0 | killed, 19 s — the cell test (T's own outline then reads "clear") |
+  Six mutants, six killed (MK3 after the added pins). Every pin is green without its mutant (NEAR below).
+* **The refusal census (J264 (4), N-58), before → after.**
+  | family | runs | before | after |
+  |---|---|---|---|
+  | the item's own families (`test/siting`: flat CITY seeds, the small sites' properties, the river small frames of `decks` / `picks`) | — | 0 | 0 (the slice refuses nothing; NEAR green) |
+  | Q52 E, `cell/bridge×frame` 1918289972 (to S4) | 1 | 1 (S3 F-WALL "crosses the core", LAWFUL / our own intermediate) | **0** (`defined`, lawful [], tries 1) |
+  | `cell/bridge×frame`'s family, indices 0 – 99, through S3 (the chain run twice, the clearing off and on) | 100 | 0 at S3 | 0 at S3 |
+  | SMALL_FLAT (`EP-01/S3/zero-length`'s family 0 – 99), RIVER 900 ha / 30 ha seeds 1 – 20, MID_FLAT and EP-20 (20 each), through S3 | 160 | 0 at S3 | 0 at S3 |
+  The census never rises: Q122's siting share falls 1 → 0. The cell's full run moves its refusal from S3 to S5 (above).
+* **DECLARED SHIFT (the committed stage-1 boundary moves; before → after, the chain run twice in the mirror).**
+  * `cell/bridge×frame` 1918289972: S3 refused → committed. Selection +1 node (node 295); outline 94 → 22 points.
+  * `cell/bridge×frame`'s family index 39 (1220771869): +1 node, outline 78 → 70 points. Index 59 (658724323): +1 node,
+    86 → 78. Index 72 (2973157694): +1 node, 86 → 86 (moved). The refusals are unchanged through S5: none, none, and S5
+    `E_SELF_INTERSECT` before and after on 2973157694.
+  * The small flat frame (30 ha / 6 ha, `flatFixture`) seeds 81 and 136: +1 node, outline 82 → 74 points.
+  * SAME on every other seed measured: the flat CITY fixture 1 – 150, the small site (400 ha / 30 ha) 1 – 150, the small
+    flat frame 1 – 150 but 81 and 136, the cell family 0 – 99 but the three above, SMALL_FLAT 0 – 99, RIVER 900 / 30 1 – 20,
+    MID_FLAT and EP-20 1 – 20 each. `repins.test.ts`' bridge × frame seeds 22, 3418200249 and 2148998138 are also SAME
+    (to S4, no refusal).
+  * This item's goldens: none move (the CITY seeds' slices are identical, so `test/siting` needed no re-record).
+  * Other items' files for the session: `testkit/test/edge/repins.test.ts` names no 1918289972 (`grep` finds the seed
+    nowhere in `packages/`), so no pin there moves; its bridge × frame block's three seeds are SAME. The cell's family
+    is 0 lawful refusals before and after in x-06's 1 000-seed census, since the cell's refusal was recorded as a
+    `lawful` entry of its first state. `docs/build/summaries/M0-x-06.json` (Q148's re-run) and the census lists that
+    name 1918289972 (`checks/M0-x-06-notes.md`'s Fix round 2 table, `checks/refusal-census.md` R-30,
+    `checks/M0-c-02-notes.md` N-59 / N-61) go stale for this cell; the 1 000-seed family re-run would show indices
+    beyond 99 that shift as above (+1 node). The site spike (e-06) and the base sets were not swept at CITY (stage 1
+    137.5 ha, its plaza far inside T's selection); RELATED's run covers their pinned tests.
+
+### Reports for the session (rule (3); not this item's files)
+
+* **M0-c-04 / M1 (the anchor rung, c-02 S6's N-58 – N-61 class).** Cell 1918289972 on the small river frame, through
+  `runBase`, now commits S3 and refuses at S5: `E_SELF_INTERSECT` "F-WALL: the trace crosses the core after the
+  re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs
+  are notBuilt('M1') (§5.2; C-0085)". This is the stage-2 trace against the stage-1 wall and the plaza. The x-06 cell
+  stops at S4 and is unaffected.
+* **The seam of `repins.test.ts`.** The brief names that file as holding the cell's refusal as a pin. On this tree it does
+  not name the seed, so nothing there needs a re-pin for this round. The cell's after state is pinned here instead.
+
+### The round's gates (this machine, W = 1; after the last source edit)
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1295 files, 0 errors, 0 warnings; probe-red ok, every planted line
+reported; 9 whole-tree checks); `build` 0 (tsc -b, the bundles). NEAR `packages/layout/test/siting`, full strength:
+10 files, 117/117 (159 s). RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over
+`src/siting/levelset.ts`, `src/siting/slice.ts`, `src/fixtures/flat.ts`; started 05:41, 9 808 s): 268 files,
+3 401/3 401, exit 0. No red, no J176 bench file failing. The bench harnesses' printed "FAIL" verdicts inside passing
+tests are their test-size reports, as before. The lane mirror is deleted at the end.
+
+## Closing check of hardening round S4 (lane `check/M0-c-01-close-s4`, 2026-11-10 – 2026-11-12) — the blockers in the verdict, the notes here
+
+The verdict is `checks/M0-c-01-s4.md`: FAIL on two blockers, both missing pins (no source change). This checker's mutants
+K11 (`clearNodes` without its (i, ne, nw) triangles) and K12 (`within` without its side-gap test) survive NEAR whole and
+RELATED@1000 and are not equivalent on honest seeds of the registered `cell/bridge×frame` family (index 39 = 1220771869
+under K11, index 72 = 2973157694 and the 30 ha / 6 ha flat seed 19818 under K12: C-0496's declared "+1 node" reverts,
+every test green). Those two lines (F1 with K13 riding on its pin, F2) are the verdict's, not notes. Both rows of the
+round are confirmed FIXED and PINNED, the census did not rise, every gate exits 0. The rows below fail nothing.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s4c-1 | This checker's mutant K4 (`boundaryOf` calling `levelSet` without `keepClear` while `finish` keeps it — the gates then read T's own selection) survives NEAR whole (117 / 117) and is unobserved on every honest slice swept (30 ha / 6 ha seeds 1 – 30 000, 400 ha / 30 ha 1 – 500, the `cell/bridge×frame` family 0 – 399 and the three E cells: 0 digest differences, 0 throws). An instrumented NEAR (PR size) and RELATED@1000 log no slice on which it could be seen: the two selections differ in four test files (layout `enceinte/corridor`, `siting/clear`; testkit `edge/repins`, `edge/standing`), but on none do the gates differ, lies a gate in the water (`resolveOffDecks` reading `b.set.selected`) or re-enters a route (`rerouteOutside`). Read from the code it can differ only when a route's first exit from T's own selection ends on a node the clearing adds — then the gate is no contour vertex and `levelSet` throws on the pin in `finish`. No witness at the interface. | one call site for the stage-1 set (a helper both `boundaryOf` and `finish` read), or a constructed site with a deck beside the plaza as the pin; the fix round that pins F1 / F2 may take it too | M4 |
+| N-s4c-2 | C-0017's "land within one cell of the stage's share" is now "t₁'s land plus the added cells" on the stage-1 boundary (C-0496 says so, "one cell on every seed measured"): this checker's sweep finds `added` 2 on one 30 ha / 6 ha seed of 1 – 4 000 (seed 2643, land 1.718 cells over the share), on 10 more of seeds 4 001 – 30 000 (19818 among them) and on `cell/bridge×frame`'s index 256; `added` 1 on 17 of 1 – 4 000. Fails safe (a closed simple boundary, the plaza clear, 0 violations in 31 494 slices on this checker's own geometry). | none at M0; if a later stage reads the stage land as exact, take the added cells from t₁'s accumulation | M4 |
+| N-s4c-3 | The property "every slice of the item's small sites keeps its plaza inside and clear" draws 40 random seeds; the clearing acts on about 0.45 % of the 30 ha / 6 ha seeds (18 of 4 000) and on none of the 400 ha / 30 ha ones, so a run rarely meets a seed where it matters — the fixed seeds (the cell, 81, 136) carry the pin. The 30 ha / 6 ha seeds of 1 – 4 000 on which T's own contour met the plaza before the round: 81, 136, 1229, 1484, 1902, 2402, 2466, 2643, 3529, 3716 (on 2402 and 2643 the outline too; 81 and 136 are pinned). | add the BEFORE-crossing flat seeds as fixed cases (the fix round's slice pins for F1 / F2 are of the same kind) | M4 |
+| N-s4c-4 | For the session (not this item's): cell 1918289972 on testkit's `SMALL_RIVER` now commits S3 and ends at S5 `E_SELF_INTERSECT` "F-WALL: the trace crosses the core after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1')" — the stage-2 trace; input kind OUR OWN INTERMEDIATE, verdict MAKE-IT-SUCCEED; owner M0-c-04's boundary pick / M1's anchor rung (M0-c-02 S6's N-58 / N-60 class). Through S5 the refused runs of the three E cells are 2 of 3 before and after (1918289972 at S3 → at S5; 3360356802 at S5 both sides); index 72 (2973157694) refuses at S5 both sides. `repins.test.ts` names no 1918289972 and is green in the gate RELATED@1000 (268 files, 3 401 / 3 401), so the seam re-pins nothing for it. | route to M0-c-04's next round with the seeds | M1 |
+| N-s4c-5 | For the session — the declared shift's audit, beyond the builder's measured ranges (C-0496 declares the rule and "every other seed measured"; these move by the same rule, each by its added node(s); not an undeclared shift): the 30 ha / 6 ha flat frame's seeds 1229, 1354, 1484, 1595, 1883, 1902, 2203, 2226, 2402, 2466, 2643, 2734, 3001, 3512, 3529, 3716 (of 151 – 4 000); testkit's `SMALL_FLAT` on the bridge × frame family's seed of index 37 (1980917108 — before the round its committed outline crossed the plaza on two side pairs, gap 0, and S3 committed it; now clear by 2 928 cm); `cell/bridge×frame` on `SMALL_RIVER` indices 157, 256 and 333 (= 1918289972) of 100 – 399. Flat CITY (1 – 40, 20251005) and the 400 ha / 30 ha site (1 – 1 000): none. | a 1 000-seed family re-run or a summary that names these seeds will show them moved; no file of this item to change | M0 (the session's seam) |
+
+## Hardening round S4, fix round S5 (lane `build/M0-c-01-fix-s5`, 2026-11-12) — the closing check's F1 / F2: PINNED
+
+The closing check of round S4 (`checks/M0-c-01-s4.md`) failed the round on two lines, both missing pins of C-0496 (2)
+("every interior vertex of a lattice triangle within `LATTICE.attractCm` (26 cm, plus the snap's 1 cm) of such a ring is
+added"): **F1** — its mutants K11 (`clearNodes` without the `tri(i, ne, nw)` line) and K13 (without `tri(i, e, ne)`)
+survived NEAR whole and RELATED@1000; **F2** — K12 (`within`'s side-gap test `< c2` → `< 0`, containment only) did too.
+The tree's behaviour was right, so this round changes **no source file**; it adds the pins (choices row C-0497; ledger
+row in `CLEAN-ROOM.md` §2). Mutants ran only in the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-c-01-fix-s5/` (a `cp -a` copy; isolation proved before the first one:
+no link into the tree, `@plat/kernel`'s realpath inside the mirror); each was applied by a script to the `clearNodes`
+body or the `within` line only, restored from the tree and `cmp`-checked; the mirror is deleted.
+
+### F1 (K11 / K13, `clearNodes`' two triangle orientations): PINNED
+
+* **The interface pins** (`test/siting/clear.test.ts`, describe `the clearing's contract at the interface (C-0496 (2);
+  round S5's pins of the s4 check's F1 / F2)`): on the flat fixture's 400 ha / 30 ha slice (seed 1), at the node nearest
+  the lattice's middle whose east, north-east and north-west neighbours (and theirs) are interior, `selectNodes(field,
+  −1, [ring])` with a 1 m ring about a triangle's centroid selects exactly that triangle's three vertices — the upward
+  (i, e, ne) and the downward (i, ne, nw). Each selection is also equal to an independent reading of C-0496 (2) written
+  in the test: the lattice's triangles enumerated from the adjacency alone (both orientations, each once), the gap of a
+  triangle's and a ring's closed regions computed there, reach `LATTICE.attractCm + 1` = 27 cm.
+* **The slice pin:** the registered `cell/bridge×frame` family's index 39, `runBase(SMALL_RIVER, 1220771869)`: the
+  stage-1 selection is T's at t₁ plus exactly one node (T's never lost), the plaza clear (describe `the clearing on the
+  registered family's slices …`).
+
+### F2 (K12, `within`'s side gap — the attraction distance itself): PINNED
+
+* **The interface pins** (same describe): a ring inside the upward triangle whose gap to the shared side (i, ne) is in
+  (26, 27) cm also selects the downward triangle's far vertex nw; one whose gap is in [27, 28) cm does not (the rings are
+  found by stepping the offset along the side's normal by ¼ cm, the gap measured exactly in the test); a 2 cm sliver ring
+  across four cells selects every triangle it crosses whole — 11 nodes, equal to the independent reading, strictly more
+  than containment alone would select, at least one crossed triangle with no vertex of either inside the other.
+* **The slice pins:** the family's index 72, `runBase(SMALL_RIVER, 2973157694)`: T's selection plus exactly one node;
+  `s3Slice(smallSite(19818, { frameAreaHa: 30, walledHa: 6 }))`: T's selection plus exactly two nodes; the plaza clear.
+
+### The round's mutant table (mirror; `vitest run --maxWorkers=1 --bail=1 packages/layout/test/siting`, then `clear.test.ts` whole without `--bail`)
+
+| id | the fault (`siting/levelset.ts`) | `test/siting --bail=1` | `clear.test.ts` whole: the red tests | result |
+|---|---|---|---|---|
+| K11 | `clearNodes`: `if (ne !== -1 && nw !== -1) tri(i, ne, nw);` removed | rc 1 (the down-triangle ring: `[]` vs `[3712, 3792, 3793]`) | 3 of 12: down-triangle ring; 26 cm side ring; index 39 slice | **KILLED** |
+| K12 | `within`: `segmentGap2(…) < c2` → `< 0` | rc 1 (the 26 cm side ring: `[3712, 3713, 3793]` vs `[3712, 3713, 3792, 3793]`) | 4 of 12: 26 cm side ring; sliver; index 72 slice; flat seed 19818 | **KILLED** |
+| K13 | `clearNodes`: `if (e !== -1 && ne !== -1) tri(i, e, ne);` removed | rc 1 (the up-triangle ring: `[]` vs `[3712, 3713, 3793]`) | 3 of 12: up-triangle ring; 26 cm side ring; sliver | **KILLED** |
+
+Every restore `cmp`-equal (six restores). Without a mutant (the tree): `clear.test.ts` 12/12.
+
+### Census, shift, notes
+
+* **NO SHIFT.** No source file changed; no output, golden, digest or summary of any item moves. Nothing for the
+  session's seams.
+* **Census** (J264 (4)): unchanged by construction — the item's registered families 0 → 0; Q52 E's cell 1918289972
+  committed at S3 before and after this round (round S4's 1 → 0 stands).
+* **N-s4c-1 – N-s4c-5** stand as the closing check wrote them (K4, the added-cells reading, the property's reach, the
+  S5 class, the shift audit); this round adds no note.
+
+### The round's gates (this machine, W = 1; after the last edit)
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1295 files, 0 errors, 0 warnings; probe-red ok, every planted line
+reported; 9 whole-tree checks); `build` 0. NEAR `packages/layout/test/siting`, full strength: 10 files, 124/124 (171 s,
+seed −1936390103). RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over round S4's sources
+`src/siting/levelset.ts`, `src/siting/slice.ts`, `src/fixtures/flat.ts` — this round changed none): started 2026-11-12 00:40 (W = 1), 268 files, 3408/3408 passed, exit 0 (9005 s, seed 1574139750); no red (round S4's 3401 plus this round's 7 tests in `clear.test.ts`).

@@ -5,8 +5,12 @@
 // §3.4, every node beside the contour an obstacle so none changes side) and Chaikin-smoothed between the pins (the
 // gates, which stay its vertices). A Chaikin pass that would move a node across the outline or make it touch itself is
 // not applied (C-0201 (5)). Only interior nodes are land, so the contour always closes inside the frame.
-import { BinaryHeap, chaikin, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
-import { area2Of, insideRing, latticeAt, ringIsSimple, type XY } from './geom.js';
+// Rings the stage keeps clear (`keepClear`: the stage-1 boundary's reservations, the main plaza; Q122, C-0496): every
+// vertex of a lattice triangle that comes within the attraction distance of such a ring is selected, so no mixed
+// triangle — where the contour runs — comes that near it, and the contour keeps the ring inside, clear by at least the
+// attraction distance (§3.6 step 2); the simplify and the smoothing are kept only when they keep it so.
+import { BinaryHeap, chaikin, LATTICE, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
+import { area2Of, distToSegment2, insideRing, latticeAt, ringIsSimple, segmentsMeet, type XY } from './geom.js';
 import type { Field, LevelSet } from './types.js';
 
 /** The Chaikin passes the outline is smoothed with (C-0201 (5): §4.3's two passes of a way's chain, read for the line). */
@@ -15,21 +19,102 @@ export const OUTLINE_CHAIKIN_PASSES = 2;
 /** The level set's options: the points the outline keeps as vertices (the gates, which lie on the contour). */
 export interface LevelSetOptions {
   pins?: readonly LatticePoint[];
+  /**
+   * Rings the selection keeps inside and its outline clear of by the attraction distance (the stage-1 boundary's
+   * reservations; Q122, C-0496): absent, the selection is T's alone.
+   */
+  keepClear?: readonly (readonly XY[])[];
+}
+
+/** The clearance (cm) the outline keeps from a `keepClear` ring: §3.6's attraction distance (LATTICE.attractCm). */
+const CLEAR_CM = LATTICE.attractCm;
+
+/** The squared gap between the closed segments ab and cd: 0 where they meet. */
+function segmentGap2(a: XY, b: XY, c: XY, d: XY): number {
+  if (segmentsMeet(a, b, c, d)) return 0;
+  return Math.min(distToSegment2(a, c, d), distToSegment2(b, c, d), distToSegment2(c, a, b), distToSegment2(d, a, b));
+}
+
+/** Is the closed polygon `poly` (a triangle, or a ring) within `cm` of the closed region of `ring`? */
+function within(poly: readonly XY[], ring: readonly XY[], cm: number): boolean {
+  for (const p of poly) if (insideRing(ring, p, true)) return true;
+  for (const q of ring) if (insideRing(poly, q, true)) return true;
+  const c2 = cm * cm;
+  for (let i = 0; i < poly.length; i += 1) {
+    const a = poly[i];
+    const b = poly[i + 1 === poly.length ? 0 : i + 1];
+    for (let j = 0; j < ring.length; j += 1) if (segmentGap2(a, b, ring[j], ring[j + 1 === ring.length ? 0 : j + 1]) < c2) return true;
+  }
+  return false;
+}
+
+/** Does `outline` keep each ring of `clear` strictly inside, no side of it nearer a side of the ring than `CLEAR_CM`? */
+export function keepsClear(outline: readonly XY[], clear: readonly (readonly XY[])[]): boolean {
+  const c2 = CLEAR_CM * CLEAR_CM;
+  for (const ring of clear) {
+    for (const q of ring) if (!insideRing(outline, q)) return false;
+    for (let i = 0; i < outline.length; i += 1) {
+      const a = outline[i];
+      const b = outline[i + 1 === outline.length ? 0 : i + 1];
+      for (let j = 0; j < ring.length; j += 1) if (segmentGap2(a, b, ring[j], ring[j + 1 === ring.length ? 0 : j + 1]) < c2) return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * The rings kept clear, added to a selection: every interior vertex of a lattice triangle within `CLEAR_CM` (and the
+ * snap's centimetre) of a ring of `clear` is selected. A rim node is never land, so it is never added.
+ */
+function clearNodes(field: Field, selected: Uint8Array, clear: readonly (readonly XY[])[]): void {
+  const { points, adjacency, interior } = field.lattice;
+  const reach = CLEAR_CM + 1;
+  for (const ring of clear) {
+    if (ring.length === 0) continue;
+    let x0 = Infinity;
+    let y0 = Infinity;
+    let x1 = -Infinity;
+    let y1 = -Infinity;
+    for (const q of ring) {
+      x0 = Math.min(x0, q.x);
+      y0 = Math.min(y0, q.y);
+      x1 = Math.max(x1, q.x);
+      y1 = Math.max(y1, q.y);
+    }
+    const tri = (p: number, q: number, r: number): void => {
+      const a = points[p];
+      const b = points[q];
+      const c = points[r];
+      if (Math.max(a.x, b.x, c.x) < x0 - reach || Math.min(a.x, b.x, c.x) > x1 + reach || Math.max(a.y, b.y, c.y) < y0 - reach || Math.min(a.y, b.y, c.y) > y1 + reach) return;
+      if (!within([a, b, c], ring, reach)) return;
+      for (const v of [p, q, r]) if (interior[v] === 1) selected[v] = 1;
+    };
+    for (let i = 0; i < points.length; i += 1) {
+      const e = adjacency[6 * i];
+      const ne = adjacency[6 * i + 1];
+      const nw = adjacency[6 * i + 2];
+      if (e !== -1 && ne !== -1) tri(i, e, ne);
+      if (ne !== -1 && nw !== -1) tri(i, ne, nw);
+    }
+  }
 }
 
 /**
  * The selection of `field` at `t`: the land nodes (interior, not in water) with T ≤ t; then the water the selection
  * reaches across from its banks — a water node whose least bank T plus the distance across the water to it is ≤ t, the
  * water never carrying cost back to land (C-0201 (8)), so the stage's boundary crosses a river where its reach ends;
- * then every unselected node not connected (through unselected nodes) to the lattice's rim filled in. Returns the
- * selection and the filled count.
+ * then every vertex of a lattice triangle near a ring of `keepClear` (`clearNodes`; Q122, C-0496); then every
+ * unselected node not connected (through unselected nodes) to the lattice's rim filled in. Returns the selection and the
+ * filled count.
  */
-export function selectNodes(field: Field, t: number): { selected: Uint8Array; filled: number } {
+export function selectNodes(field: Field, t: number, keepClear: readonly (readonly XY[])[] = []): { selected: Uint8Array; filled: number } {
   const { lattice, T } = field;
   const n = T.length;
   const selected = new Uint8Array(n);
   for (let i = 0; i < n; i += 1) if (lattice.interior[i] === 1 && lattice.water[i] === 0 && T[i] <= t) selected[i] = 1;
   spreadOverWater(field, t, selected);
+  // The rings kept clear (Q122, C-0496): the lattice triangles near them selected whole.
+  if (keepClear.length > 0) clearNodes(field, selected, keepClear);
   // The outside: unselected nodes reached from the rim through unselected nodes.
   const outside = new Uint8Array(n);
   const stack: number[] = [];
@@ -177,9 +262,10 @@ function guards(contourEdges: readonly [number, number][]): { inside: Set<number
   return { inside, outside };
 }
 
-/** Does `ring` keep every guard node on its side and stay simple? */
-function keepsSides(ring: readonly XY[], points: readonly LatticePoint[], g: { inside: Set<number>; outside: Set<number> }): boolean {
+/** Does `ring` keep every guard node on its side, stay simple and keep the `clear` rings clear? */
+function keepsSides(ring: readonly XY[], points: readonly LatticePoint[], g: { inside: Set<number>; outside: Set<number> }, clear: readonly (readonly XY[])[] = []): boolean {
   if (!ringIsSimple(ring)) return false;
+  if (clear.length > 0 && !keepsClear(ring, clear)) return false;
   for (const i of g.inside) if (!insideRing(ring, points[i])) return false;
   for (const i of g.outside) if (insideRing(ring, points[i], true)) return false;
   return true;
@@ -194,10 +280,11 @@ export function smoothOutline(
   pins: readonly number[],
   points: readonly LatticePoint[],
   g: { inside: Set<number>; outside: Set<number> },
+  clear: readonly (readonly XY[])[] = [],
 ): { outline: LatticePoint[]; passes: number } {
   for (let k = OUTLINE_CHAIKIN_PASSES; k >= 1; k -= 1) {
     const smooth = chaikinPinned(ring, pins, k);
-    if (keepsSides(smooth, points, g)) return { outline: smooth, passes: k };
+    if (keepsSides(smooth, points, g, clear)) return { outline: smooth, passes: k };
   }
   return { outline: [...ring], passes: 0 };
 }
@@ -249,7 +336,8 @@ function pinIndices(ring: readonly LatticePoint[], pins: readonly LatticePoint[]
  */
 export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): LevelSet {
   const { lattice } = field;
-  const { selected, filled } = selectNodes(field, t);
+  const clear = opts.keepClear ?? [];
+  const { selected, filled } = selectNodes(field, t, clear);
   let count = 0;
   for (let i = 0; i < selected.length; i += 1) if (lattice.water[i] === 0) count += selected[i];
   const land = count * lattice.cellAreaCm2;
@@ -282,10 +370,10 @@ export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): L
   if (simple.ok) {
     const s = simple.value;
     simplified = s.length > 1 && s[0].x === s[s.length - 1].x && s[0].y === s[s.length - 1].y ? s.slice(0, -1) : s;
-    if (!keepsSides(simplified, lattice.points, g)) simplified = contour;
+    if (!keepsSides(simplified, lattice.points, g, clear)) simplified = contour;
   }
   // The pins located again on the simplified ring: the simplify drops vertices, so their indices there differ.
-  const smooth = smoothOutline(simplified, pinIndices(simplified, opts.pins ?? []), lattice.points, g);
+  const smooth = smoothOutline(simplified, pinIndices(simplified, opts.pins ?? []), lattice.points, g, clear);
   const outline = smooth.outline;
   const passes = smooth.passes;
   return { field, t, selected, filled, landCm2: land, contour, contourEdges: best.edges, rings: rings.length, outline, smoothPasses: passes };
