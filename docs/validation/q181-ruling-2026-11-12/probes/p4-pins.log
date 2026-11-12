@@ -1,0 +1,8 @@
+  Q5 cleared at C's removal: true | final v 1800,2915 L2 f0 []
+SUMMARY base mutant OLD {"Q1":false,"Q2":false,"Q3":false,"Q4":false,"Q5":true,"Q6":false} 
+  Q5 cleared at C's removal: true | final v 1800,2915 L2 f0 []
+SUMMARY tree mutant  {"Q1":true,"Q2":true,"Q3":true,"Q4":true,"Q5":true,"Q6":true} 
+  Q5 cleared at C's removal: false | final v 1800,2915 L2 f4 []
+SUMMARY tree mutant rowoff {"Q1":true,"Q2":true,"Q3":true,"Q4":true,"Q5":false,"Q6":true} 
+  Q5 cleared at C's removal: true | final v 1800,2915 L2 f0 []
+SUMMARY tree mutant before {"Q1":true,"Q2":true,"Q3":true,"Q4":false,"Q5":true,"Q6":true} 

@@ -1,0 +1,37 @@
+diff --git a/plat/packages/kernel/src/tx/relevel.ts b/plat/packages/kernel/src/tx/relevel.ts
+index 7c32df9c..cbc2f8f2 100644
+--- a/plat/packages/kernel/src/tx/relevel.ts
++++ b/plat/packages/kernel/src/tx/relevel.ts
+@@ -657,6 +657,32 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
+       t.log.unflagged.push(v);
+     }
+   }
++  // Q181 SCRATCH ONLY (rq2-emulation.diff, never patch.diff): RQ2's maintenance M1 – M4 (J776 R3 as amended at J777),
++  // emulated on a proxy vertex role named by the environment (the review's `junction`), after (b) and before (c).
++  const q181Proxy = (globalThis as any).process?.env?.Q181_MAINT as string | undefined;
++  if (q181Proxy) {
++    for (const v of canonical(vstar)) {
++      for (const r of [...rowsOn(p, 'vertex', v)]) {
++        if (roleInfo(R.kind[r]).name !== q181Proxy) continue;
++        const e = R.entity[r];
++        const inc = outgoing(p, v);
++        const carrying = inc.filter((h) => rowsOn(p, 'edge', h).some((q) => R.entity[q] === e));
++        let drop = false;
++        let unflag = false;
++        if (carrying.length < 2) drop = true; // M1
++        else if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) drop = true; // M2
++        else if (inc.length === 2 && !inc.some((h) => rowsOn(p, 'edge', h).some((q) => R.entity[q] !== e))) { drop = true; unflag = true; } // M3
++        if (drop) {
++          noteRow(t, R.kind[r], R.entity[r], R.ordinal[r]);
++          removeRoleRow(p, r);
++        }
++        if (unflag) {
++          setVerticesFlags(p, v, p.vertices.flags[v] & ~VERTEX_SPLIT);
++          t.log.unflagged.push(v);
++        }
++      }
++    }
++  }
+   // (c) vertices, in canonical order.
+   for (const v of canonical(vstar)) {
+     const lv = L[v];

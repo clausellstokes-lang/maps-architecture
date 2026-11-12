@@ -1,0 +1,301 @@
+fuzz N=3000 seed=11 rq2=junction {"sequences":2863,"ops":10340,"refusedBoth":0,"refusedSplit":0,"throws":137,"oldEqNew":2049,"differ":814,"newEqFresh_oldNot":216,"oldEqFresh_newNot":80,"neitherEqFresh":518,"newFurther":173,"newCloser":361,"newLacksOwned":0,"newFurtherVertices":0,"newCloserVertices":94,"oldLacksOwned":2,"problemsNew":0,"problemsOld":0}
+seed 11000033: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[1514,2000],[3007,2000],[3007,2211]] true/true
+    ins c:1 L2 [[3014,2000],[2310,2000],[1565,2000],[900,2000]] true/true
+    rekey c:0 3007,2000→1514,2000 to c:2 true/true
+    stretch c:2 2310,2000→1514,2000 true/true
+    OLD-only: v 2310,2000 L2 f0 []
+    NEW-only: v 2310,2000 L2 f4 [29/c:1/2/0]
+    FRESH(best for NEW) vs NEW, fresh-only: e 900,2000-1565,2000 L2 [28/c:1/2/0] || v 2310,2000 L2 f0 [] ; new-only: e 1514,2000-1565,2000 L2 [28/c:1/2/0] || e 900,2000-1514,2000 L2 [28/c:1/2/0] || v 1514,2000 L2 f0 [] || v 2310,2000 L2 f4 [29/c:1/2/0]
+seed 11000040: differ; NEW ≠ FRESH in every order (6; OLD 8)
+    ins c:0 L2 [[2307,2000],[1307,2000]] true/true
+    ins c:1 L2 [[1707,1336],[1707,2000],[1100,2000]] true/true
+    ins c:2 L2 [[1307,2000],[3314,2000]] true/true
+    rekey c:1 1707,2000→1707,1336 to c:3 true/true
+    rem c:3 true/true
+    rem c:0 true/true
+seed 11000046: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[1207,2000],[2414,2000],[2414,1218]] true/true
+    ins c:1 L2 [[3300,2000],[2997,2000],[2857,2000],[1200,2000]] true/true
+    ins c:2 L2 [[707,2000],[846,2000],[901,2000],[1300,2000]] true/true
+    rekey c:2 1207,2000→1300,2000 to c:3 true/true
+    stretch c:1 1300,2000→3300,2000 true/true
+    OLD-only: v 1300,2000 L2 f0 []
+    NEW-only: v 1300,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 1300,2000 L2 f0 [] ; new-only: v 1300,2000 L2 f4 []
+seed 11000049: differ; NEW ≠ FRESH in every order (6; OLD 6)
+    ins c:0 L2 [[1400,2000],[1714,2000]] true/true
+    ins c:1 L2 [[1400,2000],[3214,2000]] true/true
+    rem c:0 true/true
+    ins c:2 L2 [[1900,2000],[2607,2000],[2607,1543]] true/true
+    rekey c:2 2607,2000→1900,2000 to c:3 true/true
+    skip c:2 (no inner)
+seed 11000051: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[2314,2000],[2714,2000]] true/true
+    ins c:1 L2 [[1200,1563],[1200,2000],[2707,2000]] true/true
+    ins c:2 L2 [[2607,2236],[2607,2000],[700,2000]] true/true
+    rem c:1 true/true
+seed 11000057: differ; NEW ≠ FRESH in every order (8; OLD 12)
+    ins c:0 L2 [[3307,2531],[3307,2000],[1800,2000]] true/true
+    ins c:1 L2 [[1550,1706],[1700,2000],[2014,2000]] true/true
+    ins c:2 L2 [[1207,2000],[2114,2000],[2264,2351]] true/true
+    ins c:3 L2 [[2314,2000],[2049,2000],[1640,2000],[1514,2000]] true/true
+    rem c:1 true/true
+    rekey c:3 1640,2000→2314,2000 to c:4 true/true
+    rekey c:4 2049,2000→1640,2000 to c:5 true/true
+    stretch c:4 2114,2000→2314,2000 true/true
+    rekey c:0 2049,2000→3307,2531 to c:6 true/true
+seed 11000059: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[2314,2000],[1507,2000],[1357,1260]] true/true
+    ins c:1 L2 [[1107,1500],[1107,2500]] true/true
+    ins c:2 L2 [[1907,2000],[1757,2000],[1607,2000]] true/true
+    ins c:3 L2 [[1414,2000],[1675,2000],[1709,2000],[3214,2000]] true/true
+seed 11000064: differ; NEW ≠ FRESH in every order (8; OLD 14)
+    ins c:0 L2 [[607,2000],[2014,2000]] true/true
+    ins c:1 L2 [[1200,2000],[3314,2000],[3314,1682]] true/true
+    ins c:2 L2 [[1907,2000],[1779,2000],[1298,2000],[1000,2000]] true/true
+    ins c:3 L2 [[2200,2000],[1007,2000]] true/true
+    stretch c:0 1000,2000→2014,2000 true/true
+    stretch c:1 3314,2000→1200,2000 true/true
+    stretch c:2 1298,2000→1000,2000 true/true
+    rem c:2 true/true
+    rem c:0 true/true
+seed 11000068: differ; NEW ≠ FRESH in every order (4; OLD 4)
+    ins c:0 L2 [[2114,2000],[2907,2000]] true/true
+    ins c:1 L2 [[3107,2000],[1100,2000],[1100,2636]] true/true
+    ins c:2 L2 [[2000,1500],[2000,2000]] true/true
+    skip c:0 (no inner)
+    ins c:3 L2 [[2607,2000],[2403,2000],[2309,2000],[2207,2000]] true/true
+    rekey c:0 2403,2000→2907,2000 to c:4 true/true
+seed 11000073: differ; NEW ≠ FRESH in every order (14; OLD 14)
+    ins c:0 L1 [[1700,1560],[1700,2000],[1214,2000]] true/true
+    ins c:1 L2 [[800,2000],[1904,2000],[2014,2000]] true/true
+    ins c:2 L2 [[2157,1338],[2007,2000],[1300,2000]] true/true
+    rekey c:1 1700,2000→800,2000 to c:3 true/true
+    stretch c:0 1700,2000→1214,2000 true/true
+    rem c:1 true/true
+    skip c:0 (no inner)
+    rekey c:2 1904,2000→1300,2000 to c:4 true/true
+seed 11000091: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[2600,2000],[1507,2000],[1507,2604]] true/true
+    ins c:1 L2 [[2100,2000],[707,2000]] true/true
+    ins c:2 L2 [[2800,1500],[2800,2000]] true/true
+    ins c:3 L2 [[3107,2494],[3107,2000],[2514,2000]] true/true
+    ins c:4 L2 [[1000,2000],[2900,2000],[2900,2641]] true/true
+    stretch c:0 2100,2000→1507,2604 true/true
+    skip c:2 (no inner)
+    stretch c:3 2600,2000→3107,2494 true/true
+    skip c:2 (no inner)
+    OLD-only: v 2100,2000 L2 f0 []
+    NEW-only: v 2100,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: e 1000,2000-2100,2000 L2 [28/c:1/2/0;28/c:4/2/0] || v 2100,2000 L2 f0 [] ; new-only: e 1000,2000-1507,2000 L2 [28/c:1/2/0;28/c:4/2/0] || e 1507,2000-2100,2000 L2 [28/c:1/2/0;28/c:4/2/0] || v 1507,2000 L2 f0 [] || v 2100,2000 L2 f4 []
+seed 11000093: differ; NEW ≠ FRESH in every order (6; OLD 6)
+    ins c:0 L2 [[1400,2000],[3162,2000],[3307,2000]] true/true
+    ins c:1 L2 [[1500,2000],[2228,2000],[2666,2000],[3107,2000]] true/true
+    ins c:2 L2 [[1507,2000],[949,2000],[600,2000]] true/true
+    ins c:3 L2 [[1114,2000],[2814,2000],[2964,2662]] true/true
+    ins c:4 L2 [[1400,2000],[1621,2000],[1839,2000],[2800,2000]] true/true
+    stretch c:0 3107,2000→1400,2000 true/true
+seed 11000101: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[1800,2000],[2436,2000],[2707,2000]] true/true
+    ins c:1 L2 [[3114,2000],[2689,2000],[2632,2000],[2000,2000]] true/true
+    ins c:2 L2 [[2614,2000],[1214,2000]] true/true
+    ins c:3 L2 [[2314,2000],[1811,2000],[914,2000]] true/true
+    stretch c:3 1214,2000→2314,2000 true/true
+    rekey c:0 2632,2000→1800,2000 to c:4 true/true
+    stretch c:4 2436,2000→1800,2000 true/true
+    skip c:0 (no inner)
+    skip c:4 (no inner)
+    OLD-only: v 2000,2000 L2 f0 [] || v 2632,2000 L2 f0 []
+    NEW-only: v 2000,2000 L2 f4 [] || v 2632,2000 L2 f4 [29/c:1/2/0]
+    FRESH(best for NEW) vs NEW, fresh-only: e 1214,2000-2000,2000 L2 [28/c:2/2/0] || v 2632,2000 L2 f0 [] ; new-only: e 1214,2000-1800,2000 L2 [28/c:2/2/0] || e 1800,2000-2000,2000 L2 [28/c:2/2/0] || v 1800,2000 L2 f0 [] || v 2632,2000 L2 f4 [29/c:1/2/0]
+seed 11000105: differ; NEW ≠ FRESH in every order (8; OLD 8)
+    ins c:0 L1 [[2007,2378],[2007,2000],[1100,2000]] true/true
+    ins c:1 L2 [[2600,1500],[2600,2000]] true/true
+    ins c:2 L2 [[1007,1756],[1007,2000],[1600,2000]] true/true
+    ins c:3 L2 [[2800,2471],[2800,2000],[707,2000]] true/true
+    stretch c:0 2007,2000→1100,2000 true/true
+    skip c:1 (no inner)
+seed 11000109: differ; NEW ≠ FRESH in every order (6; OLD 12)
+    ins c:0 L1 [[807,2000],[2215,2000],[2907,2000]] true/true
+    ins c:1 L2 [[2950,2555],[2800,2000],[1707,2000]] true/true
+    ins c:2 L2 [[1114,2000],[1414,2000]] true/true
+    ins c:3 L2 [[1607,1612],[1607,2000],[2407,2000]] true/true
+    rem c:0 true/true
+    rem c:2 true/true
+    rekey c:3 1607,2000→1607,1612 to c:4 true/true
+    skip c:4 (no inner)
+    stretch c:3 2215,2000→2407,2000 true/true
+seed 11000132: NEW further from FRESH (12 vs OLD 10)
+    ins c:0 L2 [[1007,2000],[1600,2000]] true/true
+    ins c:1 L2 [[1607,2000],[1681,2000],[2133,2000],[2607,2000]] true/true
+    ins c:2 L2 [[2900,2000],[2313,2000],[2207,2000]] true/true
+    ins c:3 L2 [[1207,1500],[1207,2500]] true/true
+    rekey c:3 1207,2000→1207,1500 to c:4 true/true
+    ins c:5 L2 [[3107,2000],[2287,2000],[1900,2000]] true/true
+    rem c:1 true/true
+    rekey c:2 2313,2000→2900,2000 to c:6 true/true
+    OLD-only: v 2207,2000 L2 f0 [] || v 2313,2000 L2 f0 []
+    NEW-only: v 2207,2000 L2 f4 [] || v 2313,2000 L2 f4 [29/c:5/2/0]
+    FRESH(best for NEW) vs NEW, fresh-only: e 1900,2000-2207,2000 L2 [28/c:5/2/0] || e 2313,2000-2900,2000 L2 [28/c:5/2/0;28/c:6/2/0] || v 2313,2000 L2 f0 [] ; new-only: e 1900,2000-2133,2000 L2 [28/c:5/2/0] || e 2133,2000-2207,2000 L2 [28/c:5/2/0] || e 2313,2000-2607,2000 L2 [28/c:5/2/0;28/c:6/2/0] || e 2607,2000-2900,2000 L2 [28/c:5/2/0;28/c:6/2/0] || v 2133,2000 L2 f0 [] || v 2313,2000 L2 f4 [29/c:5/2/0] || v 2607,2000 L2 f0 []
+seed 11000136: differ; NEW ≠ FRESH in every order (2; OLD 2)
+    ins c:0 L2 [[850,2780],[1000,2000],[2707,2000]] true/true
+    ins c:1 L2 [[807,2000],[3300,2000]] true/true
+    ins c:2 L2 [[1707,2000],[2207,2000]] true/true
+    ins c:3 L2 [[807,2000],[1194,2000],[1900,2000]] true/true
+    rekey c:1 1000,2000→3300,2000 to c:4 true/true
+    skip c:1 (no inner)
+    skip c:1 (no inner)
+    rekey c:0 1707,2000→850,2780 to c:5 true/true
+    ins c:6 L2 [[2007,1500],[2007,2000]] true/true
+… [3998 lines left out of this copy; the whole log is the ruling seat's, re-made by probes/fuzz.mts] …
+    ins c:3 L2 [[800,2000],[1378,2000],[1458,2000],[1907,2000]] true/true
+    stretch c:1 1378,2000→2514,2000 true/true
+    rem c:3 true/true
+    OLD-only: v 1378,2000 L2 f0 []
+    NEW-only: v 1378,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 1378,2000 L2 f0 [] ; new-only: v 1378,2000 L2 f4 []
+seed 11002893: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[1707,2000],[2914,2000],[3064,1359]] true/true
+    ins c:1 L2 [[700,2000],[2414,2000],[2564,1465]] true/true
+    ins c:2 L2 [[1000,2000],[2407,2000]] true/true
+    ins c:3 L2 [[1814,2000],[2807,2000],[2807,2218]] true/true
+    rem c:1 true/true
+seed 11002898: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[2014,2000],[2500,2000],[2633,2000],[2800,2000]] true/true
+    ins c:1 L2 [[1014,2000],[2900,2000]] true/true
+    ins c:2 L2 [[2807,2000],[2400,2000]] true/true
+    ins c:3 L2 [[2607,2000],[921,2000],[707,2000]] true/true
+    rem c:3 true/true
+    ins c:4 L2 [[3314,1544],[3314,2000],[1407,2000]] true/true
+    rem c:1 true/true
+    rekey c:0 2500,2000→2800,2000 to c:5 true/true
+seed 11002912: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[2200,2000],[3014,2000]] true/true
+    ins c:1 L2 [[3007,2000],[2307,2000]] true/true
+    ins c:2 L2 [[1907,2000],[3107,2000]] true/true
+    ins c:3 L2 [[707,2000],[1910,2000],[1952,2000],[2100,2000]] true/true
+    stretch c:0 2307,2000→2200,2000 true/true
+    skip c:1 (no inner)
+    OLD-only: v 2307,2000 L2 f0 []
+    NEW-only: v 2307,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: e 2100,2000-2307,2000 L2 [28/c:2/2/0] || v 2307,2000 L2 f0 [] ; new-only: e 2100,2000-2200,2000 L2 [28/c:2/2/0] || e 2200,2000-2307,2000 L2 [28/c:2/2/0] || v 2200,2000 L2 f0 [] || v 2307,2000 L2 f4 []
+seed 11002914: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[2300,2000],[1800,2000]] true/true
+    ins c:1 L2 [[807,2000],[1298,2000],[2507,2000]] true/true
+    ins c:2 L2 [[2907,2000],[2100,2000]] true/true
+    ins c:3 L2 [[1700,1500],[1700,2000]] true/true
+    rekey c:0 2100,2000→1800,2000 to c:4 true/true
+    ins c:5 L2 [[2107,2000],[1513,2000],[1000,2000]] true/true
+    OLD-only: v 2100,2000 L2 f0 []
+    NEW-only: v 2100,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 2100,2000 L2 f0 [] ; new-only: v 2100,2000 L2 f4 []
+seed 11002921: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[1800,2000],[3007,2000]] true/true
+    ins c:1 L2 [[2014,2000],[1507,2000]] true/true
+    ins c:2 L2 [[1000,2000],[1234,2000],[1668,2000],[2314,2000]] true/true
+    ins c:3 L2 [[1864,2306],[2014,2000],[3214,2000]] true/true
+    rekey c:0 2314,2000→3007,2000 to c:4 true/true
+    stretch c:1 1800,2000→2014,2000 true/true
+    rekey c:0 2014,2000→1800,2000 to c:5 true/true
+    rem c:2 true/true
+    OLD-only: v 2314,2000 L2 f0 []
+    NEW-only: v 2314,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 2314,2000 L2 f0 [] ; new-only: v 2314,2000 L2 f4 []
+seed 11002936: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[700,2000],[2607,2000]] true/true
+    ins c:1 L2 [[3214,2000],[2100,2000]] true/true
+    ins c:2 L2 [[1707,2000],[1200,2000],[1200,1642]] true/true
+    rekey c:2 1200,2000→1200,1642 to c:3 true/true
+    ins c:4 L2 [[1400,2000],[3307,2000]] true/true
+    stretch c:0 1200,2000→700,2000 true/true
+    stretch c:0 1707,2000→1200,2000 true/true
+    stretch c:2 1400,2000→1200,2000 true/true
+    OLD-only: v 1707,2000 L2 f0 []
+    NEW-only: v 1707,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 1707,2000 L2 f0 [] ; new-only: v 1707,2000 L2 f4 []
+seed 11002939: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[3214,2000],[2645,2000],[1000,2000]] true/true
+    ins c:1 L2 [[3207,1500],[3207,2000]] true/true
+    ins c:2 L2 [[1200,1526],[1200,2000],[2000,2000]] true/true
+seed 11002940: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[2414,1500],[2414,2500]] true/true
+    ins c:1 L2 [[700,2000],[1733,2000],[2400,2000]] true/true
+    ins c:2 L2 [[814,1500],[814,2000]] true/true
+    ins c:3 L2 [[2800,2000],[1607,2000]] true/true
+    ins c:4 L2 [[764,1681],[914,2000],[1914,2000]] true/true
+    rekey c:3 1733,2000→1607,2000 to c:5 true/true
+    rekey c:0 2414,2000→2414,1500 to c:6 true/true
+    OLD-only: v 1607,2000 L2 f0 [] || v 2414,2000 L2 f0 []
+    NEW-only: v 1607,2000 L2 f4 [] || v 2414,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 2414,2000 L2 f0 [] ; new-only: v 2414,2000 L2 f4 []
+seed 11002945: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[1007,1500],[1007,2500]] true/true
+    ins c:1 L2 [[614,2000],[938,2000],[1700,2000]] true/true
+    ins c:2 L2 [[1314,2000],[2275,2000],[2515,2000],[3314,2000]] true/true
+seed 11002959: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[850,1365],[1000,2000],[2300,2000]] true/true
+    ins c:1 L2 [[1307,2000],[1444,2000],[2507,2000]] true/true
+    ins c:2 L2 [[1900,2000],[1114,2000]] true/true
+    stretch c:2 1307,2000→1900,2000 true/true
+    skip c:2 (no inner)
+seed 11002972: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[2600,2000],[900,2000]] true/true
+    ins c:1 L2 [[1307,2000],[2400,2000]] true/true
+seed 11002983: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[907,2000],[1368,2000],[2014,2000]] true/true
+    ins c:1 L2 [[1600,2000],[1300,2000]] true/true
+    ins c:2 L2 [[1114,1630],[1114,2000],[2014,2000]] true/true
+    ins c:3 L2 [[1300,2000],[3200,2000]] true/true
+    stretch c:3 1600,2000→3200,2000 true/true
+seed 11002991: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[1900,2000],[1348,2000],[995,2000],[814,2000]] true/true
+    ins c:1 L2 [[3057,1448],[2907,2000],[1700,2000]] true/true
+    ins c:2 L2 [[2914,2000],[2392,2000],[814,2000]] true/true
+    ins c:3 L2 [[2000,2000],[1742,2000],[1000,2000]] true/true
+    ins c:4 L2 [[2414,2000],[2513,2000],[2693,2000],[2907,2000]] true/true
+    rekey c:0 1742,2000→814,2000 to c:5 true/true
+    OLD-only: v 1700,2000 L2 f0 [] || v 1742,2000 L2 f0 []
+    NEW-only: v 1700,2000 L2 f4 [] || v 1742,2000 L2 f4 [29/c:3/2/0]
+    FRESH(best for NEW) vs NEW, fresh-only: v 1742,2000 L2 f0 [] ; new-only: v 1742,2000 L2 f4 [29/c:3/2/0]
+seed 11002994: THROWS tx 8/L1/callback/retypeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[2507,2000],[1853,2000],[1300,2000]] true/true
+    ins c:1 L2 [[3000,2000],[2795,2000],[2276,2000],[2207,2000]] true/true
+    ins c:2 L2 [[3307,2000],[1700,2000]] true/true
+    ins c:3 L2 [[1700,2000],[800,2000]] true/true
+seed 11003011: NEW further from FRESH (2 vs OLD 0)
+    ins c:0 L2 [[2900,2000],[1414,2000],[1264,1306]] true/true
+    ins c:1 L2 [[1114,1792],[1114,2000],[2900,2000]] true/true
+    ins c:2 L2 [[1107,2000],[1202,2000],[1274,2000],[1814,2000]] true/true
+    stretch c:0 1814,2000→2900,2000 true/true
+    OLD-only: v 1814,2000 L2 f0 []
+    NEW-only: v 1814,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: v 1814,2000 L2 f0 [] ; new-only: v 1814,2000 L2 f4 []
+seed 11003016: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[2500,2000],[1307,2000]] true/true
+    ins c:1 L2 [[814,2000],[1072,2000],[1214,2000]] true/true
+    ins c:2 L2 [[1407,2000],[614,2000],[614,1382]] true/true
+    ins c:3 L2 [[2414,2000],[2293,2000],[1807,2000]] true/true
+    stretch c:0 2293,2000→1307,2000 true/true
+    ins c:4 L2 [[2514,2000],[2200,2000]] true/true
+    OLD-only: v 2293,2000 L2 f0 []
+    NEW-only: v 2293,2000 L2 f4 [29/c:3/2/0]
+    FRESH(best for NEW) vs NEW, fresh-only: e 1214,2000-1407,2000 L2 [28/c:2/2/0] || v 2293,2000 L2 f0 [] ; new-only: e 1214,2000-1307,2000 L2 [28/c:2/2/0] || e 1307,2000-1407,2000 L2 [28/c:2/2/0] || v 1307,2000 L2 f0 [] || v 2293,2000 L2 f4 [29/c:3/2/0]
+seed 11003018: NEW further from FRESH (8 vs OLD 6)
+    ins c:0 L2 [[3064,2435],[2914,2000],[1207,2000]] true/true
+    ins c:1 L2 [[2307,2000],[3214,2000]] true/true
+    ins c:2 L2 [[607,2000],[2814,2000],[2814,2787]] true/true
+    ins c:3 L2 [[807,2000],[1307,2000],[1457,2701]] true/true
+    stretch c:0 2814,2000→1207,2000 true/true
+    rem c:2 true/true
+    stretch c:0 2914,2000→3064,2435 true/true
+    OLD-only: v 2814,2000 L2 f0 []
+    NEW-only: v 2814,2000 L2 f4 []
+    FRESH(best for NEW) vs NEW, fresh-only: e 807,2000-1307,2000 L2 [28/c:3/2/0] || v 2814,2000 L2 f0 [] ; new-only: e 1207,2000-1307,2000 L2 [28/c:3/2/0] || e 807,2000-1207,2000 L2 [28/c:3/2/0] || v 1207,2000 L2 f0 [] || v 2814,2000 L2 f4 []
+seed 11003026: THROWS tx 8/L1/callback/removeEdges: tx: a run has route vertices at its own level
+    ins c:0 L1 [[1707,1500],[1707,2500]] true/true
+    ins c:1 L2 [[1107,1500],[1107,2500]] true/true
+    ins c:2 L2 [[2300,2000],[2814,2000]] true/true
+    ins c:3 L2 [[2107,2000],[1007,2000]] true/true
+    stretch c:3 1707,2000→2107,2000 true/true
+    stretch c:1 1107,2000→1107,1500 true/true
