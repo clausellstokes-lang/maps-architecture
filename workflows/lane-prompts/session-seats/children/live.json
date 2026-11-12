@@ -8,6 +8,7 @@
   {"letter": "DW", "session": "session_01FE9mEu1SMKkbbMvjw9DZBQ", "branch": "wip/child-a09s20", "created": "2026-11-11T21:39:30Z", "round": "M0-a-09 S20", "lanes": ["build/M0-a-09-fix-s20", "check/M0-a-09-close-s20"]},
   {"letter": "DY", "session": "session_01FE9mEtkebqA7WbwFXKQvEX", "branch": "wip/child-c05s4", "created": "2026-11-12T02:46:39Z", "round": "M0-c-05 S4", "lanes": ["build/M0-c-05-fix-s4", "check/M0-c-05-close-s4"]},
   {"letter": "DZ", "session": "session_01FE9mEwwQbqo3ve66931hd2", "branch": "wip/child-a04s7", "created": "2026-11-12T07:34:11Z", "round": "MERGED: M0-a-04 S7, M0-a-13 S3, M0-c-01 S6", "lanes": ["build/M0-a-04-fix-s7", "check/M0-a-04-close-s7", "build/M0-a-13-fix-s3", "check/M0-a-13-close-s3", "build/M0-c-01-fix-s6", "check/M0-c-01-close-s6"]},
-  {"letter": "EA", "session": "session_01FE9mEwsxUvPF1rMi9tFvrn", "branch": "wip/child-e02s3", "created": "2026-11-12T09:31:54Z", "round": "MERGED: M0-e-02 S3, M0-e-03 S5", "lanes": ["build/M0-e-02-fix-s3", "check/M0-e-02-close-s3", "build/M0-e-03-fix-s5", "check/M0-e-03-close-s5"]}
+  {"letter": "EA", "session": "session_01FE9mEwsxUvPF1rMi9tFvrn", "branch": "wip/child-e02s3", "created": "2026-11-12T09:31:54Z", "round": "MERGED: M0-e-02 S3, M0-e-03 S5", "lanes": ["build/M0-e-02-fix-s3", "check/M0-e-02-close-s3", "build/M0-e-03-fix-s5", "check/M0-e-03-close-s5"]},
+  {"letter": "EC", "session": "session_01FE9mEt6NzWwCk7Ruwb1uQd", "branch": "wip/child-c02s7", "created": "2026-11-12T17:30:21Z", "round": "MERGED: M0-c-02 S7, M0-c-04 S7, M0-e-06 S5", "lanes": ["build/M0-c-02-fix-s7", "check/M0-c-02-close-s7", "build/M0-c-04-fix-s7", "check/M0-c-04-close-s7", "build/M0-e-06-fix-s5", "check/M0-e-06-close-s5"]}
  ]
 }
