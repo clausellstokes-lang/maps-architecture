@@ -332,3 +332,76 @@ RULED (provisional, vetoable; a change of a kernel contract — it binds only af
 NEXT: the spec seat re-drafts as two entries on these rulings and figures (no rule R anywhere); the reviewer's fourth
 pass reads them and this section; the measured red list under the ladder joins round B's entry when the suite ends;
 round A binds on S20's landed tree.
+
+## The third re-draft (`v3/`; 15:07Z) and the session's provisional rulings on its open questions
+
+The spec seat re-drafted on the ladder as two entries — `v3/spec-a09-s21.json` (round A, NO-SHIFT, seven lines) and
+`v3/spec-a09-s22.json` (round B, the shift, ten lines) — with `v3/design.md`, `v3/amendment-draft.md` and
+`v3/open-questions.md` (seventeen questions and five places where the rulings above could not be made consistent).
+This seat read the design note and the questions whole. Each ruling below is provisional and vetoable; the reviewer's
+fourth pass attacks them with the entries.
+
+* **Q1 — the rung reported: ACCEPTED.** `BandResult.rung` and `LastRead.rung` (through `kerbCensus(p)`), each `1 | 2`;
+  additive members, no export name added; no warning code. Round A adds neither (NO-SHIFT).
+* **Q2 — round A's rung counts in B-FUZZ: ACCEPTED** — failing BOUNDS first (second-rung reads ≤ 9, second-rung
+  operations ≤ 44, refused on both ≤ 4, and each of the first two above 0), then the build's own values pinned as
+  literals. A build that exceeds a bound lists every exceeding read and operation with its network and cause and
+  leaves the line REPORTED for the session — the prototype shared the batch's journals and counted the replays, so a
+  correct build may differ; a bound is never met by loosening a rung.
+* **Q3 — the mixed-face literal: ACCEPTED.** Re-made over the whole population in round A and pinned at the build's
+  count (46 is the expected value, not the literal). RULING 2 (c) IS CORRECTED: it reads "every face committed by
+  `corridorUnion`" — a `bandUnion` commit has its own widths and owner and `kerb()` is not its read.
+* **Q4 — a lay's own work limit: ACCEPTED.** It falls to the second rung like any other refusal of the lay (the limit
+  is the view's; the batch is untouched). Ruling 4 concerns the BATCH's work-limit exit only.
+* **Q5 — the first rung's work on a commit that falls to the second: ACCEPTED as proposed** — it stays charged (the
+  work was done; hiding it would falsify the budget) and is REPORTED; pinned on a planted batch near its limit (the
+  refusal typed, never a silent second rung on a doomed batch); a queue row at the binding for M1's work law (item
+  989's re-declaration must cover both rungs).
+* **Q6 — "every registered harness seed": ACCEPTED.** FAILING at the six seeds inside round B; the fusion gate's
+  1 000-seed run counts reads and operations by rung as a FAILING item of the session's post-landing run, with a queue
+  row for M0-c-06's summary to carry the counts.
+* **Q7 — ruling 2 (c) is measured over 46 networks only, and a same-rung face already exceeds the bound: ACCEPTED.**
+  Round A measures the thin bar on every `corridorUnion` face of the population BEFORE round B binds it. The base's own
+  behaviour is part of the record: the construction's lone read against the construction's commit differs by 1 252 cm,
+  thin, on one face of the widened family. If a THICK piece appears anywhere, the round stops at REPORTED and the
+  session rules (a declared class of the base, or a defect of the construction).
+* **Q8 — round A's debug switch: ACCEPTED, WITH A CONDITION.** Ruling 5's "beside the served construction" cannot
+  re-make S8 ≡ S9 or the commit's ladder, which need the ladder served; the evidence round B binds on must be the
+  build's own, not a prototype's. So round A may carry a switch that serves the ladder in a DEBUG run — honoured only
+  where DEBUG_BUILD, absent from the production bundle and pinned so by the bundle's own test. THE CONDITION: it is
+  state of ONE kernel instance (or one arena), set through a debug hook, never a module-level variable — two kernels
+  in one process never see each other's mode, and a test that sets it cannot leak it. In round B the same switch
+  serves the construction as the control.
+* **Q9 — kernel/test/tx/savepoint.test.ts :425: ACCEPTED** — the session's seam on M0-a-06's `test/tx/support.ts` at
+  round B's landing (one predicate: a frame opened by the lay is a dry-run frame; no assertion changed), not a leg —
+  a leg would queue round B behind the RQ2 round and Q181's. The classifier reads the view's `op` tag once the view's
+  constructor has moved into tx/.
+* **Q10 — `offRead`: ACCEPTED; the earlier ruling is CORRECTED.** It is not retired: it is the second rung's alone
+  (it cannot fire on the first — the exact reads cannot see the operation's L2 writes), so that the second rung is the
+  base's commit byte for byte, pinned.
+* **Q11 — the L2-content pins: ACCEPTED** as round B's line 3 states them (each asserts a classed cause), with the M1
+  queue row on the district commit order.
+* **Q12 — the boundary rows: ACCEPTED.** The session pre-authorises the rows of the named nouns in the named files
+  (arr/kerb.ts: the `band` string and the `kerb` ident; arr/bandUnion.ts: the `band` ident, the `kerb` string and the
+  `block` ident; arr/kerbExact.ts's two rows removed by the fold); the seat prints its counts; the session's seam sets
+  the rows at each landing; any other noun or file STOPS the seat.
+* **Q13 — Q152's six: ACCEPTED as tabled** (three re-pointed to the second rung, two re-judged, one both), the
+  reviewer to check against M0-a-05 S14's verdict that group B's cause is not one the second rung still carries.
+* **Q14 — the contract sentence: ACCEPTED; ruling 2 (d) IS CORRECTED.** As ruled it was false where both the read and
+  the commit took the second rung (the base's own behaviour) and it named no cause where both took the first. It
+  reads: where both took the first rung, a planned block equals its committed block within the bound, every inexact
+  block by one of the closed list of causes; wherever either took the second rung, they may differ by pieces thinner
+  than the attraction distance, of any length, and by nothing else.
+* **Q15 — the construction is permanent: ACCEPTED and said plainly.** Its planned removal (after the re-profile) is
+  WITHDRAWN; round B's bundle pin asserts its PRESENCE; the tx tests keep it as a dry-run generator wherever the second
+  rung runs; item 989's budget carries its cost wherever the second rung runs (nothing at the harness seeds).
+* **Q16 — the thin measure's lattice residue: ACCEPTED IN SUBSTANCE, ITS PINS CORRECTED.** The measure: a piece is thin
+  when its erosion by 13 cm, computed with §3.7's own buffer parts, leaves nothing that holds a disc of 1 cm radius.
+  By that definition a straight strip is thin up to 28 cm wide, so the pins are 26 cm thin, 27 cm thin (by the residue
+  clause — said in the test), 29 cm NOT thin, and a 26 cm sliver that leaves a residue ring thin. The contract's
+  sentence says "thinner than the attraction distance, to the lattice's tolerance of 2 cm".
+* **Q17 — the round numbers: ACCEPTED** — keyed at render (S21 and S22 unless S20 or round A takes a fix round).
+
+The five inconsistencies the seat names are these same corrections (Q8, Q14, Q3 with Q7, Q10, Q15). NEXT: the
+reviewer's fourth pass on `v3/` and on the two sections above; the red list under the ladder into round B's entry
+when the suite ends; then round A binds on S20's landed tree.
