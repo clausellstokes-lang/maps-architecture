@@ -1,18 +1,18 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-f-02b",
-  "lane": "build/M0-f-02b-fix-s1",
-  "lanes": ["build/M0-f-02b", "build/M0-f-02b-fix1", "build/M0-f-02b-fix2", "build/M0-f-02b-fix-s1"],
+  "lane": "build/M0-f-02b-fix-s3",
+  "lanes": ["build/M0-f-02b", "build/M0-f-02b-fix1", "build/M0-f-02b-fix2", "build/M0-f-02b-fix-s1", "build/M0-f-02b-fix-s2", "build/M0-f-02b-fix-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-10T05:43:32.742Z",
+  "date": "2026-11-12T15:22:40.379Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/tier-jobs/ (handed over from M0-f-02a)", "plat/bench/test/tier-jobs/", "plat/docs/build/summaries/M0-f-02b.json"],
   "counts": { "created": 8, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/bench/src/tier-jobs/cli.ts", "status": "created", "sha256": "f87c8f3e83d13ed38266f1381b2297028e684513a623384cb51ebd979a2fcec9", "size": 39324 },
+    { "path": "plat/bench/src/tier-jobs/cli.ts", "status": "created", "sha256": "c93ddc1ded0491b810558faae61cc317c3551fede33c7c32cff1f49ea2223a9b", "size": 41937 },
     { "path": "plat/bench/src/tier-jobs/index.ts", "status": "created", "sha256": "4383605ce5c0a6aca741b7fc41845fa95560f98df612e1cc8b844b41889d5481", "size": 19614 },
-    { "path": "plat/bench/test/tier-jobs/cli.test.ts", "status": "created", "sha256": "b0ecbc9cb9d5da9fc7d99f778ead2e3e753b3f3723d938ace7a8ec50aada641a", "size": 34889 },
+    { "path": "plat/bench/test/tier-jobs/cli.test.ts", "status": "created", "sha256": "a622dbe916407aff421cbd3589012f811730057f2f830c002bf763f3da6ba5ff", "size": 47601 },
     { "path": "plat/bench/test/tier-jobs/lists.test.ts", "status": "created", "sha256": "c4df72263d3935a8ff7ba53e54751e3efd37e61eefbf8ed4e119688551183120", "size": 21507 },
     { "path": "plat/bench/test/tier-jobs/summary.test.ts", "status": "created", "sha256": "49903569c255f3d5fec7724e7239bc2dca0ac6ea8f2a25a8d2fb7264d51320ab", "size": 13115 },
     { "path": "plat/bench/test/tier-jobs/support.ts", "status": "created", "sha256": "5e47d0c48bb2d1f36861b5c16f9d1f2ad2764b8dac685a1eafff7c0107cbff39", "size": 3577 },
@@ -22,14 +22,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0722", "L-0724", "L-0726", "L-0769"],
-      "lines": ["0edecfcf5011aa93", "d2e3982bd3dc2c96", "5cbb7d7c5dab429d", "6509cb17c0b79d27"],
+      "ids": ["L-0722", "L-0724", "L-0726", "L-0769", "L-0830", "L-0832"],
+      "lines": ["0edecfcf5011aa93", "d2e3982bd3dc2c96", "5cbb7d7c5dab429d", "6509cb17c0b79d27", "4685fe723d2b0edc", "f6076625659f6de6"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0460", "C-0461", "C-0462", "C-0477"],
-      "lines": ["07e452ea06f12607", "546a1438e2d7aa14", "22c07d0907c8c23f", "52c2c1982b5d5afd"],
+      "ids": ["C-0460", "C-0461", "C-0462", "C-0477", "C-0502", "C-0503"],
+      "lines": ["07e452ea06f12607", "546a1438e2d7aa14", "22c07d0907c8c23f", "52c2c1982b5d5afd", "cd8970b124ace1aa", "e09ad09998acea99"],
       "removed": []
     }
   ]

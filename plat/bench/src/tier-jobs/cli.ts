@@ -14,7 +14,8 @@
 //                                 $PLAT_BENCH_OUT/edge-suite/<file>.jsonl (PLAT_EDGE_LOG), stopped at the deadline
 //   edge-hangs --hang-ms N        the post-hoc hang attribution (checks/M0-x-06-notes.md row 10): every built fixture
 //                                 the logs never saw return is replayed seed by seed, each seed given N ms, and the
-//                                 first seed that does not return is named; exit 0 when every built fixture returned
+//                                 first seed that does not return is named (a replay child silent for N ms outside
+//                                 any seed is stopped and named too, Q175 (b)); exit 0 when every built fixture returned
 //   edge-replay <fixture> <n>     the attribution's child: the fixture's first n seeds, one progress line each, each
 //                                 also appended synchronously to $PLAT_EDGE_MARKS when set (the per-seed start marker
 //                                 the parent's watchdog reads, queue row Q146)
@@ -290,7 +291,13 @@ export interface ReplayResult {
   returned: number;
   crashed: number[];
   hang: { seed: number; ms: number } | null;
-  /** The child's own exit (null while it was stopped for a hang). */
+  /**
+   * A hang OUTSIDE any seed (queue row Q175 (b), N-11): no protocol line for over `hangMs` while no seed was in flight —
+   * before the first seed's start (`after` null: the child stuck in its imports) or after seed `after` ended (returned
+   * or threw) and before the next start. Present only when the child was stopped for it.
+   */
+  outside?: { after: number | null; ms: number };
+  /** The child's own exit (null while it was stopped for a hang, in a seed or outside one). */
   code: number | null;
 }
 
@@ -328,9 +335,16 @@ function progressOf(text: string): Progress[] {
  * asynchronously on macOS (§12.1's reference machine), so a seed that hangs in synchronous code right after its start
  * line can leave that line unflushed — the parent would see no seed in flight and never arm the watchdog. The two
  * streams carry the same lines in the same order; whichever is ahead is read, each line applied once.
- * `spawner` (default node's spawn) is the seam a test reads the default command line through.
+ * The whole-replay deadline (queue row Q175 (b), N-11): no line for over `hangMs` after the last line applied (or after
+ * the spawn, before the first) while no seed is in flight also stops the child's group, reported as `outside` with the
+ * last seed that ended — so a child stuck in its imports, or between a seed's end and the next start, is never waited
+ * on without limit. A hang is declared when the wait is OVER `hangMs` and reported in whole milliseconds rounded UP
+ * (queue row Q198), so the number reported is over `hangMs` whenever a hang is declared.
+ * `spawner` (default node's spawn) is the seam a test reads the default command line through; `now` (default
+ * performance.now) is the one clock the watchdog reads — each line's arrival and every poll — the seam a test drives
+ * the deadlines through deterministically.
  */
-export function replayFixture(id: string, seeds: number, opts: { hangMs: number; argv?: readonly string[]; env?: NodeJS.ProcessEnv; pollMs?: number; spawner?: typeof spawn; marks?: string }): Promise<ReplayResult> {
+export function replayFixture(id: string, seeds: number, opts: { hangMs: number; argv?: readonly string[]; env?: NodeJS.ProcessEnv; pollMs?: number; spawner?: typeof spawn; marks?: string; now?: () => number }): Promise<ReplayResult> {
   return new Promise((resolve, reject) => {
     const argv = opts.argv ?? replayArgv(id, seeds);
     let temp: string | null = null;
@@ -348,20 +362,28 @@ export function replayFixture(id: string, seeds: number, opts: { hangMs: number;
     };
     const env = { ...(opts.env ?? process.env), PLAT_EDGE_MARKS: marks };
     const child = (opts.spawner ?? spawn)(argv[0], argv.slice(1), { cwd: PLAT_ROOT, env, stdio: ['ignore', 'pipe', 'inherit'], detached: true });
+    const now = opts.now ?? ((): number => performance.now());
     const res: ReplayResult = { returned: 0, crashed: [], hang: null, code: null };
     let current: { seed: number; at: number } | null = null;
+    // the last line's arrival (the spawn before the first) and the last seed that ended: the whole-replay deadline's
+    let last = now();
+    let ended: number | null = null;
+    let stopped = false;
     let applied = 0;
     const fromOut: Progress[] = [];
     const catchUp = (src: readonly Progress[]): void => {
       for (; applied < src.length; applied += 1) {
         const v = src[applied];
-        if ('start' in v) current = { seed: v.start, at: performance.now() };
+        last = now();
+        if ('start' in v) current = { seed: v.start, at: last };
         else if ('done' in v) {
           res.returned += 1;
           current = null;
+          ended = v.done;
         } else {
           res.crashed.push(v.crash);
           current = null;
+          ended = v.crash;
         }
       }
     };
@@ -385,13 +407,18 @@ export function replayFixture(id: string, seeds: number, opts: { hangMs: number;
     });
     const timer = setInterval(() => {
       readMarks();
-      if (current !== null && res.hang === null && performance.now() - current.at > opts.hangMs) {
-        res.hang = { seed: current.seed, ms: Math.round(performance.now() - current.at) };
-        try {
-          if (child.pid !== undefined) process.kill(-child.pid, 'SIGKILL');
-        } catch {
-          // gone already
-        }
+      if (stopped) return;
+      const waited = now() - (current !== null ? current.at : last);
+      if (waited <= opts.hangMs) return;
+      // over the limit: the whole milliseconds rounded up, never under the wait measured (Q198)
+      const ms = Math.ceil(waited);
+      if (current !== null) res.hang = { seed: current.seed, ms };
+      else res.outside = { after: ended, ms };
+      stopped = true;
+      try {
+        if (child.pid !== undefined) process.kill(-child.pid, 'SIGKILL');
+      } catch {
+        // gone already
       }
     }, opts.pollMs ?? Math.max(10, Math.min(1_000, Math.floor(opts.hangMs / 4))));
     child.on('error', (e) => {
@@ -401,9 +428,9 @@ export function replayFixture(id: string, seeds: number, opts: { hangMs: number;
     });
     child.on('close', (code) => {
       clearInterval(timer);
-      if (res.hang === null) readMarks();
+      if (!stopped) readMarks();
       cleanUp();
-      res.code = res.hang === null ? code : null;
+      res.code = stopped ? null : code;
       resolve(res);
     });
   });
@@ -423,7 +450,9 @@ export interface FixtureLike {
  * The post-hoc hang attribution (checks/M0-x-06-notes.md row 10): a fixture that never returned leaves no line in the
  * logs (support.ts writes a fixture's lines once its run returns), so every BUILT fixture missing from the logs is
  * replayed seed by seed and the first seed that does not return within `hangMs` is named; replaying stops at the first
- * hang (the fixtures after it are listed, not replayed). Exit 0 when every built fixture is in the logs; 1 otherwise —
+ * hang (the fixtures after it are listed, not replayed). A replay child stopped for a hang OUTSIDE any seed (no progress
+ * line for over `hangMs` before its first start or after a seed ended: queue row Q175 (b)) is named the same way, with
+ * the last seed that ended, and stops the replaying too. Exit 0 when every built fixture is in the logs; 1 otherwise —
  * a named hang, or a fixture missing from the logs whose replay returned on every seed (its unit's own failure).
  */
 export async function edgeHangs(opts: {
@@ -461,6 +490,13 @@ export async function edgeHangs(opts: {
     const r = await replay(f.id, opts.seeds, opts.hangMs);
     if (r.hang !== null) {
       log(`tier-jobs edge-hangs: ${f.id} at seed ${String(r.hang.seed)}: no return in ${String(r.hang.ms)} ms (a hang, over ${String(opts.hangMs)} ms) after ${String(r.returned)} seed(s) returned`);
+      const rest = missing.slice(i + 1).map((x) => x.id);
+      if (rest.length > 0) log(`tier-jobs edge-hangs: not replayed after the hang: ${rest.join(', ')}`);
+      return 1;
+    }
+    if (r.outside !== undefined) {
+      const where = r.outside.after === null ? 'before its first seed started' : `after seed ${String(r.outside.after)} ended`;
+      log(`tier-jobs edge-hangs: ${f.id} outside any seed, ${where}: no progress line in ${String(r.outside.ms)} ms (a hang, over ${String(opts.hangMs)} ms) after ${String(r.returned)} seed(s) returned`);
       const rest = missing.slice(i + 1).map((x) => x.id);
       if (rest.length > 0) log(`tier-jobs edge-hangs: not replayed after the hang: ${rest.join(', ')}`);
       return 1;

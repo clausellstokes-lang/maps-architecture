@@ -1,8 +1,9 @@
 // M0-f-02a: the tier runner over FIXTURE manifests of trivial jobs (C-0105 — never a real tier): the budget rule (a
 // normalised figure more than 10 % over fails over budget: 11 % fails, 9 % and exactly 10 % pass — for a job and for
 // the tier), the projection (the 16-core tiers judged on CPU time ÷ 16 and marked projected; the PR tier on wall-clock),
-// the fallback switch (fuzz and seeds reduced, the constructive set never cut), the verdict, the not-built and refused
-// cases and the manifest's structural problems.
+// the fallback switch (fuzz and seeds reduced, the constructive set never cut; refused by runTier itself outside
+// tier:pr, Q175 (d)), the verdict, the not-built and refused cases and the manifest's structural problems.
+import { readdirSync } from 'node:fs';
 import { afterAll, describe, expect, it } from 'vitest';
 import { applyFallback, budgetGates, FALLBACK_SIZES, judgeBudget, logName, manifestProblems, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, runTier } from '../../src/tiers/runner.js';
 import type { Unit } from '../../src/tiers/types.js';
@@ -192,6 +193,55 @@ describe('the fallback switch (§13.8: B-CITY-lite 25 seeds, random fuzz 5 × 10
     const r0 = await runTier(fixtureManifest(jobs()), { root: root(), out: tree({}), exec: plantedExec({}, plain) });
     expect(plain.map((u) => u.argv.join(' '))).toEqual(['fixture fuzz 10000', 'fixture seeds 50', 'fixture constructive 10', 'fixture small 10', 'fixture plain']);
     expect(r0.fallback).toEqual({ applied: false, changed: [] });
+  });
+
+  // Q175 (d) (Q151's rule made the function's, C-0241 (11)): runTier itself refuses `fallback: true` on a manifest that
+  // is not tier:pr, with its message verbatim, before a status is derived, a unit runs or a log is written — for any
+  // caller, not only the command line; without the switch the same manifest runs at its own sizes; tier:pr keeps it
+  // (the test above, unchanged).
+  const refusal = (tier: string): string =>
+    `tier ${tier}: the fallback switch is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:${tier} runs at its own sizes; run it without the fallback`;
+  it.each(['nightly', 'milestone'] as const)('Q175 (d): runTier refuses the fallback switch on a tier:%s manifest, its message verbatim, nothing derived or run; without it the tier runs at its own sizes', async (tier) => {
+    // a harness job listed first: its derivation calls the probe, so a refusal taken after any derivation is red
+    const m = fixtureManifest([job('h', { kind: 'harness', source: 'bench/src/zz-h/' }), ...jobs()], { tier, budget: { ms: 1_000_000, cores: 16, projected: true } });
+    const harnessRoot = (): string => tree({ 'scripts/ok.mjs': '', 'bench/src/zz-h/index.ts': RUN_INDEX });
+    const probe = (seen: string[]) => (p: string): Promise<boolean> => {
+      seen.push(p);
+      return Promise.resolve(true);
+    };
+    for (const mode of ['plain', 'whole', 'batched'] as const) {
+      const calls: Unit[] = [];
+      const probed: string[] = [];
+      const out = tree({});
+      const thrown: unknown = await runTier(m, {
+        root: harnessRoot(),
+        out,
+        mode,
+        fallback: true,
+        exec: plantedExec({}, calls),
+        probe: probe(probed),
+        ...readings([100, 100]),
+      }).then(
+        () => null,
+        (e: unknown) => e,
+      );
+      expect(thrown, mode).toBeInstanceOf(Error);
+      expect([(thrown as Error).message, calls, probed, readdirSync(out)], mode).toEqual([refusal(tier), [], [], []]);
+    }
+    const calls: Unit[] = [];
+    const probed: string[] = [];
+    const r = await runTier(m, { root: harnessRoot(), out: tree({}), fallback: false, exec: plantedExec({}, calls), probe: probe(probed) });
+    expect([r.tier, r.fallback, probed.length, calls.map((u) => u.argv.join(' '))]).toEqual([tier, { applied: false, changed: [] }, 1, ['fixture h', 'fixture fuzz 10000', 'fixture seeds 50', 'fixture constructive 10', 'fixture small 10', 'fixture plain']]);
+    const r0 = await runTier(m, { root: harnessRoot(), out: tree({}), exec: plantedExec(), probe: probe([]) });
+    expect(r0.fallback).toEqual({ applied: false, changed: [] });
+  });
+
+  it('Q175 (d): tier:pr keeps the switch in every mode (fuzz 10 000 → 5 000, seeds 50 → 25, the constructive set never cut)', async () => {
+    for (const mode of ['plain', 'whole', 'batched'] as const) {
+      const calls: Unit[] = [];
+      const r = await runTier(fixtureManifest(jobs()), { root: root(), out: tree({}), mode, fallback: true, exec: plantedExec({}, calls), ...readings([100, 100]) });
+      expect([r.tier, r.fallback.applied, r.fallback.changed.length, calls.map((u) => u.argv.join(' '))], mode).toEqual(['pr', true, 2, ['fixture fuzz 5000', 'fixture seeds 25', 'fixture constructive 10', 'fixture small 10', 'fixture plain']]);
+    }
   });
 });
 

@@ -87,3 +87,103 @@ The closing checker's new findings; none is a blocker (verdict in `checks/M0-f-0
 | id | observation | suggested handling | milestone | label |
 |---|---|---|---|---|
 | N-13 | **The close-time marker read is pinned only by a race.** `replayFixture` reads the marker file once more at the child's `close` (`if (res.hang === null) readMarks();`), so a child whose last lines reached only the file (an asynchronous stdout pipe cut by `process.exit`, Node on macOS) still has its returns and throws counted. The pin ("a child that finishes counts its returns", `cli.test.ts` § Q146, `pollMs: 20`) kills the mutant that drops that read only when no poll fires between the child's last write and its exit: the checker's mutant M9 SURVIVED the sweep (NEAR 63/63, RELATED@1000 206/206) and was killed in 4 of 6 repeats of the Q146 block. The read affects only the informational counts of a replay with no hang (`… R returned, C threw; no hang`); a hang is caught by the polls, and the exit code is 1 either way. Equivalent on Linux (the stdout pipe is synchronous and drained before `close`) | make the pin deterministic: the marker-only child that finishes, run with `pollMs` above its whole run (e.g. 60 000), so only the close-time read can count its 3 returns | M4 | CONFIRMED (executed: sweep + 6 repeats) |
+
+## Hardening round S2 (lane `build/M0-f-02b-fix-s2`, 2026-11-12; J237 (2), J186, J192, J238, J264, J290 / N-58, J263 Q1 / Q6, J443: leg 2 of the merged round M0-f-02a S3 → M0-f-02b S2; the session's record J787)
+
+The session's hardening round S2 on four rows: queue row **Q198** (its second test), **Q175 (b)** and **(c)** (this
+file's N-11 and N-13) and **Q186** (a read). Each row and its sources were read whole: `docs/M0-FIX-QUEUE.md` Q198,
+Q175 and Q186 (each by its own grep), J787 in `docs/PROGRESS.md`, N-11 – N-13 above, `bench/src/tier-jobs/cli.ts`
+(`replayFixture`, `edgeHangs`, `edgeReplay` whole), `bench/src/tier-jobs/index.ts` (the three job lists),
+`bench/src/tiers/exec.ts` (`CLEARED_ENV`, `unitEnv`), `bench/src/tiers/runner.ts` (the fallback), `tools/vitest/`
+(`fast-check.setup.mjs`, `fuzz-seed.mjs`) and the two Q186 test files (read, never edited). Q186's own evidence cell
+names a file under `docs/validation/`, which this implementer-side seat does not open (§17.1 (1)); the table below is
+built from the job lists and runs. Choices row C-0502. Inside the owns only: `bench/src/tier-jobs/cli.ts`,
+`bench/test/tier-jobs/cli.test.ts`. NO-SHIFT: no tier's manifest, job list, summary or receipt moves (the three
+manifest digests over the final tree are S1's: PR `6f375d35…`, nightly `c98da9a6…`, milestone `e121c793…`;
+`index.ts` unchanged); no model output, golden or committed summary moves.
+
+| row | outcome | what changed | pin and its mutants (lane mirror, `vitest run --maxWorkers=1 --bail=1 bench/test/tier-jobs`; attribution by `-t` on the intended pin) |
+|---|---|---|---|
+| Q198 (the second test) | **FIXED and PINNED** | The watchdog reads its time through ONE clock, `replayFixture`'s new optional `now` (default `performance.now`), threaded to each line's arrival (`catchUp`) and to every poll; `edgeHangs` and the CLI pass none (the default). A poll measures the wait once (`waited`), declares a hang only when it is OVER `hangMs` (`waited <= hangMs` declares nothing), and reports `ms = Math.ceil(waited)` — the whole milliseconds rounded UP, never under the wait measured — so whenever a hang is declared the number reported is over `hangMs` and the log's 'over N ms' is true of it. The log line's format is unchanged (J263 Q6). The before-image read the clock twice and rounded to nearest: a wait of 1 500.3 ms was declared and reported as 1500. | `cli.test.ts` § "the watchdog's one clock …", "Q198: a wait of hangMs exactly declares nothing; hangMs + 0.3 declares the in-seed hang and reports hangMs + 1": a real child in its own group (start 11, done 11, start 33, then alive for ever), the poll timer faked (`vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })`) and the clock injected — lines applied at 1 000, one poll at 2 500 (nothing declared: the replay still pending 300 ms later), one at 2 500.3 → `{ returned: 1, crashed: [], hang: { seed: 33, ms: 1501 }, code: null }`, the child's pid gone. Deterministic: every verdict is the clock's value at a poll the test runs. M1 (`Math.round` restored) red; M2 (`<` in place of `<=`, i.e. a hang at `hangMs` exactly) red on the first half; M3 (the clock not threaded) red; M4 (the queue's shape: `ms` from a second clock read, rounded) red; MB (the before-image `cli.ts`) red. The two existing assertions (`:236`, `:415` of the before-image; the tests 'replayFixture over the progress protocol …' and 'replayFixture reads the marker file …') stand as written: green in **20 of 20** repeats of those two tests (`-t`, one worker) beside six busy loops (`node -e 'for(;;){}'` × 6, load average 0.7 → 10.2 on the four cores; lane mirror, the final source) — and they can no longer fail by the rounding: a declared hang reports `ceil(waited) ≥ waited > 1500`. |
+| Q175 (b) / N-11 | **CONFIRMED by reading, then FIXED and PINNED** | Confirmed first on the before-image: the watchdog's only test was `current !== null && … > hangMs`, so with no seed in flight nothing could stop the child — MB (the before-image) leaves both planted children below running (the tests wait 5 s on the replay, then fail with the replay still pending and kill the group themselves). THE FIX: a whole-replay deadline — `last` is the last line's arrival (the spawn's time before the first line); a poll with no seed in flight and over `hangMs` since `last` stops the child's group as the in-seed hang does and records `outside: { after, ms }` (`after` the last seed that ENDED, returned or threw, null before the first start; `ms` rounded up as Q198). A seed in flight keeps the in-seed rule unchanged (`current.at` is that line's arrival). The close-time read is skipped after either stop. `edgeHangs` names it and stops replaying, exit 1 as for a hang — new text, pinned verbatim: `tier-jobs edge-hangs: <id> outside any seed, before its first seed started: no progress line in <ms> ms (a hang, over <hangMs> ms) after <n> seed(s) returned` and `… outside any seed, after seed <s> ended: no progress line in …`, then the existing 'not replayed after the hang: …' line. RESULT SHAPE: `ReplayResult` gains one OPTIONAL field `outside?: { after: number \| null; ms: number }`, present only on that stop (so every existing literal and `toEqual` stands); `replayFixture`'s options gain the optional `now` (LINE 1). No export added, removed or renamed (J263 Q1). | Same section: "a child that prints nothing and never exits is stopped within hangMs plus one poll …" (`outside: { after: null, ms: 1501 }`), "a child that hangs after a done (no next start) …" (`after: 33`, and a second drive ending on a throw: `after: 22`), each with the exact-limit poll pending and the pid gone; "edgeHangs names a hang outside a seed (both forms, the text pinned) …" (an injected replay; asks for B only, C listed); "edgeHangs' default replay stops a real child silent from its spawn …" (the spawner seam, `hangMs` 60, the line by pattern, the pid gone). M5 (the deadline removed) red on BOTH child pins; M6 (armed only before the first line) red on the after-done pin, the silent pin green; M7 (the deadline from the spawn, never moved by a line) red on the after-done pin; M8 (`edgeHangs` ignores `outside`) red; M9 (`edgeHangs` replays on after it) red; M10 (an outside stop kills no group) red; M11 (the line's text) red; M12 (`after` counts returns only) red. The existing in-seed pins (Q146's three tests, the progress-protocol test) unchanged and green. |
+| Q175 (c) / N-13 | **PINNED (tests only)** | none in the source | Same section: "Q175 (c) / N-13: a marker-only child that finishes, polled never during its run (pollMs 60 000), counts its 3 returns by the close-time read alone" → `{ returned: 3, crashed: [], hang: null, code: 0 }`. M13 (= the S1 check's M9: `if (!stopped) readMarks();` at the close dropped) red in **6 of 6** repeats of this test alone (`-t 'Q175 \(c\)'`); the clean mirror green 6 of 6. |
+| Q186 | **READ — no tier is EXPOSED; the row closes on the table** | none (no file of another item touched; no pin, as the row says) | the table below |
+
+**Q186: the strength and seed each tier runs the two files with.** From the job lists (`index.ts`), the executor's
+environment (`exec.ts`: `CLEARED_ENV` = PLAT_FUZZ_RUNS, PLAT_FUZZ_SEED, PLAT_EDGE_SEEDS, PLAT_BENCH_FIXTURE_ROOT
+deleted from the inherited environment of EVERY unit, then the unit's own `env`), the fallback (`runner.ts`
+`applyFallback` cuts only jobs with a `size`; the vitest job has none) and the seed setup (`tools/vitest/`): a probe over
+the three real manifests (`unitEnv` applied to a shell that had set PLAT_FUZZ_RUNS=25 and PLAT_FUZZ_SEED=-1806464159)
+lists every vitest unit whose arguments reach `packages/kernel/test`:
+
+| tier | job · unit | `step1-2/bfuzz.test.ts` (:204 'every branch of step 2 is exercised') | `tx/oracle.test.ts` (kernel-tiny 'undone inside frames: grow faces[3]') |
+|---|---|---|---|
+| PR (with or without the fallback) | 'unit and contract tests' · units `kernel` and `kernel-tiny` (`vitest run --project <p>`, no unit `env`) | PLAT_FUZZ_RUNS cleared → **10⁴** (`fuzzRuns`' default); the seed **fresh per run** (the global setup's run seed, printed; PLAT_FUZZ_SEED cleared) | `RUNS` = fast-check's global numRuns → **10⁴** batches; the sequences' seed **fixed** in the file (`seed0` 1, kernel-tiny 50 000): the fast-check seed does not reach it, so its outcome is a function of the strength alone |
+| nightly | none — no vitest unit reaches `packages/kernel/test` (B-FUZZ runs the fuzz-bar harness, not these files; the edge suite is testkit's `test/edge`) | not run | not run |
+| milestone | none (the nightly set less its timing-phase entry, plus F-CUT) | not run | not run |
+
+One run at the PR unit's environment (the two files, `--project kernel --project kernel-tiny`, the shell's
+PLAT_FUZZ_RUNS=25 and PLAT_FUZZ_SEED unset by the tier's rule; run seed 1060949007): 4 files, 10 / 10 green, 220.7 s.
+No tier runs either file under 1 000, so there is no tier to sweep over 40 seeds: **NO TIER IS EXPOSED** (red rate 0
+at every tier's own strength, which is 10⁴ wherever they run). The low-strength reds of the row (PLAT_FUZZ_RUNS=25) are
+reachable only by a hand-set replay or a seat's own run below 1 000, which no seat rule asks for (NEAR runs at 10⁴,
+RELATED at 1 000, where the row records them green). Q186 closes on this table; the coverage assertions' own
+conditioning, if the session wants it for hand-set low-strength runs, stays M0-a-04's and M0-a-06's (not built here).
+
+**API (J263 Q1).** No export of the folder index or the barrel added, removed or renamed. `cli.ts` (not the folder
+index) gains one optional field of `ReplayResult` (`outside`) and one optional option of `replayFixture` (`now`);
+every existing call is unchanged. Message texts: the two existing hang lines unchanged; one new line (above), pinned
+verbatim (J263 Q6).
+
+**Refusal census (J264, N-58).** The item's registered families: the three real manifests (their units) and the edge
+replay's seed family. Probe over the final tree (`census.mts`, the round's scratch): PR 10 jobs / 63 units, nightly
+10 / 170 (1 staged entry, M1), milestone 10 / 171; lawful entries whose units refuse **0 before, 0 after** (`index.ts`
+unchanged; digests as S1's after). The replay family registers no refusal: a seed that throws is counted, and a hang
+— in a seed or now outside one — is a named stop, not a refusal (before the round a hang outside a seed was an
+unbounded wait, now a named failure; no lawful input refused). No refusal met in the families, so no verdict class.
+
+**Mutant table (15 + the before-image, targeted at the rows' promises):** M1 – M13 and MB all KILLED in the folder
+sweep (`--bail=1`); each kill attributed by a `-t` run of its intended pin (M1, M2, M4 on the Q198 pin; M5 on both
+child pins; M6, M7 on the after-done pin; M13 6 / 6); no survivor. The lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-f-02b-fix-s2` was a real copy (no link into the project; the
+`@plat` dependencies resolved inside it); each mutated file was restored from `plat/` and checked with `cmp -s`; the
+mirror is deleted.
+
+Gates (W = 1, after the last source edit; the tree): install --frozen-lockfile 0; lint 0 (eslint 1 313 files, 0 errors, 0
+warnings, probe-red ok, 9 whole-tree checks); build 0; NEAR `bench/test/tier-jobs` 4 files **69 / 69** (63 before the
+round: +1 Q198, +4 Q175 (b), +1 Q175 (c)); RELATED@1000 over `bench/src/tier-jobs/cli.ts` (the round's one changed
+source): 2 files (`cli.test.ts`, `summary.test.ts`) **43 / 43**, exit 0. No declared red reached. Besides these and the
+round's own runs of `cli.test.ts`, the Q186 run above is the only test run in the tree. Before-images (`cli.ts` f87c8f3e…, `cli.test.ts` b0ecbc9c…) were taken
+from the tree as this round opened.
+
+
+## Hardening round S3 (lane `build/M0-f-02b-fix-s3`, 2026-11-12; FURTHER ROUND 3 on the closing check S2's one failing line, `checks/M0-f-02b-s2.md`; J237 (2), J186, J192, J264, J263 Q1 / Q6)
+
+The closing check S2 failed the round on one line: **LINE 2 — Q175 (b) / N-11**. The whole-replay deadline was right
+in code, but its promise "no line for `hangMs` after the LAST line" was unpinned for a done or crash line that arrives
+LATER than its start: the check's mutant **C14** (`catchUp` moves `last` only on a start line) survived NEAR 69 / 69 and
+RELATED@1000 43 / 43, because every S2 pin applied all of a child's lines at one clock value (T0); its real-clock probe
+showed C14 not equivalent (a false `outside {after: 1, …}` on honest children). The verdict file was read whole.
+Choices row C-0503. **Tests only:** `bench/test/tier-jobs/cli.test.ts` alone changed; `bench/src/tier-jobs/cli.ts`
+unchanged (sha256 c93ddc1d…, as landed by S2). NO-SHIFT: no source, manifest, job list, summary or receipt moves (the
+three manifest digests stay S1's / S2's: PR `6f375d35…`, nightly `c98da9a6…`, milestone `e121c793…`).
+
+| row | outcome | the pin | its mutants (lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-f-02b-fix-s3`, a real copy, `@plat` resolved inside it, no link into the project) |
+|---|---|---|---|
+| Q175 (b) / N-11 (the check S2's LINE 2) | **PINNED (tests only)** | New test in the `describe` "the watchdog's one clock and the whole-replay deadline": "Q175 (b), fix round S3: the deadline runs from the LAST line — a done (or a crash) applied LATE after its start moves it; hangMs after it exactly declares nothing, + 0.3 stops the child outside any seed", through a new helper `driveLate(early, late)` under the injected clock and the faked poll timer. A real child prints `early` at once; it prints `late` only once the test drops a go file, which the test drops only AFTER it has set the clock to T0 + 1 000, so each line's clock value is fixed (applied by stdout or by one poll, at that value). Drive 1: `{start 11}, {done 11}, {start 44}` at T0, `{done 44, ms 1000}` at T0 + 1 000 → a poll at T0 + 1 000 (seed 44 in flight 1 000 ms) declares nothing; a poll at done + `hangMs` exactly declares nothing; a poll at done + `hangMs` + 0.3 stops the child as `{ returned: 2, crashed: [], hang: null, outside: { after: 44, ms: hangMs + 1 }, code: null }` and its pid is gone. Drive 2: the same with `{crash 22}` applied late → `{ returned: 1, crashed: [22], hang: null, outside: { after: 22, ms: hangMs + 1 }, code: null }`, pid gone. | **C14** (`last` moved only by a start line: `if ('start' in v) { last = now(); current = …; }`) — **RED** on NEAR (`bench/test/tier-jobs`, W = 1: 1 failed / 69 passed of 70, the one red the new pin) and on RELATED@1000 over `bench/src/tier-jobs/cli.ts` (1 failed / 43 passed of 44, the same pin); red 6 / 6 beside six busy loops. Its two halves apart: **C14-crash** (a crash line does not move `last`) red on drive 2, **C14-done** (a done line does not move `last`) red on drive 1. The clean pin green 8 / 8 alone and 6 / 6 beside six busy loops (load 4.5). Each mutated file restored from `plat/` and checked with `cmp -s`; the mirror deleted. |
+
+Why it is deterministic: the watchdog's time is the injected clock only; polls run only when the test advances the faked
+`setInterval`; a late line cannot be applied at the early clock value (the child writes it only after the clock moved)
+nor at a later one (the test waits for it on disk and applies it by one poll before it moves the clock again; a stdout
+copy that arrives after is the same line, never applied twice). Under C14 the stop is declared at done + `hangMs`
+(waited 2 500 > 1 500 from the start at T0), so `atLimit` is no longer pending — and even under a load that delayed the
+child's close past the 300 ms window, the result's `ms` (`hangMs` + 1 001) differs from the pinned `hangMs` + 1.
+
+**Refusal census (J264, N-58).** No source changed, so the families' census is S2's: PR 63 / nightly 170 (1 staged) /
+milestone 171 units, lawful entries refusing **0 before, 0 after**; the replay family registers no refusal.
+
+**API (J263 Q1 / Q6).** Unchanged: no export, option, field or message text moves (tests only).
+
+Gates (W = 1, the tree, after the last edit): install --frozen-lockfile 0; lint 0 (eslint 1 313 files, 0 errors, 0
+warnings, probe-red ok, 9 whole-tree checks); build 0; NEAR `bench/test/tier-jobs` 4 files **70 / 70** (69 before the
+round, + 1); RELATED@1000 over `bench/src/tier-jobs/cli.ts` 2 files **44 / 44**, exit 0. No declared red reached.

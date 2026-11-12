@@ -29,14 +29,32 @@ describe('parseTimes (the shell builtin `times`)', () => {
 });
 
 describe('spawnExecutor', () => {
+  // Q198: the child spins until ITS OWN CPU time (process.cpuUsage(), user + system, every thread) reaches BUSY_CPU_MS,
+  // then idles IDLE_MS of wall-clock and prints the CPU time it has used. So whatever the machine's load (a child given a
+  // fraction of a core takes longer to burn its target, never less CPU), the executor's CPU reading is at least what the
+  // child says it used, less the `times` builtin's rounding (TIMES_TOLERANCE_MS: user and system each in 10 ms clock
+  // ticks), and stays at least IDLE_MS / 2 under the wall-clock, which holds the idle stretch — the two readings cannot
+  // be confused (a wall-clock reported as CPU time, or a CPU time of 0, is red).
+  const BUSY_CPU_MS = 250;
+  const IDLE_MS = 400;
+  const TIMES_TOLERANCE_MS = 30;
   it("measures a busy child's CPU time and wall-clock, passes its exit code, and reports its pid", async () => {
     const pids: number[] = [];
-    const busy = "const e = Date.now() + 300; let x = 0; while (Date.now() < e) x++; console.log('done', x > 0);";
+    const busy = [
+      'const cpu = () => { const u = process.cpuUsage(); return (u.user + u.system) / 1000; };',
+      `let x = 0; while (cpu() < ${String(BUSY_CPU_MS)}) x++;`,
+      `setTimeout(() => console.log('done', x > 0, 'cpu', cpu().toFixed(3)), ${String(IDLE_MS)});`,
+    ].join(' ');
     const r = await spawnExecutor({ name: 'busy', argv: [process.execPath, '-e', busy] }, { root: process.cwd(), out, onSpawn: (p) => pids.push(p) });
     expect(r.code).toBe(0);
-    expect(r.wallMs).toBeGreaterThanOrEqual(300);
-    expect(r.cpuMs).toBeGreaterThanOrEqual(150);
     expect(r.output).toContain('done true');
+    const said = /done true cpu (\d+\.\d+)/.exec(r.output ?? '');
+    expect(said).not.toBeNull();
+    const childCpuMs = Number(said?.[1]);
+    expect(childCpuMs).toBeGreaterThanOrEqual(BUSY_CPU_MS);
+    expect(r.cpuMs).toBeGreaterThanOrEqual(childCpuMs - TIMES_TOLERANCE_MS);
+    expect(r.wallMs).toBeGreaterThanOrEqual(IDLE_MS);
+    expect(r.cpuMs).toBeLessThanOrEqual(r.wallMs - IDLE_MS / 2);
     expect(pids.length).toBe(1);
     const failed = await spawnExecutor({ name: 'three', argv: [process.execPath, '-e', 'process.exit(3)'] }, { root: process.cwd(), out });
     expect(failed.code).toBe(3);
