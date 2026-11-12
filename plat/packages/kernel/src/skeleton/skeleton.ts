@@ -6,6 +6,8 @@
 // unvalidated output; nothing stored. The engine reads the rings strictly first; only when that gives no validated
 // graph does it read them again tolerantly (engine.ts's two readings), under what is left of the same work law, so
 // every input the strict reading validates keeps its output and the second reading only rescues a would-be downgrade.
+// A third reading, `coalescing` (§3.8's 1 mm / 1 cm coalescing of events at the event; hardening round S7), is taken
+// only when the first two give none, under what is left of the same law: no output either validates moves.
 import { offLattice } from '../geom/common.js';
 import { ok, type KernelResult } from '../num/index.js';
 import type { Cm, Polygon } from '../types/index.js';
@@ -90,7 +92,7 @@ export function runSkeleton<A = unknown>(
   const lines = buildLines(input);
   let first: SkeletonFailure | null = null;
   let spent = 0;
-  for (const reading of ['strict', 'tolerant'] as readonly EngineReading[]) {
+  for (const reading of ['strict', 'tolerant', 'coalescing'] as readonly EngineReading[]) {
     // one law for every reading of the rings: a later reading runs under what the earlier ones left
     const run = runEngine(input, limit - spent, hooks, reading);
     spent += run.events;

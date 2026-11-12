@@ -36,6 +36,17 @@
 // direction as undetermined at the coordinates' precision: when the order at a node does not alternate, the adjacent
 // swap of such a pair (the most nearly parallel first) that makes it alternate is taken (a constant-width river's
 // banks meeting all along its centre line, the relief fixtures' water faces).
+//
+// A third reading, `coalescing` (hardening round S7; Q180 (a)), is the tolerant one with §3.8's sentence "events closer
+// than 1 mm in offset time and 1 cm in position are coalesced into one multi-edge event" read at the event itself:
+// every candidate event of the wavefront within 1 mm in offset time and 1 cm in position of the earliest joins it (its
+// vertices and its split targets), and a split whose point lies within 1 cm of an end of the edge it splits is that end
+// vertex's event (the end joins; nothing is split). Without
+// it a sharp spike's tip meeting both of its base vertices within a fraction of a millimetre leaves a sub-millimetre
+// wavefront edge that collapses late, a split taken alone just past the end of its edge cannot alternate, and two reflex
+// vertices meeting split an edge a millimetre from its end — the spike class the validator rejects (checks/M0-a-11-notes.md
+// 'Hardening round S7'). `skeleton()` takes it only when the strict and the tolerant readings both give no validated
+// graph, under what is left of the same law, so no output either of them validates moves.
 import { ratio } from '../num/index.js';
 import { halfPlaneOf } from '../num/exact.js';
 
@@ -228,18 +239,20 @@ function turnK(L: Lines, a: number, b: number): number {
 }
 
 /**
- * The engine's two readings of near-coincident structure (the header above): `strict` resolves only events coincident
- * to the coordinates' rounding scale; `tolerant`, taken by `skeleton()` only after a strict run gives no validated
- * graph, joins a neighbouring vertex within 1 cm of an event and reads an order within 1° by alternation.
+ * The engine's readings of near-coincident structure (the header above): `strict` resolves only events coincident to
+ * the coordinates' rounding scale; `tolerant`, taken by `skeleton()` only after a strict run gives no validated graph,
+ * joins a neighbouring vertex within 1 cm of an event and reads an order within 1° by alternation; `coalescing`, taken
+ * only after both give none, is the tolerant reading with §3.8's 1 mm / 1 cm coalescing of events applied at the event.
  */
-export type EngineReading = 'strict' | 'tolerant';
+export type EngineReading = 'strict' | 'tolerant' | 'coalescing';
 
 /**
  * Runs the wavefront to its end. `limit` is the event law (the caller passes §3.8's 4 · (n + r) + 64, or a larger
  * table law, less what an earlier reading of the same rings spent); the result is complete only with status `ok`.
  */
 export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = {}, reading: EngineReading = 'strict'): EngineResult {
-  const tolerant = reading === 'tolerant';
+  const tolerant = reading !== 'strict';
+  const coalescing = reading === 'coalescing';
   const L = buildLines(inp);
   const n = inp.xs.length;
   let extent = 0;
@@ -414,7 +427,10 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
       const s = L.dx[g] * px + L.dy[g] * py;
       const sa = along(target, g, tc);
       const sb = along(target.next, g, tc);
-      if (s > sa && s < sb) splits.push(target);
+      // the coalescing reading: a point within 1 cm of an end of the edge is that end vertex's event (§3.8's 1 cm)
+      const w = coalescing ? JOIN_CM : 0;
+      if (s > sa + w && s < sb - w) splits.push(target);
+      else if (coalescing) add(s - sa <= sb - s ? target : target.next);
       else add(s <= sa ? target : target.next);
     }
     for (const u of verts) {
@@ -671,11 +687,13 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
     if (hooks.skipResolution?.(events) === true) continue;
     const tc = best.t > T ? best.t : T;
     T = tc;
-    // the events coinciding with it join it: one multi-edge event
+    // the events coinciding with it join it: one multi-edge event (the coalescing reading: every event within 1 mm in
+    // offset time and 1 cm in position, §3.8)
     const forced: WV[] = [];
     const targets: WV[] = [];
     for (const e of found) {
-      if (e !== best && !(e.t <= best.t + eps && (e.x - best.x) * (e.x - best.x) + (e.y - best.y) * (e.y - best.y) <= eps * eps)) continue;
+      const d2 = (e.x - best.x) * (e.x - best.x) + (e.y - best.y) * (e.y - best.y);
+      if (e !== best && !(coalescing ? e.t <= best.t + NEAR_CM && d2 <= JOIN_CM * JOIN_CM : e.t <= best.t + eps && d2 <= eps * eps)) continue;
       forced.push(e.u);
       if (e.v !== null) forced.push(e.v);
       if (e.target !== null) targets.push(e.target);
