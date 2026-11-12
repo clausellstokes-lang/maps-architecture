@@ -1,0 +1,36 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "build-M0-a-09-s20-notes",
+  "lane": "build/M0-a-09-fix-s20",
+  "lanes": ["build/M0-a-09-fix-s20"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-11-12T22:46:24.441Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/M0-a-09-notes.md", "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-1-test-plant-oracle.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-1-test.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-2-test.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-3-city.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-1-test.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-2-test.txt", "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-4-city.txt"],
+  "counts": { "created": 8, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/M0-a-09-notes.md", "status": "created", "sha256": "cd8ad2a08fddc73ad30d8c749c106f39a4c4589805ca43d8143188ee8eb75370", "size": 365137 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-1-test-plant-oracle.txt", "status": "created", "sha256": "32eab23a8fd32adb1683bc6014d19a116dda93962e3938dc296b548915d6ad60", "size": 586510 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-1-test.txt", "status": "created", "sha256": "e8f5753270db1b96bf126eef72ccf43c5d0116835ce66bf004fca9d6e9d2944c", "size": 209061 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-2-test.txt", "status": "created", "sha256": "3a67ea24e538e20b563a45e9088a36910280e005f6f75335313f0b5d43326bc6", "size": 225244 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/fusion-3-city.txt", "status": "created", "sha256": "e3d40c46c494e14a902215a19ac421f80303cab2e3bbdd191a2165584dc84891", "size": 1614609 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-1-test.txt", "status": "created", "sha256": "fe78b854b03c6955e53d4bd8d35963430ffcf08157b2f9c99675783df5a7fc12", "size": 552873 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-2-test.txt", "status": "created", "sha256": "25c5805b288fb7b5af1ef524358722feb5fd2d18524fc6bd8f0f8652456701bc", "size": 542723 },
+    { "path": "plat/docs/build/checks/M0-a-09-s20-evidence/integrated-4-city.txt", "status": "created", "sha256": "350536936e1cb1a7801e7dd72a7e661c6ace9841bb1b576acd180af6522ffb64", "size": 2700635 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0841", "L-0842"],
+      "lines": ["d4c427355b047658", "461b5d5cbfabbb29"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0507", "C-0508"],
+      "lines": ["9ce70027593adb3c", "b61e863d8d8c2ce7"],
+      "removed": []
+    }
+  ]
+}

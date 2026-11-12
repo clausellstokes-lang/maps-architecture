@@ -101,6 +101,7 @@ import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { faceWalk as faceWalkOf, setFaceHoles as setFaceHolesOf } from '../../../src/arena/index.js';
 import { compactSlots, decodeArena, encodeArena } from '../../../src/io/index.js';
 import { clean, endsOf, judge, MARGIN_ARC_CM, MARGIN_CM, MARGIN_STRAIGHT_CM, spinesOf, type TruthChain, type Verdict, type XY } from './definition.js';
+import { arbitrate as arbitrateOf, hausdorff, NEAR_CM, relate, ringDist, segDist, servedOf, T, type RelClass, type Served } from './relation.js';
 import { emptyArena, ins as insQ, tx as shellQ } from '../../insert/step3-5/support.js';
 import { AT_S9, commit, framed, nestingProblems, onFrame, own, P, profile, ringsOf, simpleRing, spec, state, type Chord, type ChordWidth, type WideWay } from './support.js';
 
@@ -109,16 +110,10 @@ const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
 const NETS = Math.max(10, Math.floor(RUNS / 100));
 const HARD = 3_600_000;
 
-/** THE NEAR BOUND (line 7): 2 · HOT_PIXEL_CM + √2⁄2 = 2.127 cm, taken as 2.13 cm. */
-const NEAR_CM = 2.13;
-
 // ---- texts, rings, distances ------------------------------------------------------------------------------------------
 
 /** Rings from "x,y x,y …" texts. */
 const R = (s: string): LatticePoint[] => s.split(' ').map((q) => P(Number(q.split(',')[0]), Number(q.split(',')[1])));
-/** Rings to "x,y x,y …" texts. */
-const T = (rs: readonly (readonly XY[])[]): string[] => rs.map((r) => r.map((q) => `${String(q.x)},${String(q.y)}`).join(' '));
-
 /** The QUADRANTS other than the first (round S19, F1): the point reflection and the two axis reflections. */
 const QUADRANTS: readonly (readonly [number, number])[] = [[-1, -1], [-1, 1], [1, -1]];
 /** Rings under (x, y) → (sx·x, sy·y), each ring's orientation kept (reversed where the map turns the plane over). */
@@ -129,51 +124,6 @@ const mirror = (rs: readonly (readonly XY[])[], sx: number, sy: number): Lattice
   });
 /** A region's rings under the map, in KerbRead.region's normal form (canonical rings, compareRings order): X of the mirrored input must be this. */
 const reflected = (rs: readonly (readonly XY[])[], sx: number, sy: number): Ring[] => mirror(rs, sx, sy).map((r) => canonicalRing(r)).sort(compareRings);
-
-/** Distance from q to the segment a–b. */
-function segDist(q: XY, a: XY, b: XY): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l2 = dx * dx + dy * dy;
-  const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * dx + (q.y - a.y) * dy) / l2));
-  return Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy);
-}
-
-/** Distance from q to the rings' outlines. */
-function ringDist(rs: readonly (readonly XY[])[], q: XY): number {
-  let d = Infinity;
-  for (const r of rs) for (let i = 0; i < r.length; i += 1) d = Math.min(d, segDist(q, r[i], r[(i + 1) % r.length]));
-  return d;
-}
-
-/** Every outline of the rings sampled at most 0.25 cm apart (line 7: never hausdorffCm's 4 cm). */
-function samples(rs: readonly (readonly XY[])[]): XY[] {
-  const out: XY[] = [];
-  for (const r of rs) {
-    for (let i = 0; i < r.length; i += 1) {
-      const a = r[i];
-      const b = r[(i + 1) % r.length];
-      const n = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 0.25));
-      for (let k = 0; k < n; k += 1) out.push({ x: a.x + ((b.x - a.x) * k) / n, y: a.y + ((b.y - a.y) * k) / n });
-    }
-  }
-  return out;
-}
-
-/** The two-sided Hausdorff distance of two ring sets' outlines, sampled at 0.25 cm (∞ where one is empty and the other not), and the points beyond `beyond`. */
-function hausdorff(a: readonly (readonly XY[])[], b: readonly (readonly XY[])[], beyond = Infinity): { h: number; far: XY[] } {
-  if (a.length === 0 || b.length === 0) return { h: a.length === b.length ? 0 : Infinity, far: [...samples(a), ...samples(b)] };
-  let h = 0;
-  const far: XY[] = [];
-  for (const [from, to] of [[a, b], [b, a]] as const) {
-    for (const q of samples(from)) {
-      const d = ringDist(to, q);
-      if (d > h) h = d;
-      if (d > beyond) far.push(q);
-    }
-  }
-  return { h, far };
-}
 
 /** Is the lattice point q a vertex of one of the rings? */
 const hasVertex = (rs: readonly (readonly XY[])[], q: XY): boolean => rs.some((r) => r.some((v) => v.x === q.x && v.y === q.y));
@@ -197,70 +147,6 @@ function cyclic(r: readonly XY[]): string {
 }
 
 // ---- the construction relation (line 7) ------------------------------------------------------------------------------
-
-/** How a construction read was served (line 7). */
-interface Served {
-  /** 'first' (one dry run, the first read's), 'faithful' (kerbCensus 'taken': the last), 'moved' (any other case). */
-  readonly by: 'first' | 'faithful' | 'moved';
-  /** The served dry run moved nothing: every call placed its points at themselves, no refusal, none of the move warnings. */
-  readonly noMove: boolean;
-  /** The given rings of every call that moved (the MOVED class's locus, whole outlines). */
-  readonly movedParts: XY[][];
-}
-
-/** The read's service from the wrapper's record (line 7). */
-function servedOf(calls: typeof rec.calls, saves: number, faithful: 'none' | 'tried' | 'taken'): Served {
-  const moved = (c: (typeof rec.calls)[number]): boolean =>
-    c.refused !== null || c.warnings.length > 0 || c.placed === null || c.placed.length !== c.given.length || c.placed.some((q, i) => q.x !== c.given[i].x || q.y !== c.given[i].y);
-  const movedParts = calls.filter(moved).map((c) => c.given);
-  if (faithful === 'none' && saves <= 1) return { by: 'first', noMove: calls.every((c) => !moved(c)), movedParts };
-  if (faithful === 'taken') return { by: 'faithful', noMove: false, movedParts };
-  return { by: 'moved', noMove: false, movedParts };
-}
-
-/** Line 7's classes. */
-type RelClass = 'EQUAL' | 'NEAR' | 'MOVED' | 'BEYOND';
-
-/**
- * THE NEAR BOUND AT A TIP (the derivation of line 7 completed at an acute corner): on a no-move read the construction's
- * crossing p stands within HOT_PIXEL_CM of each of its two lines, so within HOT_PIXEL_CM ⁄ sin(θ⁄2) of their exact
- * crossing x along the corner's bisector (θ the corner's angle — the points within h of two lines meeting at θ form a
- * rhombus of half-diagonal h ⁄ sin(θ⁄2)), and X_U's corner is x rounded half away (within √2⁄2): a difference at a convex
- * corner of either outline lies within HOT_PIXEL_CM ⁄ sin(θ⁄2) + HOT_PIXEL_CM + √2⁄2 of that corner. At θ ≥ 90° this is
- * within NEAR_CM; at a shallow corner (two strips' edges a few degrees apart) it is not — the round's first PR-size run met
- * 2.24 and 2.83 cm at corners of 15° and 9°, every other point of those outlines within 0.7 cm.
- */
-function tipNear(rs: readonly (readonly XY[])[], q: XY): boolean {
-  for (const r of rs) {
-    const n = r.length;
-    for (let i = 0; i < n; i += 1) {
-      const a = r[(i + n - 1) % n];
-      const v = r[i];
-      const b = r[(i + 1) % n];
-      const ux = a.x - v.x;
-      const uy = a.y - v.y;
-      const wx = b.x - v.x;
-      const wy = b.y - v.y;
-      // a convex corner of the region (on the ring's left): a left turn a → v → b
-      if ((v.x - a.x) * (b.y - v.y) - (v.y - a.y) * (b.x - v.x) <= 0) continue;
-      const theta = Math.acos(Math.max(-1, Math.min(1, (ux * wx + uy * wy) / (Math.hypot(ux, uy) * Math.hypot(wx, wy)))));
-      const bound = HOT_PIXEL_CM / Math.sin(theta / 2) + HOT_PIXEL_CM + Math.SQRT2 / 2;
-      if (Math.hypot(q.x - v.x, q.y - v.y) <= bound) return true;
-    }
-  }
-  return false;
-}
-
-/** The relation of a construction region to its comparand (line 7). */
-function relate(region: readonly (readonly XY[])[], comparand: readonly (readonly XY[])[], served: Served): { cls: RelClass; h: number; tip?: boolean } {
-  if (JSON.stringify(T(region)) === JSON.stringify(T(comparand))) return { cls: 'EQUAL', h: 0 };
-  const { h, far } = hausdorff(region, comparand, NEAR_CM);
-  if (h <= NEAR_CM) return { cls: 'NEAR', h };
-  // every difference beyond NEAR_CM at a convex corner, within its tip bound (both outlines non-empty)
-  if (region.length > 0 && comparand.length > 0 && far.every((q) => tipNear(region, q) || tipNear(comparand, q))) return { cls: 'NEAR', h, tip: true };
-  if (!served.noMove && h <= DRY_MOVE_CM && served.movedParts.length > 0 && far.every((q) => served.movedParts.some((pt) => ringDist([pt], q) <= DRY_MOVE_CM))) return { cls: 'MOVED', h };
-  return { cls: 'BEYOND', h };
-}
 
 // ---- the corpus (line 9): the test's own networks and cuts, recorded --------------------------------------------------
 
@@ -549,37 +435,9 @@ function readAll(n: Net, f: FaceId, tag: string, fig: Figures): ReadOut {
     let rel: ReadOut['rel'] = null;
     let straight: ReadOut['straight'] = null;
     let lemma: ReadOut['lemma'] = null;
-    /**
-     * Line 7's arbitration of a BEYOND read by the oracle (the construction's region against its comparand): the
-     * comparand wrong ⇒ the round fails — save where the comparand is the construction READING's region (`isReading`)
-     * and that reading is not X's (another spine set: the census read J318's reach on its attracted base, not on X_E; or,
-     * served first, its UNREDUCED runs: a T vertex near a junction end turns the end's line with the kink): then the
-     * region over X's own spines and runs is judged in its place, and only exactRegion's error there fails; the reading's
-     * difference is the construction's case. The construction wrong and the comparand right ⇒ the construction's case;
-     * neither wrong ⇒ a no-move read fails, a moved one is listed.
-     */
-    const arbitrate = (region: readonly (readonly XY[])[], comparand: readonly (readonly LatticePoint[])[], served: Served, isReading: boolean): { fails: boolean; line: string } => {
-      const sp2 = spinesOf(Fr, truth);
-      const vc = judge(Fr, truth, comparand, exempt, sp2);
-      const vr = judge(Fr, truth, region as LatticePoint[][], exempt, sp2);
-      const where = `${tag}: ${served.noMove ? 'a no-move' : 'a moved'} read (${served.by}) ${hausdorff(region, comparand).h.toFixed(2)} cm from its comparand`;
-      if (!clean(vc)) {
-        const xKeys = content.ok ? content.value.spines.map((s2) => s2.key).sort() : [];
-        const cKeys = k.ok ? [...k.value.spines.keys()].sort() : [];
-        const sameSpines = JSON.stringify(xKeys) === JSON.stringify(cKeys);
-        if (isReading && content.ok && (!sameSpines || served.by !== 'faithful')) {
-          const xs = new Map([...rf.spines, ...rf.through.filter((s2) => content.value.reaching.includes(s2.key)).map((s2) => [s2.key, s2] as const)]);
-          const ps = kerbParts(rf.rings, xs, true);
-          if (ps.ok && clean(judge(Fr, truth, exactRegion(rf.rings, ps.value), exempt, sp2))) {
-            return { fails: false, line: `${where} — the construction's reading (${sameSpines ? '' : `its spines ${JSON.stringify(cKeys)}, X's ${JSON.stringify(xKeys)}; `}${served.by === 'faithful' ? '' : 'its unreduced runs'}): the region over X's spines and runs right` };
-          }
-        }
-        return { fails: true, line: `${where} — the oracle finds the comparand wrong: ${JSON.stringify([...vc.misses, ...vc.vertexFaults].slice(0, 3))}` };
-      }
-      if (!clean(vr)) return { fails: false, line: `${where} — the construction's case (${tipClass(vr, truth)}): ${JSON.stringify([...vr.misses, ...vr.vertexFaults].slice(0, 2))} rings ${JSON.stringify(T(region))}` };
-      if (served.noMove) return { fails: true, line: `${where} — neither found wrong by the oracle` };
-      return { fails: false, line: `${where} — neither found wrong by the oracle (new): rings ${JSON.stringify(T(region))}` };
-    };
+    // line 7's arbitration of a BEYOND read (relation.ts `arbitrate`, lifted from this closure by round S20's line 6 (a))
+    const arbitrate = (region: readonly (readonly XY[])[], comparand: readonly (readonly LatticePoint[])[], served: Served, isReading: boolean): { fails: boolean; line: string } =>
+      arbitrateOf({ tag, Fr, truth, exempt, content, k, rf }, region, comparand, served, isReading);
     if (!ex.ok) {
       if (k.ok) {
         fig.xRefusedWhereOk += 1;
@@ -731,19 +589,6 @@ function readAll(n: Net, f: FaceId, tag: string, fig: Figures): ReadOut {
   for (const s of failures) fig.failures.push(s);
   for (const s of r.constructionCases) fig.constructionCases.push(s);
   return r;
-}
-
-/** A construction-wrong case's class (line 7): an acute tip or bend (Q110 (c), Q117's tips) where its fault lies by a chain's end or bend, else new. */
-function tipClass(v: Verdict, chains: readonly TruthChain[]): string {
-  const at = [...v.vertexFaults, ...v.misses].map((s) => /\((-?[\d.]+), (-?[\d.]+)\)/.exec(s)).filter((m) => m !== null).map((m) => ({ x: Number((m as RegExpExecArray)[1]), y: Number((m as RegExpExecArray)[2]) }));
-  for (const q of at) {
-    for (const c of chains) {
-      const hw = c.hw === null ? 0 : typeof c.hw === 'number' ? c.hw : Math.max(c.hw[0], c.hw[1]);
-      const tips = c.closed ? c.points : [c.points[0], ...c.points.slice(1, -1), c.points[c.points.length - 1]];
-      if (tips.some((t) => Math.hypot(t.x - q.x, t.y - q.y) <= hw + DRY_MOVE_CM)) return 'Q110 (c) / Q117 tip';
-    }
-  }
-  return 'new';
 }
 
 /** A lane draw: its landings' edge picks and parameters, its bend, half-width and ends. */

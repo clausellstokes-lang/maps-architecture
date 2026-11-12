@@ -68,10 +68,23 @@
 //     the rings in `compareRings` order (KerbRead.region's normal form).
 import type { FaceId, Plat } from '../arena/index.js';
 import { HOT_PIXEL_CM } from '../index/index.js';
+import { DEBUG_BUILD } from '../invariants/debug.js';
 import { area2, err, ok, orient2d, ratio, snap, type KernelResult } from '../num/index.js';
 import { check } from '../tx/state.js';
 import type { LatticePoint } from '../types/index.js';
-import { coveredBy, kerbParts, ownRings, reaches, readFace, unspiked, type Spine, type SpineWidths } from './kerb.js';
+import {
+  coveredBy,
+  kerbParts,
+  ownRings,
+  reaches,
+  readFace,
+  setReadShadow,
+  unspiked,
+  type LastRead,
+  type ReadShadow,
+  type Spine,
+  type SpineWidths,
+} from './kerb.js';
 import { canonicalRing, compareRings, dropStraight, simpleLoops, type Ring } from './winding.js';
 
 // ---- exactRegion: the one arrangement, snap-rounded --------------------------------------------------------------------
@@ -653,7 +666,14 @@ function exactRingRule(ring: readonly LatticePoint[], parts: readonly Ring[]): L
  * Refuses only where readFace or bufferParts refuse. Reads the arena only.
  */
 export function exactKeyContent(p: Plat, face: FaceId, widths: SpineWidths, vertexContacts = true): KernelResult<ExactKeyContent> {
-  const f = readFace(p, face, widths, new Map(), vertexContacts);
+  return exactKeyContentOfRead(readFace(p, face, widths, new Map(), vertexContacts), vertexContacts);
+}
+
+/**
+ * exactKeyContent on a face record already read (round S20, line 3): steps (2) – (6) on `f` as given — the served read's
+ * own record where the shadow calls it (no second readFace, so the caller's widths callback is not asked again).
+ */
+export function exactKeyContentOfRead(f: ReturnType<typeof readFace>, vertexContacts: boolean): KernelResult<ExactKeyContent> {
   const partsOf = (s: Spine): KernelResult<Ring[]> => kerbParts(f.rings, new Map([[s.key, s]]), true);
   const edgeKeys = [...f.spines.keys()].sort(exactByText);
   const edgeParts: Ring[] = [];
@@ -704,7 +724,114 @@ export function exactKey(p: Plat, face: FaceId, widths: SpineWidths, vertexConta
 
 /** §3.7's exact kerb X(F) and its key (the module comment): writes nothing; refuses where readFace or bufferParts refuse. */
 export function exactRegionOfFace(p: Plat, face: FaceId, widths: SpineWidths, vertexContacts = true): KernelResult<{ key: string; region: Ring[] }> {
-  const c = exactKeyContent(p, face, widths, vertexContacts);
+  return exactRegionOfRead(readFace(p, face, widths, new Map(), vertexContacts), vertexContacts);
+}
+
+/** X and its key on a face record already read (round S20, line 3): exactRegionOfFace's steps on `f` as given. */
+export function exactRegionOfRead(f: ReturnType<typeof readFace>, vertexContacts: boolean): KernelResult<{ key: string; region: Ring[] }> {
+  const c = exactKeyContentOfRead(f, vertexContacts);
   if (!c.ok) return err(c.code, c.detail);
   return ok({ key: c.value.text, region: exactRegionOfKey(c.value) });
+}
+
+
+// ---- the shadow: X beside each served read (round S20, line 4) ---------------------------------------------------------
+
+/** What the shadow hands its observer per served read (round S20): the served read, X beside it, and the two times. */
+export interface ExactShadowRead {
+  /** The arena the read was made on, at the moment its served outcome is fixed (read it; never write it). */
+  readonly p: Plat;
+  readonly face: FaceId;
+  /** The served read's own face record (readFace's, with the caller's cache and flag). */
+  readonly f: ReturnType<typeof readFace>;
+  readonly vertexContacts: boolean;
+  /** The construction's region (KerbRead.region's source) as the read fixed it, its warnings included. */
+  readonly construction: KernelResult<Ring[]>;
+  /** The splits read on it (KerbRead.kerb and .splits' source); null where the construction refused. */
+  readonly sp: KernelResult<{ rings: Ring[]; splits: LatticePoint[][] }> | null;
+  /** The served outcome as readKerb returns it: its region and kerb, or its refusal. */
+  readonly served: { readonly ok: true; readonly region: readonly Ring[]; readonly rings: readonly Ring[] } | { readonly ok: false; readonly code: string; readonly detail: string };
+  /** The spines the construction read with (its census's reaching ones added). */
+  readonly spines: ReadonlyMap<string, Spine>;
+  /** The census's reaching keys, where the face had vertex-only contacts. */
+  readonly reaching: readonly string[] | null;
+  readonly faithful: LastRead['faithful'];
+  readonly restaged: boolean;
+  /** The served read's warning codes, in order. */
+  readonly warnings: readonly string[];
+  /** X and its key, or X's refusal (a value, never a throw). */
+  readonly exact: KernelResult<{ key: string; region: Ring[] }>;
+  /** The construction's time (start → done) and X's, in the observer's clock's unit; null without a clock. */
+  readonly constructionMs: number | null;
+  readonly exactMs: number | null;
+}
+
+/** The shadow's observer: the caller's clock (milliseconds; none: no times) and the record sink. */
+export interface ExactObserver {
+  clock?: () => number;
+  read(r: ExactShadowRead): void;
+  /** Told of an exception thrown inside X before it propagates out of the read (it is rethrown, never swallowed). */
+  failed?(face: FaceId, e: unknown): void;
+}
+
+/**
+ * Installs (or, with null, removes) the shadow: per served read, X computed beside it on the read's own face record and
+ * handed to `o` with the served outcome. Installs only in a debug build, or where `opts.anyBuild` asks (a forced
+ * production measurement in a mirror, alone; round 2B removes it or rules its guard before any served path imports this
+ * module). Returns whether it installed. Nothing installs it at module evaluation. The shadow writes nothing and serves
+ * nothing; an exception inside X or the observer propagates out of the read.
+ */
+export function setExactShadow(o: ExactObserver | null, opts: { anyBuild?: boolean } = {}): boolean {
+  if (o === null) {
+    setReadShadow(null);
+    return false;
+  }
+  if (!DEBUG_BUILD && opts.anyBuild !== true) return false;
+  const clock = o.clock;
+  const starts: (number | null)[] = [];
+  const shadow: ReadShadow = {
+    start(): void {
+      starts.push(clock === undefined ? null : clock());
+    },
+    done(p, face, f, vertexContacts, read, restaged, sp, last): void {
+      const t1 = clock === undefined ? null : clock();
+      const t0 = starts.length > 0 ? (starts.pop() as number | null) : null;
+      const t2 = clock === undefined ? null : clock();
+      let exact: KernelResult<{ key: string; region: Ring[] }>;
+      try {
+        exact = exactRegionOfRead(f, vertexContacts);
+      } catch (e) {
+        if (o.failed !== undefined) o.failed(face, e);
+        throw e;
+      }
+      const t3 = clock === undefined ? null : clock();
+      const k = read.k;
+      const served: ExactShadowRead['served'] = !k.ok
+        ? { ok: false, code: k.code, detail: k.detail }
+        : sp === null
+          ? { ok: false, code: 'E_INVARIANT', detail: 'arr: a read without its splits' }
+          : !sp.ok
+            ? { ok: false, code: sp.code, detail: sp.detail }
+            : { ok: true, region: k.value, rings: sp.value.rings };
+      o.read({
+        p,
+        face,
+        f,
+        vertexContacts,
+        construction: k,
+        sp,
+        served,
+        spines: read.spines,
+        reaching: read.census === undefined ? null : read.census.reaching,
+        faithful: last.faithful,
+        restaged,
+        warnings: k.ok ? k.warnings.map((w) => w.code) : [],
+        exact,
+        constructionMs: t0 === null || t1 === null ? null : t1 - t0,
+        exactMs: t2 === null || t3 === null ? null : t3 - t2,
+      });
+    },
+  };
+  setReadShadow(shadow);
+  return true;
 }

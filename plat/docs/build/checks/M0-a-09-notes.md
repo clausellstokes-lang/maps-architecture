@@ -2437,3 +2437,986 @@ mutant in the checker's mirror; the gates green; no new blocker. The rows below 
      base comparison of NEAR uses the S18 checker's base run at seed −851511598 (`runA/base.log`), the base mirror being
      unchanged since. The seat re-ran the S18 checker's probe scripts and bundle script unchanged. No git command; nothing
      under `docs/validation/`, the design or the amendment opened.
+
+## Hardening round S20 — builder (lane `build/M0-a-09-fix-s20`, 2026-11-11 / 12)
+
+The wiring and measurement round of round 2A (item 986; J742 R-A (6) – (8), J744 (2), J765, J769). X(F) is wired in as a
+debug-only shadow beside `readKerb` and measured at CITY on every L1 read S8 and the harness's S9 batches make; it serves
+nothing (NO-SHIFT shown by lines 7 and 8). **THE ORACLE'S FLOOR (OQ-2): NOT VOID** — at every seed the oracle judged
+every distinct key (share 1.000; 0 UNJUDGED faces of any class, the frame-side end among them), and found 0 faults.
+**THE FINDING THIS SEAT RETURNS BLOCKED ON (LINE 7's control bar):** at every seed of line 7, CITY and TEST_SIZE, EVERY
+served read carries `W_ATTRACTED` (fusion 3: 5 242 / 5 242; integrated 4: 5 967 / 5 967; the TEST_SIZE seeds likewise)
+— a dry run's part collapsing to a point or finding no route (kerb.ts:1447-1450) — so the brief's binding CITY no-move
+reading (FIRST and none of W_ATTRACTED, W_PLACED, W_SNAP_PASSES, W_WEDGE_ROUTED: line 6 (a)) leaves **0 no-move reads**
+everywhere. Hence (i) `--plant-relation 5` plants nothing and cannot print FAIL — its run printed `PASS — PASS relation ok
+(the relation control VOID: 0 no-move reads to plant)`, and line 7 says "a control that stays green fails the round";
+(ii) T2's no-move columns and Q178 (a)'s count are 0 for want of no-move reads, not by measurement; (iii) a moved read's
+5 cm is MOVED by design (within DRY_MOVE_CM), so no CITY read can show a 5 cm relation error. The oracle control FAILS as
+asked (239 faults). The same plant FAILS on the test corpus, where no-move reads exist (observer.test.ts 'both plants
+FAIL'; derived.test.ts's planted line). This is a contradiction between the brief's CITY reading and its control bar on
+the data, for the SESSION (e.g. a per-call locus at CITY, a no-move reading without W_ATTRACTED's collapse case, or
+another control); this seat decides nothing of it. Everything else of the round is built, pinned, measured and gated.
+
+199. **LINE 1 — FIXED, PINNED.** `arr/kerb.ts`: `export interface ReadShadow { start(): void; done(p: Plat, face: FaceId,
+     f: ReturnType<typeof readFace>, vertexContacts: boolean, read: ReturnType<typeof censusRead>, restaged: boolean, sp:
+     ReturnType<typeof splitsOn> | null, last: LastRead): void }`, `let readShadow: ReadShadow | null = null` and `export
+     function setReadShadow(s: ReadShadow | null): ReadShadow | null` (returns the one replaced; setFrameObserver's form),
+     placed after `kerbCensus` (:1924-1938 on the tree); in `readKerb` (:2180) exactly two statements — `const sh =
+     readShadow; if (sh !== null) sh.start();` before `readFace` (:2183-2184) and `if (sh !== null) sh.done(p, face, f,
+     vertexContacts, read, read.staged !== undefined, sp, CENSUS.get(p) as LastRead);` right after `CENSUS.set`. No import,
+     no body line moved, no rename, no string literal. The declaration emit takes `ReturnType<typeof censusRead>` (`tsc -b`
+     and `corepack pnpm build` exit 0; the .d.ts declares `censusRead` locally) — no alias was needed. The module comment
+     gains one paragraph (:124-129) naming arr/kerbExact.ts, `setExactShadow`, `setReadShadow`, and that production
+     bundles never import kerbExact.ts. Pins (shadow.test.ts, a recording ReadShadow through `setReadShadow`, no
+     kerbExact.ts): one start then one done per read, on a refused read (a CENSUS_DEEP fixture of restage.test.ts's form,
+     rebuilt), on a faithful-taken read (hardening-s16's row-127 form: done's `read.k` = the returned region, `last.faithful`
+     'taken'); a throwing widths callback → start seen, done not; null → neither. Mutants HM1 (done before the faithful
+     decision), HM2 (done after the refusal's return), HM3 (start after readFace): KILLED (row 211).
+200. **LINE 2 — HELD (the accounting).** No row of `tools/lint/kernel-boundary.allow.json` added, raised or lowered.
+     `corepack pnpm lint` exit 0 on the tree with `lint: kernel-boundary ok` (and `lint: probe-red ok`). Town-noun token
+     counts base → tree (`probe-s20/tokens.mjs`, the rule's own word split): arr/kerb.ts ident `kerb` 20 → 20, string
+     `kerb` 8 → 8; arr/kerbExact.ts ident `kerb` 2 → 2, string `kerb` 1 → 1; arr/index.ts ident `kerb` 1, string `kerb`
+     1 (and corridor 2/1, band 4/1, tile 2/1) unchanged. Every new name (ReadShadow, readShadow, setReadShadow, start, done,
+     sh; exactKeyContentOfRead, exactRegionOfRead, ExactShadowRead, ExactObserver, setExactShadow, anyBuild, failed) carries
+     no town noun; kerbExact.ts's `setReadShadow, type LastRead, type ReadShadow` joined its EXISTING './kerb.js' import (no
+     new specifier string) and `DEBUG_BUILD` comes from '../invariants/debug.js'. NO IMPORT CYCLE: kerb.ts gains no import;
+     the hook is installed from kerbExact.ts, which the production graph imports nowhere (row 205 (3)). bandUnion.ts,
+     corridorUnion.ts, tileRings.ts and arr/index.ts untouched. Mutant BM1 (setter `setKerbShadow`): lint red
+     `kernel-boundary: packages/kernel/src/arr/kerb.ts:…: town noun "kerb" in an identifier (21 uses, the allowlist caps
+     20 …)` — KILLED.
+201. **LINE 3 — FIXED, PINNED.** kerbExact.ts gains `exactKeyContentOfRead(f, vertexContacts)` (exactKeyContent's body
+     from its `kerbParts` call on, unchanged) and `exactRegionOfRead(f, vertexContacts)` (exactRegionOfFace's body on it);
+     `exactKeyContent` = `exactKeyContentOfRead(readFace(p, face, widths, new Map(), vertexContacts), vertexContacts)`,
+     `exactRegionOfFace` delegates likewise, `exactKey` through `exactKeyContent` — every S18 export keeps its signature and
+     output. The shadow calls `exactRegionOfRead` on the served read's own `f`, never `readFace`. Both names unique in
+     packages/*/src and in no COUNT_FNS entry. Pins: (i) the differential pin (shadow.test.ts, every fixture face and the
+     corpus slice: `exactRegionOfRead(readFace(…), vc)` byte-equal to `exactRegionOfFace(…)`, key and region); (ii) the
+     widths pin (the caller's widths callback called as often on as off, read for read); (iii) `PLAT_FUZZ_SEED=518964130
+     corepack pnpm exec vitest run --maxWorkers=1 --silent=false packages/kernel/test/arr/bands/derived.test.ts`: base
+     mirror rc 0 46/46 (383.8 s), tree rc 0 46/46 (388.9 s); the two DERIVED lines and the UNTOUCHED KEY lines IDENTICAL
+     base → tree but the X / construction times (compared field by field), and the base's equal notes row 192 (row 172
+     for straight lanes) figure for figure: straight 100/91, cuts 413, judged 1 678, classes 637 / 129 (tip 10) / 792 /
+     118, no-move 397 / 20 / 0 / 0, served 1 606 / 38 / 32, straight-through 696 max 845.09 cm, keys 1 215 for 813 X,
+     identity 680 / 826, planted 191 / 191; bent + slits 100/93, cuts 463 (slits 14), judged 1 892, 538 / 87 (13) / 1 030 /
+     234, no-move 295 / 7 / 0 / 0, served 1 648 / 154 / 87, straight-through 840 max 41.77 cm, keys 1 410 for 996 X,
+     identity 735 / 912, planted 98 / 98 — no difference to rule (J765 (4) not needed). Mutants XF1 (the shadow's X by a
+     second `readFace` with the caller's widths: widths pin `[6,6]` ≠ `[3,3]`) and XF2 (exactKeyContentOfRead without the
+     ring rule: derived.test.ts's narrow-band line) — KILLED.
+202. **LINE 4 — FIXED, PINNED.** kerbExact.ts: `ExactShadowRead` (per read: p, face, f, vertexContacts, the construction's
+     KernelResult, sp, the served outcome — region and kerb rings, or code and detail —, the construction's spines,
+     `reaching`, `faithful`, `restaged`, the warning codes, X's key and region or its refusal, `constructionMs`, `exactMs`),
+     `ExactObserver { clock?: () => number; read(r): void; failed?(face, e): void }` and `setExactShadow(o, opts = {})`:
+     installs through `setReadShadow` only where `DEBUG_BUILD` or `opts.anyBuild`; null uninstalls; returns whether it
+     installed; nothing at module evaluation; no environment variable, no clock of its own (t0 at start, t1 at done, X
+     between t2 and t3 by the caller's clock), no write of any kind (arena, index, batch, CENSUS, log). An exception in X
+     or the observer propagates out of `readKerb`. DEVIATION (choices row): `failed?` lets the observer record an exception
+     thrown inside X before it is RETHROWN (catch, notify, rethrow — never swallowed), so line 7's "exceptions 0" counts a
+     throw a batch might swallow. Pins: row 203. Mutants SM1 – SM5 KILLED (row 211). THE anyBuild CARRY (J759 (3) Q2):
+     `anyBuild` exists for line 9's forced production run alone (a mirror's bundle entry, never the tree) and is dead in
+     production while nothing served imports kerbExact.ts; it MUST NOT stay live once kerbExact.ts is served — round 2B
+     removes it, or the session rules its guard, before any served path imports kerbExact.ts.
+203. **LINE 5 — PINNED (new files; dryrun.test.ts and restage.test.ts untouched).** `test/arr/bands/shadow.test.ts` (9
+     tests; dryrun.test.ts's mock form plus `buildOverlay`, the widths callback counted): on every fixture face and the
+     corpus slice (B-FUZZ chord networks at max(10, RUNS ÷ 100), every live L1 face, the children of three S8-style cuts a
+     network: `SHADOW corpus: 100 networks, 1084 reads compared off / on, 342 cut children` at the PR size) each read made
+     twice on equal arenas, off then on: readKerb's and kerb()'s KernelResult (JSON, warnings included), `kerbCensus(p)`,
+     the createPlat / buildOverlay / insertChain / opSave counts and the widths calls, `bits(p)` and `state(p)` after —
+     EQUAL; on: one record per read, its served outcome the read's, its X `exactRegionOfFace`'s (taken after the counts);
+     the planted throw (a `vi.mock` of '../../../src/arr/kerb.js' spreading `...real`, `kerbParts` throwing on one named
+     face's rings — never a mock of kerbExact.ts's own exactRegion) makes readKerb throw that error, an observer throwing
+     on that face makes readKerb throw its error; after `setExactShadow(null)` 0 records; line 1's hook pins.
+     `shadow-prod.test.ts` (1 test; `vi.mock('../../../src/invariants/debug.js')` → DEBUG_BUILD false): `setExactShadow(o)`
+     false and 0 records; `{ anyBuild: true }` true and one record. REPORTED: wall-clock of the two files at
+     PLAT_FUZZ_RUNS 1 000 4.67 s, at the PR size 16.63 s (vitest Duration, W = 1); `PLAT_UNDO_ORACLE=1` run of
+     shadow.test.ts: `undo-oracle: marks {"batch":3141,"op":537,"dry-run":2274} compared {"batch":1370,"op":0,"dry-run":2274}
+     failures 0` (9/9 green).
+204. **LINE 6 — BUILT, PINNED.** Test-side modules loading without vitest (each imported by plain `tsx` in the runner):
+     (a) `relation.ts` — MOVED verbatim from derived.test.ts: NEAR_CM, T, segDist, ringDist, samples, hausdorff, Served,
+     servedOf (its `typeof rec.calls` typed as `DryCall`), RelClass, tipNear, relate, tipClass; THE ARBITRATION lifted to
+     `arbitrate(input, region, comparand, served, isReading)` (body verbatim; the input may carry `spinesOf` / `judge` so
+     the arena form passes its capped pair); new `MOVE_WARNINGS`, `servedOfRead(last, restaged, warnings)` and `relateRead`
+     (MOVED at CITY := BEYOND, moved, two-sided h ≤ DRY_MOVE_CM — a REPORTED class, `cityMoved`). derived.test.ts imports
+     them; no assertion changed (row 201 (iii) proves the move). (b) `definition.ts` — ADDITIONS ONLY beside the one
+     re-pointed import of `simpleRing` (now from `simple.ts`, a verbatim copy of support.ts's): the arena form
+     `truthOfFace(p, face, widths)` (incident chains walked from the arena's rows of level ≤ 1, ordinal 0, on or leaving
+     F's L1 route; scalar half-widths; declared ends; junction ends by `endsOf`, onFrame := on the arena's frame ring —
+     READ AS the level-0 edges carrying a `margin` row), `CAP_SAMPLES` 4 000, `gridOfStep`, `judgeCapped` (each chain
+     clipped to F's box grown by its half-width + MARGIN_CM, segments bucketed, step max(GRID_CM, √(area ⁄ 4 000)), each
+     face's step written to the seed's evidence file); UNJUDGED classes 'profile reading', 'frame-side end', 'retracing
+     route', 'not one run', 'unreadable frame' — never a pass. judge, endsOf, spinesOf, bufferOf, gridOf and every existing
+     export byte-unchanged. (c) `observer.ts` — `ShadowObserver` (per key the first X, a later different X THROWS (k1); the
+     relation per read against X_U / X_F; the oracle once per key; the lineage — the LATEST earlier distinct content whose
+     route region holds F's —; the identity I(F) classed as row 168; T1 – T7; the two plants), `verdictLine`,
+     `widthsFromRead`, `hausdorffFast` (bucketed; pinned equal to relation.ts's hausdorff). `observer.test.ts` (6 tests):
+     the classes equal derived.test.ts's wherever the two no-move readings agree, an attracted first read never no-move;
+     hausdorffFast = hausdorff; OB3's import pin; the arena form's verdict = the record form's on every corpus face it
+     judges, both failing X + 10 cm; a two-cut fixture's lineage and identity; both plants FAIL. Mutants OB1 – OB3 KILLED
+     (row 211). [Fix round S21 (row 239): this pin was red by the seed — 'both failing X + 10 cm' (the capped step need not
+     sample the ≈ 2 cm strip a 10 cm plant leaves: F1) and 'the arena form's verdict = the record form's' (the record's
+     placed points and the arena's walked route differ where a crossing splits or snaps a chain: seed 123). Restated:
+     at GRID_CM the capped form IS judge on the arena's truth; its vertex and simplicity checks are the same at its
+     capped step, so a plant failed by them is failed there; record = arena where their chain geometry coincides; a
+     sample-only catch at the capped step and the cross-reading verdicts elsewhere are counted, never promised.]
+205. **LINE 7 — MEASURED; ITS FAILING BARS: all green but the relation control (THE FINDING above).** THE RUNNER
+     (row 214, verbatim), from the self-check mirror: `cd /home/user/maps-scratch/waves/selfcheck-build-M0-a-09-fix-s20/plat
+     && corepack pnpm exec tsx --conditions=plat-source /home/user/maps-scratch/waves/s20/probe-s20/city.ts --run <fusion|
+     integrated> --seed N [--frame-ha 900 --walled-ha 30] [--plant-relation 5 | --plant-oracle 10] --evidence
+     /home/user/maps-architecture/plat/docs/build/checks/M0-a-09-s20-evidence` (one process, no worker thread, in a chain).
+     Per seed — OFF / ON SeedRecords (stampsMs aside) byte-identical and roots equal: fusion 3 CITY db72c0bf0fa021ca873fd7f5f6f30d7b;
+     integrated 4 CITY e9e96e0e6a2e88e587c968796e0ef03e; fusion 1 TEST 5ca73bb609c457f9cad5647edbf3df35; fusion 2 TEST
+     5860f66d5dfad7d32f6257ab398ecf56; integrated 1 TEST 6770012c6f75a48734cbbe2dc736b251; integrated 2 TEST
+     63a5d584d7d0f65c2a71daf9b7e62eef. Reads ≥ faces.cuts everywhere (5 242 ≥ 1 207; 5 967 ≥ 1 373; 456 ≥ 105; 469 ≥ 108;
+     736 ≥ 170; 730 ≥ 166); keys judged > 0; oracle faults 0; FAILING arbitrations 0; X refused where ok 0; (k1) 0;
+     exceptions 0; VERDICT PASS at all six seeds. Controls (fusion 1 TEST, ON only): `--plant-oracle 10` → `VERDICT … (PLANTED
+     oracle +10 cm): FAIL — FAIL relation ok; oracle FAIL 239; …` (as asked); `--plant-relation 5` → `VERDICT … (PLANTED
+     relation +5 cm): PASS — PASS relation ok (the relation control VOID: 0 no-move reads to plant); …` — the control STAYS
+     GREEN: line 7's bar fails on the data (THE FINDING). OQ-1: 0 faces UNJUDGED as 'frame-side end' at every seed, so the
+     three to list do not exist (the evidence files' 'frame-side ends' blocks are empty). Q178 (c) / row 180: these tables
+     read S8's own cuts and stand for S8.
+206. **LINE 8 — MEASURED; NO-SHIFT HOLDS on every item.** (1) Roots (prod; `corepack pnpm bench -- profile --seed 3` and
+     `… --run integrated --seed 4`, plain): base P1 `root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks 1057`, tree P5
+     the same; base P2 `root e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310`, tree P6 the same. (2) Counts
+     (`--mode count --fns <COUNT_FNS>,mark,undoTo,markBatch,setReadShadow,setExactShadow,exactRegionOfRead`): P3 = P7 and
+     P4 = P8 on EVERY name (diffed); the definitions moved only inside kerb.ts by the hook's lines (readKerb
+     kerb.ts:2153 → :2180, kerb :2226 → :2256, readOn :1918 → :1945, censusRead :1725 → :1732, dryRun :861 → :868, dryClose
+     :866 → :873, dryInsert :1401 → :1408, dryRegion :1490 → :1497, labelPoint :1846 → :1853, clipWindow :911 → :918; every other file:line
+     equal, both seeds; integrated 4: readKerb 3 121); fusion 3: readKerb 2 764,
+     insertChain 104 151, opSave 3 993, mark 383 920 (insertChain.ts:1007 379 927 + tx/frames.ts:304 3 993), undoTo 2 783,
+     markBatch 33, takeSavepoint / restoreSavepoint 0; setReadShadow, setExactShadow, exactRegionOfRead: no definition, 0.
+     (3) The bundle's code part (S18's row 169 method, `probe-s20/bundle.ts` in each mirror, PLAT_ROOT tokenised): base
+     8 514 996 B (code 1 740 645), tree 8 519 519 B (code 1 740 832); `diff` = 4 added lines, exactly the hook: `var
+     readShadow = null;`, `const sh = readShadow;`, `if (sh !== null) sh.start();`, `if (sh !== null) sh.done(p, face, f2,
+     vertexContacts, read2, read2.staged !== void 0, sp, CENSUS.get(p));` (the setter tree-shaken: no caller); in the tree's
+     code part setExactShadow, exactRegionOfRead, exactKeyContentOfRead, exactRegion, exactKey, kerbExact, setReadShadow,
+     anyBuild 0 each — the shadow absent from production, the hook dead. (4) `corepack pnpm bench -- fusion --from 3 --seeds 1
+     --runs fusion` and `--from 4 --seeds 1 --runs integrated` (one worker), base and tree: report.json byte-identical
+     (sha256 43d9a12a… and 68fa9866…). (5) The census: row 207. (6) The bands folder at the PR size, W = 1: base seed
+     −1088031545 `6 failed | 221 passed (227)` (1 080.9 s); tree at that seed `6 failed | 237 passed (243)` (1 122.2 s) —
+     the six are Q152's six, the same names and the same assertion texts and values (the two logs' AssertionError /
+     Expected / Received lines diffed: identical); every base-passing test passes; the 16 new tests green. (7) The gates:
+     row 208. REPORTED: NEAR's wall-clock base 1 080.9 s → tree 1 122.2 s; RELATED@1000 on the tree 12 776.9 s (no base
+     RELATED run was made — 3.5 h a run; SEQ-14's ≈ 5 121 s was a narrower set).
+207. **THE CENSUS (rule (4); J264, N-58).** The `B-FUZZ bands` lines of row 206 (6)'s two runs IDENTICAL: `B-FUZZ bands:
+     10000 networks, 9992 committed; refusals per operation {"kerb":{"insertChain":4,"own":0},"corridorUnion":
+     {"insertChain":8,"own":0},"bandUnion":{"insertChain":4,"own":0}} …` and `B-FUZZ bands (widened): 2000 networks, 1994
+     committed, 772 faces with a hole; refusals per operation {"kerb":{"insertChain":6,"own":0},"corridorUnion":
+     {"insertChain":6,"own":0},"bandUnion":{"insertChain":0,"own":0}} …`. Before = after; nothing served changed, so the
+     classes are those of the base's rows (LAWFUL inputs refused by insertChain's own no-route / displaced / replays causes —
+     the classes stand as the earlier rounds routed them; this round adds none and removes none). At CITY the construction
+     refused 0 reads and X refused 0 at every seed.
+208. **THE GATES (on the tree, 2026-11-12).** `corepack pnpm install --frozen-lockfile` 0 (`Already up to date`);
+     `corepack pnpm lint` 0 (`lint: probe-red ok` with its ten probe lines; `lint: kernel-boundary ok`); `corepack pnpm
+     build` 0. NEAR (the bands folder, full strength): row 206 (6) — the six declared reds only. RELATED@1000 over
+     arr/kerb.ts and arr/kerbExact.ts (seed 146129014, 426 files, 5 471 tests): `12 failed | 5458 passed | 1 skipped`,
+     every red declared or shown red on the base mirror: Q152's six; `derived.test.ts` 'straight lanes … 10 networks'
+     (`expected 18 to be 19` at :944, the planted control at RUNS 1 000) — RED ON THE BASE MIRROR at
+     `PLAT_FUZZ_SEED=146129014 PLAT_FUZZ_RUNS=1000` with the same assertion, and the tree's DERIVED line at that seed equal
+     to the base's (times aside): S18 / S19's test at that seed, not this round's — a note for the session (row 213);
+     bench `test/site/compose.test.ts` (1) and `test/site/spike.test.ts` (3), relief-60 seed 2 — red on the base mirror with
+     the same four assertions (another item's in-flight state; foreign); testkit `test/runner/constructive.test.ts` — `run
+     corepack pnpm build first` (dist absent during the chain), green after the build. `write-door.test.ts`,
+     `api-surface.test.ts` and constructive.test.ts: 164/164 green, untouched. J176's five bench files were not in the
+     related set. `landed:verify -- flow-7 --item M0-a-09` after the record: row 215.
+209. **LINE 9 — MEASURED (REPORTED only; 986's 50 µs a derived read and D1's ≈ 40 µs quoted, never a bar).** (1) Source
+     (the debug build, the observer's clock, exact — an upper side of prod): T6 below. (2) Prod, fusion 3 at CITY, idle
+     box (load before < 0.3, one run at a time): the construction — P9 `--mode cpu --interval 100 --fns readKerb`: readKerb
+     inclusive 69 214 ms (kerb.ts:2180, the count run's file:line) ÷ 2 764 calls (P7) = **25.04 ms a read** (profiled);
+     X — the self-check mirror's bundle entry given `import { setExactShadow } from
+     '../../../packages/kernel/src/arr/kerbExact.ts'; setExactShadow({ read() {} }, { anyBuild: true });` before main
+     (restored after; never in the tree): P10 count run exactRegionOfRead 2 764 (kerbExact.ts:731), exactKeyContentOfRead
+     2 764 (:676), exactRegion 5 528 (:541); P11 cpu run inclusive exactRegionOfRead 5 725 ms (≈ 31 000 samples of 500 222;
+     its entry at kerbExact.ts:731 — not VOID, not inlined) → **X's prod mean 2.071 ms a read**; the key alone 4 799 ms ÷
+     2 764 = 1.736 ms; exactRegion 7 378 ms ÷ 5 528 = 1.335 ms a call. The forced run's root `db72c0bf0fa021ca873fd7f5f6f30d7b`
+     = row 206 (1)'s; its counts equal P7's on mark, undoTo, markBatch, insertChain, opSave, rollback and every COUNT_FNS
+     name but ONE: **orient2d 82 050 122 → 112 526 440 (+30 476 318) — a difference, reported as a finding: X's own exact
+     arrangement calls the predicate (≈ 11 026 calls a read); it opens no frame and lays no insertion** (mark / undoTo /
+     insertChain / opSave equal). THE ARITHMETIC 2B reads (a cut = splitFace + connectHole = 1 220): S8 plain prod (P5)
+     65 123 ms = 53.38 ms a cut; readKerb inclusive a cut 69 214 ÷ 1 220 = 56.73 ms (profiled: above the plain S8 itself);
+     distinct keys a cut 2 651 ÷ 1 220 = 2.173; (a) LITERAL, as the brief writes it: 53.38 − 56.73 + 2.173 × 2.071 =
+     **1.15 ms a cut** (a mixed basis: profiled readKerb against plain S8); (b) ON ONE BASIS (readKerb's 85.3 % share of the
+     profiled window applied to the plain S8; X scaled by plain ÷ profiled = 65 123 ÷ 81 167): 53.38 × 0.147 + 2.173 ×
+     1.662 = 7.85 + 3.61 = **11.46 ms a cut** against today's 53.38. X's prod mean (2.07 ms) is ≈ 41× 986's 50 µs.
+210. **LINE 10 — MEASURED: THE FIGURES TABLE (below, verbatim-ready).**
+211. **THE MUTANT TABLE (J169; the self-check mirror; the bands folder minus the four declared-red files,
+     PLAT_FUZZ_RUNS=1000, W = 1, --bail=1; unmutated 19 files 207/207).** HM1 done right after the first readOn → the
+     refused-read pin (sweep) and the faithful-taken pin (targeted); HM2 done after the refusal's return → the refused-read
+     pin; HM3 start after readFace → the throwing-widths pin; BM1 `setKerbShadow` → lint kernel-boundary (21 > 20); XF1 the
+     done handed a second readFace with the caller's widths → the widths pin; XF2 exactKeyContentOfRead without the ring
+     rule → derived.test.ts's narrow-band line; SM1 the DEBUG_BUILD test dropped → shadow-prod.test.ts; SM2 X's throw caught
+     into a refusal → the planted-throw pin; SM3 `setExactShadow(null)` leaving the hook → the off pin; SM4 X written into
+     read.k → readKerb's result off ≠ on; SM5 an extra dry run on the shadow path → the counts pin; OB1 no-move from faithful
+     alone → observer.test.ts's OB1 pin; OB2 the parent any earlier containing content → the two-cut pin; OB3 definition.ts
+     importing arr/kerb.ts → SURVIVED the first import pin (a bare `import '…'` not matched), the pin widened to every import
+     form and `import(` → KILLED. 14 of 14 killed. The relation control has no mutant row: its pin is observer.test.ts's
+     'both plants FAIL' (green on the corpus); at CITY it is VOID (THE FINDING).
+212. **DEVIATIONS (choices row).** (1) `ExactObserver.failed?` (row 202). (2) `arbitrate`'s input may carry `spinesOf` /
+     `judge` (the arena form's capped pair); derived.test.ts passes none, so its arbitration is S18's. (3) The arena form's
+     frame ring := the level-0 edges with a `margin` row (the role it reads). (4) Fixtures rebuilt in the new files (a
+     CENSUS_DEEP read, row 127's faithful-taken read, a two-cut fixture), never imported from dryrun / restage. (5) The
+     mutant sweep at RUNS 1 000 without the four declared-red files (for --bail). (6) `hausdorffFast` (bucketed, pinned
+     equal) for the runner's distances: the verbatim `hausdorff` is quadratic at CITY. (7) The MOVED-at-CITY class
+     (`relateRead`, REPORTED). (8) T5's DERIVE WRONG counts reads (a child with I ≠ X); its classes carry multiplicity (a
+     case may carry several).
+213. **NOTES FOR THE SESSION (not this round's reds).** (a) derived.test.ts's planted control at `PLAT_FUZZ_SEED=146129014
+     PLAT_FUZZ_RUNS=1000`: 18 of 19 planted reads fail (one no-move read whose comparand + 5 cm stays within the relation's
+     reach) — red on the base mirror identically (S18 / S19's test; the hardening pass, beside OQ-3's tip rule). (b) bench
+     site compose / spike at relief-60 seed 2: red on the base (another item's). (c) At CITY every read is W_ATTRACTED
+     (THE FINDING) — the collapse case (a part of zero length, kerb.ts:1447) is the likely source; this seat did not
+     dissect it (2B's or the session's).
+214. **THE RUNNER, VERBATIM** (`/home/user/maps-scratch/waves/s20/probe-s20/city.ts`, beside a `package.json`
+     `{"type":"module"}`; bench/ is read, never written):
+```ts
+// M0-a-09 hardening round S20, LINE 7's runner (a scratch probe; bench/ is read, never written). One process, no worker
+// thread: per seed, (1) OFF — runTask in this thread (derive with `watch: true`, then measure: the harness's own record),
+// (2) ON — the shadow installed (kerbExact.ts `setExactShadow`) with observer.ts's ShadowObserver and the caller's clock,
+// then runTask again, so every read S8 and the harness's S9 batches make is judged. It prints line 10's tables T1 – T7
+// and line 7's failing verdict, and writes the seed's evidence file. The kernel is reached through bench's own graph;
+// kerbExact.ts and the test modules by path — ONE instance of kerb.ts (0 reads observed fails the run).
+// Usage (from <mirror>/plat): corepack pnpm exec tsx --conditions=plat-source <this file> --run <fusion|integrated>
+//   --seed N [--frame-ha 900 --walled-ha 30] [--plant-relation 5 | --plant-oracle 10] [--evidence <dir>]
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+type Rec = Record<string, unknown>;
+
+function arg(name: string): string | undefined {
+  const i = process.argv.indexOf(name);
+  return i < 0 ? undefined : process.argv[i + 1];
+}
+
+async function main(): Promise<number> {
+  const root = process.cwd();
+  const at = (p: string): string => pathToFileURL(join(root, p)).href;
+  const fusion = (await import(at('bench/src/fusion/index.ts'))) as { runTask: (t: Rec) => Rec };
+  const kx = (await import(at('packages/kernel/src/arr/kerbExact.ts'))) as { setExactShadow: (o: unknown, opts?: Rec) => boolean };
+  const ob = (await import(at('packages/kernel/test/arr/bands/observer.ts'))) as {
+    ShadowObserver: new (o: Rec) => { reads: number; ev: Record<string, string[]>; tables: (l: string, c: number | null) => string[]; failing: () => Record<string, number>; distinctKeys: number };
+    verdictLine: (o: unknown, cuts: number | null) => string;
+  };
+  const run = arg('--run') ?? 'fusion';
+  const seed = Number(arg('--seed') ?? '1');
+  const frameHa = arg('--frame-ha');
+  const walledHa = arg('--walled-ha');
+  const plantRelation = arg('--plant-relation');
+  const plantOracle = arg('--plant-oracle');
+  const evidence = arg('--evidence');
+  const size = frameHa === undefined ? 'CITY' : `TEST_SIZE ${frameHa} ha / ${walledHa ?? '?'} ha`;
+  const label = `${run} ${String(seed)} at ${size}`;
+  const task: Rec = { run, seed, ...(frameHa === undefined ? {} : { frameHa: Number(frameHa) }), ...(walledHa === undefined ? {} : { walledHa: Number(walledHa) }) };
+  const clock = (): number => Number(process.hrtime.bigint()) / 1e6;
+  const strip = (r: Rec): string => JSON.stringify({ ...r, stampsMs: undefined });
+  const planted = plantRelation !== undefined || plantOracle !== undefined;
+  let off: Rec | null = null;
+  let offMs = 0;
+  if (!planted) {
+    const t0 = clock();
+    off = fusion.runTask(task);
+    offMs = clock() - t0;
+    console.log(`CITY ${label} OFF: ${(offMs / 1000).toFixed(1)} s; root ${String(off.root)}; faces ${JSON.stringify(off.faces)}`);
+  }
+  const o = new ob.ShadowObserver({ clock, ...(plantRelation === undefined ? {} : { plantRelation: Number(plantRelation) }), ...(plantOracle === undefined ? {} : { plantOracle: Number(plantOracle) }) });
+  if (!kx.setExactShadow(o)) throw new Error('city: the shadow did not install (a debug build was expected)');
+  let on: Rec | null = null;
+  let thrown: string | null = null;
+  const t1 = clock();
+  try {
+    on = fusion.runTask(task);
+  } catch (e) {
+    thrown = String(e instanceof Error ? (e.stack ?? e.message) : e);
+  } finally {
+    kx.setExactShadow(null);
+  }
+  const onMs = clock() - t1;
+  const cuts = on === null ? null : ((on.faces as { cuts: number }).cuts);
+  console.log(`CITY ${label} ON: ${(onMs / 1000).toFixed(1)} s; root ${on === null ? 'none (threw)' : String(on.root)}${thrown === null ? '' : `; THREW ${thrown.slice(0, 400)}`}`);
+  for (const line of o.tables(label, cuts)) console.log(line);
+  const identical = off !== null && on !== null ? strip(off) === strip(on) : null;
+  const roots = off !== null && on !== null ? `${String(off.root)} / ${String(on.root)}` : on === null ? 'none' : `— / ${String(on.root)}`;
+  console.log(`T7 NO-SHIFT AND CONTROLS ${label}: OFF / ON SeedRecords (stampsMs aside) ${identical === null ? 'n/a (a control: ON only)' : identical ? 'byte-identical' : 'DIFFER'}; roots ${roots}${identical === null || off === null || on === null ? '' : off.root === on.root ? ' (equal)' : ' (DIFFER)'}; wall-clock OFF ${(offMs / 1000).toFixed(1)} s, ON ${(onMs / 1000).toFixed(1)} s`);
+  const verdict = ob.verdictLine(o, cuts);
+  const noShift = identical === null || identical;
+  const pass = noShift && thrown === null && verdict.startsWith('PASS');
+  console.log(`VERDICT ${label}${planted ? ` (PLANTED ${plantRelation !== undefined ? `relation +${plantRelation} cm` : `oracle +${String(plantOracle)} cm`})` : ''}: ${pass ? 'PASS' : 'FAIL'} — ${verdict}; no-shift ${identical === null ? 'n/a' : identical ? 'ok' : 'FAIL'}${thrown === null ? '' : '; the ON run THREW'}`);
+  if (evidence !== undefined) {
+    mkdirSync(evidence, { recursive: true });
+    const name = `${run}-${String(seed)}${frameHa === undefined ? '-city' : '-test'}${plantRelation !== undefined ? '-plant-relation' : plantOracle !== undefined ? '-plant-oracle' : ''}.txt`;
+    const ev = o.ev;
+    const block = (title: string, xs: readonly string[]): string => `## ${title} (${String(xs.length)})\n${xs.join('\n')}\n`;
+    writeFileSync(
+      join(evidence, name),
+      [
+        `# M0-a-09 S20 evidence — ${label}${planted ? ' (planted control)' : ''}`,
+        ...o.tables(label, cuts),
+        `VERDICT: ${pass ? 'PASS' : 'FAIL'} — ${verdict}`,
+        block('FAILING lines', ev.failures),
+        block('every BEYOND read arbitrated (face, rings, both regions)', ev.beyond),
+        block('no-move BEYOND reads on UNJUDGED faces, by class (REPORTED, OQ-2)', ev.unjudgedBeyond),
+        block('no-move FIRST reads with X ≠ X_U (Q178 (a); the first 20)', ev.noMoveFirstOffX),
+        block('frame-side ends (OQ-1; three faces with their rings)', ev.frameSideEnds),
+        block('identity OTHER (the first 20)', ev.identityOther),
+        block('the oracle\'s step per judged face (J759 (3) Q4)', ev.steps),
+      ].join('\n'),
+    );
+  }
+  return pass ? 0 : 1;
+}
+
+main().then(
+  (rc) => {
+    process.exitCode = rc;
+  },
+  (e: unknown) => {
+    console.error(e);
+    process.exitCode = 2;
+  },
+);
+```
+
+### THE FIGURES TABLE (round S20; verbatim-ready for the session; line 10's T1 – T7)
+
+**Source and command of T1 – T6:** the runner's ON run (row 214), one per seed, from the self-check mirror (= the tree's
+`packages/`): `corepack pnpm exec tsx --conditions=plat-source /home/user/maps-scratch/waves/s20/probe-s20/city.ts --run
+fusion --seed 3` (CITY), `--run integrated --seed 4` (CITY), `--run fusion --seed 1|2 --frame-ha 900 --walled-ha 30`
+and `--run integrated --seed 1|2 --frame-ha 900 --walled-ha 30` (TEST_SIZE), each with `--evidence
+…/plat/docs/build/checks/M0-a-09-s20-evidence`. Distances in cm, times in ms. The per-seed lines are the runner's own
+(`T1 SERVICE …` to `VERDICT …`, also at the head of each evidence file); the totals are their sums (CITY and TEST_SIZE
+apart). f3 = fusion 3, i4 = integrated 4 (CITY); f1, f2, i1, i2 at TEST_SIZE 900 ha / 30 ha.
+
+**T1 SERVICE**
+
+| seed | reads | distinct keys | first / faithful / other | no-move | reads with W_ATTRACTED | construction refused | X refused | splits refused (constr. / X) |
+|---|---|---|---|---|---|---|---|---|
+| f3 | 5 242 | 2 651 | 5 210 / 28 / 4 | 0 | 5 242 | 0 | 0 | 0 / 0 |
+| i4 | 5 967 | 2 991 | 5 912 / 45 / 10 | 0 | 5 967 | 0 | 0 | 0 / 0 |
+| **CITY** | **11 209** | **5 642** | **11 122 / 73 / 14** | **0** | **11 209** | **0** | **0** | **0 / 0** |
+| f1 | 456 | 239 | 456 / 0 / 0 | 0 | 456 | 0 | 0 | 0 / 0 |
+| f2 | 469 | 242 | 458 / 3 / 8 | 0 | 469 | 0 | 0 | 0 / 0 |
+| i1 | 736 | 365 | 732 / 0 / 4 | 0 | 736 | 0 | 0 | 0 / 0 |
+| i2 | 730 | 356 | 718 / 3 / 9 | 0 | 730 | 0 | 0 | 0 / 0 |
+| **TEST** | **2 391** | **1 202** | **2 364 / 6 / 21** | **0** | **2 391** | **0** | **0** | **0 / 0** |
+
+Other warnings per seed (reads carrying each): f3 W_STRETCH_SHARED 5 234, W_ACUTE_CORNER 790, W_PLACED 7, W_WEDGE_ROUTED
+4; i4 W_STRETCH_SHARED 5 963, W_ACUTE_CORNER 995, W_WEDGE_ROUTED 26; f1 456 / 112 / W_PLACED 1 / W_WEDGE_ROUTED 3; f2 469
+/ 116; i1 736 / 128 / W_PLACED 1; i2 724 / 139.
+
+**T2 RELATION** (relate() against X_U; MOVED at CITY := BEYOND for want of a locus within DRY_MOVE_CM, REPORTED; the
+no-move columns are 0 everywhere — THE FINDING)
+
+| seed | EQUAL | NEAR (tip) | MOVED (all at CITY) | BEYOND | BEYOND arbitrated: Q110 (c) / Q117 tip · neither wrong (moved, listed) · construction's new · another spine set | FAILING | straight-through X ≠ X_U (max cm) | no-move first off X (Q178 (a)) | no-move BEYOND on UNJUDGED |
+|---|---|---|---|---|---|---|---|---|---|
+| f3 | 15 | 1 282 (127) | 3 132 | 813 | 207 · 573 · 33 · 0 | 0 | 5 047 (165.06) | 0 | 0 |
+| i4 | 18 | 1 207 (113) | 3 403 | 1 339 | 376 · 930 · 33 · 0 | 0 | 5 690 (176.50) | 0 | 0 |
+| **CITY** | **33** | **2 489 (240)** | **6 535** | **2 152** | **583 · 1 503 · 66 · 0** | **0** | **10 737 (176.50)** | **0** | **0** |
+| f1 | 0 | 68 (18) | 275 | 113 | 30 · 82 · 1 · 0 | 0 | 413 (1.61) | 0 | 0 |
+| f2 | 0 | 80 (4) | 257 | 132 | 50 · 68 · 14 · 0 | 0 | 423 (1.57) | 0 | 0 |
+| i1 | 5 | 117 (33) | 324 | 290 | 70 · 214 · 5 · 1 | 0 | 577 (156.77) | 0 | 0 |
+| i2 | 10 | 114 (3) | 312 | 294 | 97 · 183 · 14 · 0 | 0 | 543 (155.67) | 0 | 0 |
+| **TEST** | **15** | **379 (58)** | **1 168** | **829** | **247 · 547 · 34 · 1** | **0** | **1 956 (156.77)** | **0** | **0** |
+
+Every BEYOND is listed with its face, rings and both regions in the evidence files ('every BEYOND read arbitrated').
+
+**T3 ORACLE** (the arena form, capped at 4 000 samples a face)
+
+| seed | distinct keys judged (share) | clean | faults | UNJUDGED by class | samples a face median / p99 / at the cap |
+|---|---|---|---|---|---|
+| f3 | 2 651 of 2 651 (1.000) | 2 651 | 0 | none | 4 001 / 4 016 / 2 651 |
+| i4 | 2 991 of 2 991 (1.000) | 2 991 | 0 | none | 4 001 / 4 017 / 2 991 |
+| **CITY** | **5 642 of 5 642 (1.000)** | **5 642** | **0** | **none** | — |
+| f1 · f2 · i1 · i2 | 239 · 242 · 365 · 356 (each 1.000) | all | 0 | none | 4 001 / 4 042 · 4 018 · 4 020 · 4 019 / all |
+| **TEST** | **1 202 of 1 202 (1.000)** | **1 202** | **0** | **none** | — |
+
+Not VOID at any seed. 'frame-side end', 'profile reading', 'retracing route', 'not one run', 'unreadable frame': 0 each,
+every seed (OQ-1: none to list). Each judged face's step is in the evidence files. [Fix round S21 (row 239): '0 faults' here is read at each
+face's capped step √(area ⁄ 4 000) (metres at CITY): the vertex and simplicity checks are the step's own (step-
+independent, pinned), the sample check is not a promise at that step — a difference narrower than the step can lie
+between its samples.]
+
+**T4 IDENTITY (986 (c))** — distinct contents with a parent by the lineage; I(F) = X(F); the unequal by class (a case may
+carry several); roots
+
+| seed | with a parent | I = X | unequal | INHERITED | CONTACT | END-CHANGED | ROUNDING | OTHER | roots |
+|---|---|---|---|---|---|---|---|---|---|
+| f3 | 1 635 | 1 316 | 319 | 18 | 249 | 0 | 285 | 23 | 1 016 |
+| i4 | 1 681 | 1 332 | 349 | 37 | 270 | 1 | 293 | 41 | 1 310 |
+| **CITY** | **3 316** | **2 648** | **668** | **55** | **519** | **1** | **578** | **64** | **2 326** |
+| f1 | 151 | 105 | 46 | 4 | 30 | 0 | 24 | 18 | 88 |
+| f2 | 114 | 106 | 8 | 0 | 6 | 0 | 7 | 0 | 128 |
+| i1 | 160 | 127 | 33 | 1 | 20 | 0 | 27 | 4 | 205 |
+| i2 | 146 | 121 | 25 | 0 | 19 | 0 | 21 | 1 | 210 |
+| **TEST** | **571** | **459** | **112** | **5** | **75** | **0** | **79** | **23** | **631** |
+
+OTHER cases: the first 20 per seed whole in the evidence files ('identity OTHER').
+
+**T5 P AGAINST H** (per read: SERVE FROM STATE = a repeat of a key + a child whose identity holds; DERIVE WRONG = a child
+with I ≠ X; RE-DERIVE = a first read with no parent; the three sum to the reads)
+
+| seed | serve from state (repeats; of them construction ≠ its first under the key, max cm; children I = X) | derive wrong | re-derive | distinct keys / distinct X / keys a X | S8 cuts (faces.cuts = lanes.length) | reads a cut | keys a cut |
+|---|---|---|---|---|---|---|---|
+| f3 | 3 907 (2 591; 961, 40.71; 1 316) | 319 | 1 016 | 2 651 / 2 514 / 1.054 | 1 207 | 4.343 | 2.196 |
+| i4 | 4 308 (2 976; 1 134, 30.81; 1 332) | 349 | 1 310 | 2 991 / 2 844 / 1.052 | 1 373 | 4.346 | 2.178 |
+| **CITY** | **8 215 (5 567; 2 095, 40.71; 2 648)** | **668** | **2 326** | **5 642 / 5 358 / 1.053** | **2 580** | **4.345** | **2.187** |
+| f1 | 322 (217; 66, 19.21; 105) | 46 | 88 | 239 / 222 / 1.077 | 105 | 4.343 | 2.276 |
+| f2 | 333 (227; 76, 22.46; 106) | 8 | 128 | 242 / 229 / 1.057 | 108 | 4.343 | 2.241 |
+| i1 | 498 (371; 88, 18.44; 127) | 33 | 205 | 365 / 355 / 1.028 | 170 | 4.329 | 2.147 |
+| i2 | 495 (374; 107, 28.93; 121) | 25 | 210 | 356 / 349 / 1.020 | 166 | 4.398 | 2.145 |
+| **TEST** | **1 648 (1 189; 337, 28.93; 459)** | **112** | **631** | **1 202 / 1 155 / 1.041** | **549** | **4.355** | **2.189** |
+
+The construction differing from its first read under one key (DESIGN-5's residual): 2 095 of 5 567 repeats at CITY, max
+40.71 cm.
+
+**T6 TIME** — (1) SOURCE (debug build, the observer's clock, ms; bins by ring points; n/a under 100 reads):
+
+| seed | the construction < 50 pts: n, mean / p50 / p90 / p99 | 50 – 200 | X < 50 | X 50 – 200 | key alone (per key) < 50 | 50 – 200 | identity < 50 | all reads: construction / X mean (p99) |
+|---|---|---|---|---|---|---|---|---|
+| f3 | 4 998: 21.24 / 18.03 / 37.88 / 67.76 | 242: 105.06 / 78.76 / 204.37 / 451.34 | 2.90 / 2.70 / 4.58 / 6.86 | 8.75 / 6.81 / 15.28 / 33.03 | 2 451: 1.61 / 1.52 / 2.59 / 3.89 | 198: 4.95 / 3.76 / 9.02 / 25.42 | 1 560: 1.42 / 1.18 / 2.63 / 4.67 | 25.31 (128.32) / 3.18 (10.36) |
+| i4 | 5 655: 20.27 / 17.24 / 34.91 / 69.21 | 302: 91.58 / 65.48 / 170.82 / 405.88 | 2.72 / 2.53 / 4.26 / 6.85 | 7.59 / 5.81 / 13.18 / 29.00 | 2 730: 1.50 / 1.39 / 2.42 / 4.03 | 251: 4.11 / 3.17 / 7.73 / 16.44 | 1 595: 1.28 / 1.03 / 2.46 / 4.02 | 24.40 (140.76) / 2.99 (10.17) |
+| f1 | 437: 18.22 / 15.88 / 31.18 / 63.22 | 19: n/a | 2.59 / 2.48 / 4.12 / 6.48 | n/a | 222: 1.38 / 1.34 / 2.19 / 3.20 | n/a | 144: 1.13 / 1.02 / 1.85 / 2.90 | 21.51 (139.56) / 2.81 (8.92) |
+| f2 | 448: 19.37 / 15.90 / 38.01 / 71.14 | 21: n/a | 2.61 / 2.43 / 4.41 / 6.39 | n/a | 223: 1.46 / 1.40 / 2.45 / 3.76 | n/a | 112: 1.29 / 1.12 / 2.24 / 3.30 | 23.18 (127.21) / 2.85 (8.80) |
+| i1 | 675: 15.05 / 12.31 / 28.77 / 52.99 | 57: n/a | 2.17 / 1.89 / 3.96 / 5.91 | n/a | 310: 1.18 / 1.06 / 2.14 / 3.10 | n/a | 151: 1.11 / 0.95 / 2.01 / 4.16 | 17.93 (128.15) / 2.40 (10.51) |
+| i2 | 672: 15.89 / 12.65 / 28.96 / 67.65 | 56: n/a | 2.22 / 1.88 / 3.76 / 7.03 | n/a | 304: 1.27 / 1.06 / 2.22 / 3.77 | n/a | 133: 1.21 / 0.92 / 2.39 / 3.55 | 20.05 (132.64) / 2.44 (11.08) |
+
+200 – 800 pts: f3 2, i4 10, i1 4, i2 2 reads (n/a); > 800: none; the identity's 50 – 200 bin under 100 everywhere (n/a).
+(2) PROD (fusion 3, CITY; row 209): the construction 25.04 ms a read (readKerb inclusive, profiled, ÷ its calls); X 2.071
+ms (exactRegionOfRead), the key alone 1.736 ms (exactKeyContentOfRead), exactRegion 1.335 ms a call; the arithmetic 1.15
+ms a cut (literal) / 11.46 ms a cut (one basis) against S8's 53.38 ms a cut today. 986's 50 µs and D1's 40 µs: quoted,
+never a bar.
+
+**T7 NO-SHIFT AND CONTROLS** (the runner's OFF and ON runs; wall-clock in source mode, the chain's one process)
+
+| seed | OFF / ON SeedRecords (stampsMs aside) | root (OFF = ON) | OFF s | ON s |
+|---|---|---|---|---|
+| f3 | byte-identical | db72c0bf0fa021ca873fd7f5f6f30d7b | 159.6 | 2 488.4 |
+| i4 | byte-identical | e9e96e0e6a2e88e587c968796e0ef03e | 180.9 | 3 206.5 |
+| f1 | byte-identical | 5ca73bb609c457f9cad5647edbf3df35 | 15.0 | 234.3 |
+| f2 | byte-identical | 5860f66d5dfad7d32f6257ab398ecf56 | 16.3 | 235.3 |
+| i1 | byte-identical | 6770012c6f75a48734cbbe2dc736b251 | 17.8 | 405.4 |
+| i2 | byte-identical | 63a5d584d7d0f65c2a71daf9b7e62eef | 20.3 | 404.4 |
+
+Controls (fusion 1 TEST, ON only): `VERDICT fusion 1 at TEST_SIZE 900 ha / 30 ha (PLANTED oracle +10 cm): FAIL — FAIL
+relation ok; oracle FAIL 239; …` (229.1 s) — FAILS as asked; `VERDICT fusion 1 at TEST_SIZE 900 ha / 30 ha (PLANTED
+relation +5 cm): PASS — PASS relation ok (the relation control VOID: 0 no-move reads to plant); …` (229.9 s) — STAYS
+GREEN, VOID: THE FINDING. The prod NO-SHIFT is row 206.
+
+### The interface round 2B will call (round S20; all by path, kernel-internal, nothing in a barrel)
+
+- `arr/kerb.ts`: `export interface ReadShadow { start(): void; done(p: Plat, face: FaceId, f: ReturnType<typeof readFace>,
+  vertexContacts: boolean, read: ReturnType<typeof censusRead>, restaged: boolean, sp: ReturnType<typeof splitsOn> | null,
+  last: LastRead): void }`; `export function setReadShadow(s: ReadShadow | null): ReadShadow | null`.
+- `arr/kerbExact.ts`: `export function exactKeyContentOfRead(f: ReturnType<typeof readFace>, vertexContacts: boolean):
+  KernelResult<ExactKeyContent>`; `export function exactRegionOfRead(f: ReturnType<typeof readFace>, vertexContacts:
+  boolean): KernelResult<{ key: string; region: Ring[] }>`; `export interface ExactShadowRead { … }` (row 202);
+  `export interface ExactObserver { clock?: () => number; read(r: ExactShadowRead): void; failed?(face: FaceId, e:
+  unknown): void }`; `export function setExactShadow(o: ExactObserver | null, opts: { anyBuild?: boolean } = {}): boolean`.
+  S18's `exactRegion`, `exactKeyContent`, `exactRegionOfKey`, `exactKey`, `exactRegionOfFace` unchanged in signature and
+  output.
+- **THE anyBuild CARRY (J759 (3) Q2):** `anyBuild` is for the forced production measurement alone; it is dead in
+  production while nothing served imports kerbExact.ts and must not stay live once kerbExact.ts is served — round 2B
+  removes it, or the session rules its guard, before any served path imports kerbExact.ts.
+
+215. **THE RECORD AND THE DISCLOSURES.** Landed: `corepack pnpm landed -- M0-a-09 --lane build/M0-a-09-fix-s20 --wave
+     flow-7 --touched …/kerb.ts --touched …/kerbExact.ts --touched …/derived.test.ts --touched …/definition.ts` (the new
+     test-side files under the owns' bands/ prefix), the evidence folder by the build-notes record
+     `build-M0-a-09-s20-notes`; `landed:verify` quoted in the lane's LANDED line. The round ran in two seats of the lane
+     (J758's long-wait hand-off: the first built LINES 1 – 6, the mutants, the bundles and both chains; a waiter watched
+     the chain ~7 h; a fresh seat read the chains, re-ran the gates, replayed RELATED's undeclared reds on the base mirror,
+     and wrote this section, the choices row, the CLEAN-ROOM row and the records). The first seat ran one read-only `git
+     log` / `git status` at its start (no write; disclosed). Nothing under `docs/validation/`, the design, the amendment or
+     `docs/PROGRESS.md` was opened by either seat: the brief's line texts carried the rulings it cites. The self-check
+     mirror is removed at the end; the base mirror `/home/user/maps-scratch/waves/base-build-M0-a-09-fix-s20/plat` is
+     KEPT for the closing check.
+
+### Continued under RULING J785 (the session, 2026-11-12; same lane) — the local arbitration
+
+**J785 (1) IS ACCEPTED: THE NO-MOVE BAR IS WITHDRAWN AT CITY AND AT THE TEST SIZE; THE RELATION IS NOW THE LOCAL
+ARBITRATION.** The CITY no-move reading (servedOfRead's NO-MOVE, relateRead's `cityMoved`), line 7's no-move bar and its
+`--plant-relation 5` control are gone from the runner's verdict; the corpus keeps them (derived.test.ts and relation.ts's
+servedOf / relate / arbitrate byte-unchanged; the comparand plant's FAIL on the corpus stands in observer.test.ts). In
+their place every read whose served region and X differ beyond NEAR_CM is judged AT THE DIFFERENCE (J785 (2)), test-side
+only — no kernel file changed (kerb.ts and kerbExact.ts are byte-identical to the LANDED record of 06:24Z).
+**THE VERDICTS, PER SEED:** fusion 1 and fusion 2 at TEST_SIZE **PASS**; integrated 1 (share 0.543) and integrated 2
+(0.507) at TEST_SIZE and fusion 3 (0.567) and integrated 4 (0.555) at CITY are **VOID — THE FLOOR IS NOT MET AT FOUR OF
+SIX SEEDS: more than half their DIFFERENT reads are UNDECIDED or THIN.** A VOID is never a pass (J785 (2)): the verdict
+names it and THE SESSION READS IT. At every seed, VOID ones included: **0 X-WRONG reads** (0 X-WRONG witnesses of 290 816),
+the floor's other half met (reads with a decided witness: 1 712, 2 113, 209, 239, 284, 300), OFF / ON SeedRecords
+byte-identical with roots equal, 0 exceptions, 0 X refused. What drives the share (from T2's own columns, no new run): at
+CITY mostly THIN — 1 559 / 3 951 (39 %) and 1 573 / 4 753 (33 %) of DIFFERENT reads differ by no more than 2 · MARGIN_CM
+= 8 cm, a band the ruling never judges — and at the integrated TEST seeds mostly UNDECIDED (202 / 622 = 32 %, 193 / 609
+= 32 %: every witness within MARGIN_CM of the truth's own boundary or of F's rings, or on X's and the served region's
+common side); the runner does not break UNDECIDED down further (a column for the session, if it wants one: the witness's
+reason). Both controls FAIL as ruled: `--plant-relation 10` 450 X-WRONG of 456 reads; `--plant-oracle 10` 239 oracle
+faults. **THE FINDING OF THIS AMENDMENT (the oracle's, fixed):** the first trial of the local arbitration (fusion 1
+TEST_SIZE, before the fix) found 4 X-WRONG reads, all on face 13 (reads 161, 163, 312, 450; witnesses around (22 000 –
+22 160, 15 750 – 15 800)). Read by hand: way:4 (hw 400, round) ends at (22 383, 15 303) beside way:5's round end (hw 500)
+and the wall; the witnesses lie ~7 cm inside way:4's band (392.9 cm from its last segment), where X's outline runs along
+the band edge and the served region 15 cm off — X right. way:4 only TOUCHES F (vertex contact) and the capped grid (step
+√(area ⁄ 4 000) = 194 cm) has no sample in its poke, so the capped spine selection dropped it and the truth read the
+witnesses as kerb. A fault of THE ORACLE'S CAPPED READING, not of exactRegion: fixed in `truthAtOf` by reading spinesOf's
+own vertex rule AT THE WITNESS (the witness is a point of F); pin LA4. After the fix: 0 X-WRONG; those 4 reads X-RIGHT
+(205 → 209). The capped T3 oracle has the same blindness at its own samples (it simply judges no sample there) — a KI for
+the hardening pass, not a change here. [Fix round S21 (row 239): what the capped form promises — at a step of √(area ⁄ 4 000)
+its samples need not meet a difference narrower than the step (a 10 cm plant leaves a ≈ 2 cm strip clear of the margins);
+its vertex and simplicity checks read no sample and are the same at every step (pinned), so T3's '0 faults' is a
+vertex-level reading where the step exceeds GRID_CM, and the CITY control (`--plant-oracle 10`) is caught by vertices.]
+
+216. **THE CODE (J785 (2); all in `packages/kernel/test/arr/bands/`, inside the owns; no file under `packages/*/src`
+     changed).** `definition.ts` — ADDITIONS and one refactor of this round's own `judgeCapped` (S20-added, not a base
+     export): private `cappedTruth(F, chains, step)` is judgeCapped's spine selection extracted verbatim (judgeCapped calls
+     it; T3 reproduced figure for figure, row 220); NEW `export type PointTruth = 'in' | 'out' | 'undecided'` and `export
+     function truthAtOf(F, chains, step): (q: XY) => PointTruth` — UNDECIDED within MARGIN_CM of F's rings or where
+     |bufferDepth| ≤ MARGIN_CM, IN := insideRings(F) && depth < 0; base exports byte-unchanged. `relation.ts` — module
+     comment +1 paragraph; ADDED `WITNESS_GAP_CM` (= 2 · MARGIN_CM), `FarPair`, `farPairs(a, b, beyond)` (hausdorff's
+     samples and far set, each far sample with its nearest point on the other outline — pinned equal to hausdorff),
+     `relateX(region, X)` (EQUAL / NEAR (within NEAR_CM or at a tip) / DIFFERENT), `WitnessAt`, `witnessesOf(region, X,
+     far)` (the midpoints of far pairs with gap > WITNESS_GAP_CM, one per GRID_CM cell), `LocalClass`, `Witness`,
+     `arbitrateLocal(region, X, truthAt, ws)` (per witness X-RIGHT / X-WRONG / UNDECIDED; per read X-WRONG if any, else
+     X-RIGHT if any, else UNDECIDED; no witness ⇒ THIN), `xRightBy(ws, chains)` (move: every witness gap ≤ DRY_MOVE_CM
+     (75.54 cm); else tipClass on the witnesses beyond it: tip / off). Everything old verbatim. `observer.ts` — module
+     comment +1 paragraph; option `plantLocal` (X +d cm before the local arbitration — the runner's `--plant-relation`);
+     Evidence `xWrong` (whole, cap 1 000), `offBound` (first 20), `localUnjudged` (first 20); counters for T2's columns;
+     the local arbitration run on every read with construction ok and X ok; `failing()` gains `localXWrong`; `tables()`:
+     **T2 REWRITTEN** (the local arbitration) and **T2'** (the comparand relation, REPORTED, its bar withdrawn); the
+     verdict reads FAIL (a failing count, or a floor: reads > 0 and ≥ cuts, keys judged > 0, reads with a decided witness
+     > 0) / VOID (oracle share < ½ or UNDECIDED-or-THIN share > ½) / PASS. The comparand plant `plantRelation` stays (the
+     corpus's control).
+217. **THE DEVIATIONS (choices row C-0508).** (1) BOTH WRONG: where X and the served region AGREE at a witness ('off the
+     difference' — a midpoint can fall where both outlines put it on the same side), the witness is UNDECIDED if the truth
+     agrees with both and **X-WRONG ('both wrong')** if with neither — the ruling's classes assume the two disagree there;
+     counted per seed ('off the difference' 804 CITY / 150 TEST; 'both wrong' 0 everywhere). (2) ONE SIDE EMPTY: when
+     exactly one of X and the served region is empty, hausdorff has no nearest point, so the witnesses are the non-empty
+     side's grid points more than MARGIN_CM inside, step max(GRID_CM, √(box area ⁄ CAP_SAMPLES)), gap ∞. (3) THE VERTEX
+     RULE AT THE WITNESS (THE FINDING above): truthAtOf reads spinesOf's vertex rule at the point too — a touching chain
+     covering the point where no edge spine does counts. (4) T2' keeps the comparand relation as REPORTED columns (its
+     figures reproduced, row 219). (5) The verdict's third word VOID (the runner prints PASS / VOID / FAIL and exits 1 on
+     anything but PASS — the four VOID seeds' `.rc` files read 1 for that reason, not for a failure).
+218. **THE PINS AND THE MUTANTS (J785 (2) (e); J169).** `observer.test.ts` — the hausdorffFast pin also pins farPairs =
+     hausdorff (h, far set, nearest-point distance); the plants test gains `timeout: HARD`, `localXWrong: 0` in its
+     unplanted toEqual, the local plant (+10 cm ⇒ X-WRONG > 0) and readsDecided > 0; NEW describe 'J785 (2): the local
+     arbitration': (i) the ring and holeSlit fixtures' MOVED reads are DIFFERENT and X-RIGHT, X-WRONG with plantLocal 10;
+     no unplanted fixture read X-WRONG; (ii) THIN (5 cm squares) is THIN, 12 cm witnesses at the midpoints, gap = |q − r|,
+     more than half clear of both outlines, X-RIGHT / X-WRONG by a synthetic truth, xRightBy 'move'; (iii) LA4: truthAtOf
+     on a 400 m square with a round-end poke the 632 cm capped grid misses — judgeCapped's spines ['way:a'] but
+     truthAt(39 900, 39 900) 'out', (20 000, 20 000) 'in', (20 000, 50) 'out', (20 000, 98) 'undecided'. 9 / 9 green at
+     PLAT_FUZZ_RUNS=1000. Mutants in the self-check mirror (the bands folder minus the four declared-red files,
+     PLAT_FUZZ_RUNS=1000, one worker, `--bail=1`; unmutated 19 files 209 / 209; driver
+     `/home/user/maps-scratch/waves/s20/mut/mutants_la.py`, `summary-la.json`):
+
+| id | mutant | killed by |
+|---|---|---|
+| LA1 | witnessesOf: the witness at the far point q itself, not the midpoint | 'a MOVED read of the corpus … is X-RIGHT, and X-WRONG with X +10 cm …' (53 s) |
+| LA2 | truthAtOf: the truth's side inverted ('out' : 'in') | 'both plants FAIL …' (the unplanted localXWrong 0) (41 s) |
+| LA3 | arbitrateLocal: no witness ⇒ X-RIGHT (THIN judged X-RIGHT) | 'a THIN difference is THIN (LA3) …' (47 s) |
+| LA4 | truthAtOf: the vertex rule at the point dropped | 'the truth at a point reads spinesOf's vertex rule …' (47 s) |
+
+     All four killed. The first build's fourteen (HM1 – OB3) stand: no kernel code changed and none of their sites
+     (OB3's import pin lists definition.ts's imports, which this amendment did not change).
+219. **LINE 7 AS J785 RULES IT — THE RUNS.** The runner (row 225, verbatim) in the self-check mirror (= the tree's
+     `packages/`, `diff -rq` empty for `kernel/src` and `kernel/test/arr/bands`), one process at a time, evidence into
+     `docs/build/checks/M0-a-09-s20-evidence/` (the first build's eight files overwritten; the control's file keeps its
+     name `fusion-1-test-plant-relation.txt`, now the +10 cm local control): `corepack pnpm exec tsx
+     --conditions=plat-source /home/user/maps-scratch/waves/s20/probe-s20/city.ts --run fusion --seed 3` and `--run
+     integrated --seed 4` (CITY); `--run fusion --seed 1|2 --frame-ha 900 --walled-ha 30` and `--run integrated --seed
+     1|2 --frame-ha 900 --walled-ha 30` (TEST_SIZE); the controls `--run fusion --seed 1 --frame-ha 900 --walled-ha 30
+     --plant-relation 10` and `… --plant-oracle 10`; each with `--evidence …/M0-a-09-s20-evidence`. Logs
+     `/home/user/maps-scratch/lanes/build-M0-a-09-fix-s20-j785/city-*.log`.
+
+**T2 RELATION as J785 rules it** (supersedes THE FIGURES TABLE's T2 block above, whose figures are now T2' — reproduced
+figure for figure: the six seeds' four classes, tips, arbitration counts and straight-through columns equal byte for byte)
+
+| seed | EQUAL / NEAR / DIFFERENT | NEAR at a tip | X-RIGHT / X-WRONG / UNDECIDED / THIN | UND.-or-THIN share | reads decided | witnesses (X-RIGHT / X-WRONG / UNDECIDED) | off the diff. / both wrong | X-RIGHT by move (largest gap) / tip (largest) / OFF ITS BOUND | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| f3 | 8 / 1 283 / 3 951 | 130 | 1 712 / 0 / 680 / 1 559 | 0.567 **VOID** | 1 712 | 93 967 (80 474 / 0 / 13 493) | 395 / 0 | 1 470 (74.73) / 242 (654.78) / 0 | VOID |
+| i4 | 3 / 1 211 / 4 753 | 142 | 2 113 / 0 / 1 067 / 1 573 | 0.555 **VOID** | 2 113 | 126 850 (106 323 / 0 / 20 527) | 409 / 0 | 1 671 (69.07) / 442 (868.75) / 0 | VOID |
+| **CITY** | **11 / 2 494 / 8 704** | **272** | **3 825 / 0 / 1 747 / 3 132** | **0.561** | **3 825** | **220 817 (186 797 / 0 / 34 020)** | **804 / 0** | **3 141 (74.73) / 684 (868.75) / 0** | |
+| f1 | 0 / 75 / 381 | 18 | 209 / 0 / 65 / 107 | 0.451 | 209 | 11 700 (9 930 / 0 / 1 770) | 28 / 0 | 158 (25.50) / 51 (201.81) / 0 | PASS |
+| f2 | 0 / 80 / 389 | 4 | 239 / 0 / 61 / 89 | 0.386 | 239 | 16 589 (14 663 / 0 / 1 926) | 40 / 0 | 162 (54.79) / 77 (198.94) / 0 | PASS |
+| i1 | 4 / 110 / 622 | 26 | 284 / 0 / 202 / 136 | 0.543 **VOID** | 284 | 17 083 (13 406 / 0 / 3 677) | 37 / 0 | 173 (25.86) / 111 (214.44) / 0 | VOID |
+| i2 | 10 / 111 / 609 | 3 | 300 / 0 / 193 / 116 | 0.507 **VOID** | 300 | 24 627 (19 963 / 0 / 4 664) | 45 / 0 | 180 (27.57) / 120 (2 646.63) / 0 | VOID |
+| **TEST** | **14 / 376 / 2 001** | **51** | **1 032 / 0 / 521 / 448** | **0.484** | **1 032** | **69 999 (57 962 / 0 / 12 037)** | **150 / 0** | **673 (54.79) / 359 (2 646.63) / 0** | |
+
+DIFFERENT reads on UNJUDGED faces: 0 at every seed (the oracle judged every face). FAILING (X-WRONG on judged faces): 0 at
+every seed. THE CONSTRUCTION OFF ITS BOUND: 0 reads at every seed (the evidence blocks are empty). T1's no-move column
+stays 0 (THE FINDING of the first build; J785 (1)).
+
+**T7 NO-SHIFT AND CONTROLS as J785 rules it** (supersedes THE FIGURES TABLE's T7 block)
+
+| seed | OFF / ON SeedRecords (stampsMs aside) | root (OFF = ON) | wall-clock OFF s | ON s |
+|---|---|---|---|---|
+| f3 | byte-identical | db72c0bf0fa021ca873fd7f5f6f30d7b | 185.9 | 3 411.1 |
+| i4 | byte-identical | e9e96e0e6a2e88e587c968796e0ef03e | 201.8 | 4 435.2 |
+| f1 | byte-identical | 5ca73bb609c457f9cad5647edbf3df35 | 16.0 | 324.8 |
+| f2 | byte-identical | 5860f66d5dfad7d32f6257ab398ecf56 | 19.5 | 354.5 |
+| i1 | byte-identical | 6770012c6f75a48734cbbe2dc736b251 | 21.0 | 580.7 |
+| i2 | byte-identical | 63a5d584d7d0f65c2a71daf9b7e62eef | 21.3 | 553.6 |
+
+Controls (fusion 1 TEST, ON only): `VERDICT fusion 1 at TEST_SIZE 900 ha / 30 ha (PLANTED relation: X +10 cm before the
+local arbitration): FAIL — FAIL local arbitration FAIL 450 X-WRONG (reads with a decided witness 450); comparand relation
+ok; oracle ok; …` (366.5 s; T2 {DIFFERENT 456}; X-RIGHT 0 / X-WRONG 450 / UNDECIDED 6 / THIN 0; witnesses 305 235, X-WRONG
+259 647) — FAILS as ruled. `VERDICT fusion 1 at TEST_SIZE 900 ha / 30 ha (PLANTED oracle +10 cm): FAIL — FAIL local
+arbitration ok (reads with a decided witness 209); comparand relation ok; oracle FAIL 239; …` (336.0 s) — FAILS as before.
+The ON wall-clock rose by the local arbitration (TEST ~235 → ~325 – 355 s for fusion, ~405 → ~555 – 580 s for integrated;
+CITY 2 488 → 3 411 s and 3 206 → 4 435 s). NO-SHIFT IS RE-PROVED by the same OFF / ON comparison at all six seeds.
+
+220. **T1, T3 – T6 REPRODUCED.** Against the first build's chain (`/home/user/maps-scratch/lanes/build-M0-a-09-fix-s20/
+     city-*.log`), line by line: **T1 SERVICE, T3 ORACLE, T4 IDENTITY, T5 GRANULARITY — byte-identical at all six seeds
+     and the oracle control** (`grep '^T1 '` etc., md5 equal); **T6 TIME — equal but the times** (every n and band equal;
+     the means and percentiles masked); the T2' figures equal the first build's T2 (row 219). No figure moved: THE
+     FIGURES TABLE's T1, T3 – T6 blocks stand as they are.
+221. **NOTHING SERVED CHANGED.** No kernel source changed (kerb.ts sha256 6129f43b…, kerbExact.ts 11829a30… — the LANDED
+     record's), so **the prod bundle's figures (line 8 (1) – (3), line 9 (2)) and row 206 stand unre-run**, and
+     **RELATED@1000 over kerb.ts / kerbExact.ts stands** (the first build's row); derived.test.ts is byte-unchanged.
+222. **NEAR AT FULL STRENGTH (the test-side files changed).** `PLAT_FUZZ_SEED=-1088031545 corepack pnpm exec vitest run
+     --maxWorkers=1 --silent=false packages/kernel/test/arr/bands/` on the tree: **Test Files 4 failed | 19 passed (23);
+     Tests 6 failed | 240 passed (246)** (1 301.7 s) — the SAME six declared Q152 reds exactly as the first build's run
+     and the base's (dryrun 'draws 389 and 1109', hardening-s15 'network 561', closing 'shrunk counterexample' and 'draw
+     1109', restage N1 and N2; the `FAIL` lines equal), every other test green (240 = the first build's 237 + observer.test.ts's
+     three new tests, now 9). The census lines `B-FUZZ bands` and `B-FUZZ bands (widened)` identical to the first build's
+     (kerb 4, corridorUnion 8, bandUnion 4 insertChain refusals of 10 000; widened 6 / 6 / 0 of 2 000). **REFUSALS
+     (J264): before = after** — the census unchanged; the construction's and X's refusals at the six seeds 0 → 0; no new
+     lawful-input refusal.
+223. **derived.test.ts AT S18's SEED.** `PLAT_FUZZ_SEED=518964130 corepack pnpm exec vitest run --maxWorkers=1
+     --silent=false packages/kernel/test/arr/bands/derived.test.ts`: 46 / 46 (409.6 s); its two `DERIVED` lines (straight
+     and bent+slits) identical to the first chain's and the base's but the per-read times (relation.ts / definition.ts only
+     gained code).
+224. **GATES (this seat, on the tree after the chain).** `corepack pnpm install --frozen-lockfile` exit 0 ('Already up to
+     date'); `corepack pnpm lint` exit 0 (`lint: kernel-boundary ok`, `lint: probe-red ok`, `lint: eslint 1310 files, 0
+     errors, 0 warnings`); `corepack pnpm build` exit 0; `tsc -p test --noEmit` in packages/kernel exit 0.
+225. **THE RUNNER, VERBATIM** (`/home/user/maps-scratch/waves/s20/probe-s20/city.ts`; it replaces row 214's text for the
+     J785 runs — the round-1 version is kept beside it as `city-r1.ts`; the diff: `--plant-relation D` ⇒ `plantLocal: D`,
+     the usage line, the three evidence blocks X-WRONG / OFF ITS BOUND / local UNJUDGED, and the verdict word PASS / VOID
+     / FAIL):
+
+```ts
+// M0-a-09 hardening round S20, LINE 7's runner (a scratch probe; bench/ is read, never written). One process, no worker
+// thread: per seed, (1) OFF — runTask in this thread (derive with `watch: true`, then measure: the harness's own record),
+// (2) ON — the shadow installed (kerbExact.ts `setExactShadow`) with observer.ts's ShadowObserver and the caller's clock,
+// then runTask again, so every read S8 and the harness's S9 batches make is judged. It prints line 10's tables T1 – T7
+// and line 7's failing verdict, and writes the seed's evidence file. The kernel is reached through bench's own graph;
+// kerbExact.ts and the test modules by path — ONE instance of kerb.ts (0 reads observed fails the run).
+// J785 (the session's ruling on the block): `--plant-relation D` translates X by D cm before THE LOCAL ARBITRATION on
+// every read (observer.ts `plantLocal`; the control is run with 10) — the comparand +5 cm control is withdrawn at CITY.
+// Usage (from <mirror>/plat): corepack pnpm exec tsx --conditions=plat-source <this file> --run <fusion|integrated>
+//   --seed N [--frame-ha 900 --walled-ha 30] [--plant-relation 10 | --plant-oracle 10] [--evidence <dir>]
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+type Rec = Record<string, unknown>;
+
+function arg(name: string): string | undefined {
+  const i = process.argv.indexOf(name);
+  return i < 0 ? undefined : process.argv[i + 1];
+}
+
+async function main(): Promise<number> {
+  const root = process.cwd();
+  const at = (p: string): string => pathToFileURL(join(root, p)).href;
+  const fusion = (await import(at('bench/src/fusion/index.ts'))) as { runTask: (t: Rec) => Rec };
+  const kx = (await import(at('packages/kernel/src/arr/kerbExact.ts'))) as { setExactShadow: (o: unknown, opts?: Rec) => boolean };
+  const ob = (await import(at('packages/kernel/test/arr/bands/observer.ts'))) as {
+    ShadowObserver: new (o: Rec) => { reads: number; ev: Record<string, string[]>; tables: (l: string, c: number | null) => string[]; failing: () => Record<string, number>; distinctKeys: number };
+    verdictLine: (o: unknown, cuts: number | null) => string;
+  };
+  const run = arg('--run') ?? 'fusion';
+  const seed = Number(arg('--seed') ?? '1');
+  const frameHa = arg('--frame-ha');
+  const walledHa = arg('--walled-ha');
+  const plantRelation = arg('--plant-relation');
+  const plantOracle = arg('--plant-oracle');
+  const evidence = arg('--evidence');
+  const size = frameHa === undefined ? 'CITY' : `TEST_SIZE ${frameHa} ha / ${walledHa ?? '?'} ha`;
+  const label = `${run} ${String(seed)} at ${size}`;
+  const task: Rec = { run, seed, ...(frameHa === undefined ? {} : { frameHa: Number(frameHa) }), ...(walledHa === undefined ? {} : { walledHa: Number(walledHa) }) };
+  const clock = (): number => Number(process.hrtime.bigint()) / 1e6;
+  const strip = (r: Rec): string => JSON.stringify({ ...r, stampsMs: undefined });
+  const planted = plantRelation !== undefined || plantOracle !== undefined;
+  let off: Rec | null = null;
+  let offMs = 0;
+  if (!planted) {
+    const t0 = clock();
+    off = fusion.runTask(task);
+    offMs = clock() - t0;
+    console.log(`CITY ${label} OFF: ${(offMs / 1000).toFixed(1)} s; root ${String(off.root)}; faces ${JSON.stringify(off.faces)}`);
+  }
+  const o = new ob.ShadowObserver({ clock, ...(plantRelation === undefined ? {} : { plantLocal: Number(plantRelation) }), ...(plantOracle === undefined ? {} : { plantOracle: Number(plantOracle) }) });
+  if (!kx.setExactShadow(o)) throw new Error('city: the shadow did not install (a debug build was expected)');
+  let on: Rec | null = null;
+  let thrown: string | null = null;
+  const t1 = clock();
+  try {
+    on = fusion.runTask(task);
+  } catch (e) {
+    thrown = String(e instanceof Error ? (e.stack ?? e.message) : e);
+  } finally {
+    kx.setExactShadow(null);
+  }
+  const onMs = clock() - t1;
+  const cuts = on === null ? null : ((on.faces as { cuts: number }).cuts);
+  console.log(`CITY ${label} ON: ${(onMs / 1000).toFixed(1)} s; root ${on === null ? 'none (threw)' : String(on.root)}${thrown === null ? '' : `; THREW ${thrown.slice(0, 400)}`}`);
+  for (const line of o.tables(label, cuts)) console.log(line);
+  const identical = off !== null && on !== null ? strip(off) === strip(on) : null;
+  const roots = off !== null && on !== null ? `${String(off.root)} / ${String(on.root)}` : on === null ? 'none' : `— / ${String(on.root)}`;
+  console.log(`T7 NO-SHIFT AND CONTROLS ${label}: OFF / ON SeedRecords (stampsMs aside) ${identical === null ? 'n/a (a control: ON only)' : identical ? 'byte-identical' : 'DIFFER'}; roots ${roots}${identical === null || off === null || on === null ? '' : off.root === on.root ? ' (equal)' : ' (DIFFER)'}; wall-clock OFF ${(offMs / 1000).toFixed(1)} s, ON ${(onMs / 1000).toFixed(1)} s`);
+  const verdict = ob.verdictLine(o, cuts);
+  const noShift = identical === null || identical;
+  const pass = noShift && thrown === null && verdict.startsWith('PASS');
+  const word = pass ? 'PASS' : noShift && thrown === null && verdict.startsWith('VOID') ? 'VOID' : 'FAIL';
+  console.log(`VERDICT ${label}${planted ? ` (PLANTED ${plantRelation !== undefined ? `relation: X +${plantRelation} cm before the local arbitration` : `oracle +${String(plantOracle)} cm`})` : ''}: ${word} — ${verdict}; no-shift ${identical === null ? 'n/a' : identical ? 'ok' : 'FAIL'}${thrown === null ? '' : '; the ON run THREW'}`);
+  if (evidence !== undefined) {
+    mkdirSync(evidence, { recursive: true });
+    const name = `${run}-${String(seed)}${frameHa === undefined ? '-city' : '-test'}${plantRelation !== undefined ? '-plant-relation' : plantOracle !== undefined ? '-plant-oracle' : ''}.txt`;
+    const ev = o.ev;
+    const block = (title: string, xs: readonly string[]): string => `## ${title} (${String(xs.length)})\n${xs.join('\n')}\n`;
+    writeFileSync(
+      join(evidence, name),
+      [
+        `# M0-a-09 S20 evidence — ${label}${planted ? ' (planted control)' : ''}`,
+        ...o.tables(label, cuts),
+        `VERDICT: ${word} — ${verdict}`,
+        block('FAILING lines', ev.failures),
+        block('X-WRONG reads of the local arbitration, whole (J785 (2) (c))', ev.xWrong),
+        block('X-RIGHT reads where the construction stood OFF ITS BOUND (J785 (2) (c); the first 20)', ev.offBound),
+        block('DIFFERENT reads on UNJUDGED faces (the first 20)', ev.localUnjudged),
+        block('every BEYOND read of the comparand relation arbitrated (face, rings, both regions; REPORTED)', ev.beyond),
+        block('no-move BEYOND reads on UNJUDGED faces, by class (REPORTED, OQ-2)', ev.unjudgedBeyond),
+        block('no-move FIRST reads with X ≠ X_U (Q178 (a); the first 20)', ev.noMoveFirstOffX),
+        block('frame-side ends (OQ-1; three faces with their rings)', ev.frameSideEnds),
+        block('identity OTHER (the first 20)', ev.identityOther),
+        block('the oracle\'s step per judged face (J759 (3) Q4)', ev.steps),
+      ].join('\n'),
+    );
+  }
+  return pass ? 0 : 1;
+}
+
+main().then(
+  (rc) => {
+    process.exitCode = rc;
+  },
+  (e: unknown) => {
+    console.error(e);
+    process.exitCode = 2;
+  },
+);
+```
+
+226. **REPORTED ROWS STAND (J785 (4)).** The forced run's orient2d count and C-0507's deviations stand as REPORTED;
+     nothing of the corpus's relation changed and no per-call locus was asked of the kernel's read.
+227. **THE RECORD AND THE DISCLOSURES.** The amendment ran in two seats of the lane (J758's long-wait hand-off: the first
+     built the code, the trial, the finding's fix and the mutants and launched the chain at 07:09Z; a waiter watched it
+     ~200 min; a fresh seat — this one — read the chain, re-ran the gates and wrote rows 216 – 227, C-0508, L-0842 and the
+     records). Landed again: `corepack pnpm landed -- M0-a-09 --lane build/M0-a-09-fix-s20 --wave flow-7` with the
+     first build's `--touched` list, and `build-M0-a-09-s20-notes` with the same owns. **SIZE:** the control's evidence
+     file `fusion-1-test-plant-relation.txt` is now ~53 MB (450 X-WRONG reads listed whole, as J785 (2) (c) asks; the first
+     build's +5 cm file was 0.2 MB) — over GitHub's 50 MB warning, under its 100 MB limit; the session may want it
+     compressed or trimmed before the commit (the seat changes no format). This seat ran one read-only `git status` (no
+     write; disclosed). Nothing under `docs/validation/`, the design, the amendment or `docs/PROGRESS.md` was opened.
+
+## Closing check of hardening round S20 (lane `check/M0-a-09-close-s20`, 2026-11-12)
+
+Verdict FAIL (`checks/M0-a-09-s20.md`): ONE failing line — F1, NEAR at the base's seed 1696442892 has a seventh red,
+observer.test.ts's arena-form pin 'both fail X translated 10 cm' (LINE 8 (6) / (7) with LINE 6's pin; test-side only).
+Lines 1 – 5, 7 (as J785 rules it), 9 and 10 confirmed; lines 8 (1) – (5) confirmed. Four of the six seeds print the
+local arbitration VOID (the session reads them). The rows below are notes, none a fail; row 237 is F1's background.
+
+228. **OB4 — (k1)'s guard has no unit pin.** observer.ts throws where a later read of a key carries another X (LINE 6
+     (c); LINE 7's '0 (k1) throws'). With the throw removed (own mutant OB4) every test of the bands folder stays green
+     at RUNS 1 000: no honest read can show it (X is a function of its key — derived.test.ts's lemma). Suggested
+     handling: one unit test feeding `ShadowObserver.read` two records of one key with different regions, expecting
+     the throw; M4, or round 2B if it re-runs the probe.
+229. **OB5 — the 'frame-side end' class is exercised and never asserted.** With `onFrame` always false in
+     `truthOfFace` (own mutant OB5) the bands folder stays green, although the class fires in the arena-form
+     property's own corpus (its console line at seeds 1 – 12: `UNJUDGED {"profile reading":141 – 180,"frame-side
+     end":2 – 7}`) and on an own fixture (a way ending on a way laid along the frame, both insertion orders). At CITY
+     and the test size the class counts 0 at all six seeds, with 0 oracle faults — were the detection dead, such a
+     face would be judged with the oracle's end rule against the code's flat end and show misses, so the 0 reads as
+     'no such face', but nothing pins it. Suggested handling: assert the class on a named fixture (count ≥ 1, and the
+     face not judged); at round 2B's spec, where OQ-1 is ruled on this class's counts.
+230. **LA6 and LA8 — the verdict's two unpinned steps.** LA6 (`failing().localXWrong := 0`): no unit test reads
+     `failing()` / `verdictLine` under `plantLocal`; the runner's control is its only pin (under LA6 `--plant-relation
+     10` prints `PASS — PASS local arbitration ok (reads with a decided witness 450)`; chain step control-LA6). LA8
+     (per read, X-RIGHT taking precedence over X-WRONG): unpinned — a read with both needs a planted X; every run
+     prints 0 X-WRONG WITNESSES, which does not depend on the precedence. Suggested handling: a unit test of
+     `verdictLine` on a planted fixture (FAIL), and one read with a witness of each class; M4 or 2B.
+231. **LINE 3's differential pin cannot see XF2.** `exactRegionOfRead(readFace(…))` against `exactRegionOfFace(…)`
+     compares a function with its own delegate (the line's delegation makes them one body), so a fault inside
+     `exactKeyContentOfRead` is invisible to it; XF2 is killed by derived.test.ts's literal fixture instead. No
+     handling needed; said so that the pin is not over-read.
+232. **J785 (5), the own probe, and what it found at the margin.** Method and result: the verdict's section. (a) The
+     own classifier's first buffer model took a join's whole disc and so read as band the sliver between a JUNCTION
+     end's flat line and F's own edge meeting it obliquely, where the way's first segment is shorter than its
+     half-width (integrated 1 faces 106 and 200, integrated 2 read 349's face, integrated 4 faces 330 and 333; 34
+     witnesses); kerb.ts:704-706 and definition.ts's pieces cut the joins at the flat line; with that rule the own
+     classes are the module's. At those slivers the served region reads band and X kerb (up to ≈ 10 cm wide, ≈ 150 cm
+     long), and the module's witness is UNDECIDED (it stands within MARGIN_CM of the flat line, the far pair running
+     along the sliver) — a small class of the UNDECIDED column that round 2B may want named. (b) 87 witnesses of 85 708
+     the module calls X-RIGHT and the own margin test UNDECIDED: `truthAtOf` applies MARGIN_CM to a touching chain
+     that is no spine by the capped grid only where the point lies INSIDE its buffer (definition.ts:831-833), so a
+     witness 2 – 4 cm outside such a buffer is decided; the truth there is kerb either way and the lean is toward
+     deciding, never toward hiding an X-WRONG. 92 the other way (the oracle's depth is a lower bound at piece seams).
+     Suggested handling: none now; M4 may read the margin on both sides.
+233. **LINE 9's prod figures, this seat's.** The verdict's row: the construction 26.07 ms a read (readKerb inclusive
+     72 045 ms ÷ 2 764), X 2.113 ms a read (exactRegionOfRead 5 839 ms ÷ 2 764), the key alone 1.787 ms, exactRegion
+     1.373 ms a call; S8 plain a cut 56.5 ms (tree, fusion 3; base 58.4 — informative, a cloud box); on one basis ≈
+     11.6 ms a cut were X served once per distinct key. REPORTED; never a bar.
+234. **The builder's disclosures, for the session.** (a) One read-only `git status` (notes row 227) — the working
+     rules say no git command of any kind; nothing was written. (b) `M0-a-09-s20-evidence/fusion-1-test-plant-
+     relation.txt` is 52 987 712 bytes (the folder 57 MB): over GitHub's 50 MB warning; this seat's re-run reproduces
+     it but the T6 line, so it can be trimmed to its head or regenerated at will. (c) `ExactObserver.failed?` and the
+     catch-notify-rethrow round X are additions to the brief's type (C-0507); the planted-throw pin holds with them.
+235. **Foreign reds in RELATED@1000 (seed 1790549561).** bench `test/site/compose.test.ts` 'relief-60 default seed 2
+     (test size) refuses at S5 …' and `test/site/spike.test.ts` (three tests, relief-60 seed 2): red on the base mirror
+     at the same seed and size with the same assertion lines. Not this round's; the session's (another item's
+     in-flight state).
+236. **The shadow's `starts` stack keeps one entry per read that throws between start and done.** setExactShadow
+     pushes a time at `start` and pops at `done`; a read whose widths callback throws leaves its entry (reads do not
+     nest, so every later pairing stays right). Debug-only, a few bytes a thrown read. Suggested handling: a depth of
+     one (overwrite at start); M4, or with round 2B's removal of `anyBuild`.
+237. **F1's background — what the capped oracle (T3) can and cannot see.** Both forms of the oracle skip every sample
+     within MARGIN_CM of F, of the truth's boundary and of X's outline, so a translation of d leaves the samples a
+     strip d − 2 · MARGIN_CM wide; at the capped step (√(area ⁄ 4 000): 22.8 cm on a 208 m² face, metres at CITY) a
+     10 cm plant is caught by the vertex check or not at all, and the vertex check is blind where every moved vertex
+     stays on a boundary or lands at a piece seam (the counterexample: one chord of hw 10 between two frame sides).
+     The CITY control (`--plant-oracle 10`: 239 of 239 keys) is caught by vertices. T3's '0 faults' is therefore a
+     vertex-level reading at CITY; the local arbitration (J785) is the reading at the difference. The builder's own
+     KI (the J785 section: 'the capped T3 oracle has the same blindness at its own samples') says the same of the
+     spine selection. Suggested handling: with F1's fix, state it in the test and the notes; a sharper oracle (samples
+     along X's own outline's normals) is M4's.
+238. **This seat's record and disclosures.** Two seats of the lane (J714's long-wait hand-off; the chain
+     `/home/user/maps-scratch/waves/check-M0-a-09/s20/chain`, 42 steps, 11:18 – 20:34). The probe plan preceded any
+     reading of the builder's rows 199 – 227; the re-entry seat read rows 206 – 209, 213, 214, the FIGURES TABLE and
+     the J785 section after its own judging. No git command; `docs/validation/` not opened. The own classifier's
+     first buffer model was wrong at flat ends (row 232 (a)) and was corrected in a second file, the first results
+     kept (`chain/classify-*.json`, `logs/classify2-*.json`). Both own mirrors left clean, their `node_modules`
+     deleted; the builder's base mirror left in place, unwritten.
+
+## Fix round S21 — builder (lane `build/M0-a-09-fix-s21`, 2026-11-12)
+
+The closing check of round S20 failed the round on ONE line, F1 (`checks/M0-a-09-s20.md`): observer.test.ts's arena-form
+pin is red at `PLAT_FUZZ_SEED=1696442892` (network `[{"a":11879,"b":919,"hw":10,"knots":null,"ends":"round"}]` face 1:
+the record form fails X + 10 cm by 13 samples, the arena form at its capped step 22.80 cm has no sample in the ≈ 2 cm
+strip and no vertex fault). This round is TEST-SIDE ONLY: `packages/kernel/test/arr/bands/observer.test.ts` and these
+notes; no file under `packages/*/src` (kerb.ts sha256 6129f43b…, kerbExact.ts 11829a30… — row 221's, unchanged),
+definition.ts, relation.ts, observer.ts and every other test file untouched; no existing export of definition.ts
+changed. Nothing served moved, so lines 1 – 5, 7 – 10's figures (rows 199 – 227 and the S20 check's) stand unre-run.
+
+239. **F1 — FIXED (test-side), PINNED; THE CHECKER'S (i) AND (ii) AS WRITTEN ARE ALSO RED BY THE SEED, SO A SHARPER TRUE
+     CLAIM IS PINNED (the required change allows it; choices row C-0509).** A first draft built (i) – (ii) literally
+     (`judgeCapped(…, X10, GRID_CM)` fails wherever `judge` fails X + 10 cm; at the capped step the plant asserted where
+     the RECORD verdict carries a vertex fault) and ran `-t 'arena form'` at the PR size on 26 seeds: two red.
+     Seed 116 (shrunk) `[{a:11962,b:0,hw:159},{a:13551,b:7974,hw:128}]` face 2: the record form finds `(194, 2657) 4.20 cm
+     deep in way:way:1` (and 'farther than the margin'), the arena form at both steps no vertex fault. Seed 123 (shrunk)
+     `[{a:9368,b:0,hw:1},{a:2606,b:15408,hw:118}]` face 0: record 1 miss `(210, 310) kerb read as band`, arena at GRID_CM
+     0. A mirror-only probe printed both truths: the RECORD reads each chord as its two placed points, the ARENA walks
+     its route — 3 points, the crossing's split vertex among them, a SEAM of its buffer where `bufferDepth` is a lower
+     bound (definition.ts:256-264), so a depth within a few millimetres of MARGIN_CM reads on different sides. And
+     ROUND S20's OWN unplanted assertion ('the arena form's verdict is the record form's') is red at seed 123 on the
+     unshrunk draw `[{a:11883,b:16,hw:5,knots:[377,153],square},{a:10966,b:18,hw:18},{a:3215,b:15408,hw:118}]` face 3:
+     record misses `(1292, 470)`, `(1172, 490)` and `(189, 662) 14.93 cm deep in way:way:2`, arena clean — the arena's
+     way:2 runs (3215, 0) → (142, 551) → (17, 573) → (0, 592), its crossing with way:1 SNAPPED to (142, 551), 15 cm off
+     the record's straight placed polyline (3215, 0) → (0, 592) (y 565.9 at x 142); X follows the arena's route, so the
+     record is the wrong truth there, not X. The pin was red by the seed on two counts; neither is kernel code.
+     **THE PIN AS RESTATED** (`observer.test.ts`, describe 'line 6 (b)'; every claim exact, its reason read in the code):
+     (a) AT ONE STEP THE CAPPED FORM IS THE ORACLE — on the arena's own truth `judgeCapped(aF, aChains, X, GRID_CM)`
+     deep-equals `judge(aF, aChains, X)` (misses, vertex faults, simplicity, judged, samples, spines: X lies in F; every
+     bucketed distance is exact within its reach R = MARGIN_CM + 1 and every clamp keeps the sign and the margin test —
+     NearBuffer.depth, NearRings.dist; `gridOfStep(F, GRID_CM)` is `gridOf(F)`); for X + 10 cm the SAMPLES (misses,
+     judged, samples — every sample in F) are equal, its vertices (up to 10 cm outside F's box, where the clipped pieces
+     are not the whole buffer) are not compared with judge's;
+     (b) THE VERTEX AND SIMPLICITY CHECKS READ NO SAMPLE — at the face's capped step (max(GRID_CM, √(area ⁄ 4 000))) they
+     deep-equal those at GRID_CM; so X + 10 cm failed by the arena truth's oracle WITH A VERTEX OR SIMPLICITY FAULT is
+     failed at the capped step (asserted);
+     (c) THE TWO READINGS WHERE THEIR GEOMETRY COINCIDES — where F's rings and every spine's (spinesOf on both truths)
+     key, route and closedness are the record's and the arena's alike, the arena's reading of each (half-width — a
+     profile of two equal knots read as its scalar, the widths read gives it so —, ends, junction ends) equals the
+     record's and judge's verdicts on X are equal;
+     (d) F1's counterexample is a NAMED FIXTURE (`F1_COUNTEREXAMPLE`; its own test: face 1, step 22.80 cm; X + 10 cm:
+     record 13 misses / judged 4 873 of 5 200, arena at GRID_CM the same 13 misses / 4 873 of 5 200, arena at its step
+     0 misses, 0 vertex faults / judged 3 710 of 3 990 — clean; unplanted, both clean) and is also checked inside the
+     arena-form test, so every seed meets it.
+     COUNTED, NEVER ASSERTED (the `OBSERVER arena form` line): the sample-only catches at the capped step (caught k of
+     n); the record form's verdict on X where the two readings' geometry differs; the record form's X + 10 cm verdict
+     against the arena truth's. THE FLOORS are the fixtures' and F1's alone (seed-independent): judged 31, coinciding
+     geometry 14, planted 30, by a vertex or simplicity fault 29, by samples alone 1 (F1's face).
+     WHAT THE CAPPED FORM PROMISES (the module comment's bullet rewritten; row 204, the T3 block and the J785 section's
+     KI carry a bracketed S21 note): at a step of √(area ⁄ 4 000) its sample check need not meet a difference narrower
+     than the step — a 10 cm plant leaves a strip ≈ 10 − 2 · MARGIN_CM wide clear of the margins —, its vertex and
+     simplicity checks are the step's own; T3's '0 faults' is a vertex-level reading where the step exceeds GRID_CM,
+     and the CITY control (`--plant-oracle 10`, 239 of 239 keys) is caught by vertices.
+240. **THE SEEDS (v).** `PLAT_FUZZ_SEED=<s> corepack pnpm exec vitest run --maxWorkers=1 --silent=false
+     packages/kernel/test/arr/bands/observer.test.ts -t 'arena form'` at the PR size (NETS 100), on the tree: **36 seeds
+     green** — 1696442892 and 101 – 135 (3 passed | 7 skipped each, 6.65 – 11.39 s). Per seed: 53 – 89 faces judged,
+     21 – 49 with coinciding geometry, 50 – 83 X + 10 cm failed by the arena truth's oracle, of them 49 – 80 by a vertex
+     or simplicity fault (all caught at the capped step) and 1 – 3 by samples alone (caught 0 – 2 at the capped step:
+     counted); the record's verdict on X equal to the arena's elsewhere on every face but 2 at seed 116 and 1 at seed 123
+     (counted); the record's X + 10 cm verdict equal to the arena truth's at every seed. At 1696442892: `73 faces judged
+     …; the record's chain geometry the arena's on 30 …, elsewhere the verdicts on X equal on 43 of 43 …; X + 10 cm
+     failed by the arena truth's oracle on 66: at the capped step 64 with a vertex or simplicity fault (asserted, all
+     caught), 2 by samples alone, caught 0 of 2 (counted, never asserted)`. Logs:
+     `/home/user/maps-scratch/lanes/build-M0-a-09-fix-s21/seeds2/`; the first draft's 26 (two red):
+     `/home/user/maps-scratch/lanes/build-M0-a-09-fix-s21/seed-*.log`.
+241. **THE MUTANTS (J169; J183 — the fault the check names re-introduced).** In the lane's self-check mirror
+     (`/home/user/maps-scratch/waves/selfcheck-build-M0-a-09-fix-s21/plat`, isolation proved: no link into the tree,
+     `@plat/kernel` resolving inside the mirror), each by `PLAT_FUZZ_SEED=101 corepack pnpm exec vitest run
+     --maxWorkers=1 --bail=1 packages/kernel/test/arr/bands/observer.test.ts -t 'arena form'`, restored by copy and
+     `cmp` after each; every kill is by a fixture or F1's face, so it holds at every seed:
+
+     | mutant | the fault | result | the pin that kills it |
+     |---|---|---|---|
+     | S21M1 | round S20's pin restored: the sample-only plant asserted at the capped step | KILLED | `F1 counterexample … face 1: sample-only plant at the capped step: expected true to be false` |
+     | S21M2 | the GRID_CM reading taken at the capped step (`vg`, `pg`) | KILLED | (a): `fixture half face 0: X, the arena form at GRID_CM against judge on the arena's truth` (judged 3 904 of 3 974 against 9 700 of 9 890) |
+     | S21M3 | definition.ts `judgeCapped`'s vertex check read only at GRID_CM | KILLED | (b): `fixture half face 0: X + 10 cm, vertex faults at step 31.59 and at GRID_CM: expected [] to deeply equal [ …(10) ]` |
+     | S21M4 | definition.ts `truthOfFace`'s half-width read 1 cm wide | KILLED | (c): `fixture oblique face 0: the arena's reading of the record's chains` |
+     | S21M5 | definition.ts `judgeCapped`'s margin round X 1 cm wider | KILLED | (a): judged 0 against 9 700 |
+242. **NEAR AT FULL STRENGTH AT THE BASE'S SEED (LINE 8 (6), (v)).** `PLAT_FUZZ_SEED=1696442892 corepack pnpm exec vitest
+     run --maxWorkers=1 --silent=false packages/kernel/test/arr/bands/` on the tree (W = 1, PR size): **`6 failed | 241
+     passed (247)`**, `Test Files 4 failed | 19 passed (23)`, 1 137.05 s — the one test more than the S20 check's tree
+     run (246) is the named F1 fixture. THE BASE is the S20 closing check's run in the builder's base mirror at the same
+     seed (`/home/user/maps-scratch/waves/check-M0-a-09/s20/chain/base-bands.log`, `6 failed | 221 passed (227)`; the
+     base mirror is unwritten since, so it was not re-run): Q152's six failure blocks (closing.test.ts 'fast-check's
+     shrunk counterexample of seed 20261011' and 'seed 20261011 draw 1109', dryrun.test.ts 'draws 389 and 1109',
+     hardening-s15.test.ts 'network 561', restage.test.ts 'N1' and 'N2') compared from the two logs with the times
+     masked: **identical, 152 lines**; observer.test.ts, shadow.test.ts and shadow-prod.test.ts green (the 19 files
+     passed). THE CENSUS (rule (4)): both `B-FUZZ bands` lines identical base → tree (`10000 networks, 9993 committed;
+     … kerb 4, corridorUnion 7, bandUnion 3 insertChain refusals`; widened `2000 networks, 1991 committed, 792 faces
+     with a hole; … 5 / 5 + 4 own / 0`) — no source changed, no refusal count moved. Log:
+     `/home/user/maps-scratch/lanes/build-M0-a-09-fix-s21/tree-bands.log`.
+243. **GATES (on the tree).** `corepack pnpm install --frozen-lockfile` 0 ('Already up to date'); `corepack pnpm lint` 0
+     (`lint: eslint 1310 files, 0 errors, 0 warnings`, `lint: probe-red ok`, `lint: kernel-boundary ok`); `corepack pnpm
+     build` 0; `tsc -p test --noEmit` in packages/kernel 0; `landed:verify -- flow-7 --item M0-a-09` (row 244).
+     RELATED@1000 is NOT re-run: no file under `packages/*/src` changed in this round (kerb.ts and kerbExact.ts
+     byte-identical to the S20 landing, sha256 above), so `vitest related` over them selects the same files as the S20
+     check's run (seed 1790549561: Q152's six and the bench site compose / spike reds shown red on the base, notes row
+     235); the only selected file this round changed is observer.test.ts, run at full strength in row 242 and on 36
+     seeds in row 240. The CITY runner and THE FIGURES TABLE stand: observer.ts, definition.ts and relation.ts are
+     unchanged, and the runner does not import observer.test.ts.
+244. **THE RECORD AND THE DISCLOSURES.** One seat. `corepack pnpm landed -- M0-a-09 --lane build/M0-a-09-fix-s21 --wave
+     flow-7 --touched plat/packages/kernel/test/arr/bands/observer.test.ts`; the notes by `corepack pnpm landed --
+     build-M0-a-09-s21-notes --lane build/M0-a-09-fix-s21 --wave flow-7 --owns plat/docs/build/checks/M0-a-09-notes.md`;
+     C-0509; L-0844. Probe copies of observer.test.ts (`zzprobe.test.ts`) lived only in the self-check mirror, which is
+     removed. Disclosures: (a) the first draft of the pin implemented the check's (i) / (ii) literally and is superseded
+     (row 239: red at seeds 116 and 123); (b) a run of the first draft at seed 123 was stopped by the seat's own timeout
+     while fast-check shrank, and a second draft's run was stopped once to diagnose it (the unshrunk seed-123 draw of
+     row 239) — no other process of the seat was live beside a test run; (c) no git command; docs/validation/ not
+     opened (the brief's line texts carried what they cite).
+
+## Re-check 21 of hardening round S20 (lane `check/M0-a-09-close-s21`, 2026-11-12)
+
+Verdict PASS (`checks/M0-a-09-s21.md`): F1 fixed test-side and pinned; the restated arena-form pin green on 25 own seeds
+(1696442892, 7001 – 7012, twelve drawn), own mutants RM1 – RM5 killed; NEAR at seed 1696442892 `6 failed | 241 passed
+(247)`, Q152's six identical to the base; the census identical; the gates green. The rows below are notes, none a fail.
+
+245. **The capped form's vertex check reads clipped buffers for a vertex outside F's box.** `judgeCapped` keeps a chain's
+     buffer pieces that meet F's box grown by R = MARGIN_CM + 1; for X's own vertices (inside F's box) every depth it
+     reads is exact within R, but a vertex farther than R outside the box (a planted X + 10 cm's) can miss a piece that
+     lies within R of it. The S21 pin rightly compares those vertices only capped-to-capped (step against GRID_CM), never
+     with `judge`, so nothing is wrong today; the CITY control `--plant-oracle 10` is read through these clipped depths.
+     Suggested handling: grow the clip box by the largest plant (or by the vertex's own distance) where a plant is read,
+     or state it beside the control. Hardening pass (M4).
+246. **Row 239's account of the literal (i).** Row 239 says the check's (i) / (ii) built literally went red at seeds 116
+     and 123. This seat's probe RM6 — only the literal (i), 'wherever the record form fails X + 10 cm,
+     `judgeCapped(…, X10, GRID_CM)` fails it' — is green at 116, 123 and 1696442892 (the record's X + 10 cm verdict equals
+     the arena truth's on every face there); what is red by the seed at 116 (two faces) and 123 (one) is S20's unplanted
+     'record verdict = arena verdict', which the restated pin counts. The restatement stands on that alone; the row's
+     wording could name which clause went red. Suggested handling: a bracketed clarification in row 239 at the next
+     touch of the notes. Hardening pass (M4) or the next round that edits the section.
