@@ -11,12 +11,13 @@ N=$1; C=$2; W=$3; NEAR=$(echo $4 | tr ',' ' '); shift 4
 G=/home/user/maps-scratch/gates-$N
 [ -f $G.done ] && { cat $G.sum; exit 0; }
 touch $G.sum
+echo $$ > $G.pid   # a waiter reads it (tools/session/gates/gate-child.md)
 cd /home/user/maps-architecture && git worktree prune
 if [ ! -d $G/plat ]; then git worktree add -q --detach $G $C || { echo "worktree failed" >> $G.sum; exit 1; }; fi
 [ "$(git -C $G rev-parse --short HEAD)" = "$(git rev-parse --short $C)" ] || { echo "worktree is not at $C" >> $G.sum; exit 1; }
 cd $G/plat
 has() { grep -q "^$1" $G.sum; }
-has 'install rc=' || { corepack pnpm install --frozen-lockfile --offline > $G.log 2>&1; echo "install rc=$?" >> $G.sum; }
+has 'install rc=' || { corepack pnpm install --frozen-lockfile --offline > $G.log 2>&1 || PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile >> $G.log 2>&1; echo "install rc=$?" >> $G.sum; }
 has 'lint rc=' || { corepack pnpm lint >> $G.log 2>&1; echo "lint rc=$? $(grep -c 'probe-red ok' $G.log) probe-red-ok" >> $G.sum; }
 has 'build rc=' || { corepack pnpm build >> $G.log 2>&1; echo "build rc=$?" >> $G.sum; }
 has 'verify rc=' || { corepack pnpm landed:verify -- flow-7 > $G.verify.log 2>&1; echo "verify rc=$? $(tail -1 $G.verify.log)" >> $G.sum; }
