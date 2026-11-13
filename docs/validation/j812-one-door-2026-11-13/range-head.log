@@ -1,0 +1,40 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/2b-v5/tree/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 2006941147 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=2006941147 draws the same cases (Q96, C-0057)
+ ❯ |site| test/terrain/range.test.ts (8 tests | 1 failed) 2333ms
+   ❯ the one door (the checker's source facts) (2)
+     × no source of @plat/site writes an Int32Array's cells but range.ts (a type-checked scan) 1774ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |site| test/terrain/range.test.ts > the one door (the checker's source facts) > no source of @plat/site writes an Int32Array's cells but range.ts (a type-checked scan)
+AssertionError: expected [ …(3) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "hydro/strategy.ts: new Int32Array(cellCount(field.grid)).fill()",
++   "hydro/strategy.ts: corridorOwner[c]",
++   "hydro/strategy.ts: corridorOwner[c]",
++ ]
+
+ ❯ test/terrain/range.test.ts:139:69
+    137|       visit(sf);
+    138|     }
+    139|     expect(found.filter((f) => !f.startsWith('terrain/range.ts:'))).to…
+       |                                                                     ^
+    140|     expect(found.filter((f) => f.startsWith('terrain/range.ts:')).leng…
+    141|     expect(files.some((f) => f.endsWith(join('terrain', 'heightfield.t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  08:29:56
+   Duration  5.16s (tests 47%, transform 38%, import 14%, setup 1%)
+
+rc=1

@@ -1,0 +1,10 @@
+GATE d08s2 @ 3cdb1a02 (gate child G4; machine linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib; launches: 1; seed 1794560966) — as reported 09:13Z 2026-11-13
+install rc=0
+lint rc=0 1 probe-red-ok
+build rc=0
+verify rc=0 landed:verify flow-7: ok — 488 records, 2064 changed paths, 2064 attributed
+near (full strength, workers=3, the run's seed -2082112284: packages/testkit/test/determinism bench/test/tiers) rc=0  Test Files 11 passed (11); Tests 130 passed (130); Duration 22.47s
+related@1000 (workers=3, in chunks of 12 files, seed 1794560966: packages/testkit/test/determinism/dilation.test.ts bench/src/tiers/runner.ts bench/test/tiers/runner.test.ts) rc=0 Test Files 0 failed | 16 passed (16 results for 16 of 16 listed files); Tests 0 failed | 247 passed (247);
+scans@1000 (the source-reading tests RELATED did not run: 43 of the tree's 53; workers=3, chunks of 12, seed 1794560966) rc=1 Test Files 4 failed | 42 passed (43 of 43 listed); Tests 7 failed | 517 passed (524);
+  the seven reds: bench/test/calibrate/calibrate.test.ts x3 and bench/test/host/host.test.ts x2 (J176), bench/test/site/summary.test.ts's canary (J772 (7)), packages/site/test/terrain/range.test.ts's one-door scan (Q210) — all declared
+full-only: none of the three strength-gated files is on the RELATED path

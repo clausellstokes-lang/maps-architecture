@@ -1,0 +1,45 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/2b-v5/tree/plat
+
+ ❯ |kernel| test/arr/booleans-buffers/buffer.test.ts (26 tests | 1 failed) 168624ms
+   ❯ a property over random chains: valid output covering every chain point, inside the half-width (2)
+     × every output ring simple, outer rings counter-clockwise, every vertex within 2 w (+ √2 · attractCm when attracted) of the chain 168409ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |kernel| test/arr/booleans-buffers/buffer.test.ts > a property over random chains: valid output covering every chain point, inside the half-width > every output ring simple, outer rings counter-clockwise, every vertex within 2 w (+ √2 · attractCm when attracted) of the chain
+Error: Property failed after 28 tests
+{ seed: 1368891952, path: "27:7:1:2:1:5:6:1:6:1:1:1:1:1:3:1:2:1:5:2:1:2:1:1:2:1:2:1:7:1:1:2:3:2:1:1:8:1:1:2:1:1:1:2:1:9:1:1:1:3:2:1:10:1:1:2:1:2:1:11:1:1:1:2:1:1:11:4:1:4:2:1:2:1:14:1:2:1:14:6:1:1:5:1:2:2:1:1:1:1:2:1:1:6:1:1:1:4:1:2:1:1:7:1:1:1:1:1:1:1:2:1:1:7:5:3:1:1:1:1:9:1:1:1:1:1:1:2:1:9:4:1:2:1:1:10:4:2:1:1:12:1:1:1:2:1:13:1:1:2:1:13:2:1:1:1:15:13:6:1:1:1:5:1:1:2:1:1:1:2:1:2:1:5:5:1:1:2:1:2:1:6:3:3:3:1:1:1:1:7:3:2:2:2:1:8:3:2:1:2:1:9:3:1:1:2:1:1:10:3:1:2:1:11:4:1:2:2:1:13:2:1:1:15:13:1:6:1:4:4:4:1:2:1:1:1:5:3:1:1:2:2:2:1:6:2:2:2:1:2:1:1:7:2:1:4:1:1:1:1:1:8:3:1:2:2:1:9:2:1:1:2:1:1:10:2:1:1:2:1:11:1:2:2:1:12:1:2:1:1:14:12:6:1:1:1:4:2:4:1:2:2:1:1:5:1:5:3:1:1:1:1:6:1:2:3:2:1:1:1:7:1:1:5:1:1:1:1:1:1:8:2:2:2:1:1:9:1:1:3:1:1:1:1:10:1:3:1:1:1:1:12:1:2:1:11:3:1:1:2:1:1:18:4:1:2:4:1:1:1:2:1:4:6:1:1:1:2:1:5:3:2:1:1:2:1:1:6:2:5:1:1:1:1:1:1:8:1:2:1:2:1:1:8:2:1:2:1:1:1:9:2:2:1:1:1:10:3:1:2:1:1:1:13:11:6:1:1:1:3:3:1:2:1:2:1:2:1:4:1:2:1:1:1:1:2:1:1:4:4:1:1:2:1:1:1:5:2:5:1:1:1:1:1:1:7:1:1:3:1:1:1:1:7:2:3:1:1:1:8:4:1:1:1:1:2:1:10:2:1:1:12:10:1:6:1:2:2:2:1:3:2:1:1:1:1:1:1:1:1:1:1:1:1:4:3:2:2:1:11:1:1:5:2:1:2:5:1:1:1:1:10:7:1:1:1:1:11:5:4:5:5:7:1:1:1:6:1:2:1:2:3:1:20:1:7:16:1:1:1:1:1:1:1:3:4:1:1:1:1:5:1:1:1:9:2:1:4:4:4:1:7:1:1:5:5:5:3:20:1:9:2:1:18:1:9:20:36:1:1:1:1", endOnFailure: true }
+Counterexample: [[{"x":0,"y":1926},{"x":10415,"y":0},{"x":0,"y":2579},{"x":8393,"y":3}],1994,"round","round"]
+Shrunk 601 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+ ❯ buildError ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2469:16
+ ❯ throwIfFailed ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2476:8
+ ❯ reportRunDetails ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2492:14
+ ❯ Module.assert ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2662:7
+ ❯ test/arr/booleans-buffers/buffer.test.ts:249:8
+    247|   const end = fc.constantFrom('round', 'square', 'flat' as const);
+    248|   it('every output ring simple, outer rings counter-clockwise, every v…
+    249|     fc.assert(
+       |        ^
+    250|       fc.property(chain, fc.integer({ min: 30, max: 3000 }), join, end…
+    251|         const r = buffer([c], w, j as 'round', e as 'round');
+
+Caused by: Error: Property failed by returning false
+ ❯ Property.run ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:1325:66
+ ❯ propertyExecution ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2549:23
+ ❯ run ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2639:91
+ ❯ runIt ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2542:15
+ ❯ check ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2655:14
+ ❯ Module.assert ../../node_modules/.pnpm/fast-check@4.10.2/node_modules/fast-check/lib/fast-check.js:2660:14
+ ❯ test/arr/booleans-buffers/buffer.test.ts:249:8
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 25 passed (26)
+   Start at  08:47:24
+   Duration  169.90s (tests 99%, transform 1%)
+

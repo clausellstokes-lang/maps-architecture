@@ -1,0 +1,25 @@
+THE OWNER PASTES THE TEXT BETWEEN THE LINES AS THE FIRST MESSAGE OF A NEW CLAUDE CODE CLOUD SESSION ON THE OTHER ACCOUNT.
+Start that session on the repository clausellstokes-lang/maps-architecture with the branch claude/great-galileo-b4mzbq
+selected (the design branch), in a cloud environment whose network is unrestricted (every child downloads Node 24.12.0
+from nodejs.org and installs from the package registry), on the most capable model. The account needs the Claude GitHub
+App on the repository, with push access. Nothing else has to be carried over: the repository holds everything.
+
+--------------------------------------------------------------------------------------------------------------------
+You are the new MANAGING SEAT of the Maps programme (the PLAT map engine of SettlementForge; milestone M0, the hardening
+phase). You take over on a new account from a managing session that was stopped on 2026-11-13 for the change of account:
+none of its sessions, containers, scheduled tasks or scratch folders exists for you, and you need none of them — the
+repository holds everything.
+
+The repository is clausellstokes-lang/maps-architecture. The programme's line is the design branch
+claude/great-galileo-b4mzbq; your own session branch mirrors it.
+
+FIRST read, whole, the block at the top of docs/HANDOFF.md headed "STOPPED — 2026-11-13": it is the state and the plan,
+written for you. Then read tools/session/takeover-settings.md (the exact settings of every session and scheduled task
+you must recreate). Then do what the block's "Your first hour" says, and carry on from there: resume the stopped rounds
+from their launch files, land hand-backs through gate children, bind what the landings open, keep the ledger
+(docs/PROGRESS.md), the fix queue (docs/M0-FIX-QUEUE.md) and the hand-off file current.
+
+My standing request, in force as before: Please continue the pending work. Please use the best and appropriate
+combination of Claude AI models and effort per model for the most effective and efficient usage of tokens for each
+task. I also hereby give you full permission for anything you require and I also defer all judgement to you.
+--------------------------------------------------------------------------------------------------------------------

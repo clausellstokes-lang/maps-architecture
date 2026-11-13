@@ -89,3 +89,93 @@ honest input gives a wrong result. The mutants ran in the checker's own mirror a
 | N-16 | Three survivors are equivalent, so no test is needed. **S-K07** (the kernel's `regionOf` pairs in slot order, `faces/common.ts:117`): every reader of `Region.pairs` is order-free. `planCut`'s loops return the one code `E_NOT_TWO_CROSSINGS` whichever pair fails first, and only the detail moves, which is never compared (C-0199 (1)). `rayHit` keeps the minimum, and `coreClear` and `fan.ts:121` are any-of tests. **S-N4e** (the corridor's L1 faces not sorted by canonical key): `bandCore` sorts its faces itself (`arr/bandUnion.ts:527`), and `setOwner` owns a set. **S-N5b** (the interior point not kept off the cut): the face is located on the arena before the split, where the cut is not yet an element, so a point on the cut's line is still strictly inside the face. | S-K07 `SURVIVED rc=0 Tests 30 passed (30)`; S-N4e and S-N5b `SURVIVED rc=0 Tests 20 passed (20)`; the readers by line range. | None. Recorded so that a later seat does not re-find them. |
 | N-17 | The census's nine refusals that differ from their case's own expectation are inherited, not new. The exact pre-round census (main's `constructive.ts`) has the same set. They are: `limit/degen-self-touching-chain` E_INVARIANT ×2, ruled by C-0227 (11); `expect/reject-min-angle`, `expect/repair-angle-rejected` (×2 each) and `limit/every-rung` #2, E_NOT_TWO_CROSSINGS, the grazing cut ruled by C-0227 (10); and `limit/one-item-chain-optional` E_DEGENERATE ×2. That last one is the harness's own probe chain across a box that is a single point (the case's one-item chain), so it is a zero-length input the harness itself issues. The kernel's refusal of it is correct (UNLAWFUL / REFUSE), but the batch says nothing about renumbering. | P1: `callback refusal-NOT-expected 9` before and after; the lines `limit/one-item-chain-optional #1 next probe chain L1 refused E_DEGENERATE`. | M4: skip the probe, or give it a minimum length, when the case's box has no extent. That lowers the non-commit census by two and touches no kernel class. |
 | N-18 | For the session: the round's author disclosed in L-0589 one read-only `git status` on the item's two folders and one non-recursive `ls` of the project root. The `git status` printed nothing. The `ls` printed top-level names only, and nothing under them was opened. No forbidden content was read, so this is not a clean-room breach. Both are against the working rules and the firewall's letter. | L-0589's text. | The session notes it at the wave's close. Nothing is needed in the item. |
+
+## Hardening round S2 (lane `build/M0-d-08-fix-s2`, 2026-11-13; J237 (2), J238, J263 Q1, J264, N-45, N-58; leg 1 of the merged round M0-d-08 S2 → M0-f-02a S4 → M0-a-11 S8, J443) — the builder's row-by-row outcome
+
+One row: **Q153** (`docs/M0-FIX-QUEUE.md`, read whole by its own grep; J731, J736 read whole), the flake of
+`dilation.test.ts` › 'restores every clock on return, on a throw and when a promise settles; nests'. **Tests only: the
+shim is not at fault.** Edited: `packages/testkit/test/determinism/dilation.test.ts` alone. Every file of
+`src/determinism/` has the sha256 the S1 record `landed/M0-d-08.json` gives it (so `determinism/index.ts`, the barrel,
+the census and the bar's digests are unchanged by construction; J263 Q1 holds).
+
+**The reading — CONFIRMED.** Nested shims compose by design: an inner `install` binds the `performance.now` it finds (the
+outer's own property), so the inner clock is a + (outer(t) − a) × 10 = × 100 of true time, and the inner restore puts
+the outer's descriptor back (undo in reverse order; every clock likewise). The old last assertion (`:111`,
+`outer.inner / outer.outer > 5`) divides a × 100 reading of the 2 ms spin by a × 10 reading of the whole outer body:
+the ratio is 10 × spin / (spin + everything outside it), so ≥ 2 ms of true time outside the spin (the inner install and
+restore, or a preemption) takes it under 5. Shown by a CONSTRUCTED delay (a scratch copy in the lane mirror; a
+busy wait on the true clock captured at module load, placed after the inner returns and before the outer's last read,
+`PROBE_DELAY_MS`): 0 ms and 1 ms green; **3 ms red** (`expected 3.8995986660479405 to be greater than 5`, 20 ms); 5 ms
+red (`2.842441169509161`). The queue row's failure took 32 ms, the same shape. No shim defect: a read answered by the
+wrong factor or a clock restored late would make the exact base-clock assertion below red, and it is green 200 times
+under load.
+
+**Every other assertion of the folder that compares true-time durations or a duration with a bound** (a grep of the
+folder for `performance`, `Date`, `hrtime`, `spin`, `setTimeout` and the comparison matchers: only `dilation.test.ts`
+reads a clock; `issue`, `permute`, `permute-control`, `print`, `renumber` compare counts, never times):
+
+| # | assertion (old) | race | shown | fix (same form as the row) |
+|---|---|---|---|---|
+| R1 | 'restores … nests', `outer.inner / outer.outer > 5` | true time outside the spin ≥ 2 ms | red at a constructed 3 ms (above) | the nest read on a **base clock the test controls** (`withBaseClock`: `performance.now` an own property answering a counter, installed before the shims capture it, removed in a `finally`): 2 ms of base time is exactly 200 to the inner clock and 20 to the outer; `toEqual({ inner: { elapsed: 200, again: 0 }, mid: 20, outer: 30 })` (the outer × 10 while the inner is installed and after it is restored; four 3 ms true-time busy waits inside the nest move nothing). Integers in doubles: exact, no tolerance. |
+| R2 | '… run × factor', `v / factor > real × 0.5` and `< real × 1.5 + 5`, `real` the true time of the WHOLE call | the lower bound breaks when the time outside v's window (install, restore, a preemption) exceeds about half the call, ≈ 40 ms | red at a constructed 60 ms busy wait before the first dilated read (`expected 40.151964000000135 to be greater than 50.57363200000009`) | a **bracket**: the true clocks read just before and after the dilated start reads (a0, a1) and the dilated end reads (b0, b1); each clock's v lies in [factor × (b0 − a1) − ε, factor × (b1 − a0) + ε] in its own base clock. ε derived from the granularity: performance.now 2^-18 ms (doubles below 2^31 ms, ulp 2^-21; ≤ 8 ulp over the two reads' roundings, the difference and the product; the premise b1.p < 2^31 asserted); Date.now and new Date() 1 + 2^-7 ms (each dilated read floored to an integer ms, plus ≤ 8 ulp at < 2^42 ms; premise asserted); hrtime and hrtime.bigint 2e-6 ms (each read rounded to an integer ns, plus the ns → ms conversion). The spin's 40 true ms inside [a1, b0] asserted, so the lower bound bites. |
+| R3 | 'a dated Date is untouched; the clocks start near the true time', `|Date.now() − new Date().getTime()| < 1000` at × 10 | ≥ 100 ms of true time between the two reads | red at a constructed 110 ms (`expected 1100 to be less than 1000`) | a bracket on the true wall clock: the shim's anchor A is a true read in [r0, r1], a dilated read at true R ∈ [A, r1] is ⌊A + (R − A) × 10⌋ ∈ [r0, r1 + 9 (r1 − r0)] — exact (integers below 2^53), no tolerance; and `new Date()` read after `Date.now()` is not earlier. Stronger than the old form: it reads the start against the TRUE time (mutant MANCHOR below survives the old file). |
+| R4 | the negative control (both tests): the planted rung's chain end follows the spins done in a 3 ms TRUE budget | the catch needs ⌊150 log2(n + 1)⌋ to differ between the undilated and the dilated run; a preemption inside the reference's budget can bring n to the dilated count — a coincidence window of about 0.5 % of n, not reachable by a constructed delay with any certainty, so shown by analysis only (PLAUSIBLE) | — | the rung reads a **base clock that steps 1 ms per read** (`stepping`): its spin counts are exact — 2 undilated, 0 at × 10, 29 at × 0.1 — pinned by a new test 'the planted rung reads the clock: its spin count follows the factor exactly'; the control's own assertions unchanged (divergence at each factor, the batch named, reads > 0). |
+
+The test's other claims are unchanged (identity of every clock after return / throw / settle, `Object.hasOwn(performance,
+'now')` false, the read count 6, the refused factors). **The bar's test is not touched:** the block from `/** The bar's
+fixtures` to the negative control's `describe` is byte-identical to the round's base (sha256 prefix eb24a9f26186097c,
+1152 chars), and with `src/determinism/` unchanged its digests do not move; green in NEAR.
+
+**Constructed delays on the new file** (the same positions, the lane mirror, `PROBE1_MS=50 PROBE2_MS=60 PROBE3_MS=110`:
+R1 +50 ms before and after the inner nest, R2 60 ms before a0, between the start reads and before the last end read, R3
+110 ms between the two reads): `Tests 9 passed (9)` — none turns it red.
+
+**Pinned under load:** the five tests of 'withDilation: every clock …' and the three of the negative control repeated
+200 times each in one file (a mirror copy wrapping the two `describe`s in `for (let rep = 1; rep <= 200; rep++)`, the
+bar's `describe` skipped) beside four `while :; do :; done` busy loops on the 4-cpu machine: `corepack pnpm exec vitest
+run --maxWorkers=1 packages/testkit/test/determinism/dilation-rep.test.ts` → `Tests 1600 passed | 1 skipped (1601)`,
+rc 0 — the nest test green 200 times in a row.
+
+**Mutants** (lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-d-08-fix-s2/plat`, isolation proved — no
+symlink into the tree, `@plat/kernel` resolving inside the mirror; each `corepack pnpm exec vitest run --maxWorkers=1
+--bail=1 packages/testkit/test/determinism`, its own exit-code file; `dilation.ts` restored from the tree and `cmp -s`
+checked after each; the base run 6 files 55/55 rc 0):
+
+| id | fault in `src/determinism/dilation.ts` | new folder | old test file |
+|---|---|---|---|
+| MD1 | **the nesting broken** (the brief's (d)): an inner shim scales the OUTERMOST shim's base clock, its factor replacing the outer instead of multiplying it | KILLED rc 1, 'restores … nests' `expected { …(3) } to deeply equal { …(3) }` | killed (`expected 0.995… to be greater than 5`) |
+| MDATE | `Date.now` / `new Date()` not dilated | KILLED rc 1, `Date.now × 10: expected 40 to be greater than or equal to 398.9921875` | — |
+| MHR | `hrtime` not dilated | KILLED rc 1, `hrtime.bigint × 10: expected 40.111296 to be greater than or equal to 400.448448…` | — |
+| MANCHOR | the wall clock not anchored at the install (t ↦ t × factor) | KILLED rc 1, 'the clocks start near the true time' `expected 17945335070710 to be less than or equal to 1794533507071` | **survives** (8/8): the old form compared two dilated reads with each other |
+| MPERF | `performance.now` not dilated | KILLED rc 1, `performance.now × 10: expected 400.128… to be greater than or equal to 4000.451…` | — |
+
+**Refusal census (J264, N-58):** unchanged by construction — the round touched no file the census reads
+(`src/determinism/*` and `support.ts` have the S1 record's sha256): constructive callback form 166 sequences, 492
+batches, 467 commit, 25 refused, 0 threw; declared 399 / 374 / 25; lawful-input refusals 0 → 0; every class as S1
+classed it (N-17). The dilation tests register no refusal family.
+
+**Gates** (the tree, W from `tools/test_budget.py` = 1): install --frozen-lockfile 0; lint 0 (`eslint 1316 files, 0
+errors`, `lint: probe-red ok`); build 0; NEAR `vitest run packages/testkit/test/determinism` 6 files 55/55 (seed
+441049104); RELATED@1000: the round changed no file under `packages/*/src/`, so J193 (3)'s source set is empty; `vitest
+related --run` over the round's one changed file at PLAT_FUZZ_RUNS=1000, PLAT_FUZZ_SEED=1753208017 selects that file
+alone, 9/9.
+
+**For the hardening pass (KI, not a fail):** R2's and R3's Date brackets assume the wall clock does not step backwards
+within the test's 40 ms (an NTP step, not a load race; performance.now and hrtime are monotonic and carry the same
+claims). R1's nest is read on `performance.now` alone; Date and hrtime nest by the same capture-what-you-find code and
+are not separately pinned.
+
+## Closing check of hardening round S2 (lane `check/M0-d-08-close-s2`, 2026-11-13) — new notes N-19 – N-22
+
+These come from the closing check of the round (verdict PASS, `checks/M0-d-08-s2.md`, whose mutant ids they use). The
+mutants ran in the checker's own mirror at W=1, over the folder's six test files and over main b3ed9b2e's old clock
+tests. None is a blocker under the closing check's rule: every gate exits 0, no listed interface or test id is missing,
+and no honest input gives a wrong result. Every survivor also survives the pre-round test, so none is a regression of
+the round.
+
+| # | finding | evidence | handling |
+|---|---|---|---|
+| N-19 | `dilation.ts`'s header promises that every clock is anchored at the install and "starts near the true time". Only the wall clock's anchor is pinned (by the round's exact bracket). If `performance.now` or hrtime were anchored at 0 (t ↦ t × factor), every elapsed-time claim would still hold, but the first read would sit at 10 × or 0.1 × the true clock. | A-PERF (`scale(0)` for performance.now) and A-HR (`b0 = 0n`): `SURVIVED rc 0`, folder 55 / 55, and both survive main's old test too. | M4: in 'the clocks start near the true time', bracket the first dilated `performance.now()` and `process.hrtime.bigint()` with the true clocks, as the round does for `Date.now`: [p0, p1 + 9 (p1 − p0)] plus the ε of the × factor test. |
+| N-20 | Nesting is pinned on `performance.now` alone. `Date` and hrtime nest by the same capture-what-you-find code, but if either nested shim scaled the outermost base clock (its factor replacing the outer's), nothing would fail. The builder declared this in its S2 section; this row records the mutants. | N-NEST-DATE and N-NEST-HR: `SURVIVED rc 0` (folder 55 / 55, main's old test 5 / 5). N-NEST (performance.now) is KILLED by the round's nest assertion. | M4: give `withBaseClock` a `Date.now` and an `hrtime.bigint` stub too (both are writable statics the shim captures), and assert the 200 / 20 / 30 nest on each clock. |
+| N-21 | `process.hrtime(prev)`'s nanosecond borrow is pinned only by chance. The × factor test's `hrtime` reading borrows only when the end read's nanosecond field is below the start's: about 40 % of runs at × 10 (400 dilated ms), about 0.4 % at × 0.1. Dropping the borrow is caught only in those runs. | HRPREV (the `ns += 1_000_000_000` dropped): KILLED in this checker's run (`hrtime × 10: expected -599.27961 to be greater than or equal to 400.312398`). The kill depends on where the run's nanosecond fields fall (PLAUSIBLE by the arithmetic). | M4: one deterministic test on a stubbed `hrtime.bigint` base, with a `prev` whose ns field exceeds the current one's, asserting `[s, ns]` exactly. |
+| N-22 | The dilated `Date.now` is floored to an integer ms, as the host's own is, but no test asserts that it is an integer. If the floor were dropped, a fractional `Date.now()` would pass every bracket. | FLOOR: `SURVIVED rc 0` (also on main's old test). | M4: `expect(Number.isInteger(Date.now()))` under both factors, in the × factor test. |

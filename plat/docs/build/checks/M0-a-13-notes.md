@@ -266,3 +266,58 @@ with the pins' direct helper asserts deleted (red through the warp's door alone)
 |---|---|---|---|
 | N-s2c-1 | **The builder's table understates W4e's reach.** "W4e → that test only" was read under `--bail=1`. Without it W4e turns both new cases red: N-s1c-1's count 54 → 53 and N-s1c-2's 53 → 52 (its 53 also counts the (i)-refused end (0, 2 000), tried before (52, 2 000) by the tie order y, then x). The same holds for the checker's W4f, W4nocharge and W4late. The pins are stronger than the table says; nothing is wrong. | None; a record for whoever reads the table. | — |
 | N-s2c-2 | **Both pins sit on one geometry.** The (i)-refused charge and the `attractCm` boundary are pinned on a slide along an axis-aligned shore, the boundary point on the route's axis (d² = 26² as 26² + 0²). A re-seat, a steep route (the band's other branch of `shallow`) and an off-axis boundary point (10² + 24² = 26² on a sloped route) run the same lines of `placeOnRoute` and `hotPixelCandidates`, so every mutant of those lines tried dies; a mutant that tells the branches apart would have to be written on purpose. | Optional: one sloped-route case with an off-axis point exactly 26 cm from P. | M4 |
+
+## Hardening round S3 (build/M0-a-13-fix-s3, 2026-11-12) — the builder's outcomes, mutants and census
+
+The round takes queue row Q179 (b) (J764): the S2 closing check's note N-s2c-2 (leg 2 of the merged round M0-a-04 S7 →
+M0-a-13 S3 → M0-c-01 S6, J443) and closes it with a pin (choices C-0514). A pin only: no source file changes, no output
+moves, no export changes (`warp/index.ts` and the barrel untouched). N-s2c-1 is a record (the builder's table of S2
+understated W4e's reach) and needs nothing; this round's table reads every pin without `--bail` for that reason. The
+probe gives the designed result on the code: on a steep route the band's rows of y keep the off-axis point exactly
+`attractCm` from P and drop its neighbour beyond. The mutants ran one at a time in the lane's mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-a-13-fix-s3/plat` (built by `cp -a`; no link out of it, the `@plat/kernel`
+link resolving inside it), each as `vitest run --maxWorkers=1 --bail=1 packages/kernel/test/warp/` (B-FUZZ at 10⁴
+included) from the mirror's `plat/` and, without `--bail`, the three band pins (`-t "N-s1c|N-s2c"`); the mutated file
+restored from the tree and `cmp`-checked after each; the mirror deleted after (logs kept in
+`/home/user/maps-scratch/waves/build-M0-a-13-fix-s3/mutlogs`).
+
+| row | outcome | pin (test, `test/warp/fixtures.test.ts`) | mutant: the fault it re-introduces → red on |
+|---|---|---|---|
+| N-s2c-2 (Q179 (b)) | pinned | new describe 'the band reaches attractCm inclusive on a steep sloped route: an off-axis point exactly 26 cm from P (N-s2c-2)' — `steepShoreArena()`: the L0 shore (1 000, 1 100)–(2 000, 3 500), along (5, 12) · 200 (steep: \|Δx\| 1 000 < \|Δy\| 2 400, the band's rows-of-y branch; the end's x ≠ y), way:1's junction (1 500, 2 300) dragged (−1 000, −2 400), clamped 26 cm from the shore's end to P = (1 010, 1 124); an unlocked L1 way:2 foot at (1 010, 1 125), 0.38 cm off the line, outside the region. The band holds 76 points, its last two (1 000, 1 100) (the route's end, (i)-refused) and (1 020, 1 148) — both 10² + 24² = 26² from P, ties y then x — and no point of rows 1 149, 1 098, 1 099 ((1 020, 1 149) is 10² + 25²); every nearer point fails minEdge to the end or the foot ((1 020, 1 147), 25.08 cm from P, is 24.17 from the foot), so the slide seats on (1 020, 1 148): `W_PLACED 1020,1148`, `insert.placementCandidates` 77 (the nearest + 76), no halving, `slide 1020,1148`, the foot unmoved, healthy | **R2attr** (`d > ATTRACT_SQ` → `d >= ATTRACT_SQ`) → red on the new case (band 76 → 74) and on both S2 pins; with the new case's direct band asserts removed, still red through the warp's door (no `W_PLACED 1020,1148`). **Be0** (the steep branch's `e0` reads `px`: `shallow ? px : px`) → red on the new case only (band 0 points); S2's two cases green. **Bab** (the steep branch's `a0`, `b0` read the shallow branch's axes: `ax`, `ay`) → red on the new case only; S2's green. (A first fixture with the shore's end at (1 000, 1 000) let Bab survive — x = y there makes the swap equivalent — so the arena was moved to (1 000, 1 100).) **Bq** (the steep branch's `qx`, `qy` swapped: `shallow ? i : i`, `shallow ? j : j`) → red on the new case only; S2's green. **Binv** (`shallow` inverted: `\|ux\| < \|uy\|`) → red on both S2 cases (a horizontal route then divides by `along` = 0: no band), **green on the new case**: an equivalent on a sloped route, since the column band of the other branch with half-width `HOT_PIXEL_CM · len / \|along\|` holds the same hot-pixel points; S2's cases kill it. Be0, Bab, Bq also red through the warp's door alone (no `W_PLACED 1020,1148`). **W4e** (S2's, charge after (i)) → red on all three pins (77 → 76 here). |
+
+6 targeted mutants: 5 red on the new case (R2attr, Be0, Bab, Bq, W4e), the sixth (Binv) an equivalent there, red on
+round S2's cases; the branch-telling mutants Be0, Bab and Bq leave round S2's cases green — the new case is the only
+one that sees them. The tree (the code unchanged) green: `test/warp/` 82/82 at full strength.
+
+**Refusals (J264, J290), the item's families before → after.** No source file changed, so the census is the same by
+construction; measured: B-FUZZ 0 of 10⁴ plus its two found cases (every case asserts `r.ok`; seed −187401529, the NEAR
+run), unchanged from S2's 0 of 10⁴; the fixtures' refusals are S1's (two E_WORK_LIMIT under a caller-set work limit —
+LAWFUL with a budget, REFUSE typed and visible, the caller's budget the alternative — and the fromLevel misuse throw, a
+programming error): the new case commits and adds none. No lawful-input refusal; the census does not rise (0 → 0).
+
+**Gates (J193, W = 1).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1 311 files, 0 errors, 0 warnings; `lint:
+probe-red ok`; 9 whole-tree checks); `build` 0; NEAR `vitest run packages/kernel/test/warp/` at full strength (B-FUZZ at
+10⁴, seed −187401529) 5 files 82/82, exit 0; RELATED `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over
+`packages/kernel/src/warp/warp.ts` (the file the pins hold; unchanged this round) 402 files (401 passed, 1 failed),
+5 302 tests (5 301 passed, 1 failed), exit 1 (seed −935875887, 13 964 s; log
+`/home/user/maps-scratch/waves/build-M0-a-13-fix-s3/chain/related.log`). The one red is the head's declared foreign
+canary, not the item's (no test of `test/warp/` fails and no source of the item changed): `bench/test/site/summary.test.ts`
+'the canary CITY record re-derived on this tree is the run's …' (J772 (7)) — relief-60 coarse seed 46's record digest
+`4c9647bf…665ac05d`, the summary's `eb2046dd…b6b0e2b0`; a note for the session with seed −935875887. Q152's six bands
+tests, the J176 reference-machine tests and Q153's dilation flake did not fail in this run (or were not reached).
+
+## Closing check of S3 (check/M0-a-13-close-s3, 2026-11-12) — new minor notes (none fails the item)
+
+The checker's own mutants ran in its mirror `/home/user/maps-scratch/waves/check-M0-a-13/s3/mirror` (verdict:
+`checks/M0-a-13-s3.md`), one at a time on `test/warp/fixtures.test.ts` without `--bail`, each restored and `cmp`-checked.
+On the round's pin (N-s2c-2): R2attr, R2lo, R2hi (the neighbour kept), the loop's two ends, the half-width, the tie
+order, W4e, W4nocharge, the `W_PLACED` warning and the five axis swaps of the steep branch (`e0`; `a0`; `b0`; `qx`/`qy`;
+`along`/`across`) are all red on the new case; the five swaps, R2hi and the tie order are green on round S2's two cases
+and on the base's `fixtures.test.ts` (the before-image), so the new case is the only one that sees them. R2attr, the
+`e0`, `a0`+`b0` and `qx`/`qy` swaps, the tie order and W4e are still red with the case's six direct helper lines deleted
+(through the warp's door alone). Two rows, neither on a fault of the code.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 | **The steep branch's SELECTION is pinned on a horizontal route only; on a vertical route nothing holds it.** The two branches of `shallow` in `hotPixelCandidates` describe ONE strip (perpendicular distance ≤ `HOT_PIXEL_CM`), so on every sloped route they return the same list: the checker's differential probe (a copy of lines 96 – 122 with the test made a parameter, proved equal to the real function first) over 185 015 random sloped routes — any slope, near-diagonal, 1 : 4 000, short — found 0 differences for the test inverted, forced true and forced false. So no sloped case can tell which branch ran; the new case pins the steep branch's AXES (the five swaps die on it only), not the need for the branch. The need shows on an axis-aligned route, where the other branch divides by `along` = 0 and returns null (no band; the step halves — it fails safely). Horizontal: round S2's cases kill the test inverted and forced false. Vertical: the mutant `const shallow = true` (the steep branch never taken) **survives the item's whole NEAR folder at full strength** — 5 files, 82/82, B-FUZZ at 10⁴, seed −807604782. It is not an equivalent: the checker's probe case (round S2's N-s1c-2 fixture turned a quarter — shore (2 000, 0)–(2 000, 4 000), way:1's junction (2 000, 2 000) dragged (0, −1 990) over `clampRegion`, an unlocked foot at (2 000, 27)) gives on the code `W_PLACED 2000,52`, 53 candidates, no halving, `slide 2000,52`, and is red under that mutant (`expected [] to deeply equal [ 'W_PLACED 2000,52' ]`) and under the test inverted. The row N-s2c-2 asked a SLOPED route and its telling mutant "inverted OR the other branch's axis swapped": delivered (the swaps). This is the remainder, outside what that row stated. | One pin, tests only: the probe case above as a case of `fixtures.test.ts` (the values are measured on the code), red under `shallow = true`. Small enough to ride as a leg of the next merged kernel round. | M4, or M0-a-13's next touch |
+| N-s3c-2 | **The neighbour "just beyond" is held by the case's direct band asserts only.** With the band keeping d ≤ 725 (`d > ATTRACT_SQ + 49`: (1 020, 1 149) and (1 000, 1 099) kept) the case is red on `band.length` (78 for 76) and on the `q.y === 1149` line; with the six direct helper lines deleted the same mutant is green through `warp`, because the kept boundary point (1 020, 1 148) sorts before its neighbour and qualifies first. That is inherent to a fixture whose boundary point qualifies (round S2's N-s1c-2 case reads its band's tail the same way); nothing is wrong. | None; a record for whoever reads the mutant table. | — |
