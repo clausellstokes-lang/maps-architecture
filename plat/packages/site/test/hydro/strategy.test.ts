@@ -10,7 +10,7 @@ import { terrainSampler, TOWN_ROOT } from '../../src/terrain/index.js';
 import { baseRivers, cellAt, HYDROLOGY_ROW, hydroField, riverStrategy, runRivers, type RiverReport } from '../../src/hydro/index.js';
 import { centreX, centreY, hydroGridOver } from '../../src/terrain/index.js';
 import { SMALL, valley } from './fixtures.js';
-import { riverBp, siteContext, terrainFrom } from './support.js';
+import { carveBars, CITY, heightsOf, riverBp, siteContext, terrainFrom } from './support.js';
 
 const WATER = 'water.river';
 
@@ -31,8 +31,11 @@ describe('baseRivers.rivers(bp, terrain, water, ctx, k) (§4.12)', () => {
   it('two runs of one blueprint and seed are byte-identical; the water and the terrain arrays alike', () => {
     const go = (): { bodies: WaterBody[]; dir: Uint8Array; acc: Uint32Array; rank: Uint32Array; h: Int32Array } => {
       const t = terrainFrom(SMALL, valley);
+      const before = heightsOf(t);
       const r = baseRivers.rivers(riverBp(SMALL, { inflowBearingCdeg: 0, tributaries: [{}] }), t, { bodies: [], bridges: [] }, siteContext(9), undefined);
       if (!r.ok) throw new Error(r.detail);
+      // The carve bars on the final raster, the tributary's included (hardening round S3, N-s2c-1).
+      carveBars(before, t, r.value.bodies, CITY.carveMaxCm);
       return { bodies: r.value.bodies, dir: t.flowDir, acc: t.flowAccum, rank: t.flatRank, h: t.heightCm };
     };
     const a = go();

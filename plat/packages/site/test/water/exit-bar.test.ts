@@ -137,9 +137,13 @@ describe('the exit bar: S1\'s L0 batch on 100 river seeds (§4.2 S1 (5), (8), (9
     // each frame's fast-ring refusals by their texts (N-c1-6): the pocket inside a pocket, the offset line's. Frame 4's
     // tributary entry is M0-e-02 S2's declared shift (leg 2 of the merged round, C-0498: Q123's re-trace delivers
     // another course there; the tributary's mouth ring takes the kernel's buffer — a fallback, refused stays 0); re-pinned
-    // by M0-e-03 S4 (leg 3)
+    // by M0-e-03 S4 (leg 3). Re-pinned by M0-e-03 S5 (leg 2 of the merged round M0-e-02 S3 → M0-e-03 S5): M0-e-02 S3's
+    // declared shift (C-0500: one joint bed; a join that would cut past the cap is a failing attempt) delivers frame 4's
+    // tributary on the same course but degraded, joining nothing (no `flowTo`), so S1 no longer prolongs it to the river
+    // and its fast ring is the offset ring, refused by the same proof (`a pocket inside a pocket`) in place of the
+    // mouth's — the same fallback, the kernel's buffer takes it, refused stays 0
     const fallbacks: Record<number, string[]> = {
-      4: ['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0: mouth: a pocket inside a pocket'],
+      4: ['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0: offset: a pocket inside a pocket'],
       10: ['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0: offset: a pocket inside a pocket'],
       3: [],
     };

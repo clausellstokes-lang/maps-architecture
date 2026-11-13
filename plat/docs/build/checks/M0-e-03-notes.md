@@ -594,3 +594,124 @@ New findings of the closing check, none a blocker (the brief's rule (3); N-45). 
 | N-s4c-1 | **The two area clauses of the Q122 condition are unpinned, and a narrow residue of Q122's class remains.** `provedRings` drops a hole before the proofs when the kernel made it under 4 m² AND the clean leaves it under 4 m². K9 (the first clause dropped) and K10 (the second dropped) pass the whole folder (87 / 87). They are not equivalent: on two crafted holes 10 cm off an outer ring (a 2 m rectangle with a 15 cm dent — made 3.93 m², cleaned 4.08 m²; with a 15 cm bump — made 4.07 m², cleaned 3.92 m²; probe `k910.mts`) the code refuses both `not clear (rings meet)`, K9 drops the bump hole, K10 drops the dent hole. The forms differ only for a hole whose area crosses the sliver threshold under the clean; every form fails safely there. The bump case is the residue: a pocket the kernel makes just over 4 m² that the clean leaves under it is still proved before `partsOf` drops it, and refuses the body if it meets another ring. On the inputs met: over the 303 census runs (relief-3000 default 1 – 200, the bar's 103) 143 kernel rings reached `provedRings`, 2 of them holes (both seed 184's, both made and cleaned under 4 m²), 0 holes in either band, 0 holes over the sliver area — equivalent on every input met. | Pin the band with the two crafted rings, or reduce the rule to the cleaned area alone (the area `partsOf` judges by), which also closes the residue. | M4 |
 | N-s4c-2 | **For the session: the closing checker's disclosure.** Its first `grep` of `docs/lane-events.log` for its lane key also matched the builder's lane and printed the builder's CHECKPOINT lines (13001 – 13013) before its probe plan was written. None of it is used as evidence (every figure in the verdict is the checker's own run; five of its thirteen mutants are not the builder's). The check ran on two seats of the lane (J714's hand-off); the finishing seat read the builder's section only with the first seat's plan, mutant table and logs already on file. | The session's ruling, if any; a lane-key grep anchored on ` check/` avoids it. | session |
 | N-s4c-3 | **For the session: the RELATED red is attributed by replay.** `bench/test/site/spike.test.ts`'s five relief-60 seed 2 titles (J766's declared red; `E_SELF_INTERSECT` at S3 on that seed, the four others a `TypeError` on the commit it no longer reaches) are red on the before-image of this round too (`polygons.ts` 1d7c7445…, `PLAT_FUZZ_SEED=-721737397`: 5 failed, 5 passed) — leg 2's seam with M0-e-06's file, not this item's. | M0-e-06's re-pin at the merged round's landing (the session's seam, J766). | session |
+
+## Hardening round S5 (lane `build/M0-e-03-fix-s5`, 2026-11-12; leg 2 of the merged round M0-e-02 S3 → M0-e-03 S5, J443, J766's first act; J237 (2), J238, J263 Q1 / Q6, J264 / N-58, J290, N-45; queue row Q193 (a): the closing check of round S4's note N-s4c-1; choices C-0502) — the builder's row-by-row outcome
+
+Inside the item's owns only (`site/src/water/`, `site/test/water/`). Source changed: `polygons.ts` (`provedRings`: one
+condition — the made-area clause withdrawn — and its comment). Tests: `exit-bar.test.ts` (leg 1's declared shift
+re-pinned), a new `hardening-s5.test.ts` (4 tests), `hardening-s4.test.ts` (its header comment gains a pointer to round S5;
+no assertion changed). No export of an index or the barrel added, removed or renamed (J263 Q1); no message text changed
+(J263 Q6). The round's start sources are the water files of `landed/M0-e-03.json` (S4; `polygons.ts` sha256 b4b3e6db…,
+hash-equal in the tree at the start), on the tree as leg 1 left it (M0-e-02 S3 / S4, PASSED at `check/M0-e-02-close-s4`).
+Queue row Q193 and the session's record J786 are not on this machine's `docs/M0-FIX-QUEUE.md` / `docs/PROGRESS.md`
+(grep: no row); the brief's failing line and its source (N-s4c-1 above, `checks/M0-e-03-s4.md` "Judgments") were read
+whole instead. Lane mirror `waves/selfcheck-build-M0-e-03-fix-s5` (isolation proven: no link into the tree,
+`@plat/kernel` resolving inside it); probes and logs in `maps-scratch/build-M0-e-03-fix-s5/`.
+
+### First act (J766): leg 1's declared shift re-pinned
+
+The water folder on the tree as leg 1 left it (W = 1, 10 files): **86 / 87, one red** — `exit-bar.test.ts` "three full
+CITY frames, …", frame 4: `fallbacks` received `['water:river:0: offset: a pocket inside a pocket', 'water:tributary:0:
+offset: a pocket inside a pocket']`, pinned `[…, 'water:tributary:0: mouth: a pocket inside a pocket']`. **Attributed by
+replay:** the old pin is **green** on leg 1's start sources (`hydro/carve.ts`, `hydro/strategy.ts` from the leg-1
+checker's before-image `waves/check-M0-e-02/s3/before/src/hydro`, main 55fb3c9; the mirror, W = 1: 2 / 2) and red on leg
+1's. The cause (probe `frame4.test.ts`): on leg 1's sources frame 4's tributary is delivered on the same course (1 568
+points, the same end (46250, −101250)) but joining nothing (`flowTo` none — C-0500: a join that would cut past the cap is
+a failing attempt, the tributary delivered degraded); before, `flowTo` `water:river:0`. So S1's chain no longer
+prolongs it to the river (`joined` false) and its fast ring is the offset ring, refused by the same proof as the mouth
+ring was (`a pocket inside a pocket`). **Judged lawful for this stage:** a fallback (the kernel's buffer takes the ring,
+C-0229 (2)), never a refusal; `refused` 0 and every hard row, deck, spacing, flow and shore check of the frame green;
+frames 10 and 3 unchanged. **Re-pinned** in `exit-bar.test.ts` (frame 4's tributary entry `offset: …`; the comment
+names C-0500). Mutant LEG1 (leg 1's start sources under the re-pin): red on it (received `mouth: …`).
+
+### Row-by-row outcome
+
+| row | outcome | what changed | the pin (test) | mutant (red on it) |
+|---|---|---|---|---|
+| N-s4c-1 / Q193 (a) (the Q122 condition's two area clauses unpinned; the residue: a hole made just over 4 m² that the clean leaves under it is proved before `partsOf` drops it) | **FIXED — ONE MEASURE** (the required change's first form; the code shows the two measures can be one) | `polygons.ts` `provedRings`: `area2(r) < 0 && -area2(r) < 2·SLIVER && \|area2(c)\| < 2·SLIVER` → `area2(r) < 0 && \|area2(c)\| < 2·SLIVER` — a hole (a ring the kernel made clockwise) the clean leaves under SLIVER_AREA_CM2 is dropped before the proofs whatever area the kernel made it; every other ring is proved (an outer ring whatever its area; a hole the clean leaves at or over 4 m² whatever it was made) | `hardening-s5.test.ts`: "the crafted holes cross the sliver area under the clean (the test's own shoelace) …" (bump made 40 700 cm², cleaned 39 200; dent made 39 300, cleaned 40 800; the cleaned rings the plain rectangles); "the bump hole … is dropped before the proofs: the body is kept, its one ring the outer" (`[outer]`, in either order); "the dent hole … proved, and refused `rings meet`"; "an outer ring … the bump reversed … refused `rings meet`". Round S4's pins (`hardening-s4.test.ts` "Q122 (S1)": 3.3 m² pocket dropped, 5 m² pocket and 3.3 m² outer ring refused; seed 184 commits) unchanged and green | Kconj, Kmade, Knohole, K2m, K8m (table below) |
+
+**Why one measure, and which.** `partsOf` drops every ring whose CLEANED `|area2|` is under 2 · SLIVER_AREA_CM2 (it runs
+on `provedRings`' output, the cleaned rings), whatever its sign; so the made area was never the measure the body keeps
+by, and with it gone every ring the proofs skip is one `partsOf` drops — the proofs judge every ring the body keeps,
+and the outer rings under the sliver area besides (the precaution, unchanged). The hole is still read by the kernel's
+orientation (`area2(r) < 0`): a ring the kernel made counter-clockwise is an outer ring and is proved whatever its area
+(a broken buffer shows as one, slow-rings.test.ts's loop river). The crafted holes are the closing check's (N-s4c-1:
+a 2 m rectangle 10 cm off the outer ring with a 1 m wide notch 15 cm deep on its far side, under the clean's 20 cm
+tolerance, so the clean leaves the plain rectangle): the bump (made 4.07 m², cleaned 3.92 m²) now dropped and the body
+kept (S4's code refused it `rings meet` — the residue, closed); the dent (made 3.93 m², cleaned 4.08 m²) a kept ring,
+proved and refused `rings meet` as before. Not pinned, and not this round's to pin: the alternative reading "the hole
+by the cleaned ring's sign" differs from this one only where the clean reverses a ring's orientation; under either, every
+ring dropped is one `partsOf` drops (both test the cleaned `|area2|`), so neither can drop a ring the body keeps.
+
+### The declared shift (J237 (3); C-0502) — NO SHIFT on the inputs met
+
+The rule changes only for a hole whose area crosses the sliver area under the clean (made ≥ 4 m², cleaned < 4 m²: now
+dropped, before proved and refused if it met another ring or committed and then dropped by `partsOf` — the same output);
+a hole made < 4 m² and cleaned ≥ 4 m² is proved under both rules (S4 kept it too: its conjunction needed both clauses).
+So on every input the old code committed, the output is identical; only a run the old code refused on such a ring can
+change. Measured below: every census row identical before → after (bar 103 / 103, spike 200 / 200), arena prints and
+model roots included — no shift on any input met.
+
+### The refusal census (J264 (4), N-58) and verdicts (J290)
+
+Measured in the lane's mirror by one probe (`maps-scratch/build-M0-e-03-fix-s5/probes/census.test.ts`, W = 1), before
+(S4's `polygons.ts`, sha256 b4b3e6db…) → after (this round's, sha256 7df6cb53…; the mirror restored to the tree's and
+`cmp`-equal after), on leg 1's tree; the row-by-row comparison in `maps-scratch/build-M0-e-03-fix-s5/chain/compare.txt`.
+
+| family | runs | before | after | rows identical |
+|---|---|---|---|---|
+| the registered family: the exit bar's 100 seeds at 100 ha + the CITY frames 4, 10, 3 (the exit bar's composition) | 103 | committed 103; **refusals 0** (stage refusals 0, refused bodies 0, dropped 0, retried 0); fallbacks 17 (`offset: a pocket inside a pocket` 9, `near the edge` 3, `estuary not split: near the edge` 2, `estuary not split: offset: …` 2, `meets an earlier body` 1) | the same, figure for figure | **103 / 103** (status, fallbacks, dropped, bodies, sites, arena print) |
+| the site spike's relief-3000 fixture, base registration (the default configuration), S1 alone through `@plat/layout`'s runner, seeds 1 – 200 | 200 | committed 200; **refusals 0** (bugs 0, refused bodies 0, dropped 0, retried 0); fallbacks 128 (`offset: a pocket inside a pocket` 122, `hole outside` 5, `near the edge` 1) | the same, figure for figure | **200 / 200** (status, bugs, fallbacks, dropped, model root, stage roots, arena prints) |
+
+The census's refusals **0 → 0** on both families (never rising, J264 (4)); 303 runs, every row identical. **Verdicts
+(J290 / N-58):** no refusal met in either family, so nothing to class; the fallbacks are the kernel buffer's (C-0229 (2)),
+unchanged in kind and count.
+
+### The round's mutant table (J169, J183)
+
+6 targeted mutants in the lane's mirror: the five of `provedRings` each `vitest run --maxWorkers=1 --bail=1
+packages/site/test/water` (the whole folder, 11 files, 91 tests at the PR size; exit 1 each), then the pin files run whole
+for the full list of reds; LEG1 on `exit-bar.test.ts` with `--bail=1` (exit 1); the mutated files restored from the tree
+and `cmp`-equal after each; **6 red, no survivor**.
+
+| id | aimed at | mutation | red on (pin files run whole) |
+|---|---|---|---|
+| Kconj | N-s4c-1 (the residue) | the made-area clause restored as a conjunction (round S4's condition) | hardening-s5 "the bump hole … dropped …" (1 of 10) |
+| Kmade | N-s4c-1 | the made area in place of the cleaned (`-area2(r) < 2·SLIVER`) | hardening-s5 "the bump hole …" and "the dent hole …" (2 of 10) |
+| Knohole | the precaution | the hole clause dropped (outer rings under 4 m² dropped too) | hardening-s5 "an outer ring … the bump reversed …"; hardening-s4 "Q122 (S1): … an outer ring of 3.3 m² …"; slow-rings' three loop-river tests (5 of 29) |
+| K2m | the threshold | `\|area2(c)\| < SLIVER_AREA_CM2` (2 m²) | hardening-s4 "Q122 (S1): a pocket (a hole) of 3.3 m² …"; hardening-s5 "the bump hole …" |
+| K8m | the threshold | `\|area2(c)\| < 4 · SLIVER_AREA_CM2` (8 m²) | hardening-s4 "Q122 (S1): … a pocket of 5 m² … refused"; hardening-s5 "the dent hole …" |
+| LEG1 | the first act | `hydro/carve.ts`, `hydro/strategy.ts` at leg 1's start sources | exit-bar "three full CITY frames …" (frame 4: `mouth: …` received) |
+
+### Notes (not failing lines)
+
+| id | note | handling |
+|---|---|---|
+| S5-1 | Not this round's (the brief): the land wedge beside a grazing river (S4-1, Q193 (b)); RL13 (the structured field on the kernel's refusal, after M0-a-05 S14). Both stand as they were. | queued |
+
+### Gates and RELATED (J193; W = 1)
+
+In the tree, W = 1: `corepack pnpm install --frozen-lockfile` 0 ("Already up to date"); `corepack pnpm lint` 0
+(`lint: probe-red` lines quoted in the lane's log: `zz-probe.ts:6 Math.pow ← plat/math-allowlist`, …; `lint:
+vendor-scan ok`), re-run after this section's last edit: 0; `corepack pnpm build` 0, re-run after the last edit: 0. **NEAR** at
+full strength (PR size, `PLAT_FUZZ_RUNS` unset) `vitest run --maxWorkers=1 packages/site/test/water` — 11 files,
+**91 / 91**, exit 0 (seed −1290012579). **RELATED@1000** in the tree, `PLAT_FUZZ_RUNS=1000 vitest related --run
+--maxWorkers=1 packages/site/src/water/polygons.ts` (the one source changed; 2026-11-12 19:39:59Z → 22:46:54Z, 11 201 s;
+seed −1826453707): **286 files, 3 562 tests, 3 561 passed, 1 failed**, exit 1. The one red is the head's declared red,
+a note and not this round's: `bench/test/site/summary.test.ts` "the canary CITY record re-derived on this tree is the
+run's …" (relief-60 coarse seed 46 moved: `4c9647bf…` received, `eb2046dd…` committed — J772 (7): the committed site
+summary is stale until the session's re-run; this seat neither re-runs nor edits a summary). Not this round's either way:
+the census shows this round's change moves no output on any input met, so the canary's move is leg 1's (C-0500) or
+earlier. No other red; Q152's bands tests, J176's bench reference tests and Q153's flake were not selected by this run.
+
+## Closing check of hardening round S5 (`check/M0-e-03-close-s5`, 2026-11-12; the verdict is `checks/M0-e-03-s5.md`)
+
+New findings of the closing check, none a blocker (the brief's rule (3); N-45). Mutant ids are the verdict's table.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s5c-1 | **The boundary of the one measure is unpinned.** `provedRings` drops a hole the clean leaves UNDER the sliver area (`\|area2(c)\| < 2 · SLIVER_AREA_CM2`, the strict `<` `partsOf` drops by). K8 (`<=`) passes the whole folder (91 / 91). It is not equivalent at one value: a hole the clean leaves at exactly 40 000 cm² is kept and proved by the code (and kept by `partsOf`) and dropped before the proofs by K8 — the checker's probe `zz-crafted.test.ts`: a plain clockwise 250 cm × 160 cm hole 12 cm off an outer ring is `not clear (rings meet)` on the tree's code, "kept 1 ring" under K8. The round's pins lie at 39 200 and 40 800 cm² (and S4's at 3.3 m² and 5 m²); the tree's code is right at the value; either form fails safely. | One assertion in `hardening-s5.test.ts`: a plain clockwise rectangle of exactly 40 000 cm² 10 cm off the outer ring is refused `rings meet` (and one of 39 800 cm² is dropped). | M4 |
+| N-s5c-2 | **The hole's winding is read from two rings.** `provedRings` reads "hole" from the ring the kernel made (`area2(r) < 0`), `partsOf` from the cleaned ring (`a > 0` an outer ring, else a hole). K9 (`area2(c) < 0` in `provedRings`) passes the whole folder (91 / 91). The readings differ only where the clean reverses a ring's winding while leaving it under the sliver area (a ring thinner than the clean's tolerance, folded over itself — then refused `not simple` or dropped by `partsOf` whichever way it winds); none was constructed, none is met. Under either reading no ring the body keeps is dropped unproved. So the round's "one measure" is the area's; the winding is still the kernel's. | A sentence in `provedRings`' comment saying so, or a pin if such a ring is ever met. | M4 |
+| N-s5c-3 | **For the session: the round's queue row is not in this tree.** `docs/M0-FIX-QUEUE.md` ends at Q191 (`grep '^\| Q193 '`: no row) and `docs/PROGRESS.md` holds no J786; the builder (its section above) and this check read the row's substance — N-s4c-1 and `checks/M0-e-03-s4.md` "Judgments" — whole instead. | The session's docs at the merged round's landing. | session |
+| N-s5c-4 | **For the session: the closing checker's disclosure.** Its first `grep` of `docs/lane-events.log` for the item's lanes also printed the builder's waiter lines (14033 – 14048, one with the builder's census and RELATED figures), and a heading `grep` of this file printed the builder's row outcome and two mutant names, before its probe plan was written. None of it is used as evidence (every figure in the verdict is the checker's own run; six of its eleven mutants are not the builder's). The check ran on three seats of the lane (J714's hand-off; a machine restart on 2026-11-13 about 00:07Z killed the first chain of long runs, and a second seat restarted the unfinished part). | The session's ruling, if any; a lane-key grep anchored on ` check/` avoids it. | session |
+| N-s5c-5 | **For the session: RELATED@1000's one red is the head's declared canary, not the round's.** `PLAT_FUZZ_RUNS=1000 … vitest related --run --maxWorkers=1 packages/site/src/water/polygons.ts` on the tree: 286 files, 3561 / 3562, seed −1993692886; the one red `bench/test/site/summary.test.ts` "the canary CITY record re-derived on this tree is the run's …" — "relief-60 coarse seed 46 moved: re-run the summary (Q36)", expected `eb2046dd…b0e2b0`, received `4c9647bf…5ac05d` (J772 (7)). The same file on the checker's before-image (the pre-round `polygons.ts`, leg 1's hydrology) is red on the same title with the same received digest `4c9647bf15914e6d5f21b2986131f1600cb44744cd09d8b591589937665ac05d`: round S5 did not move the record. No other red: Q152's bands tests, J176's reference-machine tests and Q153's flake were not red in this run. | The session's re-run of the site summary (J772 (7)); nothing for the item. | session |

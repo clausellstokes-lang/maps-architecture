@@ -6,11 +6,14 @@ import { CONCERNS, dmath, streamFromKey } from '@plat/kernel';
 import type { HydroGrid, Terrain, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { hydroGridOver, TOWN_ROOT } from '../../src/terrain/index.js';
+import { carveJoint, JointBed } from '../../src/hydro/carve.js';
 import {
   accumulate,
   carveCourse,
   cellAt,
+  chaikin,
   d8,
+  descentLine,
   edgePoint,
   fieldOf,
   firstSelfTouch,
@@ -21,6 +24,7 @@ import {
   MeanderDraws,
   MEANDER_MIN_SHARE,
   MEANDER_SAME_SIDE,
+  outwardCode,
   planCarve,
   pointSegDist2,
   priorityFlood,
@@ -28,6 +32,7 @@ import {
   rasterise,
   resolveFlats,
   riverSurface,
+  rounded,
   runRivers,
   segSegDist2,
   surfaceCapCm,
@@ -35,10 +40,11 @@ import {
   widthCm,
   type RiverReport,
   type RiverRequest,
+  type RiverTrace,
   type XY,
 } from '../../src/hydro/index.js';
-import { bowl, eastward, gully, RIDGE_Y_CM, SMALL, valley, valleyFallingEast, valleyWithCrater, valleyWithRidge, valleyWithSide, valleyWithSink } from './fixtures.js';
-import { bedAlong, carveBars, CITY, cityHydrology, courseOf, drainPath, frameOf, heightsOf, nonIncreasing, northInlet, reachOf, riverBp, siteContext, terrainFrom, traceOpts } from './support.js';
+import { basin, bowl, eastward, gully, RIDGE_Y_CM, SMALL, valley, valleyFallingEast, valleyWithCrater, valleyWithRidge, valleyWithGully, valleyWithSide, valleyWithSink } from './fixtures.js';
+import { bedAlong, carveBars, CITY, cityHydrology, courseOf, deepestAlong, drainPath, frameOf, heightsOf, joinedCellOf, nonIncreasing, northInlet, reachOf, riverBp, siteContext, terrainFrom, traceOpts } from './support.js';
 
 interface Run {
   terrain: Terrain;
@@ -55,9 +61,12 @@ function run(h: (x: number, y: number) => number, river: RiverRequest | null, se
   return { terrain, before, bodies: r.value.water.bodies, report: r.value.report };
 }
 
-/** The carve bars on a run: the bed under every course never rises; no cell lowered past the cap; no cell raised. */
+/**
+ * The carve bars on a run, read on the final raster: the bed under every course never rises; no cell lowered past the
+ * cap in total (two courses' carves summed); no cell raised; no course's reported deepest cut past the cap.
+ */
 function expectCarveBars(r: Run, carveMaxCm = CITY.carveMaxCm): void {
-  carveBars(r.before, r.terrain, r.bodies, carveMaxCm);
+  carveBars(r.before, r.terrain, r.bodies, carveMaxCm, r.report.rivers);
 }
 
 /** The squared distance from the frame's centre (the origin) to a polyline: the test's own point–segment distance. */
@@ -188,6 +197,105 @@ describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)'
     expect(fits.ok).toBe(true);
     expect(nonIncreasing(bedAlong(terrain, line))).toBe(true);
     expect(planCarve(terrain, line, 800).maxCarveCm).toBe(0);
+  });
+});
+
+describe('the joint bed of a run’s courses (hardening round S3, N-s2c-1)', () => {
+  it('JointBed: a joining chain arriving lower re-levels the receiving chain from the joined cell to its end; a chain that would cut a cell past the cap is not laid and changes nothing', () => {
+    // One raster row read as cells: chain A = cells 0 … 9 falling 10 cm a cell from 1 000 cm; chain B = cells 20, 21 at
+    // 900 and 880 cm, then A's cell 5 (950 cm) — the joined cell.
+    const before = new Int32Array(30);
+    for (let c = 0; c < 10; c += 1) before[c] = 1000 - 10 * c;
+    before[20] = 900;
+    before[21] = 880;
+    before[25] = 400;
+    const beds = new JointBed(before, 400);
+    const a = Array.from({ length: 10 }, (_, c) => c);
+    expect(beds.add(a)).toBe(true);
+    expect(a.map((c) => beds.bedOf(c))).toEqual([...before.slice(0, 10)]);
+    expect(beds.fits([20, 21, 5])).toBe(true);
+    expect(a.map((c) => beds.bedOf(c))).toEqual([...before.slice(0, 10)]);
+    expect(beds.add([20, 21, 5])).toBe(true);
+    // B descends to the joined cell; A is re-levelled at B's arrival from there on; nothing upstream moves.
+    expect([20, 21, 5].map((c) => beds.bedOf(c))).toEqual([900, 880, 880]);
+    expect(a.map((c) => beds.bedOf(c))).toEqual([1000, 990, 980, 970, 960, 880, 880, 880, 880, 880]);
+    // A chain from cell 25 (400 cm) joining A's cell 9 would cut it 510 cm below its height before any carve.
+    expect(beds.add([25, 9])).toBe(false);
+    expect([beds.has(25), beds.bedOf(9)]).toEqual([false, 880]);
+    expect(new JointBed(before, 600).add([25, 9])).toBe(true);
+    expect(before[9]).toBe(910);
+  });
+
+  it('carveJoint: two courses’ channels on one steep wall never cut a cell past carveMaxCm in total, the cap read on the raster before any carve; never on a centreline — two courses at different levels, the higher’s centreline inside the lower’s half-width: the lower course’s channel never lowers it; never raised', () => {
+    // A trough whose walls rise 50 % either side of x = 0: two parallel courses one raster column apart, each 36 m wide
+    // each side — the first lowers the wall at 28 m (64 m high) to the cap (60 m), the second's bed (52 m) lies past the
+    // cap below it too.
+    const terrain = terrainFrom(SMALL, (x) => 50 + 0.5 * (Math.abs(x) / 100));
+    const before = heightsOf(terrain);
+    const a: XY[] = [
+      { x: 400, y: 40_000 },
+      { x: 400, y: -40_000 },
+    ];
+    const b: XY[] = [
+      { x: -400, y: 40_000 },
+      { x: -400, y: -40_000 },
+    ];
+    const g = rasterGeom(terrain);
+    const beds = new JointBed(before, CITY.carveMaxCm);
+    expect(beds.add(rasterise(g, a, true).cells)).toBe(true);
+    expect(beds.add(rasterise(g, b, true).cells)).toBe(true);
+    const warnings = carveJoint(terrain, before, beds, [
+      { course: a, halfWidthCm: [3600, 3600] },
+      { course: b, halfWidthCm: [3600, 3600] },
+    ], CITY.carveMaxCm);
+    expect(warnings).toEqual([]);
+    let deepest = 0;
+    for (let c = 0; c < before.length; c += 1) {
+      const cut = before[c] - terrain.heightCm[c];
+      expect(cut).toBeGreaterThanOrEqual(0);
+      if (cut > deepest) deepest = cut;
+    }
+    expect(deepest).toBe(CITY.carveMaxCm);
+    // The centrelines keep their beds (a level line along each: no cut).
+    for (const course of [a, b]) for (const c of rasterise(g, course, true).cells) expect(terrain.heightCm[c]).toBe(before[c]);
+    // Never on a centreline, at different levels (hardening round S4, N-s3c-1): ground rising 20 % eastward, level from
+    // north to south, two courses one raster column apart — the lower (west) course's bed 160 cm under the higher's,
+    // its half-width (36 m) reaching across the higher course's centreline. The lower course's channel lowers the cells
+    // between and beyond, but never the higher course's centreline cells: they keep their bed (their height before).
+    const tilted = terrainFrom(SMALL, (x) => 50 + 0.2 * (x / 100));
+    const tiltedBefore = heightsOf(tilted);
+    const tg = rasterGeom(tilted);
+    const lowCells = rasterise(tg, b, true).cells;
+    const highCells = rasterise(tg, a, true).cells;
+    expect(tiltedBefore[highCells[0]] - tiltedBefore[lowCells[0]]).toBe(160);
+    const tiltedBeds = new JointBed(tiltedBefore, CITY.carveMaxCm);
+    expect(tiltedBeds.add(lowCells)).toBe(true);
+    expect(tiltedBeds.add(highCells)).toBe(true);
+    expect(carveJoint(tilted, tiltedBefore, tiltedBeds, [
+      { course: b, halfWidthCm: [3600, 3600] },
+      { course: a, halfWidthCm: [3600, 3600] },
+    ], CITY.carveMaxCm)).toEqual([]);
+    for (const c of highCells) expect(tilted.heightCm[c]).toBe(tiltedBefore[c]);
+    for (const c of lowCells) expect(tilted.heightCm[c]).toBe(tiltedBefore[c]);
+    expect(nonIncreasing(bedAlong(tilted, a))).toBe(true);
+    // The lower course's channel did reach the higher course's side: the cell east of the higher centreline (on the
+    // lower course's half-width, 1 600 cm away) is lowered to the lower bed.
+    const east = highCells[highCells.length >> 1] + 1;
+    expect([tiltedBefore[east] - tilted.heightCm[east], tilted.heightCm[east]]).toEqual([320, tiltedBefore[lowCells[0]]]);
+    // With one course, carveJoint is carveCourse exactly.
+    const one = terrainFrom(SMALL, valley);
+    const two = terrainFrom(SMALL, valley);
+    const line: XY[] = [
+      { x: 2000, y: 70_000 },
+      { x: -3000, y: 0 },
+      { x: 1000, y: -70_000 },
+    ];
+    const half = [800, 1200, 1500];
+    expect(carveCourse(one, line, CITY.carveMaxCm, half).ok).toBe(true);
+    const solo = new JointBed(heightsOf(two), CITY.carveMaxCm);
+    expect(solo.add(rasterise(rasterGeom(two), line, true).cells)).toBe(true);
+    carveJoint(two, heightsOf(two), solo, [{ course: line, halfWidthCm: half }], CITY.carveMaxCm);
+    expect(Buffer.from(two.heightCm.buffer).equals(Buffer.from(one.heightCm.buffer))).toBe(true);
   });
 });
 
@@ -559,6 +667,75 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     }
   });
 
+  it('re-trace at its limit (rung 2): a descent line whose own course folds back within the clearance is never delivered — the last try stands, degraded (hardening round S3, note N-s2c-2)', () => {
+    // A hand-built hydrology grid of 64 × 64 cells of `cellCm` centred on the frame: a trough from the west edge east
+    // along row 20 to P (column 30), then a hairpin — P's east neighbour Q and north neighbour X lie 10 cm below it, a tie
+    // the fixed order breaks to the east (E before N), and Q, on that flat, drains by its parent to X, which the flood
+    // reached first — then north from X to the north edge. So the descent line steps P → Q → X: X one cell from P, two
+    // steps on (a 45° hairpin; the steepest strictly lower step and the parent chain make no tighter fold). The raster
+    // is high (70 m) except on the cells under the line's own course (50 m): every meandered course cuts past the cap
+    // near the inlet, at the full offsets and at every halving of them, so three re-traces fail on the carve and the
+    // line itself is re-traced. On cells one tributary clearance wide (3 m) its course folds back within the clearance:
+    // the last try stands, degraded; on 4 m cells it does not, and the line is delivered.
+    const hairpin = (cellCm: number): { tr: RiverTrace; lineCourse: XY[]; cells: number[] } => {
+      const terrain = terrainFrom(SMALL, () => 70);
+      const n = 64;
+      const r0 = 20;
+      const a = 30;
+      const grid = { cellCm, cols: n, rows: n, originX: -32 * cellCm, originY: -32 * cellCm } as HydroGrid;
+      const heights = new Array<number>(n * n).fill(20_000);
+      for (let i = 0; i < a; i += 1) heights[r0 * n + i] = 10_000 - 10 * i;
+      const hp = heights[r0 * n + a - 1] - 100;
+      heights[r0 * n + a] = hp;
+      heights[r0 * n + a + 1] = hp - 10;
+      heights[(r0 + 1) * n + a] = hp - 10;
+      for (let j = r0 + 2; j < n; j += 1) heights[j * n + a] = hp - 10 * (j - r0);
+      const field = fieldOf(grid, heights);
+      const reach = { x: 32 * cellCm, y: 32 * cellCm };
+      const inlet = { cell: r0 * n, at: { x: -reach.x, y: grid.originY + (r0 + 0.5) * cellCm } };
+      // The line on the surface walled at the inlet's edge alone (the line re-trace's), read with the exported helpers.
+      const masks = inletMasks(grid, inlet.cell, undefined);
+      const line = descentLine(field, riverSurface(field, masks.outlet, masks.edge, surfaceCapCm(CITY.carveMaxCm)), inlet.cell, undefined, []);
+      expect(line.end.kind).toBe('frame');
+      const centre = (c: number): XY => ({ x: grid.originX + ((c % n) + 0.5) * cellCm, y: grid.originY + (Math.floor(c / n) + 0.5) * cellCm });
+      const last = line.cells[line.cells.length - 1];
+      const lineCourse = rounded(chaikin([inlet.at, ...line.cells.slice(1).map(centre), edgePoint(grid, last, reach, outwardCode(grid, last % n, Math.floor(last / n)))], 3));
+      for (const c of rasterise(rasterGeom(terrain), lineCourse, true).cells) terrain.heightCm[c] = 5000;
+      expect(planCarve(terrain, lineCourse, CITY.carveMaxCm).firstExceed).toBe(-1);
+      class Left extends MeanderDraws {
+        override get(): { side: number; share: number } {
+          return { side: 1, share: 1 };
+        }
+      }
+      const tr = traceRiver(field, inlet, new Left(streamFromKey([1, 1, 1, 1])), { ...traceOpts(terrain, CITY.tributaryBandCm[0]), reach });
+      const at = (i: number, j: number): number => j * n + i;
+      expect(line.cells.slice(a - 1, a + 4)).toEqual([at(a - 1, r0), at(a, r0), at(a + 1, r0), at(a, r0 + 1), at(a, r0 + 2)]);
+      return { tr, lineCourse, cells: line.cells };
+    };
+    const clearance = CITY.tributaryBandCm[0];
+    // One clearance a cell: the line's course fits the cap but folds back within the clearance at the hairpin — only
+    // the touch check refuses it.
+    const tight = hairpin(clearance);
+    expect(firstSelfTouch(tight.lineCourse, clearance)).not.toBeNull();
+    expect(tight.tr.events.filter((e) => e.rung === 'retrace').map((e) => [e.value, e.cause, e.closed])).toEqual([
+      [0, 'carve', undefined],
+      [0, 'carve', undefined],
+      [0, 'carve', undefined],
+    ]);
+    expect([tight.tr.ok, tight.tr.failure, tight.tr.scale]).toEqual([false, 'carve', 0.125]);
+    expect(tight.tr.course).not.toEqual(tight.lineCourse);
+    // A third wider: the same hairpin's course keeps clear of itself, and the line is delivered (the fourth re-trace).
+    const wide = hairpin(400);
+    expect(firstSelfTouch(wide.lineCourse, clearance)).toBeNull();
+    expect(wide.tr.events.filter((e) => e.rung === 'retrace').map((e) => [e.value, e.cause])).toEqual([
+      [0, 'carve'],
+      [0, 'carve'],
+      [0, 'carve'],
+      [0, 'carve'],
+    ]);
+    expect([wide.tr.ok, wide.tr.scale, wide.tr.course]).toEqual([true, 0, wide.lineCourse]);
+  });
+
   it('a degraded river reports reachesCore on the course it delivers, cut before its failure (C-0173 (6))', () => {
     const r = run(valleyWithRidge, { inflowBearingCdeg: 0 });
     const out = r.report.rivers[0];
@@ -808,6 +985,191 @@ describe('tributaries, by the same rule from secondary inlets', () => {
     const ej = Math.floor((end.y - g.originY) / g.cellCm);
     expect(end).toEqual({ x: g.originX + (ei + 0.5) * g.cellCm, y: g.originY + (ej + 0.5) * g.cellCm });
     expect(mainCells.has(ej * g.cols + ei)).toBe(true);
+  });
+
+  it('a tributary down a steep gully into the river: its meandered courses fail three re-traces, and its descent line, re-traced from its inlet, stops beside the river and joins it — flowTo, outfall join, the confluence on the river’s course (hardening round S3, note N-s2c-4)', () => {
+    // valleyWithGully: the tributary's line runs down the gully's axis from the east edge into the river's corridor;
+    // every meandered course climbs a wall past the cap. The line re-trace descends the tributary's own surface, whose
+    // outlets include the river it joins: it ends beside the river (a confluence), never on through it to the frame.
+    const cases: [number, boolean][] = [
+      [1, false],
+      [4, false],
+      [5, false],
+      [1, true],
+      [3, true],
+    ];
+    for (const [seed, coarse] of cases) {
+      const r = run(valleyWithGully, { inflowBearingCdeg: 0, tributaries: [{ inflowBearingCdeg: 9000 }] }, seed, { hydroCoarsen: coarse });
+      const [river, trib] = r.bodies;
+      expect(r.report.rivers[0]).toMatchObject({ kind: 'river', fits: true, outfall: 'frame' });
+      expect(r.report.rivers[1]).toMatchObject({ kind: 'tributary', attempt: 0, fits: true, outfall: 'join' });
+      expect(trib.flowTo).toBe(river.id);
+      expect(r.report.requested[1]).toEqual({ feature: 'river.tributary.0', delivered: 'full', tier: 2, entity: 'water:tributary:0' });
+      // Four re-traces on attempt 0, the last from the inlet (knot 0): the line's.
+      const uses = r.report.ladderUses.filter((u) => u.entity === trib.id && u.name === 'retrace');
+      expect([seed, coarse, uses.length, uses[3]?.value, uses.every((u) => u.key === 'S1/water.river@town')]).toEqual([seed, coarse, 4, 0, true]);
+      // The line's knots: the cells' centres of the hydrology grid (no offset), from the inlet to the confluence.
+      const g = r.terrain.hydro;
+      const controls = trib.controls ?? [];
+      for (const k of controls.slice(1)) {
+        expect((k.at.x - g.originX - g.cellCm / 2) % g.cellCm).toBe(0);
+        expect((k.at.y - g.originY - g.cellCm / 2) % g.cellCm).toBe(0);
+      }
+      // The confluence: the course ends at the centre of a cell of the river's course on the hydrology grid.
+      const course = courseOf(trib);
+      const end = course[course.length - 1];
+      expect(end).toEqual(controls[controls.length - 1].at);
+      const ei = Math.floor((end.x - g.originX) / g.cellCm);
+      const ej = Math.floor((end.y - g.originY) / g.cellCm);
+      expect(new Set(rasterise(g, courseOf(river), true).cells).has(ej * g.cols + ei)).toBe(true);
+      expectCarveBars(r);
+      const tb = bedAlong(r.terrain, course);
+      expect(tb[tb.length - 1]).toBeGreaterThanOrEqual(r.terrain.heightCm[joinedCellOf(r.terrain, [river], course)]);
+    }
+  });
+
+  it('a joining tributary digs no pit in the river: both beds descend on the final raster, the tributary arrives at or above the river at the joined cell, the river carries the confluence on — valleyWithSide, river 90°, tributary 180° (hardening round S3, N-s2c-1)', () => {
+    // The tributary's inlet lies on the river's outfall edge, on the valley floor at 2 808 cm, and it climbs 64 m to the
+    // river's corridor (its own bed flat at 2 808 cm, within the cap); before the round its carve lowered one or two of
+    // the river's bed cells to 2 808 cm and the river's bed rose behind them by 90 – 164 cm.
+    for (const coarse of [false, true]) {
+      for (const seed of [1, 2]) {
+        const r = run(valleyWithSide, { inflowBearingCdeg: 9000, tributaries: [{ inflowBearingCdeg: 18000 }] }, seed, { hydroCoarsen: coarse });
+        const [river, trib] = r.bodies;
+        expect(r.report.rivers[0]).toMatchObject({ kind: 'river', fits: true, outfall: 'frame', corridor: true });
+        expect(r.report.rivers[1]).toMatchObject({ kind: 'tributary', fits: true, outfall: 'join', corridor: !coarse });
+        expect(trib.flowTo).toBe(river.id);
+        expectCarveBars(r);
+        const rb = bedAlong(r.terrain, courseOf(river));
+        const tb = bedAlong(r.terrain, courseOf(trib));
+        expect(nonIncreasing(rb)).toBe(true);
+        expect(nonIncreasing(tb)).toBe(true);
+        // A course descends TO its outfall: the tributary's last bed is at or above the river's bed at the joined cell.
+        const joined = joinedCellOf(r.terrain, [river], courseOf(trib));
+        expect(joined).toBeGreaterThanOrEqual(0);
+        expect(tb[tb.length - 1]).toBeGreaterThanOrEqual(r.terrain.heightCm[joined]);
+        // Here the tributary arrives lower than the river's own bed, so the river is re-levelled from the joined cell to
+        // its outfall at the tributary's level (2 808 cm), and its reported deepest cut is the one on the raster.
+        expect(tb[tb.length - 1]).toBe(2808);
+        expect(rb[rb.length - 1]).toBeLessThanOrEqual(2808);
+        expect(r.report.rivers[0].maxCarveCm).toBe(deepestAlong(r.before, r.terrain, courseOf(river)));
+        expect(r.report.rivers[1].maxCarveCm).toBe(deepestAlong(r.before, r.terrain, courseOf(trib)));
+      }
+    }
+  });
+
+  it('no course’s channel lowers another course’s centreline: where a channel reaches the other course’s centreline cells, both beds still descend on the final raster and a joining tributary arrives at or above the receiving bed at the joined cell (hardening round S4, N-s3c-1)', () => {
+    // The closing check's measured runs of S3 (fixture, river bearing, tributary bearing, seed, hydroCoarsen), each
+    // with its outcome on the round's sources. Were a channel to lower the other course's centreline cells (the S3
+    // pit's second mechanism), the bed would rise behind them on the first three — the tributary's by 13 and 96 cm,
+    // the degraded river's by 102 cm — and on the last two the tributary would end 16 cm below the river's bed at the
+    // joined cell.
+    const cases: [string, (x: number, y: number) => number, number, number, number, boolean, [boolean, string][]][] = [
+      ['valleyWithSide', valleyWithSide, 8000, 17000, 3, false, [[true, 'frame'], [true, 'join']]],
+      ['gully', gully, 20000, 29000, 2, true, [[true, 'frame'], [true, 'join']]],
+      ['valleyWithRidge', valleyWithRidge, 4000, 31000, 1, true, [[false, 'sink'], [false, 'sink']]],
+      ['valleyFallingEast', valleyFallingEast, 20000, 11000, 1, true, [[true, 'frame'], [true, 'join']]],
+      ['eastward', eastward, 20000, 11000, 3, true, [[true, 'frame'], [true, 'join']]],
+    ];
+    for (const [name, h, riverCdeg, tribCdeg, seed, coarse, outcomes] of cases) {
+      const r = run(h, { inflowBearingCdeg: riverCdeg, tributaries: [{ inflowBearingCdeg: tribCdeg }] }, seed, { hydroCoarsen: coarse });
+      expect([name, seed, coarse, r.report.rivers.map((o) => [o.fits, o.outfall])]).toEqual([name, seed, coarse, outcomes]);
+      expectCarveBars(r);
+      const [river, trib] = r.bodies;
+      for (const b of r.bodies) expect([name, b.id, nonIncreasing(bedAlong(r.terrain, courseOf(b)))]).toEqual([name, b.id, true]);
+      if (r.report.rivers[1].outfall === 'join') {
+        const tb = bedAlong(r.terrain, courseOf(trib));
+        const joined = joinedCellOf(r.terrain, [river], courseOf(trib));
+        expect(joined).toBeGreaterThanOrEqual(0);
+        expect([name, tb[tb.length - 1] >= r.terrain.heightCm[joined]]).toEqual([name, true]);
+      }
+    }
+  });
+
+  it('a tributary received by another tributary arrives at or above that tributary’s bed at the joined cell; both tributaries’ beds descend on the final raster — eastward, river 160°, tributaries 250° and 70° (hardening round S4, N-s3c-2)', () => {
+    // Tributary 0 fits and leaves by the frame; tributary 1 fits and ends on tributary 0's corridor (outfall join): its
+    // joined cell is on tributary 0's course, not the river's. Were it read from the river's chain, tributary 1 would
+    // end below tributary 0's bed there (3 436 against 3 442 cm on seed 1, 3 408 against 3 440 with hydroCoarsen).
+    // (That its flowTo names the river is the older note N-s3c-4, the session's routing: not read here.)
+    const cases: [number, boolean][] = [
+      [1, false],
+      [1, true],
+      [2, false],
+      [3, false],
+    ];
+    for (const [seed, coarse] of cases) {
+      const r = run(eastward, { inflowBearingCdeg: 16000, tributaries: [{ inflowBearingCdeg: 25000 }, { inflowBearingCdeg: 7000 }] }, seed, { hydroCoarsen: coarse });
+      expect([seed, coarse, r.report.rivers.map((o) => [o.kind, o.fits, o.outfall])]).toEqual([
+        seed,
+        coarse,
+        [
+          ['river', true, 'frame'],
+          ['tributary', true, 'frame'],
+          ['tributary', true, 'join'],
+        ],
+      ]);
+      expectCarveBars(r);
+      const [, t0, t1] = r.bodies;
+      const b0 = bedAlong(r.terrain, courseOf(t0));
+      const b1 = bedAlong(r.terrain, courseOf(t1));
+      expect([seed, coarse, nonIncreasing(b0), nonIncreasing(b1)]).toEqual([seed, coarse, true, true]);
+      const joined = joinedCellOf(r.terrain, [t0], courseOf(t1));
+      expect(joined).toBeGreaterThanOrEqual(0);
+      expect([seed, coarse, b1[b1.length - 1] >= r.terrain.heightCm[joined]]).toEqual([seed, coarse, true]);
+      r.bodies.forEach((b, k) => {
+        expect(r.report.rivers[k].maxCarveCm).toBe(deepestAlong(r.before, r.terrain, courseOf(b)));
+      });
+    }
+  });
+
+  it('the reported deepest cut is read on the joint bed: where the re-level below a confluence is a course’s deepest cut, its maxCarveCm is that cut on the raster, deeper than its own planCarve cut — valley, river 80° / tributary 170° and river 200° / tributary 290°, seed 1 (hardening round S4, N-s3c-3)', () => {
+    // The river from 80° lies level along the valley's floor (its own cut 0); the tributary from 170° arrives 262 cm
+    // lower, so the river is re-levelled below the confluence and reports 262 cm. From 200° / 290° it is the tributary
+    // that is re-levelled by the river's arrival (240 cm; its own cut 0).
+    const cases: [number, number, number][] = [
+      [8000, 17000, 0],
+      [20000, 29000, 1],
+    ];
+    for (const [riverCdeg, tribCdeg, k] of cases) {
+      const r = run(valley, { inflowBearingCdeg: riverCdeg, tributaries: [{ inflowBearingCdeg: tribCdeg }] });
+      expect(r.report.rivers.map((o) => [o.kind, o.fits, o.outfall])).toEqual([
+        ['river', true, 'frame'],
+        ['tributary', true, 'join'],
+      ]);
+      expectCarveBars(r);
+      const course = courseOf(r.bodies[k]);
+      const own = planCarve(terrainFrom(SMALL, valley), course, CITY.carveMaxCm).maxCarveCm;
+      const reported = r.report.rivers[k].maxCarveCm;
+      expect([riverCdeg, reported]).toEqual([riverCdeg, deepestAlong(r.before, r.terrain, course)]);
+      expect(reported).toBeGreaterThan(own);
+      expect([riverCdeg, own, reported]).toEqual(k === 0 ? [8000, 0, 262] : [20000, 0, 240]);
+    }
+  });
+
+  it('two courses never cut one cell past carveMaxCm in total, the cap read on the raster before any carve; a tributary whose join would need more is not trenched — it takes F-RIVER’s ladder to a degraded course (hardening round S3, N-s2c-1)', () => {
+    // The basin, river from 240°, tributaries from 330° and 150°, seed 2: before the round both tributaries joined and
+    // the summed cut of two courses reached 440 cm on one cell (each course's own cut ≤ 400). Joining needs the river
+    // re-levelled below its climb out of the basin by more than the cap — so neither joins: each is delivered degraded,
+    // cut back clear of the river, and every cell's total cut stays within the cap.
+    const r = run(basin, { inflowBearingCdeg: 24000, tributaries: [{ inflowBearingCdeg: 33000 }, { inflowBearingCdeg: 15000 }] }, 2);
+    expectCarveBars(r);
+    expect(r.report.rivers.map((o) => [o.kind, o.fits, o.outfall, o.corridor])).toEqual([
+      ['river', true, 'frame', true],
+      ['tributary', false, 'sink', false],
+      ['tributary', false, 'sink', false],
+    ]);
+    expect(r.report.requested.filter((q) => q.feature.startsWith('river.tributary'))).toEqual([
+      { feature: 'river.tributary.0', delivered: 'degraded', tier: 4, entity: 'water:tributary:0', cause: 'F-RIVER' },
+      { feature: 'river.tributary.1', delivered: 'degraded', tier: 4, entity: 'water:tributary:1', cause: 'F-RIVER' },
+    ]);
+    // The inlet rung was tried for each before the degraded course (attempts 1 and 2).
+    for (const id of ['water:tributary:0', 'water:tributary:1']) {
+      expect(r.report.ladderUses.filter((u) => u.entity === id && u.name === 'inlet').map((u) => u.value)).toEqual([1, 2]);
+    }
+    for (const b of r.bodies.slice(1)) expect(b.flowTo).toBeUndefined();
+    r.bodies.forEach((b, k) => {
+      expect(r.report.rivers[k].maxCarveCm).toBe(deepestAlong(r.before, r.terrain, courseOf(b)));
+    });
   });
 
   it('a request for river islands or a delta at M0 is reported, never silent (M1, §4b)', () => {

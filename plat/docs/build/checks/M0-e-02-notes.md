@@ -399,3 +399,311 @@ eight and the checker's `dome` and `basin`) × nine bearings × {plain, two trib
 | N-s2c-4 | **A tributary's line re-trace ending beside the river is unpinned.** QJ (the last `descentLine` called without `opts.stop`) survives 67 / 67 and is not equivalent: 24 of 1 620 census outputs move (23 on `basin`, 1 on `gully`, two-tributary requests) — the rescued tributary runs on to the frame instead of joining. The code as written joins (the census: every rescued tributary `fits`, `join`). | A tributary fixture whose knot courses fail three re-traces while its line fits (a gully running into the river's corridor), asserting `flowTo`, `outfall: 'join'` and the confluence point. QJ must go red. | M4 (hardening) |
 | N-s2c-5 | **The delivered line's carve-rung events are unpinned.** QF2 (the `...tried` events dropped, the re-trace event kept) survives 67 / 67; report-only (the ladder uses of rung 1 on the delivered line), no output moves in the census. | In the relief-bar Q123 title, assert the delivered attempt's carve uses after its last re-trace equal the line's own sink crossings. QF2 must go red. | M4 (hardening) |
 | N-s2c-6 | **The declared shift moves a downstream refusal from S5 to S3 on one spike derivation (another stage's refusal on S1's river; J264, J290).** The site spike's relief-60 fixture at the test size, seed 2: on the round's start sources S5 refuses `E_SELF_INTERSECT` (the spike test's own title: "S5 refused, S6 not reached"; by the builder's probe S1 delivered attempt 2); on the round's sources S1 delivers another river (by the builder's probe attempt 0, which the line re-trace now fits) and S3 refuses `E_SELF_INTERSECT` on `town:10bqcwtcw044g` (key `S3@town:10bqcwtcw044g`) — read in this check's RELATED@1000 log and in its attribution replay (`bench/test/site/spike.test.ts:179`, five titles red; green 12 / 12 on the start sources). One refusal on the derivation on both sides; S1 itself refuses nothing and commits (the report's S1 entries are empty). Input kind: OUR OWN INTERMEDIATE (S1's river from lawful input); verdict: MAKE-IT-SUCCEED. Not counted in this item's census (0 → 0), which is S1's. The finishing seat also re-ran `site/test/water/exit-bar.test.ts` in its mirror with `fallbacks[4]` given the received text: 2 / 2 green, so the declared red there masks nothing (frames 10 and 3 pass unchanged, `refused` 0). | For S3's owner, with the seed: make S3 commit on this river (the session's seam re-pins the five titles on the merged tree, J766 (2) (ii); the refusal itself is the row). Nothing to change in `hydro/`. | the session's routing (S3's item; M0 if the spike's census reads it, else M4) |
+
+## Hardening round S3 (lane `build/M0-e-02-fix-s3`, 2026-11-12; leg 1 of the merged round M0-e-02 S3 → M0-e-03 S5, J443; J237 (2), J238, J263, J264, J290, N-45, N-58) — the builder's row-by-row outcome
+
+The session's hardening round S3 of M0-e-02 on the five rows the closing check of round S2 wrote above (N-s2c-1 –
+N-s2c-5; the session's queue row Q192 and record J786 are not in this tree's `docs/M0-FIX-QUEUE.md` and
+`docs/PROGRESS.md` — a grep finds neither — so the brief's text of the rows and the notes rows above are the source).
+LINE 1 (N-s2c-1) is the round's one source change and a declared shift; LINES 2 – 5 are tests only.
+
+### LINE 1 (N-s2c-1) — the diagnosis, written before any source change
+
+*Measured* (this seat's probe in its mirror, the start sources): `valleyWithSide`, river 9000 cdeg, one tributary
+18000 cdeg. The river enters by the east edge and leaves by the south edge at x = 37.5 m (16 m coarse); the tributary's
+inlet is on the SAME south edge (the river's outfall edge is not excluded for a tributary, only its inlet edge), 6 m
+east, on the valley floor at 2 808 cm, and its descent on the carve-bounded surface climbs 64 m north (8 raster cells;
+13 coarse) to the river's corridor at (62.5 m, −737.5 m). Its bed is the running minimum from its inlet: 2 808 cm all
+the way, a cut of up to 159 cm (196 coarse) of its own — it fits. Default seed 1: river bed `2 972, 2 956, 2 808, 2 924,
+2 808, 2 898` around river index 218 (a rise of 116 cm); seed 2: 90 cm; coarse: 164 and 122 cm — the checker's figures
+reproduced. The worst total cut on these four runs is 336 / 243 / 336 / 325 cm (within the cap).
+
+*The cause*, in `runRivers`' last loop: the plans are carved in order, each by `carveCourse` against the raster as the
+earlier carves left it. (1) A later course's running-minimum bed is written on every raster cell of its own path —
+including the cells of an earlier course's centreline it crosses or ends on — so a tributary whose bed is lower than the
+river's bed there lowers the river's centreline to its own bed (the pit), while the river's bed downstream stays where
+the river's own carve put it (the rise). (2) A later course's channel cells (inside its half-width) are lowered towards
+its bed with no regard to an earlier centreline: the same pit by another path. (3) Each carve caps its cut against the
+raster as it finds it (`now − carveMaxCm`), so two courses on one cell may cut it by up to twice the cap in total (the
+census below: up to 440 cm on this seat's `basin`). The per-course report (`maxCarveCm`, the trace's `planCarve` on the
+uncarved raster) cannot see either.
+
+*The shape chosen — the receiving course re-levelled below the confluence (the note's second shape).* §4.2 S1 (3): "the
+terrain is carved to the course, its bed descending monotonically to the outfall so no depression is created and the
+flood is not repeated … tributaries by the same rule". A tributary's outfall is the course it joins; the carve only
+lowers ground. Where a tributary arrives LOWER than the receiving bed (the case measured: its ground lies below the
+river's bed), the only carve that leaves both beds descending and creates no depression lowers the receiving course
+from the joined cell downstream to the tributary's arrival — the river then carries the confluence's level on to its
+outfall, within the cap (the cap read against the raster before any carve). The first shape (the tributary's bed
+clamped at the joined cell's bed, an earlier channel never lowered) cannot be built by a carve here: the tributary's
+ground at its inlet (2 808 cm) lies 132 cm below the clamp, so its bed would have to be raised (a fill, which no carve
+makes and §4.2 S1 (3) does not offer) or its bed would rise to the confluence (the depression the sentence forbids);
+it would therefore lose every tributary that arrives low — 49 of this seat's 720 sweep runs carry such a rise today —
+where the re-level loses a fit only where the re-level itself would cut past the cap (a trench).
+
+*The mechanism (to be built in `hydro/carve.ts` and `hydro/strategy.ts`).* The beds of all delivered courses become one
+joint profile on the raster's centreline cells, a pure function of the uncarved raster and the courses: each course's
+raster path (a joining course's path followed by the receiving course's centreline cell nearest its end — the joined
+cell) is a chain, and the running minimum is applied along every chain, in plan order, until nothing changes (values
+only fall; a fixpoint). So every course's bed is non-increasing along its path; a joining course's last bed is ≥ the
+receiving bed at the joined cell; the receiving course is re-levelled below it. The cap is read against the uncarved
+raster on every cell. The joint check runs where the course is chosen (each tributary attempt, beside the trace's own
+checks), so a tributary whose join would need a cut past the cap is a failing attempt and takes F-RIVER's next rung (the
+inlet, a later attempt — the draws of that path are the ladder's own), and, when no attempt joins, is delivered
+degraded (tier 4, outfall `sink`, no corridor) cut back until its own bed fits beside the others. After the beds are
+written, each course's channel cells are lowered towards their segment's bed, never on any course's centreline cell and
+never below the uncarved height less the cap. A run with one course reduces to `carveCourse` exactly (byte-identical:
+its chain's running minimum is `planCarve`'s bed and its channel floor `now − cap` is the uncarved height less the cap).
+
+### LINE 1 (N-s2c-1) — FIXED (declared shift; the source change of the round)
+
+*Built* as the diagnosis above says, inside `packages/site/src/hydro/` only. `carve.ts` gains `JointBed` (the joint bed:
+`add`, `fits`, `has`, `bedOf`, `entries`) and `carveJoint` (the centreline beds written, then each course's channel cells
+towards their segment's bed, never on a centreline cell, never below the uncarved height less the cap, never raised);
+`carveCourse` and `planCarve` are unchanged. Both are file-level exports of `carve.ts`; `hydro/index.ts` and the barrel
+are untouched (J263 Q1). `strategy.ts` (`runRivers`): the raster before any carve is kept; each delivered course's chain
+is laid on the joint bed where the course is chosen — the river first (alone, its bed is `planCarve`'s, so it is laid
+whole), each tributary attempt that fits on its own tested beside the delivered courses (`joint.fits` on its path plus
+the joined cell — the receiving course's chain cell nearest its end, the receiving course read from the corridor that
+holds its joined hydrology cell); an attempt whose join would cut past the cap fails as a carve would and the inlet rung
+follows (a later attempt; that path's draws are the ladder's own, and only runs whose tributary meets this read them);
+with no attempt joining, the tributary is delivered degraded (tier 4, `F-RIVER`, outfall `sink`, no corridor, no
+`flowTo`) cut back vertex by vertex until its own chain lies beside the others within the cap. The old carve loop's
+cut-back ("a later course meets ground an earlier carve lowered") is gone: the joint bed is decided before the carve.
+`RiverOutcome.maxCarveCm` of every laid course is read on the joint bed (the deepest cut along its own path against the
+uncarved raster) — on a receiving course it now includes the re-level below a confluence, so the report shows it.
+
+*Which shape, and the other's cost* — above, in the diagnosis: the receiving course re-levelled below the confluence
+(supported by §4.2 S1 (3)'s "carved … descending monotonically to the outfall so no depression is created"; a carve only
+lowers); the clamp would have to fill the tributary's lower ground or leave its bed rising, and would lose every
+tributary arriving low.
+
+*Pins* (`packages/site/test/hydro/`): river.test.ts 'a joining tributary digs no pit in the river …' (`valleyWithSide`,
+river 9000, tributary 18000, seeds 1 – 2, default and `hydroCoarsen`: the river fits and leaves by the frame, the
+tributary fits and joins with `flowTo`, both beds non-increasing on the FINAL raster, the tributary's last bed (2 808 cm)
+≥ the river's bed at the joined cell, the river's last bed ≤ 2 808 cm, each outcome's `maxCarveCm` equal to the deepest
+cut along its course on the raster, `carveBars` with the reported cuts); 'two courses never cut one cell past carveMaxCm
+in total …' (the new `basin` fixture of `fixtures.ts`, ground rising 5 % to every edge; river 24000, tributaries 33000
+and 15000, seed 2 — 440 cm summed on one cell before the round; now both tributaries degraded at tier 4 after the inlet
+rung's attempts 1 and 2, no `flowTo`, every cell's total cut ≤ 400, each `maxCarveCm` read on the raster); the joint
+bed's own describe — 'JointBed: a joining chain arriving lower re-levels …' (a hand-built row: the re-level from the
+joined cell, nothing upstream moved, a chain past the cap not laid and nothing changed) and 'carveJoint: two courses'
+channels on one steep wall …' (two parallel courses in a 50 % trough: the total cut is exactly the cap, centrelines
+untouched, and one course through `carveJoint` byte-equal to `carveCourse`). `carveBars` is now read with the report's
+cuts on every run of `expectCarveBars` (every tributary run of river.test.ts) and on strategy.test.ts's tributary run
+(the determinism title). The census below reads `carveBars`' three measures on all 1 160 runs.
+
+*The census (rule (4)), the lane's own probe in its mirror* (a vitest file never in the tree): the item's registered
+census of round S2 (eight fixtures × nine requests × seeds 1 – 3 × both cells + F-WORK = 440 runs) and the TRIBUTARY
+SWEEP (ten small CITY fixtures — the eight, a `dome` falling 3 % from the centre and the `basin` — × nine bearings
+0°, 40°, … 320° × {one tributary at +90°, two at ±90°} × seeds 1 – 2 × both cells = 720 runs), on the round's start
+sources (`before-hydro/`) and on its end:
+
+| measure | item census 440: before → after | tributary sweep 720: before → after |
+|---|---|---|
+| refusals / throws | 0 → 0 / 0 → 0 | 0 → 0 / 0 → 0 |
+| D8 undefined (runs) | 0 → 0 | 0 → 0 |
+| runs with a course whose bed rises on the final raster | 0 → 0 | **49 → 0** (largest rise 400 cm → 0) |
+| runs with a cell cut past the cap in total | 0 → 0 | **1 → 0** (deepest 440 → 400 cm) |
+| runs with a joining tributary below the receiving bed at its joined cell (the probe's reading) | 3 → 0 | **133 → 0** |
+| runs with a cell raised | 0 → 0 | 0 → 0 |
+| river delivered full / degraded | 203 / 237 → 203 / 237 | 72 / 648 → 72 / 648 |
+| tributaries full / degraded | 48 / 0 → 48 / 0 | 1 044 / 36 → 947 / 133 |
+| outputs moved (sha-256 of raster, bodies and report) | 8 (`eastward` 6, `valleyWithSide` 2 — trib90 runs: the receiving river's cut re-read, no tier moves) | 217 |
+| runs with no tributary byte-identical | 392 / 392 | — |
+
+*Every tributary whose delivery tier changed, named* (fixture, request `t1@b` one tributary or `t2@b` two, the river's
+bearing b in cdeg, seed, D default / C `hydroCoarsen`, the tributary): all 105 are on `basin`. The probe's own joint
+reading on the start sources' output (the running-minimum fixpoint over the delivered courses' paths, each joining course
+with its joined cell, measured against the uncarved raster, as each tributary is added) read > 400 cm at all 105 — the
+97 lost fits each need a trench to join; the 8 others are second tributaries whose reading included the first's join.
+Of the 975 sweep tributaries (of 1 080) that kept their tier, 974 read ≤ 400 cm; the one other (`basin` t2@4000 s2C t1) read
+past the cap only through tributary 0's join, which no longer happens — it keeps full tier 2, joining beside the river
+alone. A fit is lost only where joining needs a trench.
+
+* `basin`, full2->degraded4 (97): t1@0 s1D t0, t1@0 s1C t0, t1@0 s2D t0, t1@0 s2C t0, t2@0 s1D t0, t2@0 s1D t1, t2@0 s1C t0, t2@0 s2D t0, t2@0 s2C t0, t2@0 s2C t1, t1@4000 s1D t0, t1@4000 s1C t0, t1@4000 s2D t0, t1@4000 s2C t0, t2@4000 s1D t0, t2@4000 s1D t1, t2@4000 s1C t0, t2@4000 s1C t1, t2@4000 s2D t0, t2@4000 s2D t1, t2@4000 s2C t0, t1@8000 s1D t0, t1@8000 s1C t0, t1@8000 s2C t0, t2@8000 s1D t0, t2@8000 s1D t1, t2@8000 s1C t0, t2@8000 s1C t1, t2@8000 s2C t0, t1@12000 s1D t0, t1@12000 s1C t0, t1@12000 s2D t0, t1@12000 s2C t0, t2@12000 s1D t0, t2@12000 s1D t1, t2@12000 s1C t0, t2@12000 s1C t1, t2@12000 s2D t0, t2@12000 s2D t1, t2@12000 s2C t0, t2@12000 s2C t1, t1@16000 s1D t0, t1@16000 s1C t0, t1@16000 s2D t0, t1@16000 s2C t0, t2@16000 s1D t0, t2@16000 s1D t1, t2@16000 s1C t0, t2@16000 s1C t1, t2@16000 s2D t0, t2@16000 s2C t0, t2@16000 s2C t1, t1@20000 s1D t0, t1@20000 s1C t0, t1@20000 s2D t0, t1@20000 s2C t0, t2@20000 s1D t0, t2@20000 s1D t1, t2@20000 s1C t0, t2@20000 s1C t1, t2@20000 s2D t0, t2@20000 s2D t1, t2@20000 s2C t0, t2@20000 s2C t1, t1@24000 s1D t0, t1@24000 s1C t0, t1@24000 s2D t0, t1@24000 s2C t0, t2@24000 s1D t0, t2@24000 s1D t1, t2@24000 s1C t0, t2@24000 s1C t1, t2@24000 s2D t0, t2@24000 s2D t1, t2@24000 s2C t0, t2@24000 s2C t1, t1@28000 s1D t0, t1@28000 s1C t0, t1@28000 s2D t0, t1@28000 s2C t0, t2@28000 s1D t0, t2@28000 s1D t1, t2@28000 s1C t0, t2@28000 s1C t1, t2@28000 s2D t0, t2@28000 s2D t1, t2@28000 s2C t0, t2@28000 s2C t1, t1@32000 s1C t0, t1@32000 s2D t0, t1@32000 s2C t0, t2@32000 s1D t1, t2@32000 s1C t0, t2@32000 s1C t1, t2@32000 s2D t0, t2@32000 s2C t0, t2@32000 s2C t1
+* `basin`, full2->full0 (3): t2@0 s1C t1, t2@0 s2D t1, t2@8000 s2C t1
+* `basin`, full2->full3 (5): t1@8000 s2D t0, t2@8000 s2D t0, t2@8000 s2D t1, t2@16000 s2D t1, t2@32000 s2D t1
+
+The 3 → full tier 0 and the 5 → full tier 3 are second tributaries (or a first one at a later attempt) whose stop mask
+or stream moved when a tributary before them stopped joining. No refusal anywhere: refusals 0 → 0 in both families (no
+refusal to class, J290 / N-58).
+
+*Declared shift* (C-row of this round): every run with a joining tributary whose carve met an earlier channel or
+arrived lower than it (the raster below the confluence and the reported `maxCarveCm` of the receiving course move;
+on `basin`-like ground a tributary that would need a trench is now degraded); no golden or digest of this item; the
+pipeline's fixtures request no tributary, so no summary or digest of another item is expected to move; leg 2 (M0-e-03
+S5) re-pins its own tests that read such a run as its first act. Tributary-free runs are byte-identical (392 / 392 above).
+
+### LINE 2 (N-s2c-4) — PINNED (tests only, no shift)
+
+river.test.ts 'a tributary down a steep gully into the river …' on the new fixture `valleyWithGully` (`fixtures.ts`: a
+straight gully along y = 12.5 m from the east edge to the main trough, walls 1 m per metre): river 0, tributary 9000,
+seeds 1, 4, 5 default and 1, 3 coarse — the tributary's attempt 0 fails three re-traces and its line re-trace (the fourth,
+from knot 0) is delivered: `fits`, `outfall: 'join'`, `flowTo` the river, tier 2, its knots the hydrology cells'
+centres, its end at the centre of a cell of the river's course (the confluence), `carveBars` and the joined-cell bed
+(LINE 1 leaves this path's delivery as it was: the tributary arrives at or above the river). Mutant QJ (the line's
+`descentLine` without `opts.stop`) red on it.
+
+### LINE 3 (N-s2c-3) — PINNED (tests only, no shift)
+
+relief-bar.test.ts 'Q123: the line re-trace after a third re-trace that failed on a touch (key 19) or on a stuck descent
+(key 31) …' — the spike's relief-3000, CITY default, bearing 27000: on both keys runRivers delivers attempt 0, full
+bars, four re-trace uses on attempt 0's key; the attempt's trace re-run on its own stream records `[2 carve, 2 carve,
+2 carve, 0 touch]` (key 19) and `[3 carve, 3 carve, 2 carve, 0 stuck]` (key 31), `ok`, scale 0, its course the delivered
+body's, its controls the inlet, the line's cells' centres and the outlet. Mutants QI (`if (last.ok || last.failure !==
+'carve') return last`) and QN (the event's cause always `'carve'`) red on it. (The lane's probe of keys 1 – 80 × both
+cells read the causes of every attempt; keys 19 and 31 are the first default ones whose DELIVERED attempt is such.)
+
+### LINE 4 (N-s2c-2) — PINNED (a hand-built field; no shift)
+
+river.test.ts 're-trace at its limit (rung 2): a descent line whose own course folds back within the clearance is never
+delivered …'. The diagnosis first, against the code: a descent line never revisits a cell (`visited`); it never crosses
+its own diagonal (a strict step P → Q diagonal past an orthogonal later line cell R would have R strictly steeper from P,
+the levels along a line being non-increasing; a parent step on a flat would need R, an ancestor, popped before P's own
+admitter — the flood admits a cell from its first popped neighbour); so its tightest fold is the 45° hairpin a TIE makes —
+P → Q (east) → X (P's north neighbour), Q and X level, the fixed order taking E before N, Q draining by its parent to X.
+That fold's course (Chaikin, three rounds, through the cells' centres) touches itself only at a clearance near a whole
+cell (the lane's probe at 25 m cells: no touch at 1 – 22 m, a touch at 25 m), and the table's clearances (river 10 m,
+tributary 3 m) against its cells (16 – 40 m) never come near — so on the registered grids the check is a guard (as the
+builder's Q3 reasoned). A PIN exists all the same on a hand-built field one tributary clearance a cell (64 × 64 cells of
+3 m): the trough builds exactly that hairpin; the raster is high except under the line's own course, so three re-traces
+fail on the carve and the line is re-traced — its course fits the cap and touches itself at the hairpin, so the last try
+stands (`ok` false, `carve`, scale ⅛); on 4 m cells the same hairpin keeps clear and the line IS delivered (four
+re-traces, scale 0, the line's course) — the touch check alone decides. Mutant QB (the check removed) red on it.
+
+### LINE 5 (N-s2c-5) — PINNED (tests only, no shift)
+
+relief-bar.test.ts: in the Q123 title (keys 2, 4, 8) and in LINE 3's title (keys 19, 31), the delivered attempt's ladder
+uses after its last re-trace are exactly `['carve', 1, depth]` per sink crossing of the line, the crossings counted by the
+test's own reading of the river's surface (`sinkCrossings`: each maximal run of line cells inside one filled depression,
+its level less the lowest height met), at least one on every key. Mutant QF2 (the line's `...tried` events dropped) red on
+the Q123 title.
+
+### The mutant table (the lane's mirror `maps-scratch/waves/selfcheck-build-M0-e-02-fix-s3/`; each `vitest run --maxWorkers=1 --bail=1 packages/site/test/hydro`, the file restored and `cmp`-checked after)
+
+| mutant | change | result |
+|---|---|---|
+| M1a | the fix removed (`carve.ts`, `strategy.ts` of the start) | **red** — the valleyWithSide pin |
+| M1b | `JointBed`'s cap check removed (a chain laid whatever it cuts) | **red** — the basin pin |
+| M1b2 | `carveJoint`'s channel floor read on the current raster (`now − cap`) | **red** — the carveJoint pin (survived the first run, before that pin existed; the census reads it equivalent on all 1 160 runs) |
+| M1c | the joined cell replaced by the tributary's own last cell | **red** — the valleyWithSide pin |
+| QJ | the line's `descentLine` without the tributary's `stop` | **red** — the steep-gully pin |
+| QI | the line re-trace only after a `carve` failure | **red** — the keys 19 / 31 title |
+| QN | the line's event cause always `'carve'` | **red** — the keys 19 / 31 title |
+| QB | the line's `firstSelfTouch` check removed | **red** — the fine-cell hairpin pin |
+| QF2 | the line's `...tried` (carve) events dropped | **red** — the Q123 title |
+
+After the mutants one line of `strategy.ts` was re-written for the lint's division rule (the joined cell's row through
+`rowOf` and `invOfCols` instead of a division by the column count — the same integer); the census re-run on it: 1 160 of
+1 160 outputs identical.
+
+### Gates (M0.md §3 step 3; W from tools/test_budget.py = 1)
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1 312 files, 0 errors; `lint: probe-red ok`, every planted line of
+`zz-probe.ts` reported; 9 whole-tree checks); `build` 0; NEAR at full strength `vitest run packages/site/test/hydro`: 5
+files, 74 / 74 (67 before the round; + 7 titles). RELATED@1000 over `packages/site/src/hydro/carve.ts` and
+`strategy.ts` (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1`, in the tree, fast-check seed 50715913 —
+`PLAT_FUZZ_SEED=50715913` replays it; 10:16 – 13:37Z, 12 029 s): 290 files, 288 passed, 2 failed; 3 632 tests, 3 630
+passed, 2 failed. Each red file was replayed in the lane's mirror at `PLAT_FUZZ_RUNS=1000` on the round's START sources
+(`carve.ts`, `strategy.ts` before the round) and on its END sources:
+
+- `packages/site/test/water/exit-bar.test.ts` — 'three full CITY frames …': frame 4's fast-ring fallbacks read
+  `water:tributary:0: offset: a pocket inside a pocket` where the pin expects `… mouth: …` (the river's entry unchanged;
+  `offFlow`, `offShore` empty and `refused` 0 held on that frame before the failing assertion). GREEN on the start sources,
+  RED on the end sources: CAUSED BY THIS ROUND'S DECLARED SHIFT (C-0500: frame 4's tributary joins its river and the joint
+  bed re-levels the receiving course below the confluence, so the water stage meets another carved terrain there). It is
+  M0-e-03's test under `packages/site/test/water` — the DECLARED red of the merged round: leg 2 (M0-e-03 S5) re-pins it
+  as its first act; not edited here (outside the owns). No refusal: the water stage's fallback moved from the mouth ring
+  to the offset ring, the kernel's buffer taking it either way.
+- `bench/test/site/summary.test.ts` — the canary CITY record (relief-60 coarse seed 46) re-derived reads
+  `4c9647bf…665ac05d` against the summary's `eb2046dd…6db6b0e2b0`. RED on BOTH the start and the end sources with the SAME
+  received digest: not this round's (the canary does not move with the shift) — the head's declared red of J772 (7), the
+  committed site summary stale until the session's re-run; neither re-run nor edited.
+
+No other red: none of the J176 reference-machine files, Q152's bands tests or Q153's flake failed on this run. Every
+test of `packages/site/test/hydro` passed. The refusal census stands as measured above (0 → 0).
+
+## Closing check of hardening round S3 (lane `check/M0-e-02-close-s3`, 2026-11-12) — the checker's notes
+
+The verdict is `checks/M0-e-02-s3.md` (**FAIL**, on three missing pins of LINE 1's fix — rows N-s3c-1 – N-s3c-3 below,
+tests only, no source change asked; the code is right on all of them). Probes and mutants were the checker's own (its
+mirrors under `maps-scratch/waves/check-M0-e-02/s3/`: `mirror` the round's sources, `mirrorB` the start sources of main
+`55fb3c9` fetched through the GitHub API and blob-verified, `mirrorC` the start's tests; mutants as `vitest run
+--maxWorkers=1 --bail=1` over the five hydro test files; a census of 3 328 `runRivers` runs — twelve small CITY
+fixtures (the item's eight and the checker's `dome`, `bowlR` (ground rising 5 % radially), `bowlSq` (square contours)
+and `steepGully`) × nine bearings × {plain, estuary, one tributary at +90°, one at −90°, two} × both cells × seeds 1 – 3,
+the no-bearing request with two tributaries, and the evidence cases; identical on a second run).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 | **The channel half of LINE 1's fix is unpinned (a BLOCKER of the round: a survivor on the fixed line's own promise, not equivalent).** Mutant M1e — `carveJoint`'s channel loop skipping only the course's OWN centreline cells (`if (cells.includes(c)) continue;` for `if (beds.has(c)) continue;`), so a course's channel lowers another course's centreline cells again, the builder's diagnosed mechanism (2) of N-s2c-1 — survives the folder 74 / 74 (and the valleyWithSide pin alone). It is not equivalent: 63 of 3 328 census outputs move under it, a bed RISES on the final raster on 16 runs (largest 333 cm) and a joining tributary ends below the receiving bed on 5 — 7 of the 21 on the item's registered fixtures, each clean on the round's sources: `valleyWithSide` river 8000 / tributary 17000, seed 3, default (the tributary's bed rises 13 cm); `gully` 20000 / 29000, seed 2, `hydroCoarsen` (96 cm); `valleyWithRidge` 4000 / 31000, seed 1, `hydroCoarsen` (the degraded river's bed rises 102 cm); `valleyFallingEast` 20000 / 11000, seed 1, `hydroCoarsen` (tributary's last bed 932 < 948 at the joined cell); `eastward` 20000 / 11000, seed 3, `hydroCoarsen` (3 332 < 3 348). The unit title "carveJoint: … never on a centreline …" does not discriminate (its two courses lie level in a symmetric trough, so neither channel would lower the other's centreline). | TESTS ONLY: `carveBars` and the joined-cell reading on runs where a channel reaches another course's centreline (the five above are measured), and the unit title's two courses at different levels so "never on a centreline" is read. M1e must go red. | this round's fix round (M0) |
+| N-s3c-2 | **A tributary received by another tributary is unpinned (a BLOCKER of the round: LINE 1 (ii) on the receiving course when it is not the river).** Mutant M1l — the corridor's owner written as the river for every tributary's corridor cell (`corridorOwner[c] = 0`), so a tributary ending on an earlier tributary's corridor takes its joined cell from the river's chain — survives 74 / 74 and is not equivalent: 62 of 3 328 census outputs move and on 10 runs, all on registered fixtures, the second tributary's last bed lies below the first's bed at its joined cell (0 on the round's sources): `eastward` river 16000, tributaries 25000 and 7000, seeds 1 – 3, both cells (3 436 < 3 442 at seed 1 default; 3 408 < 3 440 coarse); `valleyWithCrater` and `eastward` with `{ tributaries: [{}, {}] }` (no bearings), seeds 2 – 3. The census has 105 such joins (the nearest earlier course at the tributary's end is a tributary); no test of the folder has one whose bed matters. | TESTS ONLY: one of the runs above with the second tributary's last bed ≥ the first tributary's bed at the joined cell (`joinedCellOf` with the first tributary as receiver), both beds non-increasing. M1l must go red. | this round's fix round (M0) |
+| N-s3c-3 | **The reported `maxCarveCm` read on the joint bed is unpinned (a BLOCKER of the round: the listed pins' own claim, "its reported deepest cut is the one on the raster").** Mutant M1j — `outcomes[k].maxCarveCm = deepest;` removed, so the report keeps the trace's own `planCarve` cut — survives 74 / 74: both pins assert `maxCarveCm` equal to `deepestAlong` only on runs where the two readings coincide (valleyWithSide 90° / 180°: the river's own cut, 336 / 243 cm, exceeds the re-level's; the basin's tributaries are alone on their cells). Not equivalent: the reported cut moves on 314 of 3 328 census runs, the RIVER's on 169 (134 on registered fixtures) — `valley` river 8000 / tributary 17000, seed 1, default: the river reports 262 cm on the joint bed (the re-level below the confluence; its own cut is 0) and 0 under the mutant; a tributary's: `valley` 20000 / 29000, seed 1: 240 against 0. This is N-s2c-1's "the report does not show it". | TESTS ONLY: the `maxCarveCm` assertion on a run where the re-level is the receiving course's deepest cut (the `valley` run above). M1j must go red. | this round's fix round (M0) |
+| N-s3c-4 | **`flowTo` names the river when a tributary joins another tributary (older than this round: `strategy.ts` writes `flowTo: mainId` for every joining tributary, identical on main `55fb3c9`).** On `eastward`, river 16000, tributaries 25000 and 7000 (seeds 1 – 3, both cells): tributary 0 fits and leaves by the frame; tributary 1 fits and ends on tributary 0's corridor (`outfall: 'join'`; the hydrology drains it into that corridor; the round's joint bed takes tributary 0 as the receiving course, rightly) — and its body reads `flowTo: 'water:river:0'`, a course it never meets (410 m – 1246 m from the tributary's end to the river's raster path over the census's 105 such joins, in 105 runs). No refusal, no throw, deterministic. | Write the receiving course's id (the corridor's owner the round now keeps) into `flowTo`, with a pin on the run above; a declared shift for whoever reads `flowTo` (the water stage's `polygons.ts` reads `flowTo`) — the session's ruling whether it is this item's next hardening row or M0-e-03's seam. | the item's next hardening round (M0), by the session's routing |
+| N-s3c-5 | **A tributary's reported `maxCarveCm` now includes the receiving course's cut on the cells they share** (the reading "deepest cut along its own path against the raster before any carve"): `valley` 16000 / 7000, seed 1 — the tributary's own carve is 0 cm and it reports 134 cm (the river's cut on the cells of the confluence). True to the raster, and declared in C-0500 only as "each laid course's reported `maxCarveCm` is its deepest cut on the joint bed". | A sentence in the field's doc comment (`types.ts` `RiverOutcome.maxCarveCm`: read on the joint bed, shared cells included), or a second field for the course's own carve if a reader needs it. | M4 (hardening) |
+| N-s3c-6 | **A tributary's centreline cells inside the receiving course's channel keep their own bed** (they are on a centreline, so the receiving channel's carve skips them; before the round the channel had lowered them): on `valleyFallingEast` 8000 / 17000, seed 3, `hydroCoarsen`, the tributary's last cell stands at 724 cm where the start sources left 684 cm — 40 cm above the channel floor beside it, the bed still descending to the joined cell. Part of the declared shift (36 census runs move by this alone); cosmetic on the raster, no bar reads it. | None needed at M0; if a later reader of the raster wants a flush confluence, lower a joining course's cells inside the receiving channel to that channel's level (still non-increasing). | M4 (hardening) |
+
+## Hardening round S4 (lane `build/M0-e-02-fix-s4`, 2026-11-12; the further round on the closing check `checks/M0-e-02-s3.md`; leg 1 of the merged round M0-e-02 S3 → M0-e-03 S5, J443; J237 (2), J238, J263 Q1, J264, J758) — the builder's row-by-row outcome
+
+The closing check of round S3 failed the round on three missing pins of LINE 1's fix (rows N-s3c-1 – N-s3c-3 above,
+read whole with the verdict's mutant table and failing lines). All three are TESTS ONLY: no file under
+`packages/site/src/` is changed by this round, no fixture or support helper is changed, no index or barrel export is
+touched (J263 Q1), no message text changes. NO SHIFT: the sources are the round S3 sources byte for byte, so every output
+of the census is what the closing check measured on them. The only file changed is
+`packages/site/test/hydro/river.test.ts` (one unit title extended, three titles added); NEAR goes from 74 to 77 tests.
+
+The checker's measured runs were re-read first by a probe of this seat (in its mirror, the round's sources and each
+mutant applied alone; the probe deleted before any test run of the folder). Every figure of the verdict reproduced:
+
+| run (fixture, river / tributaries cdeg, seed, cell) | round's sources | under the mutant |
+|---|---|---|
+| `valleyWithSide` 8000 / 17000, 1 tributary, seed 3, default | both beds monotone; tributary joins, last bed 2 964 = the river at the joined cell | M1e: the tributary's bed rises 13 cm |
+| `gully` 20000 / 29000, seed 2, coarse | monotone; joins at 6 504 over the river's 6 408 | M1e: the tributary's bed rises 96 cm |
+| `valleyWithRidge` 4000 / 31000, seed 1, coarse | both degraded (`sink`), monotone | M1e: the degraded river's bed rises 102 cm |
+| `valleyFallingEast` 20000 / 11000, seed 1, coarse | joins, last bed 948 = the river at the joined cell | M1e: last bed 932 < 948 |
+| `eastward` 20000 / 11000, seed 3, coarse | joins, last bed 3 349 over 3 348 | M1e: last bed 3 332 < 3 348 |
+| `eastward` 16000 / [25000, 7000], seed 1, default | tributary 0 `frame`, tributary 1 `join` on tributary 0's corridor, last bed 3 436 = tributary 0's bed at the joined cell | M1l: 3 436 against 3 442 (the river reports 60 cm, not 1) |
+| the same, seed 1, coarse | last bed 3 408 = tributary 0's at the joined cell | M1l: 3 408 against 3 440 |
+| the same, seeds 2 and 3, default | 3 387 and 3 430, each = tributary 0's at the joined cell | M1l: against 3 394 and 3 442 |
+| `valley` 8000 / 17000, seed 1, default | the river reports 262 cm = its deepest cut on the raster; its own `planCarve` cut 0 | M1j: reports 0 |
+| `valley` 20000 / 29000, seed 1, default | the tributary reports 240 cm = its deepest cut; its own cut 0 | M1j: reports 0 |
+
+| row | outcome | the pin (river.test.ts) | mutant (this seat's mirror) |
+|---|---|---|---|
+| N-s3c-1 | **pinned**, no shift | (a) the unit title "carveJoint: … never on a centreline — two courses at different levels, the higher's centreline inside the lower's half-width: the lower course's channel never lowers it; never raised" now reads its own words: ground rising 20 % eastward and level north–south, two courses one raster column apart (beds 160 cm apart), each 36 m wide each side — the higher course's centreline cells keep their height before (5 080 cm), the lower's too, the higher bed is non-increasing, and the lower course's channel did reach the higher course's far side (the cell east of it lowered 320 cm to the lower bed: the case is the one the words name). (b) "no course's channel lowers another course's centreline: …" over the five measured runs above, each with its outcome asserted (fits / outfall), `expectCarveBars` on the final raster, every body's bed non-increasing, and for a joining tributary its last bed ≥ the river's bed at `joinedCellOf`. | M1e (`carveJoint`'s channel skipping only its own `cells`): red on (a) — "expected 4 920 to be 5 080" — and on (b) — the first run's tributary bed not non-increasing; (b) with only its last two runs (the joined-cell reading alone) also red — "['valleyFallingEast', false]" against true. The whole folder `--bail=1`: red at (a). |
+| N-s3c-2 | **pinned**, no shift | "a tributary received by another tributary arrives at or above that tributary's bed at the joined cell; both tributaries' beds descend on the final raster — eastward, river 160°, tributaries 250° and 70°": seeds 1 (default and coarse), 2 and 3; the outcomes `[river fits frame, tributary fits frame, tributary fits join]`, `expectCarveBars`, both tributaries' beds non-increasing, tributary 1's last bed ≥ tributary 0's bed at `joinedCellOf(terrain, [tributary 0], …)`, and every course's reported cut = its deepest cut on the raster. `flowTo` is not read (N-s3c-4, the session's routing). | M1l (`corridorOwner[c] = 0`): red — "[1, false, false]" against "[1, false, true]" (seed 1 default: 3 436 < 3 442). The whole folder `--bail=1`: red there. |
+| N-s3c-3 | **pinned**, no shift | "the reported deepest cut is read on the joint bed: where the re-level below a confluence is a course's deepest cut, its maxCarveCm is that cut on the raster, deeper than its own planCarve cut — valley, river 80° / tributary 170° and river 200° / tributary 290°, seed 1": the river's reported `maxCarveCm` = `deepestAlong(before, terrain, river)` = 262 cm > its `planCarve` cut on the raster before any carve (0); the second run the same for the tributary (240 > 0). | M1j (`outcomes[k].maxCarveCm = deepest;` removed): red — "[8000, 0]" against "[8000, 262]"; N-s3c-2's title is also red under it (tributary 0 reports 1, its cut 6). The whole folder `--bail=1`: red at N-s3c-2's title (first in file order). |
+
+*Each mutant* was applied alone in the mirror `maps-scratch/waves/selfcheck-build-M0-e-02-fix-s4/plat` (isolation
+proved: no symlink into the tree, `@plat/kernel` resolves inside the mirror), run as `vitest run --maxWorkers=1
+--bail=1 packages/site/test/hydro`, exit 1 each, restored by copy from the tree and `cmp`-checked; the clean mirror:
+5 files, 77 / 77.
+
+*The refusal census (rule (4)).* Tests only, the sources byte-identical to round S3's: the census is the closing
+check's, 0 → 0 refusals on 3 328 runs (no refusal to class under N-58). The probe's eleven runs: 0 refusals, 0 throws.
+
+*Not this round's*, met and left as they stand: N-s3c-4 (`flowTo` names the river for a tributary received by a
+tributary — the session's routing; N-s3c-2's pin reads the bed only), N-s3c-5 and N-s3c-6 (M4 notes).
+
+*The gates.* (M0.md §3 step 3; W from tools/test_budget.py = 1.) `install --frozen-lockfile` 0; `lint` 0 (eslint 1 312
+files, 0 errors, 0 warnings; `lint: probe-red ok`, every planted line of `zz-probe.ts` reported; 9 whole-tree checks);
+`build` 0; NEAR at full strength `vitest run packages/site/test/hydro`: 5 files, 77 / 77 (74 before the round; + 3
+titles), fast-check seed 1977644051. RELATED@1000 over `packages/site/src/hydro/carve.ts` and `strategy.ts`
+(`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1`, in the tree, fast-check seed 1402312788 —
+`PLAT_FUZZ_SEED=1402312788` replays it; 14:37 – 18:00Z, 12 206 s): exit 1; 290 files, 288 passed, 2 failed; 3 635
+tests, 3 633 passed, 2 failed. This round changed no source file (`carve.ts` and `strategy.ts` are round S3's, last
+written before this lane began), so no red can be this round's; both reds are the ones round S3's gates attributed by
+replay, identical in what they read:
+
+- `packages/site/test/water/exit-bar.test.ts` — 'three full CITY frames …': frame 4's fallbacks read
+  `water:tributary:0: offset: a pocket inside a pocket` where the pin expects `… mouth: …`; `offFlow`, `offShore` empty
+  and `refused` 0 held. C-0500's DECLARED shift — M0-e-03's test, re-pinned by leg 2 (M0-e-03 S5) as its first act; not
+  edited here (outside the owns).
+- `bench/test/site/summary.test.ts` — the canary CITY record (relief-60 coarse seed 46) re-derived reads
+  `4c9647bf…665ac05d` against the summary's `eb2046dd…6db6b0e2b0`, the same received digest as round S3's run on both
+  its start and end sources: the head's declared red of J772 (7); neither re-run nor edited.
+
+No other red: none of the J176 reference-machine files, Q152's bands tests or Q153's flake failed on this run; every
+test of `packages/site/test/hydro` passed. The refusal census stands 0 → 0. `landed:verify -- flow-7 --item M0-e-02`
+after both records of this lane were written: exit 0; `lint` re-run after it: exit 0.
