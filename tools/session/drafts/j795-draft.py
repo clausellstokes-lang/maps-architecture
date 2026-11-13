@@ -33,7 +33,9 @@ state('Q152', "STATE 2026-11-12 (J795): the six are red EXACTLY as declared on t
 state('Q178', "STATE 2026-11-12 (J795; M0-a-09 S20 landed b79e6a6e): (a) the wiring round's tables are in — at the six seeds the construction's no-move first reads count 0 and the "
               "construction is OFF ITS BOUND on no read; under J785's local arbitration 0 reads find the exact region wrong; it goes to round 2B with the rulings on the ladder; (b) the "
               "frame-side end rule is RULED (the code's reading; definition.ts's `endsOf` corrected) and is LINE 5 of round 2B's no-shift round — the class counts 0 at all six seeds (OQ-1 has "
-              "nothing to list), and the S20 check's note 229 (the class exercised in the corpus and never asserted) is answered there.")
+              "nothing to list), and the S20 check's note 229 (the class exercised in the corpus and never asserted) is answered there; (c) is ANSWERED by this round's "
+              "CITY tables — fusion 3 and integrated 4 read S8's own cuts, so the mix of derived.test.ts's corpus (four cuts in five laid by insertChain) no longer carries the measurement; (d) "
+              "stays for the next round that opens the file (round 2B's no-shift round re-points the relation) or the hardening pass.")
 q204 = (
 "| Q204 | The closing notes of M0-a-09 S20 and its fix round S21 (the wiring and measurement round) for the rounds that follow: (a) rows 228 and 230 — THREE UNPINNED GUARDS OF THE TEST-SIDE "
 "OBSERVER: (k1)'s throw (a later read of a key carrying another exact region) has no unit pin; the verdict's `localXWrong` is pinned only by the runner's control; the per-read precedence of "
