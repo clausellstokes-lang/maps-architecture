@@ -100,8 +100,11 @@ describe('F-WALL\'s M0 steps: the S5 sources that commit (Q46, N-33; C-0474)', (
   }
 });
 
-describe('F-WALL\'s later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)', () => {
-  for (const cell of FULL ? LATER_RUNGS : []) {
+// At reduced strength (PLAT_FUZZ_RUNS set) the describe is skipped AS A UNIT (Q185, M0-c-02 S7; C-0505): it registers the
+// same seven cases, each skipped, so a plain `vitest run` of the file or the folder finds its tests and passes — never
+// an empty suite (`passWithNoTests: false`); at full strength the same seven cases run as before.
+describe.runIf(FULL)('F-WALL\'s later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474)', () => {
+  for (const cell of LATER_RUNGS) {
     it(`${cell.name}: S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')`, () => {
       const out = throughS5(cell.bp, cell.seed, cell.coarse === true);
       expect(out.refusal).toEqual({ code: 'E_SELF_INTERSECT', detail: cell.detail });

@@ -1234,3 +1234,165 @@ session.
     tiers are timed on the reference machine. Suggested: the session decides whether the 122 derivations stay in the
     PR-size suite or move to a tier-sized list (a reduced cell per class already exists). **CONFIRMED** (the lines of
     2026-10-31 09:08 and 2026-11-02 04:43).
+
+## Hardening round S7 (lane `build/M0-c-02-fix-s7`, 2026-11-12) — the builder's rows
+
+The session's hardening round S7 of the item (J789; leg 1 of the merged round M0-c-02 S7 → M0-c-04 S7 → M0-e-06 S5,
+J443; J237 (2), J238, J264 / N-58, J290, J263 Q1 / Q6) on Q173 with Q187 (a) (LINE 1, the source change, measured
+first) and Q185 (LINE 2, tests only). Choices row C-0505. Sources read whole: the queue rows Q173, Q187, Q185; J789;
+checks/M0-c-04-notes.md N-54, N-57, N-58, N-61, N-63; checks/M0-c-04-s6-evidence/q173-diagnosis.txt and census-before.txt;
+packages/layout/test/growth/s5ab/q173.test.ts (read, not edited); §4.4 S5a *Trace* (2), (3); this file's N-71.
+Scratch: the lane folder `/home/user/maps-scratch/waves/build-M0-c-02-fix-s7/` (census mirrors `base/` — the tree before
+the round — and `after/`, each with behaviour-neutral probe hooks in `enceinte/trace.ts` and `bench/probe7/derive.ts`;
+the driver `census/drive.py`, the fold `census/fold.py`), the self-check mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-c-02-fix-s7/` (isolation proved: no link out of it, `@plat/kernel`'s
+realpath inside it).
+
+73. **N-73 LINE 1 — Q173 with Q187 (a): MEASURED, then FIXED (MAKE-IT-SUCCEED), PINNED; a DECLARED SHIFT.**
+    * **The measure (the census; the whole fold in `checks/M0-c-02-s7-evidence/census-fold.txt`).** The site family at CITY — e-06's four
+      groups, seeds 1 – 100 of each (a stated sample: 100 per group, the whole 800 not carried at one worker's budget on
+      this machine) plus 118, 151 and 188 of each, plus relief-3000 default seed 1 at the test size and the pipeline's
+      river from 0 cdeg (900 ha, 30 ha walled) seeds 1 and 6 — 415 derivations, one per process, the spike's registration
+      through S1, S3, S4, S5 (S6 dropped). For every pinned gate of every trace the strategy hands the kernel (stage 1's
+      and stage 2's alike): the unsigned angle at the gate on the line handed to `insertChain` (and on the pulled line),
+      and each leg's distance from the gate's nearest arena neighbour (its way's vertex). BEFORE (the tree before the
+      round), all 415 derivations: 828 traces handed to the kernel, 6 171 pinned gates measured, 3 563 of them under 100°;
+      **808 traces carry an angle under 100° at a pin (404 of stage 1, 404 of stage 2), 803 of them committed today**; by
+      the trace's minimum angle at a pin:
+
+      | min angle at a pin | traces | committed today |
+      |---|---|---|
+      | [0°, 10°) | 19 | 18 |
+      | [10°, 20°) | 73 | 71 |
+      | [20°, 30°) | 118 | 116 |
+      | [30°, 40°) | 120 | 120 |
+      | [40°, 50°) | 147 | 147 |
+      | [50°, 60°) | 159 | 159 |
+      | [60°, 70°) | 103 | 103 |
+      | [70°, 80°) | 46 | 46 |
+      | [80°, 90°) | 16 | 16 |
+      | [90°, 100°) | 7 | 7 |
+
+      Of the 1 741 stage-2+ gates under 100° with a way vertex beside them, 11 had both legs within the attraction
+      distance (26 cm) of that vertex — the gates of the nine V refusals (the eight runs and relief-3000 default seed 1 at
+      the test size; 118 carries two). The V is therefore not rare as a shape (98 % of traces carry one); it refuses only where a way's
+      vertex sits within the attraction distance of both legs. 812 traces are BITTEN (a gate under its floor on the
+      pulled or the final line — 4 more than the 808, the handed angle being the floor there).
+    * **The mechanism, re-read on the tree.** The boundary handed clean and square (C-0244 (8)); the pull draws the
+      gate's two 15 m neighbours inward (118 gate:8: pulled 72°), the smoothing pulls them further, and the simplify drops
+      them — their sides are shorter than its 20 m minimum segment, and only the gate itself is pinned — so the leg runs
+      from the gate to a vertex 25 – 30 m inward: the V (118 gate:8 31°, gate:10 26°; relief-3000 test-size seed 1
+      gate:3 2°). A pinned gate was exempt from the simplify's 100°, its neighbours were not: that is the gap.
+    * **The fix (route: the pull and the smoothing keep the gate's crossing; C-0505).** Each main gate holds a floor —
+      100° (walls.json `trace/simplifyMinAngleCdeg`; the unsigned angle, as the kernel's simplify reads it), or the handed
+      boundary's own angle there where that is sharper (`pinFloors`). The pull's DP searches only the paths keeping every
+      floor (a gate's states carry the vertex before it, so the pair of sides is bound; the cycle's start, if a gate whose
+      floor the free solve breaks, re-solved with the vertex after it fixed); the smoothing's passes and rounding put a
+      gate's moved neighbours back where they would break its floor; `simplifyInBand` pins a removed vertex beside a gate
+      whose angle the removal took under its floor; F-WALL's rung verdict refuses a rung line breaking a floor
+      (`pin_lost`; the rungs' order and their typed refusals unchanged). The other route (the pin moved along its arterial,
+      law 2 (a)) was not taken: it is for a pin §2.7's laws bar, which these are not, and the way's split is the growth
+      stage's and the kernel's (outside the owns). No new rung, no looser attraction; every line still passes its own
+      validator and read-back. Where no gate's angle goes under its floor the pull and the smoothing are as before, path
+      for path (pinned by fast-check, below).
+    * **The pins.** (a) `q173sites.test.ts`: the eight runs — relief-60 118, relief-3000 32, 81, 188, default and coarse —
+      derive stage 2's trace on the committed tree (the harness of q173.test.ts's `stage2Trace`, rebuilt here) and
+      commit it: every gate on the committed wall chain at its point and on the line, the wall one closed chain (no
+      vertex of degree 3), every gate's angle ≥ 100°. Full strength 8 / 8 (1 138 s at one worker beside the census);
+      reduced strength runs relief-60 default 118 only (the cost named in the file). (b) `gatefloor.test.ts`: a hand
+      boundary cut from 118's stage-2 boundary around gate:8 (squared, its neighbours 15 m off), a way laid through the
+      gate with its vertex 55 cm inside, a cost surface drawing inward — the free pull draws a spike (< 100°), the floored
+      pull and smoothing keep 100°, and through the strategy the trace commits with gate:8 on it, the wall one closed
+      chain, the angle ≥ 100° on the line and ≥ 99° on the committed run; a gate at a 53.13° spike keeps that as its floor
+      and the pull still pulls. With the fix removed (M1) the strategy case is refused `E_INVARIANT trace: gate gate:8 is
+      not on the committed trace at its point (§4.2 S3 (9))` — the V's own refusal. (c) `gatefloor.test.ts`: the small flat
+      site's seeds 1 – 12 traced flat and under a pit field: every gate at or above its floor on the committed line (with
+      the fix removed 35 gates short, e.g. seed 3 gate:0 16.41° < 64.60°); fast-check (100 runs): where the free pull and
+      smoothing keep every floor, the floored pull's offsets and the floored smoothing's points are the same.
+    * **Mutants (self-check mirror; each on `gatefloor.test.ts` + `q173sites.test.ts` at PLAT_FUZZ_RUNS=1000, W=1; the
+      whole folder at full strength is two hours a mutant, so the pins' files were run — a stated deviation).**
+
+      | mutant | change | result |
+      |---|---|---|
+      | M1 | the fix removed at the strategy (`trace.ts` as before the round) | RED 3 / 7: (a) 118, (b) strategy (gate:8 off the trace), (c) pit (35 gates short) |
+      | M2 | the pull's floor ignored | RED 4: (b) unit and strategy, (c) pit, (a) 118 |
+      | M3 | the smoothing's guard removed | RED 4: (b) unit and strategy, (c) pit, (a) 118 |
+      | M4 | the simplify's guard removed | RED 3: (b) strategy, (c) pit, (a) 118 |
+      | M5 | the rung verdict's floor check removed | RED 1: (c) pit (seed 3 gate:0 62.69° < 64.60°: a re-offset line) |
+      | M6 | the floor loosened by 10° (90°) | RED: (b) unit; (c) pit on small-site seed 1 gate:2 98.65° < 100° (24 gates) |
+      | M7 | the start gate's re-solve removed | RED 3: (b) unit and strategy (the window's one pin is the cycle's start) |
+      | M8 | LINE 2 reverted (`FULL ? LATER_RUNGS : []`) | RED: PLAT_FUZZ_RUNS=1 'No test found in suite …', Test Files 1 failed |
+      | M9 | the handed-angle floor dropped (100° everywhere) | survived the first sweep; killed by the spike pin added ('a gate the boundary already crosses at a spike…': floor ≠ cos 53.13°) |
+
+      Every mirror file restored and `cmp`-equal to the tree after each mutant.
+    * **The declared shift (rule (3); every moved trace with its before and after digests in
+      `checks/M0-c-02-s7-evidence/census-fold.txt`, section 'moved traces').** Per trace (stage 1's `enceinte:1`, stage
+      2's `enceinte:2`), the digest of the line handed to `insertChain` and of the committed wall run, BEFORE (the base
+      mirror) and AFTER (the after mirror), seed for seed: **812 traces moved, every one of them bitten (moved and not
+      bitten: 0); every bitten trace moved.** By group: relief-3000 coarse 103 + 103, relief-3000 default 103 + 103,
+      relief-60 coarse 97 + 101, relief-60 default 98 + 100, relief-3000 default at the test size 1 + 1, the river 1 + 1
+      (stage 1 + stage 2). The UNBITTEN controls, unchanged digest for digest: relief-60 coarse 7, relief-60 default 7,
+      the river 2 — the brief's 'five per group' is met on the relief-60 groups; the relief-3000 groups have NO unbitten
+      trace in the sample (every one of their 412 traces carries a pinned gate under 100°: the squared crossing pulled on
+      a steep field), so there the no-shift law is held by the property instead — `gatefloor.test.ts` (c)'s fast-check
+      (100 runs): where the free pull and smoothing keep every floor, the floored ones give the same offsets and points,
+      path for path — and by the 16 census controls. AFTER: committed traces with a gate under its floor: **0**.
+      The item's own tests the shift moved (NEAR's first reading, chain 1; each re-run on the base mirror, green there,
+      so the round's): `sides.test.ts` 'the relief-60 CITY seed 9 stage-2 replay …' — the golden `REPLAY_PULL.pull.moved`
+      151 → 149 (the floored pull leaves two vertices beside a gate on the line), RE-RECORDED; `corridor.test.ts` 'seed
+      957349493: the stage-2 strip whose trace spikes at a gate is laid …' — 645 corridor points of stage 2 in a strip
+      face, an ORACLE artefact, not an overlap: on the base its gate:2 was the V itself (the wall ran from the gate along
+      way:1's own edge to the way's vertex (8324, -15408), 65°), after the fix it crosses at 111° between its own
+      neighbours (7301, -15269) and (8893, -15548); a strip's setback line now ends ON the trace vertex (8893, -15548),
+      and `support.ts` `stopPaths` walked past every wall vertex ending a setback line, so its stand-in's normal came
+      from (7301, -15269) – (9467, -12606), 108° off the corridor `stageStops` gives (the trace's own neighbours of the
+      gate, before the strips). Measured with that corridor: 0 points (the probe `probe2/zz-probe.test.ts` in the lane
+      folder). FIXED in the oracle: a capped vertex is walked past only where it splits a trace side (within 2 cm of the
+      line between its wall neighbours — every cap of the base's walk does); the file 32 / 32 on the base with the new
+      oracle, 32 / 32 in the tree.
+    * **The refusal census (J264 (4), N-58), BEFORE → AFTER: 11 → 2 S5 refusals over the 415 derivations (it falls).**
+      BEFORE: relief-60 default 118 and coarse 118 (`branches`); relief-3000 default and coarse 32 (`gate:7` off the
+      trace), 81 (`branches`), 188 (`gate:9` off the trace); relief-3000 default seed 1 at the test size (`branches`) —
+      nine, every one the V (LAWFUL input, OUR OWN INTERMEDIATE: the strategy's own pulled line; MAKE-IT-SUCCEED, done);
+      relief-60 coarse 151 (`S5a: the gate vertices could not be put on their ways: … bridge:24's span …` — LAWFUL,
+      REFUSE as C-0475 (3) rules it, notBuilt M3a, the growth stage's, not the V); relief-60 default 42
+      (`E_SELF_INTERSECT F-WALL: the trace touches itself after the re-offset and union-simplify rungs …` — F-WALL's
+      later rungs, M1's, C-0085 / C-0474). AFTER: the nine commit S5; 151 and 42 keep their typed refusals verbatim. The
+      eight runs leave the census; the river's seeds 1 and 6 commit before and after.
+    * **Read with it.** relief-3000 default seed 1 at the TEST size (Q187 (e); bench compose.test.ts 'relief-3000 default
+      seed 1 (test size) refuses at S5 …' and spike.test.ts 'relief-3000, seed 1 (S5 refused, S6 not reached) …'): its S5
+      `branches` IS the V — on the head its stage-2 gate:3 is squared (180°), pulled to 69° and closed to 2°, both legs
+      21 and 19 cm from the way's vertex 72 cm beside it; after the fix it COMMITS S5 (the census's AFTER row: `branches`
+      → ok) — so the bench's two pins of its refusal (leg 3's, Q187 (e)) move with this round, the same mechanism. The
+      pipeline's river fixture, river from 0 cdeg at 900 ha / 30 ha walled, seeds 1 and 6 (M0-x-04 notes row 18): on the
+      head, through S1, S3, S4, S5, both COMMIT S5 already before this round (the census's BEFORE rows; the angles at their
+      stage-2 gates 100° – 175°), so the V is not their cause on this tree, and `s5seeds.test.ts`'s two `RIVER_N` later-rung
+      pins ('RIVER from the north 900 ha, seed 1 / 6 …: S5 refused E_SELF_INTERSECT …') are RED ON THE BASE TOO (the tree
+      before the round, `-t 'RIVER from the north'`: `expected null to deeply equal { code: 'E_SELF_INTERSECT', … }` for
+      both, 2 failed | 13 skipped, the same in the tree): they commit since a change of another item in the tree after
+      the S6 check of 2026-11-10 (whose re-derivation had all seven later-rung seeds refuse verbatim) — a pin another
+      item's change moved, for the session, not this round's. The five relief-60 later-rung pins of the same describe
+      (default 1, 31; coarse 20, 44, 67), red in the tree in NEAR: RED ON THE BASE TOO (chain 2's base replay,
+      `-t 'relief-60 site spike, (default|coarse), seed'`: 5 failed | 10 skipped, each `expected null to deeply equal {
+      code: 'E_SELF_INTERSECT', … }`); the census agrees (relief-60 default 1 and 31 commit S5 BEFORE and AFTER). So all
+      seven later-rung pins commit on the head before this round — another item's change, for the session (the
+      describe's pins are the session's to re-measure; not re-pinned here: they are not this round's shift).
+
+74. **N-74 LINE 2 — Q185: FIXED, tests only, PINNED; NO-SHIFT.** `s5seeds.test.ts`'s second describe is
+    `describe.runIf(FULL)` over `LATER_RUNGS` (was `describe(…)` over `FULL ? LATER_RUNGS : []`): at reduced strength the
+    describe is skipped as a unit and still registers its seven cases (each skipped), so the file is never an empty suite
+    under `passWithNoTests: false`; at full strength the same seven cases run. Not a placeholder case: that would add a
+    test that is none of the seven. THE PIN: `PLAT_FUZZ_RUNS=1 corepack pnpm exec vitest run --maxWorkers=1
+    packages/layout/test/enceinte/s5seeds.test.ts` → exit 0, `Test Files  1 passed (1)`, `Tests  3 passed | 7 skipped
+    (10)`; reverted (M8) → `Error: No test found in suite F-WALL's later rungs (M1): …`, `Test Files  1 failed (1)`. At full
+    strength (NEAR, chain 2) the file reports 15 tests — the same 15 as before the round (N-71: 'where the file is 15 of
+    15'; 8 cases that commit + the 7 later rungs); LINE 1's fixtures live in `q173sites.test.ts`, not here. Its 7
+    later-rung cases are red at full strength in the tree AND on the base (N-73 'Read with it'), a head red not of this
+    round.
+
+75. **N-75 For the session: the pins of other items the shift moves (rule (3); PENDING-CHAIN: RELATED@1000's reds, each
+    with its file, its assertion and its base replay).** Expected and named by the brief: (i)
+    `packages/layout/test/growth/s5ab/q173.test.ts`'s two cases (today's refusals pinned verbatim) — leg 2's declared
+    move; (ii) `bench/test/site/compose.test.ts` 'relief-3000 default seed 1 (test size) refuses at S5 …' and
+    `bench/test/site/spike.test.ts` 'relief-3000, seed 1 (S5 refused, S6 not reached) …' — leg 3's, the same mechanism
+    (N-73 'Read with it'). Every other moved pin: PENDING-CHAIN.

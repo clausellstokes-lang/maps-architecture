@@ -66,7 +66,7 @@ export interface WallRung {
   readonly radiusCm: number;
   /** Did the rung's trace pass every check (simple, the core enclosed, every pin on it, no side over water but a water gate's course, within the band)? */
   readonly held: boolean;
-  /** Why it did not hold, when it did not. */
+  /** Why it did not hold, when it did not (`pin_lost`: a pin off the rung's line, or a gate's angle on it under the gate's floor, C-0505). */
   readonly why?: 'self_touch' | 'core' | 'water' | 'pin_lost' | 'band' | 'empty';
 }
 

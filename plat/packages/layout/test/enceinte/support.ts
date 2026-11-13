@@ -403,13 +403,22 @@ export function stopPaths(p: Plat, enceintes: readonly EnceinteRef[], slice: Sli
     const wall = edgesWith(p, 'wall', enc.id);
     const adj = new Map<string, LatticePoint[]>();
     for (const e of wall) for (const [u, w] of [[e.a, e.b], [e.b, e.a]] as const) adj.set(key(u), [...(adj.get(key(u)) ?? []), w]);
-    // The trace's own neighbour of q on the side of w: walk on past wall vertices that end a setback line.
+    // The trace's own neighbour of q on the side of w: walk on past wall vertices that end a setback line AND split a
+    // trace side (within 2 cm of the straight line between the wall vertices before and after it: a cap's end inserted
+    // into the side). A setback line may also end ON a vertex of the trace itself (a cap attracted onto it — SMALL_FLAT
+    // seed 957349493's gate:2 once the trace crosses its gate square, M0-c-02 S7, C-0505): that vertex turns the wall,
+    // it is the trace's own neighbour, and walking past it would take the stand-in's normal off the corridor
+    // `stageStops` gives (the trace's own neighbours of the gate, before the strips).
+    const splits = (a: LatticePoint, m: LatticePoint, b: LatticePoint): boolean => {
+      const l = Math.hypot(b.x - a.x, b.y - a.y);
+      return l > 0 && Math.abs((b.x - a.x) * (m.y - a.y) - (b.y - a.y) * (m.x - a.x)) / l <= 2;
+    };
     const along = (q: LatticePoint, w: LatticePoint): LatticePoint => {
       let prev = q;
       let cur = w;
       for (let i = 0; i < wall.length && capped.has(key(cur)); i += 1) {
         const nx = (adj.get(key(cur)) ?? []).find((z) => key(z) !== key(prev));
-        if (nx === undefined) break;
+        if (nx === undefined || !splits(prev, cur, nx)) break;
         prev = cur;
         cur = nx;
       }

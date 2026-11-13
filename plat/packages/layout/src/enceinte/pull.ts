@@ -21,14 +21,24 @@
 // (N-54 (1)), has its moved ends put back for that pass (C-0232 (1)). The band is measured from the boundary as given.
 // The result is rounded to the lattice and its rounded sides proved again (N-9, N-11): a side the rounding carried out of
 // the band or over a barred ring has its moved ends put back where the passes found them.
+// The angle at a pinned gate (Q173, Q187 (a); C-0505): the pulled trace crosses each arterial as the picked boundary did
+// (§4.4 S5a *Trace* (2)), so neither the pull nor the smoothing may close the line into a spike at a gate. Each gate
+// holds a FLOOR — the simplify's own (walls.json `trace/simplifyMinAngleCdeg`, 100°: "no interior angle < 100°", §4.4 (3),
+// read as the kernel's simplify reads it, the unsigned angle between the two sides, 180° straight), or the handed
+// boundary's own angle there where that is sharper (a gate the boundary already crosses at a spike keeps that crossing):
+// the pull searches only the paths whose angle at every gate keeps its floor (`pinFloors`; the DP's state at a gate
+// carries the offset of the vertex before it, so the floor binds the pair of sides at the pin, and the start's pair is
+// solved with the vertex after it fixed where the free solve breaks the floor), and a smoothing pass (and the rounding)
+// that would take a gate's angle under its floor puts the gate's moved neighbours back, as it does a side out of the band.
+// Where no gate's angle goes under its floor the pull and the smoothing are as before, path for path.
 // The pull's own crossings (C-0474; Q122, Q88): the candidates move each vertex along its own normal, so at a sharp bend
 // (a gate's spike, a tight concave run) two sides of the pulled line can cross or touch where the boundary does not — our
 // intermediate, never the boundary's. Where F-WALL's M0 rungs do not repair the smoothed line, the trace runs again on
 // `untangle`'s line (the offsets at touching sides halved until none touch) smoothed by `smoothKeptSimple` (the passes'
 // guard extended to a side that would touch the line), then on the boundary unpulled.
-import { laplacianPinned, type LatticePoint } from '@plat/kernel';
+import { dmath, laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
-import { quot } from '../siting/geom.js';
+import { CDEG_PER_RAD, quot } from '../siting/geom.js';
 import { bandLimit, dist, distToRing, inside, lat, sideHolds, sideTouchesLine, TOUCH_CM, touchPairs, unitOf } from './plane.js';
 import type { CostField, XY } from './types.js';
 import { WET_TOL_CM, wetSides, type WetSides } from './wet.js';
@@ -47,6 +57,44 @@ export function terrainCost(terrain: Pick<Terrain, 'cellCm' | 'cols' | 'rows' | 
     if (row >= terrain.rows) row = terrain.rows - 1;
     return -terrain.heightCm[row * terrain.cols + col] * 0.01;
   };
+}
+
+/**
+ * The cosine of the unsigned angle at b between a and c (1 on a spike of 0°, −1 on a straight line; 1 when a side is
+ * shorter than a centimetre: no crossing at all) — the angle the kernel's simplify bounds (§3.4).
+ */
+export function cosAt(a: XY, b: XY, c: XY): number {
+  const ux = a.x - b.x;
+  const uy = a.y - b.y;
+  const vx = c.x - b.x;
+  const vy = c.y - b.y;
+  const l = Math.sqrt(ux * ux + uy * uy) * Math.sqrt(vx * vx + vy * vy);
+  if (l < 1) return 1;
+  return quot(ux * vx + uy * vy, l, 'area', 'pin angle');
+}
+
+/** Tolerance of a floor's cosine: an angle equal to its floor (the handed boundary's own, unmoved) keeps it. */
+const FLOOR_TOL = 1e-12;
+
+/** Does the angle at b between a and c keep the floor whose cosine is `cosFloor`? */
+export function keepsFloor(a: XY, b: XY, c: XY, cosFloor: number): boolean {
+  return cosAt(a, b, c) <= cosFloor + FLOOR_TOL;
+}
+
+/**
+ * Each gate's floor on a ring (C-0505; see the module comment), as a cosine: the larger of the simplify's floor
+ * (`minAngleCdeg`) and the ring's own angle at the gate — NaN at a vertex that is no gate. `gates[i]` 1 marks a gate.
+ */
+export function pinFloors(ring: readonly XY[], gates: Uint8Array, minAngleCdeg: number): Float64Array {
+  const n = ring.length;
+  const cosMin = dmath.cos(quot(minAngleCdeg, CDEG_PER_RAD, 'angle', 'pin floor'));
+  const out = new Float64Array(n).fill(Number.NaN);
+  for (let i = 0; i < n; i += 1) {
+    if (gates[i] !== 1 || n < 3) continue;
+    const own = cosAt(ring[i === 0 ? n - 1 : i - 1], ring[i], ring[i + 1 === n ? 0 : i + 1]);
+    out[i] = own > cosMin ? own : cosMin;
+  }
+  return out;
 }
 
 /** Each vertex's outward unit normal on a counter-clockwise ring (the right of the chord through its two neighbours). */
@@ -88,9 +136,10 @@ function better(a: Label, b: Label): boolean {
 /**
  * Pull and pin (see the module comment) on a counter-clockwise ring: `pinned[i]` 1 keeps vertex i; `barred` rings bar a
  * candidate inside them and a step whose side lies over them — through `wet` when given (its water gates' courses
- * exempt over the water), else every barred ring a reservation. Returns the pulled ring.
+ * exempt over the water), else every barred ring a reservation; `floors` (`pinFloors`, C-0505) bars a path whose angle at
+ * a gate goes under the gate's floor. Returns the pulled ring.
  */
-export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): Pulled {
+export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0), floors?: Float64Array): Pulled {
   const n = ring.length;
   const K = 2 * PULL_STEPS + 1;
   // The candidates reach the band less the attraction distance, so the line stays within the band after the lattice's
@@ -158,27 +207,58 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
   for (let i = 0; i < n && start < 0; i += 1) if (pinned[i] === 1) start = i;
   const starts = start >= 0 ? [PULL_STEPS] : Array.from({ length: K }, (_, j) => j);
   const at = start >= 0 ? start : 0;
-  let bestLabel: Label | null = null;
-  let bestPath: number[] = [];
+  const vAt = (r: number): number => (at + r) % n;
+  // The gates' floors (C-0505): at a gate after the start (`slot`) the DP's K states carry the candidate of the vertex
+  // before it (the gate's own offset is 0), so the step after it is taken only where the pair of sides keeps the floor;
+  // the start's own pair is solved, where the free solve breaks its floor, with the vertex after it fixed (`j1`).
+  const fl = floors ?? null;
+  const floored = (i: number): boolean => fl !== null && pinned[i] === 1 && !Number.isNaN(fl[i]);
+  const slot = new Uint8Array(n);
+  for (let r = 1; r < n; r += 1) if (floored(vAt(r))) slot[r] = 1;
+  const own = (r: number, j: number): number => (slot[r] === 1 ? PULL_STEPS : j);
+  const keeps = (r: number, before: XY, after: XY): boolean => fl === null || keepsFloor(before, ring[vAt(r)], after, fl[vAt(r)]);
   const lab = new Array<Label>(n * K);
   const prev = new Int32Array(n * K);
-  for (const j0 of starts) {
-    if (!Number.isFinite(node[at * K + j0])) continue;
+  const solve = (j0: number, j1: number): { label: Label; path: number[] } | null => {
     for (let j = 0; j < K; j += 1) lab[j] = j === j0 ? { c: node[at * K + j], s: 0, o: Math.abs(j - PULL_STEPS) } : { c: Infinity, s: 0, o: 0 };
     for (let r = 1; r < n; r += 1) {
-      const i = (at + r) % n;
+      const i = vAt(r);
+      const gateBefore = r >= 2 && slot[r - 1] === 1;
       for (let j = 0; j < K; j += 1) {
         let best: Label = { c: Infinity, s: 0, o: 0 };
         let arg = -1;
-        const nc = node[i * K + j];
-        if (Number.isFinite(nc)) {
-          for (let h = 0; h < K; h += 1) {
-            const pl = lab[(r - 1) * K + h];
-            if (!Number.isFinite(pl.c) || Math.abs(j - h) * step > reach[i] || !sideClear(i, h, j)) continue;
-            const cand: Label = { c: pl.c + nc, s: pl.s + Math.abs(j - h), o: pl.o + Math.abs(j - PULL_STEPS) };
-            if (arg < 0 || better(cand, best)) {
-              best = cand;
-              arg = h;
+        const oj = own(r, j);
+        const nc = node[i * K + oj];
+        if (Number.isFinite(nc) && !(r === 1 && j1 >= 0 && oj !== j1)) {
+          if (gateBefore) {
+            // The vertex before is a floored gate (offset 0): the step's increments do not depend on its state, so its
+            // best state whose pair of sides keeps the gate's floor is taken (the free solve's own, where it keeps it).
+            if ((slot[r] === 0 || j === PULL_STEPS) && Math.abs(oj - PULL_STEPS) * step <= reach[i] && sideClear(i, PULL_STEPS, oj)) {
+              let bs = -1;
+              let bl: Label = { c: Infinity, s: 0, o: 0 };
+              for (let h = 0; h < K; h += 1) {
+                const pl = lab[(r - 1) * K + h];
+                if (!Number.isFinite(pl.c) || !keeps(r - 1, cand(vAt(r - 2), h), cand(i, oj))) continue;
+                if (bs < 0 || better(pl, bl)) {
+                  bl = pl;
+                  bs = h;
+                }
+              }
+              if (bs >= 0) {
+                best = { c: bl.c + nc, s: bl.s + Math.abs(oj - PULL_STEPS), o: bl.o + Math.abs(oj - PULL_STEPS) };
+                arg = bs;
+              }
+            }
+          } else {
+            for (let h = 0; h < K; h += 1) {
+              const pl = lab[(r - 1) * K + h];
+              // At a floored gate, state j carries the candidate of the vertex before it: only that candidate leads there.
+              if (!Number.isFinite(pl.c) || (slot[r] === 1 && h !== j) || Math.abs(oj - h) * step > reach[i] || !sideClear(i, h, oj)) continue;
+              const c: Label = { c: pl.c + nc, s: pl.s + Math.abs(oj - h), o: pl.o + Math.abs(oj - PULL_STEPS) };
+              if (arg < 0 || better(c, best)) {
+                best = c;
+                arg = h;
+              }
             }
           }
         }
@@ -191,24 +271,44 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
     let endLabel: Label = { c: Infinity, s: 0, o: 0 };
     for (let j = 0; j < K; j += 1) {
       const l = lab[(n - 1) * K + j];
-      if (!Number.isFinite(l.c) || Math.abs(j - j0) * step > reach[at] || !sideClear(at, j, j0)) continue;
-      const cand: Label = { c: l.c, s: l.s + Math.abs(j - j0), o: l.o };
-      if (endJ < 0 || better(cand, endLabel)) {
-        endLabel = cand;
+      const oj = own(n - 1, j);
+      if (!Number.isFinite(l.c) || Math.abs(oj - j0) * step > reach[at] || !sideClear(at, oj, j0)) continue;
+      if (n >= 3 && slot[n - 1] === 1 && !keeps(n - 1, cand(vAt(n - 2), j), cand(at, j0))) continue;
+      if (j1 >= 0 && !keeps(0, cand(vAt(n - 1), oj), cand(vAt(1), j1))) continue;
+      const c: Label = { c: l.c, s: l.s + Math.abs(oj - j0), o: l.o };
+      if (endJ < 0 || better(c, endLabel)) {
+        endLabel = c;
         endJ = j;
       }
     }
-    if (endJ < 0) continue;
-    if (bestLabel === null || better(endLabel, bestLabel)) {
-      bestLabel = endLabel;
-      const path = new Array<number>(n);
-      let j = endJ;
-      for (let r = n - 1; r >= 1; r -= 1) {
-        path[r] = j;
-        j = prev[r * K + j];
+    if (endJ < 0) return null;
+    const path = new Array<number>(n);
+    let j = endJ;
+    for (let r = n - 1; r >= 1; r -= 1) {
+      path[r] = own(r, j);
+      j = prev[r * K + j];
+    }
+    path[0] = j0;
+    return { label: endLabel, path };
+  };
+  let bestLabel: Label | null = null;
+  let bestPath: number[] = [];
+  for (const j0 of starts) {
+    if (!Number.isFinite(node[at * K + j0])) continue;
+    let got = solve(j0, -1);
+    // The start is a floored gate and the free solve breaks its floor: solved again with the vertex after it fixed, each
+    // candidate in turn (the identity keeps every floor, so one of them holds).
+    if (got !== null && n >= 3 && floored(at) && !keeps(0, cand(vAt(n - 1), got.path[n - 1]), cand(vAt(1), got.path[1]))) {
+      got = null;
+      for (let j1 = 0; j1 < K; j1 += 1) {
+        const g = solve(j0, j1);
+        if (g !== null && (got === null || better(g.label, got.label))) got = g;
       }
-      path[0] = j0;
-      bestPath = path;
+    }
+    if (got === null) continue;
+    if (bestLabel === null || better(got.label, bestLabel)) {
+      bestLabel = got.label;
+      bestPath = got.path;
     }
   }
   const line: XY[] = ring.map((p) => ({ x: p.x, y: p.y }));
@@ -235,8 +335,8 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
  * would carry out of the band (C-0232 (1)) or over a barred ring (through `wet` when given, else every barred ring a
  * reservation; N-54 (1)). Returns lattice points.
  */
-export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): LatticePoint[] {
-  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, false);
+export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0), floors?: Float64Array): LatticePoint[] {
+  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, false, floors);
 }
 
 /**
@@ -245,14 +345,33 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
  * back as a side out of the band is — so a simple line stays simple. The trace's fallback where the smoothing as built
  * leaves a self-touch no M0 rung repairs.
  */
-export function smoothKeptSimple(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): LatticePoint[] {
-  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, true);
+export function smoothKeptSimple(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0), floors?: Float64Array): LatticePoint[] {
+  return smoothing(line, pinned, passes, ring0, bandCm, barred, wet, true, floors);
 }
 
-function smoothing(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides, simple: boolean): LatticePoint[] {
+function smoothing(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides, simple: boolean, floors?: Float64Array): LatticePoint[] {
   const pins: number[] = [];
   for (let i = 0; i < pinned.length; i += 1) if (pinned[i] === 1) pins.push(i);
   const n = line.length;
+  // The floored gates (C-0505): a pass, or the rounding, that would take a gate's angle under its floor puts the gate's
+  // moved neighbours back, as it does a side's moved ends out of the band.
+  const gates = floors === undefined || n < 3 ? [] : pins.filter((i) => !Number.isNaN(floors[i]));
+  const floorBroken = (pts: readonly XY[], movedAt: (v: number) => boolean, back: (v: number) => void): boolean => {
+    let reverted = false;
+    for (const g of gates) {
+      const a = g === 0 ? n - 1 : g - 1;
+      const c = g + 1 === n ? 0 : g + 1;
+      if (!movedAt(a) && !movedAt(c)) continue;
+      if (keepsFloor(pts[a], pts[g], pts[c], (floors as Float64Array)[g])) continue;
+      for (const v of [a, c]) {
+        if (movedAt(v)) {
+          back(v);
+          reverted = true;
+        }
+      }
+    }
+    return reverted;
+  };
   const limit = bandLimit(bandCm);
   let cur: XY[] = line.map((p) => ({ x: p.x, y: p.y }));
   for (let r = 0; r < passes; r += 1) {
@@ -283,6 +402,10 @@ function smoothing(line: readonly XY[], pinned: Uint8Array, passes: number, ring
           }
         }
       }
+      if (floorBroken(next, (v) => moved[v] === 1, (v) => {
+        next[v] = cur[v];
+        moved[v] = 0;
+      })) reverted = true;
       if (!reverted) break;
     }
     cur = next;
@@ -307,6 +430,9 @@ function smoothing(line: readonly XY[], pinned: Uint8Array, passes: number, ring
         }
       }
     }
+    if (floorBroken(out, away, (v) => {
+      out[v] = home[v];
+    })) reverted = true;
     if (!reverted) break;
   }
   return out;

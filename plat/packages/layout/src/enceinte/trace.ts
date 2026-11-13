@@ -30,7 +30,7 @@ import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type Ke
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
 import { bandBreaches, bandLimit, ccw, d2, departure, distToRing, footOn, lat, openRing, sideDeparture, sideHolds, TOUCH_CM } from './plane.js';
-import { pullAndPin, smoothKeptSimple, smoothPinned, terrainCost, untangle, type Pulled } from './pull.js';
+import { keepsFloor, pinFloors, pullAndPin, smoothKeptSimple, smoothPinned, terrainCost, untangle, type Pulled } from './pull.js';
 import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
 import { arenaVertices, crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
@@ -169,16 +169,32 @@ export function traceBase(
   // The sides' test over the barred rings, each water gate's course exempt over the water (N-54 (1)).
   const wet = wetSides(barred, waters.length, crossed.crossings.map((c) => c.course));
 
-  // (2) Pull and pin.
+  // (2) Pull and pin. Each gate holds its floor (C-0505; Q173): the pulled trace crosses each arterial as the picked
+  // boundary did, so neither the pull nor the smoothing closes the line into a spike at a gate — the simplify's floor
+  // (100°) there, or the boundary's own angle where that is sharper.
   const mask = pinMask(ring, pins);
-  const pulled = pullAndPin(ring, mask, opts.costField ?? terrainCost(terrain), band, barred, wet);
+  const floors = pinFloors(ring, pinMask(ring, gatePins), cells.minAngleCdeg);
+  const floorAt = new Map<string, number>();
+  ring.forEach((q, i) => {
+    if (!Number.isNaN(floors[i])) floorAt.set(key(q), floors[i]);
+  });
+  const pulled = pullAndPin(ring, mask, opts.costField ?? terrainCost(terrain), band, barred, wet, floors);
 
   // (3) Smooth, then F-WALL's trace rungs where the smoothed trace self-touches or crosses the core. The band is held
   // against the boundary as given (`ring0`), never the ring after the water splice (C-0232 (3)).
-  let line: LatticePoint[] = openRing(smoothPinned(pulled.line, mask, cells.smoothPasses, ring0, band, barred, wet));
+  let line: LatticePoint[] = openRing(smoothPinned(pulled.line, mask, cells.smoothPasses, ring0, band, barred, wet, floors));
   const rungs: WallRung[] = [];
   let pull: Pulled = pulled;
-  const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'water' | 'band' | null => rungVerdict(cand, ring0, band, core, wet);
+  // A line whose angle at a gate is under the gate's floor does not hold either (C-0505: the rung's line crosses that
+  // arterial at a spike the handed boundary did not — the pin's crossing lost, reported `pin_lost`).
+  const breaksFloor = (cand: readonly LatticePoint[]): boolean => {
+    const m = cand.length;
+    return m >= 3 && cand.some((q, i) => {
+      const f = floorAt.get(key(q));
+      return f !== undefined && !keepsFloor(cand[i === 0 ? m - 1 : i - 1], q, cand[i + 1 === m ? 0 : i + 1], f);
+    });
+  };
+  const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'water' | 'band' | 'pin_lost' | null => rungVerdict(cand, ring0, band, core, wet) ?? (breaksFloor(cand) ? 'pin_lost' : null);
   // F-WALL's two M0 rungs on a line with a defect, in order, each reported: the repaired line, or null when neither holds.
   const rungsOn = (l: LatticePoint[], cause: 'self_touch' | 'core', on: readonly LatticePoint[] = pinPoints): LatticePoint[] | null => {
     const re = reoffset(l, band, on, core);
@@ -189,7 +205,7 @@ export function traceBase(
     let unWhy: WallRung['why'] | null = un.ok ? null : un.detail === 'fixed' ? 'pin_lost' : 'empty';
     let cand: LatticePoint[] | null = null;
     if (un.ok) {
-      cand = simplifyInBand(un.value, ring0, band, cells, barred, pins) ?? un.value;
+      cand = simplifyInBand(un.value, ring0, band, cells, barred, pins, floorAt) ?? un.value;
       unWhy = accept(cand);
     }
     rungs.push(unWhy === null ? { rung: 'union_simplify', cause, radiusCm: 0, held: true } : { rung: 'union_simplify', cause, radiusCm: 0, held: false, why: unWhy });
@@ -211,9 +227,9 @@ export function traceBase(
     // taken; a boundary as given that itself fails them keeps the refusal below, the later rungs' class (M1, C-0085).
     const fixedKeys = new Set<string>([...gatePins, ...crossed.crossings.flatMap((c) => [c.entry, c.exit, ...c.course].map((q) => key(q)))]);
     const idx = fixed === null ? mergedNear(ring, fixedKeys, wet) : [];
-    const bases: { ring: LatticePoint[]; mask: Uint8Array; pinPoints: LatticePoint[]; pulled: Pulled }[] = [];
+    const bases: { ring: LatticePoint[]; mask: Uint8Array; pinPoints: LatticePoint[]; pulled: Pulled; floors: Float64Array }[] = [];
     if (fixed === null) {
-      bases.push({ ring, mask, pinPoints, pulled });
+      bases.push({ ring, mask, pinPoints, pulled, floors });
       if (idx.length < ring.length) {
         const r2 = idx.map((i) => ring[i]);
         const offs = idx.map((i) => pulled.offsetsCm[i]);
@@ -222,6 +238,7 @@ export function traceBase(
           mask: Uint8Array.from(idx.map((i) => mask[i])),
           pinPoints: r2.filter((q) => pins.has(key(q))),
           pulled: { line: idx.map((i) => pulled.line[i]), offsetsCm: offs, moved: offs.filter((o) => o !== 0).length, maxOffsetCm: Math.max(0, ...offs.map((o) => Math.abs(o))) },
+          floors: pinFloors(r2, pinMask(r2, gatePins), cells.minAngleCdeg),
         });
       }
     }
@@ -230,7 +247,7 @@ export function traceBase(
       const unpulled: Pulled = { line: b.ring.map((q) => ({ x: q.x, y: q.y })), offsetsCm: b.ring.map(() => 0), moved: 0, maxOffsetCm: 0 };
       const retries: { p: Pulled; smooth: boolean }[] = [{ p: untangle(b.ring, b.pulled, wet), smooth: true }, { p: unpulled, smooth: true }, { p: unpulled, smooth: false }];
       for (const { p, smooth } of retries) {
-        const again = smooth ? openRing(smoothKeptSimple(p.line, b.mask, cells.smoothPasses, ring0, band, barred, wet)) : openRing([...b.ring]);
+        const again = smooth ? openRing(smoothKeptSimple(p.line, b.mask, cells.smoothPasses, ring0, band, barred, wet, b.floors)) : openRing([...b.ring]);
         const why = accept(again);
         const cand = why === null ? again : why === 'self_touch' || why === 'core' ? rungsOn(again, why, b.pinPoints) : null;
         if (cand !== null) {
@@ -249,7 +266,7 @@ export function traceBase(
   // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept, and held within the
   // band (C-0226 (4)); its result unused only when it still shows a defect.
   const before = line.length;
-  const simp = simplifyInBand(line, ring0, band, cells, barred, pins);
+  const simp = simplifyInBand(line, ring0, band, cells, barred, pins, floorAt);
   let skipped = true;
   if (simp !== null && defectOf(simp, core) === null && wet.firstOver(simp) < 0) {
     line = simp;
@@ -414,10 +431,13 @@ function mergedNear(ring: readonly LatticePoint[], fixed: ReadonlySet<string>, w
  * The kernel's topology-preserving simplify (§3.4) at walls.json's minimum segment and angle, with the barred rings as
  * its obstacles and the pins kept, held within the band of the boundary `ring` (the boundary as given): where a side of
  * its result is not proved to keep the band (`sideHolds`, C-0232 (2)), the removed vertex farthest from that side is
- * pinned and the simplify runs again (C-0226 (4)). Null when the kernel refuses the line, or when a side not proved to
- * keep the band has no removed vertex to pin (the input's own side: the simplify cannot repair it; C-0232 (1)).
+ * pinned and the simplify runs again (C-0226 (4)). Likewise a gate's floor (`floors`, the gate's point → the cosine of
+ * its floor; C-0505): where a removal next to a gate takes the gate's angle under its floor (the simplify's floor holds
+ * at a pin too, §4.4 (3); Q173), the removed vertex beside the gate on that side is pinned and the simplify runs again.
+ * Null when the kernel refuses the line, or when a side not proved to keep the band has no removed vertex to pin (the
+ * input's own side: the simplify cannot repair it; C-0232 (1)).
  */
-export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[], band: number, cells: WallCells, barred: readonly Polygon[], pins: ReadonlySet<string>): LatticePoint[] | null {
+export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[], band: number, cells: WallCells, barred: readonly Polygon[], pins: ReadonlySet<string>, floors?: ReadonlyMap<string, number>): LatticePoint[] | null {
   const held = new Set(pins);
   const limit = bandLimit(band);
   for (let round = 0; round <= line.length; round += 1) {
@@ -443,6 +463,25 @@ export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[
         }
       }
       if (worst < 0) return null;
+    }
+    if (worst < 0 && floors !== undefined && out.length >= 3) {
+      // A gate's angle under its floor where the simplify removed a vertex beside it: that vertex pinned.
+      const m = out.length;
+      const L = line.length;
+      for (let i = 0; i < m; i += 1) {
+        const f = floors.get(key(out[i]));
+        if (f === undefined) continue;
+        const ia = i === 0 ? m - 1 : i - 1;
+        const ic = i + 1 === m ? 0 : i + 1;
+        if (keepsFloor(out[ia], out[i], out[ic], f)) continue;
+        const before = at[i] === 0 ? L - 1 : at[i] - 1;
+        const after = at[i] + 1 === L ? 0 : at[i] + 1;
+        if (at[ia] !== before && !held.has(key(line[before]))) held.add(key(line[before]));
+        else if (at[ic] !== after && !held.has(key(line[after]))) held.add(key(line[after]));
+        else continue;
+        worst = -2;
+      }
+      if (worst === -2) continue;
     }
     if (worst < 0) return out;
     held.add(key(line[worst]));

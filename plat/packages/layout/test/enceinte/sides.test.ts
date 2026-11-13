@@ -250,8 +250,9 @@ describe('through the strategy: no committed wall edge over water but a water ga
   }, 120_000);
 });
 
-/** The replay's pull and line (N-14). */
-const REPLAY_PULL = { pull: { moved: 151, maxOffsetCm: 3974 }, line: 224 };
+/** The replay's pull and line (N-14). Re-recorded in M0-c-02 S7 (C-0505, a declared shift): `moved` 151 → 149 — the pull
+ * keeps each main gate's floor, so two vertices beside a gate the free pull drew inward stay on the line. */
+const REPLAY_PULL = { pull: { moved: 149, maxOffsetCm: 3974 }, line: 224 };
 
 describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and boundary beside a ~22 m river', () => {
   interface Fixture {
