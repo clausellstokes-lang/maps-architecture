@@ -25,7 +25,8 @@ list of source paths). Write them out in every command below in place of the cap
    /home/user/maps-architecture show origin/claude/great-bell-qm3tio:tools/session/gates/$f > /home/user/maps-scratch/$f;
    done; chmod +x /home/user/maps-scratch/gate2.sh; bash -n /home/user/maps-scratch/gate2.sh && echo ok`.
 4. **Start the gate DETACHED**: `(setsid nohup /home/user/maps-scratch/gate2.sh NAME COMMIT WORKERS NEAR SOURCES >
-   /home/user/maps-scratch/gates-NAME.out 2>&1 & disown)`.
+   /home/user/maps-scratch/gates-NAME.out 2>&1 & disown)` — NEAR is ONE argument (its paths joined by commas, no
+   spaces); the SOURCES follow it as separate arguments or as one quoted list (the script reads either).
 5. **Start ONE background waiter** (Bash with run_in_background, timeout 7200000): `sleep 20; until [ -f
    /home/user/maps-scratch/gates-NAME.done ] || ! kill -0 $(cat /home/user/maps-scratch/gates-NAME.pid 2>/dev/null)
    2>/dev/null; do sleep 30; done; date -u +%H:%MZ; cat /home/user/maps-scratch/gates-NAME.sum`. Then end your turn: the
@@ -36,7 +37,8 @@ list of source paths). Write them out in every command below in place of the cap
    - no done-file and the gate's process lives (`kill -0 $(cat /home/user/maps-scratch/gates-NAME.pid)` succeeds) →
      start the waiter again (step 5);
    - no done-file and no live process → the gate died. If the summary's last line names a failed setup step
-     ("worktree failed", "worktree is not at", "related: empty file list"), send the parent that line and stop.
+     ("worktree failed", "worktree is not at", "path not found in the tree", "related: empty file list"), send the
+     parent that line and stop.
      Otherwise make sure Node 24 is still there (step 1 again if `/opt/node24/bin/node --version` fails) and do steps 4
      and 5 again: the gate resumes where it stopped. If two launches in a row add no line to
      /home/user/maps-scratch/gates-NAME.sum and no new file under gates-NAME.rel/ or gates-NAME.full/, send the parent

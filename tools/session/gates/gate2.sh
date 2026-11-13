@@ -8,6 +8,8 @@
 export PATH=/root/.local/bin:/opt/node24/bin:$PATH
 HERE=$(cd "$(dirname "$0")" && pwd)
 N=$1; C=$2; W=$3; NEAR=$(echo $4 | tr ',' ' '); shift 4
+# the sources: any mix of separate arguments, one quoted list, commas or spaces (a caller that quotes the list must not empty RELATED)
+SRCS=$(echo "$*" | tr ',' ' ')
 G=/home/user/maps-scratch/gates-$N
 [ -f $G.done ] && { cat $G.sum; exit 0; }
 touch $G.sum
@@ -17,6 +19,7 @@ if [ ! -d $G/plat ]; then git worktree add -q --detach $G $C || { echo "worktree
 [ "$(git -C $G rev-parse --short HEAD)" = "$(git rev-parse --short $C)" ] || { echo "worktree is not at $C" >> $G.sum; exit 1; }
 cd $G/plat
 has() { grep -q "^$1" $G.sum; }
+for f in $NEAR $SRCS; do [ -e "$f" ] || { echo "path not found in the tree: $f" >> $G.sum; exit 1; }; done
 has 'install rc=' || { corepack pnpm install --frozen-lockfile --offline > $G.log 2>&1 || PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile >> $G.log 2>&1; echo "install rc=$?" >> $G.sum; }
 has 'lint rc=' || { corepack pnpm lint >> $G.log 2>&1; echo "lint rc=$? $(grep -c 'probe-red ok' $G.log) probe-red-ok" >> $G.sum; }
 has 'build rc=' || { corepack pnpm build >> $G.log 2>&1; echo "build rc=$?" >> $G.sum; }
@@ -30,7 +33,7 @@ if ! has 'related@1000 ('; then
   mkdir -p $G.rel
   if [ ! -s $G.related.list ]; then
     # the file list: RELATED's own selection, every test filtered out (the files are collected, nothing runs)
-    PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=$W --reporter=json --outputFile=$G.related.list.json -t '^__no_such_test__$' "$@" > $G.related.list.log 2>&1
+    PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=$W --reporter=json --outputFile=$G.related.list.json -t '^__no_such_test__$' $SRCS > $G.related.list.log 2>&1
     python3 - $G.related.list.json $G/plat > $G.related.list <<'PY'
 import json,sys
 d=json.load(open(sys.argv[1])); root=sys.argv[2].rstrip('/')+'/'
@@ -46,7 +49,7 @@ PY
     PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest run --passWithNoTests --maxWorkers=$W --reporter=default --reporter=json --outputFile=$G.rel/$i.json $(tr '\n' ' ' < $ch) > $G.rel/$i.log 2>&1
     echo $? > $G.rel/$i.rc
   done
-  python3 - $G.rel $TOTAL "$W" "$PLAT_FUZZ_SEED" "$*" >> $G.sum <<'PY'
+  python3 - $G.rel $TOTAL "$W" "$PLAT_FUZZ_SEED" "$SRCS" >> $G.sum <<'PY'
 import json,glob,sys,os
 d,total,w,seed,src=sys.argv[1:6]
 files=fp=ff=tests=tp=tf=0; reds=[]; bad=[]
