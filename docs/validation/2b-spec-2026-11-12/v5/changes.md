@@ -147,3 +147,8 @@ container can read it.
 NOT BOUND. At the binding (the router round landed; the runner of S20 re-run on the merged tree, J769): work through
 `reread-after-router.md`, resolve the two bracketed drops of the DECLARED REDS paragraph, fold any M0-a-09 red the
 early seed sweep (J809) finds, append the entry to specs.json and write the launch file.
+
+ADDED AT J814 (08:55Z 2026-11-13, from the seed sweep): LINE 8 gains the seed 284554526 — at 1 000 runs the straight
+test is red there on the floor (21 < 27) and the BENT-LANES test, which shares bars(), is red on the CONTROL (17 of 18).
+It is a fixed case of both tests; the bent test's absorbed plant is found and recorded as the straight test's were,
+and the line stops at REPORTED if that plant is not absorbed by the tip rule.

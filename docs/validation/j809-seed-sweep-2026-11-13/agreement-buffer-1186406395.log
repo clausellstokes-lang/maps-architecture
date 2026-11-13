@@ -1,0 +1,32 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/2b-v5/tree/plat
+
+stdout | test/kernel/arr-booleans-buffers/agreement-buffer.test.ts > buffer agrees with both oracles, split by attraction (§3.7, §13.1) > buffer: round, square and miter joins; round, square and flat ends; one or per-point half-widths
+arr/buffer: seed 1186406395 — 1000 cases — drawn 978 (unattracted 284, share 0.290; attracted 694, share 0.710); passed 284 + 694; refusals {} by step {} (counted 0 of cap 1, excluded 0, every oracle on its own operands {}); unjudged 0; settled {}; W_PLACED cases 147 (failed 0); stretch beyond √2·attractCm 81 (failed 0, farthest 1996.1 cm); snap-rounded {}; sources {"arb-near-collinear":79,"arb-chain-sparse":407,"arb-thin":60,"arb-chain":265,"arb-stroke":121,"limit/no-input-buffer-empty":16,"further/buffer-flat-ends":11,"further/buffer-square-joins":7,"further/buffer-miter-joins":12}; guard 100; refused by our engine: insertChain's 22 (setup 0; cap 17), own 0 (cap 1) {"insertChain/E_INVARIANT":22} (seed 1186406395; replay with PLAT_FUZZ_SEED=1186406395)
+
+ ❯ |testkit| test/kernel/arr-booleans-buffers/agreement-buffer.test.ts (1 test | 1 failed) 116351ms
+   ❯ buffer agrees with both oracles, split by attraction (§3.7, §13.1) (1)
+     × buffer: round, square and miter joins; round, square and flat ends; one or per-point half-widths 116333ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |testkit| test/kernel/arr-booleans-buffers/agreement-buffer.test.ts > buffer agrees with both oracles, split by attraction (§3.7, §13.1) > buffer: round, square and miter joins; round, square and flat ends; one or per-point half-widths
+AssertionError: arr/buffer (seed 1186406395; replay with PLAT_FUZZ_SEED=1186406395): insertChain's refusals in buffer against the measured cap: expected 22 to be less than or equal to 17
+ ❯ verdict test/kernel/arr-booleans-buffers/support.ts:1458:93
+    1456|   // the family's measured cap
+    1457|   expect(ref.own, said(`refusals caused in arr/ (or without a replay) …
+    1458|   expect(ref.insertChain, said(`insertChain's refusals in ${op} agains…
+       |                                                                                             ^
+    1459|   expect(h.placed.failed, said('failed W_PLACED cases')).toBe(0);
+    1460|   expect(h.stretchFar.failed, said('failed far-stretch cases')).toBe(0…
+ ❯ runAgreement test/kernel/arr-booleans-buffers/support.ts:1326:3
+ ❯ test/kernel/arr-booleans-buffers/agreement-buffer.test.ts:25:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  08:50:15
+   Duration  118.62s (tests 98%, transform 1%)
+
