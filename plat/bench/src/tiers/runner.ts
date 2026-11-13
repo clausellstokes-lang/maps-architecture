@@ -56,7 +56,11 @@ export interface RunTierOptions {
   /** The tier's output folder (PLAT_BENCH_OUT's tiers/<tier>/); the jobs get <out>/jobs. */
   out: string;
   mode?: TierMode;
-  /** The fallback switch (§13.8): fuzz 10⁴ → 5 × 10³, seeds 50 → 25, the constructive set never cut — tier:pr only (Q175 (d)). */
+  /**
+   * The fallback switch (§13.8): fuzz 10⁴ → 5 × 10³, seeds 50 → 25, the constructive set never cut — tier:pr only
+   * (Q175 (d)). Only `true` turns it on: the switch is read once, and any other value (absent, `false`, or a non-boolean
+   * a caller forced past the type, such as `1` or `'yes'`) is OFF — no size cut, `fallback.applied: false` (Q201).
+   */
   fallback?: boolean;
   exec?: Executor;
   probe?: HarnessProbe;
@@ -160,7 +164,10 @@ export async function runTier(manifest: TierManifest, opts: RunTierOptions): Pro
   // §13.8's pre-decided fallback is the PR tier's ("the nightly tier absorbs the difference"): the switch is refused here,
   // for every caller, on any other tier, before a status is derived or a unit runs (Q175 (d), Q151, C-0241 (11)); the
   // command line refuses the flag first with its own message (index.ts).
-  if (opts.fallback === true && manifest.tier !== 'pr') {
+  // Q201: the switch is read ONCE, and that one value is what the refusal tests AND what applyFallback receives — so no
+  // value of `fallback` cuts the sizes of a manifest that is not the PR tier's, and the record's `applied` is a boolean.
+  const fb: boolean = opts.fallback === true;
+  if (fb && manifest.tier !== 'pr') {
     throw new Error(`tier ${manifest.tier}: the fallback switch is the PR tier's (§13.8's pre-decided fallback; the nightly tier absorbs the difference) — tier:${manifest.tier} runs at its own sizes; run it without the fallback`);
   }
   const mode: TierMode = opts.mode ?? 'plain';
@@ -169,7 +176,7 @@ export async function runTier(manifest: TierManifest, opts: RunTierOptions): Pro
   const log = opts.log ?? (() => undefined);
   const projected = manifest.budget.projected;
   const figureOf = (wallMs: number, cpuMs: number): number => (projected ? cpuMs / PROJECTION_CORES : wallMs);
-  const { sizes, record: fallback } = applyFallback(manifest.jobs, opts.fallback ?? false);
+  const { sizes, record: fallback } = applyFallback(manifest.jobs, fb);
 
   // 1. Derive every status (C-0099, C-0121) and plan the built jobs' units at their effective sizes.
   const planned: Planned[] = [];

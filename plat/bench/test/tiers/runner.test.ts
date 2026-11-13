@@ -2,7 +2,8 @@
 // normalised figure more than 10 % over fails over budget: 11 % fails, 9 % and exactly 10 % pass — for a job and for
 // the tier), the projection (the 16-core tiers judged on CPU time ÷ 16 and marked projected; the PR tier on wall-clock),
 // the fallback switch (fuzz and seeds reduced, the constructive set never cut; refused by runTier itself outside
-// tier:pr, Q175 (d)), the verdict, the not-built and refused cases and the manifest's structural problems.
+// tier:pr, Q175 (d); one reading of the switch, only `true` on, Q201), the verdict, the not-built and refused cases
+// and the manifest's structural problems.
 import { readdirSync } from 'node:fs';
 import { afterAll, describe, expect, it } from 'vitest';
 import { applyFallback, budgetGates, FALLBACK_SIZES, judgeBudget, logName, manifestProblems, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, runTier } from '../../src/tiers/runner.js';
@@ -241,6 +242,37 @@ describe('the fallback switch (§13.8: B-CITY-lite 25 seeds, random fuzz 5 × 10
       const calls: Unit[] = [];
       const r = await runTier(fixtureManifest(jobs()), { root: root(), out: tree({}), mode, fallback: true, exec: plantedExec({}, calls), ...readings([100, 100]) });
       expect([r.tier, r.fallback.applied, r.fallback.changed.length, calls.map((u) => u.argv.join(' '))], mode).toEqual(['pr', true, 2, ['fixture fuzz 5000', 'fixture seeds 25', 'fixture constructive 10', 'fixture small 10', 'fixture plain']]);
+    }
+  });
+  // Q201 (N-15 of the S3 closing check): ONE value decides both the refusal and the cut. The switch is read once as
+  // `fallback === true`; a non-boolean a caller forced past the type (1, 'yes') is OFF on every tier — the nightly and
+  // milestone manifests run at their own sizes (never cut, never refused), the PR manifest runs at its full sizes — and
+  // the record's `applied` is the boolean false. `true` and absent keep their readings (refused off tier:pr, cut on it;
+  // absent runs at full sizes everywhere).
+  const full = ['fixture fuzz 10000', 'fixture seeds 50', 'fixture constructive 10', 'fixture small 10', 'fixture plain'];
+  const cut = ['fixture fuzz 5000', 'fixture seeds 25', 'fixture constructive 10', 'fixture small 10', 'fixture plain'];
+  it.each(['pr', 'nightly', 'milestone'] as const)('Q201: on a tier:%s manifest, a truthy non-boolean fallback (1, "yes") is off: no size cut, applied the boolean false; true and absent unchanged', async (tier) => {
+    const m = tier === 'pr' ? fixtureManifest(jobs()) : fixtureManifest(jobs(), { tier, budget: { ms: 1_000_000, cores: 16, projected: true } });
+    for (const forced of [1, 'yes'] as unknown as boolean[]) {
+      for (const mode of ['plain', 'batched'] as const) {
+        const calls: Unit[] = [];
+        const r = await runTier(m, { root: root(), out: tree({}), mode, fallback: forced, exec: plantedExec({}, calls), ...readings([100, 100]) });
+        const label = `${tier} ${mode} ${JSON.stringify(forced)}`;
+        expect([r.tier, r.fallback, typeof r.fallback.applied, r.jobs.map((j) => j.size), calls.map((u) => u.argv.join(' '))], label).toEqual([tier, { applied: false, changed: [] }, 'boolean', [10_000, 50, 10, 10, null], full]);
+      }
+    }
+    const absent: Unit[] = [];
+    const r0 = await runTier(m, { root: root(), out: tree({}), exec: plantedExec({}, absent) });
+    expect([r0.fallback, absent.map((u) => u.argv.join(' '))]).toEqual([{ applied: false, changed: [] }, full]);
+    const on: Unit[] = [];
+    const t = await runTier(m, { root: root(), out: tree({}), fallback: true, exec: plantedExec({}, on) }).then(
+      (r) => r,
+      (e: unknown) => e,
+    );
+    if (tier === 'pr') {
+      expect([(t as Awaited<ReturnType<typeof runTier>>).fallback.applied, on.map((u) => u.argv.join(' '))]).toEqual([true, cut]);
+    } else {
+      expect([(t as Error).message, on]).toEqual([refusal(tier), []]);
     }
   });
 });
