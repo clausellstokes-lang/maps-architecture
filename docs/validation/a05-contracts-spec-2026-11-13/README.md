@@ -1,9 +1,20 @@
-# The contracts round (RL13 + RL15): spec draft, 2026-11-13
+# The contracts round (RL13 + RL15): spec, 2026-11-13, folded after its adversarial review (J803)
 
-This folder holds a spec seat's draft of THE CONTRACTS ROUND (J800 (3); queue Q205 = RL13, Q135 = RL15). **Nothing in it is bound.**
-- `draft.md` has the findings (with code cites), the two designs, the legs, the open questions and the seat's weak points.
-- There are three `spec-<item>-<round>.json` files, one per leg (M0-a-06 S11 → M0-e-03 S6 → M0-c-04 S8). Each is an entry in specs.json's form, written as it would be bound. Every `[SESSION: …]` mark is a place the session fills in at binding.
-- The main finding: neither contract touches M0-a-05's files. The refusal that names a body is made by the transaction (tx/, M0-a-06), and a sequence plan that commits nothing is a dry run in tx/ plus the façade. So the draft has no M0-a-05 leg and uses no `S?` round.
-- Before binding, the session must rule on draft §4's open questions. The main ones are the round's owner and gate (Q1), the dry-run form of seam (a) (RL15), where RL13's field lives (Q4), and Q5–Q8.
-- This spec changes a contract between items, so it takes an adversarial review before it binds (J631 (2) (a)). The review should attack draft §5 first.
-- Cites: files and functions are binding. Line numbers were read on 102ff939, with insert/ read on origin/wip/child-a05s14 @ 9354851f, and are not binding.
+**NOTHING IN THIS FOLDER IS BOUND.** The round belongs to M0-a-06 (J803 R1). It is one merged round of three legs, run as M0-a-06 S11 → M0-e-03 S6 → M0-c-04 S8, and each leg launches only if the one before it passed (R2).
+
+## The files
+
+- **The three entries.** `spec-M0-a-06-S11.json`, `spec-M0-e-03-S6.json` and `spec-M0-c-04-S8.json` are the entries in specs.json's form. They include the review's fourteen numbered changes, folded under the final rulings.
+- **`v1/`** holds the first three entries, unchanged.
+- **`rulings-final.md`** holds the session's binding rulings R1 – R13 (J803). It replaces `rulings-provisional.md`.
+- **`review/`** holds the review: `review.md` (F1 – F13 and the fourteen numbered changes), plus `probes/` and `logs/`, which the entries cite as evidence.
+- **`changes.md`** maps each numbered change and each ruling to the entry and line it moved, and lists what could not be folded.
+- **`draft.md`** is the spec seat's draft: the findings, the designs and the questions. Its §6 holds the corrections made after the review.
+
+## What remains before binding
+
+1. M0-a-06 S10 must land (child ED).
+2. On that head, the cites of tx/tx.ts `run` must be re-read: S10 inserts the `shape` rows' maintenance at the commit.
+3. The declared reds in the entries must be brought to that head's list.
+4. The three entries must be appended to `workflows/lane-prompts/session-fix-cloud/specs.json`, with a launch file.
+5. Legs 2 and 3 also wait for M0-e-03 S5 (child EA) and M0-c-04 S7 (child EC) to land.

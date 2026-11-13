@@ -383,3 +383,14 @@ J648 (1)), M0-f-03b (its pins re-read at that re-run), M0-c-02 (seam (b) not tak
 6. **No e-03 test reaches the naming branch today** (by my grep); if one does by a path I missed, its pins move.
 7. **Ownership of the façade edit** by cross-item scope is a judgment; an a-16 checker may disagree with a member added
    by another item's leg.
+
+## 6. Corrections after the review (J803)
+
+The sections above stand as first written. Where the review showed them wrong, these lines correct them. The entries follow rulings-final.md.
+
+1. **§2.1, the assertion-class sentence, was wrong** (review F4). The estuary branch is tested BEFORE `findIndex`. So on `… already carries (shore, water:estuary:0, 0)` the regex drops the estuary under the non-id `water:estuary:0, 0`, while the field stops the stage: the two disagree. The NO-SHIFT claim is narrowed to refusals made by the transaction's own rows and to texts with no `(shore, `. The estuary case is a declared behaviour change, pinned by e-03's P6 (J803 R6). The same review finding adds a second producer the draft omitted: suite rows reaching a batch through `TxEnv.invariants` (a-06's P3).
+2. **§1.3 (d) omitted two watchers of `tx`** (review F6): `bench/src/fusion/runs.ts` `watchedKernel` (M0-c-06, off by default) and `bench/src/determinism/spike.ts` (M0-d-09, committed batches only). Both are now named in c-04 S8 LINE 2 and as latent readers (J803 R10).
+3. **"The naming branch IS exercised … by the site families" (§1.4) is not borne out** (review F4). The 32 test-size and 6 CITY derivations met zero water-batch refusals. Only the planted EP-01/S1 cells reach the naming line: one visit, and 10 of 10 named refusals equal between the regex and the field (`review/logs/rl13-*.summary.txt`).
+4. **Weak point 1 now has a measured answer** (review F3): no registered input has dependent crossings. Across 78 plans and 496 crossings the closest pair is 16.9 m apart, and the per-split plan equals the sequence every time (`review/logs/dep-*.summary.txt`). The dry run stands as the only design exact by construction on every lawful input; today its gain is in the receipts (J803 R3).
+5. **Q9 is reversed** (review F9; J803 R9). The runner's `expectVerdicts` has no production caller, so this round adds no fourth leg and no field on it; the matter becomes a queue row. R2 (§1.2) is a message contract with no production reader today.
+6. Also corrected by the review and ruled: P7 dropped and P5 reworded (F7); P1's oracle is `bits(p)` plus `kerbCensus(p)` and `bandClosings(p)` (F7, F8; J803 R13); values the services read inside a dry run are re-stamped −1 (F7; J803 R12); the reflection-test assertion is leg 1's declared shift (F1; J803 R7); a leg launches only if the leg before it PASSED (F10; J803 R2); Q181's round is M0-a-06 S12 (F11; J803 R1).
