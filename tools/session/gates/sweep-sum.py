@@ -14,7 +14,7 @@ import sys
 
 DECLARED = [  # (file suffix or folder, substring of the test's full name or '', the row)
     ('packages/kernel/test/arr/bands/closing.test.ts', 'along-run closing', 'Q152'),
-    ('packages/kernel/test/arr/bands/closing.test.ts', "C-0421's mechanism", 'Q152'),
+    ('packages/kernel/test/arr/bands/closing.test.ts', 'mechanism on round S15', 'Q152'),  # the name's apostrophes are typographic: match none
     ('packages/kernel/test/arr/bands/dryrun.test.ts', 'held cycle runs along', 'Q152'),
     ('packages/kernel/test/arr/bands/hardening-s15.test.ts', 'network 561', 'Q152'),
     ('packages/kernel/test/arr/bands/restage.test.ts', 'restaged read', 'Q152'),
@@ -27,6 +27,7 @@ DECLARED = [  # (file suffix or folder, substring of the test's full name or '',
     ('bench/test/site/summary.test.ts', '', 'J772 (7) (the canary)'),
     ('packages/layout/test/enceinte/s5seeds.test.ts', 'later rungs', 'Q202 (full strength only)'),
     ('bench/test/timing-phase/script.test.ts', 'real python3 child', 'Q209 (a) (load flake)'),
+    ('packages/site/test/terrain/range.test.ts', 'writes an Int32Array', 'Q210 (the one-door scan, red since landing 84)'),
     ('packages/layout/test/districts/perimeter.test.ts', 'buffer of the closed ring', 'Q209 (b) (load flake)'),
 ]
 
