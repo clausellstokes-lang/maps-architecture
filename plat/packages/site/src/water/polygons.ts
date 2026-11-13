@@ -532,22 +532,26 @@ function fixedVertices(reach: Reach, covered: readonly Ring[], cuts: readonly XY
  * The kernel's rings of a body made fit for insertion (C-0307, refining C-0229 (2)): each cleaned as the fast ring is
  * (`cleanRing`: Douglas–Peucker 20 cm, vertices under 30 cm apart and needles dropped), its vertices on the arena's edge
  * or on an earlier body's ring fixed — the clip's and the difference's, which the shared edges need — a ring the clean
- * empties dropped as a sliver, and so is a hole the kernel made under SLIVER_AREA_CM2 that the clean leaves under it
- * too — an islet below the sliver area, which `partsOf` drops from the body and the fast ring never keeps as a hole
- * (Q122, hardening round S4: a meander's buffer leaves pockets of 1 – 3 m² whose cleaned triangles meet the cleaned
- * outer ring, and proved before the drop they refused the river `rings meet`, relief-3000 seed 184). An outer ring is
- * proved whatever its area: a small one beside the others is how a broken buffer shows (slow-rings.test.ts's loop
- * river), refused with its cause, never dropped `empty`. Then the fast ring's proofs (`proveRings`), each cause read
- * `not clear (…)`. The buffer's round joins leave sub-attraction hairpins (sides under minEdgeCm, a vertex within
- * attractCm of a non-adjacent side) that the insertion welds into a branching shore; the clean removes them, and a ring
- * it cannot make clear is refused here, never handed to the kernel. A cause when refused.
+ * empties dropped as a sliver, and so is a hole (a ring the kernel made clockwise) that the clean leaves under
+ * SLIVER_AREA_CM2, whatever area the kernel made it — an islet below the sliver area, which `partsOf` drops from the
+ * body by that same measure (the cleaned ring's `|area2|`) and the fast ring never keeps as a hole (Q122, hardening
+ * round S4: a meander's buffer leaves pockets of 1 – 3 m² whose cleaned triangles meet the cleaned outer ring, and
+ * proved before the drop they refused the river `rings meet`, relief-3000 seed 184; round S5, N-s4c-1: one measure,
+ * so a hole the kernel made just over the sliver area and the clean leaves under it is dropped too, and a hole the
+ * clean leaves at or over it is kept and proved, whatever it was made). So the proofs judge every ring the body keeps,
+ * and every outer ring besides: an outer ring is proved whatever its area — a small one beside the others is how a
+ * broken buffer shows (slow-rings.test.ts's loop river), refused with its cause, never dropped `empty`. Then the fast
+ * ring's proofs (`proveRings`), each cause read `not clear (…)`. The buffer's round joins leave sub-attraction
+ * hairpins (sides under minEdgeCm, a vertex within attractCm of a non-adjacent side) that the insertion welds into a
+ * branching shore; the clean removes them, and a ring it cannot make clear is refused here, never handed to the kernel.
+ * A cause when refused.
  */
 export function provedRings(rings: readonly Ring[], reach: Reach, covered: readonly Ring[]): Ring[] | string {
   const fixed = fixedVertices(reach, covered);
   const out: Ring[] = [];
   for (const r of rings) {
     const c = cleanRing(r, fixed);
-    if (c === null || (area2(r) < 0 && -area2(r) < 2 * SLIVER_AREA_CM2 && Math.abs(area2(c)) < 2 * SLIVER_AREA_CM2)) continue;
+    if (c === null || (area2(r) < 0 && Math.abs(area2(c)) < 2 * SLIVER_AREA_CM2)) continue;
     out.push(c);
   }
   const cause = proveRings(out, covered);
