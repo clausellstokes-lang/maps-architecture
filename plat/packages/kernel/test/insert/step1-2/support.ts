@@ -54,6 +54,25 @@ export const WEDGE_S: ArenaSpec = {
   ],
 };
 
+/**
+ * N-c6-1 (hardening round S7): WEDGE_S reflected in y (y → 4 000 − y) — the frame [0, 4 000]², the L1 chord
+ * (897, 0) → (287, 786) → (723, 908) → (0, 718) and the L2 Steiner vertex S = (181, 766). The spec numbering is WEDGE_S's
+ * (spec vertex 6 the corner (723, 908), 7 the run's far end (0, 718), 8 S; spec edges 8 and 9 the run's two sub-edges), but
+ * the run's handle end is now (0, 718), so the sub-edge (723, 908)–S is the run's SECOND sub-edge, where in WEDGE_S it is
+ * the first: a position on it tells sub-edge j from j − 1 (the clamp at 0 hides j − 1 on WEDGE_S).
+ */
+export const WEDGE_M: ArenaSpec = {
+  vertices: [
+    [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
+    [897, 0, 1], [287, 786, 1], [723, 908, 1], [0, 718, 1], // 4 – 7
+    [181, 766, 2, VERTEX_STEINER | VERTEX_SPLIT], // 8: S
+  ],
+  edges: [
+    [0, 4, 0], [4, 1, 0], [1, 2, 0], [2, 3, 0], [3, 7, 0], [7, 0, 0],
+    [4, 5, 1], [5, 6, 1], [6, 8, 1], [8, 7, 1],
+  ],
+};
+
 /** A hand-built arena with the spatial index attached. */
 export function indexed(spec: ArenaSpec, order: { vertices?: readonly number[]; edges?: readonly number[] } = {}): Built {
   const b = buildArena(spec, order);
