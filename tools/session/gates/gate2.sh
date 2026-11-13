@@ -4,7 +4,8 @@
 # records itself in $G.sum and is skipped when re-run; the long RELATED@1000 step runs in CHUNKS of its own file list,
 # each chunk with its exit code beside it, so a restart costs one chunk. Steps: install, lint, build, the whole
 # landed:verify, NEAR at full strength, RELATED@1000 over the landing's sources on the merged tree (one fuzz seed for the
-# whole run, recorded), then the strength-gated test files RELATED reached, at FULL strength (J793), by cell (J798).
+# whole run, recorded), then the tree's DISK-READING tests RELATED did not run, at 1 000 runs (J812: a test that reads sources
+# from disk is invisible to RELATED), then the strength-gated test files RELATED reached, at FULL strength (J793), by cell (J798).
 export PATH=/root/.local/bin:/opt/node24/bin:$PATH
 HERE=$(cd "$(dirname "$0")" && pwd)
 N=$1; C=$2; W=$3; NEAR=$(echo $4 | tr ',' ' '); shift 4
@@ -72,6 +73,53 @@ rc=0 if (ff==0 and not bad and len(names)==int(total)) else 1
 print(f"related@1000 (workers={w}, in chunks of 12 files, seed {seed}: {src}) rc={rc} Test Files {ff} failed | {fp} passed ({files} results for {len(names)} of {total} listed files); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
 for x in reds[:20]: print('  related red: '+x)
 PY
+fi
+if ! has 'scans@1000 ('; then
+  # THE DISK-READING TESTS (J812): `vitest related` selects a test by what it IMPORTS — a test that READS sources from disk
+  # (a type-checked scan, a census of a package's files, a golden) is invisible to it, and a landing broke one unseen
+  # (site's one-door scan, the eighty-fourth). Every such test of the tree that RELATED did not already run, at 1 000
+  # runs under the gate's seed, in chunks of twelve with one exit code each.
+  [ -f $G.seed ] || echo $(( ( $(date +%s) % 2000000000 ) + 1 )) > $G.seed
+  export PLAT_FUZZ_SEED=$(cat $G.seed)
+  mkdir -p $G.scan
+  if [ ! -f $G.scan.list ]; then
+    grep -rlE "createProgram|readdirSync|readFileSync" --include='*.test.ts' packages bench tools 2>/dev/null | grep -v node_modules | sort -u > $G.scan.all
+    if [ -s $G.related.list ]; then grep -vxFf $G.related.list $G.scan.all > $G.scan.list; else cp $G.scan.all $G.scan.list; fi
+  fi
+  STOTAL=$(wc -l < $G.scan.list)
+  if [ "$STOTAL" -eq 0 ]; then
+    echo "scans@1000 (the disk-reading tests RELATED did not run: none left — all $(wc -l < $G.scan.all) were on the RELATED path) rc=0" >> $G.sum
+  else
+    [ -f $G.scan/chunk.000 ] || split -l 12 -d -a 3 $G.scan.list $G.scan/chunk.
+    for ch in $G.scan/chunk.???; do
+      i=${ch##*.}
+      [ -f $G.scan/$i.rc ] && continue
+      PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest run --passWithNoTests --maxWorkers=$W --reporter=default --reporter=json --outputFile=$G.scan/$i.json $(tr '\n' ' ' < $ch) > $G.scan/$i.log 2>&1
+      echo $? > $G.scan/$i.rc
+    done
+    python3 - $G.scan $STOTAL "$W" "$PLAT_FUZZ_SEED" "$(wc -l < $G.scan.all)" >> $G.sum <<'PY'
+import json,glob,sys,os
+d,total,w,seed,alln=sys.argv[1:6]
+fp=ff=tests=tp=tf=0; reds=[]; bad=[]; names=set()
+for j in sorted(glob.glob(d+'/???.json')):
+    r=json.load(open(j))
+    for t in r['testResults']:
+        names.add(t['name'])
+        if t['status']=='passed': fp+=1
+        else:
+            ff+=1
+            fa=[a for a in t['assertionResults'] if a['status']=='failed']
+            for a in fa: reds.append(t['name'].split('/plat/')[-1]+' > '+a['fullName'][:160])
+            if not fa: reds.append(t['name'].split('/plat/')[-1]+' > (suite error) '+str(t.get('message',''))[:160])
+    tests+=r['numTotalTests']; tp+=r['numPassedTests']; tf+=r['numFailedTests']
+for c in sorted(glob.glob(d+'/chunk.???')):
+    i=c.rsplit('.',1)[1]
+    if not os.path.exists(d+'/'+i+'.json'): bad.append(i)
+rc=0 if (ff==0 and not bad and len(names)==int(total)) else 1
+print(f"scans@1000 (the disk-reading tests RELATED did not run: {total} of the tree's {alln}; workers={w}, chunks of 12, seed {seed}) rc={rc} Test Files {ff} failed | {fp} passed ({len(names)} of {total} listed); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
+for x in reds[:20]: print('  scans red: '+x)
+PY
+  fi
 fi
 if ! has 'full-only'; then
   # The strength-gated files RELATED reached, at FULL strength (J793) — BY CELL, three at a time, each cell with its own

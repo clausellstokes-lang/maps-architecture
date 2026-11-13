@@ -41,7 +41,7 @@ list of source paths). Write them out in every command below in place of the cap
      parent that line and stop.
      Otherwise make sure Node 24 is still there (step 1 again if `/opt/node24/bin/node --version` fails) and do steps 4
      and 5 again: the gate resumes where it stopped. If two launches in a row add no line to
-     /home/user/maps-scratch/gates-NAME.sum and no new file under gates-NAME.rel/ or gates-NAME.full/, send the parent
+     /home/user/maps-scratch/gates-NAME.sum and no new file under gates-NAME.rel/, gates-NAME.scan/ or gates-NAME.full/, send the parent
      the summary and the last 30 lines of the newest log there, and stop.
 7. **Report**: ONE message to the parent with the claude-code-remote send_message tool — "GATE NAME @ COMMIT (machine
    <the output of `python3 /home/user/maps-architecture/tools/machine_profile.py --id`>; launches: <how many times you
@@ -52,6 +52,7 @@ list of source paths). Write them out in every command below in place of the cap
 ## What the gate is (the script does all of it)
 
 Install, lint, build, the whole `landed:verify`, NEAR at full strength, RELATED at 1 000 runs over SOURCES in chunks of
-twelve files under one recorded seed, then the strength-gated test files at full strength, cell by cell. Every step
+twelve files under one recorded seed, then the tree's disk-reading tests that RELATED did not run (J812: a test that
+reads sources from disk is invisible to RELATED), then the strength-gated test files at full strength, cell by cell. Every step
 records itself, so a launch after a restart skips what is finished. RED TESTS ARE EXPECTED in the summary — the head
 carries declared reds — and are the parent's to read: you do not judge them, run them again or open their logs.
