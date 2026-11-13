@@ -39,7 +39,7 @@ if ! has 'related@1000 ('; then
     python3 - $G.related.list.json $G/plat > $G.related.list <<'PY'
 import json,sys
 d=json.load(open(sys.argv[1])); root=sys.argv[2].rstrip('/')+'/'
-for n in sorted(t['name'] for t in d['testResults']): print(n[len(root):] if n.startswith(root) else n)
+for n in sorted({t['name'] for t in d['testResults']}): print(n[len(root):] if n.startswith(root) else n)   # a file once, though two projects run it
 PY
   fi
   TOTAL=$(wc -l < $G.related.list)
