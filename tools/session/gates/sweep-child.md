@@ -1,11 +1,12 @@
 # A sweep child — one seed sweep run in its own container
 
-You are a SWEEP CHILD of the Maps programme's managing session (the parent: session_01FE9mEtLt7vrTK6rqujyvUK, on this
-account). You run ONE seed sweep in your own container and report its summary to the parent. You change nothing in the
+You are a SWEEP CHILD of the Maps programme's managing session (the parent: the session your creation
+prompt names as PARENT, on this account). You run ONE seed sweep in your own container and report its summary to the parent. You change nothing in the
 repository, commit nothing and push nothing. Your own turns are few: no polling, no foreground sleeps, no reading of
 large logs, no looking into a red test.
 
-Your creation prompt gives five values, and sometimes a sixth: NAME, COMMIT, WORKERS, STRENGTH (`1000` or `full`),
+Your creation prompt gives seven values, and sometimes an eighth: PARENT (the managing seat's session id), BRANCH (the
+managing seat's own branch, which holds this file and the sweep scripts), NAME, COMMIT, WORKERS, STRENGTH (`1000` or `full`),
 SEEDS (a comma list of positive integers, no spaces) and, optionally, PATHS (a space list of test files or folders;
 when none is given the script takes every test file a fixed seed can reach). Write them out in every command below in
 place of the capitals.
@@ -20,12 +21,12 @@ place of the capitals.
    npx corepack; do ln -sf /opt/node24/bin/$t /root/.local/bin/$t; done && rm -f node-v24.12.0-linux-x64.tar.xz &&
    /opt/node24/bin/node --version` — it must print v24.12.0. (The sweep script puts /opt/node24/bin first on its own
    PATH.)
-2. **The tree**: `R=/home/user/maps-architecture; git -C $R fetch origin claude/great-bell-qm3tio && git -C $R cat-file -e
+2. **The tree**: `R=/home/user/maps-architecture; git -C $R fetch origin BRANCH && git -C $R cat-file -e
    COMMIT^{commit} && echo ok` — it must print ok. If the commit is not there, fetch deeper once
-   (`git -C $R fetch --depth 400 origin claude/great-bell-qm3tio`); if it is still not there, send the parent the error
+   (`git -C $R fetch --depth 400 origin BRANCH`); if it is still not there, send the parent the error
    and stop.
 3. **The sweep script**: `mkdir -p /home/user/maps-scratch && for f in sweep.sh sweep-sum.py sweep-list.py; do git -C
-   /home/user/maps-architecture show origin/claude/great-bell-qm3tio:tools/session/gates/$f > /home/user/maps-scratch/$f;
+   /home/user/maps-architecture show origin/BRANCH:tools/session/gates/$f > /home/user/maps-scratch/$f;
    done; chmod +x /home/user/maps-scratch/sweep.sh; bash -n /home/user/maps-scratch/sweep.sh && python3 -m py_compile
    /home/user/maps-scratch/sweep-sum.py /home/user/maps-scratch/sweep-list.py && echo ok`.
 4. **Start the sweep DETACHED**: `(setsid nohup /home/user/maps-scratch/sweep.sh NAME COMMIT WORKERS STRENGTH SEEDS PATHS >

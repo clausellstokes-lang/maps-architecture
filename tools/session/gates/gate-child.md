@@ -1,12 +1,13 @@
 # A gate child — one landing gate run in its own container
 
-You are a GATE CHILD of the Maps programme's managing session (the parent: session_01FE9mEtLt7vrTK6rqujyvUK, on this
-account). You run ONE landing gate in your own container and report its summary to the parent. You change nothing in
+You are a GATE CHILD of the Maps programme's managing session (the parent: the session your creation
+prompt names as PARENT, on this account). You run ONE landing gate in your own container and report its summary to the parent. You change nothing in
 the repository, commit nothing and push nothing. Your own turns are few: no polling, no foreground sleeps, no reading
 of large logs, no looking into a red test.
 
-Your creation prompt gives five values: NAME, COMMIT, WORKERS, NEAR (a comma list of test paths) and SOURCES (a space
-list of source paths). Write them out in every command below in place of the capitals.
+Your creation prompt gives seven values: PARENT (the managing seat's session id), BRANCH (the managing seat's own
+branch, which holds this file and the gate scripts), NAME, COMMIT, WORKERS, NEAR (a comma list of test paths) and
+SOURCES (a space list of source paths). Write them out in every command below in place of the capitals.
 
 ## Steps, in this order (absolute paths and `git -C`; never a bare `cd` in a parallel call)
 
@@ -17,12 +18,12 @@ list of source paths). Write them out in every command below in place of the cap
    node-v24.12.0-linux-x64.tar.xz -C /opt/node24 --strip-components=1 && mkdir -p /root/.local/bin && for t in node npm
    npx corepack; do ln -sf /opt/node24/bin/$t /root/.local/bin/$t; done && rm -f node-v24.12.0-linux-x64.tar.xz &&
    /opt/node24/bin/node --version` — it must print v24.12.0. (The gate script puts /opt/node24/bin first on its own PATH.)
-2. **The tree**: `R=/home/user/maps-architecture; git -C $R fetch origin claude/great-bell-qm3tio && git -C $R cat-file -e
+2. **The tree**: `R=/home/user/maps-architecture; git -C $R fetch origin BRANCH && git -C $R cat-file -e
    COMMIT^{commit} && echo ok` — it must print ok. If the commit is not there, fetch deeper once
-   (`git -C $R fetch --depth 400 origin claude/great-bell-qm3tio`); if it is still not there, send the parent the error
+   (`git -C $R fetch --depth 400 origin BRANCH`); if it is still not there, send the parent the error
    and stop.
 3. **The gate script**: `mkdir -p /home/user/maps-scratch && for f in gate2.sh gate2-fullsum.py scan-list.py; do git -C
-   /home/user/maps-architecture show origin/claude/great-bell-qm3tio:tools/session/gates/$f > /home/user/maps-scratch/$f;
+   /home/user/maps-architecture show origin/BRANCH:tools/session/gates/$f > /home/user/maps-scratch/$f;
    done; chmod +x /home/user/maps-scratch/gate2.sh; bash -n /home/user/maps-scratch/gate2.sh && echo ok`.
 4. **Start the gate DETACHED**: `(setsid nohup /home/user/maps-scratch/gate2.sh NAME COMMIT WORKERS NEAR SOURCES >
    /home/user/maps-scratch/gates-NAME.out 2>&1 & disown)` — NEAR is ONE argument (its paths joined by commas, no
