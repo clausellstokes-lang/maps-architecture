@@ -16,10 +16,10 @@ import { generatedLifecycle } from '../terrain/heightfield.js';
 import { RAD_PER_CDEG } from '../terrain/primitives.js';
 import { isBaseRung, siteFrame, TOWN_ROOT } from '../terrain/strategy.js';
 import type { SiteEnv } from '../terrain/types.js';
-import { carveCourse, planCarve, rasterGeom } from './carve.js';
-import { arcLengths, cellAt, cellIndexAt, lengthQuotient, pointSegDist2, rasterise, type XY } from './course.js';
+import { carveJoint, JointBed, planCarve, rasterGeom } from './carve.js';
+import { arcLengths, cellAt, cellIndexAt, lengthQuotient, pointSegDist2, rasterise, type GridGeom, type XY } from './course.js';
 import { accumulate, d8, recomputeCorridors, type Corridor, type D8Result } from './d8.js';
-import { cellCount, D8_DX, D8_DY, hydroField, invCols, onBorder, rowOf, type HydroField } from './field.js';
+import { cellCount, D8_DX, D8_DY, hydroField, invCols, invOfCols, onBorder, rowOf, type HydroField } from './field.js';
 import { resolveFlats, type FlatsResult } from './flats.js';
 import { priorityFlood, type FloodResult } from './flood.js';
 import { CORE_SHARE, ESTUARY_FACTOR, ESTUARY_LENGTH_M, hydroParams, type HydroParams } from './params.js';
@@ -309,6 +309,28 @@ function truncated(terrain: Terrain, course: readonly XY[], at: number, carveMax
   return course.slice(0, end);
 }
 
+/** A course's chain on the raster (./carve.ts JointBed): its loop-erased path, then the joined cell when it joins (≥ 0). */
+function chainOf(g: GridGeom, course: readonly XY[], joined: number): number[] {
+  const cells = rasterise(g, course, true).cells;
+  if (joined >= 0 && cells[cells.length - 1] !== joined) cells.push(joined);
+  return cells;
+}
+
+/**
+ * A course laid on the joint bed (hardening round S3, N-s2c-1): whole, with its joined cell when it joins; else cut back
+ * vertex by vertex, joining nothing, until its chain lies beside the delivered courses within the cap (never trenched).
+ * `laid` false only when two vertices still do not fit: that course is then not carved.
+ */
+function settled(joint: JointBed, g: GridGeom, course: XY[], joined: number): { course: XY[]; chain: number[]; laid: boolean } {
+  let cur = course;
+  for (;;) {
+    const chain = chainOf(g, cur, cur === course ? joined : -1);
+    if (joint.add(chain)) return { course: cur, chain, laid: true };
+    if (cur.length <= 2) return { course: cur, chain, laid: false };
+    cur = cur.slice(0, cur.length - 1);
+  }
+}
+
 /** The hydrology corridor of a fitting course: its cells in order (a simple path), reaching the border (or its join). */
 function corridorOf(field: HydroField, course: readonly XY[], join: number, stop: Uint8Array | undefined): { cells: number[]; exit: number } {
   const g = field.grid;
@@ -425,6 +447,34 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
     const corridors: Corridor[] = [];
     const stopMask = new Uint8Array(cellCount(field.grid));
     const plans: { id: Id; kind: 'river' | 'tributary'; trace: RiverTrace; course: XY[]; corridor: number[] | null; band: readonly [number, number]; mouth: boolean; flowTo?: Id; ordinal: number }[] = [];
+    // The joint bed of the delivered courses (hardening round S3, N-s2c-1; ./carve.ts JointBed): the raster before any
+    // carve, each delivered course's chain of raster cells, and the plan whose corridor holds each hydrology cell (a
+    // joining course's receiving course).
+    const before = Int32Array.from(terrain.heightCm);
+    const joint = new JointBed(before, params.carveMaxCm);
+    const chains: { chain: number[]; laid: boolean }[] = [];
+    const corridorOwner = new Int32Array(cellCount(field.grid)).fill(-1);
+    /** The joined cell of a joining trace: the receiving course's chain cell nearest its end (the confluence), else −1. */
+    const joinedCell = (trace: RiverTrace): number => {
+      if (trace.end.kind !== 'join') return -1;
+      const owner = corridorOwner[trace.end.cell];
+      if (owner < 0) return -1;
+      const end = trace.course[trace.course.length - 1];
+      const inv = invOfCols(extent.cols);
+      let best = -1;
+      let bestD = Infinity;
+      for (const c of chains[owner].chain) {
+        const i = c % extent.cols;
+        const x = extent.originX + (i + 0.5) * extent.cellCm - end.x;
+        const y = extent.originY + (rowOf(c, i, inv) + 0.5) * extent.cellCm - end.y;
+        const d = x * x + y * y;
+        if (d < bestD) {
+          bestD = d;
+          best = c;
+        }
+      }
+      return best;
+    };
 
     // The river: F-RIVER's inlet rung over attempts 0 … 2.
     const mainId = riverId('river', 0);
@@ -462,8 +512,14 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
         const cor = corridorOf(field, course, -1, undefined);
         corridor = cor.cells;
         corridors.push({ cells: cor.cells, bedCm: runningMin(field, cor.cells), exit: -1 });
-        for (const c of cor.cells) stopMask[c] = 1;
+        for (const c of cor.cells) {
+          stopMask[c] = 1;
+          corridorOwner[c] = plans.length;
+        }
       }
+      // The river is the first chain: alone on the joint bed its bed is planCarve's, so a course that fits the cap (a
+      // fitting trace, or one `truncated` to three vertices or more) is laid whole, never cut back.
+      chains.push(settled(joint, extent, course, -1));
       plans.push({ id: mainId, kind: 'river', trace: main.trace, course, corridor, band: params.riverBandCm, mouth: request.mouth === 'estuary' || request.mouth === 'delta', ordinal: 0 });
       const delivered = fits && main.core ? 'full' : 'degraded';
       requested.push({ feature: 'river', delivered, tier: delivered === 'full' ? tierOf(main.trace, main.attempt) : 4, entity: mainId, ...(delivered === 'full' ? {} : { cause: 'F-RIVER' }) });
@@ -477,7 +533,7 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
     for (let t = 0; t < tribs.length; t += 1) {
       const id = riverId('tributary', t);
       const joinable = corridors.length > 0;
-      let best: { trace: RiverTrace; attempt: number } | null = null;
+      let best: { trace: RiverTrace; attempt: number; fit: boolean } | null = null;
       for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
         const s = streamOf(attempt);
         const { inlet } = inletOf(field, reach, frameHalf, tribs[t].inflowBearingCdeg, s.shift, mainEdge, params.carveMaxCm, joinable ? stopMask : undefined);
@@ -492,13 +548,21 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
         for (const e of trace.events) {
           ladderUses.push({ cause: 'F-RIVER', rung: e.rung === 'carve' ? 1 : 2, name: e.rung, tier: 2, entity: id, key: keyOf(attempt), value: e.value });
         }
-        if (best === null || (trace.ok && !best.trace.ok)) best = { trace, attempt };
-        if (trace.ok) break;
+        // A course that fits on its own must also join within the cap beside the delivered courses (N-s2c-1): a join
+        // that would re-level the receiving course past carveMaxCm needs more, so the attempt fails as a carve would.
+        const fit = trace.ok && joint.fits(chainOf(extent, trace.course, joinedCell(trace)));
+        if (best === null || (fit && !best.fit)) best = { trace, attempt, fit };
+        if (fit) break;
         if (attempt + 1 < ATTEMPTS) ladderUses.push({ cause: 'F-RIVER', rung: 3, name: 'inlet', tier: 3, entity: id, key: keyOf(attempt + 1), value: attempt + 1 });
       }
       if (best === null) continue;
-      const fits = best.trace.ok;
-      const course = fits ? best.trace.course : truncated(terrain, best.trace.course, best.trace.cutAt, params.carveMaxCm);
+      const fits = best.fit;
+      // A degraded tributary — no fitting attempt, or one whose join would cut past the cap — is cut before its failure
+      // and then back until its own chain lies beside the delivered courses within the cap (never trenched).
+      const own = best.trace.ok ? best.trace.course : truncated(terrain, best.trace.course, best.trace.cutAt, params.carveMaxCm);
+      const laid = settled(joint, extent, own, fits ? joinedCell(best.trace) : -1);
+      chains.push(laid);
+      const course = laid.course;
       let corridor: number[] | null = null;
       const joined = best.trace.end.kind === 'join';
       if (fits) {
@@ -506,7 +570,10 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
         if (cor.cells.length > 0) {
           corridor = cor.cells;
           corridors.push({ cells: cor.cells, bedCm: runningMin(field, cor.cells), exit: joined ? cor.exit : -1 });
-          for (const c of cor.cells) stopMask[c] = 1;
+          for (const c of cor.cells) {
+            stopMask[c] = 1;
+            corridorOwner[c] = plans.length;
+          }
         }
       }
       plans.push({ id, kind: 'tributary', trace: best.trace, course, corridor, band: params.tributaryBandCm, mouth: false, ...(joined && fits ? { flowTo: mainId } : {}), ordinal: t });
@@ -520,18 +587,27 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
       accumulate(field);
     }
 
-    // Widths, then the carve written into the height raster, then the records.
-    for (const p of plans) {
+    // Widths, then the carve written into the height raster on the courses' joint bed, then the records; each
+    // outcome's deepest cut is read on that bed (a receiving course's re-level below a confluence included).
+    const profiles: number[][] = [];
+    const carves: { course: XY[]; halfWidthCm: number[] }[] = [];
+    for (let k = 0; k < plans.length; k += 1) {
+      const p = plans[k];
       const widths = widthProfile(field, params, p.course, p.corridor, p.band, cellCm, p.mouth);
-      const half = widths.map((w) => w * 0.5);
-      let course = p.course;
-      let carved = carveCourse(terrain, course, params.carveMaxCm, half);
-      // A later course meets ground an earlier carve lowered: cut it back until its bed fits (never trenched).
-      while (!carved.ok && course.length > 2) {
-        course = truncated(terrain, course, course.length - 1, params.carveMaxCm);
-        carved = carveCourse(terrain, course, params.carveMaxCm, half.slice(0, course.length));
-      }
-      if (carved.ok) warnings.push(...carved.warnings);
+      profiles.push(widths);
+      // A course not laid (cut back to two vertices and still past the cap beside the others) is not carved, as
+      // carveCourse's refusal left it before this round.
+      if (!chains[k].laid) continue;
+      carves.push({ course: p.course, halfWidthCm: widths.map((w) => w * 0.5) });
+      let deepest = 0;
+      for (const c of rasterise(extent, p.course, true).cells) if (before[c] - joint.bedOf(c) > deepest) deepest = before[c] - joint.bedOf(c);
+      outcomes[k].maxCarveCm = deepest;
+    }
+    warnings.push(...carveJoint(terrain, before, joint, carves, params.carveMaxCm));
+    for (let k = 0; k < plans.length; k += 1) {
+      const p = plans[k];
+      const course = p.course;
+      const widths = profiles[k];
       const used = course === p.trace.course ? p.trace.knots : knotsUpTo(p.trace, course);
       bodies.push({
         id: p.id,
