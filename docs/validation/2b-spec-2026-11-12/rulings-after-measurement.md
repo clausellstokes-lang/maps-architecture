@@ -555,3 +555,9 @@ Also at round A's binding: the round is keyed S22 (S20's fix round took -s21) an
 paragraph is brought to the head's list (Q202's seven full-strength cases added; Q153 dropped if child EE's first
 leg has landed); 'M0-a-05 S14' reads 'the router round (S14 – S16)' wherever the entry waits on it.
 
+**Added the same night (J801):** Q206 — a second seed-dependent red of M0-a-09's test folders (the tileRings
+agreement at PLAT_FUZZ_SEED=279049297: a refusal on an attracted case the judge reads as lawful). Round A's binding
+adds a line that DIAGNOSES it first (the judge's allowance, or a refusal of lawful input) and fixes it there if it is
+the judge's; a kernel-side fix is round B's. Q191's line keeps both of its seeds (146129014 at 1 000 runs,
+279049297 at full strength) as fixed cases.
+

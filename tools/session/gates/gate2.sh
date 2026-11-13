@@ -25,7 +25,8 @@ has 'lint rc=' || { corepack pnpm lint >> $G.log 2>&1; echo "lint rc=$? $(grep -
 has 'build rc=' || { corepack pnpm build >> $G.log 2>&1; echo "build rc=$?" >> $G.sum; }
 has 'verify rc=' || { corepack pnpm landed:verify -- flow-7 > $G.verify.log 2>&1; echo "verify rc=$? $(tail -1 $G.verify.log)" >> $G.sum; }
 has 'near (' || { corepack pnpm exec vitest run --maxWorkers=$W $NEAR > $G.near.log 2>&1
-  echo "near (full strength, workers=$W: $NEAR) rc=$? $(grep -E 'Test Files|Tests |Duration' $G.near.log | tr -s ' ' | tr '\n' ';')" >> $G.sum; }
+  RC=$?; echo "near (full strength, workers=$W, the run's seed $(grep -m1 -o "this run's seed is [-0-9]*" $G.near.log | grep -o '[-0-9]*$'): $NEAR) rc=$RC $(grep -E 'Test Files|Tests |Duration' $G.near.log | tr -s ' ' | tr '\n' ';')" >> $G.sum
+  grep -E '^ FAIL ' $G.near.log | sort -u | cut -c1-220 | sed 's/^/  near red: /' >> $G.sum; }
 if ! has 'related@1000 ('; then
   # the seed of the whole RELATED run (one per gate, kept across restarts)
   [ -f $G.seed ] || echo $(( ( $(date +%s) % 2000000000 ) + 1 )) > $G.seed
