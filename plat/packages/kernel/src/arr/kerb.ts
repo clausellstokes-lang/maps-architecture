@@ -120,6 +120,13 @@
 // its boundary half-edges in lattice order and its rings are canonical and sorted. So the same arena after a save and
 // load (the ids re-interned, the starts re-chosen) or a slot renumbering gives the same kerb, the same splits and the
 // same insertion sequence in `corridorUnion`.
+//
+// The exact kerb beside the read (M0-a-09 hardening round S20, the wiring round of round 2A of the kernel amendment z,
+// item 986): §3.7's X(F) is computed in arr/kerbExact.ts, by path. A debug build may install its shadow
+// (`setExactShadow` there), which this module calls through `setReadShadow` as each read starts and once its served
+// outcome is fixed (`readKerb`, right after the census is set); the shadow computes X beside the read on the read's own
+// face record, writes nothing and serves nothing. Production bundles never import kerbExact.ts, so the hook stays null
+// there and every read is served exactly as without it.
 import {
   faceWalk,
   handleOf,
@@ -1910,6 +1917,26 @@ export function kerbCensus(p: Plat): LastRead | null {
 }
 
 /**
+ * A debug observer beside each served read (round S20; the module comment): `start` as the read starts, before its face
+ * is read; `done` once its served outcome is fixed (right after the census is set), with the read's own face record, its
+ * construction read, whether it was restaged, its splits and the census. It must write nothing.
+ */
+export interface ReadShadow {
+  start(): void;
+  done(p: Plat, face: FaceId, f: ReturnType<typeof readFace>, vertexContacts: boolean, read: ReturnType<typeof censusRead>, restaged: boolean, sp: ReturnType<typeof splitsOn> | null, last: LastRead): void;
+}
+
+/** The installed observer (null: none — every production build). */
+let readShadow: ReadShadow | null = null;
+
+/** Installs the read observer (null: none) and returns the one it replaced (setFrameObserver's form, tx/frames.ts). */
+export function setReadShadow(s: ReadShadow | null): ReadShadow | null {
+  const was = readShadow;
+  readShadow = s;
+  return was;
+}
+
+/**
  * One read of F on fresh dry-runs of the open transaction (`censusRead`; where the census's post-condition refuses, the
  * region read once more, restaged, C-0420: accepted only where it meets the post-condition on every spine, else the
  * first read's refusal stands with its place, which J433's replay reads), the parts as given or, `faithful`, as the
@@ -2153,6 +2180,8 @@ function readQuality(rings: readonly Ring[], spines: ReadonlyMap<string, Spine>)
 export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: Map<string, Spine | null>, vertexContacts = true): KernelResult<KerbRead> {
   const t = openTx(o);
   const p = t.plat;
+  const sh = readShadow;
+  if (sh !== null) sh.start();
   const f = readFace(p, face, widths, cache, vertexContacts);
   let { read, refusedAt } = readOn(t, face, f, false);
   let faithful: LastRead['faithful'] = 'none';
@@ -2179,6 +2208,7 @@ export function readKerb(o: Overlay, face: FaceId, widths: SpineWidths, cache?: 
     }
   }
   CENSUS.set(p, { face, reaching: read.census?.reaching ?? [], refusedAt, faithful });
+  if (sh !== null) sh.done(p, face, f, vertexContacts, read, read.staged !== undefined, sp, CENSUS.get(p) as LastRead);
   const k = read.k;
   if (!k.ok) return err(k.code, k.detail);
   const spines = read.spines;

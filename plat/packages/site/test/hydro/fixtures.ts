@@ -88,3 +88,26 @@ export function valleyWithSide(x: number, y: number): number {
 export function gully(x: number, y: number): number {
   return 50 + 0.02 * (y / 100) + Math.min(Math.abs(x / 100 - 12.5), 30);
 }
+
+/**
+ * A basin: the ground rises 5 % from 30 m at the centre to every edge (square contours) — a river crosses it by
+ * descending to the floor and climbing out within carveMaxCm, and tributaries from the other edges fall to the same
+ * floor, lower than the river's bed where they meet it (hardening round S3, N-s2c-1: two courses' carves on one cell).
+ */
+export function basin(x: number, y: number): number {
+  return 30 + 0.05 * (Math.max(Math.abs(x), Math.abs(y)) / 100);
+}
+
+/**
+ * The valley with a steep gully from the east (a tributary's; hardening round S3, note N-s2c-4): a straight gully along
+ * y = 12.5 m (the centre of a 25 m hydrology row) from the east edge to the main trough, its floor falling westward
+ * 0.5 % to 44 m at the trough and its walls rising 1 m per metre either side until they meet the valley's ground. The
+ * tributary's descent line runs down the axis into the river's corridor with no cut; a knot offset of a few metres sets
+ * its course on a wall, past carveMaxCm — at the full offsets and at every halving of them.
+ */
+export function valleyWithGully(x: number, y: number): number {
+  const xm = x / 100;
+  const base = valley(x, y);
+  if (xm < 0) return base;
+  return Math.min(base, 44 + 0.005 * xm + Math.min(Math.abs(y / 100 - 12.5), 30));
+}

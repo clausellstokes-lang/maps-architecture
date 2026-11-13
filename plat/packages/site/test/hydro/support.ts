@@ -162,6 +162,37 @@ export function bedAlong(t: Terrain, course: readonly XY[]): number[] {
   return rasterise(g, course, true).cells.map((c) => t.heightCm[c]);
 }
 
+/**
+ * The joined cell of a joining course (hardening round S3, N-s2c-1), the test's own reading: the raster cell, on the
+ * loop-erased path of one of the `receivers`' courses, whose centre lies nearest the joining course's last point (the
+ * first met on a tie, the receivers in order).
+ */
+export function joinedCellOf(t: Terrain, receivers: readonly WaterBody[], course: readonly XY[]): number {
+  const g = { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+  const end = course[course.length - 1];
+  let best = -1;
+  let bestD = Infinity;
+  for (const b of receivers) {
+    for (const c of rasterise(g, courseOf(b), true).cells) {
+      const x = g.originX + ((c % g.cols) + 0.5) * g.cellCm - end.x;
+      const y = g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm - end.y;
+      if (x * x + y * y < bestD) {
+        bestD = x * x + y * y;
+        best = c;
+      }
+    }
+  }
+  return best;
+}
+
+/** The deepest cut along a course on the raster (`before` less the carved heights under its loop-erased path). */
+export function deepestAlong(before: Int32Array, t: Terrain, course: readonly XY[]): number {
+  const g = { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+  let deepest = 0;
+  for (const c of rasterise(g, course, true).cells) if (before[c] - t.heightCm[c] > deepest) deepest = before[c] - t.heightCm[c];
+  return deepest;
+}
+
 /** Whether a sequence never rises. */
 export function nonIncreasing(v: readonly number[]): boolean {
   for (let k = 1; k < v.length; k += 1) if (v[k] > v[k - 1]) return false;

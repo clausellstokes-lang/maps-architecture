@@ -20,6 +20,7 @@ import {
   hydrology,
   inletMasks,
   inletOf,
+  MeanderDraws,
   outwardCode,
   planCarve,
   priorityFlood,
@@ -30,7 +31,9 @@ import {
   rounded,
   runRivers,
   surfaceCapCm,
+  traceRiver,
   type RiverReport,
+  type RiverSurface,
   type XY,
 } from '../../src/hydro/index.js';
 import { bedAlong, carveBars, courseOf, D8_STEPS, drainPath, nonIncreasing, siteContext, TABLES } from './support.js';
@@ -53,6 +56,38 @@ function terrainOf(rung: BaseRung, request: SiteRequest, key: number): Terrain {
 
 function clone(t: Terrain): Terrain {
   return { ...t, heightCm: Int32Array.from(t.heightCm), hydro: { ...t.hydro } };
+}
+
+/**
+ * The sink crossings of a descent line, by the test's own reading of the river's surface (hardening round S3, note
+ * N-s2c-5): each maximal run of the line's cells inside one filled depression (admitted, level above height, one
+ * level), in line order, valued by its level less the lowest height met in it — F-RIVER's carve rung on the line.
+ */
+function sinkCrossings(surface: RiverSurface, heightCm: Int32Array, cells: readonly number[]): number[] {
+  const out: number[] = [];
+  let level = -1;
+  let low = 0;
+  for (const c of cells) {
+    const inside = surface.admitted[c] === 1 && surface.levelCm[c] > heightCm[c];
+    if (inside && surface.levelCm[c] === level) {
+      if (heightCm[c] < low) low = heightCm[c];
+      continue;
+    }
+    if (level >= 0) out.push(level - low);
+    level = inside ? surface.levelCm[c] : -1;
+    low = heightCm[c];
+  }
+  if (level >= 0) out.push(level - low);
+  return out;
+}
+
+/** The index of the last re-trace use in a list of ladder uses (−1 when none). */
+function lastRetrace(uses: readonly { name: string }[]): number {
+  let at = -1;
+  uses.forEach((u, k) => {
+    if (u.name === 'retrace') at = k;
+  });
+  return at;
 }
 
 /** The bars on one run: D8 on every cell, each draining off the grid; carve ≤ cap (the bed under the course: expectFrameRiver). */
@@ -230,8 +265,16 @@ describe('§13.1 / §2.3: D8 on 100 % of the hydrology grid over frame and margi
       const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, a));
       const { inlet } = inletOf(hyd.field, reach, frameHalf, 27_000, a > 0 ? stream.float01() : null, -1, p.carveMaxCm);
       const masks = inletMasks(g, inlet.cell, undefined);
-      const line = descentLine(hyd.field, riverSurface(hyd.field, masks.outlet, masks.edge, surfaceCapCm(p.carveMaxCm)), inlet.cell, undefined, []);
+      const surface = riverSurface(hyd.field, masks.outlet, masks.edge, surfaceCapCm(p.carveMaxCm));
+      const line = descentLine(hyd.field, surface, inlet.cell, undefined, []);
       expect(line.end.kind).toBe('frame');
+      // F-RIVER's carve rung on the delivered line (hardening round S3, note N-s2c-5): the attempt's carve uses after its
+      // last re-trace are the line's own sink crossings, in order, each with its depth.
+      const uses = r.value.report.ladderUses.filter((u) => u.key === (a === 0 ? 'S1/water.river@town' : `S1/water.river@town/a=${String(a)}`));
+      const after = uses.slice(lastRetrace(uses) + 1);
+      const crossings = sinkCrossings(surface, hyd.field.heightCm, line.cells);
+      expect(crossings.length).toBeGreaterThan(0);
+      expect([key, after.map((u) => [u.name, u.rung, u.value])]).toEqual([key, crossings.map((v) => ['carve', 1, v])]);
       const last = line.cells[line.cells.length - 1];
       const centre = (c: number): XY => ({ x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm });
       const end = edgePoint(g, last, reach, outwardCode(g, last % g.cols, Math.floor(last / g.cols)));
@@ -268,6 +311,55 @@ describe('§13.1 / §2.3: D8 on 100 % of the hydrology grid over frame and margi
         const course = rounded(chaikin([inlet.at, ...full.cells.slice(1).map(centre), end], 3));
         expect([key, att, planCarve(before, course, p.carveMaxCm).firstExceed >= 0]).toEqual([key, att, true]);
       }
+    }
+  }, HEAVY);
+
+  it('Q123: the line re-trace after a third re-trace that failed on a touch (key 19) or on a stuck descent (key 31) — the fourth re-trace, from the inlet, is delivered and its event records the third\'s cause; its carve uses are the line\'s own sink crossings (hardening round S3, notes N-s2c-3 and N-s2c-5)', () => {
+    const p = hydroParams(TABLES, 'CITY');
+    const f = siteFrame({}, rungProfile('CITY'), TABLES);
+    if (!f.ok) throw new Error(f.detail);
+    const reach = arenaReach(f.value);
+    const frameHalf = { x: f.value.widthCm / 2, y: f.value.heightCm / 2 };
+    const concern = CONCERNS['water.river'];
+    const cases: [number, [number, string][]][] = [
+      [19, [[2, 'carve'], [2, 'carve'], [2, 'carve'], [0, 'touch']]],
+      [31, [[3, 'carve'], [3, 'carve'], [2, 'carve'], [0, 'stuck']]],
+    ];
+    for (const [key, retraces] of cases) {
+      const before = terrainOf('CITY', RELIEF_3000, key);
+      const terrain = clone(before);
+      const r = runRivers({ size: {}, site: { river: { inflowBearingCdeg: 27_000, mouth: 'none' } } }, terrain, { bodies: [], bridges: [] }, siteContext(key));
+      if (!r.ok) throw new Error(r.detail);
+      expectBars(before, terrain, r.value.report, 'CITY');
+      const body = r.value.water.bodies[0];
+      expectFrameRiver(terrain, body, r.value.report);
+      expect(r.value.report.rivers[0].attempt).toBe(0);
+      const uses = r.value.report.ladderUses.filter((u) => u.key === 'S1/water.river@town');
+      expect(uses.filter((u) => u.name === 'retrace').map((u) => u.value)).toEqual(retraces.map(([v]) => v));
+      // The delivered attempt's trace, re-run on its own stream: three re-traces fail, the third on the touch or the
+      // stuck descent; the fourth — from the inlet (knot 0), the offsets at their limit (scale 0) — records that cause.
+      const hyd = hydrology(before, hydroGridOver(rasterGeom(before), p.hydroCellCm), p.lakeThresholdCm);
+      const ctx = siteContext(key);
+      const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, 0));
+      const { inlet } = inletOf(hyd.field, reach, frameHalf, 27_000, null, -1, p.carveMaxCm);
+      const tr = traceRiver(hyd.field, inlet, new MeanderDraws(stream), { terrain: before, carveMaxCm: p.carveMaxCm, spacingCm: p.controlSpacingCm, clearanceCm: p.riverBandCm[0], reach });
+      expect([key, tr.events.filter((e) => e.rung === 'retrace').map((e) => [e.value, e.cause])]).toEqual([key, retraces]);
+      expect([tr.ok, tr.failure, tr.scale, tr.end.kind]).toEqual([true, null, 0, 'frame']);
+      expect(tr.course).toEqual(courseOf(body));
+      // Its knots are the inlet, the line's cells' centres and the outlet: the line from the inlet itself.
+      const g = hyd.field.grid;
+      const masks = inletMasks(g, inlet.cell, undefined);
+      const surface = riverSurface(hyd.field, masks.outlet, masks.edge, surfaceCapCm(p.carveMaxCm));
+      const line = descentLine(hyd.field, surface, inlet.cell, undefined, []);
+      const centre = (c: number): XY => ({ x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm });
+      const last = line.cells[line.cells.length - 1];
+      const end = edgePoint(g, last, reach, outwardCode(g, last % g.cols, Math.floor(last / g.cols)));
+      expect((body.controls ?? []).map((k) => ({ x: k.at.x, y: k.at.y }))).toEqual([inlet.at, ...line.cells.slice(1).map(centre), end]);
+      // F-RIVER's carve rung on the delivered line: the carve uses after its last re-trace are its own sink crossings.
+      const after = uses.slice(lastRetrace(uses) + 1);
+      const crossings = sinkCrossings(surface, hyd.field.heightCm, line.cells);
+      expect(crossings.length).toBeGreaterThan(0);
+      expect([key, after.map((u) => [u.name, u.rung, u.value])]).toEqual([key, crossings.map((v) => ['carve', 1, v])]);
     }
   }, HEAVY);
 });

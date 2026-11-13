@@ -1,0 +1,4 @@
+walled stages k>=2 planned: 6 crossings by kind: {'split': 30, 'snap': 18} total 48
+pairs within 229 cm or sharing an untouched way edge: 0
+crossings whose per-crossing plan differs from the sequence: 0
+plan work: min 9 max 18 mean 15.0 n 6

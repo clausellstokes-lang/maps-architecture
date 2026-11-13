@@ -1,0 +1,214 @@
+[
+ {
+  "file": "packages/kernel/test/arr/bands/closing.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along to (2546, 3998)); every read after the commit the read before it",
+    "at": "closing.test.ts:134",
+    "message": "AssertionError: expected [ [ +0, [] ], [ 1, …(1) ], …(2) ] to deeply equal [ [ +0, [] ], [ 1, …(1) ], …(2) ]"
+   },
+   {
+    "test": "C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along to (0, 1631), a vertex kerb(F) holds after the op; B-FUZZ’s judge holds",
+    "at": "closing.test.ts:225",
+    "message": "AssertionError: expected [] to match object [ { kind: 'along', face: +0, …(5) } ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/dryrun.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9)",
+    "at": "dryrun.test.ts:314",
+    "message": "AssertionError: expected [ 2 ] to deeply equal [ 1, 2 ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/hardening-s15.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame face is the frame, one hole round the bands’ union and a 1 436 cm² island inside it — corridorUnion commits it so",
+    "at": "hardening-s15.test.ts:65",
+    "message": "AssertionError: expected 2 to be 3 // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/restage.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end",
+    "at": "restage.test.ts:104",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it",
+    "at": "restage.test.ts:134",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/testkit/test/kernel/arr-bands/agreement-corridor.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-width) and their union of the bands (§3.7 (i)) the built blocks and the bands, by attraction",
+    "at": "agreement-corridor.test.ts:25",
+    "message": "AssertionError: expected [ …(4) ] to deeply equal []"
+   }
+  ]
+ },
+ {
+  "file": "packages/layout/test/enceinte/s5seeds.test.ts",
+  "owner": "M0-c-02",
+  "red": [
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, default, seed 1 (Q88): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, default, seed 31 (S3 F-WALL before the round, e-06 S3; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 20 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 44 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 67 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) RIVER from the north 900 ha, seed 1 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) RIVER from the north 900 ha, seed 6 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/calibrate/calibrate.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the four frozen kernels (C-0050) give the same checksums on the x64 leg under Rosetta 2 (kernels.ts is self-contained)",
+    "at": "calibrate.test.ts:59",
+    "message": "Error: Command failed: /usr/bin/arch -x86_64 /opt/node24/bin/node --no-warnings --input-type=module -e const m = await import(\"file:///home/user/maps-scratch/2b-proto/base/plat/bench/src/calibrate/ker"
+   },
+   {
+    "test": "calibrate() (§12.1) returns the score — the sum of the four kernels' medians, in ms — with the host record",
+    "at": "calibrate.test.ts:149",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   },
+   {
+    "test": "corepack pnpm bench:calibrate (the dispatcher entry run) prints a few capped lines — the scores, the drift, the host, the stamp (contended: no reference score) — and writes the record truncated",
+    "at": "calibrate.test.ts:227",
+    "message": "AssertionError: expected false to be true // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/host/host.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the host record (§12.1) names this machine: Apple M1, 8 cores (4P + 4E), 16 GB, macOS 14.7.8, Node 24.12.0, arm64 native",
+    "at": "host.test.ts:28",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   },
+   {
+    "test": "the host record (§12.1) names the same machine with arch x64 and kind rosetta under Rosetta 2 (the universal binary's x86_64 slice)",
+    "at": "host.test.ts:52",
+    "message": "Error: Command failed: /usr/bin/arch -x86_64 /opt/node24/bin/node --no-warnings --input-type=module -e const m = await import(\"file:///home/user/maps-scratch/2b-proto/base/plat/bench/src/host/record.t"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/site/summary.test.ts",
+  "owner": "M0-e-06",
+  "red": [
+   {
+    "test": "the summary is anchored to what it was derived on (hardening round S3, Q36) the canary CITY record re-derived on this tree is the run's: a stage change that moves it makes the summary stale (re-run, Q36)",
+    "at": "summary.test.ts:258",
+    "message": "AssertionError: relief-60 coarse seed 46 moved: re-run the summary (Q36): expected '4c9647bf15914e6d5f21b2986131f1600cb44…' to be 'eb2046ddce3ce2c1d605e075f6b0228c8d28d…' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/contention.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the detector over every process on this machine (C-0103) reads every process: launchd, other users' daemons, this process",
+    "at": "contention.test.ts:412",
+    "message": "AssertionError: expected 88 to be greater than 100"
+   },
+   {
+    "test": "the detector over every process on this machine (C-0103) a synthetic load (a busy child process) contends, named as a process; passed in ownPids it is the harness's own",
+    "at": "contention.test.ts:435",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ 'process: node (node, pid 4698)' ]"
+   },
+   {
+    "test": "the detector over every process on this machine (C-0103) a Chromium launched through playwright-core from the cache contends as \"process: chromium\"; inside ownPids its whole tree is own",
+    "at": null,
+    "message": "Error: Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1223/chrome-headless-shell-linux64/chrome-headless-shell"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/harness.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "timeBatch with a battery reading taken only through the batch (fix round 2, note N-r1-3) the worker's planted battery reading contends the result: the power through the batch is read, never assumed",
+    "at": "harness.test.ts:273",
+    "message": "AssertionError: expected [ …(3) ] to include 'power: battery'"
+   },
+   {
+    "test": "timeBatch on this machine with the real calibrate and reference-score.json at null, no result is authoritative (C-0075)",
+    "at": "harness.test.ts:319",
+    "message": "AssertionError: expected 'native-x64' to be 'native-arm64' // Object.is equality"
+   },
+   {
+    "test": "corepack pnpm bench -- timing (the dispatcher entry run) times a probe batch and writes the stamped TimingResult; bad arguments exit 64",
+    "at": "harness.test.ts:450",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/sampler.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the batch sampler reads every process on the machine (C-0103) the default period is 30 s; every sample holds launchd (pid 1, root's), more than 100 rows and this process",
+    "at": "sampler.test.ts:41",
+    "message": "AssertionError: expected 'process_api' to be '/sbin/launchd' // Object.is equality"
+   },
+   {
+    "test": "the batch sampler reads every process on the machine (C-0103) each sample's power is the worker's own pmset reading, never assumed: a planted battery reading is battery, none is unknown (note N-r1-3)",
+    "at": "sampler.test.ts:72",
+    "message": "AssertionError: expected 'unknown' to be 'battery' // Object.is equality"
+   }
+  ]
+ }
+]

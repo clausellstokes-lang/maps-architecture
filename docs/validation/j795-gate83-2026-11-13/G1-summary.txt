@@ -1,0 +1,33 @@
+GATE a09s20 @ eb95c034 (machine linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib; launches: 2; seed 1794532576)
+
+install rc=0
+lint rc=0 1 probe-red-ok
+build rc=0
+verify rc=0 landed:verify flow-7: ok — 481 records, 2049 changed paths, 2049 attributed
+near (full strength, workers=3: packages/kernel/test/arr/bands packages/testkit/test/kernel/arr-bands) rc=1 Failed Tests 8; Test Files 6 failed | 22 passed (28); Tests 8 failed | 262 passed (270); Duration 767.71s (tests 99%);
+  [NEAR's seed, from its log: 279049297; its eight FAIL lines: closing.test.ts x2, dryrun.test.ts, hardening-s15.test.ts, restage.test.ts x2 (Q152's six); derived.test.ts 'straight lanes on B-FUZZ's chord networks (one chord in four widthless)'; testkit agreement-tilerings.test.ts 'every ring's pieces, by attraction; the overlap refusal only where the oracle's piece has a hole']
+related@1000 (workers=3, in chunks of 12 files, seed 1794532576: packages/kernel/src/arr/kerb.ts packages/kernel/src/arr/kerbExact.ts) rc=1 Test Files 8 failed | 430 passed (438 of 434 listed); Tests 10 failed | 5622 passed (5633);
+  related red: bench/test/site/summary.test.ts > the summary is anchored to what it was derived on (hardening round S3, Q36) the canary CITY record re-derived on this tree is the run's
+  related red: packages/kernel/test/arr/bands/closing.test.ts > an along-run closing's run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16
+  related red: packages/kernel/test/arr/bands/closing.test.ts > C-0421's mechanism on round S15's outline planted (bandCore's `pieces` seam)
+  related red: bench/test/timing-phase/script.test.ts > the detector (C-0103): the script refuses while another process of the listed kinds or at >= 10 % CPU runs outside ownPids a real python3 child of this test
+  related red: packages/kernel/test/arr/bands/derived.test.ts > line 9: derived.test.ts — the exact kerb on the test's own S8-style cuts … straight lanes
+  related red: packages/kernel/test/arr/bands/dryrun.test.ts > the held cycle runs along the part's row edges … draws 389 and 1109 (seed 20261011)
+  related red: packages/kernel/test/arr/bands/hardening-s15.test.ts > B-NEST … the widened B-FUZZ family's network 561
+  related red: packages/kernel/test/arr/bands/restage.test.ts > the restaged read … N1 (round S11 NEAR, random seed)
+  related red: packages/kernel/test/arr/bands/restage.test.ts > the restaged read … N2 (round S11 NEAR, random seed)
+  related red: packages/layout/test/districts/perimeter.test.ts > the perimeter: the boundary offset outward by 50 m and rounded (§4.5) equals §3.4's buffer of the closed ring united with the boundary
+full-only (FULL strength, by cell, three at a time; the strength-gated files RELATED reached): s3-fwall-60-default rc=0 [0 failed | 32 passed of 32 run]; s3-fwall-60-coarse rc=0 [0 failed | 32 passed of 32 run]; s3-fwall-3000-default rc=0 [0 failed | 4 passed of 4 run]; s3-fwall-3000-coarse rc=0 [0 failed | 4 passed of 4 run]; s3-degenerate-3000-default rc=0 [0 failed | 25 passed of 25 run]; s3-degenerate-3000-coarse rc=0 [0 failed | 25 passed of 25 run]; s5-commits rc=0 [0 failed | 8 passed of 8 run]; s5-later-rungs rc=1 [7 failed | 0 passed of 7 run]; representation rc=0 [0 failed | 2 passed of 2 run];
+  full-only red: s5-later-rungs > F-WALL's later rungs (M1) … the relief-60 site spike, default, seed 1; default, seed 31; coarse, seed 20; coarse, seed 44; coarse, seed 67; RIVER from the north 900 ha, seed 1; seed 6
+
+THE TWO NEW REDS, from the child's chunk logs:
+
+packages/layout/test/districts/perimeter.test.ts (chunk 012):
+  FAIL |layout| test/districts/perimeter.test.ts > the perimeter: the boundary offset outward by 50 m and rounded (§4.5) > equals §3.4's buffer of the closed ring united with the boundary (the synthetic towns' last boundaries)
+  Error: Test timed out in 5000ms.
+  (the chunk: Test Files 1 failed | 11 passed (12); Tests 1 failed | 118 passed (119); Duration 349.40s)
+
+bench/test/timing-phase/script.test.ts (chunk 006):
+  FAIL |bench| test/timing-phase/script.test.ts > the detector (C-0103): the script refuses while another process of the listed kinds or at >= 10 % CPU runs outside ownPids > a real python3 child of this test, outside ownPids, read by the REAL detector (ps over every process): REFUSE naming exactly it, by the kind clause
+  AssertionError: process: MainThread (pid 6562) at >= 10 % CPU: named, yet neither the child, the launch chain nor a prior offender: expected false to be true
+  > test/timing-phase/script.test.ts:238

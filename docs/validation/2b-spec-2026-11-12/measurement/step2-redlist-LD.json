@@ -1,0 +1,799 @@
+[
+ {
+  "file": "packages/kernel/test/arr/bands/closing.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing seed 20261011 draw 1263: face 1 read faithfully, no closing (before: folded, its run vertex (1538, 3986) 260 cm inside way:1’s band); the read after the commit the same region",
+    "at": "closing.test.ts:87",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   },
+   {
+    "test": "an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing seed 1012 draw 3369: face 1 read faithfully, no closing (before: along to (2251, 3991)); the read after the commit within N-43’s bound of it",
+    "at": "closing.test.ts:87",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   },
+   {
+    "test": "an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing fast-check’s shrunk counterexample of seed 20261011: face 1 read faithfully, no closing (before: along to (2546, 3998)); every read after the commit the read before it",
+    "at": "closing.test.ts:87",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   },
+   {
+    "test": "an along-run closing’s run vertex is a vertex kerb(F) holds after the commit (C-0421; B-CLOSE, N-57 (2)) — round S16: the faithful read leaves these four with no closing fast-check’s shrunk counterexample of seed 1012: face 1 read faithfully, no closing (before: folded onto (3693, 3985)); every read after the commit the read before it",
+    "at": "closing.test.ts:87",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   },
+   {
+    "test": "C-0421’s mechanism on round S15’s outline planted (bandCore’s `pieces` seam): an along closing only to a run vertex kerb(F) holds after the op, else pinned first or folded seed 20261011 draw 1109 (B-FUZZ’s family under round S16): face 0’s end at (15, 887) closed along to (0, 1631), a vertex kerb(F) holds after the op; B-FUZZ’s judge holds",
+    "at": "closing.test.ts:225",
+    "message": "AssertionError: expected [] to match object [ { kind: 'along', face: +0, …(5) } ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/corridor.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "corridorUnion (§3.4, §3.7) §13.2 across two faces (N-52 (5), round S9): F’s and G’s reads in one batch give one contact on their shared edge, and one S9 batch commits both exactly",
+    "at": "corridor.test.ts:207",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ …(2) ]"
+   },
+   {
+    "test": "corridorUnion (§3.4, §3.7) §13.1: corridorUnion faces disjoint and covering, every block kerb(F) exactly, on random street networks; S8’s kerb ≡ S9’s block over every face, at least the share measured before round S9 (N-52 (5))",
+    "at": "corridor.test.ts:322",
+    "message": "Error: Property failed after 32 tests"
+   },
+   {
+    "test": "corridorUnion (§3.4, §3.7) a kerb sliver thinner than attractCm that the commit folds onto F’s boundary leaves F all band, not one built block",
+    "at": "corridor.test.ts:433",
+    "message": "AssertionError: expected [] to deeply equal [ 1 ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/deadend.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "N-57 (2): a kerb piece closing on a spine-less edge by a chord within attractCm face 871 (integrated seed 34, block:bjan449v4zkxj): corridorUnion's block ≡ kerb(F), Hausdorff 0, no kerb edge with one face on both sides",
+    "at": "deadend.test.ts:170",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   },
+   {
+    "test": "N-57 (2): a kerb piece closing on a spine-less edge by a chord within attractCm face 822 (integrated seed 47, block:8byv4x0w5rw45): corridorUnion's block ≡ kerb(F), Hausdorff 0, no kerb edge with one face on both sides",
+    "at": "deadend.test.ts:187",
+    "message": "AssertionError: expected [ [ [ 72631, -32135 ], …(23) ] ] to deeply equal [ [ [ 72631, -32137 ], …(16) ] ]"
+   },
+   {
+    "test": "N-57 (2): a kerb piece closing on a spine-less edge by a chord within attractCm the fallback, pinned first (N-57 (2)'s own mechanism): face 822's contact placed before its piece, the vertex beside it dropped — the block within attractCm of kerb(F)",
+    "at": "deadend.test.ts:284",
+    "message": "AssertionError: expected [] to deeply equal [ { x: 75127, y: -31705 } ]"
+   },
+   {
+    "test": "N-57 (2): a kerb piece closing on a spine-less edge by a chord within attractCm a synthetic dead-end lane meeting a spine-less edge at 10–20°, its round cap’s last chord swept 20–40 cm: every case closes",
+    "at": "deadend.test.ts:380",
+    "message": "AssertionError: expected 109 to be +0 // Object.is equality"
+   },
+   {
+    "test": "N-57 (2): a kerb piece closing on a spine-less edge by a chord within attractCm a synthetic dead-end lane whose round cap meets a spine-less edge slanted 10–20°, the last chord swept 20–40 cm: every case closes",
+    "at": "deadend.test.ts:470",
+    "message": "AssertionError: expected 28 to be greater than or equal to 372"
+   },
+   {
+    "test": "N-57 (2), round S4: B-FUZZ networks where round S3 closed a dangling tip onto a far boundary vertex PLAT_FUZZ_SEED 1012, case 3186 (round S9, J433's declared shift): face 1's read refuses KEPT_DEEP — its strip's run end (23, 397) on F's L1 edge, 23 cm from the L0 frame, placed 39 cm into F — insertChain's by cause, nothing written",
+    "at": "deadend.test.ts:141",
+    "message": "Error: tx 8/L1/callback/fn: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "N-57 (2): the closing along the kerb's run, on a network round S9's dry-run still sends there PLAT_FUZZ_SEED 1012, draw 2243 (a sweep of 10⁴ draws under round S9: 3 along closings, no other kind): face 2 closed along its run, by kerb(F)",
+    "at": "deadend.test.ts:589",
+    "message": "AssertionError: expected false to be true // Object.is equality"
+   },
+   {
+    "test": "N-57 (2), round S4: what the closing leaves alone, and the sliver it folds (B-FUZZ networks, PLAT_FUZZ_SEED 1012) case 3070 (round S9, J433's declared shift): face 0's read refuses KEPT_DEEP — way:1's run end (12, 1809) on F's L1 edge, 12 cm from the L0 frame, placed 25 cm into F — insertChain's by cause, nothing written",
+    "at": "deadend.test.ts:141",
+    "message": "Error: tx 8/L1/callback/fn: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "N-57 (2), round S4: what the closing leaves alone, and the sliver it folds (B-FUZZ networks, PLAT_FUZZ_SEED 1012) pinned first where the contact cannot stand within attractCm: refused E_INVARIANT naming the contact, the arena put back (never a far pin)",
+    "at": "deadend.test.ts:627",
+    "message": "AssertionError: expected { x: +0, y: 1638 } to deeply equal { x: 15, y: 887 }"
+   },
+   {
+    "test": "N-57 (2), round S4: what the closing leaves alone, and the sliver it folds (B-FUZZ networks, PLAT_FUZZ_SEED 1012) case 4722 (pre-S9: face 4's contact (11, 1490)): the dry-run's kept face would hold way:1's strip, so the read refuses KEPT_DEEP, nothing written (N-45 (a))",
+    "at": "deadend.test.ts:660",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/derived.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "line 7: the construction relation — its classes, its locus over whole outlines, its near bound a collapsing / attracted fixture is MOVED, never no-move (FM1, FM2): the oblique T's left child and the ring way's outer face",
+    "at": "derived.test.ts:1993",
+    "message": "Error: tx 8/L1/callback/fn: oblique.left: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "line 7: the construction relation — its classes, its locus over whole outlines, its near bound THE STRAIGHT-THROUGH PIN (round S19, F4; kills FM4): two no-move FIRST reads that stand on X_U, while X ≠ X_U by 3 cm and 300 cm — judged against X_U they pass, against X they would fail",
+    "at": "derived.test.ts:2060",
+    "message": "AssertionError: N: expected [ 'EQUAL', 'NEAR' ] to include 'BEYOND'"
+   },
+   {
+    "test": "line 9: derived.test.ts — the exact kerb on the test’s own S8-style cuts, judged by the definition oracle, the construction relation and the key straight lanes on B-FUZZ's chord networks (one chord in four widthless): 100 networks",
+    "at": "derived.test.ts:940",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal []"
+   },
+   {
+    "test": "line 9: derived.test.ts — the exact kerb on the test’s own S8-style cuts, judged by the definition oracle, the construction relation and the key bent lanes and slits on the widened family's networks (ring ways: faces with holes): 100 networks",
+    "at": "derived.test.ts:940",
+    "message": "AssertionError: expected [ …(2) ] to deeply equal []"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/dryrun.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "kerb(F) is a dry-run on the real arena: no scratch arrangement, one savepoint, nothing left behind (C-0417; KI-12) the dead-end fixture’s faces (deadend-faces.json)",
+    "at": "dryrun.test.ts:92",
+    "message": "AssertionError: dead end 871 read 0: savepoints: expected 2 to be less than or equal to 1"
+   },
+   {
+    "test": "kerb(F) is a dry-run on the real arena: no scratch arrangement, one savepoint, nothing left behind (C-0417; KI-12) B-FUZZ’s networks (a fixed sample of bfuzz.test.ts’s chords, seed 20261019): every read, refused or not",
+    "at": "dryrun.test.ts:92",
+    "message": "AssertionError: [{\"a\":863,\"b\":12958,\"hw\":300,\"knots\":[302,62],\"ends\":\"square\"},{\"a\":3607,\"b\":3070,\"hw\":26,\"knots\":[308,212],\"ends\":\"round\"}] read 0: savepoints: expected 2 to be less than or equal to "
+   },
+   {
+    "test": "the dry-run labels against the parts as the arena holds them, never the clipped input ring (C-0417; B-ME) draw 275 (seed 20261011): the face between a strip’s input edge and its held edge is kerb at S8 and a block at S9",
+    "at": "dryrun.test.ts:213",
+    "message": "AssertionError: expected [] to deeply equal [ '2534,3430 3045,4000 2948,4000' ]"
+   },
+   {
+    "test": "the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) draw 1682 (seed 20261011): face 0’s small corner ring is kerb at S8 and a block at S9",
+    "at": "dryrun.test.ts:275",
+    "message": "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]"
+   },
+   {
+    "test": "the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) draw 3213 (seed 20261011): face 0’s kerb is the ring beside the held edges and a block at S9",
+    "at": "dryrun.test.ts:290",
+    "message": "AssertionError: expected [ '1565,0 1623,0 1624,33' ] to deeply equal [ '1386,0 1623,0 1624,54 1562,40' ]"
+   },
+   {
+    "test": "the held cycle runs along the part’s row edges, never the chords between its placed vertices (C-0417; B-ME2) draws 389 and 1109 (seed 20261011): a face the held parts cover reads EMPTY and corridorUnion commits it whole to the band (S8 ≡ S9)",
+    "at": "dryrun.test.ts:304",
+    "message": "AssertionError: expected [ 1, 3 ] to deeply equal [ 3 ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/hardening-s15.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "B-NEST (the S14 closing check’s blocker): the nesting oracle reads each ring’s depth parity — a kerb island inside a hole of kerb(F) is well nested the widened B-FUZZ family’s network 561 (NEAR #1 of the S14 check; three overlapping ring ways): kerb(F) of the frame face is the frame, one hole round the bands’ union and a 1 436 cm² island inside it — corridorUnion commits it so",
+    "at": "hardening-s15.test.ts:66",
+    "message": "AssertionError: expected [ '0,0 4000,0 4000,4000 0,4000', …(2) ] to deeply equal [ '0,0 4000,0 4000,4000 0,4000', …(2) ]"
+   },
+   {
+    "test": "the start-cap rule (the smoke’s Q60 class and fusion 21; §3.7’s ends): a spine’s end on another chain’s line — a T-junction — takes no cap; every reader of ends follows it every reader of ends: a lane whose first segment is 50 cm long starts on F’s zero-width edge — the census’s post-condition reads F’s vertex at the lane’s start on its flat end, not 120 cm deep in the next vertex’s join (river integrated 4’s face 19, CENSUS_DEEP)",
+    "at": "hardening-s15.test.ts:100",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ '0,0 2000,0 2000,4000 0,4000' ]"
+   },
+   {
+    "test": "line 1 (the smoke’s KEPT_DEEP class, (a)): a part’s held cycle runs along each segment’s own held edges — never back round the part through its other placed vertices (kerb.ts `rowPath`) fusion 4 face 1015 (district:cb5t8yvkp46x0): the read round S14 refused KEPT_DEEP at part 88 (−159.74, 7452) — the strip of way:9v7nb4krsm5be’s segment whose inner side the arena holds as 7 sub-edges — reads, and S9 commits it",
+    "at": "hardening-s15.test.ts:165",
+    "message": "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]"
+   },
+   {
+    "test": "line 1 (the smoke’s KEPT_DEEP class, (a)): a part’s held cycle runs along each segment’s own held edges — never back round the part through its other placed vertices (kerb.ts `rowPath`) integrated 4 face 1422 (district:fw3g616078gbw): the 6-against-6 hop tie the lattice order broke the wrong way — round S14 refused KEPT_DEEP at part 8 (−30507.08, 42830.5) — reads, and S9 commits it",
+    "at": "hardening-s15.test.ts:171",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "line 1 (the smoke’s KEPT_DEEP class, (a)): a part’s held cycle runs along each segment’s own held edges — never back round the part through its other placed vertices (kerb.ts `rowPath`) fusion 1 face 559 (block:3fhrnvq8q9jy0’s face): the 2-against-2 tie on the round join at F’s vertex 20 — round S14’s kerb held F’s vertex (−29028, 53796) on way:0bn7zbp1cnetr’s centreline, a needle 171.6 cm deep that S9 folded (the smoke’s 170.93 cm) — is gone",
+    "at": "hardening-s15.test.ts:179",
+    "message": "AssertionError: expected 1.2873250305653414 to be less than or equal to 1"
+   },
+   {
+    "test": "line 3 (the attraction-radius straddle, (b)): a part’s corner within minEdge of a corner an earlier part of its spine run was held off is laid at that vertex (kerb.ts `coincident`) integrated 10 face 665 (block:71kx740v1n6nh’s face): the strip’s corner held 24.8 cm off at (43137, −76766), the next strip’s 1.4 cm away left 26.2 cm off — round S14 kept the wedge between them, a needle to F’s vertex (43016, −76636) on way:d0452rfb7n1sp’s centreline (176.6 cm; S9 folded it: the smoke’s 176.39 cm); now held at one vertex, no needle",
+    "at": "hardening-s15.test.ts:189",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "line 3 (the attraction-radius straddle, (b)): a part’s corner within minEdge of a corner an earlier part of its spine run was held off is laid at that vertex (kerb.ts `coincident`) only an ATTRACTION holds a point off: a point merged into its own run’s exact vertex is no hold-off, and the reads round S14 made there stand — a dead end’s round cap keeps its arc, not its centreline end (notes row 113)",
+    "at": "hardening-s15.test.ts:209",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "line 2 (the start-cap rule, (c) and (d)) on the smoke’s faces: a lane’s start on F’s zero-width edge, or on a narrower spine, bites no round cap out of F river integrated 2 face 192 (Q60, block:223ebebtrn8m3): way:72aqbdpft7199 starts at F’s vertex (24354, 4071) on a seam / setback line — round S14’s kerb carried its start cap, an arc of radius 172.6 cm, into F; now none",
+    "at": "hardening-s15.test.ts:247",
+    "message": "AssertionError: expected 3.147749266745591 to be less than or equal to 1"
+   },
+   {
+    "test": "line 2 (the start-cap rule, (c) and (d)) on the smoke’s faces: a lane’s start on F’s zero-width edge, or on a narrower spine, bites no round cap out of F fusion 21 face 576 (block:b3xpcp1x3fad2): way:b3n1efpggn7ps (hw 233.2) starts on the narrower way:brhahesh2amgg (hw 157.8) at F’s vertex (30578, 21378) — round S14’s start cap overhung the narrower band by 75.4 cm; now kerb(F) runs straight on along that band’s edge",
+    "at": "hardening-s15.test.ts:264",
+    "message": "AssertionError: expected '30072,17735 30088,18019 30247,20837 3…' to contain '30406,21129 30420,21387 30481,22464'"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/hardening-s16.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "B-SIMPLE (the S15 closing check’s blocker): row 127’s profiled lane across two ring ways — kerb(F) simple, clear of the lane’s band, committed as read ring 1 at half-width 1 (row 127’s shrunk counterexample): every face’s kerb(F) is simple, holds no vertex deeper than attractCm in way:0’s band, and corridorUnion commits exactly it",
+    "at": "hardening-s16.test.ts:110",
+    "message": "AssertionError: face 0 block vertex 1079,742: expected 10.61705838451326 to be less than or equal to 1"
+   },
+   {
+    "test": "B-SIMPLE (the S15 closing check’s blocker): row 127’s profiled lane across two ring ways — kerb(F) simple, clear of the lane’s band, committed as read ring 1 at half-width 20 (the check’s variant P127v): every face’s kerb(F) is simple, holds no vertex deeper than attractCm in way:0’s band, and corridorUnion commits exactly it",
+    "at": "hardening-s16.test.ts:109",
+    "message": "AssertionError: face 0: expected 187028 to be less than or equal to 58469.320092848524"
+   },
+   {
+    "test": "B-SIMPLE (the S15 closing check’s blocker): row 127’s profiled lane across two ring ways — kerb(F) simple, clear of the lane’s band, committed as read ring 1 at half-width 60 (the check’s variant P127v): every face’s kerb(F) is simple, holds no vertex deeper than attractCm in way:0’s band, and corridorUnion commits exactly it",
+    "at": "hardening-s16.test.ts:110",
+    "message": "AssertionError: face 0 block vertex 1079,742: expected 10.621222947265874 to be less than or equal to 1"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/hardening-s17.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "the faithful read’s acceptance pinned on the S16 check’s networks (notes row 143) widened network 1 face 0: the faithful read, deeper than the first, is not taken — the first read stands (26.77 cm)",
+    "at": "hardening-s17.test.ts:277",
+    "message": "AssertionError: expected 'none' to be 'tried' // Object.is equality"
+   },
+   {
+    "test": "the faithful read’s acceptance pinned on the S16 check’s networks (notes row 143) widened network 2 face 1: the faithful read, deeper than the first, is not taken — the first read stands (29.00 cm)",
+    "at": "hardening-s17.test.ts:277",
+    "message": "AssertionError: expected 'none' to be 'tried' // Object.is equality"
+   },
+   {
+    "test": "the faithful read’s acceptance pinned on the S16 check’s networks (notes row 143) chord network [{11837 → 7983 hw 17}, {10067 → 44 profile 213 → 216}, {13877 → 1400 hw 30 square}] face 3: the faithful read taken, no vertex deeper than attractCm",
+    "at": "hardening-s17.test.ts:295",
+    "message": "AssertionError: expected 'none' to be 'taken' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/hardening.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "KI-1 (notes row 1; C-0212 (8), C-0218 (5)): no spur left in a committed corridor or band face seed 20261011 draw 1043: a wedge split’s foot on a spine 15 cm from the L0 frame — its leg to the foot taken out, the leg J → K kept",
+    "at": "hardening.test.ts:51",
+    "message": "AssertionError: expected [ '10,2244 413,1809 15,1805' ] to deeply equal [ '10,2244 412,1824 15,1820' ]"
+   },
+   {
+    "test": "KI-1 (notes row 1; C-0212 (8), C-0218 (5)): no spur left in a committed corridor or band face seed 20261011 draw 2345: a kerb spike thinner than attractCm whose insertion retraced a stretch — the tip edge taken out, the block as before",
+    "at": "hardening.test.ts:73",
+    "message": "AssertionError: expected [ Array(2) ] to deeply equal [ …(2) ]"
+   },
+   {
+    "test": "KI-1 (notes row 1; C-0212 (8), C-0218 (5)): no spur left in a committed corridor or band face an along chord laid back onto its own piece (B-FUZZ at seed -1784686652, found by this round’s self-check): the tip a spur taken out, the closing read without it — committed, no throw",
+    "at": "hardening.test.ts:121",
+    "message": "AssertionError: expected [ '0,0 97,77 33,75 0,81', …(4) ] to include '3092,2474 3404,2705 4000,3179 4000,32…'"
+   },
+   {
+    "test": "note 28 (notes rows 28, 34; C-0327 (3)): a block beyond 2·√2·attractCm of kerb(F) with no closing — the wrong unions made right seed 20261011 draw 8999: the strip of way:1 along the frame (42 cm deep in way:0’s band) is band; seed 1012 draw 6781: the corner block is a block",
+    "at": "hardening.test.ts:170",
+    "message": "AssertionError: expected 27.018512172212596 to be less than or equal to 26"
+   },
+   {
+    "test": "row 23 (notes rows 22, 23; C-0281 (1)): a junction whose every target the guard dropped splits to J’s nearest kerb point seed 20261011 draw 3620, face 2: J = (17, 1389) — the wedge and the straight-through split both cross the block; J → its nearest kerb point (0, 1370)",
+    "at": "hardening.test.ts:181",
+    "message": "AssertionError: expected [ '17,1389 3,1142' ] to deeply equal [ '17,1389 0,1370' ]"
+   },
+   {
+    "test": "row 24 (notes row 24, XR1): the retry after the first corner target seed 20261011 draw 390, face 1: target (i)’s wedge crosses the block, the wedge through the kerb point nearest the meeting point is drawn",
+    "at": "hardening.test.ts:195",
+    "message": "AssertionError: expected [ '3968,3940 3984,3391 3974,3391' ] to deeply equal [ '3968,3940 3977,3410 3974,3410' ]"
+   },
+   {
+    "test": "row 21 X11 (notes row 21; DONE per plan, its fixture re-targeted under S9’s read): the splice of a target the guard dropped is taken out of the kerb seed 20261011 draw 268, face 2: target (ii)’s wedge through the kerb point spliced nearest the meeting point crosses the block — dropped, its splice taken out; kerb(F) without it, the straight-through split from J = (3975, 2802) drawn",
+    "at": "hardening.test.ts:216",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "Q58 / Q59 (the census’s MAKE-IT-SUCCEED classes; C-0349 (4), J348 (4)): replayed under round S13’s engine Q58’s partner: seed 20261011 draw 1524 (0-based; 1525 1-based) refuses UNLAID_DEEP, insertChain’s by cause (a run with no route), nothing written",
+    "at": "hardening.test.ts:253",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "K34 (notes row 3): the near filter keeps a non-bounding segment of a bounding spine that reaches F a way bounding F that leaves F’s boundary and turns back 40 cm beyond F’s box: its round end, inside its half-width of F, bites kerb(F)",
+    "at": "hardening.test.ts:295",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "K05 / R04 (notes rows 5, 18): the kerb’s final rings — spikes dropped, each canonical, in compareRings order kerb() of the turn-away face (corridor.test.ts’s fixture: the split end spliced in) — its raw rings",
+    "at": "hardening.test.ts:349",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/observer.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "line 6 (a), (c): the observer's relation classes against derived.test.ts's reading line 8's fixtures and a corpus slice: equal classes wherever the two no-move readings agree; an attracted first read never no-move (OB1)",
+    "at": "observer.test.ts:287",
+    "message": "TypeError: Cannot read properties of undefined (reading 'by')"
+   },
+   {
+    "test": "line 6 (c): the lineage, the identity and the plants a two-cut fixture: each grandchild's parent is the child it was cut from (the latest containing content), never the root (OB2); the identity holds or is classed",
+    "at": "observer.test.ts:446",
+    "message": "AssertionError: expected undefined not to be undefined // Object.is equality"
+   },
+   {
+    "test": "line 6 (c): the lineage, the identity and the plants both plants FAIL: the comparand +5 cm on every no-move read fails the relation; X +10 cm before the oracle fails the oracle",
+    "at": "observer.test.ts:474",
+    "message": "AssertionError: expected 0 to be greater than 0"
+   },
+   {
+    "test": "J785 (2): the local arbitration (the served region against X, the truth read at the difference) a MOVED read of the corpus (the ring and holeSlit fixtures) is X-RIGHT, and X-WRONG with X +10 cm; no fixture read is X-WRONG unplanted (LA2)",
+    "at": "observer.test.ts:287",
+    "message": "TypeError: Cannot read properties of undefined (reading 'by')"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/register.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "the refusal register (N-44 (4)): each case refuses cleanly, and every refusal still met replays on insertChain alone every case refused in a PR-size B-FUZZ run (refusals.json): typed, no throw, nothing written, insertChain's",
+    "at": "register.test.ts:146",
+    "message": "AssertionError: expected 2 to be +0 // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/restage.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) N1 (round S11 NEAR, random seed): face 2’s tip stands on way:1’s band edge, not 84 cm inside its round end",
+    "at": "restage.test.ts:104",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) N2 (round S11 NEAR, random seed): face 0’s kerb leaves way:2’s end cap whole, not its sliver kept 492 cm into it",
+    "at": "restage.test.ts:134",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "the restaged read: a lawful read the census refused succeeds within the bound (C-0420; J264, N-58) accepted only within the bound: where the restaged region is deep too, the census’s refusal and its place stand (B-FUZZ seed 20261011 draw 1425)",
+    "at": "restage.test.ts:165",
+    "message": "AssertionError: expected 'ok' to be 'E_INVARIANT arr: a vertex of the regi…' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/shadow-prod.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "line 4: the shadow installs only in a debug build, or where anyBuild asks (DEBUG_BUILD mocked false) DEBUG_BUILD false: setExactShadow(o) returns false and a read makes 0 records; { anyBuild: true } installs it and a read makes 1",
+    "at": "shadow-prod.test.ts:33",
+    "message": "AssertionError: expected +0 to be 1 // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/shadow.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "LINE 1: the hook — one start, then one done, per read (kerb.ts setReadShadow; a recording ReadShadow, no kerbExact.ts) every read of line 8's fixtures: start, then done (readKerb and kerb())",
+    "at": "shadow.test.ts:436",
+    "message": "AssertionError: half: expected [] to deeply equal [ 'start', 'done', 'start', …(13) ]"
+   },
+   {
+    "test": "LINE 1: the hook — one start, then one done, per read (kerb.ts setReadShadow; a recording ReadShadow, no kerbExact.ts) a REFUSED read (restage.test.ts's CENSUS_DEEP form: B-FUZZ seed 20261011 draw 1425, face 2): one start, one done, done's read the refusal",
+    "at": "shadow.test.ts:450",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "LINE 1: the hook — one start, then one done, per read (kerb.ts setReadShadow; a recording ReadShadow, no kerbExact.ts) a FAITHFUL-TAKEN read (hardening-s17.test.ts's MQ2 network, face 3; and row 127's network of hardening-s16.test.ts): done's read.k is the returned KerbRead.region, its census 'taken'",
+    "at": "shadow.test.ts:482",
+    "message": "AssertionError: expected [] to deeply equal [ 'start', 'done' ]"
+   },
+   {
+    "test": "LINE 1: the hook — one start, then one done, per read (kerb.ts setReadShadow; a recording ReadShadow, no kerbExact.ts) a widths callback that throws: start is seen and done is not; with null, neither",
+    "at": "shadow.test.ts:503",
+    "message": "AssertionError: expected [] to deeply equal [ 'start' ]"
+   },
+   {
+    "test": "LINES 3 – 5: the shadow serves nothing — each read off and on, equal in all it served, wrote and counted every live L1 face of line 8's fixtures",
+    "at": "shadow.test.ts:382",
+    "message": "AssertionError: half face 0: one record per read: expected +0 to be 2 // Object.is equality"
+   },
+   {
+    "test": "LINES 3 – 5: the shadow serves nothing — each read off and on, equal in all it served, wrote and counted a corpus slice: B-FUZZ chord networks (100), every live L1 face, and the children of three S8-style cuts per network",
+    "at": "shadow.test.ts:520",
+    "message": "Error: Property failed after 1 tests"
+   },
+   {
+    "test": "LINES 3 – 5: the shadow serves nothing — each read off and on, equal in all it served, wrote and counted a planted throw inside X (kerbParts as kerbExact.ts imports it, on one face's rings) propagates out of readKerb; so does an observer that throws; after setExactShadow(null), no record",
+    "at": "shadow.test.ts:546",
+    "message": "AssertionError: expected [Function] to throw an error"
+   },
+   {
+    "test": "LINES 3 – 5: the shadow serves nothing — each read off and on, equal in all it served, wrote and counted the record's clock: the construction's and X's times from the caller's clock; none without one",
+    "at": "shadow.test.ts:573",
+    "message": "TypeError: Cannot read properties of undefined (reading 'constructionMs')"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/vertexcontact.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke; class B): a block never overlaps a corridor fusion 3 block:3wge6h37j1r7q: F touches way:3 at (-970, -76050) only — inside its band before, kerb(F) and S9's block clear of every way's band after",
+    "at": "vertexcontact.test.ts:365",
+    "message": "AssertionError: expected [ [ [ -2966, -76994 ], …(4) ] ] to deeply equal [ [ [ -2966, -76994 ], …(5) ] ]"
+   },
+   {
+    "test": "J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke; class B): a block never overlaps a corridor fusion 33 block:58dw3agfevyfv: F touches way:11 at (83013, -23567) only — inside its band before, kerb(F) and S9's block clear of every way's band after",
+    "at": "vertexcontact.test.ts:365",
+    "message": "AssertionError: expected [ [ [ 83184, -23204 ], …(11) ] ] to deeply equal [ [ [ 83184, -23204 ], …(12) ] ]"
+   },
+   {
+    "test": "J318 on the fusion fixture (CITY seeds 3, 33, 44 of M0-c-06’s smoke; class B): a block never overlaps a corridor fusion 44 block:c6dsjshfeg8cc: F touches way:8 at (2503, 2829) only — inside its band before, kerb(F) and S9's block clear of every way's band after",
+    "at": "vertexcontact.test.ts:365",
+    "message": "AssertionError: expected [ [ [ 2339, 2855 ], …(14) ] ] to deeply equal [ [ [ 2338, 2855 ], …(15) ] ]"
+   },
+   {
+    "test": "J264 (C-0381): where the one overlay finds no route, kerb(F) is read in two steps — the edge spines’ kerb less the vertex-only spines’ parts B-FUZZ seed 1012 network 1855 (three chords converging on the frame corner, a square profile band up to 595 cm through F’s vertex): the one overlay refuses; the staged read commits, clear of the vertex-only band, within the edge spines’ kerb",
+    "at": "vertexcontact.test.ts:472",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "J264 (C-0381): where the one overlay finds no route, kerb(F) is read in two steps — the edge spines’ kerb less the vertex-only spines’ parts B-FUZZ seed 20261011 network 2182 (chords 0.29° apart from the frame corner, bands of 26 and 37 cm, thinner than the attraction): the one overlay refuses; the staged region is an attracted case (§3.7) — within an overlay’s move of the vertex-only band — and commits",
+    "at": "vertexcontact.test.ts:509",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "C-0380 (2): the census’s two promises — a refused edge spines’ kerb stays refused; the reach test reads a profile band’s wider end B-FUZZ seed 20261011 draw 1525 face 1: the edge spines’ kerb refuses, so kerb(F) refuses with it (never ok([])) and corridorUnion refuses, nothing written (never F all band)",
+    "at": "vertexcontact.test.ts:633",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "C-0380 (2): the census’s two promises — a refused edge spines’ kerb stays refused; the reach test reads a profile band’s wider end a profile band (14 → 479 cm) passing through F’s vertex and reaching kerb(F) only by its wider end is subtracted — kerb(F) and corridorUnion’s block clear of it (round S15: B-FUZZ seed 1012 draw 4102’s band reached F by its wider END, a junction end that takes no cap now)",
+    "at": "vertexcontact.test.ts:668",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/arr/bands/widthstep.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281) a near-straight width step of nearly equal half-widths (1°–4°, both turns): the two-point split at J, no wedge — meet’s near-parallel tolerance",
+    "at": "widthstep.test.ts:268",
+    "message": "AssertionError: expected [ { x: 9000, y: 1000 }, …(1) ] to deeply equal [ { x: 9000, y: 1000 }, …(1) ]"
+   },
+   {
+    "test": "each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281) a corner whose kerb corner lies off the meeting point (more than attractCm): the wedge through the kerb point nearest it",
+    "at": "widthstep.test.ts:283",
+    "message": "AssertionError: expected [ '4000,10 4000,207 3097,31' ] to deeply equal [ '4000,0 4000,207 3128,29' ]"
+   },
+   {
+    "test": "each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281) an acute corner of small half-width whose meeting point lies beyond reach: the one straight-through split",
+    "at": "widthstep.test.ts:311",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]"
+   },
+   {
+    "test": "each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281) a left turn whose inner edges meet far beyond reach, a kerb vertex near that point: no split to it (the corner path has a reach)",
+    "at": "widthstep.test.ts:326",
+    "message": "AssertionError: expected [ '1431,0 4000,0 4000,703 3098,519' ] to deeply equal [ '1431,0 4000,0 4000,703 2985,495' ]"
+   },
+   {
+    "test": "each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281) a corner wedge the guard drops: the junction’s straight-through split instead, the dropped splice taken out of the kerb (C-0281)",
+    "at": "widthstep.test.ts:349",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ '0,404 3256,3693 447,4000 0,4000' ]"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/tx/savepoint.test.ts",
+  "owner": "M0-a-06",
+  "red": [
+   {
+    "test": "S8 line 4 (d): the frame observer over named frame shapes (observer on) a kerb read inside an op that commits, and inside one that rolls back",
+    "at": "savepoint.test.ts:425",
+    "message": "AssertionError: expected 0 to be greater than or equal to 2"
+   }
+  ]
+ },
+ {
+  "file": "packages/testkit/test/kernel/arr-bands/agreement-corridor.test.ts",
+  "owner": "M0-a-09",
+  "red": [
+   {
+    "test": "corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-width) and their union of the bands (§3.7 (i)) the built blocks and the bands, by attraction",
+    "at": "agreement-corridor.test.ts:25",
+    "message": "AssertionError: expected [ …(4) ] to deeply equal []"
+   },
+   {
+    "test": "corridorUnion agrees with the oracles’ F − ⋃ buffer(spine, half-width) and their union of the bands (§3.7 (i)) an unattracted polygon+chord case whose one corner split bridges the band to the block (its partner beyond reach): a legal antenna, the blocks and the bands agree (round S9, notes row 57)",
+    "at": "agreement-corridor.test.ts:131",
+    "message": "AssertionError: expected false to be true // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "packages/layout/test/infill/fabric/seeds.test.ts",
+  "owner": "M0-b-03",
+  "red": [
+   {
+    "test": "a block’s seed is the pole of its L1 face’s kerb, split or not (N-57 (3)) property (two districts, seed 7): every recorded seed lies strictly inside one ring of kerb(its L1 face), the split blocks’ two among them",
+    "at": "seeds.test.ts:161",
+    "message": "AssertionError: expected 267 to be less than or equal to 100"
+   }
+  ]
+ },
+ {
+  "file": "packages/layout/test/infill/fabric/strips.test.ts",
+  "owner": "M0-b-03",
+  "red": [
+   {
+    "test": "S8 inside the wall’s strips (M0-c-02’s committed strips, the small flat site) every lane end on the setback line stays there, square to it (85–95°)",
+    "at": "strips.test.ts:119",
+    "message": "AssertionError: expected 77.5552832380274 to be greater than or equal to 85"
+   }
+  ]
+ },
+ {
+  "file": "packages/testkit/test/ladders/rungs-s8.test.ts",
+  "owner": "M0-x-05",
+  "red": [
+   {
+    "test": "each F-CUT rung by its fixture on S8’s Stage object (§4.6 step 8) cut/antenna — the small flat town (seed 6): a face whose ring carries a dead-end way’s antenna is split from its tip",
+    "at": "rungs-s8.test.ts:153",
+    "message": "AssertionError: expected { 'S8 F-CUT antenna': 1 } to deeply equal { 'S8 F-CUT a@attempt>=1': 1, …(1) }"
+   }
+  ]
+ },
+ {
+  "file": "packages/layout/test/enceinte/s5seeds.test.ts",
+  "owner": "M0-c-02",
+  "red": [
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, default, seed 1 (Q88): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, default, seed 31 (S3 F-WALL before the round, e-06 S3; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 20 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 44 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) the relief-60 site spike, coarse, seed 67 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) RIVER from the north 900 ha, seed 1 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   },
+   {
+    "test": "F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) RIVER from the north 900 ha, seed 6 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')",
+    "at": "s5seeds.test.ts:107",
+    "message": "AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }"
+   }
+  ]
+ },
+ {
+  "file": "packages/kernel/test/insert/step3-5/q104.test.ts",
+  "owner": "M0-a-05",
+  "red": [
+   {
+    "test": "Q104 (N-63 (2)): the networks whose contact the placement fell back from now commit (the end rule W) case (b) (unseeded NEAR #2, a-09 S14): corridorUnion commits — healthy, tiling, no spur, every closing by kerb(F); F = 3's blocks within the fidelity bound of kerb(F)",
+    "at": "q104.test.ts:95",
+    "message": "AssertionError: Hausdorff 11.18 cm: expected 11.179754774609794 to be greater than 26"
+   },
+   {
+    "test": "Q104's residual, sub-classes A and B (notBuilt #4, C-0456; REPORTED): no vertex can stand on F's boundary within the fidelity bound of the contact case (a) (unseeded NEAR #2, a-09 S14): no seat on F = 3's boundary within 2 · √2 · attractCm of the contact (13, 1218) — corridorUnion refused N-57 (2), nothing written",
+    "at": "q104.test.ts:232",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "Q104's residual, sub-classes A and B (notBuilt #4, C-0456; REPORTED): no vertex can stand on F's boundary within the fidelity bound of the contact seed 1, draw 8 419: no seat on F = 1's boundary within 2 · √2 · attractCm of the contact (20, 2116) — corridorUnion refused N-57 (2), nothing written",
+    "at": "q104.test.ts:232",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "Q104's residual, sub-classes A and B (notBuilt #4, C-0456; REPORTED): no vertex can stand on F's boundary within the fidelity bound of the contact seed 3, draw 7 294: no seat on F = 1's boundary within 2 · √2 · attractCm of the contact (9, 2563) — corridorUnion refused N-57 (2), nothing written",
+    "at": "q104.test.ts:232",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "Q104's residual, sub-classes A and B (notBuilt #4, C-0456; REPORTED): no vertex can stand on F's boundary within the fidelity bound of the contact seed 14, draw 8 616: no seat on F = 0's boundary within 2 · √2 · attractCm of the contact (3988, 1933) — corridorUnion refused N-57 (2), nothing written",
+    "at": "q104.test.ts:232",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   },
+   {
+    "test": "Q104's residual, sub-classes A and B (notBuilt #4, C-0456; REPORTED): no vertex can stand on F's boundary within the fidelity bound of the contact Q58's partner, seed 20261011 draw 1 524: no seat on F = 1's boundary within the bound of (3 044, 3 977) — kerb(F) refused UNLAID_DEEP, nothing written",
+    "at": "q104.test.ts:248",
+    "message": "AssertionError: expected true to be false // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/determinism/runner.test.ts",
+  "owner": "M0-d-09",
+  "red": [
+   {
+    "test": "the runner reproduces its own report byte for byte on a second run (seeded): the whole spike city — the fusion spike, the site spike and the records tree — at seed 4, its pairs and the check runs (hardening S1, check note 5; seed 4 since M0-c-04 S5, J712)",
+    "at": "runner.test.ts:57",
+    "message": "AssertionError: expected { Object (seeds, factors, ...) } to match object { runs: 2, differing: +0, …(3) }"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/site/summary.test.ts",
+  "owner": "M0-e-06",
+  "red": [
+   {
+    "test": "the summary is anchored to what it was derived on (hardening round S3, Q36) the canary CITY record re-derived on this tree is the run's: a stage change that moves it makes the summary stale (re-run, Q36)",
+    "at": "summary.test.ts:258",
+    "message": "AssertionError: relief-60 coarse seed 46 moved: re-run the summary (Q36): expected '4c9647bf15914e6d5f21b2986131f1600cb44…' to be 'eb2046ddce3ce2c1d605e075f6b0228c8d28d…' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing-phase/script.test.ts",
+  "owner": "M0-t-00",
+  "red": [
+   {
+    "test": "the detector (C-0103): the script refuses while another process of the listed kinds or at ≥ 10 % CPU runs outside ownPids a real python3 child of this test, outside ownPids, read by the REAL detector (ps over every process): REFUSE naming exactly it, by the kind clause",
+    "at": "script.test.ts:238",
+    "message": "AssertionError: process: MainThread (pid 17752) at ≥ 10 % CPU: named, yet neither the child, the launch chain nor a prior offender: expected false to be true // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/calibrate/calibrate.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the four frozen kernels (C-0050) give the same checksums on the x64 leg under Rosetta 2 (kernels.ts is self-contained)",
+    "at": "calibrate.test.ts:59",
+    "message": "Error: Command failed: /usr/bin/arch -x86_64 /opt/node24/bin/node --no-warnings --input-type=module -e const m = await import(\"file:///home/user/maps-scratch/2b-proto/treeLD/plat/bench/src/calibrate/k"
+   },
+   {
+    "test": "calibrate() (§12.1) returns the score — the sum of the four kernels' medians, in ms — with the host record",
+    "at": "calibrate.test.ts:149",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   },
+   {
+    "test": "corepack pnpm bench:calibrate (the dispatcher entry run) prints a few capped lines — the scores, the drift, the host, the stamp (contended: no reference score) — and writes the record truncated",
+    "at": "calibrate.test.ts:227",
+    "message": "AssertionError: expected false to be true // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/host/host.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the host record (§12.1) names this machine: Apple M1, 8 cores (4P + 4E), 16 GB, macOS 14.7.8, Node 24.12.0, arm64 native",
+    "at": "host.test.ts:28",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   },
+   {
+    "test": "the host record (§12.1) names the same machine with arch x64 and kind rosetta under Rosetta 2 (the universal binary's x86_64 slice)",
+    "at": "host.test.ts:52",
+    "message": "Error: Command failed: /usr/bin/arch -x86_64 /opt/node24/bin/node --no-warnings --input-type=module -e const m = await import(\"file:///home/user/maps-scratch/2b-proto/treeLD/plat/bench/src/host/record"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/contention.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the detector over every process on this machine (C-0103) reads every process: launchd, other users' daemons, this process",
+    "at": "contention.test.ts:412",
+    "message": "AssertionError: expected 94 to be greater than 100"
+   },
+   {
+    "test": "the detector over every process on this machine (C-0103) a synthetic load (a busy child process) contends, named as a process; passed in ownPids it is the harness's own",
+    "at": "contention.test.ts:435",
+    "message": "AssertionError: expected [ Array(1) ] to deeply equal [ 'process: node (node, pid 23358)' ]"
+   },
+   {
+    "test": "the detector over every process on this machine (C-0103) a Chromium launched through playwright-core from the cache contends as \"process: chromium\"; inside ownPids its whole tree is own",
+    "at": null,
+    "message": "Error: Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1223/chrome-headless-shell-linux64/chrome-headless-shell"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/harness.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "timeBatch with a battery reading taken only through the batch (fix round 2, note N-r1-3) the worker's planted battery reading contends the result: the power through the batch is read, never assumed",
+    "at": "harness.test.ts:273",
+    "message": "AssertionError: expected [ …(4) ] to include 'power: battery'"
+   },
+   {
+    "test": "timeBatch on this machine with the real calibrate and reference-score.json at null, no result is authoritative (C-0075)",
+    "at": "harness.test.ts:319",
+    "message": "AssertionError: expected 'native-x64' to be 'native-arm64' // Object.is equality"
+   },
+   {
+    "test": "corepack pnpm bench -- timing (the dispatcher entry run) times a probe batch and writes the stamped TimingResult; bad arguments exit 64",
+    "at": "harness.test.ts:450",
+    "message": "AssertionError: expected 'Intel(R) Xeon(R) Processor @ 2.10GHz' to be 'Apple M1' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "bench/test/timing/sampler.test.ts",
+  "owner": "M0-f-01",
+  "red": [
+   {
+    "test": "the batch sampler reads every process on the machine (C-0103) the default period is 30 s; every sample holds launchd (pid 1, root's), more than 100 rows and this process",
+    "at": "sampler.test.ts:41",
+    "message": "AssertionError: expected 'process_api' to be '/sbin/launchd' // Object.is equality"
+   },
+   {
+    "test": "the batch sampler reads every process on the machine (C-0103) each sample's power is the worker's own pmset reading, never assumed: a planted battery reading is battery, none is unknown (note N-r1-3)",
+    "at": "sampler.test.ts:72",
+    "message": "AssertionError: expected 'unknown' to be 'battery' // Object.is equality"
+   }
+  ]
+ },
+ {
+  "file": "tools/lint/kernel-boundary.test.mjs",
+  "owner": "M0-d-07",
+  "red": [
+   {
+    "test": "kernel-boundary passes on the tree as it stands",
+    "at": "kernel-boundary.test.mjs:30",
+    "message": "AssertionError: expected [ …(6) ] to deeply equal []"
+   },
+   {
+    "test": "kernel-boundary reports a planted file at exactly its planted lines (probe-red)",
+    "at": "kernel-boundary.test.mjs:39",
+    "message": "AssertionError: expected [ …(6) ] to deeply equal []"
+   },
+   {
+    "test": "kernel-boundary fails one more use of an allowed noun in an allowed file",
+    "at": "kernel-boundary.test.mjs:50",
+    "message": "AssertionError: expected 6 to be 1 // Object.is equality"
+   },
+   {
+    "test": "kernel-boundary fails a stale allowlist row (the ratchet only shrinks)",
+    "at": "kernel-boundary.test.mjs:83",
+    "message": "AssertionError: expected [ …(6) ] to deeply equal []"
+   }
+  ]
+ }
+]

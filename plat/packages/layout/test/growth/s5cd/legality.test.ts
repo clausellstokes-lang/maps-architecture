@@ -38,17 +38,27 @@ function nextUp(x: number): number {
 }
 
 describe('the clearance and its rules', () => {
-  it('walled CITY: max(30 m block depth, 160 m / 2) + half a 6 m secondary = 83 m; ribbon (block scale): max(30, 30 / 2) + 3 = 33 m', () => {
-    expect(walled.clearanceCm('secondary')).toBe(8_300);
-    expect(ribbon.clearanceCm('secondary')).toBe(3_300);
-    expect(ribbon.clearanceCm('lane')).toBe(Math.max(3_000, 750) + 150);
+  it('walled CITY: max(block depth, 160 m / 2) + half a 6 m secondary (83 m as the table is signed); ribbon (block scale): max(block depth, 30 / 2) + 3 (33 m)', () => {
+    // Every regime figure is read from regimes.json, never a literal (queue Q189 (b), N-s3c-3, round S4; Q98's class): a
+    // re-signed floor or separation moves the expectation with the table, and a source that kept the old number is red.
+    // A walled regime reads its own district-scale separation; the ribbon has none and reads the class's (ways.json).
+    const regimes = tables.table('regimes');
+    const waysT = tables.table('ways');
+    const floorCm = (regime: string): number => regimes.pair(regime, 'blockDepthFloorM')[0] * 100;
+    const halfWidthCm = (c: 'secondary' | 'lane'): number => waysT.pair(c, 'widthM.CITY')[0] * 50;
+    const districtSepCm = regimes.num('dense_core', 'separationM.CITY') * 100;
+    const blockSepCm = (c: 'secondary' | 'lane'): number => waysT.num(c, 'separationM') * 100;
+    expect(regimes.has('ribbon', 'separationM.CITY')).toBe(false);
+    expect(walled.clearanceCm('secondary')).toBe(Math.max(floorCm('dense_core'), districtSepCm / 2) + halfWidthCm('secondary'));
+    expect(ribbon.clearanceCm('secondary')).toBe(Math.max(floorCm('ribbon'), blockSepCm('secondary') / 2) + halfWidthCm('secondary'));
+    expect(ribbon.clearanceCm('lane')).toBe(Math.max(floorCm('ribbon'), blockSepCm('lane') / 2) + halfWidthCm('lane'));
     expect(walled.snapShare).toBe(0.35);
     expect(walled.biasSteps).toBe(1.5);
     expect(walled.legalAngle).toBeCloseTo(30 * DEG, 12);
-    // Seeds every 2 × max(block depth, separation / 2): 160 m walled (district scale), 60 m in the ribbon (block scale).
-    expect(growthRules(tables, 'dense_core', 'CITY').seedSpacingCm).toBe(16_000);
-    expect(growthRules(tables, 'ribbon', 'CITY').seedSpacingCm).toBe(6_000);
-    expect(growthRules(tables, 'walled_rings', 'CITY').blockDepthCm).toBe(4_500);
+    // Seeds every 2 × max(block depth, separation / 2): district scale walled, block scale in the ribbon.
+    expect(growthRules(tables, 'dense_core', 'CITY').seedSpacingCm).toBe(2 * Math.max(floorCm('dense_core'), districtSepCm / 2));
+    expect(growthRules(tables, 'ribbon', 'CITY').seedSpacingCm).toBe(2 * Math.max(floorCm('ribbon'), blockSepCm('secondary') / 2));
+    expect(growthRules(tables, 'walled_rings', 'CITY').blockDepthCm).toBe(floorCm('walled_rings'));
     expect(walled.minRadiusCm('secondary')).toBe(2_500);
     expect(walled.minRadiusCm('lane')).toBe(1_200);
   });

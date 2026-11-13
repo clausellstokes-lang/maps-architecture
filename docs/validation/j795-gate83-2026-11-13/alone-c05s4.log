@@ -1,0 +1,28 @@
+ RUN  v5.0.3 /home/user/maps-scratch/gates-c05s4/plat
+ ✓ |bench| test/timing-phase/script.test.ts (19 tests) 548ms
+   ✓ the detector (C-0103): the script refuses while another process of the listed kinds or at ≥ 10 % CPU runs outside ownPids (8)
+     ✓ a real python3 child of this test, outside ownPids, read by the REAL detector (ps over every process): REFUSE naming exactly it, by the kind clause 334ms
+ ✓ |layout| test/districts/perimeter.test.ts (30 tests) 34376ms
+   ✓ the perimeter: the boundary offset outward by 50 m and rounded (§4.5) (6)
+     ✓ equals §3.4’s buffer of the closed ring united with the boundary (the synthetic towns’ last boundaries) 1977ms
+   ✓ the perimeter is the Minkowski sum on sharp reflex corners (C-0245 (1); the first check’s B-1) (6)
+     ✓ ribbon-finger seed 7 and notched-star seed 9: the mitred curve, folds cut, is simple yet no sum — the check refuses it, the perimeter holds the land 1177ms
+     ✓ on generated notched stars and ribbon fingers, point by point: the land and every point within 50 m inside, none beyond it 11375ms
+     ✓ agrees with §3.4’s buffer form on them: the two regions differ by at most a 10 cm strip along the perimeter 10009ms
+   ✓ the overlay’s ring is held to simplicity before the sum check (note 15) (1)
+     ✓ an overlay handing back a ring that retraces an edge is never returned: the buffer rung stands, or with its ring retraced too the perimeter is refused E_INVARIANT 795ms
+   ✓ the buffer rung: where the overlay of the full convolution fails, §3.4’s buffer form stands, checked (Q133; C-0458) (5)
+     ✓ the overlay refused (Q133 A): the buffer’s ring of the boundary united with it stands — the sum by its check, the reference form’s region 824ms
+     ✓ the buffer’s ring is held to the sum check too: a buffer 2 m short is refused, the overlay’s text with the buffer rung’s appended (pinned verbatim) 304ms
+     ✓ a boundary pinched at a vertex it visits twice into counter-clockwise lobes (x-06’s self-touching plant) takes the rung, read as the lobes’ union; an antenna or a clockwise lobe keeps the overlay’s refusal 355ms
+   ✓ the sum check’s halving is bounded: a piece budget per ring edge, a typed refusal when it is spent (Q141 / N-s4-2; C-0471) (2)
+     ✓ the ridge ring lies in the overlay’s shell (its bottom sampled each metre); split every 50 m it passes; as one edge its halving spends the budget and the check does not pass it 627ms
+     ✓ settlementPerimeter refuses the ridge ring E_WORK_LIMIT on the overlay and on the buffer rung, the texts pinned verbatim; the split ring stands on the overlay 5814ms
+ Test Files  2 passed (2)
+      Tests  49 passed (49)
+   Start at  05:07:43
+   Duration  38.64s (tests 78%, transform 19%, import 2%)
+  Transform  |bench| transforming modules took 4.85s · 79% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+JSON report written to /home/user/maps-scratch/seed1794532576/c05s4.json

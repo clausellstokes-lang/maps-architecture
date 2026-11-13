@@ -1,0 +1,33 @@
+ RUN  v5.0.3 /home/user/maps-scratch/head-full/plat
+ ❯ |layout| test/enceinte/s5seeds.test.ts (15 tests | 7 failed | 8 skipped) 1419198ms
+   ❯ F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) (7)
+     × the relief-60 site spike, default, seed 1 (Q88): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 330845ms
+     × the relief-60 site spike, default, seed 31 (S3 F-WALL before the round, e-06 S3; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 167094ms
+     × the relief-60 site spike, coarse, seed 20 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 128820ms
+     × the relief-60 site spike, coarse, seed 44 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 554329ms
+     × the relief-60 site spike, coarse, seed 67 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 181296ms
+     × RIVER from the north 900 ha, seed 1 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 28248ms
+     × RIVER from the north 900 ha, seed 6 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1') 28563ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > the relief-60 site spike, default, seed 1 (Q88): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > the relief-60 site spike, coarse, seed 20 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > the relief-60 site spike, coarse, seed 44 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > RIVER from the north 900 ha, seed 6 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }
+- Expected:
+  "detail": "F-WALL: the trace touches itself after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)",
++ Received:
+ ❯ test/enceinte/s5seeds.test.ts:107:27
+    107|       expect(out.refusal).toEqual({ code: 'E_SELF_INTERSECT', detail: …
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > the relief-60 site spike, default, seed 31 (S3 F-WALL before the round, e-06 S3; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > the relief-60 site spike, coarse, seed 67 (S3 F-WALL before the round; S5 now): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+ FAIL  |layout| test/enceinte/s5seeds.test.ts > F-WALL's later rungs (M1): the stage-2 boundary as given meets the core — refused, typed, verbatim (RL2; J263 Q6; C-0474) > RIVER from the north 900 ha, seed 1 (KI-10; R-30): S5 refused E_SELF_INTERSECT, the message naming notBuilt('M1')
+AssertionError: expected null to deeply equal { code: 'E_SELF_INTERSECT', …(1) }
+- Expected:
+  "detail": "F-WALL: the trace crosses the core after the re-offset and union-simplify rungs on the pulled line, the pull untangled and the boundary as given; the later rungs are notBuilt('M1') (§5.2; C-0085)",
++ Received:
+ ❯ test/enceinte/s5seeds.test.ts:107:27
+    107|       expect(out.refusal).toEqual({ code: 'E_SELF_INTERSECT', detail: …
+ Test Files  1 failed (1)
+      Tests  7 failed | 8 skipped (15)
+   Duration  1422.17s (tests 100%)

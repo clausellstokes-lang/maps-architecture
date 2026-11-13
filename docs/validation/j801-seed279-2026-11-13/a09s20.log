@@ -1,0 +1,56 @@
+ RUN  v5.0.3 /home/user/maps-scratch/gates-a09s20/plat
+ ❯ |kernel| test/arr/bands/derived.test.ts (46 tests | 1 failed) 398598ms
+   ❯ line 9: derived.test.ts — the exact kerb on the test’s own S8-style cuts, judged by the definition oracle, the construction relation and the key (2)
+     × straight lanes on B-FUZZ's chord networks (one chord in four widthless): 100 networks 77628ms
+arr-bands/tileRings: 10000 cases — drawn 28360 (unattracted 21786, share 0.768; attracted 6574); passed 21786 + 6574; refusals {}; unjudged 0; settled {"overlap-unattracted":270,"overlap-attracted":3}; notes {}; sources {"arb":26866,"fix/tilerings-covered":506,"fix/tilerings-cut-in-two":474,"fix/seed-clip-rotated-t":514}; guard 1000
+ ❯ |testkit| test/kernel/arr-bands/agreement-tilerings.test.ts (1 test | 1 failed) 62377ms
+   ❯ tileRings agrees with the oracles’ ring less every earlier ring (§3.4, §13.1) (1)
+     × every ring’s pieces, by attraction; the overlap refusal only where the oracle’s piece has a hole 62364ms
+[... every passing line left out ...]
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |testkit| test/kernel/arr-bands/agreement-tilerings.test.ts > tileRings agrees with the oracles’ ring less every earlier ring (§3.4, §13.1) > every ring’s pieces, by attraction; the overlap refusal only where the oracle’s piece has a hole
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "tileRings arb: overlap refused at ring 2 on an attracted case with neither a hole nor two boundary parts within attractCm in either oracle's result INPUT [[{\"x\":-7564,\"y\":-16189},{\"x\":-1992,\"y\":-16189},{\"x\":-1992,\"y\":-11129},{\"x\":-7564,\"y\":-11129}],[{\"x\":-6691,\"y\":-13062},{\"x\":-1119,\"y\":-13062},{\"x\":-1119,\"y\":-8002},{\"x\":-6691,\"y\":-8002}],[{\"x\":7904,\"y\":-21384},{\"x\":-5526,\"y\":-1523},{\"x\":-29442,\"y\":-3222},{\"x\":-39928,\"y\":-24784},{\"x\":-26498,\"y\":-44645},{\"x\":-2582,\"y\":-42946}],[{\"x\":-42017,\"y\":-9693},{\"x\":-47175,\"y\":-12919},{\"x\":-47868,\"y\":-18964},{\"x\":-43574,\"y\":-23274},{\"x\":-37527,\"y\":-22605},{\"x\":-34281,\"y\":-17460},{\"x\":-36279,\"y\":-11713}]]",
++ ]
+
+ ❯ verdict test/kernel/arr-bands/support.ts:139:22
+
+ ❯ test/kernel/arr-bands/agreement-tilerings.test.ts:23:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |kernel| test/arr/bands/derived.test.ts > line 9: derived.test.ts — the exact kerb on the test’s own S8-style cuts, judged by the definition oracle, the construction relation and the key > straight lanes on B-FUZZ's chord networks (one chord in four widthless): 100 networks
+AssertionError: expected 192 to be 193 // Object.is equality
+
+- Expected
++ Received
+
+- 193
++ 192
+
+ ❯ bars test/arr/bands/derived.test.ts:944:30
+    942|   expect(fig.writes).toBe(0);
+    943|   // the planted control: every no-move read's comparand moved 5 cm is…
+    944|   expect(fig.planted.failed).toBe(fig.planted.reads);
+       |                              ^
+    945|   expect(fig.planted.reads).toBeGreaterThan(0);
+    946|   // both placements (round S19, F1): every read's arrangement mirrore…
+ ❯ test/arr/bands/derived.test.ts:2104:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 45 passed (47)
+   Start at  01:34:24
+   Duration  465.21s (tests 99%, transform 1%)
+
+JSON report written to /home/user/maps-scratch/seed279/a09s20.json
+

@@ -107,7 +107,12 @@ def insert_rows(path, prefix, rows):
 
 def lane_lines_missing(branch):
     mine = set(open(f'{R}/docs/lane-events.log', encoding='utf-8').read().splitlines())
-    return [l for l in show(branch, 'docs/lane-events.log').splitlines() if l and l not in mine]
+    lines = [l for l in show(branch, 'docs/lane-events.log').splitlines() if l and l not in mine]
+    # A seat whose working directory was plat/ may have written its lines into plat/docs/lane-events.log (child EA,
+    # J805): the stray file is never landed, its lines belong to the lane log — taken with the others, in time order.
+    seen = mine | set(lines)
+    stray = [l for l in show(branch, 'plat/docs/lane-events.log').splitlines() if l and l not in seen]
+    return sorted(lines + stray, key=lambda l: l[:16]) if stray else lines
 
 
 def overlay_paths(args):

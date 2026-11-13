@@ -19,7 +19,10 @@
 //   leaves two pockets of 1 m² and 3.3 m² beside the outer ring; cleaned, each triangle meets the cleaned outer ring,
 //   and proved before the sliver drop they refused the stage `rings meet` — a lawful input refused. `provedRings` now
 //   drops, before the proofs, a HOLE the kernel made under SLIVER_AREA_CM2 that the clean leaves under it too (an islet
-//   `partsOf` drops from the body and the fast ring never keeps as a hole), and seed 184 commits. An outer ring is proved
+//   `partsOf` drops from the body and the fast ring never keeps as a hole), and seed 184 commits. (Round S5, N-s4c-1:
+//   the made-area clause withdrawn — a hole the clean leaves under SLIVER_AREA_CM2 is dropped whatever area the kernel
+//   made it, the measure `partsOf` drops by; hardening-s5.test.ts pins the band. This file's pins stand unchanged.)
+//   An outer ring is proved
 //   whatever its area: slow-rings.test.ts's loop river (50 cm wide across its own course: the kernel's buffer gives
 //   four small outer rings, one of 2.4 m²) stays refused with its cause, never dropped `empty`; and here a small outer
 //   ring beside the water is still refused.

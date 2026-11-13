@@ -1,0 +1,18 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-c05s4/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1766497826 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1766497826 draws the same cases (Q96, C-0057)
+stdout | test/site/zz-review-dependence.test.ts > zz review: gate-plan dependence on the site fixtures
+relief-60/default/city:1 391341 ms; S5 batches 21 committed 11
+relief-60/default/city:2 90343 ms; S5 batches 18 committed 8
+relief-60/default/city:3 139128 ms; S5 batches 18 committed 8
+relief-3000/default/city:1 145555 ms; S5 batches 18 committed 8
+relief-3000/default/city:2 210021 ms; S5 batches 18 committed 8
+relief-3000/default/city:3 207211 ms; S5 batches 18 committed 8
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  02:19:49
+   Duration  1186.67s (tests 100%)
+
