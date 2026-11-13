@@ -1,0 +1,12 @@
+GATE a04s7 @ 5db3bdea (gate child G3; machine linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib; launches: 2; seed 1794559891) — as reported 09:02Z and 09:03Z 2026-11-13
+install rc=0
+lint rc=0 1 probe-red-ok
+build rc=0
+verify rc=0 landed:verify flow-7: ok — 486 records, 2060 changed paths, 2060 attributed
+near (full strength, workers=3, the run's seed 901200239: packages/kernel/test/insert/step1-2 packages/kernel/test/warp) rc=0  Test Files 23 passed (23); Tests 364 passed (364); Duration 85.03s
+related@1000 (workers=3, in chunks of 12 files, seed 1794559891: packages/kernel/test/insert/step1-2/placement.test.ts packages/kernel/test/insert/step1-2/support.ts packages/kernel/test/warp/fixtures.test.ts) rc=1 Test Files 4 failed | 148 passed (152 results for 99 of 138 listed files); Tests 6 failed | 2692 passed (2699);
+  the six reds: Q152's six (closing.test.ts x2, dryrun.test.ts, hardening-s15.test.ts, restage.test.ts x2) — declared
+  '99 of 138 listed files': the list named a file once per project (39 kernel tests run in two); every one of the twelve chunks has its report and the child's check found 0 listed paths without a result. gate2.sh now lists a file once (75b6313b).
+scans@1000 (source-reading tests RELATED did not run: 48 of the tree's 53; workers=3, chunks of 12, seed 1794559891) rc=1 Test Files 4 failed | 47 passed (48 of 48); Tests 7 failed | 640 passed (647);
+  the seven reds: bench/test/calibrate/calibrate.test.ts x3 and bench/test/host/host.test.ts x2 (J176, the reference machine), bench/test/site/summary.test.ts's canary (J772 (7)), packages/site/test/terrain/range.test.ts's one-door scan (Q210) — all declared
+full-only: none of the three strength-gated files is on the RELATED path
