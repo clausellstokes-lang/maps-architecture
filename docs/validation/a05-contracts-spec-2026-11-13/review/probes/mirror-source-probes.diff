@@ -1,0 +1,329 @@
+diff --git a/plat/packages/kernel/src/facade/kernel.ts b/plat/packages/kernel/src/facade/kernel.ts
+index 9a95953a..18c05949 100644
+--- a/plat/packages/kernel/src/facade/kernel.ts
++++ b/plat/packages/kernel/src/facade/kernel.ts
+@@ -41,6 +41,8 @@ import { skeleton } from '../skeleton/index.js';
+ import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, setOwner, tx as txOn, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../tx/index.js';
+ import type { GeomRef, Level, PlatKey, StretchRef } from '../types/index.js';
+ import { isOpenTx } from '../tx/state.js';
++import { dryRun as dryOn } from '../tx/tx.js';
++import type { TxResult } from '../tx/types.js';
+ import { simplify, warp } from '../warp/index.js';
+ import { notBuilt, refuseNotBuilt } from './notBuilt.js';
+ import { assertStamped, stamp, stampNow, stampOf, stampWith } from './stamp.js';
+@@ -324,7 +326,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
+     return stamp(p, Object.freeze(v));
+   };
+ 
+-  const runTx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>> => {
++  const runTx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): TxResult<Committed<T | KernelResult<unknown>[]>> => {
+     if (fn !== undefined && spec.ops.length > 0) fail('a transaction supplies its ops or a callback, never both (§3.3 *Two op forms*)');
+     const p = platOf(spec.key as ArenaKey);
+     // Each declared op and the callback run with their overlay as this kernel's open transaction.
+@@ -336,7 +338,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
+     const call = fn === undefined ? undefined : (o: Overlay): KernelResult<T> => within(o, () => fn(o));
+     const frame = { o: null as Overlay | null, stamped: [] as object[] };
+     frames.push(frame);
+-    let r: KernelResult<Committed<T | KernelResult<unknown>[]>> | undefined;
++    let r: TxResult<Committed<T | KernelResult<unknown>[]>> | undefined;
+     try {
+       r = txOn(p, ops.length === 0 ? spec : { ...spec, ops }, call, env);
+     } finally {
+@@ -355,6 +357,20 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
+     return stamp(p, r);
+   };
+ 
++  const runDry = <T>(spec: KernelTx, fn: (overlay: Overlay) => KernelResult<T>): KernelResult<T> => {
++    const p = platOf(spec.key as ArenaKey);
++    const frame = { o: null as Overlay | null, stamped: [] as object[] };
++    frames.push(frame);
++    let r: KernelResult<T> | undefined;
++    try {
++      r = dryOn(p, spec, (o) => within(o, () => fn(o)), env);
++    } finally {
++      frames.pop();
++      for (const v of frame.stamped) stampWith({ key: p.key, version: -1 }, v);
++    }
++    return stampWith({ key: p.key, version: -1 }, r);
++  };
++
+   const kernel: Kernel = {
+     plat: (key: PlatKey) => platOf(key),
+     view,
+@@ -362,6 +378,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
+     geom,
+     index,
+     tx: runTx,
++    dryRun: runDry,
+     rng: createRng,
+     pool: notBuilt('M1', 'pool', 'the derivation pool\'s overlays and merge are M1\'s; pool size 0 runs in the generation worker (§3.3; §4b)'),
+     assertCurrent: (value: unknown, key?: PlatKey) => {
+diff --git a/plat/packages/kernel/src/facade/types.ts b/plat/packages/kernel/src/facade/types.ts
+index 57caa624..dad19d39 100644
+--- a/plat/packages/kernel/src/facade/types.ts
++++ b/plat/packages/kernel/src/facade/types.ts
+@@ -21,6 +21,7 @@ import type { area2, area2Big, KernelResult, orient } from '../num/index.js';
+ import type { Rng, RngOptions } from '../rng/index.js';
+ import type { skeleton } from '../skeleton/index.js';
+ import type { AnyProfile, clearFiner, Committed, KernelTx, Overlay, removeEdges, retypeEdges, setOwner } from '../tx/index.js';
++import type { TxResult } from '../tx/types.js';
+ import type { Cm, FaceRef, GeomRef, Id, LatticePoint, Level, PlatKey, VertexRef, VertexSig } from '../types/index.js';
+ import type { simplify, warp } from '../warp/index.js';
+ 
+@@ -166,7 +167,9 @@ export interface Kernel {
+    * §14's `tx(tx, fn?)`: exactly one form — `tx.ops` (declared) or `fn` (callback), never both (an assertion, §3.3).
+    * Returns the commit (its record, null when nothing was written, and the ops' or the callback's value).
+    */
+-  tx<T>(tx: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>>;
++  tx<T>(tx: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): TxResult<Committed<T | KernelResult<unknown>[]>>;
++  /** zz REVIEW PROTOTYPE: RL15's dry run. */
++  dryRun<T>(tx: KernelTx, fn: (overlay: Overlay) => KernelResult<T>): KernelResult<T>;
+   /** A derivation's `Rng` (§14): M0-d-01's one mixer, created per stage run or scope it derives (§6.1). */
+   rng(options?: RngOptions): Rng;
+   /** The derivation pool's overlays (§3.3): M1's (§4b). */
+diff --git a/plat/packages/kernel/src/tx/tx.ts b/plat/packages/kernel/src/tx/tx.ts
+index 5fa56a27..a4e731b0 100644
+--- a/plat/packages/kernel/src/tx/tx.ts
++++ b/plat/packages/kernel/src/tx/tx.ts
+@@ -63,7 +63,7 @@ import { pairsOfKey } from './chains.js';
+ import { COL_ROLES_ENTITY, COL_ROLES_KIND, COL_ROLES_LEVEL, COL_ROLES_ORDINAL } from '../arena/write.js';
+ import { beforeView, endBatch, markBatch, observeCommit, undoBatch } from './frames.js';
+ import { check, emptyLog, markOpen, notBuilt, noteRow, roleKeyText, type OpenTx } from './state.js';
+-import { OP_KINDS, type ClassFloor, type CommitRecord, type DirtySet, type KernelOp, type KernelTx, type LevelDirt, type Overlay, type TxEnv } from './types.js';
++import { OP_KINDS, type ClassFloor, type CommitRecord, type DirtySet, type KernelOp, type KernelTx, type LevelDirt, type Overlay, type TxEnv, type TxResult } from './types.js';
+ 
+ /** What a committed batch returns: its commit record (null when it wrote nothing) and the ops' or the callback's value. */
+ export interface Committed<T> {
+@@ -138,10 +138,11 @@ function workDetail(t: OpenTx, fallback: string): string {
+ }
+ 
+ /** Rejects: the batch undone to its frame (its index log closed, its recorder detached), the batch closed. */
+-function reject<T>(t: OpenTx, code: KernelError, detail: string): KernelResult<T> {
++function reject<T>(t: OpenTx, code: KernelError, detail: string, key?: RoleKey): TxResult<T> {
+   undoBatch(t.batch);
+   t.closed = true;
+-  return err<T>(code, detail);
++  const e = err<T>(code, detail) as Extract<KernelResult<T>, { ok: false }>;
++  return key === undefined ? e : { ...e, refused: key };
+ }
+ 
+ /** Two lineage keys (Hash64: words low first) as unsigned 64-bit numbers. */
+@@ -432,8 +433,13 @@ export const LINEAR_PARTS: Readonly<Record<string, number | null>> = Object.free
+ 
+ /** Role consistency on the batch's role keys: each linear key's edges simple (degree ≤ 2) and in at most its declared parts. */
+ function roleProblems(t: OpenTx, keys: readonly RoleKey[]): string[] {
++  return roleProblemsKeyed(t, keys).map((x) => x.detail);
++}
++
++/** zz REVIEW PROTOTYPE: the rows with the key each names (RL13). */
++function roleProblemsKeyed(t: OpenTx, keys: readonly RoleKey[]): { detail: string; key: RoleKey }[] {
+   const p = t.plat;
+-  const out: string[] = [];
++  const out: { detail: string; key: RoleKey }[] = [];
+   for (const k of keys) {
+     if (!(k.role in LINEAR_PARTS) || roleInfo(roleIdOf(k.role)).kind !== 'edge') continue;
+     const declared = t.env.chainParts !== undefined ? t.env.chainParts(k.role, k.entity) : LINEAR_PARTS[k.role];
+@@ -456,8 +462,8 @@ function roleProblems(t: OpenTx, keys: readonly RoleKey[]): string[] {
+     }
+     const branch = [...deg.values()].some((d) => d > 2);
+     const parts = new Set([...parent.keys()].map(find)).size;
+-    if (branch) out.push(`(${k.role}, ${k.entity}) branches: a linear role forms simple chains or rings (§3.10 role consistency)`);
+-    if (declared !== null && parts > declared) out.push(`(${k.role}, ${k.entity}) lies in ${parts} parts, more than the ${declared} it declares (§3.10 role consistency; split it by rekey first, §3.4)`);
++    if (branch) out.push({ detail: `(${k.role}, ${k.entity}) branches: a linear role forms simple chains or rings (§3.10 role consistency)`, key: { role: k.role, entity: k.entity, ordinal: k.ordinal } });
++    if (declared !== null && parts > declared) out.push({ detail: `(${k.role}, ${k.entity}) lies in ${parts} parts, more than the ${declared} it declares (§3.10 role consistency; split it by rekey first, §3.4)`, key: { role: k.role, entity: k.entity, ordinal: k.ordinal } });
+   }
+   return out;
+ }
+@@ -544,7 +550,7 @@ function clearanceProblems(t: OpenTx): string[] {
+  * (callback); a refusal — an op's, `fn`'s, E_WORK_LIMIT, a failed expectation or a failed kernel row — leaves the arena
+  * at its prior version. `env` carries the injected services (types.ts `TxEnv`).
+  */
+-export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>, env: TxEnv = {}): KernelResult<Committed<T | KernelResult<unknown>[]>> {
++export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>, env: TxEnv = {}): TxResult<Committed<T | KernelResult<unknown>[]>> {
+   check(!(fn !== undefined && spec.ops.length > 0), 'a transaction supplies its ops or a callback, never both (§3.3 *Two op forms*)');
+   const t = open(p, spec, env);
+   try {
+@@ -563,13 +569,13 @@ export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => Kernel
+ }
+ 
+ /** The error a throw inside a batch is rethrown as: `tx <stage>/L<level>/<form>/<op>: <message>`, the original its cause. */
+-function rethrown(t: OpenTx, form: 'declared' | 'callback', e: unknown): Error {
++function rethrown(t: OpenTx, form: 'declared' | 'callback' | 'dry', e: unknown): Error {
+   const message = e instanceof Error ? e.message : String(e);
+   return new Error(`tx ${String(t.spec.stage)}/L${t.level}/${form}/${t.op}: ${message}`, { cause: e });
+ }
+ 
+ /** The batch on its open overlay: the ops or the callback, the expectations, the kernel rows, the commit. */
+-function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefined): KernelResult<Committed<T | KernelResult<unknown>[]>> {
++function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefined): TxResult<Committed<T | KernelResult<unknown>[]>> {
+   const p = t.plat;
+   const spec = t.spec;
+   const env = t.env;
+@@ -625,7 +631,8 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
+   if (failed.length > 0) return reject(t, failed[0].code, failed[0].detail);
+   // The kernel rows this item owns, then the suite's.
+   const provisional = assemble(t, p.version + 1);
+-  const problems = [...roleProblems(t, provisional.roles), ...levelProblems(t), ...clearanceProblems(t)];
++  const roleP = roleProblemsKeyed(t, provisional.roles);
++  const problems = [...roleP.map((x) => x.detail), ...levelProblems(t), ...clearanceProblems(t)];
+   if (t.indexLog !== null) {
+     // §3.10's freshness row allows a batch's coarser index writes for its promotions and demotions; the own children
+     // §2.2 rule 2 materialises for a finer level's records (the re-walk's, and a demoted edge's) are new records of a
+@@ -640,7 +647,7 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
+     problems.push(...checkIndexBatch(p, { level: t.indexLog.level, writes }, { promoted: provisional.promoted, demoted: provisional.demoted, changed }));
+   }
+   if (env.invariants !== undefined) problems.push(...env.invariants(p, provisional));
+-  if (problems.length > 0) return reject(t, 'E_INVARIANT', problems[0]);
++  if (problems.length > 0) return reject(t, 'E_INVARIANT', problems[0], roleP.length > 0 ? roleP[0].key : undefined);
+   // Commit.
+   observeCommit(t.batch);
+   endIndexBatch(p);
+@@ -662,3 +669,27 @@ export function kernelOp<T>(kind: KernelOp['kind'], lineage: readonly [number, n
+   return { kind, lineage: [lineage[0], lineage[1]], index, apply };
+ }
+ 
++
++/** zz REVIEW PROTOTYPE (mirror only): the draft's dryRun (RL15, §2.2 (a-2)). */
++export function dryRun<T>(p: Plat, spec: KernelTx, fn: (overlay: Overlay) => KernelResult<T>, env: TxEnv = {}): KernelResult<T> {
++  check(spec.ops.length === 0, 'a dry run takes a callback, never ops');
++  check(spec.expect.length === 0, 'a dry run checks no expect row');
++  const t = open(p, spec, env);
++  try {
++    t.op = 'fn';
++    const r = fn(t);
++    const over = overWork(t);
++    const detail = workDetail(t, 'the dry run exceeded its work limit');
++    undoBatch(t.batch);
++    t.closed = true;
++    return over ? err<T>('E_WORK_LIMIT', detail) : r;
++  } catch (e) {
++    if (!t.closed) {
++      undoBatch(t.batch);
++      t.closed = true;
++    }
++    throw rethrown(t, 'dry', e);
++  }
++}
++
++void roleProblems;
+diff --git a/plat/packages/kernel/src/tx/types.ts b/plat/packages/kernel/src/tx/types.ts
+index 214b9dac..44efedd3 100644
+--- a/plat/packages/kernel/src/tx/types.ts
++++ b/plat/packages/kernel/src/tx/types.ts
+@@ -199,3 +199,8 @@ export interface TxEnv {
+ 
+ /** The open overlay `fn` is handed (§14's `Overlay`): the transaction every writer takes. */
+ export type Overlay = InsertTx & { readonly open: true };
++
++/** zz REVIEW PROTOTYPE (mirror only): RL13's batch result, the draft's shape. */
++export type TxResult<T> =
++  | Extract<KernelResult<T>, { ok: true }>
++  | (Extract<KernelResult<T>, { ok: false }> & { readonly refused?: RoleKey });
+diff --git a/plat/packages/layout/src/growth/boundary.ts b/plat/packages/layout/src/growth/boundary.ts
+index 31f3a312..aea62f81 100644
+--- a/plat/packages/layout/src/growth/boundary.ts
++++ b/plat/packages/layout/src/growth/boundary.ts
+@@ -514,14 +514,17 @@ export function traceStage(
+   // batch opens, and only the kernel's split places them (§3.6), so the plan is a batch of its own (C-0452 (10)).
+   const wet = waterRings(water, kernel, arena);
+   let plan: GatePlan | null = null;
++  let zzWork: unknown = null;
+   const probe = kernel.tx(l1Spec(arena, STAGES.S5), (o) => {
+     const r = placeGateVertices(kernel, arena, o, crossings, outline, wet);
+     if (!r.ok) return r;
+     plan = r.value;
++    zzWork = { total: (o as unknown as { work: { total: number; counts: Map<string, number> } }).work.total, counts: Object.fromEntries((o as unknown as { work: { counts: Map<string, number> } }).work.counts) };
+     return err('E_INVARIANT', 'S5a: the gate plan (a batch always rejected)');
+   });
+   if (plan === null) return err(probe.ok ? 'E_INVARIANT' : probe.code, `S5a: the gate vertices could not be put on their ways: ${probe.ok ? 'the plan was not made' : probe.detail}`);
+   const planned: GatePlan = plan;
++  if ((globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_REVIEW_LOG !== undefined) zzReviewProbe(k, kernel, arena, crossings, outline, wet, planned, zzWork);
+   const placed = planned.placed;
+   const along = planned.along;
+   // The outline with the gate vertices in it, each crossed square to its way over the outer strip's width on both sides
+@@ -940,3 +943,51 @@ export const MAINROAD_CONCERN = CONCERNS['growth.mainroad'];
+ export const S5_STAGE = STAGES.S5 as StageId;
+ 
+ export { PLAZA_ID };
++
++// ---- zz REVIEW PROBE (adversarial review of the contracts round; mirror only, restored after) ----
++function zzReviewProbe(stageK: number, kernel: Kernel, arena: PlatKey, crossings: readonly BoundaryCrossing[], outline: readonly LatticePoint[], wet: readonly WaterRing[], planned: GatePlan, work: unknown): void {
++  // eslint-disable-next-line @typescript-eslint/no-require-imports
++  const fs = (globalThis as unknown as { process: { getBuiltinModule: (m: string) => { appendFileSync: (f: string, s: string) => void } } }).process.getBuiltinModule('fs');
++  const p = kernel.plat(arena);
++  const version = p.version;
++  const rows: unknown[] = [];
++  const edgeOf: number[] = [];
++  for (let i = 0; i < crossings.length; i += 1) {
++    const c = crossings[i];
++    // the untouched arena's nearest way edge (placeGateVertices' own scan)
++    const r = kernel.resolve({ role: 'way', entity: c.way }, arena);
++    let best = -1;
++    let bestD = Infinity;
++    let vtxD = Infinity;
++    if (r.view === 'edges') for (const run of r.runs) for (const h of run) {
++      const ia = p.halfEdges.origin[h];
++      const ib = p.halfEdges.origin[h ^ 1];
++      const a = { x: p.vertices.x[ia], y: p.vertices.y[ia] };
++      const b = { x: p.vertices.x[ib], y: p.vertices.y[ib] };
++      const d = distToSegment2(c.at, a, b);
++      if (d < bestD) { bestD = d; best = h; }
++      for (const q of [a, b]) { const dv = (q.x - c.at.x) ** 2 + (q.y - c.at.y) ** 2; if (dv < vtxD) vtxD = dv; }
++    }
++    edgeOf.push(best < 0 ? -1 : best >> 1);
++    const kind = vtxD <= 4 * TOUCH_CM * TOUCH_CM ? 'snap' : planned.decks[i] !== null ? 'bridgehead' : 'split';
++    // the per-crossing plan on the untouched arena (a-1's reading: one crossing, nothing before it)
++    let iso: unknown = null;
++    const rr = kernel.tx(l1Spec(arena, STAGES.S5), (o) => {
++      const one = placeGateVertices(kernel, arena, o, [c], outline, wet);
++      iso = one.ok ? one.value.placed[0] : `refused: ${one.detail}`;
++      return err('E_INVARIANT', 'zz probe');
++    });
++    void rr;
++    const seq = planned.placed[i];
++    const same = typeof iso === 'object' && iso !== null && (iso as LatticePoint).x === seq.x && (iso as LatticePoint).y === seq.y;
++    rows.push({ i, way: c.way, at: c.at, kind, edge: best < 0 ? -1 : best >> 1, seq, iso, same });
++  }
++  const pairs: unknown[] = [];
++  for (let i = 0; i < crossings.length; i += 1) for (let j = i + 1; j < crossings.length; j += 1) {
++    const d = Math.hypot(crossings[i].at.x - crossings[j].at.x, crossings[i].at.y - crossings[j].at.y);
++    const sameEdge = edgeOf[i] >= 0 && edgeOf[i] === edgeOf[j];
++    if (sameEdge || d <= 2 * 26 + 25 + 2 * TOUCH_CM + 100) pairs.push({ i, j, d: Math.round(d), sameEdge });
++  }
++  if (p.version !== version) throw new Error('zz probe moved the version');
++  fs.appendFileSync((globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_REVIEW_LOG as string, `${JSON.stringify({ tag: (globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_REVIEW_TAG ?? '', stage: stageK, n: crossings.length, work, rows, pairs })}\n`);
++}
+diff --git a/plat/packages/site/src/water/faces.ts b/plat/packages/site/src/water/faces.ts
+index 97a42937..21f83863 100644
+--- a/plat/packages/site/src/water/faces.ts
++++ b/plat/packages/site/src/water/faces.ts
+@@ -211,7 +211,16 @@ export interface WaterFacesOptions extends L0BatchOptions {
+ export function waterFaces(bodies: readonly WaterReach[], k: Kernel, opts: WaterFacesOptions): KernelResult<WaterFaces> {
+   if (opts.sites.length !== opts.bridgeIds.length) throw new RangeError('waterFaces: one bridge id per site');
+   const r = k.tx(spec(opts), (o) => waterBatch(bodies, k, o, opts));
+-  if (!r.ok) return err(r.code, `S1 water: ${r.detail}`);
++  if (!r.ok) {
++    if ((globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_RL13_LOG !== undefined) {
++      const detail = `S1 water: ${r.detail}`;
++      const rx = /\(shore, ([^)]+)\)/.exec(detail)?.[1];
++      const f = (r as { refused?: { role: string; entity: string; ordinal: number } }).refused;
++      const fld = f?.role === 'shore' ? f.entity : undefined;
++      (globalThis as unknown as { process: { getBuiltinModule: (m: string) => { appendFileSync: (f: string, s: string) => void } } }).process.getBuiltinModule('fs').appendFileSync((globalThis as unknown as { process: { env: Record<string, string> } }).process.env.ZZ_RL13_LOG, `${JSON.stringify({ tag: (globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_REVIEW_TAG ?? '', where: 'waterFaces', code: r.code, detail, rx: rx ?? null, field: f ?? null, fieldName: fld ?? null, agree: rx === fld })}\n`);
++    }
++    return err(r.code, `S1 water: ${r.detail}`);
++  }
+   const value = r.value.value as { faces: FaceId[][]; land: LandComponent[] };
+   const bridges = opts.sites.map((s, i) => siteBridge(s, opts.bridgeIds[i], opts.epoch ?? 0));
+   return ok({ faces: value.faces, land: value.land, bridges }, r.warnings);
+diff --git a/plat/packages/site/src/water/stage.ts b/plat/packages/site/src/water/stage.ts
+index b778b29b..6d6c1988 100644
+--- a/plat/packages/site/src/water/stage.ts
++++ b/plat/packages/site/src/water/stage.ts
+@@ -127,6 +127,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
+     // the refused body, named by the kernel's refusal detail as `(shore, <id>)` — a message contract with @plat/kernel
+     // (its texts are frozen with its API)
+     const named = /\(shore, ([^)]+)\)/.exec(attempt.detail)?.[1];
++    if ((globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_RL13_LOG !== undefined) (globalThis as unknown as { process: { getBuiltinModule: (m: string) => { appendFileSync: (f: string, s: string) => void } } }).process.getBuiltinModule('fs').appendFileSync((globalThis as unknown as { process: { env: Record<string, string> } }).process.env.ZZ_RL13_LOG, `${JSON.stringify({ tag: (globalThis as unknown as { process: { env: Record<string, string | undefined> } }).process.env.ZZ_REVIEW_TAG ?? '', where: 'naming', detail: attempt.detail, riverPolygon: attempt.riverPolygon === true, named: named ?? null })}\n`);
+     if (named !== undefined && named.startsWith('water:estuary:') && mouth !== undefined && mouth !== 'none') {
+       // the estuary refused: the river kept whole
+       refused.push({ id: named, reason: 'refused' });

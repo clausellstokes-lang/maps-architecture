@@ -1,0 +1,4 @@
+{'water-batch refusals': 20, 'named by regex or field': 10, 'naming-line visits': 1}
+disagreements 0
+naming-line visits with a name 1
+  ep01-s1 S1 water: (shore, water:river:0) branches: a linear role forms simple chains or rings (§3.10 role consistency) water:river:0

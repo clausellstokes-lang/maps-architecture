@@ -1,0 +1,44 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-c05s4/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 2019938291 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=2019938291 draws the same cases (Q96, C-0057)
+stdout | test/site/zz-review-dependence.test.ts > zz review: gate-plan dependence on the site fixtures
+relief-60/default/test:1 22669 ms; S5 batches 12 committed 4
+relief-60/default/test:2 60176 ms; S5 batches 12 committed 4
+relief-60/default/test:3 22775 ms; S5 batches 12 committed 4
+relief-60/default/test:4 25972 ms; S5 batches 12 committed 4
+relief-60/default/test:5 17751 ms; S5 batches 13 committed 5
+relief-60/default/test:6 17852 ms; S5 batches 12 committed 4
+relief-60/default/test:7 15010 ms; S5 batches 12 committed 4
+relief-60/default/test:8 26359 ms; S5 batches 13 committed 5
+relief-60/coarse/test:1 20978 ms; S5 batches 12 committed 4
+relief-60/coarse/test:2 32301 ms; S5 batches 12 committed 4
+relief-60/coarse/test:3 21283 ms; S5 batches 12 committed 4
+relief-60/coarse/test:4 22585 ms; S5 batches 12 committed 4
+relief-60/coarse/test:5 16657 ms; S5 batches 13 committed 5
+relief-60/coarse/test:6 16360 ms; S5 batches 12 committed 4
+relief-60/coarse/test:7 14390 ms; S5 batches 12 committed 4
+relief-60/coarse/test:8 27270 ms; S5 batches 13 committed 5
+relief-3000/default/test:1 36019 ms; S5 batches 8 committed 1
+relief-3000/default/test:2 35941 ms; S5 batches 12 committed 4
+relief-3000/default/test:3 36042 ms; S5 batches 11 committed 3
+relief-3000/default/test:4 31013 ms; S5 batches 13 committed 6
+relief-3000/default/test:5 36481 ms; S5 batches 13 committed 6
+relief-3000/default/test:6 34623 ms; S5 batches 13 committed 5
+relief-3000/default/test:7 28171 ms; S5 batches 11 committed 3
+relief-3000/default/test:8 48242 ms; S5 batches 13 committed 6
+relief-3000/coarse/test:1 30381 ms; S5 batches 8 committed 1
+relief-3000/coarse/test:2 30384 ms; S5 batches 12 committed 4
+relief-3000/coarse/test:3 34650 ms; S5 batches 11 committed 3
+relief-3000/coarse/test:4 31082 ms; S5 batches 13 committed 6
+relief-3000/coarse/test:5 35000 ms; S5 batches 13 committed 6
+relief-3000/coarse/test:6 28742 ms; S5 batches 13 committed 5
+relief-3000/coarse/test:7 26799 ms; S5 batches 11 committed 3
+relief-3000/coarse/test:8 29884 ms; S5 batches 13 committed 6
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  02:03:58
+   Duration  917.05s (tests 100%)
+

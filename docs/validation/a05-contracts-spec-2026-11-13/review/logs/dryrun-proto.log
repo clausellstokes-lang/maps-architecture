@@ -1,0 +1,27 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-c05s4/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1530391736 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1530391736 draws the same cases (Q96, C-0057)
+stdout | test/tx/zz-review-dryrun.test.ts > zz review: dryRun = a rejected batch, bit for bit > two splits on one way edge, then everything undone: bits, generation, version, slots equal to a rejected batch's
+undo tally {"undos":0,"column":0,"replacement":0,"index":0} {"undos":0,"column":0,"replacement":0,"index":0} {"undos":0,"column":0,"replacement":0,"index":0}
+
+stdout | test/tx/zz-review-dryrun.test.ts > zz review: dryRun = a rejected batch, bit for bit > a per-split plan of the second crossing on the untouched arena differs from the sequence (the dependence the draft names)
+sequence [[1500,2000],[1530,2000]] isolated second [1530,2000]
+
+stdout | test/tx/zz-review-dryrun.test.ts > zz review: dryRun = a rejected batch, bit for bit > a dry run inside an open batch on the arena throws; work limit; a throw undone
+work limit 0: {"ok":false,"code":"E_WORK_LIMIT","detail":"the dry run exceeded its work limit"}
+
+stdout | test/tx/zz-review-dryrun.test.ts > zz review: dryRun = a rejected batch, bit for bit > RL13: a way that branches at commit is refused with the key it prints; a callback refusal carries no key
+branch refusal {"ok":false,"code":"E_INVARIANT","detail":"(way, way:1) branches: a linear role forms simple chains or rings (§3.10 role consistency)","refused":{"role":"way","entity":"way:1","ordinal":0}}
+
+stdout | test/tx/zz-review-dryrun.test.ts > zz review: dryRun = a rejected batch, bit for bit > M6 (the façade member without within): a façade writer still accepts the module dry run's overlay; its value stays CURRENT after; a resolve inside reads current after
+M6 split ok: true
+M6 writer value reads current after the dry run: true
+member: writer value current after: false ; resolve made inside current after: true [[12,14]] ; result current after: false
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  02:08:25
+   Duration  2.09s (transform 77%, import 14%, tests 7%, setup 2%)
+

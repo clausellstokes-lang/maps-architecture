@@ -1,0 +1,14 @@
+
+ RUN  v5.0.3 /home/user/maps-scratch/gates-c05s4/plat
+
+fast-check: PLAT_FUZZ_SEED is unset; this run's seed is 1817352361 — every property without a seed of its own draws from it, and a re-run with PLAT_FUZZ_SEED=1817352361 draws the same cases (Q96, C-0057)
+
+ Test Files  1 passed (1)
+      Tests  5 passed | 11 skipped (16)
+   Start at  02:19:28
+   Duration  9.04s (tests 57%, transform 35%, import 8%)
+
+  Transform  |testkit| transforming modules took 3.08s · 35% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
