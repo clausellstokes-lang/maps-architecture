@@ -742,6 +742,8 @@ output either earlier reading validates — it runs only on a would-be downgrade
 | relief-3000 CITY, seeds 1 – 8 | 841 | 48 → 48 | 13 → 13 | 13 → 13 |
 | **total** | **40 995** | **145 → 144** | **24 → 23** | **24 → 23** |
 
+**Correction (2026-11-13, build/M0-a-11-fix-s8; Q197 (e), N-s7c-7):** the eight family rows above sum to **39 995** faces (2 000 + 3 000 + 3 000 + 6 000 + 24 000 + 542 + 612 + 841, re-added by round S8's builder), so **119 985** calls over three uses — not the total row's and the shift paragraph's 40 995 (122 985 calls), which C-0500 repeats; every family row and every refusal count (145 → 144, 24 → 23, 24 → 23) stands, and the table is left as written (the round's choices row states the figure).
+
 The census fell by the fixed face and nothing rose. By verdict (N-58), what remains: `contract sharpCorner` (roof's 5°
 band and below 1°) — LAWFUL, REFUSE as §3.8's edge table has it, the reader's downgrade the layer; `contract notSimple`
 (relief-3000 10, fusion 2) — Q180 (c), the corpus readers' (J774), not this round's; `validator planarity` 2 — the fusion
@@ -792,3 +794,66 @@ first ran the probes, the mutants and the short gates; the second read the long 
 | N-s7c-6 | **N-s7-4 confirmed.** The S6 check's run above the band (24 034 faces, 9 rejections) was recorded without its seed; `stress-results.json` holds the five band runs only. This check's runs are recorded with their arguments (the verdict's table): above the band at seeds 1 – 3 the "before" reading gives 5, 8 and 8 rejections (21) and the round's 0, 1 and 0. | None. | — |
 | N-s7c-7 | **The builder's total of faces is 1 000 too high.** 'Hardening round S7' (the shift paragraph and the census table's total row) and C-0500 give 40 995 faces × 3 uses (122 985 calls); the eight family rows — 2 000 + 3 000 + 3 000 + 6 000 + 24 000 + 542 + 612 + 841 — sum to 39 995 (119 985 calls), which is what this check's own probe read. Every per-family row and every refusal count (145 → 144, 24 → 23, 24 → 23) is right. | Correct the figure where the session next touches the row (a later choices row may state it; rows are append-only). | — |
 | N-s7c-8 | **RELATED@1000 of the closing check** (W=1, run seed 1191642842, 07:37 – 10:58): 404 files, 5 259 passed, 1 failed — `bench/test/site/summary.test.ts`'s canary alone (relief-60 coarse seed 46 received `4c9647bf15914e6d…`, the digest the S6 round recorded on its head, row above in 'Hardening round S6': the third reading did not move the canary's record). DECLARED (Q180 (d), J772 (7)); for the session's batched summary re-run with N-s7-5. | The session's (R25, Q36). | hardening |
+
+## Hardening round S8 (build/M0-a-11-fix-s8, 2026-11-13): the builder's row-by-row outcome (J237 (2), J264, J290 / N-58; Q197 (b), (c), (e); J800)
+
+Leg 3 of the merged round M0-d-08 S2 → M0-f-02a S4 → M0-a-11 S8 (J443), on queue row Q197 (read whole by its own grep)
+at pass B: (b) N-s7c-1, (c) N-s7c-3, (e) N-s7c-7. The session's ruling (J800) keeps Q197 (a) — the three reported
+classes, N-s7-1 … N-s7-3 — and (d) (N-s7c-5) out of this round: **no executable line of
+`packages/kernel/src/skeleton/` changes**, no tolerance of §3.8 changes, no digest or golden moves. LINE 1 is tests only,
+LINE 2 a comment, LINE 3 text. Mutants and probes ran in the lane mirror
+`/home/user/maps-scratch/waves/selfcheck-build-M0-a-11-fix-s8/plat` (a `cp -a` of `plat/` taken before any edit,
+node_modules included; `find … -type l -lname '/home/user/maps-architecture*'` printed nothing; `realpath` of
+`packages/layout/node_modules/@plat/kernel` and `bench/node_modules/@plat/kernel` inside the mirror; deleted after the
+mutants).
+
+### Rows
+
+| line | outcome | evidence | pin and mutants (mirror; `packages/kernel/test/skeleton`, `--maxWorkers=1 --bail=1`; `skeleton.ts` restored from `plat/` and `cmp`-clean after each) |
+|---|---|---|---|
+| LINE 1 — Q197 (b) / N-s7c-1: the third reading's work law | **PINNED** (tests only; the existing hooks reach the third reading — no seam needed, nothing in `src/` changed) | `tolerant.test.ts` › 'one work law for all three readings: the third runs under what the first two left (hardening round S8; Q197 (b), N-s7c-1)', two tests in the note's shape — the `skipResolution` hook leaves every event of the THIRD reading unresolved (readings counted by the hook's `events === 1`), the law read from the service itself (the `E_WORK_LIMIT` cause's `limit` of a first reading whose every event is skipped): **(i)** the reported spike face multi-1#1383 (`spike-class.json`, spine and regions; it fails all three readings unhooked, 49 events of its law 208): strict spends **23**, tolerant **13**, the third the **172** they left (the hook sees each) plus the one event that reaches the law (charged, not handed to the hook); the downgrade carries the FIRST reading's cause (`validator planarity`, 'arc 4 crosses arc 18', equal to `spike-class.json`'s) and `events` = **209** = the law + 1 (asserted equal and ≤); **(ii)** the L of `downgrade.test.ts` (law 92 = 4 · 7 + 64), its first two readings' finished output corrupted through the `finished` hook (an interior node with no arc), every use: strict **3**, tolerant **3**, third **86**, cause `validator topology`, `events` **93** — robust to any later engine repair of (i)'s face (Q197 (a)). | **S8-M1** — the note's L10, a fresh law for the third reading (`runEngine(input, reading === 'coalescing' ? limit : limit - spent, …)`): **red**, and red by the new tests alone — the folder without `--bail`: 2 failed (the two new tests; (i) third 208 for 172, (ii) 92 for 86), 157 passed. **S8-M2** — the third reading's law one more (`limit - spent + 1`): red ((i) 173 for 172). **S8-M3** — the third reading's events not charged (`if (reading !== 'coalescing') spent += run.events`): red ((i) `events` 36 for 209). |
+| LINE 2 — Q197 (c) / N-s7c-3: the header against the split look-ahead | **FIXED** (comment only; no pin — rule (2)) | `engine.ts`'s header paragraph on the third reading now says what the queue gathers: a gathered event within 1 mm in offset time and 1 cm in position of the earliest joins it; the queue gathers **every edge collapse** of the wavefront, but a reflex vertex's splits only in time order up to the earliest event found so far plus `eps` (the edge collapses first, then the vertices in order; one split per vertex, its first hit) — so every edge collapse within the millimetre joins, while a split later than the final earliest by more than `eps` and less than 1 mm is no candidate and does not join, unless the earlier event was found only after its vertex was read; the wider look-ahead (split candidates read up to 1 mm) is not taken — tried in round S7, it moved no face of the 57 measured — and is Q197 (a)'s decision. The in-loop comment at the join ("every event within 1 mm") now reads "every gathered event …, the split candidates gathered only as the header says". **Where the code shows the session's wording too narrow:** "a split only within the rounding scale of the earliest" holds against the earliest event found *when the split's vertex is read* (`bt` is a running minimum: `if (c.t > bt + eps) break`), not the final earliest — a split gathered before a later vertex's earlier split lowered `bt` can lie up to 1 mm after the final earliest and joins; the header says so. **The notes' repetition** of the old claim — 'Hardening round S7' › 'LINE 3 (ii)' first bullet ("every candidate event of the current wavefront within 1 mm … of the earliest joins it") and C-0500's "every candidate event within 1 mm in offset time and 1 cm in position of the earliest joined into it" — is superseded by this row's sentence (append-only: neither is edited; the round's choices row names both). | **Comment only, shown:** `engine.ts` with every `//` comment line blanked is identical before and after (`diff` of the stripped files: only 8 blank lines added); `skeleton.ts` and every other source file of the folder unchanged (SHA-256 below); the built kernel bundle `packages/kernel/dist/index.js` **byte-identical**: SHA-256 `7be9532b5a52d16c39cbd33f5eb3078d6f86676dcb581efac1238588f01525c7` in the base mirror (built before any edit) and in the tree after the round's last edit (927 040 bytes both); `dist/types/src/skeleton/engine.d.ts` identical — of the declaration output only `engine.d.ts.map` (the header's 8 more lines shift its mappings) and the two `tsconfig.tsbuildinfo` (file hashes) differ. |
+| LINE 3 — Q197 (e) / N-s7c-7: the census total | **FIXED** (text) | Re-added by this builder: 2 000 + 3 000 + 3 000 + 6 000 + 24 000 + 542 + 612 + 841 = **39 995** faces, × 3 uses = **119 985** calls (not 40 995 / 122 985). The per-family rows and the refusal sums re-added too: roof 0 + 0 + 0 + 17 + 48 + 13 + 19 + 48 = 145 (→ 144), spine and regions 0 + 0 + 0 + 1 + 5 + 4 + 1 + 13 = 24 (→ 23) — they stand. One dated correction line beneath the S7 census table (the table unchanged); the round's choices row states 39 995 / 119 985 and names C-0500's figure superseded. | Text; no pin (rule (2)). |
+
+### Refusal census of the item's registered families (J264 (4), N-58), per use, before → after
+
+No executable line changed and the built bundle is byte-identical, so every outcome of every registered family is the
+round's head's by construction: **144 / 23 / 23 → 144 / 23 / 23** (roof / spine / regions, over the 39 995 faces of
+round S7's table, as S7 left them); lawful-input refusals unchanged in count and class (N-58: `contract sharpCorner`
+LAWFUL REFUSE per §3.8's edge table; `contract notSimple` Q180 (c), the corpus readers'; `validator planarity` the fusion
+river seed 7 water face, class (4), REPORTED under Q197 (a)). NEAR's `spikeclass.test.ts` (41 fixed faces' digests, 4
+reported faces' downgrades) and `golden.test.ts` (corpus 556 / 1236 / 1144 / 1840, the holed faces, the relief-60-3
+water face) green: nothing moved, nothing re-recorded.
+
+### Source hashes after the round (`packages/kernel/src/skeleton/`)
+
+`engine.ts` changed (comments only); unchanged: `coalesce.ts` 7f481be5…, `index.ts` b932d267…, `prepare.ts` e0a4477f…,
+`roof.ts` 363ed28d…, `skeleton.ts` db156c67…, `types.ts` 7da3ffa3…, `validate.ts` bdd1630b…. No export of the folder index
+or the barrel changed; no message text changed.
+
+### Gates (in the tree, 2026-11-13, W = 1 by `test_budget.py`)
+
+* `install --frozen-lockfile`: 0.
+* `lint`: 0 (`lint: eslint 1316 files, 0 errors, 0 warnings`; `lint: probe-red ok`, its ten planted lines reported;
+  `lint: 9 whole-tree checks`), after the round's last source edit.
+* `build`: 0 (the bundle hash above).
+* NEAR at full strength (`PLAT_FUZZ_RUNS` unset): `packages/kernel/test/skeleton` +
+  `packages/kernel/test/num/equivalence.test.ts`: **14 files, 184 / 184**, exit 0 (run seed -1973788657; S7's 182 plus
+  the two new tests).
+* `fixtures.test.ts` at `PLAT_SKELETON_SEED` 2 and 3: 7 / 7 each, exit 0 (seed 1 in NEAR): 0 crashes, 0 validator
+  failures on 3 × 1 000 holed polygons.
+* M0-a-12's `bench/test/skeleton`: 4 files, 24 / 24, exit 0.
+* RELATED@1000 over `packages/kernel/src/skeleton/engine.ts` (the round's only changed source file): **407 test files,
+  5 316 passed, 1 failed**, `PLAT_FUZZ_RUNS=1000`, `PLAT_FUZZ_SEED=20261113`, W = 1 — RELATED's own list (`vitest related
+  --run`, JSON reporter, `-t '^__no_such_test__$'`) split into 34 chunks of 12, each `vitest run --passWithNoTests` with its
+  JSON report and exit code beside it, totals summed from the reports (the chain
+  `/home/user/maps-scratch/waves/build-M0-a-11-fix-s8-related/`, 2026-11-13 02:20–06:32 UTC; two container restarts, at
+  03:08 and 05:08, each resumed the chain at the unfinished chunk, no finished chunk re-run). Chunk exit codes: 33 × 0,
+  chunk 004 × 1. Four files ran twice (vitest's file filters are substrings: `kernel/test/insert/step3-5/insertChain`,
+  `kernel/test/tx/forms`, `savepoint`, `write-door`), so the reports hold 411 file results over the 407 distinct files.
+  **The one red** is `bench/test/site/summary.test.ts` › 'the canary CITY record re-derived on this tree is the run's' —
+  "relief-60 coarse seed 46 moved: re-run the summary (Q36)", received `4c9647bf15914e6d…`, expected `eb2046ddce3ce2c1…`:
+  the head's declared J772 (7) red (the committed site summary stale until the session's re-run; the same received hash
+  round S7 saw), not the item's — the item changed no file on its path in an executable token (the bundle above is
+  byte-identical). Q152's bands tests, the J176 reference-machine tests and Q202 were not reached or were green at this
+  size. No new finding.

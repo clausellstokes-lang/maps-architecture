@@ -8,7 +8,9 @@
 // wide, which millimetre rounding cannot hold) and a constant-width river of near-collinear chords (strict: the
 // banks meet all along the centre line within a millimetre and the order at a node does not alternate — the relief
 // fixtures' water faces' class).
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import type { RawArc, RawNode } from '../../src/skeleton/engine.js';
 import { runSkeleton } from '../../src/skeleton/skeleton.js';
 import { skeleton, skeletonEventLimit, validateSkeleton, type SkeletonGraph, type SkeletonUse } from '../../src/skeleton/index.js';
 import type { LatticePoint } from '../../src/types/index.js';
@@ -118,6 +120,92 @@ describe('the tolerant second reading validates what the strict reading could no
     expect(r.value.cause.code).toBe('validator');
     // the law's floor of the cleaned ring; the queue charges the event that reaches it, once
     expect(r.value.events).toBe(law(readings([RIVER], 'spine').graph) + 1);
+  });
+});
+
+// M0-a-11, hardening round S8 (Q197 (b); N-s7c-1): the test above exhausts the law in the second reading only, so a
+// third reading run under a fresh law (`limit` where the loop passes `limit − spent`) went unseen. The tests below burn
+// the law in the THIRD reading, `coalescing`, through the same `skipResolution` hook: the first two readings run to their
+// end and fail the validator, and every event of the third is charged and left unresolved, so it stops at what the first
+// two left. The face's downgrade then carries the first reading's `validator` cause, and its `events` are the law plus
+// the one event that reaches it — never more (a fresh law would charge the first two readings' events again on top).
+
+/** The law the service runs a face under: the E_WORK_LIMIT cause of a first reading whose every event is left unresolved. */
+function lawOf(rings: LatticePoint[][], use: SkeletonUse): number {
+  const r = runSkeleton(rings, use, {}, { skipResolution: () => true });
+  if (!r.ok || r.value.kind !== 'downgrade' || r.value.cause.code !== 'E_WORK_LIMIT') throw new Error(`expected E_WORK_LIMIT, got ${JSON.stringify(r).slice(0, 300)}`);
+  return r.value.cause.limit;
+}
+
+/**
+ * Runs the service with the third reading's every event left unresolved (and the first two readings' finished output
+ * passed to `corrupt` when given); returns the result and the last event count each reading's queue handed to the hook
+ * (a reading's count starts at 1, so each `events === 1` opens the next reading): a reading that ran to its end spent
+ * exactly that; the third, stopped at the law, one event more (the one that reaches it, charged and not handed over).
+ */
+function burnThird(rings: LatticePoint[][], use: SkeletonUse, corrupt?: (nodes: RawNode[], arcs: RawArc[]) => void): { r: ReturnType<typeof runSkeleton>; spent: number[] } {
+  const spent: number[] = [];
+  let finished = 0;
+  const r = runSkeleton(rings, use, {}, {
+    skipResolution: (events) => {
+      if (events === 1) spent.push(0);
+      spent[spent.length - 1] = events;
+      return spent.length >= 3;
+    },
+    finished: (nodes, arcs) => {
+      finished += 1;
+      if (corrupt !== undefined && finished <= 2) corrupt(nodes, arcs);
+    },
+  });
+  return { r, spent };
+}
+
+describe('one work law for all three readings: the third runs under what the first two left (hardening round S8; Q197 (b), N-s7c-1)', () => {
+  it('a face of the reported spike class (multi-1#1383): the strict and tolerant readings fail the validator, the third burns the rest of the law', () => {
+    const DATA: { reported: { name: string; uses: SkeletonUse[]; rings: number[][]; cause: Partial<Record<SkeletonUse, { check: string; detail: string }>> }[] } = JSON.parse(
+      readFileSync(new URL('./spike-class.json', import.meta.url), 'utf8'),
+    );
+    const face = DATA.reported.find((f) => f.name === 'multi-1#1383');
+    if (face === undefined) throw new Error('spike-class.json: no multi-1#1383');
+    const rings = face.rings.map((flat) => ring(flat));
+    for (const use of face.uses) {
+      const limit = lawOf(rings, use);
+      const { r, spent } = burnThird(rings, use);
+      if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`${use}: expected a downgrade, got ${JSON.stringify(r).slice(0, 300)}`);
+      // which reading spends what: the strict and the tolerant readings their whole runs (each ended short of the law),
+      // the third what they left — the hook sees each of those events — plus the one event that reaches the law, which
+      // the queue charges and stops at without handing it to the hook
+      expect(spent.length).toBe(3);
+      const [strict, tolerant, third] = spent;
+      expect(strict).toBeGreaterThan(0);
+      expect(tolerant).toBeGreaterThan(0);
+      expect(strict + tolerant).toBeLessThan(limit);
+      expect(third).toBe(limit - strict - tolerant);
+      // the first reading's cause (spike-class.json's, the face's downgrade without the hook), the law's events
+      expect(r.value.cause).toEqual({ code: 'validator', ...face.cause[use] });
+      expect(r.value.events).toBe(limit + 1);
+      expect(r.value.events).toBeLessThanOrEqual(limit + 1);
+      expect(r.warnings).toEqual([{ code: 'W_DOWNGRADE', count: 1 }]);
+    }
+  });
+
+  it('a face the strict reading validates, its first two readings’ finished output corrupted (the validator-failure hook): the same law', () => {
+    // the L of downgrade.test.ts: n = 6, r = 1, so §3.8's floor 4 · 7 + 64 = 92
+    const L = [pt(0, 0), pt(2_000, 0), pt(2_000, 500), pt(500, 500), pt(500, 2_000), pt(0, 2_000)];
+    const limit = lawOf([L], 'roof');
+    expect(limit).toBe(skeletonEventLimit(6, 1));
+    for (const use of USES) {
+      // an interior node with no arc: the first two readings fail the validator's topology check
+      const { r, spent } = burnThird([L], use, (nodes) => void nodes.push({ x: 300, y: 300, t: 250 }));
+      if (!r.ok || r.value.kind !== 'downgrade') throw new Error(`${use}: expected a downgrade, got ${JSON.stringify(r).slice(0, 300)}`);
+      expect(spent.length).toBe(3);
+      const [strict, tolerant, third] = spent;
+      expect(strict).toBeGreaterThan(0);
+      expect(tolerant).toBeGreaterThan(0);
+      expect(third).toBe(limit - strict - tolerant);
+      expect(r.value.cause).toMatchObject({ code: 'validator', check: 'topology' });
+      expect(r.value.events).toBe(limit + 1);
+    }
   });
 });
 

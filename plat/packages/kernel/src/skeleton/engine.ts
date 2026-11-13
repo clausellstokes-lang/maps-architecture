@@ -38,11 +38,19 @@
 // banks meeting all along its centre line, the relief fixtures' water faces).
 //
 // A third reading, `coalescing` (hardening round S7; Q180 (a)), is the tolerant one with §3.8's sentence "events closer
-// than 1 mm in offset time and 1 cm in position are coalesced into one multi-edge event" read at the event itself:
-// every candidate event of the wavefront within 1 mm in offset time and 1 cm in position of the earliest joins it (its
-// vertices and its split targets), and a split whose point lies within 1 cm of an end of the edge it splits is that end
-// vertex's event (the end joins; nothing is split). Without
-// it a sharp spike's tip meeting both of its base vertices within a fraction of a millimetre leaves a sub-millimetre
+// than 1 mm in offset time and 1 cm in position are coalesced into one multi-edge event" read at the event itself, over
+// the candidate events the queue gathers: a gathered event within 1 mm in offset time and 1 cm in position of the
+// earliest joins it (its vertices and its split target), and a split whose point lies within 1 cm of an end of the edge
+// it splits is that end vertex's event (the end joins; nothing is split). The queue gathers every edge collapse of the
+// wavefront, but a reflex vertex's splits only in time order up to the earliest event found so far plus `eps`, the
+// rounding scale (the edge collapses are read first, then the vertices in order; one split per vertex, its first hit).
+// So every edge collapse within the millimetre joins, while a split is gathered only within `eps` of the earliest event
+// found by the time its vertex is read: a split later than the final earliest by more than `eps` and less than 1 mm
+// joins only when the earlier event was found after its vertex was read, and is otherwise no candidate and does not join
+// (hardening round S8; Q197 (c), N-s7c-3). The wider
+// look-ahead — split candidates read up to 1 mm past the earliest — is not taken: tried in round S7, it moved no face of
+// the 57 measured (checks/M0-a-11-notes.md 'Hardening round S7'); widening it is Q197 (a)'s decision. Without this
+// reading a sharp spike's tip meeting both of its base vertices within a fraction of a millimetre leaves a sub-millimetre
 // wavefront edge that collapses late, a split taken alone just past the end of its edge cannot alternate, and two reflex
 // vertices meeting split an edge a millimetre from its end — the spike class the validator rejects (checks/M0-a-11-notes.md
 // 'Hardening round S7'). `skeleton()` takes it only when the strict and the tolerant readings both give no validated
@@ -687,8 +695,8 @@ export function runEngine(inp: EngineInput, limit: number, hooks: EngineHooks = 
     if (hooks.skipResolution?.(events) === true) continue;
     const tc = best.t > T ? best.t : T;
     T = tc;
-    // the events coinciding with it join it: one multi-edge event (the coalescing reading: every event within 1 mm in
-    // offset time and 1 cm in position, §3.8)
+    // the events coinciding with it join it: one multi-edge event (the coalescing reading: every gathered event within
+    // 1 mm in offset time and 1 cm in position, §3.8 — the split candidates gathered only as the header says)
     const forced: WV[] = [];
     const targets: WV[] = [];
     for (const e of found) {

@@ -196,3 +196,45 @@ the item.
 | id | observation | suggested handling | milestone |
 |---|---|---|---|
 | N-15 | **A truthy `fallback` that is not a boolean gets past `runTier`'s guard.** The guard tests `opts.fallback === true`, but `applyFallback` accepts any truthy value. A mirror probe called `runTier` with a nightly manifest and `fallback: 1 as unknown as boolean`, and again with `'yes'`. Both RAN with the fallback applied (fuzz 10 000 → 5 000), recorded as `fallback.applied: 1` and `"yes"`. With `true` the call was REFUSED. To reach this, a caller has to defeat the `boolean` type (a deliberate writer); the record shows the cut, so it does not fail silently. A manifest relabelled `tier: 'pr'` that carries the nightly jobs also gets past the guard, again only on purpose. | Have one value decide both the guard and `applyFallback`: `const fb = opts.fallback === true`, or test `opts.fallback` for truthiness in the guard. Add a pin that passes a non-boolean truthy value on a nightly manifest. | M4 |
+
+## Hardening round S4 (lane `build/M0-f-02a-fix-s4`, 2026-11-13; J237 (2), J186, J192, J238, J264, J290 / N-58, J263 Q1 / Q6, J443: leg 2 of the merged round M0-d-08 S2 → M0-f-02a S4 → M0-a-11 S8; the session's record J800, pass B)
+
+One row, read whole by its own grep: **Q201** (`docs/M0-FIX-QUEUE.md`; this file's 'Closing check S3' N-15 and
+`checks/M0-f-02a-s3.md` (3)). Choices row C-0506. Inside the owns only: `bench/src/tiers/runner.ts`,
+`bench/test/tiers/runner.test.ts`. Round S3's refusal of `fallback: true` off `tier:pr` and its message stand
+unchanged (its pins green); the relabelled `tier: 'pr'` manifest carrying nightly jobs stays REPORTED by S3 (the
+manifest's own lie, not this line's).
+
+| row | outcome | what changed | pin and its mutant (lane mirror, `vitest run --maxWorkers=1 --bail=1 bench/test/tiers`; then each mutant against `-t Q201` alone) |
+|---|---|---|---|
+| Q201 (N-15) | **FIXED and PINNED** | `runTier` reads the switch ONCE — `const fb: boolean = opts.fallback === true` — and that one value is what the refusal tests (`if (fb && manifest.tier !== 'pr')`) AND what `applyFallback` receives (`applyFallback(manifest.jobs, fb)`), so the record's `fallback.applied` is always a boolean and no value of `fallback` cuts the sizes of a manifest that is not the PR tier's. The reading chosen (the queue row's own fix shape, not the alternative typed refusal): only `true` is ON; any other value — absent, `false`, or a non-boolean a caller forced past the `boolean` type (`1`, `'yes'`) — is OFF on every tier: the nightly and milestone manifests run at their own sizes (never cut, never refused), the PR manifest runs at its FULL sizes, `applied: false`. Why not a typed refusal of a non-boolean: the option is typed `boolean`, the command line only ever passes `true` / `false`, and reading anything but `true` as off is the fail-safe direction (sizes never cut unasked, the record states what ran); a new refusal would add a message and a refusal class for input no door reaches. `RunTierOptions.fallback`'s doc says so. No export added, removed or renamed (J263 Q1); no message text changed. | `runner.test.ts` 'the fallback switch …' › `Q201: on a tier:%s manifest, a truthy non-boolean fallback (1, "yes") is off: no size cut, applied the boolean false; true and absent unchanged` (an `it.each` over pr, nightly, milestone; for 1 and 'yes' in plain and batched mode: the run's tier, `fallback` `{ applied: false, changed: [] }`, `typeof applied` 'boolean', the job sizes 10 000 / 50 / 10 / 10 / null and the executor's calls at full size; absent → full sizes, `applied: false`; `true` → cut (fuzz 5 000, seeds 25) on pr, S3's refusal verbatim with no call on nightly and milestone). Mutants, each red (base 5 files 75 / 75): **MQ1** the old two readings restored (guard `opts.fallback === true`, call `opts.fallback ?? false`) — red on all three Q201 pins (pr cut, nightly and milestone cut with `applied: 1`); **MQ2** the cut fed the raw value (`opts.fallback && true`) — red on all three; **MQ3** one TRUTHY reading for both (`Boolean(opts.fallback)`, N-15's other suggestion) — red on all three (pr cut, nightly and milestone refused); **MQ4** the guard alone made truthy — red on nightly and milestone; **MQ5** the record fed a non-boolean when off — red on all three; **MQ6** the guard removed — red on nightly and milestone (and S3's Q175 (d) pins). |
+
+**Refusal census (J264, N-58).** The item's registered families: the three real manifests through `runTier` (a no-op
+executor, a probe answering true), by tier × the switch's value (absent, `false`, `true`, `1`, `'yes'`). Probe in the
+lane mirror (`bench/test/zzcensus`, deleted; the "before" side is MQ1, the tree's code before this round), before →
+after: 15 runs, **13 ran / 2 refused → 13 ran / 2 refused**; the two refusals are S3's (`true` on nightly and on
+milestone: UNLAWFUL input, verdict REFUSE, message unchanged). What moved: `pr` × 1 / 'yes' ran CUT with
+`applied: 1` / `"yes"` → runs at full sizes with `applied: false`; `nightly` and `milestone` × 1 / 'yes' ran CUT
+(3 sizes) with a non-boolean `applied` → run at their own sizes with `applied: false`. Lawful-input refusals **0 → 0**;
+no refusal added or removed. No real tier's summary or receipt moves (no caller passes a non-boolean: the entry passes
+its parsed boolean, `tier-jobs/cli.ts` and `timing-phase/tiers.ts` never pass `fallback`).
+
+Gates (W = 1, after the last edit): install --frozen-lockfile 0; lint 0 (eslint 1 316 files, 0 errors, probe-red ok,
+9 whole-tree checks); build 0; NEAR `bench/test/tiers` plus `tools/scaffold/workspace.test.mjs`, 6 files 114 / 114 (the
+item's folder 5 files 75 / 75; S3 had 72, +3); RELATED@1000 over `bench/src/tiers/runner.ts` (its file list collected
+once, 15 files, run in two chunks of ≤ 12 under PLAT_FUZZ_SEED=20261113, totals from the JSON reports): 12 files
+193 / 193 + 3 files 45 / 45 = 238 / 238, both chunks exit 0 (`bench/test/tiers/*` 5, `bench/test/tier-jobs/{cli,lists,
+summary,units}`, `bench/test/timing-phase/{bundle,groups,rules,script,tiers,wiring}`); no declared red reached. The lane
+mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-f-02a-fix-s4` was a real copy (no link into the project;
+`@plat` dependencies resolved inside it) and is deleted.
+
+## Closing check S4 (lane `check/M0-f-02a-close-s4`, 2026-11-13; verdict PASS in `checks/M0-f-02a-s4.md`)
+
+Q201 (N-15) is confirmed FIXED and PINNED: the census over the real manifests and ten `fallback` values moved from
+non-`true` values cut on every tier with a non-boolean `applied` (before-image) to none cut with `applied` the boolean
+false (28 ran / 2 refused → 28 / 2; lawful 0 → 0); own mutants R1 (the old two readings) – R9 and R12 killed, R10 and
+R11 equivalent. This closes N-15. The note below does not fail the item.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-16 | **`applyFallback` itself still reads its switch as truthy.** The function is exported (`bench/src/tiers/index.ts`'s barrel) and does `if (on && …)` and records `applied: on` raw, so a direct caller passing `1 as unknown as boolean` gets the cut and `applied: 1`. Through `runTier` this is unreachable since S4 (it hands over the boolean `fb`), and `runTier` is its only caller in the tree (grep). A deliberate-writer escape on a second door, not Q201's. | At the hardening pass: normalise inside `applyFallback` (`const fb = on === true`) so the record is a boolean for every caller, pinned by a direct call with `1` and `'yes'`; no export change. | M4 |
