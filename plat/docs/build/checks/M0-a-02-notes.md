@@ -195,3 +195,157 @@ tightening of a claim or a further hardening test.
 |---|---|---|---|
 | N-s3c-1 (comment tightening; T-support-1) | `test/arena/support.ts`'s new header says the other folders' support files "are to import from here in their own rounds (T-support-1); until then their copies are pinned to draw the same words (support.test.ts)". Two parts of the tree already differ from that picture. `tx/fuzzgen.ts` (as on main) re-exports `rng` from `arena/support`, and `index/support.ts` imports `rng` and `intIn` from there. So `support.test.ts`'s tx comparison compares the generator with itself, and that file's own header still lists `tx/fuzzgen.ts` among "the copies the other folders still hold". The u32 mulberry32 variants in `geom/`, `medial/`, `num/` and `skeleton/support.ts` are not pinned by `support.test.ts`. They draw u32 words, not the [0, 1) doubles, so they may not be the copies N-c1-5 meant. The row's fix shape (the note's first alternative) is met, and nothing runs differently. | With the R14 adoptions: name which folders import the generator and which copies remain pinned, in both `support.ts`'s and `support.test.ts`'s headers. | R14 (or M4) |
 | N-s3c-2 (hardening test; C-0286 (2)) | The round's free-list assertion pins vertex slots only: a reused vertex slot keeps `p.vertices`, and the next new slot replaces it. This checker's mutants B7 (`allocEdgePair`'s free-list branch calls `growPairs` in tiny mode) and B8 (`allocRow`'s free-list branch calls `growRoleRows`) are red. But they turn red only through the growth test's `capacities(roomy)` check, because the whole drive runs in the tiny mode, so the mutant grows the roomy arena too. If a mutant grew only a capacity-1 table, no assertion would hold the pair, face and role-row free lists to "grows nothing". The end-of-run "exactly full" checks do not catch it either, because a later new-slot allocation fills the extra slot. The code keeps the claim. | Repeat the vertex assertion for a reused pair, face and role-row slot in the re-read-premise test (the table kept, then replaced by the next new slot). | M4 |
+
+## Hardening round S4 (lane `build/M0-a-02-fix-s4`, flow flow-7, 2026-11-13; leg 1 of the merged round M0-a-02 S4 → M0-a-06 S10)
+
+The session opened this round on the rows J757 routes to the item (the re-triage's entry 'M0-a-02' less Q76, which
+R10 moved to leg 2): Q79 (the `shape` role, RL4, with Q74's last remainder), a-02:N-s3c-2, a-02:N-s3c-1 and the raise's
+declared shift. Read whole: the brief, J757 and J776 (by their own greps), `rulings-final.md` (with 'Amended at the
+fold', J777), N-s3c-1 and N-s3c-2 above, round S3's section, the code cited. Where the brief and the rulings file
+differ, nothing in this leg is touched by the difference (R7 and R17 are what this leg builds; both agree with the
+brief). The round edits only the item's owns: `src/arena/roles.json`, `src/arena/registry.ts` (one comment),
+`test/arena/roles.test.ts`, `test/arena/registry-version.test.ts` (new), `test/arena/slots.test.ts` (assertions added),
+`test/arena/support.ts` and `test/arena/support.test.ts` (comments). io/, tx/, insert/, kernel/test/gate/ and
+kernel/API.md were read and run, never edited. No export of `arena/index.ts` or the barrel changed (later legs read the
+role by `roleIdOf('shape')`); no message text changed.
+
+### The rows
+
+| row | outcome | evidence |
+|---|---|---|
+| LINE 1 — Q79 / RQ2 / RL4 (with Q74's last remainder): the `shape` row and the version raise | **FIXED and PINNED** (rule (3) lifted for this line by J757, J776 R7, R17) | `roles.json`: `"version": 2`; row `{ "id": 56, "name": "shape", "kind": "vertex", "rank": 56, "structural": false, "indexed": false, "knot": false, "since": 2 }` appended; the `$comment` gains "a later version's rows rank in append order, after every earlier row. Version 2 appends `shape`: kernel-internal, a chain's own point landed on another chain's run it shares on both sides, written by insertChain alone and stripped with the chain (RQ2, N-61 (2)); not indexed, never a knot". `registry.ts`: no code; `RoleInfo.rank`'s comment reads "version 1: rule 7's table order; later versions append" (emitted JS with comments removed identical: d99ba51bf5e2d2b5 before and after). `roles.test.ts` re-pinned: the version-1 snapshot test unchanged but for one comment (the first 56 rows); 'nothing else at version 1' is now the version-2 test (ROLE_REGISTRY_VERSION 2, length 57, row 56 equal to the row above whole, every rank equal to its id, `shape` the only row with `since` > 1); the lookup test names `roleIdOf('shape')` = 56 and `roleInfo(57)` throwing; the malformed-document test reads `doc.roles.length` and `doc.version + 1` (a `since` past the version on row 3 and on row 56; the append at id `doc.roles.length` under `doc.version + 1`); the rank test adds `deck_order_knot` before `shape`. NEW PIN `test/arena/registry-version.test.ts` (the persisted reading, J776 R17), through io/'s exports only: a committed arena (the framed square and 60 batches of tx's generator, ALONG_MIX, seed 40 961) encoded; every chunk carries 2 at offset 6 (magic 4, format version 1, kind 1); each chunk alone, and all at once, patched to 1 and re-hashed with H128 decode ok and the loaded arena re-encodes to the original version-2 bytes and refs; each chunk patched to 3 is refused (`isCorruptCache`, detail matching "a chunk written under a newer role registry"). Its header and title say it is the BYTE FORMAT's reading, never a promise that an old cache's content is current (review F10). |
+| LINE 2 — a-02:N-s3c-2 (hardening test; C-0286 (2)) | **PINNED** (tests only) | In "a growth replaces the table it grows …" (`slots.test.ts`), after the vertex block: a fresh arena `q` in the tiny mode, whose capacity-1 pair, L0 face and role-row tables nothing else grows: a pair slot freed (`freeEdgePair`) and taken again (`allocEdgePair` returns the same half-edge) keeps `q.halfEdges` (toBe), the next new pair replaces it and leaves it exactly full; the same for an L0 face slot (`freeFace` / `allocFace`, `q.faces[0].outer`) and a role-row slot (`removeRoleRow` / `addRole` returns the same row, `q.roles.kind`). B7, B8 and B9 each red ALONE on this test (below). NO-SHIFT. |
+| LINE 3 — a-02:N-s3c-1 (comment tightening; T-support-1) | **FIXED** (comments only) | Both headers now name the folders that import the generator (`tx/fuzzgen.ts` re-exports `rng`; `index/support.ts` imports `rng` and `intIn`, exporting `rng` as its `generator`), the one copy still pinned by `support.test.ts` (`insert/step1-2/support.ts`'s `generator` and `intIn`), say the tx comparison now compares the generator with itself, and name the u32 mulberry32 variants of geom/, medial/, num/ and skeleton/ as other generators (u32 words), not copies. Emitted JS with comments removed identical: `support.ts` bcdc7eef6de72965 (the same hash round S3 recorded), `support.test.ts` c7ed0f7e8b507488, before and after. The test's title (a string, so code) is left as it stands, as the row asks no code change. |
+| LINE 4 — the raise's shift, declared and listed (J776 R15) | **MEASURED and DECLARED** (below) | The raise moves every encoded chunk's header byte at offset 6 (1 → 2) and every chunk ref; nothing else moves. |
+
+### LINE 4: the declared shift, measured (base mirror → tree)
+
+All in the lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-02-fix-s4/plat` (the tree's sources; the
+"base" side is the same mirror with `roles.json` put back to its pre-round bytes, restored and `cmp`-checked after each
+run). The probe was a mirror-only test file (`packages/kernel/test/zz-s4probe/probe.test.ts`, never in the tree) that
+replays every case of `kernel/test/insert/step3-5/register/s6-lifecycle.json` whole (its log's chains inserted in
+their own batches through `tx` with the suite wired in) and writes `snapshot(p)` (step3-5/support.ts: content print,
+chunk refs, level digests) and every chunk's bytes; run as `S4_PROBE_OUT=<file> corepack pnpm exec vitest run
+--maxWorkers=1 packages/kernel/test/zz-s4probe` on each side, compared by a script beside it.
+
+* (a) The lifecycle register's 14 cases after their last commit (the same commits ok on both sides): chunk refs differ
+  in EVERY chunk of every case (30 chunks); the content print and the five level digests identical in every case.
+* (b) Every chunk of both kinds (routes, kind 0, and partitions, kind 1; 30 chunks): the length identical, exactly one
+  byte differs, offset 6, 1 → 2.
+* (c) The roots: `corepack pnpm bench -- profile --seed 3` → `root db72c0bf0fa021ca873fd7f5f6f30d7b; lanes 1207, blocks
+  1057` on both sides; `corepack pnpm bench -- profile --run integrated --seed 4` → `root
+  e9e96e0e6a2e88e587c968796e0ef03e; lanes 1373, blocks 1310` on both sides. Identical.
+* (d) THE RAISE's reds reproduced: the pre-round `roles.test.ts` under the raised `roles.json` (mirror, `vitest run
+  --maxWorkers=1 packages/kernel/test/arena/roles.test.ts`) is red in exactly the three tests the measured list names,
+  all M0-a-02's own, and DECLARED here: owner M0-a-02, `packages/kernel/test/arena/roles.test.ts` — 'carries every rule 7
+  role exactly once with its flags, and nothing else at version 1' (`expected 2 to be 1`); 'looks roles up by name and
+  id; an unknown name is −1 and an unknown id or name a programming error' (`expected [Function] to throw an error`,
+  `roleInfo(56)` now finds `shape`); 'refuses a malformed document whole: …' (`expected [ Array(57) ] to have a length of
+  56 but got 57`). Re-pinned in this round (LINE 1). Nothing else on the measured list is labelled THE RAISE, so no seam
+  is owed for a test. Reds labelled THE STRENGTH or THE HEAD are not re-pinned here; one met in RELATED is recorded
+  under the gates below as labelled.
+
+What reads the version (review §4, confirmed here by reading): `io/encode.ts` writes it (`w.uv(ROLE_REGISTRY_VERSION)`
+after the kind byte) and `io/decode.ts` checks it (`r.uv() <= ROLE_REGISTRY_VERSION`); `digest/levelDigest.ts`
+reads a role's name, rank and kind only, so no print, level digest, model root, commit record or refusal moves —
+(a) and (c) above hold that.
+
+THE LIST FOR THE SESSION'S SEAMS (never edited here): `kernel/API.md:61` ('56 named roles' — now 57, the 57th
+kernel-internal); `kernel/test/gate/roles.test.ts`'s header (:1-8, 'an append keeps every existing document's digest
+and block exactly' — the block's header byte at offset 6 moves with the version, so every chunk ref moves; the digests
+do not); the base `docs/ARCHITECTURE.md` and its bundle `docs/ARCHITECTURE-FULL.md` at the amendments' next apply pass
+from amendment ab (item 997 for §2.2 rule 3, item 999 for rule 7's table); `plat/docs/build/M0-world-sites-gate.md`
+K5's wording for the bytes.
+
+### The round's mutants (lane mirror; each file restored from the tree and checked with `cmp -s`)
+
+Isolation was proven before the first mutant: `find /home/user/maps-scratch/waves/selfcheck-build-M0-a-02-fix-s4 -type l
+-lname '/home/user/maps-architecture*'` printed nothing, and `realpath` of
+`packages/model/node_modules/@plat/kernel` lay in the mirror. Unless named, a mutant ran as `corepack pnpm exec vitest
+run --maxWorkers=1 --bail=1 packages/kernel/test/arena` (14 files). The clean mirror: 120 / 120. Harness:
+`/home/user/maps-scratch/waves/a02s4-tools/` (`mut.py`, `run-mut.sh`, `run-mut-t.sh`, `cmp.py`); logs and one exit-code
+file per mutant in `/home/user/maps-scratch/waves/build-M0-a-02-fix-s4/evidence/mut/` (copied out before the mirror was
+deleted); the LINE 4 probe, its outputs and the root logs in `…/evidence/probe/`; the pre-round copies of the changed
+files in `/home/user/maps-scratch/waves/a02s4-base/`.
+
+| mutant | change | result |
+|---|---|---|
+| BASE-RAISE | `roles.json` back to version 1 (no `shape`) | red: `roles.test.ts` 4 tests (the version-2 test, the rank test, the lookup test, the malformed test); `registry-version.test.ts` 2 tests (`expected 1 to be 2`) |
+| SH-RANK | `shape`'s rank swapped with `deck_order_knot`'s (55 ↔ 56) | red (the version-2 test: row 56 whole, rank = id) |
+| SH-IDX | `shape` indexed true | red (the version-2 test) |
+| SH-SINCE | `shape` since 1 | red, killed by the SNAPSHOT test ('holds the version-1 snapshot as its first rows …': a later row's `since` > 1), not only by the loader (which accepts 1 ≤ 2) |
+| SH-KIND | `shape` kind edge | red (the version-2 test) |
+| DEC-EQ | `io/decode.ts` `r.uv() <= ROLE_REGISTRY_VERSION` → `===` | red on the version-1 patch ('decodes a chunk whose header says registry version 1 …') |
+| DEC-NONE | the version check dropped (`r.uv();` kept, so the varint is still read) | red on the version-3 patch ('refuses a chunk whose header says registry version 3 …') |
+| B7 | `allocEdgePair`'s free-list branch calls `growPairs` in the tiny mode | red (the growth test, through `capacities(roomy)`) |
+| B8 | `allocRow`'s free-list branch calls `growRoleRows` in the tiny mode (with `tinyTables` imported in `rows.ts`) | red (the growth test: end exactness `roles.kind` 357 vs 346) |
+| B9 | `allocFace`'s free-list branch calls `growFaces` in the tiny mode | red (the growth test) |
+| ROOMY-OFF | the growth test's `capacities(roomy)` check switched off, no source mutant | green 120 / 120 (the harness control) |
+| B7-ALONE / B8-ALONE / B9-ALONE | each with the roomy check off | red: B7 and B9 on the re-read-premise test (`slots.test.ts`, `toBe(pairs)` / `toBe(faces)`); B8 on the growth test's end exactness first (bail) |
+| B7 / B8 / B9 on the re-read-premise test alone (`-t 'a growth replaces'`) | the mutant, the round's test | each red: B7 `expected { …(4) } to be { origin: Int32Array[ -1, -1 ], …(3) }` (`toBe(pairs)`), B8 `expected Uint16Array[ 0, 65535 ] to be Uint16Array[ 65535 ]` (`toBe(rowKind)`), B9 `expected Int32Array[ 0, -1 ] to be Int32Array[ -1 ]` (`toBe(faces)`) |
+| the same three on the PRE-ROUND `slots.test.ts`, roomy check off, `-t 'a growth replaces'` | the control | each green: the pre-round test does not hold the pair, face and role-row free lists; the round's assertions do |
+
+The checker's B8 of round S3 turned red only through the roomy check; this round's B8 (one row per free-list reuse)
+is also caught by the growth test's end exactness, because the drive frees and re-takes rows several times in a row.
+Either way the round's new assertion kills it alone (the row above).
+
+### Refusal census (J264, N-58)
+
+The item's families are the arena folder's seeded drives and hand-built fixtures, and the new pin's committed arena.
+**0 lawful-input refusals before and after.** The one class is unchanged and UNLAWFUL: the duplicate role key
+(`already carries`) of the slots drive (verdict REFUSE, typed; the door is M0-a-06's `addRole` path), counted in the
+mirror by an instrumented copy of `slots.test.ts` (mirror only): **3 → 3** (base `roles.json` → tree). The registry
+version is read only by encode and decode, so no operation's outcome moves. The new pin's version-3 refusal is an
+UNLAWFUL input (a chunk from a newer registry; verdict REFUSE, typed `corrupt-cache`; §3.9's alternative is the replay,
+M1's); the version-1 patch is lawful and decodes.
+
+### Gates
+
+Every gate run at one worker in the tree; logs and exit-code files in `/home/user/maps-scratch/waves/build-M0-a-02-fix-s4/`.
+
+* `install --frozen-lockfile`: 0.
+* `lint`: 0. ESLint checked 1 317 files with 0 errors and 0 warnings; probe-red ok; the 9 whole-tree checks pass.
+* `build`: 0.
+* NEAR, the arena folder at the PR size (`PLAT_FUZZ_RUNS` unset; `vitest run --maxWorkers=1 packages/kernel/test/arena`):
+  0, 14 files, 120 / 120.
+* RELATED at `PLAT_FUZZ_RUNS=1000`, `PLAT_FUZZ_SEED=-1217822610`, over `src/arena/registry.ts` and `src/arena/roles.json`
+  (the round's two source files): the file list from `vitest related --run` (JSON reporter, `-t '^__no_such_test__$'`),
+  530 files (kernel 154, layout 129, testkit 118, bench 78, site 22, model 18, tables 11), run as 45 chunks of 12 with
+  `vitest run --passWithNoTests --maxWorkers=1`, one JSON report and exit code per chunk
+  (`…/build-M0-a-02-fix-s4/related/`, summed by `sum.py`). 530 / 530 files reported; 7 729 tests: 7 721 passed,
+  **7 failed**, 1 skipped (`kernel/test/tx/cost.test.ts`'s standing `skip` of S9 line 5 (d), not this round's). Every
+  file registered at least one test at 1 000 runs (`layout/test/enceinte/s5seeds.test.ts` 3, all passed). The 7 reds are
+  all DECLARED REDS OF THE HEAD, none on THE MEASURED LIST's RAISE, none the item's:
+  * `bench/test/site/summary.test.ts` — the canary ('the canary CITY record re-derived on this tree is the run's …';
+    J772 (7): the committed site summary is stale until the session's re-run) — chunk 05;
+  * Q152's six M0-a-09 bands tests in `packages/kernel/test/arr/bands/`: `closing.test.ts` ×2 (chunk 08),
+    `dryrun.test.ts` and `hardening-s15.test.ts` (chunk 09), `restage.test.ts` ×2 (chunk 10).
+  No failure message reads the registry's version, its length or a role id ≥ 56. The J176 reference-machine bench files
+  (calibrate, host, timing) are not on RELATED's list; `bench/test/fusion/hausdorff.test.ts` (N-8 / N-52) 12 / 12 and
+  `testkit/test/determinism/dilation.test.ts` (Q153) 8 / 8 passed. Chunks 05, 08, 09 and 10 exit 1 for these reds alone;
+  the other 41 exit 0. No FINDING.
+* `landed` (record re-landed under this lane; `--touched` for the seven files): 0 — `landed M0-a-02 (lane
+  build/M0-a-02-fix-s4, against flow-7): 4 created, 13 changed, 11 unchanged, 0 deleted; appends: CLEAN-ROOM.md L-0361,
+  L-0418, L-0471, L-0546, L-0837; docs/build/choices.md C-0286, C-0313, C-0337, C-0369, C-0505`. Its first attempt
+  refused because L-0837 had been appended at CLEAN-ROOM.md's end, outside §2's seat-ledger table; the row was moved,
+  unchanged, to the table's last line (C-0104 (4)) and landed ran again.
+* `landed:verify -- flow-7 --item M0-a-02`: 0 — `landed:verify flow-7 --item M0-a-02: ok (1 record)`.
+
+### The round's rows in the ledgers
+
+The round's choices row is C-0505 and its ledger row is L-0837.
+
+### Reported for the queue (not this leg's; built nothing for them)
+
+R17 (a) — decode refusing a row whose role's `since` exceeds its chunk's version (M0-a-15); R17 (b) — whether a cache
+written under an older registry version may be used at all (M1's loader). The new pin asserts neither.
+
+## Round S4's closing check (lane `check/M0-a-02-close-s4`, flow flow-7, 2026-11-13)
+
+Rows written by the closing check of hardening round S4 (`checks/M0-a-02-s4.md`). None of them is a blocker: the first
+corrects a comment, the second is a further hardening test.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s4c-1 (comment correction; T-support-1; LINE 3's own reading) | Round S4's new headers of `test/arena/support.ts` (:12-13) and `test/arena/support.test.ts` (:6-7) say the generators of `geom/`, `medial/`, `num/` and `skeleton/support.ts` "draw u32 words, not [0, 1) doubles: they are other generators, not copies of this one". The round's brief asked for that wording, and N-s3c-1 above says the same. The code shows it wrong. Each of the four `generator` functions is text-identical to `rng`, down to its last line `return ((t ^ (t >>> 14)) >>> 0) / 4294967296;`. Only their doc comments say "u32 generator". Executed (`probe/gens.cjs` in the lane's scratch): for seeds 0, 1, 0x530004, 4242 and −1, 4 096 draws of each equal `rng`'s, every draw lies in [0, 1) and none is an integer. So the tree holds FIVE copies of the generator outside `arena/support.ts`: `insert/step1-2` (pinned by `support.test.ts`) and these four (not pinned). Nothing runs differently; the two headers' clause is wrong, and T-support-1's "one generator" is further from met than the headers say. | Comment only: both headers say the four folders hold verbatim, unpinned copies (their own doc comments call them "u32"). With the R14 adoptions, import `rng` there or pin the four in `support.test.ts` as `step1-2`'s is. | the next round that edits `test/arena/` (or a session seam at the merged round's landing); else R14 / M4 |
+| N-s4c-2 (hardening test; J776 R17) | `registry-version.test.ts` pins the version field's reading on one arena: `committed(40 961, 60)`, which ends with 8 vertices, 7 edges and no vertex row, in 2 chunks (one routes, one partition). Both chunk kinds are held, and the mutants DEC-EQ, DEC-NONE, DEC-PLUS1 and ENC-1 are each red on it. This check's probe read the same three facts (version-1 header decodes; one byte at offset 6; same length) on 37 chunks of 17 arenas (the 14 lifecycle-register cases and three generator arenas), so the code keeps the claim more widely than the pin holds it. | Run the pin over a second, richer arena (one with vertex rows and partition chunks of several levels, e.g. a lifecycle-register case). | M4 |

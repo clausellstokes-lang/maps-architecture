@@ -16,7 +16,7 @@ export interface RoleInfo {
   readonly id: number;
   readonly name: RoleName;
   readonly kind: RoleKind;
-  /** The order an output reads a role set in (rule 7); version 1: rule 7's table order. */
+  /** The order an output reads a role set in (rule 7); version 1: rule 7's table order; later versions append. */
   readonly rank: number;
   /** Bold in rule 7: never removed by a sliver absorption or a face merge (§3.6). */
   readonly structural: boolean;

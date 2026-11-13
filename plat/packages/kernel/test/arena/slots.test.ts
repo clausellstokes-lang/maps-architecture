@@ -717,6 +717,40 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     allocVertex(p, pt(-900, 1_000), 0);
     expect(p.vertices).not.toBe(kept);
     expect(p.vertices.x.length).toBe(p.slots.vertex.top);
+    // the same for a reused pair, face and role-row slot (hardening round S4, N-s3c-2): on a fresh arena's capacity-1
+    // tables, which nothing else here grows, a slot freed and taken again keeps its table, and the next new slot
+    // replaces it, leaving it exactly full
+    const q = createPlat(GROUND, FRAME);
+    const qa = allocVertex(q, pt(0, 0), 0);
+    const qb = allocVertex(q, pt(100, 0), 0);
+    const qc = allocVertex(q, pt(0, 100), 0);
+    expect(q.halfEdges.level.length).toBe(1);
+    const qh = allocEdgePair(q, qa, qb, 0); // fills the 1-pair table
+    freeEdgePair(q, qh);
+    const pairs = q.halfEdges;
+    expect(allocEdgePair(q, qa, qb, 0)).toBe(qh); // the pair slot from the free list
+    expect(q.halfEdges).toBe(pairs);
+    const qg = allocEdgePair(q, qb, qc, 0); // a new slot
+    expect(q.halfEdges).not.toBe(pairs);
+    expect(q.halfEdges.level.length).toBe(q.slots.pair.top);
+    expect(q.faces[0].outer.length).toBe(1);
+    const qf = allocFace(q, 0, { outer: qh, kind: 1, owner: -1, stage: 0, parent: -1 }); // fills L0's one face slot
+    freeFace(q, 0, qf);
+    const faces = q.faces[0].outer;
+    expect(allocFace(q, 0, { outer: qh, kind: 1, owner: -1, stage: 0, parent: -1 })).toBe(qf); // from the free list
+    expect(q.faces[0].outer).toBe(faces);
+    allocFace(q, 0, { outer: qh ^ 1, kind: 1, owner: -1, stage: 0, parent: -1 }); // a new slot
+    expect(q.faces[0].outer).not.toBe(faces);
+    expect(q.faces[0].outer.length).toBe(q.slots.face[0].top);
+    expect(q.roles.kind.length).toBe(1);
+    const qr = addRole(q, qh, { role: 'way', entity: 'way:1' }, 0); // fills the 1-row table
+    removeRoleRow(q, qr);
+    const rowKind = q.roles.kind;
+    expect(addRole(q, qh, { role: 'way', entity: 'way:1' }, 0)).toBe(qr); // the row slot from the free list
+    expect(q.roles.kind).toBe(rowKind);
+    addRole(q, qg, { role: 'way', entity: 'way:1' }, 0); // a new slot
+    expect(q.roles.kind).not.toBe(rowKind);
+    expect(q.roles.kind.length).toBe(q.slots.role.top);
     setTinyTables(false);
     const v0 = p.vertices.x.length;
     allocVertex(p, pt(-500, -500), 0);

@@ -1,7 +1,10 @@
 // The kernel tests' one seeded generator (`rng`, mulberry32, and `intIn` in ./support.ts; T-support-1 of the kernel
 // consolidation plan): its draws are pinned word for word against the values the generator gave before it moved here,
-// so every seeded test of every folder that imports it replays the same sequences; the copies the other folders still
-// hold (tx/fuzzgen.ts, insert/step1-2/support.ts) draw the same words until they import this one.
+// so every seeded test of every folder that imports it replays the same sequences. tx/fuzzgen.ts (which re-exports
+// `rng`) and index/support.ts (which imports `rng` and `intIn`) import it from there, so the tx comparison below now
+// compares the generator with itself; the one copy still pinned is insert/step1-2/support.ts's `generator` and `intIn`,
+// which draw the same words until that folder imports this one. The u32 mulberry32 variants of geom/, medial/, num/
+// and skeleton/ are other generators (u32 words, not [0, 1) doubles), not copies, and are not compared here.
 import { describe, expect, it } from 'vitest';
 import { generator, intIn as intIn12 } from '../insert/step1-2/support.js';
 import { rng as rngTx } from '../tx/fuzzgen.js';

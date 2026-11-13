@@ -5,9 +5,12 @@
 // contains it and pruning a face that is its parent's own child (the same rings, no finer record inside: §2.2 rule 2,
 // C-0146 (2)). The independent oracles the tests judge the walk with — the arena filtered to the edges of level ≤ n,
 // exact areas, a crossing-number containment test — are written here too, never with the code under test. It is also
-// the home of the kernel tests' one seeded generator (`rng`, mulberry32, and `intIn`), which the other folders' support
-// files are to import from here in their own rounds (T-support-1); until then their copies are pinned to draw the same
-// words (support.test.ts).
+// the home of the kernel tests' one seeded generator (`rng`, mulberry32, and `intIn`; T-support-1). Two folders import
+// it from here: tx/fuzzgen.ts re-exports `rng`, and index/support.ts imports `rng` and `intIn` (exporting `rng` as its
+// `generator`). The one copy still held elsewhere, insert/step1-2/support.ts's `generator` and `intIn`, is pinned to
+// draw the same words (support.test.ts) until its own round imports this one; support.test.ts's tx comparison now
+// compares this generator with itself. The u32 mulberry32 variants in geom/, medial/, num/ and skeleton/support.ts
+// draw u32 words, not [0, 1) doubles: they are other generators, not copies of this one, and are not pinned here.
 import { area2, orient2d, type Frame } from '../../src/num/index.js';
 import type { Cm, LatticePoint, Level, PlatKey } from '../../src/types/index.js';
 import {

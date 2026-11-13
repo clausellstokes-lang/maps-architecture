@@ -1,6 +1,8 @@
 // M0-a-02: the role registry snapshot (§2.2 rule 7; C-0005) — append-only ids against the committed version-1 rows,
 // every rule 7 role present with its structural and indexed flags, the rank order, and roles.json is data (JSON with
-// no code), read by the kernel through an import.
+// no code), read by the kernel through an import. Version 2 (hardening round S4; RQ2, J757 RL4, J776 R7) appends the
+// kernel-internal vertex role `shape` — a chain's own point landed on another chain's run it shares on both sides —
+// at id 56: not indexed, never a knot, rank 56 = id, since 2.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { compareRoleRank, parseRoleRegistry, ROLE_REGISTRY, ROLE_REGISTRY_VERSION, roleIdOf, roleInfo, roleNamed, type RoleRegistryDoc } from '../../src/arena/index.js';
@@ -31,6 +33,9 @@ const SNAPSHOT = [
   ...KNOTS.map((name) => ({ name, kind: 'vertex', structural: false, indexed: true, knot: true, since: 1 })),
 ];
 
+/** Version 2's one appended row (J776 R7), whole. */
+const SHAPE_ROW = { id: 56, name: 'shape', kind: 'vertex', rank: 56, structural: false, indexed: false, knot: false, since: 2 };
+
 const RAW = readFileSync(new URL('../../src/arena/roles.json', import.meta.url), 'utf8');
 
 describe('the role registry (§2.2 rule 7, C-0005)', () => {
@@ -51,16 +56,19 @@ describe('the role registry (§2.2 rule 7, C-0005)', () => {
       expect({ name: r.name, kind: r.kind, structural: r.structural, indexed: r.indexed, knot: r.knot, since: r.since }, `id ${id}`).toEqual(want);
       expect(r.id).toBe(id);
     });
-    // later rows (none at version 1) continue the ids and carry a later `since`
+    // later rows (version 2: `shape`) continue the ids and carry a later `since`
     ROLE_REGISTRY.slice(SNAPSHOT.length).forEach((r, k) => {
       expect(r.id).toBe(SNAPSHOT.length + k);
       expect(r.since).toBeGreaterThan(1);
     });
   });
 
-  it('carries every rule 7 role exactly once with its flags, and nothing else at version 1', () => {
-    expect(ROLE_REGISTRY_VERSION).toBe(1);
-    expect(ROLE_REGISTRY).toHaveLength(56);
+  it('carries every rule 7 role exactly once with its flags, and at version 2 the one appended row `shape` and nothing else', () => {
+    expect(ROLE_REGISTRY_VERSION).toBe(2);
+    expect(ROLE_REGISTRY).toHaveLength(57);
+    expect({ ...ROLE_REGISTRY[56] }).toEqual(SHAPE_ROW);
+    expect(ROLE_REGISTRY.every((r) => r.rank === r.id)).toBe(true);
+    expect(ROLE_REGISTRY.filter((r) => r.since > 1).map((r) => r.name)).toEqual(['shape']);
     const names = ROLE_REGISTRY.map((r) => r.name);
     expect(new Set(names).size).toBe(names.length);
     expect(ROLE_REGISTRY.filter((r) => r.structural).map((r) => r.name)).toEqual(
@@ -69,22 +77,26 @@ describe('the role registry (§2.2 rule 7, C-0005)', () => {
     expect(ROLE_REGISTRY.filter((r) => r.knot).every((r) => r.kind === 'vertex' && r.indexed && !r.structural)).toBe(true);
   });
 
-  it('ranks the roles in rule 7\'s row order (a permutation of the ids; version 1: rank = id)', () => {
+  it('ranks the roles in rule 7\'s row order (a permutation of the ids; version 1: rank = id; later rows in append order)', () => {
     const ranks = ROLE_REGISTRY.map((r) => r.rank).sort((a, b) => a - b);
     expect(ranks).toEqual(ROLE_REGISTRY.map((_, i) => i));
     expect(ROLE_REGISTRY.every((r) => r.rank === r.id)).toBe(true);
     expect(compareRoleRank(roleIdOf('way'), roleIdOf('district_bound'))).toBeLessThan(0);
     expect(compareRoleRank(roleIdOf('deck_order_knot'), roleIdOf('junction'))).toBeGreaterThan(0);
     expect(compareRoleRank(roleIdOf('kerb'), roleIdOf('kerb'))).toBe(0);
+    expect(compareRoleRank(roleIdOf('deck_order_knot'), roleIdOf('shape'))).toBeLessThan(0);
   });
 
   it('looks roles up by name and id; an unknown name is −1 and an unknown id or name a programming error', () => {
     expect(roleIdOf('way')).toBe(0);
     expect(roleIdOf('deck_order_knot')).toBe(55);
+    expect(roleIdOf('shape')).toBe(56);
+    expect(roleNamed('shape').kind).toBe('vertex');
     expect(roleIdOf('street')).toBe(-1);
     expect(roleInfo(29).name).toBe('junction');
     expect(roleNamed('gate_end').indexed).toBe(true);
-    expect(() => roleInfo(56)).toThrow(/no role with id 56/);
+    expect(roleInfo(56).name).toBe('shape');
+    expect(() => roleInfo(57)).toThrow(/no role with id 57/);
     expect(() => roleInfo(-1)).toThrow(/no role/);
     expect(() => roleNamed('street')).toThrow(/no role named street/);
   });
@@ -98,21 +110,23 @@ describe('the role registry (§2.2 rule 7, C-0005)', () => {
     const doc = JSON.parse(RAW) as RoleRegistryDoc;
     const edit = (i: number, patch: Record<string, unknown>, version = doc.version): RoleRegistryDoc =>
       ({ version, roles: doc.roles.map((r, k) => (k === i ? { ...r, ...patch } : r)) }) as RoleRegistryDoc;
-    expect(parseRoleRegistry(doc).roles).toHaveLength(56);
+    expect(parseRoleRegistry(doc).roles).toHaveLength(57);
     expect(() => parseRoleRegistry({ version: 0, roles: doc.roles })).toThrow(/version/);
     expect(() => parseRoleRegistry(edit(3, { id: 4 }))).toThrow(/carries id 4/);
     expect(() => parseRoleRegistry(edit(3, { name: 'way' }))).toThrow(/appears twice/);
     expect(() => parseRoleRegistry(edit(3, { name: 'Bad Name' }))).toThrow(/malformed name/);
     expect(() => parseRoleRegistry(edit(3, { rank: 0 }))).toThrow(/rank/);
-    expect(() => parseRoleRegistry(edit(3, { rank: 56 }))).toThrow(/rank/);
+    expect(() => parseRoleRegistry(edit(3, { rank: doc.roles.length }))).toThrow(/rank/);
     expect(() => parseRoleRegistry(edit(3, { kind: 'face' }))).toThrow(/kind face/);
     expect(() => parseRoleRegistry(edit(29, { structural: true }))).toThrow(/only an edge role is structural/);
     expect(() => parseRoleRegistry(edit(29, { knot: true }))).toThrow(/knot role is an indexed vertex role/);
     expect(() => parseRoleRegistry(edit(1, { knot: true }))).toThrow(/knot role is an indexed vertex role/);
-    expect(() => parseRoleRegistry(edit(3, { since: 2 }))).toThrow(/since 2/);
+    expect(() => parseRoleRegistry(edit(3, { since: doc.version + 1 }))).toThrow(new RegExp(`since ${doc.version + 1}`));
+    expect(() => parseRoleRegistry(edit(56, { since: doc.version + 1 }))).toThrow(new RegExp(`since ${doc.version + 1}`));
     expect(() => parseRoleRegistry(edit(3, { indexed: 'yes' }))).toThrow(/not a boolean/);
-    // a version-2 append is accepted: the next id at the end, since 2
-    const appended = { version: 2, roles: [...doc.roles, { id: 56, name: 'zz_new', kind: 'edge', rank: 56, structural: false, indexed: false, knot: false, since: 2 }] };
-    expect(parseRoleRegistry(appended).roles[56].name).toBe('zz_new');
+    // the next version's append is accepted: the next id at the end, its rank after every earlier row, since the new version
+    const n = doc.roles.length;
+    const appended = { version: doc.version + 1, roles: [...doc.roles, { id: n, name: 'zz_new', kind: 'edge', rank: n, structural: false, indexed: false, knot: false, since: doc.version + 1 }] };
+    expect(parseRoleRegistry(appended).roles[n].name).toBe('zz_new');
   });
 });
