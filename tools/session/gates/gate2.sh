@@ -76,19 +76,19 @@ PY
 fi
 if ! has 'scans@1000 ('; then
   # THE DISK-READING TESTS (J812): `vitest related` selects a test by what it IMPORTS — a test that READS sources from disk
-  # (a type-checked scan, a census of a package's files, a golden) is invisible to it, and a landing broke one unseen
-  # (site's one-door scan, the eighty-fourth). Every such test of the tree that RELATED did not already run, at 1 000
+  # (a type-checked scan, a census of a package's sources, a text check of a source file) is invisible to it, and a landing broke one unseen
+  # (site's one-door scan, the eighty-fourth). Every such test of the tree (scan-list.py) that RELATED did not already run, at 1 000
   # runs under the gate's seed, in chunks of twelve with one exit code each.
   [ -f $G.seed ] || echo $(( ( $(date +%s) % 2000000000 ) + 1 )) > $G.seed
   export PLAT_FUZZ_SEED=$(cat $G.seed)
   mkdir -p $G.scan
   if [ ! -f $G.scan.list ]; then
-    grep -rlE "createProgram|readdirSync|readFileSync" --include='*.test.ts' packages bench tools 2>/dev/null | grep -v node_modules | sort -u > $G.scan.all
+    python3 $HERE/scan-list.py > $G.scan.all   # the tests that read SOURCES from disk (not those that read only fixtures)
     if [ -s $G.related.list ]; then grep -vxFf $G.related.list $G.scan.all > $G.scan.list; else cp $G.scan.all $G.scan.list; fi
   fi
   STOTAL=$(wc -l < $G.scan.list)
   if [ "$STOTAL" -eq 0 ]; then
-    echo "scans@1000 (the disk-reading tests RELATED did not run: none left — all $(wc -l < $G.scan.all) were on the RELATED path) rc=0" >> $G.sum
+    echo "scans@1000 (the source-reading tests RELATED did not run: none left — all $(wc -l < $G.scan.all) were on the RELATED path) rc=0" >> $G.sum
   else
     [ -f $G.scan/chunk.000 ] || split -l 12 -d -a 3 $G.scan.list $G.scan/chunk.
     for ch in $G.scan/chunk.???; do
@@ -116,7 +116,7 @@ for c in sorted(glob.glob(d+'/chunk.???')):
     i=c.rsplit('.',1)[1]
     if not os.path.exists(d+'/'+i+'.json'): bad.append(i)
 rc=0 if (ff==0 and not bad and len(names)==int(total)) else 1
-print(f"scans@1000 (the disk-reading tests RELATED did not run: {total} of the tree's {alln}; workers={w}, chunks of 12, seed {seed}) rc={rc} Test Files {ff} failed | {fp} passed ({len(names)} of {total} listed); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
+print(f"scans@1000 (the source-reading tests RELATED did not run: {total} of the tree's {alln}; workers={w}, chunks of 12, seed {seed}) rc={rc} Test Files {ff} failed | {fp} passed ({len(names)} of {total} listed); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
 for x in reds[:20]: print('  scans red: '+x)
 PY
   fi

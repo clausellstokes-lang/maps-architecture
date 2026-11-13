@@ -21,7 +21,7 @@ list of source paths). Write them out in every command below in place of the cap
    COMMIT^{commit} && echo ok` — it must print ok. If the commit is not there, fetch deeper once
    (`git -C $R fetch --depth 400 origin claude/great-bell-qm3tio`); if it is still not there, send the parent the error
    and stop.
-3. **The gate script**: `mkdir -p /home/user/maps-scratch && for f in gate2.sh gate2-fullsum.py; do git -C
+3. **The gate script**: `mkdir -p /home/user/maps-scratch && for f in gate2.sh gate2-fullsum.py scan-list.py; do git -C
    /home/user/maps-architecture show origin/claude/great-bell-qm3tio:tools/session/gates/$f > /home/user/maps-scratch/$f;
    done; chmod +x /home/user/maps-scratch/gate2.sh; bash -n /home/user/maps-scratch/gate2.sh && echo ok`.
 4. **Start the gate DETACHED**: `(setsid nohup /home/user/maps-scratch/gate2.sh NAME COMMIT WORKERS NEAR SOURCES >
@@ -52,7 +52,7 @@ list of source paths). Write them out in every command below in place of the cap
 ## What the gate is (the script does all of it)
 
 Install, lint, build, the whole `landed:verify`, NEAR at full strength, RELATED at 1 000 runs over SOURCES in chunks of
-twelve files under one recorded seed, then the tree's disk-reading tests that RELATED did not run (J812: a test that
+twelve files under one recorded seed, then the tree's source-reading tests that RELATED did not run (J812: a test that
 reads sources from disk is invisible to RELATED), then the strength-gated test files at full strength, cell by cell. Every step
 records itself, so a launch after a restart skips what is finished. RED TESTS ARE EXPECTED in the summary — the head
 carries declared reds — and are the parent's to read: you do not judge them, run them again or open their logs.
