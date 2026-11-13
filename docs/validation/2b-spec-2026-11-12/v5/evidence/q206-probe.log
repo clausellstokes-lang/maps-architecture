@@ -1,0 +1,10 @@
+ring 2 area2 sign 1 corner signed distance from edge a→b -21.46 cm
+G1 case (corner 21.5 cm off the edge): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1119,"y":-8002}}]
+ring 1 moved 51.46 cm along the inward normal (corner then 30.00 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings []
+ring 1 moved 30 cm along the inward normal (corner then 8.54 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1144,"y":-8019}}]
+ring 1 moved 21.46 cm along the inward normal (corner then 0.00 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1137,"y":-8014}}]
+ring 1 moved 10 cm along the inward normal (corner then -11.46 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1127,"y":-8008}}]
+ring 1 moved 4 cm along the inward normal (corner then -17.46 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1122,"y":-8004}}]
+ring 1 moved -4 cm along the inward normal (corner then -25.46 cm from the edge, + inside): refused E_DEGENERATE overlap ring 2 at {"x":-7564,"y":-16189} warnings [{"code":"W_ATTRACTED","count":1,"at":{"x":-1116,"y":-8000}}]
+ring 1 moved -10 cm along the inward normal (corner then -31.46 cm from the edge, + inside): ok: pieces per ring [1,1,1,1] warnings []
+ring 1 moved -30 cm along the inward normal (corner then -51.46 cm from the edge, + inside): ok: pieces per ring [1,1,1,1] warnings []
