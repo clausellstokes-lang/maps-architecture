@@ -1,0 +1,1553 @@
+[
+ {
+  "q": "Q29",
+  "parts_open": [
+   "(e-06 chord pin)"
+  ],
+  "owner_items": [
+   "M0-e-06"
+  ],
+  "owed": "Nothing: the hand-built chord pin the row says is still owed is recorded PINNED in M0-e-06's notes (hand.test.ts 'one chord A → B: gated …', mutant R15 red).",
+  "kind": "pin",
+  "class": "STALE",
+  "class_detail": "Row's DONE text still says the chord pin 'stays owed to the hardening phase'; plat/docs/build/checks/M0-e-06-notes.md:50 lists note 15 PINNED by hand.test.ts — the row should say so.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "M0-e-06's hand-built chord pin (its note 15) stays owed to the hardening phase"
+ },
+ {
+  "q": "Q39",
+  "parts_open": [
+   "(fabric half)"
+  ],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "S8's batches routed through the runner's batch door (the door's signature landed in x-02 S4); declare note 30 (rank 4 → 5 through the door), read note 31 (onBatch watchers).",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 + M0-b-02 S3 (after round 2B and the re-profile; plan.json entry 'M0-b-03 + M0-b-02', line Q39-S8).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "THE FABRIC HALF remains for M0-b-03's fabric round (S9)"
+ },
+ {
+  "q": "Q44",
+  "parts_open": [
+   "(census residual)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "The 195 counted refusals with a seat inside the bound that no reading of the five passes routes: new router readings (J796 R-1), open in M0; one certified case carried with proof.",
+  "kind": "design",
+  "class": "PLANNED",
+  "class_detail": "THE RESIDUAL ROUND of M0-a-05 (J796 R-1), specced from plat/docs/build/checks/M0-a-05-s16-evidence/residual-cases.tsv after the RQ2 round's third leg; its queue row is opened at DV's landing.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "RULED RL1 (J637, vetoable): notBuilt #2 (M4) carries NO J238 (1) proof and its class W fails an M0 bar"
+ },
+ {
+  "q": "Q44",
+  "parts_open": [
+   "(router class)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "MAKE-IT-SUCCEED of insertChain's lawful refusals by the router's fifth pass (seven of the census's counted refusals now commit), pinned; lands with the router round.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (the router round S14 → S15 → S16; S16 resumed 00:46Z 2026-11-13 under J796).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "the class is MAKE-IT-SUCCEED in M0-a-05's router round S13 (after a-06 S8 lands; the hold on insert/)"
+ },
+ {
+  "q": "Q46",
+  "parts_open": [
+   "(F-WALL cases)"
+  ],
+  "owner_items": [
+   "M0-c-02"
+  ],
+  "owed": "Nothing in M0: RL2 closed the F-WALL later-rung cases as CARRIED TO M1 WITH PROOF at c-02 S6's landing (J750: 'Q88 and Q46 under RL2; RL2's proof'); the non-rung S3 class was fixed there.",
+  "kind": "text",
+  "class": "STALE",
+  "class_detail": "Row still reads 'OPEN → … census'; J750 (c-02 S6 landed 4d490aa7) records RL2's proof delivered and the S3 runs committing; Q202 shows seven of the rung's pinned seeds now commit. State should read CARRIED TO M1 WITH PROOF (C-0474), non-rung part DONE 4d490aa7.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "the F-WALL cases of this row, Q52 E and Q88 close as CARRIED TO M1 WITH PROOF at c-02 S6's landing"
+ },
+ {
+  "q": "Q49",
+  "parts_open": [],
+  "owner_items": [
+   "M0-f-02b"
+  ],
+  "owed": "Re-run the nightly and milestone tier receipts WHOLE (B-FUZZ 10⁶, fusion 1 000 seeds, edge sweep) and record them in checks/M0-f-02b.md, after the amendment's round 4.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "The end-of-phase batch (the whole receipts with the edge suite's 1 000-seed write, Q177 (a): 'Q49's batch'), after round 4.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "the whole receipts in f-02b S1 after the amendment's rounds 1–4"
+ },
+ {
+  "q": "Q51",
+  "parts_open": [],
+  "owner_items": [
+   "the session"
+  ],
+  "owed": "Regenerate kernel API.md Appendix B (four names behind the barrel) and empty AFTER_APPENDIX_B in one change under a session record.",
+  "kind": "text",
+  "class": "AFTER",
+  "class_detail": "After child ED's landing (its legs touch the kernel's API surface and the session already seams kernel/API.md's role count there); do it in that seam, re-check after the RQ2 third leg.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN — HARDENING documentation pass: regenerate Appendix B and empty AFTER_APPENDIX_B in one change"
+ },
+ {
+  "q": "Q62",
+  "parts_open": [
+   "(R-12)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "R-12 (the lawful 'remove lane' class routed to the router retrace) re-measured and pinned; confirmed by the S14/S15 checks, lands with the router round.",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (S14's LINE 8 'R-12' confirmed and not re-judged; lands with S16).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "R-12 specced in a-05 S14 (J697; LINE 5: re-measured on the S9 head and pinned either way) after a-06 S9"
+ },
+ {
+  "q": "Q64",
+  "parts_open": [
+   "(B2 sliver)"
+  ],
+  "owner_items": [
+   "M0-a-08"
+  ],
+  "owed": "The overlay's B2 sliver (106–108 cm against the 104 cm bound; seeds 253 / 476) in arr/winding.ts, re-measured on the router's landed head, fixed if it survives.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-a-08 S6, the two-leg child M0-c-03 S5 + M0-a-08 S6 after the router round lands (plan.json 'M0-a-08 S6': Q83, R12 ruling B2).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "the B2 sliver (106–108 cm against 104) is the overlay's"
+ },
+ {
+  "q": "Q64",
+  "parts_open": [
+   "(router shortfall)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "The router's shortfall on S6's interior folds (seeds 73, 243, 310, 751, 999, relief-60 183, relief-3000 77, flat outlines) made to succeed in the router round; leftovers fall into the census residual.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (router round); what it does not route goes to the M0-a-05 residual round (J796 R-1).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "the router's shortfall stands (notBuilt #2, RL1)"
+ },
+ {
+  "q": "Q69",
+  "parts_open": [
+   "(a)",
+   "(d)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "reparent returns at once with no live level-(n+1) record; one neighbour set per vertex in clearanceProblem / twinOf — router-side constant factors, NO-SHIFT.",
+  "kind": "fix",
+  "class": "AFTER",
+  "class_detail": "The re-profile of round 2B's tree (no round names these two; M0-a-05 is busy and its residual round edits the same files — fold there only if the re-profile shows them).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "re-measured on a production bundle"
+ },
+ {
+  "q": "Q69",
+  "parts_open": [
+   "(b)",
+   "(c)"
+  ],
+  "owner_items": [
+   "M0-a-03"
+  ],
+  "owed": "Index constant factors: faces-only queries on one level, skip empty levels; gridCandidates without its per-call Set (generation-stamped marks) — folded into Q127, NO-SHIFT.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 3 = M0-a-03 S2 (plan.json 'M0-a-03 S2' lines Q127 + Q69bc), after round 2B and the re-profile.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "HARDENING — the perf pass after Q18: a-05's and a-03's hardening rounds (or a dedicated perf round per item)"
+ },
+ {
+  "q": "Q72",
+  "parts_open": [],
+  "owner_items": [
+   "M0-t-00",
+   "M0-f-01"
+  ],
+  "owed": "Nothing: RL10 was built by M0-t-00 S1 (landed ce009e91, J749) — the timing phase times a production bundle with its stamp scope per row.",
+  "kind": "text",
+  "class": "STALE",
+  "class_detail": "Row ends at 'RULED RL10 … t-00 S1 before TIMING-PHASE READY'; J749 records M0-t-00 S1 PASS and landed ce009e91 with 'RL10: the timing phase times a PRODUCTION bundle, its stamp scope per row'. State should read DONE ce009e91 (J749); f-01's stamps did not move.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "t-00 S1 before TIMING-PHASE READY (+ f-01's stamps if they move)"
+ },
+ {
+  "q": "Q74",
+  "parts_open": [
+   "(RQ2 shape role)"
+  ],
+  "owner_items": [
+   "M0-a-02",
+   "M0-a-06"
+  ],
+  "owed": "The only remainder is Q79: the `shape` role's registry row (a-02 S4) and its maintenance in tx (a-06 S10).",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child ED, M0-a-02 S4 → M0-a-06 S10 (spec entries name 'Q79 … with Q74's last remainder').",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "only RQ2's shape role remains = Q79."
+ },
+ {
+  "q": "Q76",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-06"
+  ],
+  "owed": "The restore GENERATION closes the stale stamp after compactSlots / load (copies take a process-wide negative token, R12), built and pinned.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child ED, leg 2 M0-a-06 S10 (Q76 under R10).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "built and pinned together in M0-a-06 S10"
+ },
+ {
+  "q": "Q77",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "The stretch pair's 2^53 tie decided in BigInt, crossings.ts at r = 51 pinned, MK / ML constructed pins (S16 re-pins MK / ML).",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (LINE 6 'Q77 and the r = 51 pin' confirmed; MK / ML pinned in S16).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "specced in a-05 S14 (J697; LINE 4: the stretch pair's 2^53 tie in BigInt"
+ },
+ {
+  "q": "Q78",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-06"
+  ],
+  "owed": "An oracle test and a design sentence: a transaction may query faceNeighbours between an allocation and its free (R14).",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child ED, leg 2 M0-a-06 S10.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "in the merged RQ2 round's leg 2 (M0-a-06 S10), ruled R14: an oracle test and a design sentence"
+ },
+ {
+  "q": "Q79",
+  "parts_open": [
+   "(registry row + tx maintenance)"
+  ],
+  "owner_items": [
+   "M0-a-02",
+   "M0-a-06"
+  ],
+  "owed": "The `shape` role row with the registry version raised to 2 (a-02 S4), then its maintenance, strip and pin rule in tx (a-06 S10).",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child ED, M0-a-02 S4 → M0-a-06 S10 (the merged RQ2 round's first two legs, J797).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "RULED RL4 (J757): YES at M0, as ONE step"
+ },
+ {
+  "q": "Q79",
+  "parts_open": [
+   "(the write, leg 3)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "The writer of `shape` rows at the landing (RQ2 leg 3: docs/validation/rq2-spec-2026-11-11/spec-a05-s15.json), keyed S17 or later.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "RQ2 round's third leg on M0-a-05, its own child once DV's router round and ED's two legs have landed (split-2026-11-13/README.md).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "the write at the landing (M0-a-05 S15)"
+ },
+ {
+  "q": "Q83",
+  "parts_open": [
+   "(B2 cases 253 / 476)"
+  ],
+  "owner_items": [
+   "M0-a-08"
+  ],
+  "owed": "The two B2 cases in arr/winding.ts (a-08's overlay), re-measured on the router's landed head; a-08 S6's FIX if they survive.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-a-08 S6 in the two-leg child M0-c-03 S5 + M0-a-08 S6 after the router lands.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "253 / 476 are B2 (arr/winding.ts, a-08's)"
+ },
+ {
+  "q": "Q83",
+  "parts_open": [
+   "(census residual, trio class-C)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "The census residual (195 refusals, the trio's one class-C case, seven surviving mutants) owed by new router readings; the certified case carried with proof.",
+  "kind": "design",
+  "class": "PLANNED",
+  "class_detail": "The residual round of M0-a-05 (J796 R-1), after the RQ2 round's third leg; queue row opened at DV's landing.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "J697: J693 (1)'s bar READ AS THE ROUTER'S SET"
+ },
+ {
+  "q": "Q83",
+  "parts_open": [
+   "(router class)"
+  ],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "notBuilt #2's router class made to succeed by the fifth pass; the trio's count at seed 8611 × 1 000 re-measured on the landed head.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (the router round; RL1 / J697).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "notBuilt #2 is MAKE-IT-SUCCEED in a-05 S14 after a-06 S9, the numbers its baseline and bars"
+ },
+ {
+  "q": "Q85",
+  "parts_open": [],
+  "owner_items": [
+   "M0-m-01"
+  ],
+  "owed": "Move the narration guard's list to @plat/testkit (a copy of narration.ts plus one import line in m-01) — needed only when a second comment guard is written.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: does M0 add a second narration guard? Recommend NO → close as conditional, CARRIED TO M1 (the move rides with the first second guard; a shared module with one reader buys nothing now).",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "a second guard in another package needs the list in `tools/` or `@plat/testkit`"
+ },
+ {
+  "q": "Q88",
+  "parts_open": [],
+  "owner_items": [
+   "M0-c-02"
+  ],
+  "owed": "Nothing: the re-read at M0-e-06 S4's summary re-run is done — J782's re-measure shows F-WALL's S5 class gone on the 800 CITY derivations.",
+  "kind": "text",
+  "class": "STALE",
+  "class_detail": "Row says 'CLOSED for the rounds; re-read at M0-e-06 S4's summary re-run'; e-06 S4 landed 908a3f0d and Q122's J782 sentence reports 'F-WALL's S5 class gone'. State should read CLOSED (J782).",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "CLOSED for the rounds; re-read at M0-e-06 S4's summary re-run"
+ },
+ {
+  "q": "Q90",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Re-measure the displaced-run-end KEPT_DEEP class (≈1 per 10³ band reads) after round 2; FIX under J490 (1) if it survives.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: is Q90 a line of round 2B (J744 sent 'Q7 Q90's fix' to 2B's spec, but the v4 entries never name it)? Recommend: a measurement line in round A's shadow at binding; fix in round B if non-zero, else close.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "RULED RL11 (J637): re-measured at the amendment's round 2 (the derived kerb inserts nothing, item 986)"
+ },
+ {
+  "q": "Q92",
+  "parts_open": [
+   "(a)",
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "(a) ladder statistics name the rung for the 65 holed-star flatten hand-offs, MAKE-IT-SUCCEED if any face ends refused; (b) derive L28's fusion seeds 1, 2, 11, 30 now c-06 exists.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 + M0-b-02 S3 (plan.json lines Q92a / Q92b; round 2B v4: 'Q92 … wait for M0-b-03's next round on the shifted tree').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "the blocker named in (b) is gone — M0-c-06 landed (J554)"
+ },
+ {
+  "q": "Q95",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-06"
+  ],
+  "owed": "relevel lists the re-parented children in the batch's change set, pinned against the d-04 repro; commit records a declared shift.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child ED, leg 2 M0-a-06 S10 (R14).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "in the merged RQ2 round's leg 2 (M0-a-06 S10), ruled R14"
+ },
+ {
+  "q": "Q102",
+  "parts_open": [],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "A split child's kerb in two parts through a 13 cm pinch with no seed in the 172 m² part (fusion 25): a seed per kerb component or the part courted, per RL6, on round 2B's shifted tree.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 (with Q199, Q109, Q92; plan.json line Q102/Q117i), after round 2B and the re-profile.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "a-09 S15 reports it, b-03's next round takes it"
+ },
+ {
+  "q": "Q107",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "The acute T-junction kerb-wedge tips: re-measured by the session's 1 000-seed run on round 2B's tree, then closed or re-routed.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "Round 2B (M0-a-09 S22 entry: 'Q107, Q110 (c) and Q117's tip and band-needle classes are re-measured by the session's 1 000-seed run').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "until then neither item builds for the tips"
+ },
+ {
+  "q": "Q108",
+  "parts_open": [],
+  "owner_items": [
+   "M0-b-02"
+  ],
+  "owed": "A per-portal reach on KerbPortal (planner.ts) so a clipped cross-chain portal reserves only what the row needs (RL7: an optional additive field).",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-b-02 S3, merged with M0-b-03 S9 (plan.json 'M0-b-03 + M0-b-02 S9 + S3').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN → M0-b-02's next round"
+ },
+ {
+  "q": "Q109",
+  "parts_open": [],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "S7-4's recount of seedless split parts over the registered seeds with the fusion harness (no engine change expected); C-0426 (13) restated.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 (plan.json line Q109).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN → M0-b-03's next touch"
+ },
+ {
+  "q": "Q110",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Ring-way first corner cut, commit-time attraction 38 cm deep, the 2.3° bend tip, draw-268 sliver: re-measured on round 2B's tree (the S22 entry names only (c)).",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "Round 2B + the session's 1 000-seed run (S22 entry names 'Q110 (c)'); the other parts are not named by any entry.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "OPEN → a-09's next touch; c-06's fourth continuation reports whether the smoke meets them (N-65 (5))"
+ },
+ {
+  "q": "Q111",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Nothing to build: the kernel replay-classing export closes as moot at round 2B's landing.",
+  "kind": "text",
+  "class": "PLANNED",
+  "class_detail": "Round 2B (S22 entry: 'Q111 (the replay classing export) and Q178 (a) close as moot at the landing').",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN → a-09's next touch (N-65 (4))"
+ },
+ {
+  "q": "Q117",
+  "parts_open": [
+   "(a-09: acute tip, BAND needles)"
+  ],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Fusion 24's acute tip and the two (ii) BAND needle blocks (integrated 11, 36): re-measured by the session's 1 000-seed run after round 2B; closed or re-routed.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "Round 2B + the session's 1 000-seed run (S22 entry).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "integrated 11 block:frgdxgv5et5yr 139.06 cm and integrated 36 block:9bfqve4sd4pf1 137.27 cm — (ii) BAND"
+ },
+ {
+  "q": "Q117",
+  "parts_open": [
+   "(b-03: the two (i) cases)"
+  ],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "The two kerb-in-two-parts (i) cases (fusion 25, integrated 38) with Q102.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 (plan.json line 'Q102/Q117i').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "M0-b-03 (the two (i) cases, with Q102)"
+ },
+ {
+  "q": "Q118",
+  "parts_open": [],
+  "owner_items": [
+   "M0-f-03b"
+  ],
+  "owed": "The work-limit table's re-fit (v3) on per-stage blocks under the floor law, hitBound's margin per row, fixtures re-frozen (declared), the S3 E_INVARIANT at v3 reported.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-f-03b S2 (plan.json: waits on round 4 and the final site-summary re-run); last in J748 (2)'s order after round 4.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "the re-fit (f-03b S1) after the amendment's round 4"
+ },
+ {
+  "q": "Q119",
+  "parts_open": [],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "The S8 court share (ours 0.78–0.84 vs the band rows' 0.45 / 0.65) judged by b-03's owner against §13.5 once the real-size figure exists; never a re-tuning of the table to our figure.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03's next round on round 2B's shifted tree (S22 entry: 'Q119 wait for M0-b-03's next round'), after c-07 phase a over the session's 1 000-seed fusion run.",
+  "required_for_m0_exit": "no",
+  "exit_words": "nothing gates on it today",
+  "size": "M",
+  "evidence": "REPORTED (J574) → b-03's next round when the real-size figure exists; nothing gates on it today"
+ },
+ {
+  "q": "Q121",
+  "parts_open": [],
+  "owner_items": [
+   "V03 (design)"
+  ],
+  "owed": "The furnishing catalogue and reach law for V03: record shape settled before M1 / M2a, rows at M6-P.",
+  "kind": "design",
+  "class": "CARRY",
+  "class_detail": "Design round of V03 before M2a; rows at M6-P — no M0 work.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "OPEN (J592, J634, J635, J654, J656, J658) → V03's next design round (the shape before M2a; the rows at M6-P)"
+ },
+ {
+  "q": "Q126",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Round 2 of the S8 cost amendment: the kerb served by the ladder (exact lay first rung, construction second) with its declared shift and bars.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 2B: round A (no-shift, v4/spec-a09-s21.json, keyed S22) then round B (the shift, keyed S23); 2A (S18 + S19) landed 795f4c1e.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "round 2 on M0-a-09 after round 1's landing and measurement"
+ },
+ {
+  "q": "Q127",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-03"
+  ],
+  "owed": "The index's query cost: large set in a coarse grid, a generation-stamped seen array, faces-only queries on one level; NO-SHIFT; bars per J607.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 3 = M0-a-03 S2, after round 2B and the re-profile of its tree.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "ACCEPTED J618: round 3, briefed after the re-profile of round 2's tree and scoped by its shares"
+ },
+ {
+  "q": "Q128",
+  "parts_open": [
+   "(round 4)"
+  ],
+  "owner_items": [
+   "M0-b-03",
+   "M0-b-02",
+   "M0-a-10"
+  ],
+  "owed": "The fabric's per-visit work function by function (items 988–989), NO-SHIFT, work outside the kernel ≤ 2 ms a cut; S8 ≤ 10 s at CITY on the cloud box.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 4 = M0-b-03 S10 + M0-b-02 S4 + M0-a-10 S3 after round 3 and its re-profile.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "rounds 1–4 BEFORE TIMING-PHASE READY (991 (e))",
+  "size": "L",
+  "evidence": "round 4 after the re-profile"
+ },
+ {
+  "q": "Q128",
+  "parts_open": [
+   "(the numbers)"
+  ],
+  "owner_items": [
+   "the session"
+  ],
+  "owed": "The D-18 re-declaration of §12.4's S8 row and the gate's time clause signed on the Mac's measured p95s (vetoable).",
+  "kind": "owner-decision",
+  "class": "AFTER",
+  "class_detail": "The Mac timing steps (owner's machine), after rounds 1–4 and TIMING-PHASE READY.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "the NUMBERS on the Mac's p95s (J558 (2)), the D-18 re-declaration then signed by the session as a vetoable entry",
+  "size": "S",
+  "evidence": "the NUMBERS on the Mac's p95s (J558 (2)), the D-18 re-declaration then signed by the session as a vetoable entry"
+ },
+ {
+  "q": "Q129",
+  "parts_open": [],
+  "owner_items": [
+   "M0-c-02",
+   "M0-c-04",
+   "M0-c-05"
+  ],
+  "owed": "S5's cost at CITY (5.15 s prod vs §12.4's 40 ms): re-profile on round 2B's tree, then S5a / S5c constant-factor work; the gate's re-declaration includes its measured p95.",
+  "kind": "measurement",
+  "class": "AFTER",
+  "class_detail": "The re-profile after round 2B; NO round is planned or named for S5's cost.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "OPEN (J607) — after the S8 rounds' re-profile; the owner's decision on the gate's re-declaration includes it"
+ },
+ {
+  "q": "Q130",
+  "parts_open": [],
+  "owner_items": [
+   "M0-c-01"
+  ],
+  "owed": "S4's cost at CITY (427 ms prod vs §12.4's 10 ms): re-profile, then the siting's route constant factor; its measured p95 feeds the re-declaration.",
+  "kind": "measurement",
+  "class": "AFTER",
+  "class_detail": "The re-profile after round 2B; NO round is planned or named for S4's cost.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "OPEN (J607)"
+ },
+ {
+  "q": "Q135",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-05",
+   "M0-c-02",
+   "M0-x-02",
+   "M0-x-04"
+  ],
+  "owed": "Remove the always-rejected planning batch traceStage spends (RL15's seam (a): a read-only split plan from insert/), with c-02's hook and the watchers.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: build RL15's seam in M0 (an a-05 round after the router — none is planned) or carry? Recommend CARRY TO M1 with J238 (1)'s proof: cost-only, fail-safe, counted as a named class; reopen if Q129's re-profile makes it material.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "until then the receipts count the planning batch as the refused batch it is (a known, named class)"
+ },
+ {
+  "q": "Q136",
+  "parts_open": [
+   "(values)"
+  ],
+  "owner_items": [
+   "M5 / M6 items"
+  ],
+  "owed": "The culture layer's row VALUES at M5 / M6a / M6-P / M6-E / M-CAL.",
+  "kind": "design",
+  "class": "CARRY",
+  "class_detail": "Design integrated (J668); values at later milestones.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "OPEN for the rows' VALUES at M5 / M6a / M6-P / M6-E / M-CAL"
+ },
+ {
+  "q": "Q142",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "FAR1 pinned by a constructed arrangement (red under .slice(0, 1)); closed by S15, lands with the router round.",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DV, M0-a-05 S16 (its entry: 'LINE 9 (FAR1; Q142 closed)' confirmed, lands with S16).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "specced in a-05 S14 (J697; LINE 6: FAR1 pinned by a constructed arrangement, red under .slice(0, 1)) after a-06 S9"
+ },
+ {
+  "q": "Q145",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-16"
+  ],
+  "owed": "Export refuseNotBuilt and widen Milestone with M5, M6-E, M4b (R9: yes), or rule the edge table's stub lawful.",
+  "kind": "fix",
+  "class": "AFTER",
+  "class_detail": "The Mac timing steps (J722 (5): a-16's public-API rows follow the Mac steps, J558).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "HELD BACK — a-16's public-API rows follow the Mac steps (J558)"
+ },
+ {
+  "q": "Q148",
+  "parts_open": [
+   "(s1c-1, s1c-2, s1c-5)"
+  ],
+  "owner_items": [
+   "M0-x-06"
+  ],
+  "owed": "Nothing in M0: the three notes are carried by Q158 (M1 tiers; s1c-5 M4).",
+  "kind": "text",
+  "class": "STALE",
+  "class_detail": "Summary half CLOSED (5782c31c, J760); the remaining notes are exactly Q158's 'M0-x-06's notes s1c-1, s1c-2, s1c-5' CARRIED to M1 (J735). State should read CLOSED, notes carried by Q158.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "s1c-1, s1c-2 and s1c-5 stay as the second re-triage classed them (pins and one M4 observation: no round)"
+ },
+ {
+  "q": "Q152",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "The six red bands tests routed assertion by assertion on round B's tree: each shown lawful and re-pinned with its reason, or a defect fixed.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 2B's round B (the shift; keyed S23, not yet bound) — 'they stay for round 2B after M0-a-05 S14'.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "they stay for round 2B after M0-a-05 S14 (J744)"
+ },
+ {
+  "q": "Q153",
+  "parts_open": [],
+  "owner_items": [
+   "M0-d-08"
+  ],
+  "owed": "Find dilation.test.ts's assertion that races real time under load and bound it (a stated tolerance or an injected clock), with a pin under load.",
+  "kind": "test-only",
+  "class": "NOW",
+  "class_detail": "M0-d-08 S2 (not busy; testkit tests, lighter check). Declared in every gate's red list today.",
+  "required_for_m0_exit": "no",
+  "exit_words": "d-08 is an ISOLATED piece of the compounding map, so the row does not hold M0's exit (J567)",
+  "size": "S",
+  "evidence": "OPEN (J731; STATE 2026-11-10, J736: seen once in two partial runs; S9's check is the next reading)"
+ },
+ {
+  "q": "Q170",
+  "parts_open": [],
+  "owner_items": [
+   "M0-t-00",
+   "M0-c-06",
+   "M0-e-06"
+  ],
+  "owed": "The timing phase's split stamp per sub-stage (needs per-stage boundaries from c-06's runs.ts and e-06's compose.ts and the pipeline's sub-stage marks).",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: is the per-sub-stage split stamp needed for M0's exit? Recommend NO → CARRY TO M1 (the first Mac reference run does not need it and §16 M0 (c)'s time clause is a sum of per-stage p95s).",
+  "required_for_m0_exit": "no",
+  "exit_words": "not needed for the Mac's first reference run",
+  "size": "M",
+  "evidence": "OPEN (J749) — not needed for the Mac's first reference run (the stamp's stage scope is as S1 built it)"
+ },
+ {
+  "q": "Q171",
+  "parts_open": [],
+  "owner_items": [
+   "the session"
+  ],
+  "owed": "A design sentence in §12.4: whether the budget rows include each stage's end-of-stage index rebuild.",
+  "kind": "text",
+  "class": "AFTER",
+  "class_detail": "The Mac timing steps (the re-budget decision, amendment z item 989 (c)).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J749) — a design sentence, decided with the Mac's numbers"
+ },
+ {
+  "q": "Q172",
+  "parts_open": [],
+  "owner_items": [
+   "the session (bench/src/profile)"
+  ],
+  "owed": "Replace bundle.ts's textual import.meta.url replace by an AST-level define.",
+  "kind": "fix",
+  "class": "CARRY",
+  "class_detail": "Carried to M1 by its own words (ISOLATED bench tooling) unless a pass touches the file first.",
+  "required_for_m0_exit": "no",
+  "exit_words": "carried to M1 unless a pass touches the file first",
+  "size": "S",
+  "evidence": "OPEN (J749) — ISOLATED (bench tooling); carried to M1 unless a pass touches the file first"
+ },
+ {
+  "q": "Q173",
+  "parts_open": [],
+  "owner_items": [
+   "M0-c-02",
+   "M0-c-04"
+  ],
+  "owed": "The V at a pinned gate: measured over the census and made to succeed (declared shift) in the enceinte's pull/trace; c-04's q173.test.ts turned to commits by leg 2.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EC, M0-c-02 S7 LINE 1 (leg 1) → M0-c-04 S7 (leg 2). NB: its J763 sentence on the river fixture seeds 1 and 6 is stale (Q202 (3): they commit).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "BOUND as LINE 1 of M0-c-02 S7, leg 1 of the merged round M0-c-02 S7 → M0-c-04 S7 → M0-e-06 S5 (child EC)"
+ },
+ {
+  "q": "Q175",
+  "parts_open": [
+   "(a)"
+  ],
+  "owner_items": [
+   "M0-x-06",
+   "M0-f-02b"
+  ],
+  "owed": "An in-run start marker written by testkit's runFixture to a sidecar of PLAT_EDGE_LOG, read by edgeHangs, so a hung seed is named without a replay.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: build (a) in M0 or carry? Recommend CARRY TO M1 with Q158: not required for exit, and f-02b S2's whole-replay deadline already names a hang with its last seed.",
+  "required_for_m0_exit": "no",
+  "exit_words": "not required for M0's exit",
+  "size": "S",
+  "evidence": "(a) stays REPORTED: the in-run start marker is M0-x-06's to write and is not required for M0's exit."
+ },
+ {
+  "q": "Q176",
+  "parts_open": [
+   "(a)",
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-d-05a",
+   "M0-d-05b"
+  ],
+  "owed": "(a) whether a lawful tombstone archive can hold a live id — ruled at M1's first archive; (b) P-c's first-push order pinned in the hardening pass (M4).",
+  "kind": "ruling-owed",
+  "class": "CARRY",
+  "class_detail": "M1 (a) / M4 (b) by the row's own words.",
+  "required_for_m0_exit": "no",
+  "exit_words": "the row waits without holding M0's exit",
+  "size": "S",
+  "evidence": "OPEN (J753) — M4 / M1"
+ },
+ {
+  "q": "Q177",
+  "parts_open": [
+   "(a)"
+  ],
+  "owner_items": [
+   "the session",
+   "M0-x-06"
+  ],
+  "owed": "The edge suite's 1 000-seed write (PLAT_EDGE_SEEDS=1000, detached, a day or more) with the whole receipts; any lawful refusal it meets routed to its owner before the record lands.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "The end-of-phase batch (the 1 000-seed write, Q177 (a)), after round 4.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "(a) required before M0's exit as a receipt",
+  "size": "L",
+  "evidence": "OPEN (J760) — (a) required before M0's exit as a receipt; (b) M1"
+ },
+ {
+  "q": "Q177",
+  "parts_open": [
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-x-05"
+  ],
+  "owed": "The coverage report and ladder-coverage summary name the six deferred classes; table.ts's header sentence corrected.",
+  "kind": "text",
+  "class": "CARRY",
+  "class_detail": "M1 by the row's own words.",
+  "required_for_m0_exit": "no",
+  "exit_words": "(b) M1",
+  "size": "S",
+  "evidence": "(a) required before M0's exit as a receipt; (b) M1"
+ },
+ {
+  "q": "Q178",
+  "parts_open": [
+   "(a)",
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "(a) the construction's no-move first read off §3.7 goes to round 2B with the ladder rulings (moot at its landing); (b) the frame-side end rule — round A's LINE 5 (endsOf corrected, a literal pin).",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Round 2B: round A (v4/spec-a09-s21.json LINE 5 for (b)); (a) 'close as moot at the landing' (S22 entry). J795's draft (landing 83) records both.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "(a) ROUND 2B's spec (what is served: it is evidence against serving the construction) and the wiring round's tables"
+ },
+ {
+  "q": "Q178",
+  "parts_open": [
+   "(c)"
+  ],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Nothing beyond the record: (c) was routed to the wiring round's binding note, and S20 (landed locally as the 83rd) read S8's real cuts at CITY.",
+  "kind": "text",
+  "class": "AFTER",
+  "class_detail": "Landing 83's gate (a09s20); the J795 draft states (a) and (b) only — add (c)'s answer (S20's CITY probe on S8's real cuts) when J795 is written.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(c) the wiring round's binding note (its CITY probe reads S8's real cuts, so the corpus's mix matters less there)"
+ },
+ {
+  "q": "Q178",
+  "parts_open": [
+   "(d)"
+  ],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "Tip-rule bound, an on-vertex literal, exactStraightOn duplicating straightRun, three equivalent mutants.",
+  "kind": "pin",
+  "class": "CARRY",
+  "class_detail": "M4 (the hardening pass) or the next round that opens the file — round 2B may absorb it.",
+  "required_for_m0_exit": "no",
+  "exit_words": "(d) the hardening pass (M4), or the next round that opens the file",
+  "size": "S",
+  "evidence": "(d) the hardening pass (M4), or the next round that opens the file"
+ },
+ {
+  "q": "Q179",
+  "parts_open": [
+   "(a)"
+  ],
+  "owner_items": [
+   "M0-a-04"
+  ],
+  "owed": "The mirror-image wedge pin on a later sub-edge of its run (mutant F1g2 red); tests only.",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DZ, leg 1 M0-a-04 S7 (spec LINE 1 'N-c6-1 (Q179 (a)').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(a) M0-a-04's next round — ONE pin, tests only"
+ },
+ {
+  "q": "Q179",
+  "parts_open": [
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-a-13"
+  ],
+  "owed": "One warp case on a sloped route with an off-axis boundary point; tests only.",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DZ, leg 2 M0-a-13 S3 (spec LINE 1 'N-s2c-2 (Q179 (b))'; in its closing check at 00:30Z).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(b) the hardening pass (M4), or M0-a-13's next touch"
+ },
+ {
+  "q": "Q180",
+  "parts_open": [
+   "(c)"
+  ],
+  "owner_items": [
+   "M0-e-06",
+   "M0-c-06",
+   "M0-a-11"
+  ],
+  "owed": "The corpus readers hand the skeleton raw faceRings walks (13 notSimple faces): readers hand over simple rings — the served kerb region or a kernel walk-to-rings reading — after a contract ruling.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: which reading feeds the skeleton? Recommend the served exact region X(F) after round 2B (no new kernel contract), one graph per lobe, as a reader leg in the end-of-phase batch before the final summary re-run. No round is named.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "THE FIX IS THE READER's, and it needs a RULING at its round's spec"
+ },
+ {
+  "q": "Q180",
+  "parts_open": [
+   "(d)",
+   "(e) fusion seeds"
+  ],
+  "owner_items": [
+   "the session",
+   "M0-e-06",
+   "M0-c-06"
+  ],
+  "owed": "The ONE batched re-run of the site summary on the merged head (the red canary goes green), M0-c-06's corpusSpine re-folded with it, the fusion harness's four river seeds read.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "The end-of-phase batch: M0-e-06's round after S5 with the final site-summary re-run, Q188 and M0-c-06's corpusSpine re-fold.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "(d) is required before M0's exit (a red canary)",
+  "size": "M",
+  "evidence": "(d) STANDS, with two more figures for the final summary re-run (N-s7-5)"
+ },
+ {
+  "q": "Q181",
+  "parts_open": [
+   "(N-13 kin: reverse order; F5)"
+  ],
+  "owner_items": [
+   "M0-a-06"
+  ],
+  "owed": "The reverse order (no flag ever existed) and a run whose two sides stand at different levels before the batch (F5) stay open in N-13's class.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question: are the N-13 kin M0 work? Recommend: S11's spec measures their reach on the RQ2 head; a line of S11 if any registered family reaches them, else carried to M4 with J238 (1)'s proof.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "STILL OPEN IN N-13's CLASS, notes rows: the reverse order (no flag ever existed) and a run whose two sides stand at different levels before the batch (F5)."
+ },
+ {
+  "q": "Q181",
+  "parts_open": [
+   "(main)"
+  ],
+  "owner_items": [
+   "M0-a-06",
+   "M0-a-13"
+  ],
+  "owed": "Rule 3 (b) amended (a row in common keeps the flag): tx/relevel.ts's flag step with its pins, a declared shift measured on the RQ2 head; with Q194, Q196 and Q195's count.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Q181's merged round M0-a-06 S11 → M0-a-13 S4, specced on the RQ2 round's landed head (after the third leg).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "L",
+  "evidence": "IT LANDS AS ITS OWN ROUND, M0-a-06 S11, AFTER THE MERGED RQ2 ROUND HAS LANDED WHOLE"
+ },
+ {
+  "q": "Q182",
+  "parts_open": [
+   "(a)"
+  ],
+  "owner_items": [
+   "M0-a-15"
+  ],
+  "owed": "io/decode.ts parse refuses a chunk whose rows name a role newer than its registry version, pinned (a version-1 chunk naming role 56).",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "The small follow-ups after the RQ2 round (Q182 (a), Q183, Q184), with Q181's merged round or as a leg of a later kernel round.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(a) hardening, after the RQ2 round; (b) M1"
+ },
+ {
+  "q": "Q182",
+  "parts_open": [
+   "(b)"
+  ],
+  "owner_items": [
+   "M1 loader"
+  ],
+  "owed": "The policy for a cache written under an older registry version.",
+  "kind": "design",
+  "class": "CARRY",
+  "class_detail": "M1 by the row's own words.",
+  "required_for_m0_exit": "no",
+  "exit_words": "(b) M1",
+  "size": "S",
+  "evidence": "(a) hardening, after the RQ2 round; (b) M1"
+ },
+ {
+  "q": "Q183",
+  "parts_open": [],
+  "owner_items": [
+   "the session",
+   "M0-a-02",
+   "M0-a-16",
+   "M0-a-15"
+  ],
+  "owed": "Text only: stale-slot messages get a copy's cause (pinned verbatim) and the Stamp / stamp.ts / decodeArena docs describe the new generation.",
+  "kind": "text",
+  "class": "PLANNED",
+  "class_detail": "The follow-ups after the RQ2 round (session seams at its landing; the messages at a-02's / a-16's next touch).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J776) — waits on the RQ2 round"
+ },
+ {
+  "q": "Q184",
+  "parts_open": [
+   "(a)",
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-a-14",
+   "M0-a-04"
+  ],
+  "owed": "(a) the validator knows the `shape` row's converse reading as a whole-arena invariant; (b) splitThrough's `row` option refuses `shape`; each pinned.",
+  "kind": "pin",
+  "class": "PLANNED",
+  "class_detail": "The follow-ups after the RQ2 round ('legs of a merged kernel round after the RQ2 round').",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J776) — waits on the RQ2 round"
+ },
+ {
+  "q": "Q185",
+  "parts_open": [],
+  "owner_items": [
+   "M0-c-02"
+  ],
+  "owed": "s5seeds.test.ts's second describe skipped as a unit at reduced strength, pinned by a PLAT_FUZZ_RUNS=1 run.",
+  "kind": "test-only",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EC, M0-c-02 S7 LINE 2 (leg 1).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "BOUND — LINE 2 of M0-c-02 S7 (child EC, leg 1)."
+ },
+ {
+  "q": "Q187",
+  "parts_open": [
+   "(a)",
+   "(d)",
+   "(e)"
+  ],
+  "owner_items": [
+   "M0-c-02",
+   "M0-c-04",
+   "M0-e-06"
+  ],
+  "owed": "(a) the gate-off-trace refusals made to succeed with Q173; (d) seed 151's REFUSE text names notBuilt('M3a'), pinned; (e) e-06's two pins moved to a planted refusal.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EC: (a) M0-c-02 S7 LINE 1, (d) M0-c-04 S7 LINE 2, (e) M0-e-06 S5.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "(a) EXPLAINED by M0-c-04 S6's diagnosis"
+ },
+ {
+  "q": "Q187",
+  "parts_open": [
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-c-03"
+  ],
+  "owed": "S4 '(way, way:13) branches' on relief-3000 seed 109 (both configs), the seed as the fixture; MAKE-IT-SUCCEED.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-c-03 S5 in the two-leg child M0-c-03 S5 + M0-a-08 S6 after the router round lands.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "(b) stands (M0-c-03 S5, after M0-a-05 S14 lands)."
+ },
+ {
+  "q": "Q188",
+  "parts_open": [
+   "(a)",
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-e-06"
+  ],
+  "owed": "(a) a second canary from the refusal classes (KRb red); (b) ledger-id normalisation only in comments or citation context, pinned.",
+  "kind": "pin",
+  "class": "PLANNED",
+  "class_detail": "M0-e-06's round after S5 in the end-of-phase batch (with the final site-summary re-run).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "rides with M0-e-06's next round"
+ },
+ {
+  "q": "Q189",
+  "parts_open": [
+   "(a)",
+   "(b)",
+   "(c)"
+  ],
+  "owner_items": [
+   "M0-c-05"
+  ],
+  "owed": "Nothing more to build: the trim's final-street fix, the two floors from the table and the corrected sentence landed locally as the 82nd landing (a6b04f90); the row's state waits on the gate.",
+  "kind": "fix",
+  "class": "AFTER",
+  "class_detail": "Landing 82 (M0-c-05 S4 + S5) — its full-strength step rides on landing 83's gate (a09s20); J794's draft writes '(a), (b), (c) CLOSED'.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "ROUND (J783) — M0-c-05 S4 launches in DS's freed seat; (d) M1"
+ },
+ {
+  "q": "Q189",
+  "parts_open": [
+   "(d)"
+  ],
+  "owner_items": [
+   "M0-c-05"
+  ],
+  "owed": "The seed lattice's phase on mid-size frames (a change of S5c's seeding contract).",
+  "kind": "design",
+  "class": "CARRY",
+  "class_detail": "M1 with Q150 (C-0254 (3)'s lattice with S7's gate plazas).",
+  "required_for_m0_exit": "no",
+  "exit_words": "(d): M1, with Q150",
+  "size": "S",
+  "evidence": "(d): M1, with Q150"
+ },
+ {
+  "q": "Q190",
+  "parts_open": [
+   "(a)",
+   "(b)",
+   "(c)"
+  ],
+  "owner_items": [
+   "M0-c-01"
+  ],
+  "owed": "One file-local helper both call sites read (mutant K4 unwritable), the eight seeds as fixed cases, the land sentence stated as measured.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child DZ, leg 3 M0-c-01 S6 (after M0-a-13 S3 ends).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "ROUND (J784) — M0-c-01 S6 is leg 3 of DZ's merged round"
+ },
+ {
+  "q": "Q190",
+  "parts_open": [
+   "(d)"
+  ],
+  "owner_items": [
+   "M0-c-02"
+  ],
+  "owed": "Read cell 1918289972's S5 E_SELF_INTERSECT (F-WALL later-rung text) on the merged tree after EC's leg 1; if still the later rung, closed as M1's under RL2.",
+  "kind": "measurement",
+  "class": "AFTER",
+  "class_detail": "EC's landing (M0-c-02 S7): its LINE 1 census names relief-3000 seed 1 and the river fixture but not this cell; the session reads it at the landing.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(d) with Q173"
+ },
+ {
+  "q": "Q191",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-09"
+  ],
+  "owed": "derived.test.ts's planted control asserts more than its plant gives (red at seed 146129014 × 1 000): a plant that cannot hide or a control asserting what the plant proves; the seed as a fixed case.",
+  "kind": "test-only",
+  "class": "PLANNED",
+  "class_detail": "Round 2B's test lines per the row — but NEITHER v4 entry (spec-a09-s21 / s22) names Q191; add it at round A's binding.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J784) — a declared red of M0-a-09's gate at that seed until then"
+ },
+ {
+  "q": "Q192",
+  "parts_open": [
+   "(a)",
+   "(b)",
+   "(c)",
+   "(d)",
+   "(e)"
+  ],
+  "owner_items": [
+   "M0-e-02"
+  ],
+  "owed": "(a) the confluence pit fixed in hydro/ (a declared shift for joining tributaries); (b)–(e) pins for QJ, QI/QN, QB, QF2.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EA, leg 1 M0-e-02 S3 (PASSED its re-check after fix round -s4; lands with leg 2).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "(a) – (e): M0-e-02 S3 — BOUND (J786), leg 1 of the merged round M0-e-02 S3 → M0-e-03 S5"
+ },
+ {
+  "q": "Q193",
+  "parts_open": [
+   "(a)"
+  ],
+  "owner_items": [
+   "M0-e-03"
+  ],
+  "owed": "provedRings reduced to one measure (the cleaned area partsOf judges by), the two crafted holes pinned, NO SHIFT on 303 runs.",
+  "kind": "fix",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EA, leg 2 M0-e-03 S5 (closing check relaunched 00:06Z).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "BINDS THE TIGHTENING as M0-e-03 S5 (J786), leg 2 of the merged round"
+ },
+ {
+  "q": "Q193",
+  "parts_open": [
+   "(b)"
+  ],
+  "owner_items": [
+   "M0-e-03"
+  ],
+  "owed": "The land wedge (under 60 cm deep) the kernel's ring leaves between a grazing river's bank and the arena's edge; every hard row holds.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question (pass B): act at M0? Recommend CARRY TO M1 with its reason: no M0 reader claims that land; re-read when an M1 stage first claims land beside a grazing river.",
+  "required_for_m0_exit": "no",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(b) REPORTED for the final triage (pass B)"
+ },
+ {
+  "q": "Q194",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-06"
+  ],
+  "owed": "removeEdges / retypeEdges of a stretch ending at a finer route vertex THROW: promote the finer end first; pins; the census throw count 136 → 0.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Q181's merged round, leg 1 M0-a-06 S11.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "OPEN (J786) — bound with Q181's round, after the RQ2 round"
+ },
+ {
+  "q": "Q195",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-05"
+  ],
+  "owed": "Count at CITY the own points landed on a crossed edge; then either W writes the row (a line of a-05's next round) or a notes row with the reason.",
+  "kind": "measurement",
+  "class": "PLANNED",
+  "class_detail": "Decided with Q181's merged round, on a count on the RQ2 round's landed head.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J786) — after the RQ2 round, with Q181"
+ },
+ {
+  "q": "Q196",
+  "parts_open": [],
+  "owner_items": [
+   "M0-a-13"
+  ],
+  "owed": "warp.ts `sameRun` reads the amended run notion (a row of that level in common), with the review's two orders as pins; landed together with leg 1.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "Q181's merged round, leg 2 M0-a-13 S4.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "M",
+  "evidence": "OPEN (J786) — bound with Q181's round, after the RQ2 round"
+ },
+ {
+  "q": "Q197",
+  "parts_open": [
+   "(a)",
+   "(d)"
+  ],
+  "owner_items": [
+   "M0-a-11"
+  ],
+  "owed": "A kernel-contract ruling on §3.8's coalescing (born-off-line start, position tolerance along travel, cluster spread), with review; then a-11 S8 with the six faces (and (d)'s) as fixtures.",
+  "kind": "ruling-owed",
+  "class": "RULING",
+  "class_detail": "Question (pass B): widen §3.8's coalescing for classes (2)–(4)? Recommend NO at M0 → carry to M1 with J238 (1)'s proof (typed designed net, exact fallback, 1 registered face of 40 107); reopen if the final summary shows a reader cost.",
+  "required_for_m0_exit": "no",
+  "exit_words": "NOT A WRONG RESULT TODAY",
+  "size": "M",
+  "evidence": "OPEN (J787) — (a) the ruling at pass B; (b), (c) with it"
+ },
+ {
+  "q": "Q197",
+  "parts_open": [
+   "(b)",
+   "(c)",
+   "(e)"
+  ],
+  "owner_items": [
+   "M0-a-11"
+  ],
+  "owed": "(b) pin the third reading's work law on its own; (c) engine.ts's header says what the queue gathers; (e) the census total 39 995 stated in the next choices row.",
+  "kind": "test-only",
+  "class": "AFTER",
+  "class_detail": "The ruling on (a) at pass B: if (a) is carried they run ALONE at once as M0-a-11 S8 (item free); if (a) is built they bind with it.",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "(b), (c): M0-a-11 S8's test and text lines (bound with (a), or alone at pass B if (a) is carried)"
+ },
+ {
+  "q": "Q199",
+  "parts_open": [],
+  "owner_items": [
+   "M0-b-03"
+  ],
+  "owed": "A refused child kerb read refuses the cut (lane taken out again, ladder continues) with its own cause beside 'needle', pinned; round 2B counts refused needle-floor reads at CITY.",
+  "kind": "fix",
+  "class": "PLANNED",
+  "class_detail": "M0-b-03 S9 (after round 2B and the re-profile).",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J787) — M0-b-03 S9"
+ },
+ {
+  "q": "Q200",
+  "parts_open": [
+   "(a)",
+   "(c)",
+   "(g)"
+  ],
+  "owner_items": [
+   "M0-c-04"
+  ],
+  "owed": "(a) q173.test.ts's four seeds in both configurations turned to commits; (c) heldEnclosure's water guard pinned (M9w); (g) the narrowing pin stated against the test's own plain reading.",
+  "kind": "test-only",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EC, leg 2 M0-c-04 S7 (LINES 1, 3, 4).",
+  "required_for_m0_exit": "unclear",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J789) — (a), (c), (g) BOUND in M0-c-04 S7 (child EC, leg 2)"
+ },
+ {
+  "q": "Q201",
+  "parts_open": [],
+  "owner_items": [
+   "M0-f-02a"
+  ],
+  "owed": "One value decides both runTier's guard and applyFallback (`const fb = opts.fallback === true`), with a pin passing a truthy non-boolean on a nightly manifest.",
+  "kind": "fix",
+  "class": "NOW",
+  "class_detail": "M0-f-02a S4 (not busy; bench/src/tiers/runner.ts + test, lighter check).",
+  "required_for_m0_exit": "no",
+  "exit_words": "not required for M0's exit",
+  "size": "S",
+  "evidence": "OPEN (J790) — a deliberate-writer escape, visible in the record; not required for M0's exit"
+ },
+ {
+  "q": "Q202",
+  "parts_open": [
+   "(1)"
+  ],
+  "owner_items": [
+   "M0-c-02"
+  ],
+  "owed": "The seven full-strength 'later rungs' cases re-pinned as each run behaves on S7's tree; the choices row says RL2's class lost those seeds.",
+  "kind": "pin",
+  "class": "IN-FLIGHT",
+  "class_detail": "Child EC, leg 1 M0-c-02 S7 (the session's ruling sent 21:24Z); DECLARED RED until it lands.",
+  "required_for_m0_exit": "yes",
+  "exit_words": "",
+  "size": "S",
+  "evidence": "OPEN (J793) — DECLARED RED on the head until M0-c-02 S7 lands; (2) DONE"
+ }
+]

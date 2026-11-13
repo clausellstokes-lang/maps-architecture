@@ -536,3 +536,22 @@ and first failing assertion (`measurement/step2-classes-LD.json`; the two lists 
   PLAT_FUZZ_RUNS unset; queue row Q202; nothing of round 2B's. testkit's agreement-corridor.test.ts :25 is red on the
   base MIRROR only (it carries S20's files as of an early snapshot): GREEN on the design head — to be read again on
   S20's landed tree.
+
+## Owed at the bindings, from pass B's triage (J800, 2026-11-13)
+
+The triage of the fix queue (docs/validation/pass-b-triage-2026-11-13/) found three rows routed to round 2B that the
+v4 entries do not name. They are added when the entries are bound, not before:
+
+- **Q90, at round A's binding** — the line that installs the shadow and takes the round's own measurement also
+  classes, by cause, every read refused on BOTH rungs, and counts the displaced-run-end class (KEPT_DEEP) at the
+  B-FUZZ seeds and at CITY. Zero closes Q90; a non-zero count makes it a FIX line of round B (RL11; J490 (1)).
+- **Q191, at round A's binding** — a test-only line: derived.test.ts's planted control ('straight lanes … 10
+  networks') asserts more than its plant gives at one seed; the control is made a fact of the plant and the seed is
+  kept as a fixed case.
+- **Q110, at round B's binding** — the shift entry names part (c) alone; each part is named with its reading under
+  the ladder.
+
+Also at round A's binding: the round is keyed S22 (S20's fix round took -s21) and round B S23; the DECLARED REDS
+paragraph is brought to the head's list (Q202's seven full-strength cases added; Q153 dropped if child EE's first
+leg has landed); 'M0-a-05 S14' reads 'the router round (S14 – S16)' wherever the entry waits on it.
+
