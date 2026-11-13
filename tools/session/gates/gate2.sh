@@ -4,8 +4,9 @@
 # records itself in $G.sum and is skipped when re-run; the long RELATED@1000 step runs in CHUNKS of its own file list,
 # each chunk with its exit code beside it, so a restart costs one chunk. Steps: install, lint, build, the whole
 # landed:verify, NEAR at full strength, RELATED@1000 over the landing's sources on the merged tree (one fuzz seed for the
-# whole run, recorded), then the strength-gated test files RELATED reached, at FULL strength (J793).
+# whole run, recorded), then the strength-gated test files RELATED reached, at FULL strength (J793), by cell (J798).
 export PATH=/root/.local/bin:/opt/node24/bin:$PATH
+HERE=$(cd "$(dirname "$0")" && pwd)
 N=$1; C=$2; W=$3; NEAR=$(echo $4 | tr ',' ' '); shift 4
 G=/home/user/maps-scratch/gates-$N
 [ -f $G.done ] && { cat $G.sum; exit 0; }
@@ -68,24 +69,41 @@ for x in reds[:20]: print('  related red: '+x)
 PY
 fi
 if ! has 'full-only'; then
-  FULLONLY=""
-  LIST=$G.related.list; [ -s $LIST ] || LIST=$G.related.json
-  for f in packages/layout/test/enceinte/s3seeds.test.ts packages/layout/test/enceinte/s5seeds.test.ts packages/testkit/test/kernel/arr-bands/representation.test.ts; do
-    grep -q "$(basename $f)" $LIST 2>/dev/null && FULLONLY="$FULLONLY $f"
-  done
-  if [ -z "$FULLONLY" ]; then
+  # The strength-gated files RELATED reached, at FULL strength (J793) — BY CELL, three at a time, each cell with its own
+  # exit code and report (J798): enceinte/s3seeds alone is 122 city derivations in one file, longer than a container lives.
+  LIST=$G.related.list
+  mkdir -p $G.full; : > $G.full/jobs.tsv
+  job() { printf '%s\t%s\t%s\n' "$1" "$2" "$3" >> $G.full/jobs.tsv; }
+  if grep -q 'enceinte/s3seeds.test.ts' $LIST 2>/dev/null; then
+    f=packages/layout/test/enceinte/s3seeds.test.ts
+    job s3-fwall-60-default $f 'F-WALL — relief-60 default'; job s3-fwall-60-coarse $f 'F-WALL — relief-60 coarse'
+    job s3-fwall-3000-default $f 'F-WALL — relief-3000 default'; job s3-fwall-3000-coarse $f 'F-WALL — relief-3000 coarse'
+    job s3-degenerate-3000-default $f 'E_DEGENERATE — relief-3000 default'; job s3-degenerate-3000-coarse $f 'E_DEGENERATE — relief-3000 coarse'
+  fi
+  if grep -q 'enceinte/s5seeds.test.ts' $LIST 2>/dev/null; then
+    f=packages/layout/test/enceinte/s5seeds.test.ts
+    job s5-commits $f 'the S5 sources that commit'; job s5-later-rungs $f 'later rungs'
+  fi
+  grep -q 'arr-bands/representation.test.ts' $LIST 2>/dev/null && job representation packages/testkit/test/kernel/arr-bands/representation.test.ts ''
+  if [ ! -s $G.full/jobs.tsv ]; then
     echo "full-only: none of the three strength-gated files is on the RELATED path" >> $G.sum
   else
-    mkdir -p $G.full; OUT=""
-    for f in $FULLONLY; do
-      b=$(basename $f .test.ts)
-      if [ ! -f $G.full/$b.rc ]; then
-        corepack pnpm exec vitest run --maxWorkers=$W $f > $G.full/$b.log 2>&1; echo $? > $G.full/$b.rc
+    run1() {
+      n=$1
+      f=$(awk -F'\t' -v n="$n" '$1==n{print $2}' $G.full/jobs.tsv)
+      t=$(awk -F'\t' -v n="$n" '$1==n{print $3}' $G.full/jobs.tsv)
+      [ -f $G.full/$n.rc ] && return 0
+      cd $G/plat || return 1
+      if [ -n "$t" ]; then
+        corepack pnpm exec vitest run --maxWorkers=1 --reporter=default --reporter=json --outputFile=$G.full/$n.json $f -t "$t" > $G.full/$n.log 2>&1
+      else
+        corepack pnpm exec vitest run --maxWorkers=1 --reporter=default --reporter=json --outputFile=$G.full/$n.json $f > $G.full/$n.log 2>&1
       fi
-      OUT="$OUT $b rc=$(cat $G.full/$b.rc) [$(grep -E 'Tests ' $G.full/$b.log | tr -s ' ' | head -1)];"
-    done
-    echo "full-only (FULL strength, the strength-gated files RELATED reached):$OUT" >> $G.sum
-    grep -h -E '^ +×' $G.full/*.log 2>/dev/null | cut -c1-200 | sed 's/^/  full-only red: /' >> $G.sum
+      echo $? > $G.full/$n.rc
+    }
+    export -f run1; export G
+    cut -f1 $G.full/jobs.tsv | xargs -P 3 -I{} bash -c 'run1 {}'
+    python3 $HERE/gate2-fullsum.py $G.full >> $G.sum
   fi
 fi
 touch $G.done
