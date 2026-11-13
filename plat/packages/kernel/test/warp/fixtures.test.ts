@@ -9,7 +9,8 @@
 // isolates (hardening round S1, C-0364): the rotation and the mover-path checks one at a time, the placement bound's
 // call site, the slide clamp on both sides of a held vertex, a two-round closure, the region against a wider brush,
 // a rounding tie read through the warp's door, and the placement rule's per-candidate charge. Hardening round S2
-// (C-0487): the charge of a point test (i) refuses (N-s1c-1) and the band's attractCm boundary (N-s1c-2).
+// (C-0487): the charge of a point test (i) refuses (N-s1c-1) and the band's attractCm boundary (N-s1c-2). Hardening
+// round S3: the same boundary on a steep sloped route, an off-axis point 26 cm from P (N-s2c-2).
 import { describe, expect, it } from 'vitest';
 import { VERTEX_SPLIT, VERTEX_STEINER } from '../../src/arena/index.js';
 import { pointLocate } from '../../src/index/index.js';
@@ -892,6 +893,53 @@ describe('the placement rule\'s band reaches attractCm inclusive: a slide seated
     expect(r.report.halvings).toBe(0);
     expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 52,2000']);
     expect(at(p, foot)).toBe('27,2000');
+    healthy(p);
+  });
+});
+
+/**
+ * The shore (1 000, 1 100)–(2 000, 3 500), along (5, 12) · 200 — a STEEP route (|Δy| > |Δx|: the band's other branch of
+ * `shallow`, the rows of y) — with way:1's L1 junction on it at (1 500, 2 300) and an unlocked L1 way:2 foot at (1 010,
+ * 1 125), 0.38 cm off the line, outside the region (hardening round S3, N-s2c-2). The shore's end has x ≠ y, so a band
+ * that read the steep branch's axes the wrong way round (`a0`, `b0` of the shallow branch) would miss its points.
+ */
+function steepShoreArena() {
+  const p = framed();
+  commit(p, 0, (o) => insertChain(o, [pt(1000, 1100), pt(2000, 3500)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
+  commit(p, 1, (o) => {
+    must(insertChain(o, [pt(1500, 2300), pt(2500, 2300)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    return insertChain(o, [pt(1010, 1125), pt(10, 1125)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
+  });
+  return p;
+}
+const steepDrag = pointwise([[1500, 2300, -1000, -2400]]);
+const steepRegion = box(1400, 2200, 1600, 2400);
+
+describe('the band reaches attractCm inclusive on a steep sloped route: an off-axis point exactly 26 cm from P (N-s2c-2)', () => {
+  it('the junction clamped to P = (1 010, 1 124) beside an unlocked foot at (1 010, 1 125) slides to (1 020, 1 148), 10² + 24² = 26² from P', () => {
+    // Hardening round S3: round S2's two pins sit on a horizontal shore with the boundary point on the route's axis
+    // (26² + 0²); this one takes the band's steep branch (rows of y, the column of x within HOT_PIXEL_CM of the line) and
+    // an off-axis boundary point. The drag clamps the junction 26 cm from the shore's end, P = (1 010, 1 124) exactly.
+    // The band keeps the two points exactly 26 cm from P — (1 000, 1 100), the route's end, and (1 020, 1 148), ties y
+    // then x — and drops (1 020, 1 149) just beyond (10² + 25²). Every nearer point lies within minEdge of the shore's
+    // end or of the foot — (1 020, 1 147), 25.08 cm from P, is 24.17 from the foot — and (1 000, 1 100) fails test (i), so
+    // the first qualifying point is (1 020, 1 148), 25.08 cm from the foot, the band's last. Charged: the nearest
+    // (1 010, 1 124) and the 76 band points, 77; no halving.
+    const band = hotPixelCandidates(1000, 1100, 2000, 3500, 1010, 1124, P(1010, 1124)) ?? [];
+    expect(band.length).toBe(76);
+    expect(band.slice(-2)).toEqual([{ x: 1000, y: 1100 }, { x: 1020, y: 1148 }]);
+    expect(band.some((q) => q.y === 1149 || q.y === 1098 || q.y === 1099)).toBe(false);
+    expect(onRoutePixel(1000, 1100, 2000, 3500, 1000, 1100)).toBe(false);
+    expect(onRoutePixel(1000, 1100, 2000, 3500, 1020, 1148)).toBe(true);
+    const c = charged(steepShoreArena(), 1, steepDrag, steepRegion);
+    expect(c.warnings).toEqual(['W_PLACED 1020,1148']);
+    expect(c.counts).toEqual({ 'insert.placementCandidates': 77 });
+    const p = steepShoreArena();
+    const foot = vertexAtPoint(p, 1010, 1125);
+    const r = report(warpBatch(p, 1, steepDrag, steepRegion));
+    expect(r.report.halvings).toBe(0);
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 1020,1148']);
+    expect(at(p, foot)).toBe('1010,1125');
     healthy(p);
   });
 });
