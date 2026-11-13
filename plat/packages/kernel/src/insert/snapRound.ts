@@ -57,9 +57,12 @@ import { acrossApplies, placeAcross, placeOnRun, resolveCrossings, sliverPartner
 import {
   applyLanding,
   attractStretch,
+  beyondFifth,
   COS_MIN_ANGLE,
+  endStretchAt,
   FIDELITY_SQ,
   inInputBound,
+  landingPoint,
   nearestVertexWithin,
   nearerVertex,
   onRouteOfLevel,
@@ -538,7 +541,7 @@ export function routeAlongExisting(ctx: ChainCtx, a: VertexId, b: VertexId): Ker
 }
 
 function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: ReadonlySet<VertexId>, depth: number): KernelResult<null> {
-  check(depth <= (ctx.strip != null ? MAX_DEPTH_THIRD : MAX_DEPTH), 'the router does not converge');
+  check(depth <= ((ctx.strip ?? ctx.fifth ?? null) !== null ? MAX_DEPTH_THIRD : MAX_DEPTH), 'the router does not converge');
   if (a === b) return ok(null);
   const { tx, p, n } = ctx;
   const X = p.vertices.x;
@@ -590,13 +593,13 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
   };
   // A vertex inside an acute corner with its twin beside it takes no new edge: leave or reach it along an existing one.
   if (twinOf(ctx, a) >= 0) {
-    const z = exitTowards(ctx, a, X[b], Y[b]);
+    const z = fifthExit(ctx, a, X[b], Y[b]);
     if (z < 0) return passOn({ code: 'E_KEPT', detail: `the vertex at (${X[a]}, ${Y[a]}) can be left only along finer edges (kept content)` });
     tag(ctx, z, 'exit');
     return via(z, pass);
   }
   if (twinOf(ctx, b) >= 0) {
-    const z = exitTowards(ctx, b, X[a], Y[a]);
+    const z = fifthExit(ctx, b, X[a], Y[a]);
     if (z < 0) return passOn({ code: 'E_KEPT', detail: `the vertex at (${X[b]}, ${Y[b]}) can be reached only along finer edges (kept content)` });
     tag(ctx, z, 'exit');
     return via(z, pass);
@@ -624,6 +627,12 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
         skip.add(ob.piece.edge);
         continue;
       }
+      // The fifth pass (round S14, LINE 4 D): a contact landing beyond the bound of the input segment is no contact.
+      const lp = landingPoint(p, l.value);
+      if (beyondFifth(ctx, lp.x, lp.y)) {
+        skip.add(ob.piece.edge);
+        continue;
+      }
       const m = applyLanding(ctx, l.value);
       warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, m));
       tag(ctx, m, 'contact');
@@ -636,9 +645,18 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     if (!kl0.ok) return passOn(kl0);
     // Under the cut back's routes a stretch may leave at the routed segment's own end b, or join at its own start a
     // (`ChainCtx.cutStretch`, round S12).
-    const leavesAtEnd = ctx.cutStretch === 'end' && b === (trail?.end ?? -1) && kl0.value.kind === 'vertex' && kl0.value.vertex === b;
-    const joinsAtStart = ctx.cutStretch === 'start' && a === (trail?.order[0] ?? -1) && jl.value.kind === 'vertex' && jl.value.vertex === a;
+    // … and so may pass 5's reading r8 (`ctx.endStretch`, round S14, LINE 3) at the segment's own ends and at an end on
+    // the endpoint fallback.
+    const leavesAtEnd = ((ctx.cutStretch === 'end' && b === (trail?.end ?? -1)) || endStretchAt(ctx, b, null)) && kl0.value.kind === 'vertex' && kl0.value.vertex === b;
+    const joinsAtStart = ((ctx.cutStretch === 'start' && a === (trail?.order[0] ?? -1)) || endStretchAt(ctx, a, null)) && jl.value.kind === 'vertex' && jl.value.vertex === a;
     if ((jl.value.kind === 'vertex' && onPath(jl.value.vertex) && !joinsAtStart) || (kl0.value.kind === 'vertex' && onPath(kl0.value.vertex) && !leavesAtEnd)) {
+      skip.add(ob.piece.edge);
+      continue;
+    }
+    // The fifth pass (LINE 4 D): a stretch whose join or leave lands beyond the bound of the input segment is no stretch.
+    const jp = landingPoint(p, jl.value);
+    const kp = landingPoint(p, kl0.value);
+    if (beyondFifth(ctx, jp.x, jp.y) || beyondFifth(ctx, kp.x, kp.y)) {
       skip.add(ob.piece.edge);
       continue;
     }
@@ -649,6 +667,12 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     const kl = planLandingAfter(ctx, ob.piece, j, ob.leave.x, ob.leave.y);
     if (!kl.ok) return passOn(kl);
     const k = kl.value;
+    // The leave landed after the join (r8's 'start' form among them) stays within the bound in the fifth pass. k may be
+    // a vertex the landing just allocated, so its point is read from the tables as they stand now (C-0286 (4)'s re-read
+    // rule: X / Y above are dead copies once a landing grows the vertex table; round S16).
+    const kx = p.vertices.x[k];
+    const ky = p.vertices.y[k];
+    if (beyondFifth(ctx, kx, ky)) return err('E_INVARIANT', `a stretch's leave at (${kx}, ${ky}) lands beyond the fidelity bound`);
     tag(ctx, k, 'stretch');
     const r1 = route(ctx, a, j, pass, withAll(exclude, b), depth + 1);
     if (!r1.ok || cutInside()) return r1;
@@ -674,8 +698,9 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const k = fc.corner;
       const w = wedgeOutcome(ctx, cornerMove(ctx, a, b, k), pointOf(p, k));
       if (!w.ok) return passOn(w);
-      // The third and fourth passes (C-0217): a corner beyond the fidelity bound of the chain's input segment is not taken.
-      const st = ctx.strip ?? null;
+      // The third, fourth and fifth passes (C-0217; round S14): a corner beyond the fidelity bound of the chain's input
+      // segment is not taken.
+      const st = ctx.strip ?? ctx.fifth ?? null;
       if (w.value && (st === null || st.a === null || st.b === null || inInputBound(st.a, st.b, X[k], Y[k]))) {
         if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
         tag(ctx, k, 'corner');
@@ -707,7 +732,9 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
         if (across.value !== null) landing = across.value;
       }
     }
-    if (ctx.strip != null && acrossApplies(landing)) {
+    // The fifth pass (round S14, LINE 4 P) reads every crossing's landing beyond the bound of the input segment — a
+    // placed one, an edge's end within attractCm — as the third reads a fallback beyond it.
+    if ((ctx.strip ?? ctx.fifth ?? null) !== null && (acrossApplies(landing) || ctx.fifth != null)) {
       // The third and fourth passes (C-0217): a fallback beyond the fidelity bound of the chain's input — the step across
       // the strip, else the nearest in-bound point of the run.
       const inBound = stripLanding(ctx, a, b, c, landing, onPath);
@@ -870,11 +897,15 @@ const BOUND = Math.sqrt(FIDELITY_SQ);
  * given when nothing qualifies. Nothing written; refuses only E_WORK_LIMIT.
  */
 function stripLanding(ctx: ChainCtx, a: VertexId, b: VertexId, c: ExactCrossing, l: Landing, onPath: (v: VertexId) => boolean): KernelResult<Landing> {
-  const st = ctx.strip ?? null;
-  if (st === null || st.a === null || st.b === null || l.kind !== 'vertex') return ok(l);
+  const st = ctx.strip ?? ctx.fifth ?? null;
+  // A placed crossing (a split) is read in the fifth pass only (round S14, LINE 4 P).
+  if (st === null || st.a === null || st.b === null || (l.kind !== 'vertex' && ctx.fifth == null)) return ok(l);
+  // (In the fifth pass every landing beyond the bound is read so: a fallback, an edge's end within attractCm, a split.)
   const { a: ia, b: ib } = st;
   const P = ctx.p.vertices;
-  if (inInputBound(ia, ib, P.x[l.vertex], P.y[l.vertex])) return ok(l);
+  const lp = landingPoint(ctx.p, l);
+  if (inInputBound(ia, ib, lp.x, lp.y)) return ok(l);
+  const lv = l.kind === 'vertex' ? l.vertex : -1;
   const admit = (qx: number, qy: number): boolean => inInputBound(ia, ib, qx, qy);
   let partner: readonly [VertexId, VertexId] | null = null;
   const sp = sliverPartner(ctx, a, b, c);
@@ -897,11 +928,30 @@ function stripLanding(ctx: ChainCtx, a: VertexId, b: VertexId, c: ExactCrossing,
   if (r.value !== null) return ok(r.value);
   // Nothing on the run: the nearest existing vertex within the bound of the crossing and of the input segment, other
   // than the segment's own ends (the endpoint fallback's own kind of landing, on the nearest vertex).
-  const w = nearestVertexWithin(ctx, c, (u) => u === l.vertex || onPath(u) || !inInputBound(ia, ib, P.x[u], P.y[u]));
+  const w = nearestVertexWithin(ctx, c, (u) => u === lv || onPath(u) || !inInputBound(ia, ib, P.x[u], P.y[u]));
   if (!w.ok) return passOn(w);
   const v = w.value;
   if (v < 0 || onPath(v) || !inInputBound(ia, ib, P.x[v], P.y[v])) return ok(l);
   return ok({ kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(ctx.p, v) }] });
+}
+
+/**
+ * The exit of a vertex inside an acute corner with its twin beside it (`exitTowards`); in the fifth pass (round S14,
+ * LINE 4 W) only an exit within the bound of the input segment, the nearest the target among them (ties y then x), or
+ * −1.
+ */
+function fifthExit(ctx: ChainCtx, v: VertexId, x: number, y: number): VertexId {
+  const z = exitTowards(ctx, v, x, y);
+  if (z < 0 || !beyondFifth(ctx, ctx.p.vertices.x[z], ctx.p.vertices.y[z])) return z;
+  const { p, n } = ctx;
+  let best = -1;
+  for (const h of outgoing(p, v)) {
+    if (edgeLevel(p, h) > n) continue;
+    const { w } = pieceFrom(p, h, n);
+    if (beyondFifth(ctx, p.vertices.x[w], p.vertices.y[w])) continue;
+    best = best < 0 ? w : nearerVertex(p, best, w, x, y);
+  }
+  return best;
 }
 
 /** A set with more members. */

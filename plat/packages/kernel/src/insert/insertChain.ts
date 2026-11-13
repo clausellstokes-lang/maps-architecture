@@ -104,6 +104,7 @@ import {
   routeBetween,
   segmentBox,
   segmentDistance,
+  squareWithin,
   withinSegment,
   type ChainCtx,
   type Piece,
@@ -486,7 +487,8 @@ const BOUND = Math.sqrt(FIDELITY_SQ);
  * qualifies. Nothing written; refuses only E_WORK_LIMIT.
  */
 function stepTwoStrip(ctx: ChainCtx, pt: LatticePoint, v: VertexId, prevPt: LatticePoint | null, nextPt: LatticePoint | null): KernelResult<InBoundLanding | null> {
-  if (ctx.strip == null) return ok(null);
+  // The third and fourth passes (`ctx.strip`), and the fifth (`ctx.fifth`, round S14) in the third's order.
+  if ((ctx.strip ?? ctx.fifth ?? null) === null) return ok(null);
   const { tx, p, n } = ctx;
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -575,13 +577,64 @@ function stepTwoStrip(ctx: ChainCtx, pt: LatticePoint, v: VertexId, prevPt: Latt
   // the free spot first. An end's edge landing (`onEdge`) comes before the free spot in each (C-0456 (1)): the first
   // reading's strip and nearest landings stand as before the round — taken first, an edge landing there moved ends the
   // reading had seated nearer and later chains were refused round them (round S12's own bands measure, seed 4).
-  const order = ctx.strip.variant === 1 ? [onEdge, free, nearest, across] : [across, nearest, onEdge, free];
+  // The fifth pass (round S14, LINE 2, class E): every in-bound landing — the strip's far side, the nearest piece's
+  // qualifying point, the end's edge landing, each existing vertex of level ≤ n within the bound, a free spot — nearest
+  // first (ties y then x), at most RELAND_MAX; step 2 takes the one `ctx.fifthPick` names and records how many there
+  // are, and insertChain's walk routes the segment from each in turn.
+  if (ctx.fifth != null && ctx.strip == null) {
+    const all: { l: InBoundLanding; at: LatticePoint; d: number }[] = [];
+    const seen = new Set<string>();
+    const add = (l: InBoundLanding | null): void => {
+      if (l === null) return;
+      const at = l.kind === 'free' ? l.at : landingPoint(p, l);
+      const d = (at.x - pt.x) * (at.x - pt.x) + (at.y - pt.y) * (at.y - pt.y);
+      const key = `${at.x},${at.y}`;
+      if (d > FIDELITY_SQ || seen.has(key)) return;
+      seen.add(key);
+      all.push({ l, at, d });
+    };
+    for (const f of [across, nearest, onEdge, free]) {
+      const r = f();
+      if (!r.ok) return passOn(r);
+      add(r.value);
+    }
+    const ws = verticesWithin(ctx, pt, (u) => u === v);
+    if (!ws.ok) return passOn(ws);
+    for (const w of ws.value) add({ kind: 'vertex', vertex: w, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, w) }] });
+    all.sort((u, w) => u.d - w.d || u.at.y - w.at.y || u.at.x - w.at.x);
+    const list = all.slice(0, RELAND_MAX);
+    const pick = ctx.fifthPick ?? null;
+    if (pick !== null) pick.count = list.length;
+    const k = pick === null ? 0 : pick.k;
+    return ok(k < list.length ? list[k].l : null);
+  }
+  const order = ctx.strip?.variant === 1 ? [onEdge, free, nearest, across] : [across, nearest, onEdge, free];
   for (const f of order) {
     const r = f();
     if (!r.ok) return passOn(r);
     if (r.value !== null) return ok(r.value);
   }
   return ok(null);
+}
+
+/**
+ * The live vertices of level ≤ n within the fidelity bound of the point, but those `skip` names, nearest first (ties y
+ * then x), at most RELAND_MAX (the fifth pass's step-2 landings, round S14, LINE 2). One index query
+ * (`insert.attractQueries`).
+ */
+function verticesWithin(ctx: ChainCtx, pt: LatticePoint, skip: (v: VertexId) => boolean): KernelResult<VertexId[]> {
+  const { tx, p, n } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  if (!charge(tx, INSERT_ATTRACT_QUERIES, 1)) return workLimitHit(INSERT_ATTRACT_QUERIES);
+  const found: { v: VertexId; d: number }[] = [];
+  for (const w of query(p, tx.key, n, segmentBox(pt.x, pt.y, pt.x, pt.y, Math.ceil(BOUND)), { vertices: true }).vertices) {
+    if (skip(w) || p.vertices.level[w] > n) continue;
+    const d = (X[w] - pt.x) * (X[w] - pt.x) + (Y[w] - pt.y) * (Y[w] - pt.y);
+    if (d <= FIDELITY_SQ) found.push({ v: w, d });
+  }
+  found.sort((u, w) => u.d - w.d || Y[u.v] - Y[w.v] || X[u.v] - X[w.v]);
+  return ok(found.slice(0, RELAND_MAX).map((f) => f.v));
 }
 
 /**
@@ -850,7 +903,8 @@ const FIDELITY_EVALS = 4096;
  * and leave point and every finer vertex of a shared piece among their ends — stay within 2 · √2 · `attractCm` of the
  * input segment pa → pb, as a Hausdorff distance both ways? Route to segment: the distance to a segment is convex along
  * an edge, so the route's vertices decide it (exactly, on lattice points: every squared distance and dot product here
- * is an integer below 2⁵³). Segment to route: the route is one connected path from a to b whose vertices all stand
+ * is an integer below 2⁵³, and the cross term's square against the bound is `squareWithin`'s, exact past 2⁵³ too —
+ * Q77, round S14). Segment to route: the route is one connected path from a to b whose vertices all stand
  * within the bound, so every point of the segment whose foot lies between the route's two extreme feet has a route point
  * on its perpendicular, within the bound by the first half; the two end pieces beyond those feet are bisected on the
  * distance to the route (1-Lipschitz along the segment: an interval [t₀, t₁] is within the bound when (d₀ + d₁ + its
@@ -878,7 +932,7 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
       else if (dot >= l2) d2 = (X[v] - pb.x) * (X[v] - pb.x) + (Y[v] - pb.y) * (Y[v] - pb.y);
       else {
         const o = vx * dy - vy * dx;
-        if (o * o > FIDELITY_SQ * l2) return false;
+        if (!squareWithin(o, FIDELITY_SQ, l2)) return false;
         d2 = 0;
       }
       if (d2 > FIDELITY_SQ) return false;
@@ -915,6 +969,8 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
     }
     return true;
   };
+  // The fifth pass (round S14, LINE 4 V): the segment-to-route half decided exactly, with no evaluation budget.
+  if (ctx.fifth != null) return exactlyCovered(p, pairs, pa, pb);
   const lo = ratio(tMin, l2, 'area');
   const hi = ratio(tMax, l2, 'area');
   if (!lo.ok || !hi.ok) return false;
@@ -924,11 +980,124 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
 }
 
 /**
+ * Is the point pa + t · (pb − pa) of the input segment, t a double in [0, 1] (a dyadic rational m / 2ᵏ, read exactly), within
+ * the fidelity bound of the edge u–w (u, w lattice points)? Exact: every quantity scaled by 2ᵏ and compared in BigInt
+ * against FIDELITY² = 5 408 (round S14, LINE 4 V).
+ */
+export function exactlyWithin(pa: LatticePoint, pb: LatticePoint, t: number, ux: number, uy: number, wx: number, wy: number): boolean {
+  let m = t;
+  let k = 0n;
+  while (!Number.isInteger(m)) {
+    m *= 2;
+    k += 1n;
+  }
+  const s = 1n << k;
+  const M = BigInt(m);
+  const qx = BigInt(pa.x - ux) * s + M * BigInt(pb.x - pa.x);
+  const qy = BigInt(pa.y - uy) * s + M * BigInt(pb.y - pa.y);
+  const ex = BigInt(wx - ux);
+  const ey = BigInt(wy - uy);
+  const r2 = BigInt(FIDELITY_SQ) * s * s;
+  const le2 = ex * ex + ey * ey;
+  const dot = qx * ex + qy * ey;
+  if (le2 === 0n || dot <= 0n) return qx * qx + qy * qy <= r2;
+  if (dot >= le2 * s) {
+    const rx = qx - ex * s;
+    const ry = qy - ey * s;
+    return rx * rx + ry * ry <= r2;
+  }
+  const cr = qx * ey - qy * ex;
+  return cr * cr <= r2 * le2;
+}
+
+/**
+ * The segment-to-route half of the fidelity bound decided exactly (the fifth pass, round S14, LINE 4 V): the input
+ * segment pa → pb is covered by the route's edges `pairs` grown by the bound. The points within the bound of one edge
+ * form one interval of t (the distance is convex along the segment); each edge's interval is found in doubles — its
+ * nearest point by a ternary search, its two ends by bisection to adjacent doubles — and every end kept is a double
+ * the exact test (`exactlyWithin`) admits, so the interval between two admitted ends is within the bound exactly
+ * (convexity). The union of the admitted intervals must cover [0, 1], closed intervals meeting at a point covering it:
+ * a breakpoint where the distance equals the bound at a double (a dyadic rational) holds; one at a point no double
+ * names (an irrational, or a rational with another denominator) leaves a gap between two adjacent doubles and is
+ * refused, fail-safe. No evaluation budget; never a guess.
+ */
+function exactlyCovered(p: Plat, pairs: readonly number[], pa: LatticePoint, pb: LatticePoint): boolean {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const dx = pb.x - pa.x;
+  const dy = pb.y - pa.y;
+  const spans: [number, number][] = [];
+  for (const e of pairs) {
+    const ux = X[O[2 * e]];
+    const uy = Y[O[2 * e]];
+    const wx = X[O[2 * e + 1]];
+    const wy = Y[O[2 * e + 1]];
+    const f = (t: number): number => segmentDistance(pa.x + t * dx, pa.y + t * dy, ux, uy, wx, wy);
+    const within = (t: number): boolean => exactlyWithin(pa, pb, t, ux, uy, wx, wy);
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 200 && hi - lo > 0; i++) {
+      const m1 = lo + (hi - lo) / 3;
+      const m2 = hi - (hi - lo) / 3;
+      if (m1 === lo || m2 === hi) break;
+      if (f(m1) <= f(m2)) hi = m2;
+      else lo = m1;
+    }
+    let tm = -1;
+    for (const t of [0.5 * (lo + hi), lo, hi]) {
+      if (within(t)) {
+        tm = t;
+        break;
+      }
+    }
+    if (tm < 0) continue;
+    // The ends: the smallest admitted double at or below tm, the largest at or above it (adjacent doubles at the end).
+    const edge = (inside: number, outside: number): number => {
+      let i0 = inside;
+      let o0 = outside;
+      for (;;) {
+        const mid = 0.5 * (i0 + o0);
+        if (mid === i0 || mid === o0) return i0;
+        if (within(mid)) i0 = mid;
+        else o0 = mid;
+      }
+    };
+    const l = within(0) ? 0 : edge(tm, 0);
+    const r = within(1) ? 1 : edge(tm, 1);
+    spans.push([l, r]);
+  }
+  spans.sort((u, w) => u[0] - w[0] || u[1] - w[1]);
+  let reach = 0;
+  let started = false;
+  for (const [l, r] of spans) {
+    if (!started) {
+      if (l > 0) return false;
+      started = true;
+    } else if (l > reach) return false;
+    if (r > reach) reach = r;
+  }
+  return started && reach >= 1;
+}
+
+/**
  * One chain segment a → b, from the input segment pa → pb, routed and checked (`routeOne`). In the third and fourth
  * passes `ctx.strip` carries pa → pb for the segment's in-bound landings (C-0217), restored after, as the segment's
  * routes may nest.
  */
 function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: LatticePoint, pb: LatticePoint): KernelResult<null> {
+  const fifth = ctx.fifth ?? null;
+  if (fifth !== null) {
+    // The fifth pass (round S14): the field object stays set for the whole pass; its input segment is this segment's,
+    // restored after, as the segment's routes may nest.
+    const was = { a: fifth.a, b: fifth.b };
+    fifth.a = pa;
+    fifth.b = pb;
+    const r = routeOne(ctx, log, a, b, pa, pb);
+    fifth.a = was.a;
+    fifth.b = was.b;
+    return r;
+  }
   const st = ctx.strip ?? null;
   if (st === null) return routeOne(ctx, log, a, b, pa, pb);
   ctx.strip = { variant: st.variant, a: pa, b: pb };
@@ -1038,8 +1207,8 @@ function readings(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: La
   const m = markOf(ctx, log);
   // Whether some route kept §3.10 but left the fidelity bound: an optional chain is then refused for precision.
   let outOfBound = false;
-  // The third and fourth passes judge the segment's two ends too (C-0217).
-  const ends: readonly VertexId[] = ctx.strip != null ? [a, b] : [];
+  // The third, fourth and fifth passes judge the segment's two ends too (C-0217; round S14).
+  const ends: readonly VertexId[] = (ctx.strip ?? ctx.fifth ?? null) !== null ? [a, b] : [];
   let problem: string | null = null;
   // The chain's path before the segment (item 130 (d) on the chain's path, `ChainCtx.chainPath`): a kept reading whose
   // route shares an edge of it again — a retraced edge — is noted (`ChainCtx.reentry`); the run loop cuts it back.
@@ -1125,6 +1294,21 @@ function readings(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: La
     ctx.anchor = null;
     if (r7.ok && kept()) return r7;
     rollback(ctx, log, m);
+  }
+  // r8 (the fifth pass alone, round S14, LINE 3; J697): the design route with a near-parallel piece at the segment's
+  // own ends, or at an end on the endpoint fallback, shared as the cut back shares it (`ctx.endStretch`), then the same
+  // anchored to the input segment within the bound.
+  if (ctx.fifth != null) {
+    for (const anchored of [false, true]) {
+      ctx.endStretch = true;
+      ctx.anchor = anchored ? { a: pa, b: pb, reach: FIDELITY } : null;
+      const r8 = routed(ctx, log, a, b);
+      ctx.endStretch = false;
+      ctx.anchor = null;
+      if (r8.ok && kept()) return r8;
+      rollback(ctx, log, m);
+      if (!r8.ok && r8.code === 'E_WORK_LIMIT') return r8;
+    }
   }
   if (!r4.ok && r4.code !== 'E_INVARIANT') return r4;
   const X = ctx.p.vertices.x;
@@ -1434,6 +1618,57 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       return null;
     };
 
+    /**
+     * The fifth pass's landings in turn (round S14, LINE 2, class E): everything back to `from` (the mark before the end's
+     * own landing, or before the start's when `joint`), then for each of the start's landings k0 < `starts` (the
+     * start, of input index `aIdx`, landed again, `ctx.fifthPick`) and each of the end's k1, the end landed again and the segment routed (the
+     * split route after it, as the walk routes); the pair (0, 0) — the walk's own — is skipped. The first that routes,
+     * with the start, the end and the mark before the end's landing; E_WORK_LIMIT; or null when none routes.
+     */
+    const turns = (from: Mark, joint: boolean, starts: number, aIdx: number, a0: VertexId, idx: number, nextPt: LatticePoint | null, picks0: number): KernelResult<{ a: VertexId; b: VertexId; landMark: Mark }> | null => {
+      const pointAt = (i: number): LatticePoint => dec.points[i];
+      for (let k0 = 0; k0 < Math.min(starts, RELAND_MAX); k0++) {
+        let count = k0 === 0 ? picks0 : 1;
+        for (let k1 = 0; k1 < Math.min(count, RELAND_MAX); k1++) {
+          if (k0 === 0 && k1 === 0) continue;
+          rollback(ctx, log, from);
+          let a = a0;
+          if (joint) {
+            ctx.chainEnd = aIdx === firstEnd || aIdx === lastEnd;
+            ctx.fifthPick = { k: k0, count: 0 };
+            const la = land(ctx, pointAt(aIdx), -1, null, pointAt(idx));
+            ctx.fifthPick = null;
+            ctx.chainEnd = false;
+            if (!la.ok) {
+              if (la.code === 'E_WORK_LIMIT') return passOn(la);
+              break;
+            }
+            a = la.value.vertex;
+          }
+          const vb = markOf(ctx, log);
+          ctx.chainEnd = idx === firstEnd || idx === lastEnd;
+          const pick = { k: k1, count: 0 };
+          ctx.fifthPick = pick;
+          const lb = land(ctx, pointAt(idx), a, pointOf(p, a), nextPt);
+          count = pick.count;
+          ctx.fifthPick = null;
+          ctx.chainEnd = false;
+          if (!lb.ok) {
+            if (lb.code === 'E_WORK_LIMIT') return passOn(lb);
+            continue;
+          }
+          const b = lb.value.vertex;
+          if (lb.value.merged || b === a) continue;
+          const pa = pointAt(aIdx);
+          const r0 = routeSegment(ctx, log, a, b, pa, pointAt(idx));
+          const r = r0.ok || !boundRefusal(r0) ? r0 : splitRoute(a, pa, b, pointAt(idx), SPLIT_DEPTH, r0);
+          if (r.ok) return ok({ a, b, landMark: vb });
+          if (r.code === 'E_WORK_LIMIT') return passOn(r);
+        }
+      }
+      return null;
+    };
+
     // The chain's two ends (an open chain's first and last input points, as decimated): Q104's end rule reads them.
     const firstEnd = opts.closed === true ? -1 : dec.of[0];
     const lastEnd = opts.closed === true ? -1 : dec.of[dec.of.length - 1];
@@ -1457,12 +1692,15 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       let pprev = -1;
       let pprevIdx = -1;
       let prevLand: Mark | null = null;
+      // The fifth pass (round S14, LINE 2): how many in-bound landings step 2 found for prev (`ctx.fifthPick`).
+      let prevPicks = 0;
       for (let j = 0; j < k; j++) {
         const idx = vs[j];
         let v = landed[idx];
         let mark: Mark | null = null;
         let landMark: Mark | null = null;
         const landedNow = v < 0;
+        let picks = 0;
         const nextIdx = j + 1 < k ? vs[j + 1] : run.closed ? vs[0] : -1;
         const nextPt = nextIdx >= 0 ? (landed[nextIdx] >= 0 ? pointOf(p, landed[nextIdx]) : dec.points[nextIdx]) : null;
         if (v < 0) {
@@ -1470,7 +1708,10 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
           const prevPt = prev >= 0 ? pointOf(p, prev) : null;
           const before = markOf(ctx, log);
           ctx.chainEnd = idx === firstEnd || idx === lastEnd;
+          if (ctx.fifth != null) ctx.fifthPick = { k: 0, count: 0 };
           const l = land(ctx, pt, prev, prevPt, nextPt);
+          picks = ctx.fifthPick?.count ?? 0;
+          ctx.fifthPick = null;
           ctx.chainEnd = false;
           if (!l.ok) return refuse(l);
           v = l.value.vertex;
@@ -1482,7 +1723,24 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         if (prev >= 0 && v !== prev) {
           const segMark = markOf(ctx, log);
           const r0 = routeSegment(ctx, log, prev, v, dec.points[prevIdx], dec.points[idx]);
-          const r = r0.ok || !boundRefusal(r0) || ctx.extended !== true ? r0 : splitRoute(prev, dec.points[prevIdx], v, dec.points[idx], SPLIT_DEPTH, r0);
+          let r = r0.ok || !boundRefusal(r0) || ctx.extended !== true ? r0 : splitRoute(prev, dec.points[prevIdx], v, dec.points[idx], SPLIT_DEPTH, r0);
+          // The fifth pass (round S14, LINE 2, class E): an end step 2 landed on one of several in-bound landings routes
+          // from each in turn — the run's first segment from each pair of its two ends' landings (a two-point chain's ends
+          // jointly). None routing, the pass refuses (its refusal is discarded).
+          const joint = pprev < 0 && prevLand !== null && prevPicks > 1;
+          if (!r.ok && ctx.fifth != null && boundRefusal(r) && landedNow && landMark !== null && (picks > 1 || joint)) {
+            const onPrev = vs.slice(0, j).filter((i) => landed[i] === prev);
+            const t = turns(joint ? (prevLand as Mark) : landMark, joint, joint ? prevPicks : 1, prevIdx, prev, idx, nextPt, picks);
+            if (t === null) return refuse(r);
+            if (!t.ok) return refuse(t);
+            for (const i of onPrev) landed[i] = t.value.a;
+            prev = t.value.a;
+            v = t.value.b;
+            landed[idx] = v;
+            landMark = t.value.landMark;
+            mark = freeSince(ctx, t.value.landMark, v) ? t.value.landMark : null;
+            r = ok(null);
+          }
           if (!r.ok) {
             // The re-landing serves E_INVARIANT alone; an optional chain's refusal for the bound goes to the split route
             // and the later passes (C-0221).
@@ -1511,6 +1769,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         pprev = prev;
         pprevIdx = prevIdx;
         prevLand = landMark;
+        prevPicks = picks;
         prev = v;
         prevIdx = idx;
         // Re-landable later only while still free: the run's first vertex, before its first segment.
@@ -1586,7 +1845,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     return ok({ placed }, ctx.warnings);
   };
   // One pass of the op from its start: step 1's merges go on with the chain (C-0170 (2)), then `run`.
-  const attempt = (extended: boolean, strip: 0 | 1 | null = null): KernelResult<ChainInsert> => {
+  const attempt = (extended: boolean, strip: 0 | 1 | null = null, fifth = false): KernelResult<ChainInsert> => {
     ctx.extended = extended;
     // Every pass starts from §3.6's own readings (a throw caught below may have left a route's reading set).
     ctx.strict = false;
@@ -1600,6 +1859,10 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     ctx.endRuled = false;
     ctx.cutStretch = null;
     ctx.strip = strip === null ? null : { variant: strip, a: null, b: null };
+    // The fifth pass's field (round S14): set by its attempt alone, reset by every other.
+    ctx.fifth = fifth ? { a: null, b: null } : null;
+    ctx.endStretch = false;
+    ctx.fifthPick = null;
     landed.fill(-1);
     foldWarnings(tx.warnings, d.warnings);
     foldWarnings(ctx.warnings, d.warnings);
@@ -1670,6 +1933,24 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   if (reentered(result)) {
     const back = passes('back');
     result = back.ok ? back : passes(null);
+  }
+  // THE FIFTH PASS (round S14, LINE 1; the session's ruling on its place): at most once per chain, after the whole watch /
+  // back / null sequence has ended — never inside `passes` — and only when its final result is a refusal for the bound
+  // (`boundRefusal`) that is no retrace. It runs as the cut back's pass ('back'), with the second pass's readings and the
+  // end rule read first as in the third (`ctx.endRules`), and `ctx.fifth` set for its whole run: step 2's in-bound
+  // landings, the ends judged, the wedge corner's bound and a crossing's in-bound landing read it where the third and
+  // fourth passes read `ctx.strip`, and its own readings of notBuilt #2's classes run (`fifthReadings`). Only its CLEAN
+  // COMMIT replaces the refusal (ok — a retrace is never one); any other end — a refusal, E_WORK_LIMIT, a retrace — is
+  // discarded, its writes undone, and the base's refusal is returned with its code and full detail as they were. The work
+  // it charged stays charged (insert/classes.ts `charge`; a named shift source of the round). A chain the base commits
+  // never reaches it.
+  if (!result.ok && boundRefusal(result) && !reentered(result)) {
+    ctx.chainPath = 'back';
+    ctx.endRules = true;
+    const fifth = attempt(true, null, true);
+    ctx.fifth = null;
+    ctx.chainPath = null;
+    if (fifth.ok) result = fifth;
   }
   ctx.chainPath = null;
   if (openedLog) endIndexBatch(p);

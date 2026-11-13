@@ -8,11 +8,13 @@
 // reading (C-0177 (2)). Fix round 1 (the check's F-1: ST3, SJ1 and the vertex rule's mislabelled case) added the last
 // three.
 import { describe, expect, it } from 'vitest';
-import { outgoing, roleIdOf, rowsOn, type Plat, type VertexId } from '../../../src/arena/index.js';
-import { query } from '../../../src/index/index.js';
-import { insertChain, nearestPiece } from '../../../src/insert/insertChain.js';
+import { allocVertex, outgoing, roleIdOf, rowsOn, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { indexAdd, ITEM_VERTEX, query } from '../../../src/index/index.js';
+import { inFidelity, insertChain, nearestPiece } from '../../../src/insert/insertChain.js';
 import { exitTowards, otherEnd, walkRun } from '../../../src/insert/snapRound.js';
-import { bandInterval, chainJournal, subEdgeHolding, type ChainCtx } from '../../../src/insert/stretch.js';
+import { attractStretch, bandInterval, chainJournal, FIDELITY_SQ, inInputBound, lattice, passesWithin, subEdgeHolding, withinSegment, type ChainCtx } from '../../../src/insert/stretch.js';
+import { orient2d } from '../../../src/num/index.js';
+import type { Level } from '../../../src/types/index.js';
 import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
 import { tx as txn } from '../../../src/tx/index.js';
 import { spec } from '../../tx/support.js';
@@ -464,5 +466,183 @@ describe('N-c1-6 / N-c2-3: the walks\' exact ties and a piece through two finer 
     const r = nearestPiece(c, pt(2000, 2000));
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.value?.edge).toBe(order[0]);
+  });
+});
+
+// Q77 (round S14, LINE 6; a-01's N-s1-1 / N-s1c-2): stretch.ts's inclusive `withinSegment` and `passesWithin`, and
+// `inInputBound` and `inFidelity`'s route-to-segment test, compared o² ≤ r² · |ab|² in doubles only, so past 2⁵³ a point
+// whose exact o² is the larger by 1 read as within where the two products round to one double. `squareWithin` (stretch.ts)
+// decides that tie in BigInt (num/exact.ts `segmentCloserThan`'s shape, inclusive). Each fixture is a lattice tie built
+// from the definition (o² = r² · |ab|² + k, |ab|² split into two coprime squares, the point at orientation o with its foot
+// inside the segment; the scratch generator's output transcribed), the tie in doubles asserted beside the exact BigInt.
+describe('Q77 (round S14): the inclusive tests past 2⁵³ decide the doubles\' tie exactly', () => {
+  const B = (v: number): bigint => BigInt(v);
+  const l2Of = (ax: number, ay: number, bx: number, by: number): number => (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
+
+  it('Q77-DBL: a point a hair outside 26 cm of a 40 km segment (o² = 26² · |ab|² + 1) is not within — either way round, mirrored', () => {
+    const [ax, ay, bx, by, px, py] = [-1656041, -1122654, 1656042, 1122655, -30279, -20495];
+    const o = orient2d(ax, ay, bx, by, px, py);
+    const l2 = l2Of(ax, ay, bx, by);
+    expect(Math.sqrt(l2)).toBeGreaterThan(4_000_000);
+    expect(o * o === 676 * l2, 'one double for both products').toBe(true);
+    expect(o * o).toBeGreaterThan(9_007_199_254_740_992);
+    expect(B(o) * B(o), 'exactly 1 outside').toBe(676n * B(l2) + 1n);
+    expect(withinSegment(px, py, ax, ay, bx, by, 26)).toBe(false);
+    expect(withinSegment(px, py, bx, by, ax, ay, 26)).toBe(false);
+    expect(withinSegment(-px, -py, -ax, -ay, -bx, -by, 26)).toBe(false);
+    expect(passesWithin(px, py, ax, ay, bx, by, 26)).toBe(false);
+    expect(passesWithin(px, py, bx, by, ax, ay, 26)).toBe(false);
+    expect(withinSegment(px, py, ax, ay, bx, by, 27), 'the control: within 27 cm').toBe(true);
+  });
+
+  it('Q77-STRICT: a point exactly 26 cm from a 40 km segment (o² = 26² · |ab|², both past 2⁵³) is within — the test is inclusive', () => {
+    // a–b = 310 000 · (5, 12), 4 030 000 cm long; p sits 2 · (−12, 5) off its midpoint (0, 0): 26 cm along the normal
+    const [ax, ay, bx, by, px, py] = [-775000, -1860000, 775000, 1860000, -24, 10];
+    const o = orient2d(ax, ay, bx, by, px, py);
+    const l2 = l2Of(ax, ay, bx, by);
+    expect(o * o).toBeGreaterThan(9_007_199_254_740_992);
+    expect(B(o) * B(o)).toBe(676n * B(l2));
+    expect(withinSegment(px, py, ax, ay, bx, by, 26)).toBe(true);
+    expect(withinSegment(px, py, bx, by, ax, ay, 26)).toBe(true);
+    expect(passesWithin(px, py, ax, ay, bx, by, 26)).toBe(true);
+    expect(withinSegment(px, py, ax, ay, bx, by, 25), 'the control: not within 25 cm').toBe(false);
+  });
+
+  it('Q77-THROW: a tie past 2⁵³ off the lattice (r² not an integer) keeps the doubles\' answer (within) and never throws', () => {
+    // num/exact.test.ts's off-lattice tie: r · r · |ab|² rounds to o² exactly; BigInt cannot read r², so the doubles stand
+    const [ax, ay, bx, by, px, py, r] = [-1814820, -840560, 1814821, 840560, -223756, -103606, 27.235068493819167];
+    const o = orient2d(ax, ay, bx, by, px, py);
+    const l2 = l2Of(ax, ay, bx, by);
+    expect(o * o).toBeGreaterThan(9_007_199_254_740_992);
+    expect(r * r * l2 === o * o).toBe(true);
+    expect(Number.isInteger(r * r)).toBe(false);
+    expect(() => withinSegment(px, py, ax, ay, bx, by, r)).not.toThrow();
+    expect(withinSegment(px, py, ax, ay, bx, by, r)).toBe(true);
+    expect(() => passesWithin(px, py, ax, ay, bx, by, r)).not.toThrow();
+    expect(passesWithin(px, py, ax, ay, bx, by, r)).toBe(true);
+  });
+
+  it('Q77-HALF: at the fidelity bound on a 14 km segment, a point a hair outside (o² = FIDELITY_SQ · |ab|² + 1) is out of bound — inInputBound and inFidelity\'s route-to-segment half', () => {
+    const [ax, ay, bx, by, px, py] = [-611082, -344367, 611082, 344368, -271233, -152765];
+    const o = orient2d(ax, ay, bx, by, px, py);
+    const l2 = l2Of(ax, ay, bx, by);
+    expect(Math.sqrt(l2)).toBeGreaterThan(1_290_000);
+    expect(o * o === FIDELITY_SQ * l2, 'one double for both products').toBe(true);
+    expect(B(o) * B(o)).toBe(B(FIDELITY_SQ) * B(l2) + 1n);
+    const a = lattice(ax, ay);
+    const b = lattice(bx, by);
+    expect(inInputBound(a, b, px, py)).toBe(false);
+    expect(inInputBound(b, a, px, py)).toBe(false);
+    // inFidelity on the route a → p → b written since the mark (a stand-in for the op's state: the three vertices and the
+    // two new pairs it reads); the segment-to-route half holds (the route spans a to b), so only the route-to-segment
+    // half can refuse it.
+    const route = (qx: number, qy: number): ChainCtx => ({
+      p: { vertices: { x: [ax, qx, bx], y: [ay, qy, by] }, halfEdges: { origin: [0, 1, 1, 2] } },
+      journal: { newPairs: [0, 1], sharedPairs: [] },
+    }) as unknown as ChainCtx;
+    expect(inFidelity(route(px, py), { newPairs: 0, shared: 0 }, a, b)).toBe(false);
+    // the control: the point moved 1 cm towards the segment is within the bound, and the route with it
+    const [cx, cy] = [px + (o > 0 ? 1 : -1), py];
+    expect(inInputBound(a, b, cx, cy)).toBe(true);
+    expect(inFidelity(route(cx, cy), { newPairs: 0, shared: 0 }, a, b)).toBe(true);
+  });
+});
+
+// R-12's attraction tie (round S14, LINE 8): |PQ| = 26 cm = attractCm exactly — a vertex standing exactly attractCm from a
+// segment is within it (inclusive), routed through.
+describe('step 3\'s vertex rule at exactly attractCm (round S14, LINE 8): 26.000 cm is within', () => {
+  it('a kerb chain (624, 1030) → (1424, 2950), along (5, 12), passing the street\'s shape vertex (1000, 2000) at exactly 26 cm: routed through it', () => {
+    // the foot of (1000, 2000) on the chain's line is (1024, 1990) = (1000, 2000) + 26 · (12, −5) / 13, inside the segment
+    expect(orient2d(624, 1030, 1424, 2950, 1000, 2000) ** 2).toBe(26 * 26 * (800 * 800 + 1920 * 1920));
+    expect(passesWithin(1000, 2000, 624, 1030, 1424, 2950, 26)).toBe(true);
+    const p = street();
+    const r = ins(tx(p, 2), [[624, 1030], [1424, 2950]], [{ role: 'kerb', entity: 'way:x' }]);
+    expect(r.ok).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+    const v = vertexAtPoint(p, 1000, 2000);
+    const kerb = roleIdOf('kerb');
+    expect(outgoing(p, v).some((h) => rowsOn(p, 'edge', h).some((row) => p.roles.kind[row] === kerb))).toBe(true);
+  });
+});
+
+// Round S15 (LINES 3 – 4; the closing check of S14's N-s14c-13): step 3's pass-5 gates in `attractStretch`, each on a
+// constructed arena (the frame [0, 4 000]² at L0, the pieces below at L0, the routed segment's two ends free vertices),
+// read with the fifth pass's field set (`ctx.fifth`: the input segment of the segment being routed) and without it.
+//   D-SJ — a stretch whose leave lies beyond the bound of the input segment is no stretch;
+//   D-SC — a contact point beyond the bound is no contact (the piece's end vertex, also beyond, no vertex contact);
+//   S-SEGEND — r8 (`ctx.endStretch`) shares a near-parallel piece incident to an end the route reached on the endpoint
+//     fallback (provenance 'fallback'), not only at the segment's own ends;
+//   S-FOLD — a piece the run already shared INTO that end is never the piece shared out of it;
+//   S-ANGLE — a piece incident to that end at a wide angle (30°) is no stretch: the corner is kept.
+describe('S15: step 3\'s fifth-pass gates on constructed arenas (attractStretch; D-SJ, D-SC, S-SEGEND, S-FOLD, S-ANGLE)', () => {
+  const FRAME: [number, number, number][] = [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0]];
+  const FRAME_EDGES: [number, number, number][] = [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0]];
+  const arena = (vertices: [number, number, number][], edges: [number, number, number][]): Plat =>
+    indexed({ vertices: [...FRAME, ...vertices].map(([x, y, l]) => [x, y, l as Level] as const), edges: [...FRAME_EDGES, ...edges.map(([a, b, l]) => [a + 4, b + 4, l] as [number, number, number])].map(([a, b, l]) => [a, b, l as Level] as const) }).plat;
+  const freeAt = (p: Plat, x: number, y: number): VertexId => {
+    const v = allocVertex(p, pt(x, y), 0, 0);
+    indexAdd(p, { kind: ITEM_VERTEX, level: 0, slot: v });
+    return v;
+  };
+  const ctxAt = (p: Plat, extra: Partial<ChainCtx> = {}): ChainCtx => {
+    const t = tx(p, 0);
+    return { tx: t, p, n: 0, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [], ...extra } as ChainCtx;
+  };
+  const kindOf = (r: ReturnType<typeof attractStretch>): string => {
+    if (!r.ok) return `${r.code}`;
+    const o = r.value;
+    if (o === null) return 'none';
+    if (o.kind === 'vertex') return 'vertex';
+    return o.kind;
+  };
+
+  it('D-SJ: the piece (800, 2 040) – (2 200, 1 960) crossing a → b (1 000, 2 000) → (2 000, 2 000) at 3.3° — a stretch from about (1 045, 2 026) to (1 955, 1 974); with the input segment (1 000, 2 000) → (1 500, 2 000) its leave lies beyond the bound — none', () => {
+    const p = arena([[800, 2040, 0], [2200, 1960, 0]], [[0, 1, 0]]);
+    const a = freeAt(p, 1000, 2000);
+    const b = freeAt(p, 2000, 2000);
+    expect(inInputBound(pt(1000, 2000), pt(1500, 2000), 1955, 1974)).toBe(false);
+    expect(inInputBound(pt(1000, 2000), pt(1500, 2000), 1045, 2026)).toBe(true);
+    expect(kindOf(attractStretch(ctxAt(p), a, b, new Set()))).toBe('stretch');
+    expect(kindOf(attractStretch(ctxAt(p, { fifth: { a: pt(1000, 2000), b: pt(2000, 2000) } }), a, b, new Set()))).toBe('stretch');
+    expect(kindOf(attractStretch(ctxAt(p, { fifth: { a: pt(1000, 2000), b: pt(1500, 2000) } }), a, b, new Set()))).toBe('none');
+  });
+
+  it('D-SC: the piece (1 400, 2 050) – (1 700, 2 025) at 4.6° comes within attractCm only over 12 cm — a contact; with the input segment (1 000, 2 000) → (1 600, 2 000) the contact point and the piece\'s end lie beyond the bound — none', () => {
+    const p = arena([[1400, 2050, 0], [1700, 2025, 0]], [[0, 1, 0]]);
+    const a = freeAt(p, 1000, 2000);
+    const b = freeAt(p, 2000, 2000);
+    expect(kindOf(attractStretch(ctxAt(p), a, b, new Set()))).toBe('contact');
+    expect(kindOf(attractStretch(ctxAt(p, { fifth: { a: pt(1000, 2000), b: pt(2000, 2000) } }), a, b, new Set()))).toBe('contact');
+    expect(inInputBound(pt(1000, 2000), pt(1600, 2000), 1688, 2026)).toBe(false);
+    expect(kindOf(attractStretch(ctxAt(p, { fifth: { a: pt(1000, 2000), b: pt(1600, 2000) } }), a, b, new Set()))).toBe('none');
+  });
+
+  /** A (2 000, 2 000) with its L0 piece to U (U beyond attractCm of the segment); the routed segment A → B (3 000, 2 000), B free. */
+  const endArena = (u: [number, number]): { p: Plat; a: VertexId; b: VertexId } => {
+    const p = arena([[2000, 2000, 0], [u[0], u[1], 0]], [[0, 1, 0]]);
+    return { p, a: vertexAtPoint(p, 2000, 2000), b: freeAt(p, 3000, 2000) };
+  };
+  const r8 = (a: VertexId, extra: Partial<ChainCtx> = {}): Partial<ChainCtx> => ({ endStretch: true, path: null, provenance: new Map([[a, 'fallback']]), runStart: { newPairs: 0, shared: 0 }, ...extra });
+
+  it('S-SEGEND: a near-parallel piece (3.8°, U (2 600, 2 040)) at A, an end on the endpoint fallback — r8 shares it (a stretch from A); without r8, or with A no fallback end, it is an incident piece (none)', () => {
+    const { p, a, b } = endArena([2600, 2040]);
+    expect(kindOf(attractStretch(ctxAt(p), a, b, new Set()))).toBe('none');
+    expect(kindOf(attractStretch(ctxAt(p, { ...r8(a), provenance: new Map() }), a, b, new Set()))).toBe('none');
+    const r = attractStretch(ctxAt(p, r8(a)), a, b, new Set());
+    expect(kindOf(r)).toBe('stretch');
+    if (r.ok && r.value !== null && r.value.kind === 'stretch') expect(r.value.join).toEqual({ x: 2000, y: 2000 });
+  });
+
+  it('S-FOLD: the same piece already shared into A by the run (its pair in the journal since the run\'s start) — never the piece shared out of A (none)', () => {
+    const { p, a, b } = endArena([2600, 2040]);
+    const c = ctxAt(p, r8(a));
+    const h = outgoing(p, a)[0];
+    c.journal.sharedPairs.push(h >> 1);
+    expect(kindOf(attractStretch(c, a, b, new Set()))).toBe('none');
+  });
+
+  it('S-ANGLE: a piece at A 30° off the segment (U (2 520, 2 300)) — no stretch under r8: the corner at A is kept', () => {
+    const { p, a, b } = endArena([2520, 2300]);
+    expect(kindOf(attractStretch(ctxAt(p, r8(a)), a, b, new Set()))).toBe('none');
   });
 });

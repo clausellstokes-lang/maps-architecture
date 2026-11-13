@@ -243,3 +243,48 @@ it('a face record made by the raw primitive is walked by the oracles alike (supp
   expect(() => allocFace(p, 0, { outer: p.faces[0].outer[f], kind: 0, owner: -1, stage: 0, parent: -1 })).not.toThrow();
   expect(faceProblems(p).length).toBeGreaterThan(0); // two records on one view face: the oracle sees it
 });
+
+// Round S16 (LINE 7, MK; N-s8c-4's equivalence reading refuted by construction): the re-walk asks the index for the
+// level-n records REACH (WALK_REACH_CM) past each new edge — at (2) the records round the new edges, and in `recordUnder`
+// the finer records under a coarser one — because the index reads a record on its ROUTE and the exact tests on its WALK
+// through every finer Steiner vertex. A hand-built arena no lawful input reaches (N-s8-3's kind): the frame's bottom L0
+// run (0, 0) – z – (4 000, 0) through an L2 Steiner vertex z (2 000, −6), and an L1 chord (4 000, 3 000) – (3 000, 4 000),
+// so the L1 records are the square (walked through z) and the corner triangle, both under the L0 face. An L1 triangle of
+// new edges alone, (1 900, −4) (2 100, −4) (2 000, −2), linked by the raw primitives inside the 6 cm dip, 2 – 4 cm below
+// the square's route box, and re-walked: the square is found round the new edges, the triangle's inner cycle becomes one
+// new L1 record under the L0 face and its outer cycle a hole of the square — three L1 records. Red under MK (both boxes
+// back to + 1 cm): the square is missed at (2), no record is found under the L0 face round the new edge, and the re-walk
+// materialises a phantom L1 record from the frame face — four L1 records.
+describe('LINE 7 (round S16): the level-n records round the new edges are asked REACH past them (MK)', () => {
+  it('an L1 triangle of new edges alone inside the frame walk\'s 6 cm dip: three L1 records — the square (the triangle its hole), the corner, the triangle', () => {
+    const b = indexed({
+      vertices: [
+        [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [2000, -6, 2], [4000, 3000, 1], [3000, 4000, 1],
+        [1900, -4, 1], [2100, -4, 1], [2000, -2, 1],
+      ],
+      edges: [[0, 4, 0], [4, 1, 0], [1, 5, 0], [5, 2, 0], [2, 6, 0], [6, 3, 0], [3, 0, 0], [5, 6, 1]],
+    });
+    const p = b.plat;
+    const l1 = facesAt(p, 1 as Level);
+    expect(l1).toEqual([0, 1]);
+    const walk = (f: number): string[] => faceWalk(p, 1, f)[0].map((h) => `${p.vertices.x[p.halfEdges.origin[h]]},${p.vertices.y[p.halfEdges.origin[h]]}`);
+    const square = l1.find((f) => walk(f).includes('2000,-6')) as number;
+    const v = (x: number, y: number): number => vertexAtPoint(p, x, y);
+    const pairs = [[v(1900, -4), v(2100, -4)], [v(2100, -4), v(2000, -2)], [v(2000, -2), v(1900, -4)]].map(([a, c]) => {
+      const h = linkEdge(p, a, c, 1);
+      indexAdd(p, { kind: ITEM_EDGE, level: 1, slot: h >> 1 });
+      return h >> 1;
+    });
+    const t = tx(p, 1);
+    const r = rewalk(t, { pairs });
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    const after = facesAt(p, 1 as Level);
+    expect(after).toHaveLength(3);
+    expect(chainJournal(t).materialised).toEqual([]);
+    expect(chainJournal(t).faces[1].created).toHaveLength(1);
+    const tri = chainJournal(t).faces[1].created[0];
+    expect(faceWalk(p, 1, tri).map((r) => r.length)).toEqual([3]);
+    expect(faceWalk(p, 1, square).map((r) => r.length)).toEqual([6, 3]);
+    for (const f of after) expect(p.faces[1].parent[f]).toBe(facesAt(p, 0 as Level)[0]);
+  });
+});

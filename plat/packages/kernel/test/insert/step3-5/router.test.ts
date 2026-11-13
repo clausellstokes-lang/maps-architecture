@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest';
 import { allocVertex, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { indexAdd, ITEM_VERTEX } from '../../../src/index/index.js';
 import { acrossApplies, exactCrossings, placeAcross, placeOnRun, sliverPartner, stripPartner } from '../../../src/insert/crossings.js';
-import { boundRefusal, FIDELITY_SQ, freeSince, freeSpot, inFidelity, insertChain, land, relandCandidates } from '../../../src/insert/insertChain.js';
+import { boundRefusal, exactlyWithin, FIDELITY_SQ, freeSince, freeSpot, inFidelity, insertChain, land, relandCandidates } from '../../../src/insert/insertChain.js';
 import { placePoint } from '../../../src/insert/placement.js';
 import { recordHolding } from '../../../src/insert/snapRound.js';
 import { chainJournal, inInputBound, type ChainCtx } from '../../../src/insert/stretch.js';
@@ -25,7 +25,8 @@ import type { Level } from '../../../src/types/index.js';
 import type { ArenaSpec } from '../step1-2/support.js';
 import { capPer1e4, countedRefusal, FUZZ_PARAMS, MEASURED_COUNT, MEASURED_PER_1E4, poissonCap, refusalCap } from './caps.js';
 import { FIDELITY_CM, fidelityProblems } from './fidelity.js';
-import { allProblems, contentPrint, edgeRows, framed, indexed, ins, liveEdges, pt, segDist, TIMEOUT, tx, wideArena } from './support.js';
+import { noSeat, noSeatS, seatsOf } from './noseat.js';
+import { allProblems, contentPrint, dissolvableProblems, edgeRows, framed, indexed, ins, liveEdges, pt, segDist, TIMEOUT, tx, wideArena } from './support.js';
 
 // ---- the fixtures and helpers the readings share --------------------------------------------------------------------
 
@@ -169,6 +170,181 @@ describe('N-43 B: the fidelity bound insertChain judges every route by (inFideli
       const r = ins(ctx.tx, route, [{ role: 'way', entity: 'way:r' }]);
       expect(r.ok).toBe(true);
       expect(inFidelity(ctx, m, pt(1000, 1000), pt(2000, 1000))).toBe(kept);
+    });
+  }
+});
+
+// Round S14, LINE 4 V (C-0489): the fifth pass decides the segment-to-route half exactly (insertChain.ts
+// `exactlyCovered`, `exactlyWithin`: BigInt against FIDELITY² = 5 408, no evaluation budget); passes 1 – 4 keep the
+// bisection and its 4 096 evaluations. The route below starts at (1 052, 1 052), exactly √5 408 from the input
+// segment's start (1 000, 1 000) — 52² + 52² = 5 408 — and only nearer to every later point of it: the segment-to-route
+// distance equals the bound at the rational breakpoint t = 0, a tie the bound admits (inclusive). On that STEEP approach
+// the bisection's halving reaches the degenerate interval [0, 0] within its budget and reads it within too; on a SHALLOW
+// one (round S15, the closing check of S14's probe, N-s14c-4: the route parallel to the segment, so the distance stays
+// at the bound along the whole end piece) d₀ + d₁ + Δ·len never closes an interval and the budget runs out — the
+// bisection reads the tie beyond, the exact half within. So V-BUDGET (the bisection restored in the fifth pass) and V-2X
+// (with 8 192 evaluations) are NOT equivalent: the four lattice fixtures of the second describe below turn them red.
+// One centimetre further (53² + 52² = 5 513) is beyond for both, and the fifth pass must judge it (V-HALF).
+describe('LINE 4 V (round S14): the fifth pass decides the segment-to-route half exactly, a tie at a rational breakpoint within', () => {
+  for (const [label, start, inFifth, inOthers] of [
+    ['a route whose start stands exactly at the bound beyond the input point', [1052, 1052], true, true],
+    ['a route whose start stands 1 cm further', [1053, 1052], false, false],
+  ] as const) {
+    it(`${label}: ${inFifth ? 'within' : 'beyond'} the bound in the fifth pass, ${inOthers ? 'within' : 'beyond'} it in passes 1 – 4`, () => {
+      const p = framed(4000);
+      const ctx = ctxOf(p);
+      const m = { newPairs: ctx.journal.newPairs.length, shared: ctx.journal.sharedPairs.length };
+      const r = ins(ctx.tx, [start, [2000, 1000]], [{ role: 'way', entity: 'way:r' }]);
+      expect(r.ok).toBe(true);
+      expect((start[0] - 1000) ** 2 + (start[1] - 1000) ** 2 <= FIDELITY_SQ).toBe(inFifth);
+      expect(inFidelity(ctx, m, pt(1000, 1000), pt(2000, 1000))).toBe(inOthers);
+      ctx.fifth = { a: pt(1000, 1000), b: pt(2000, 1000) };
+      expect(inFidelity(ctx, m, pt(1000, 1000), pt(2000, 1000))).toBe(inFifth);
+    });
+  }
+  it('exactlyWithin reads a double t exactly: the input point (1 000, 1 000) at t = 0 is within the bound of the vertex (1 052, 1 052), at a hair past t = 0 nearer still, and (1 053, 1 052) is beyond', () => {
+    const a = pt(1000, 1000);
+    const b = pt(2000, 1000);
+    expect(exactlyWithin(a, b, 0, 1052, 1052, 2000, 1000)).toBe(true);
+    expect(exactlyWithin(a, b, 2 ** -40, 1052, 1052, 2000, 1000)).toBe(true);
+    expect(exactlyWithin(a, b, 0, 1053, 1052, 2000, 1000)).toBe(false);
+    // The tie at t = 1/2 on the segment (0, 0) → (2 000, 0): (1 000, 0) and (1 052, 52), 52² + 52² = 5 408 exactly.
+    expect(exactlyWithin(pt(0, 0), pt(2000, 0), 0.5, 1052, 52, 1052, 52)).toBe(true);
+    expect(exactlyWithin(pt(0, 0), pt(2000, 0), 0.5 + 2 ** -52, 1052, 52, 1052, 52)).toBe(true);
+    expect(exactlyWithin(pt(0, 0), pt(2000, 0), 0.5 - 2 ** -50, 1052, 52, 1052, 52)).toBe(false);
+  });
+});
+
+// Round S15 (LINE 4 V; the closing check of S14's N-s14c-4): the route parallel to the input segment, its start exactly
+// √5 408 from the input point ((52, 52) off it), the segment along (−k, k + 1) for k = 30, 100, 300, 1 000 (lattice points
+// all): the segment-to-route distance equals the bound at the rational breakpoint t = 0 and stays at it to first order
+// along the end piece, so the bisection's budget (4 096 evaluations, and 8 192) never closes the interval — passes 1 – 4
+// read it beyond, the fifth pass's exact half within. Red under V-BUDGET and V-2X.
+describe('LINE 4 V (round S15): a shallow tie at a rational breakpoint — the exact half within, the bisection beyond (V-BUDGET, V-2X)', () => {
+  for (const k of [30, 100, 300, 1000]) {
+    it(`the segment (2 500, 1 000) → (${2500 - k}, ${1000 + k + 1}), the route (52, 52) off it and parallel`, () => {
+      const p = framed(4000);
+      const ctx = ctxOf(p);
+      const m = { newPairs: ctx.journal.newPairs.length, shared: ctx.journal.sharedPairs.length };
+      const a = pt(2500, 1000);
+      const b = pt(2500 - k, 1000 + k + 1);
+      const r = ins(ctx.tx, [[2552, 1052], [2552 - k, 1052 + k + 1]], [{ role: 'way', entity: 'way:r' }]);
+      expect(r.ok).toBe(true);
+      if (!r.ok) return;
+      expect(r.value.placed.map((v) => at(p, v))).toEqual([[2552, 1052], [2552 - k, 1052 + k + 1]]);
+      expect(52 * 52 + 52 * 52).toBe(FIDELITY_SQ);
+      expect(inFidelity(ctx, m, a, b)).toBe(false);
+      ctx.fifth = { a, b };
+      expect(inFidelity(ctx, m, a, b)).toBe(true);
+    });
+  }
+});
+
+// Round S16 (LINE 2, class E; the S15 closing check's construction, its s15/probe/ewide.py): the noSeat-certified class-E
+// end. The L0 piece (1 000, 1 900) – (3 000, 1 910) and twelve FINER (L1) edges parallel to it, (1 000 − k, 1 900 + 25k) –
+// (3 000 − k, 1 910 + 25k) for k = ±1 … ±6, each 5 001 / √40 001 ≈ 25.0047 cm from the next: a split of the piece keeps
+// (iii) only exactly on its line (every 200 cm), and no lattice point near the piece is a free spot. One more L0 vertex V
+// (969, 1 920), on an L0 edge to (500, 1 920). The chain point c (1 071, 1 920) is 19.6 cm off the piece: step 2 attracts
+// it to the piece, no candidate qualifies, and the endpoint fallback (1 000, 1 900) stands 73.8 cm off — beyond the bound
+// (√5 408 ≈ 73.54 cm). Within the bound of c: no seat, no free spot, no vertex (noSeat TRUE: the design's own refusal,
+// §3.6 *The fidelity bound*); within √2 · bound: the piece's end and V (102.0 cm) — a seat in (bound, √2 · bound]. The
+// chain c → (2 600, 1 922) stays refused with the base's exact detail (class E, the fallback the farthest vertex); pass
+// 5's step-2 landing list at c is empty, so V never enters it — E-WIDE (pass 5 judging with 2 · FIDELITY_SQ) lands c on
+// V (count 1). WHAT THIS ADDS TO THE CHECK'S CONSTRUCTION (ewide.py, here translated by (1 000, 1 900): its chain point
+// c′ (1 100, 1 920)): c moved to (1 071, 1 920) and the vertex V. WHY THE CONSTRUCTION ALONE DOES NOT KILL E-WIDE: at c′
+// the only seat in (bound, √2 · bound] is the on-line split (1 200, 1 901), 101.8 cm off, which `placeOnRun`'s own admit
+// (FIDELITY_SQ, not widened by the mutant) excludes, and the only vertex there is the endpoint fallback (1 000, 1 900)
+// itself, 102.0 cm off c′, which the list skips: the widened list stays empty. From c, V stands 102.0 cm off (in
+// (73.54, 104.0]) and the split 130.4 cm off (beyond √2 · bound).
+function stripedE(): Plat {
+  const vertices: [number, number, Level][] = [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [1000, 1900, 0], [3000, 1910, 0], [969, 1920, 0], [500, 1920, 0]];
+  const edges: [number, number, Level][] = [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0], [6, 7, 0]];
+  for (const k of [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]) {
+    const i = vertices.length;
+    vertices.push([1000 - k, 1900 + 25 * k, 1], [3000 - k, 1910 + 25 * k, 1]);
+    edges.push([i, i + 1, 1]);
+  }
+  return indexed({ vertices, edges }).plat;
+}
+
+/** A ChainCtx in the fifth pass's step 2 (its field set, a / b null), the landing `k` of the list asked for. */
+function fifthCtx(p: Plat, k: number): { ctx: ChainCtx; pick: { k: number; count: number } } {
+  const ctx = ctxOf(p);
+  const pick = { k, count: 0 };
+  ctx.fifth = { a: null, b: null };
+  ctx.fifthPick = pick;
+  ctx.chainEnd = true;
+  ctx.endRules = true;
+  ctx.chainPath = 'back';
+  return { ctx, pick };
+}
+
+describe('LINE 2 E (round S16): a noSeat-certified class-E end with a seat in (bound, √2 · bound] stays refused with the base\'s exact detail (E-WIDE)', () => {
+  const c = { x: 1071, y: 1920 };
+  it('the arena is valid; noSeat TRUE at c, FALSE at the control (the chain\'s other end); within √2 · bound the piece\'s end and V', () => {
+    const p = stripedE();
+    expect(allProblems(p)).toEqual([]);
+    const s = seatsOf(p, 0, c);
+    expect([s.seats, s.free, s.vertices]).toEqual([[], [], []]);
+    expect(noSeat(p, 0, c)).toBe(true);
+    expect(noSeat(p, 0, { x: 2600, y: 1922 })).toBe(false);
+    expect(seatsOf(p, 0, { x: 2600, y: 1922 }).seats).toContain('2600,1908');
+    const wide = seatsOf(p, 0, c, 2 * FIDELITY_SQ);
+    expect(wide.vertices).toEqual(['1000,1900', '969,1920']);
+    expect(d2(pt(969, 1920), pt(c.x, c.y))).toBeGreaterThan(FIDELITY_SQ);
+    expect(d2(pt(969, 1920), pt(c.x, c.y))).toBeLessThanOrEqual(2 * FIDELITY_SQ);
+    expect(d2(pt(1000, 1900), pt(c.x, c.y))).toBeGreaterThan(FIDELITY_SQ);
+  });
+  for (const forward of [true, false]) {
+    it(`the chain ${forward ? 'c → (2 600, 1 922)' : '(2 600, 1 922) → c'}: refused E_INVARIANT class E, the base's detail, writing nothing`, () => {
+      const p = stripedE();
+      const before = contentPrint(p);
+      const pts: [number, number][] = forward ? [[c.x, c.y], [2600, 1922]] : [[2600, 1922], [c.x, c.y]];
+      const r = ins(tx(p, 0), pts, [{ role: 'way', entity: 'way:e' }], 'mandatory');
+      expect(r.ok).toBe(false);
+      if (r.ok) return;
+      expect(r.code).toBe('E_INVARIANT');
+      const [u, w] = forward ? ['(1000, 1900)', '(2600, 1908)'] : ['(2600, 1908)', '(1000, 1900)'];
+      expect(r.detail).toBe(`insert: no route from ${u} to ${w} keeps clearance (§3.10) within the fidelity bound (N-43); class E (notBuilt #2, M4): the design route's farthest vertex (1000, 1900), 73.8 cm off`);
+      expect(contentPrint(p)).toBe(before);
+    });
+  }
+  it('pass 5\'s step-2 landing list at c is empty (count 0): c keeps the endpoint fallback, V (beyond the bound) never a landing', () => {
+    const p = stripedE();
+    const { ctx, pick } = fifthCtx(p, 0);
+    const l = land(ctx, pt(c.x, c.y), -1, null, null);
+    expect(l.ok).toBe(true);
+    if (!l.ok) return;
+    expect(pick.count).toBe(0);
+    expect(at(p, l.value.vertex)).toEqual([1000, 1900]);
+  });
+});
+
+// Round S16 (LINE 2, E-TIES): pass 5's step-2 landing list is ordered nearest first, ties y then x. The L0 edge s (1 000,
+// 2 000) – t (1 200, 2 000) cannot be split at all: s's other edge s – u (u (1 400, 1 960), 5.7° off) passes 19.9 cm from
+// t, so a split would leave t within minEdge of it (§3.6 (iii) at the split's own ends). The chain point (1 100, 2 012) is
+// attracted to s – t and falls back on s, 100.7 cm off. Within the bound: a free spot (1 100, 2 025) (13 cm) and the two
+// L0 vertices V1 (1 055, 2 052) and V2 (1 145, 2 052), both √3 625 cm off — a tie, broken by y (equal) then x: V1 first.
+function breachE(): Plat {
+  return indexed({
+    vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [1000, 2000, 0], [1200, 2000, 0], [1400, 1960, 0], [1055, 2052, 0], [1145, 2052, 0], [1055, 2400, 0], [1145, 2400, 0]],
+    edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0], [4, 6, 0], [7, 9, 0], [8, 10, 0]],
+  }).plat;
+}
+
+describe('LINE 2 E (round S16): pass 5\'s step-2 landings in turn — nearest first, ties y then x (E-TIES)', () => {
+  const want: [number, [number, number]][] = [[0, [1100, 2025]], [1, [1055, 2052]], [2, [1145, 2052]], [3, [1000, 2000]]];
+  for (const [k, xy] of want) {
+    it(`landing ${k} of the list: ${k < 3 ? `(${xy[0]}, ${xy[1]})` : 'none (the list has 3), the endpoint fallback s'}`, () => {
+      const p = breachE();
+      expect(allProblems(p)).toEqual([]);
+      expect(d2(pt(1055, 2052), pt(1100, 2012))).toBe(d2(pt(1145, 2052), pt(1100, 2012)));
+      const { ctx, pick } = fifthCtx(p, k);
+      const l = land(ctx, pt(1100, 2012), -1, null, null);
+      expect(l.ok).toBe(true);
+      if (!l.ok) return;
+      expect(pick.count).toBe(3);
+      expect(at(p, l.value.vertex)).toEqual(xy);
     });
   }
 });
@@ -1032,6 +1208,159 @@ describe('S5\'s third pass on the B-FUZZ cases S4 refused (register/s5-rescues.j
   }
 });
 
+// Round S14 (C-0489; notBuilt #2's classes, LINES 1 – 4): the census cases the RESUME head refused for the bound that the
+// fifth pass commits, each with the warnings it commits with — judged as LINE 1 (a) says: the family's own judge
+// (fidelity.ts `fidelityProblems`, Hausdorff both ways, through `replay`) and the whole arena's oracles.
+// Two of S5's residual register (its M0-a-08 overlay cases, segments into a wide arena) moved here too: the fifth pass
+// commits them, each judged by the same judge per segment.
+interface S14Rescue {
+  readonly mechanism: string;
+  readonly class: string;
+  readonly family: string;
+  readonly seed?: string;
+  readonly case?: number;
+  readonly log?: FuzzCase['log'];
+  /** The rows' role (the fidelity family inserts its chains as `invisible`, round S15); `way` when absent. */
+  readonly role?: string;
+  readonly refusedOnBase?: string;
+  readonly gridCellCm?: number;
+  readonly frame?: readonly (readonly [number, number])[];
+  readonly segments?: readonly (readonly (readonly [number, number])[])[];
+  readonly warnings: Rescue['warnings'];
+}
+const S14_RESCUES = (JSON.parse(readFileSync(new URL('./register/s14-rescues.json', import.meta.url), 'utf8')) as { cases: S14Rescue[] }).cases;
+
+describe('S14\'s fifth pass on the cases the RESUME head refused for the bound (register/s14-rescues.json): each commits within the bound, the arena valid', () => {
+  for (const c of S14_RESCUES) {
+    const name = c.log !== undefined ? `seed ${c.seed}, ${c.family} case ${c.case} (${c.log.length} chain${c.log.length === 1 ? '' : 's'})` : `${c.family}, ${(c.segments ?? []).length} segments`;
+    it(`class ${c.class}: ${name}`, () => {
+      if (c.log !== undefined) {
+        const { p, r } = replay({ family: c.family, log: c.log, ...(c.seed === undefined ? {} : { seed: c.seed }), ...(c.case === undefined ? {} : { case: c.case }) }, c.role ?? 'way');
+        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+        if (!r.ok) return;
+        expect(r.warnings).toEqual(c.warnings);
+        expect(dissolvableProblems(p)).toEqual([]);
+        return;
+      }
+      const p = wideArena(c.gridCellCm ?? 512);
+      const t = tx(p, 0);
+      expect(ins(t, c.frame ?? [], [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
+      const segs = c.segments ?? [];
+      segs.forEach((seg, i) => {
+        const r = ins(t, seg, [{ role: 'invisible', entity: `arr:s${i}` }]);
+        if (i < segs.length - 1) {
+          if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
+          return;
+        }
+        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+        if (!r.ok) return;
+        expect(r.warnings).toEqual(c.warnings);
+        expect(fidelityProblems(p, 0, 'mandatory', seg, {}, r.value.placed, `arr:s${i}`)).toEqual([]);
+      });
+      expect(allProblems(p)).toEqual([]);
+      expect(dissolvableProblems(p)).toEqual([]);
+    }, TIMEOUT);
+  }
+});
+
+// Round S16 (LINE 2, E-JOINT): a two-point chain's ends taken JOINTLY by pass 5. The two segments-form cases above (the
+// M0-a-08 overlay's class-S case and the trio's class-E case) with their LAST segment REVERSED: the base refuses each for
+// the bound (overlay: class S, 'the design route's farthest vertex (-51876, -21450), 97.5 cm off'; trio: class E,
+// '(-54627, 1202), 704.2 cm off' — the base copy's run, the notes' 'Hardening round S16'); pass 5 commits each only by
+// landing the START on a later landing of its list (overlay: the second of 2, the end's one landing; trio: the third of
+// 3, the end's first of 4) — every pair with the start's first landing fails. Judged as LINE 1 (a). Red under E-JOINT
+// (`joint` false: the start is never landed again, the chain refused).
+describe('LINE 2 E (round S16): a two-point chain\'s ends jointly — the start landed again on a later landing (E-JOINT)', () => {
+  const want: Record<string, { readonly warnings: Rescue['warnings']; readonly placed: readonly (readonly [number, number])[] }> = {
+    S: { warnings: [{ code: 'W_PLACED', count: 3, at: { x: -51940, y: -21430 } }, { code: 'W_ATTRACTED', count: 3, at: { x: -51970, y: -21424 } }, { code: 'W_STRETCH_SHARED', count: 1, at: { x: -51940, y: -21430 } }], placed: [[-51940, -21430], [-52259, -21100]] },
+    E: { warnings: [{ code: 'W_PLACED', count: 2, at: { x: -55333, y: 1151 } }, { code: 'W_ATTRACTED', count: 2, at: { x: -55331, y: 1218 } }], placed: [[-55333, 1151], [-55334, 1176]] },
+  };
+  for (const c of S14_RESCUES.filter((x) => x.segments !== undefined && (x.class === 'S' || x.class === 'E'))) {
+    it(`${c.family}, class ${c.class}: the last segment reversed commits within the bound, the arena valid`, () => {
+      const p = wideArena(c.gridCellCm ?? 512);
+      const t = tx(p, 0);
+      expect(ins(t, c.frame ?? [], [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
+      const segs = c.segments ?? [];
+      segs.forEach((seg0, i) => {
+        const seg = i === segs.length - 1 ? [...seg0].reverse() : seg0;
+        const r = ins(t, seg, [{ role: 'invisible', entity: `arr:s${i}` }]);
+        if (i < segs.length - 1) {
+          if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
+          return;
+        }
+        expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+        if (!r.ok) return;
+        expect(r.warnings).toEqual(want[c.class].warnings);
+        expect(r.value.placed.map((v) => at(p, v))).toEqual(want[c.class].placed);
+        expect(fidelityProblems(p, 0, 'mandatory', seg, {}, r.value.placed, `arr:s${i}`)).toEqual([]);
+      });
+      expect(allProblems(p)).toEqual([]);
+      expect(dissolvableProblems(p)).toEqual([]);
+    }, TIMEOUT);
+  }
+});
+
+interface RouterSetCase {
+  readonly id: string;
+  readonly run: string;
+  readonly class: string;
+  readonly gridCellCm: number;
+  readonly frame: readonly (readonly [number, number])[];
+  readonly chainsBefore: number;
+  readonly segments: readonly (readonly (readonly [number, number])[])[];
+  readonly refused: string;
+}
+const ROUTER_SET = (JSON.parse(readFileSync(new URL('./register/s15-routerset.json', import.meta.url), 'utf8')) as { cases: RouterSetCase[] }).cases;
+
+// Round S15 (LINES 3 – 5; J697 (4)): the router's set — CITY 73, 243, 310, 751, 999; relief-60 183 in both
+// configurations; relief-3000 77; the flat outlines 3, 8, 9, 10, 11, 16 at 180 m — each input's overlay union captured
+// as the base inserts it (register/s15-routerset.json, its source names the probe). The fifth pass does not commit any of
+// them: each refused chain stays refused with the base's exact detail, writing nothing — pinned refused and REPORTED to
+// the session (the notes' 'Hardening round S15'), never carried; e-04's buffer rung carries every one of them.
+describe('S15: the router\'s set (register/s15-routerset.json) — each overlay chain the base refused stays refused with the base\'s exact detail, writing nothing (J697 (4): REPORTED)', () => {
+  it('the register holds the set: 73, 243, 310, 751, 999, relief-60 183 ×2, relief-3000 77, the six flat outlines', () => {
+    expect(ROUTER_SET.map((c) => c.id)).toEqual(['integrated-73', 'integrated-243', 'integrated-310', 'integrated-751', 'integrated-999', 'site-relief-60-default-183', 'site-relief-60-coarse-183', 'site-relief-3000-default-77', 'flat-3', 'flat-8', 'flat-9', 'flat-10', 'flat-11', 'flat-16']);
+  });
+  for (const c of ROUTER_SET) {
+    it(`${c.id} (${c.run}): class ${c.class}, refused as on the base`, () => {
+      const p = wideArena(c.gridCellCm);
+      const t = tx(p, 0);
+      expect(ins(t, c.frame, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
+      c.segments.forEach((seg, i) => {
+        const before = contentPrint(p);
+        const r = ins(t, seg, [{ role: 'invisible', entity: `arr:s${i}` }]);
+        if (i < c.segments.length - 1) {
+          if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
+          return;
+        }
+        expect(r.ok).toBe(false);
+        if (r.ok) return;
+        expect(`${r.code} ${r.detail}`).toBe(c.refused);
+        expect(r.detail).toContain(`class ${c.class} (notBuilt #2, M4)`);
+        expect(contentPrint(p)).toBe(before);
+        // The residual certificates (noseat.ts, test-side): noSeat at the input segment's two points — FALSE on every
+        // case (each has a seat, a free spot or a vertex within the bound); noSeatS of the input segment — TRUE on
+        // integrated-751 (S) and flat-16 (E) only (one / three crossed runs, each spanning the bound region, no seat on
+        // them within it, no route vertex within it), FALSE elsewhere (round S15's measure, LINES 2 – 3).
+        for (const q of seg) expect(noSeat(p, 0, { x: q[0], y: q[1] }), `${c.id} noSeat at (${q[0]}, ${q[1]})`).toBe(false);
+        expect(noSeatS(p, 0, { x: seg[0][0], y: seg[0][1] }, { x: seg[1][0], y: seg[1][1] }), `${c.id} noSeatS`).toBe(NOSEAT_S.has(c.id));
+      });
+      expect(allProblems(p)).toEqual([]);
+    }, TIMEOUT);
+  }
+  it('noSeat\'s control: a chain point beside a lone L0 edge in an empty square has seats; noSeat with the bound doubled sees more', () => {
+    const p = framed(4000);
+    expect(ins(tx(p, 0), [[1000, 2000], [3000, 2000]], [{ role: 'way', entity: 'way:e' }]).ok).toBe(true);
+    const s = seatsOf(p, 0, { x: 2000, y: 2010 });
+    expect(s.seats.length).toBeGreaterThan(0);
+    expect(s.free.length).toBeGreaterThan(0);
+    expect(noSeat(p, 0, { x: 2000, y: 2010 })).toBe(false);
+    expect(seatsOf(p, 0, { x: 2000, y: 2010 }, 2 * FIDELITY_SQ).seats.length).toBeGreaterThan(s.seats.length);
+  });
+});
+/** Round S15's measure: the router-set cases noSeatS certifies (LINE 3's certificate; the notes' 'Hardening round S15'). */
+const NOSEAT_S: ReadonlySet<string> = new Set(['integrated-751', 'flat-16']);
+
 describe('N-44 (4): S5\'s residual register (register/s5-register.json) — one case per remaining cause class, each refused E_INVARIANT, writing nothing', () => {
   for (const c of RESIDUAL) {
     it(`${c.class}: ${c.family}${c.seed === undefined ? '' : ` seed ${c.seed} case ${c.case}`} — ${c.detail.slice(0, 60)}…`, () => {
@@ -1200,21 +1529,23 @@ describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C
     expect(poissonCap(10)).toBe(21);
   });
 
-  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds (S9\'s measure, C-0423; constructive S12\'s, C-0456): 4.30 (random), 2.02 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
+  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds (S14\'s measure, C-0489; S9\'s, C-0423, and S12\'s, C-0456, before it): 4.27 (random), 1.90 (constructive), 2.22 (mandatory-only), 0.13 (fidelity)', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
-    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.3, 2.02, 2.26, 0.26]);
+    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.27, 1.9, 2.22, 0.13]);
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBe(MEASURED_COUNT[f] / 31);
   });
 
-  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (8, 3, 4, 2); 4, 3, 3 and 1 at 10³; 496, 247, 274 and 44 nightly', () => {
+  it('the caps at the PR size are 12 (random), 7 (constructive), 8 (mandatory-only) and 2 (the fidelity property), each above the most any of the 31 measured seeds refused (8, 3, 4, 1); 3, 2, 3 and 1 at 10³; 492, 234, 269 and 25 nightly (round S14\'s measure, C-0489)', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
-    expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([12, 8, 8, 3]);
-    expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([4, 3, 3, 1]);
-    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([496, 247, 274, 44]);
-    const most = [8, 3, 4, 2];
+    expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([12, 7, 8, 2]);
+    expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([3, 2, 3, 1]);
+    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([492, 234, 269, 25]);
+    const most = [8, 3, 4, 1];
     // J207's ratchet: S9's counts never rise over S6's (C-0221: 107, 46, 49, 3), nor S12's over S9's (C-0423: 103, 45,
     // 49, 3; C-0456 lowered the constructive family's).
-    expect(fams.map((f) => MEASURED_COUNT[f])).toEqual([103, 43, 49, 3]);
+    // Round S14's ratchet (C-0489): the fifth pass lowered seven cells, none rose — 103 → 102, 43 → 40, 49 → 48, 3 → 1.
+    expect(fams.map((f) => MEASURED_COUNT[f])).toEqual([102, 40, 48, 1]);
+    fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([103, 43, 49, 3][i]));
     fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([107, 46, 49, 3][i]));
     fams.forEach((f, i) => expect(MEASURED_COUNT[f]).toBeLessThanOrEqual([103, 45, 49, 3][i]));
     fams.forEach((f, i) => expect(refusalCap(f, 10_000)).toBeGreaterThan(most[i]));

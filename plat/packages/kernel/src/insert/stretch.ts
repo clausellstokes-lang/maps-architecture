@@ -193,6 +193,32 @@ export interface ChainCtx {
    */
   strip?: { readonly variant: 0 | 1; readonly a: LatticePoint | null; readonly b: LatticePoint | null } | null;
   /**
+   * Set for the whole of insertChain's FIFTH pass and by nothing else (round S14, LINE 1; reset by every pass's start,
+   * `attempt`): its presence is the only test of pass 5, in step 2 too. Its `a` → `b` is the input segment of the segment
+   * being routed — null in step 2, which reads the chain point itself, and set per segment by `routeSegment` as `strip`'s
+   * are. Pass 5 runs at most once per chain, after the watch / back / null sequence has ended refused for the bound, and
+   * only its clean commit counts. Set, every site the third and fourth passes gate on `strip` reads `strip ?? fifth`
+   * (step 2's in-bound landings, the segment's two ends judged, the wedge corner's bound, a crossing's in-bound landing),
+   * and pass 5's own readings run (`fifthReadings` in insertChain, classes E, S, D, W, P, V of notBuilt #2).
+   */
+  fifth?: { a: LatticePoint | null; b: LatticePoint | null } | null;
+  /**
+   * Pass 5's reading r8 (round S14, LINE 3; J697: a re-reading of C-0177 (2) under §3.6 step 3's own sentence, which
+   * excludes no piece at an end): set by insertChain's `readings` for that reading alone, inside the fifth pass. Set, a
+   * level-n route piece incident to the routed segment's OWN end (`SegmentPath.end`, `SegmentPath.order[0]`) or to an
+   * end the route reached by the placement rule's endpoint fallback (provenance 'fallback'), whose band runs into the
+   * segment within `minFaceAngle`, is a stretch as `cutStretch` makes one — the 'end' form into the end, the 'start'
+   * form out of it — but a piece the run already shared into that vertex is never the piece shared out of it
+   * (`endStretchAt`). Unset: C-0177 (2) as before.
+   */
+  endStretch?: boolean;
+  /**
+   * Pass 5's step-2 choice (round S14, LINE 2): which of an end's in-bound landings, nearest first, step 2 takes (`k`),
+   * and how many it found for the landing just made (`count`, written by insertChain's `stepTwoStrip`); insertChain's
+   * walk routes the segment from each in turn. Null outside the fifth pass.
+   */
+  fifthPick?: { k: number; count: number } | null;
+  /**
    * Set by insertChain while step 2 lands an END of an open chain — its first or last input point (Q104, N-63 (2)): the
    * third and fourth passes keep such an end on the edge it meets where the placement rule falls back beyond the bound
    * (insertChain's `stepTwoStrip`, `onEdge`), before any other in-bound landing.
@@ -360,10 +386,31 @@ export function carriesOwnKey(p: Plat, own: OwnRun, h: HalfEdgeId): boolean {
  */
 export const FIDELITY_SQ = 8 * ATTRACT_SQ;
 
+/** 2⁵³: every integer below it is a double, so a product of integers that rounds below it was exact. */
+const EXACT_BELOW = 9_007_199_254_740_992;
+
 /**
- * Is the lattice point (x, y) within the fidelity bound of the input segment a → b (C-0217)? Integer arithmetic, exact while
- * the squares stay below 2⁵³ (every arena B-FUZZ builds; a 2²⁴ cm overlay arena rounds the cross term's square near the
- * bound's edge only).
+ * Is o² ≤ r2 · l2 — a point's orientation o against a segment of squared length l2, within the squared reach r2, the
+ * inclusive form of `withinSegment`, `passesWithin`, `inInputBound` and `inFidelity`'s route-to-segment test (Q77, round
+ * S14; a-01's shape in num/exact.ts `segmentCloserThan`, inclusive)? Below 2⁵³, or where the doubles hold the two apart,
+ * the doubles decide (rounding is monotone, so a pair they hold apart is apart). Past 2⁵³ (a segment longer than about
+ * 36.5 km at r = `attractCm`, about 12.9 km at the fidelity bound) the two products can round to one double while the
+ * exact o² is the larger — a point a hair outside read as within; that tie alone is decided again in BigInt from the
+ * exact integers o, r2 and l2 of a lattice input. A tie whose o, r2 or l2 is not an integer keeps the doubles' answer
+ * (never a throw).
+ */
+export function squareWithin(o: number, r2: number, l2: number): boolean {
+  const o2 = o * o;
+  const bound = r2 * l2;
+  if (o2 !== bound || o2 < EXACT_BELOW) return o2 <= bound;
+  if (!Number.isInteger(o) || !Number.isInteger(r2) || !Number.isInteger(l2)) return true;
+  return BigInt(o) * BigInt(o) <= BigInt(r2) * BigInt(l2);
+}
+
+/**
+ * Is the lattice point (x, y) within the fidelity bound of the input segment a → b (C-0217)? Integer arithmetic: the
+ * end distances and the cross term are exact on lattice points, and the cross term's square against the bound is
+ * `squareWithin`'s (exact past 2⁵³ too, Q77).
  */
 export function inInputBound(a: LatticePoint, b: LatticePoint, x: number, y: number): boolean {
   const dx = b.x - a.x;
@@ -373,7 +420,35 @@ export function inInputBound(a: LatticePoint, b: LatticePoint, x: number, y: num
   if (dot <= 0 || l2 === 0) return (x - a.x) * (x - a.x) + (y - a.y) * (y - a.y) <= FIDELITY_SQ;
   if (dot >= l2) return (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) <= FIDELITY_SQ;
   const o = dx * (y - a.y) - dy * (x - a.x);
-  return o * o <= FIDELITY_SQ * l2;
+  return squareWithin(o, FIDELITY_SQ, l2);
+}
+
+/**
+ * The fifth pass's bound test (round S14, LINE 4: classes D, W, P): does the point lie beyond the fidelity bound of the
+ * input segment being routed (`ChainCtx.fifth`'s a → b)? False outside the fifth pass and in its step 2 (a / b null).
+ */
+export function beyondFifth(ctx: ChainCtx, x: number, y: number): boolean {
+  const f = ctx.fifth ?? null;
+  return f !== null && f.a !== null && f.b !== null && !inInputBound(f.a, f.b, x, y);
+}
+
+/**
+ * May a stretch along a piece incident to v start or end at v in pass 5's reading r8 (`ChainCtx.endStretch`, round S14,
+ * LINE 3)? v is the routed segment's own end or start (`SegmentPath`), or the route reached it by the placement rule's
+ * endpoint fallback (provenance 'fallback'); `firstOf` gives the piece's first physical half-edge from v (null: an 'end' form) — a pair the run
+ * has already shared (`ChainCtx.runStart`), the piece shared into v, is never the piece shared out of it.
+ */
+export function endStretchAt(ctx: ChainCtx, v: VertexId, firstOf: (() => HalfEdgeId | null) | null): boolean {
+  if (ctx.endStretch !== true) return false;
+  const path = ctx.path ?? null;
+  const own = path !== null && (v === path.end || v === path.order[0]);
+  if (!own && ctx.provenance?.get(v) !== 'fallback') return false;
+  const first = firstOf === null ? null : firstOf();
+  if (first === null) return true;
+  const rs = ctx.runStart ?? null;
+  const shared = ctx.journal.sharedPairs;
+  for (let i = rs === null ? 0 : rs.shared; i < shared.length; i++) if (shared[i] === first >> 1) return false;
+  return true;
 }
 
 /**
@@ -392,7 +467,8 @@ export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: 
 
 /**
  * Is the lattice point p within `r` (inclusive) of the segment a–b with its foot strictly inside it — the segment
- * "passes" p (§3.6 step 3)? + − × only (exact where it can decide, as `segmentCloserThan`).
+ * "passes" p (§3.6 step 3)? + − × only; exact on every lattice input, the tie past 2⁵³ decided in BigInt
+ * (`squareWithin`, Q77).
  */
 export function passesWithin(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
   const dx = bx - ax;
@@ -401,10 +477,10 @@ export function passesWithin(px: number, py: number, ax: number, ay: number, bx:
   const dot = (px - ax) * dx + (py - ay) * dy;
   if (dot <= 0 || dot >= l2) return false;
   const o = orient2d(ax, ay, bx, by, px, py);
-  return o * o <= r * r * l2;
+  return squareWithin(o, r * r, l2);
 }
 
-/** Is p within `r` (inclusive) of the closed segment a–b? */
+/** Is p within `r` (inclusive) of the closed segment a–b? Exact on every lattice input (`squareWithin`, Q77). */
 export function withinSegment(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
   const dx = bx - ax;
   const dy = by - ay;
@@ -414,7 +490,7 @@ export function withinSegment(px: number, py: number, ax: number, ay: number, bx
   if (dot <= 0 || l2 === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay) <= r2;
   if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) <= r2;
   const o = orient2d(ax, ay, bx, by, px, py);
-  return o * o <= r2 * l2;
+  return squareWithin(o, r2, l2);
 }
 
 /** The distance from a point (doubles) to the closed segment a–b (+ − × ÷ √; the division through ratio()). */
@@ -823,6 +899,9 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
       return err('E_KEPT', `the chain passes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) off every route of level ≤ L${n} (kept content)`);
     }
     if (!nearInput(X[v], Y[v])) continue;
+    // The fifth pass (round S14, LINE 4 D): a vertex beyond the bound of the input segment is no contact; the segment
+    // passes it (§3.10's clearance judges the route whole).
+    if (beyondFifth(ctx, X[v], Y[v])) continue;
     const t = ratio((X[v] - ax) * dx + (Y[v] - ay) * dy, l2, 'area');
     check(t.ok, 'a segment spans at least minEdge');
     const o: StretchObstacle = { kind: 'vertex', vertex: v, t: t.value };
@@ -833,8 +912,12 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     const pc = pieceOf(p, h, n);
     // A piece at the routed segment's own end b, or its own start a, under the cut back's routes (`ctx.cutStretch`, round
     // S12): a stretch ending at b, or starting at a.
-    const atEnd = ctx.cutStretch === 'end' && b === (ctx.path?.end ?? -1) && (pc.a === b || pc.b === b) && pc.a !== a && pc.b !== a;
-    const atStart = ctx.cutStretch === 'start' && a === (ctx.path?.order[0] ?? -1) && (pc.a === a || pc.b === a) && pc.a !== b && pc.b !== b;
+    // Pass 5's reading r8 (`ctx.endStretch`, round S14, LINE 3): the same two forms at the routed segment's own ends and
+    // at an end the route reached on the endpoint fallback, never out of a vertex along the piece shared into it.
+    const incEnd = (pc.a === b || pc.b === b) && pc.a !== a && pc.b !== a;
+    const incStart = (pc.a === a || pc.b === a) && pc.a !== b && pc.b !== b;
+    const atEnd = incEnd && ((ctx.cutStretch === 'end' && b === (ctx.path?.end ?? -1)) || endStretchAt(ctx, b, null));
+    const atStart = incStart && ((ctx.cutStretch === 'start' && a === (ctx.path?.order[0] ?? -1)) || endStretchAt(ctx, a, () => firstFrom(p, a, pc, n)));
     if (!atEnd && !atStart && (pc.a === a || pc.a === b || pc.b === a || pc.b === b)) continue; // an incident piece: vertex routing or a corner (C-0177 (2))
     const ux = X[pc.a];
     const uy = Y[pc.a];
@@ -855,16 +938,23 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     let o: StretchObstacle;
     if (jl >= MIN_EDGE_SQ) {
       if (!nearInput(join.x, join.y) || !nearInput(leave.x, leave.y)) continue;
+      if (beyondFifth(ctx, join.x, join.y) || beyondFifth(ctx, leave.x, leave.y)) continue;
       o = { kind: 'stretch', piece: pc, join, leave, t: band.lo };
     } else {
       const tm = 0.5 * (band.lo + band.hi);
       const at = footOnSegment(ux, uy, wx, wy, ax + tm * dx, ay + tm * dy);
-      if (!nearInput(at.x, at.y)) continue;
+      if (!nearInput(at.x, at.y) || beyondFifth(ctx, at.x, at.y)) continue;
       o = { kind: 'contact', piece: pc, at, t: band.lo };
     }
     if (better(o)) best = o;
   }
   return ok(best);
+}
+
+/** The first physical half-edge from v along the level-n piece pc incident to v (r8's fold test, `endStretchAt`). */
+function firstFrom(p: Plat, v: VertexId, pc: Piece, n: Level): HalfEdgeId | null {
+  const path = routeBetween(p, v, pc.a === v ? pc.b : pc.a, n);
+  return path === null ? null : path[0];
 }
 
 /**

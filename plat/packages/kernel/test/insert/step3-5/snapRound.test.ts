@@ -6,13 +6,13 @@
 //
 // The Chaikin×2 spine cut-endpoint fixture (the item's listed test) is snap rounding's statistics: its section follows.
 import { describe, expect, it } from 'vitest';
-import { isVertexLive, outgoing, resolve, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { faceWalk, isVertexLive, outgoing, resolve, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { chaikin } from '../../../src/geom/index.js';
 import { chainJournal, type ChainCtx } from '../../../src/insert/stretch.js';
-import { MAX_PASSES, routeAlongExisting } from '../../../src/insert/snapRound.js';
+import { exitTowards, MAX_PASSES, recordHolding, routeAlongExisting, snapRound, twinOf } from '../../../src/insert/snapRound.js';
 import type { Level } from '../../../src/types/index.js';
 import { genChain } from './gen.js';
-import { allProblems, contentPrint, edgeRows, fingerprint, framed, generator, indexed, ins, intIn, liveEdges, tx, vertexAtPoint } from './support.js';
+import { allProblems, contentPrint, edgeRows, facesAt, fingerprint, framed, generator, indexed, ins, intIn, liveEdges, tx, vertexAtPoint } from './support.js';
 
 /** A loop over hundreds of arenas: its own hard timeout on the shared machine (never a timing). */
 const SLOW = 120_000;
@@ -413,4 +413,169 @@ describe('the Chaikin×2 spine cut-endpoint fixture (§3.6 Existing geometry win
     expect(most).toBeLessThanOrEqual(26 + 0.71);
     expect(shortest).toBeGreaterThanOrEqual(25.5);
   }, 600_000);
+});
+
+// Round S15 (LINE 4 W; the closing check of S14's N-s14c-5): pass 5's twin exit (snapRound.ts `fifthExit`). A vertex V
+// inside an acute corner with its twin T beside it (14.1 cm, no edge between them) is left only along an existing edge
+// (C-0177 (7)); `exitTowards` takes the route neighbour nearer the target. In the fifth pass (`ctx.fifth`: the input
+// segment (2 000, 2 000) → (3 000, 2 000)) an exit beyond the fidelity bound of the input segment is not taken: of V's
+// two exits, E2 (2 000, 2 600) is the nearer the target B (2 100, 2 700) but 600 cm off the input segment, E1
+// (2 500, 2 000) is on it — the route leaves by E1 (a new edge E1 – B), where passes 1 – 4 (no field) leave by E2 (a new
+// edge E2 – B). Red under W-EXIT (`fifthExit` → `exitTowards` at both twin sites).
+describe('LINE 4 W (round S15): the fifth pass\'s twin exit — an exit beyond the bound of the input segment is not taken (fifthExit, W-EXIT)', () => {
+  const arena = (): Plat => indexed({
+    vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [2000, 2000, 1], [2500, 2000, 1], [2000, 2600, 1], [2010, 2010, 1], [2100, 2700, 1]],
+    edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [4, 6, 1]],
+  }).plat;
+  const ctxAt = (p: Plat, fifth: boolean): ChainCtx => {
+    const t = tx(p, 1);
+    return {
+      tx: t, p, n: 1, cls: 'mandatory', rows: [{ role: 'way', entity: 'way:x' }], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [],
+      ...(fifth ? { fifth: { a: { x: 2000, y: 2000 }, b: { x: 3000, y: 2000 } } } : {}),
+    } as unknown as ChainCtx;
+  };
+  const newEdges = (p: Plat, c: ChainCtx): string[] => c.journal.newPairs.map((e) => {
+    const O = p.halfEdges.origin;
+    return `${p.vertices.x[O[2 * e]]},${p.vertices.y[O[2 * e]]}-${p.vertices.x[O[2 * e + 1]]},${p.vertices.y[O[2 * e + 1]]}`;
+  });
+  for (const fifth of [false, true]) {
+    it(fifth ? 'the fifth pass: V is left by E1 (on the input segment), a new edge E1 – B' : 'passes 1 – 4: V is left by E2 (the exit nearer the target), a new edge E2 – B', () => {
+      const p = arena();
+      const [v, e1, e2, b] = [vertexAtPoint(p, 2000, 2000), vertexAtPoint(p, 2500, 2000), vertexAtPoint(p, 2000, 2600), vertexAtPoint(p, 2100, 2700)];
+      const c = ctxAt(p, fifth);
+      expect(twinOf(c, v)).toBe(vertexAtPoint(p, 2010, 2010));
+      expect(exitTowards(c, v, 2100, 2700)).toBe(e2);
+      expect(snapRound(c, v, b).ok).toBe(true);
+      const exit = fifth ? e1 : e2;
+      expect(newEdges(p, c)).toEqual([`${p.vertices.x[exit]},${p.vertices.y[exit]}-2100,2700`]);
+    });
+  }
+});
+
+// Round S15 (LINE 4 D; the closing check of S14's N-s14c-13): pass 5's step-3 contact LANDING gate (snapRound.ts: a
+// contact whose landing lies beyond the bound of the input segment is no contact). The L0 piece U (1 400, 2 050) –
+// W (1 700, 2 025), 4.8° off the routed segment a (1 000, 2 000) → b (2 000, 2 000), comes within attractCm of it only
+// over its last 12 cm: a contact at about (1 694.5, 2 025.5), whose landing is the piece's end W (the placement rule's
+// endpoint fallback, 5.5 cm away). With the input segment (1 000, 2 000) → (1 628, 2 000) the contact point stands within
+// the bound (70.7 cm) and W beyond it (76.2 cm): the landing is refused, W (beyond) is no vertex contact either, and the
+// segment is routed straight; passes 1 – 4 (no field) route through W. Red under D-RC (the landing applied).
+describe('LINE 4 D (round S15): the fifth pass\'s contact landing beyond the bound of the input segment is no contact (D-RC)', () => {
+  const arena = (): Plat => indexed({
+    vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [1400, 2050, 0], [1700, 2025, 0], [1000, 2000, 0], [2000, 2000, 0]],
+    edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 0]],
+  }).plat;
+  const newEdges = (p: Plat, c: ChainCtx): string[] => c.journal.newPairs.map((e) => {
+    const O = p.halfEdges.origin;
+    return `${p.vertices.x[O[2 * e]]},${p.vertices.y[O[2 * e]]}-${p.vertices.x[O[2 * e + 1]]},${p.vertices.y[O[2 * e + 1]]}`;
+  });
+  for (const fifth of [false, true]) {
+    it(fifth ? 'the fifth pass, input (1 000, 2 000) → (1 628, 2 000): no contact — the segment routed straight' : 'passes 1 – 4: the contact lands on W — a → W → b', () => {
+      const p = arena();
+      const a = vertexAtPoint(p, 1000, 2000);
+      const b = vertexAtPoint(p, 2000, 2000);
+      const t = tx(p, 0);
+      const c = {
+        tx: t, p, n: 0, cls: 'mandatory', rows: [{ role: 'way', entity: 'way:x' }], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [],
+        ...(fifth ? { fifth: { a: { x: 1000, y: 2000 }, b: { x: 1628, y: 2000 } } } : {}),
+      } as unknown as ChainCtx;
+      expect(snapRound(c, a, b).ok).toBe(true);
+      expect(newEdges(p, c)).toEqual(fifth ? ['1000,2000-2000,2000'] : ['1000,2000-1700,2025', '1700,2025-2000,2000']);
+      expect(c.warnings).toEqual(fifth ? [] : [{ code: 'W_ATTRACTED', count: 1, at: { x: 1700, y: 2025 } }]);
+    });
+  }
+});
+
+// Round S16 (LINE 4 D, D-RL): pass 5's gate on a stretch's LEAVE as landed after its join (snapRound.ts: "the leave landed
+// after the join … stays within the bound"). The L0 run U (1 197, 2 056) – S (1 621, 2 030) – W (2 821, 1 944), S an L1
+// Steiner vertex off the chord U – W; the routed segment a (1 000, 2 000) → b (3 000, 2 000) runs within attractCm of the
+// run at 2.5° — a shared stretch, joined at S (promoted, W_PROMOTED) and left near (2 385.1, 1 974.1). Planned before the
+// join the leave is the split (2 385, 1 974); landed after it (the run now S – W, its chord tilted) it is (2 385, 1 975).
+// The input segment (1 466, 1 968) → (2 529, 1 890) holds S, the planned leave and the exact join and leave within its
+// bound and (2 385, 1 975) 74.2 cm off: pass 5 refuses the route with the gate's text; passes 1 – 4 (no field) share the
+// stretch. Red under D-RL (the gate off: the route shares the stretch and commits).
+describe('LINE 4 D (round S16): the fifth pass\'s leave landed after the join beyond the bound refuses the route (D-RL)', () => {
+  const arena = (): Plat => indexed({
+    vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [1000, 2000, 0], [3000, 2000, 0], [1197, 2056, 0], [2821, 1944, 0], [1621, 2030, 1]],
+    edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [6, 8, 0], [8, 7, 0]],
+  }).plat;
+  const newEdges = (p: Plat, c: ChainCtx): string[] => c.journal.newPairs.map((e) => {
+    const O = p.halfEdges.origin;
+    return `${p.vertices.x[O[2 * e]]},${p.vertices.y[O[2 * e]]}-${p.vertices.x[O[2 * e + 1]]},${p.vertices.y[O[2 * e + 1]]}`;
+  });
+  const off = (x: number, y: number): number => {
+    const [ax, ay, bx, by] = [1466, 1968, 2529, 1890];
+    const dx = bx - ax;
+    const dy = by - ay;
+    const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy)));
+    return Math.hypot(x - ax - t * dx, y - ay - t * dy);
+  };
+  it('the arena is valid; S and the planned leave (2 385, 1 974) within the bound of the input segment, (2 385, 1 975) beyond', () => {
+    expect(allProblems(arena())).toEqual([]);
+    const bound = 2 * Math.SQRT2 * 26;
+    expect(off(1621, 2030)).toBeLessThan(bound);
+    expect(off(2385, 1974)).toBeLessThan(bound);
+    expect(off(2385, 1975)).toBeGreaterThan(bound);
+  });
+  for (const fifth of [false, true]) {
+    it(fifth ? 'the fifth pass: E_INVARIANT "a stretch\'s leave at (2385, 1975) lands beyond the fidelity bound"' : 'passes 1 – 4: the stretch shared, S joined and (2 385, 1 975) left — a → S, (2 385, 1 975) → b new', () => {
+      const p = arena();
+      const t = tx(p, 0);
+      const c = {
+        tx: t, p, n: 0, cls: 'mandatory', rows: [{ role: 'way', entity: 'way:x' }], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [],
+        ...(fifth ? { fifth: { a: { x: 1466, y: 1968 }, b: { x: 2529, y: 1890 } } } : {}),
+      } as unknown as ChainCtx;
+      const r = snapRound(c, vertexAtPoint(p, 1000, 2000), vertexAtPoint(p, 3000, 2000));
+      if (fifth) {
+        expect(r).toEqual({ ok: false, code: 'E_INVARIANT', detail: 'a stretch\'s leave at (2385, 1975) lands beyond the fidelity bound' });
+        return;
+      }
+      expect(r.ok).toBe(true);
+      expect(newEdges(p, c)).toEqual(['1000,2000-1621,2030', '2385,1975-3000,2000']);
+      expect(c.warnings.map((w) => w.code)).toEqual(['W_PROMOTED', 'W_ATTRACTED', 'W_PLACED', 'W_STRETCH_SHARED']);
+    });
+  }
+});
+
+// Round S16 (LINE 7, ML; N-s8c-4's equivalence reading refuted by construction): `recordHolding` asks the index for the
+// finer records WALK_REACH_CM past the point, because the index reads a record on its ROUTE and the exact test on its WALK
+// through every finer Steiner vertex. A hand-built arena no lawful input reaches (N-s8-3's kind: §2.2 rule 3 allows one
+// hot pixel per finer level): the frame's bottom L0 run (0, 0) – z – (4 000, 0) through an L2 Steiner vertex z (2 000, −6),
+// and an L1 chord (4 000, 3 000) – (3 000, 4 000), so the L1 records are the square (walked through z) and the corner
+// triangle. The L0 vertex b (1 900, −5) stands inside the 6 cm dip. The new L0 edge a (0, 0) → b has its midpoint
+// (950, −2.5) strictly inside the L1 square's walk but 2.5 cm below its route's box: N-s8c-4's reading ("such a midpoint
+// passes within 2.84 cm of a finer edge, which checkEdge's attractCm row refuses first") does not hold — the dip's edges
+// are L0, not finer, and the one beside a is incident to a (the row skips shared ends). Only the box widened by
+// WALK_REACH_CM meets the record: checkEdge refuses E_KEPT "would split a finer face". Red under ML (the reach back to
+// 1 cm: recordHolding −1, and snapRound commits the edge with W_ACUTE_CORNER).
+describe('LINE 7 (round S16): recordHolding reads the finer record WALK_REACH_CM past the point (ML)', () => {
+  const dip = (withB: boolean): Plat => indexed({
+    vertices: [
+      [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [2000, -6, 2], [4000, 3000, 1], [3000, 4000, 1],
+      ...(withB ? [[1900, -5, 0] as [number, number, Level]] : []),
+    ],
+    edges: [[0, 4, 0], [4, 1, 0], [1, 5, 0], [5, 2, 0], [2, 6, 0], [6, 3, 0], [3, 0, 0], [5, 6, 1]],
+  }).plat;
+  const ctxOf = (p: Plat): ChainCtx => {
+    const t = tx(p, 0);
+    return { tx: t, p, n: 0, cls: 'mandatory', rows: [{ role: 'way', entity: 'way:x' }], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [] } as unknown as ChainCtx;
+  };
+  it('the L1 square\'s walk through z strictly holds (950, −2.5), 2.5 cm below its route\'s box: recordHolding finds it at L1 (and the frame face at L0)', () => {
+    const p = dip(false);
+    expect(allProblems(p)).toEqual([]);
+    const l1 = facesAt(p, 1 as Level);
+    expect(l1).toHaveLength(2);
+    const walk = (f: number): string[] => faceWalk(p, 1, f)[0].map((h) => `${p.vertices.x[p.halfEdges.origin[h]]},${p.vertices.y[p.halfEdges.origin[h]]}`);
+    const square = l1.find((f) => walk(f).includes('2000,-6'));
+    expect(square).toBeDefined();
+    const c = ctxOf(p);
+    expect(recordHolding(c, 1, 1900, -5)).toBe(square);
+    expect(recordHolding(c, 0, 1900, -5)).toBe(facesAt(p, 0 as Level)[0]);
+  });
+  it('the new L0 edge (0, 0) → (1 900, −5): snapRound refuses E_KEPT — it would split the finer L1 face at its midpoint', () => {
+    const p = dip(true);
+    const c = ctxOf(p);
+    const r = snapRound(c, vertexAtPoint(p, 0, 0), vertexAtPoint(p, 1900, -5));
+    expect(r).toEqual({ ok: false, code: 'E_KEPT', detail: 'the chain would split a finer face at (950, -2.5) (kept content)' });
+    expect(c.journal.newPairs).toEqual([]);
+  });
 });

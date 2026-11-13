@@ -21,31 +21,117 @@
 //
 //   seeds         5101 −5203 5309 −5407 5501 −5623 5701 −5801 5903 −6007 6101 −6203 6301 −6421 6521 −6607 6703 −6803
 //                 6907 −7001 7103 −7207 7307 −7411 7507 −7603 7703 −7817 7901 −8009 8101
-//   random        2+4 2+1 4+3 3+1 2+1 3 0 1+1 1+1 2+2 2+1 2+3 1+2 1 1 2+2 3+1 4 2+4 2+3 3+1 1+1 1+1 4+1 0+3 1 0+1 1
-//                 0+2 0+4 4+4                                                     → 55 + 48 = 103 in 31 seeds, max 8
-//   constructive  3 2+1 3 1 1+1 0 1+1 2 1+1 1 0 3 2+1 0+1 1 1 2 0+1 0+1 1 0 1+1 0 0+1 1 0+1 0+1 2 0 1+1 0
-//                                                                                 → 30 + 13 = 43, max 3
-//   mandatory     3 1 2 1 2 2 1+1 0 2 1 4 2 2+1 3 1 1 0 0 1 2 1 4 1 2 0 0 1 2 0 3 2  → 47 + 2 = 49, max 4
-//   fidelity      0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0    → 3, max 2
+//   random        2+4 2+1 4+3 3+1 2+1 3 0 1+1 1+1 2+2 2+1 2+3 1+2 1 1 2+2 3+1 4 1+4 2+3 3+1 1+1 1+1 4+1 0+3 1 0+1 1
+//                 0+2 0+4 4+4                                                     → 54 + 48 = 102 in 31 seeds, max 8
+//   constructive  3 2+1 2 1 1+1 0 1+1 2 1+1 1 0 2 2+1 0+1 1 1 2 0+1 0+1 1 0 1+1 0 0+1 1 0+1 0+1 2 0 0+1 0
+//                                                                                 → 27 + 13 = 40, max 3
+//   mandatory     3 0 2 1 2 2 1+1 0 2 1 4 2 2+1 3 1 1 0 0 1 2 1 4 1 2 0 0 1 2 0 3 2  → 46 + 2 = 48, max 4
+//   fidelity      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0    → 1, max 1
+//
+// Lowered by the hardening round S14 (C-0489; J207's ratchet) to its own measure — the same 31 seeds (and 20261013,
+// equal: 0+2 / 0+1 / 2 / 0) at the PR size on the round's final sources (the fifth pass: notBuilt #2's classes E, S, D, W,
+// P, V read in an in-bound pass after the watch / back / null sequence): seven cells fell, none rose — random 6907 2+4 →
+// 1+4 (class S); constructive 5309 3 → 2 (E), −6203 3 → 2 (D), −8009 1+1 → 0+1 (D); mandatory −5203 1 → 0 (D);
+// fidelity 5903 2 → 0 (V, D). S12's table, before it: random 55 + 48 = 103, constructive 30 + 13 = 43, mandatory
+// 47 + 2 = 49, fidelity 3 (max 8, 3, 4, 2).
 //
 // (S6's measure on the same seeds, C-0221, before this round: random 58 + 49 = 107, max 9 — 5309 5+3, −6803 4+1, −7603
 // 2, 8101 5+4 —; constructive 31 + 15 = 46 — 6907 0+3 —; mandatory 47 + 2 = 49; fidelity 3. The S5 closing check's
-// measure: random 58 + 96, constructive 31 + 51, mandatory-only 47 + 6, fidelity 3.) Rate / cap per 10⁴: random
-// 3.32 / 4.30, constructive 1.39 / 2.02, mandatory-only 1.58 / 2.26, fidelity 0.10 / 0.26. At the PR size the caps are
-// 12, 8, 8 and 3; at 10³ 4, 3, 3 and 1; at the nightly 10⁶ 496, 247, 274 and 44. Every refusal these count names its
+// measure: random 58 + 96, constructive 31 + 51, mandatory-only 47 + 6, fidelity 3.) Rate / cap per 10⁴ (S14's
+// measure): random 3.29 / 4.27, constructive 1.29 / 1.90, mandatory-only 1.55 / 2.22, fidelity 0.03 / 0.13. At the PR
+// size the caps are 12, 7, 8 and 2; at 10³ 3, 2, 3 and 1; at the nightly 10⁶ 492, 234, 269 and 25 (S12's: 12, 8, 8, 3;
+// 4, 3, 3, 1; 496, 247, 274, 44). Every refusal these count names its
 // class in its detail ('class S' … 'class C', each '(notBuilt #2, M4)': KI-1's residual, C-0423).
 
+import { createHash } from 'node:crypto';
 import { appendFileSync } from 'node:fs';
+
+/**
+ * The class a counted refusal's detail names (insertChain's `refusalClass`: '… class S (notBuilt #2, M4): …'), or
+ * 'unclassed' — a refusal for the bound whose detail names no class (an invariant check's throw turned into E_INVARIANT,
+ * a retrace's refusal). Read from the detail text, never from the code under test (round S14, LINE 5 (i)).
+ */
+export function refusalClassOf(detail: string): string {
+  const m = /class ([A-Z]) \(notBuilt #2/.exec(detail);
+  return m === null ? 'unclassed' : m[1];
+}
+
+/** A family's counted refusals by class (round S14, LINE 5 (i)): the tally per class letter and every unclassed detail. */
+export class ClassTally {
+  readonly byClass = new Map<string, number>();
+  readonly unclassed: string[] = [];
+  add(detail: string): void {
+    const k = refusalClassOf(detail);
+    this.byClass.set(k, (this.byClass.get(k) ?? 0) + 1);
+    if (k === 'unclassed') this.unclassed.push(detail);
+  }
+  /** The tally as a plain object, its keys sorted. */
+  toJSON(): Record<string, number> {
+    const out: Record<string, number> = {};
+    for (const k of [...this.byClass.keys()].sort()) out[k] = this.byClass.get(k) as number;
+    return out;
+  }
+}
 
 /**
  * The counts a run of a capped property gives (the spec note N-15: a passing run prints nothing): when PLAT_FUZZ_COUNTS
  * names a file, one JSON line per property — its name, the seed (PLAT_FUZZ_SEED), the run size, the E_INVARIANT and the
- * optional N-43 refusals, their sum and the cap — so a re-measure reads real counts. Nothing written otherwise.
+ * optional N-43 refusals, their sum and the cap, and (round S14, LINE 5 (i)) the counted refusals by class with every
+ * unclassed one's detail listed — so a re-measure reads real counts. Nothing written otherwise.
  */
-export function recordCounts(property: string, runs: number, invariant: number, optional: number, cap: number): void {
+export function recordCounts(property: string, runs: number, invariant: number, optional: number, cap: number, classes?: ClassTally): void {
   const file = process.env.PLAT_FUZZ_COUNTS;
   if (file === undefined || file === '') return;
-  appendFileSync(file, `${JSON.stringify({ property, seed: process.env.PLAT_FUZZ_SEED ?? null, runs, invariant, optional, counted: invariant + optional, cap })}\n`);
+  const byClass = classes === undefined ? {} : { classes: classes.toJSON(), unclassed: classes.unclassed };
+  appendFileSync(file, `${JSON.stringify({ property, seed: process.env.PLAT_FUZZ_SEED ?? null, runs, invariant, optional, counted: invariant + optional, cap, ...byClass })}\n`);
+}
+
+/**
+ * The census's per-case log (round S14, THE BURDEN; LINE 12 (a)): when PLAT_FUZZ_CASELOG names a file, one line per
+ * insertion of a census property — seed, property, case (the property's run index), chain (its index in the case),
+ * the outcome's code ('ok' or the refusal code), the counted refusal's class ('-' otherwise), the SHA-256 (16 hex) of
+ * the outcome (a commit's warnings and placed points, a refusal's code and full detail) and the arena's content print
+ * after it with its lines SORTED (so a slot reused in another order reads the same arena), and a refusal's detail —
+ * so two runs diff case by case. Lines are kept in memory and appended when the property ends (`end`, in a `finally`).
+ * Nothing written, and nothing computed, otherwise.
+ */
+export class CaseLog {
+  private readonly file = process.env.PLAT_FUZZ_CASELOG ?? '';
+  private property: string | null = null;
+  private caseNo = -1;
+  private chain = 0;
+  private readonly lines: string[] = [];
+  /** Is the log on (PLAT_FUZZ_CASELOG set)? */
+  get on(): boolean {
+    return this.file !== '';
+  }
+  /** Is a census property being logged now? */
+  get logging(): boolean {
+    return this.on && this.property !== null;
+  }
+  begin(property: string): void {
+    this.property = property;
+    this.caseNo = -1;
+  }
+  /** The next case of the property (each call of its predicate). */
+  nextCase(): void {
+    this.caseNo += 1;
+    this.chain = 0;
+  }
+  /** One insertion: its outcome text (code and detail, or warnings and placed points) and the arena's print after it. */
+  add(code: string, cls: string, outcome: string, print: string, detail = ''): void {
+    if (!this.logging) return;
+    const sorted = print.split('\n').sort().join('\n');
+    const h = createHash('sha256').update(outcome).update('\n').update(sorted).digest('hex').slice(0, 16);
+    this.lines.push([process.env.PLAT_FUZZ_SEED ?? '-', this.property, this.caseNo, this.chain, code, cls, h, detail.replace(/[\t\n]/g, ' ')].join('\t'));
+    this.chain += 1;
+  }
+  /** Appends the property's lines (called in a `finally`, so a failing property's lines are kept too). */
+  end(): void {
+    if (this.on && this.lines.length > 0) appendFileSync(this.file, `${this.lines.join('\n')}\n`);
+    this.lines.length = 0;
+    this.property = null;
+  }
 }
 
 /**
@@ -59,16 +145,16 @@ export function countedRefusal(code: string, detail: string): boolean {
   return code === 'E_INVARIANT' || (code === 'E_BELOW_MIN_EDGE' && detail.includes('(N-43)'));
 }
 
-/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S9, C-0423; constructive S12, C-0456). */
+/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S9, C-0423; constructive S12, C-0456; all four S14, C-0489). */
 export const MEASURED_PER_1E4 = {
-  random: 103 / 31,
-  constructive: 43 / 31,
-  mandatory: 49 / 31,
-  fidelity: 3 / 31,
+  random: 102 / 31,
+  constructive: 40 / 31,
+  mandatory: 48 / 31,
+  fidelity: 1 / 31,
 } as const;
 
 /** The 31-seed counts behind MEASURED_PER_1E4 (N-46 (4)'s 3 · √count reads them). */
-export const MEASURED_COUNT = { random: 103, constructive: 43, mandatory: 49, fidelity: 3 } as const;
+export const MEASURED_COUNT = { random: 102, constructive: 40, mandatory: 48, fidelity: 1 } as const;
 
 /** N-46 (4)'s cap per family, per 10⁴ cases: the measured rate plus 3 · √count on the 31-seed total — the ratchet's baseline. */
 export function capPer1e4(family: keyof typeof MEASURED_COUNT): number {

@@ -22,7 +22,8 @@ import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
 import { ok } from '../../../src/num/index.js';
 import { tx as txn } from '../../../src/tx/index.js';
 import type { Level } from '../../../src/types/index.js';
-import { spec } from '../../tx/support.js';
+import { ALONG_MIX, randomBatch, rng, type Live } from '../../tx/fuzzgen.js';
+import { framed as txFramed, spec } from '../../tx/support.js';
 import { genChain } from './gen.js';
 import { allProblems, dissolvableProblems, edgeRows, framed, generator, indexed, ins, intIn, liveEdges, pt, tx, vertexAtPoint } from './support.js';
 
@@ -278,6 +279,80 @@ describe('notBuilt #3, form (1″) built (round S13): an obtuse corner beyond �
   });
 });
 
+// Q142 / FAR1 (round S15, LINE 9; N-s13c-1, the closing check of S14's N-s14c-8): the corner-bound tier's breadth — "at
+// most 8 per bound", nearest first (ties y then x), each tried in turn (C-0457 (2)). Family T regenerated in the lane's
+// probe copy after the S12 check's recipe (88 787 lawful cases, case seeds 500 001 – 700 000; the generator is not in
+// the tree, C-0106): of every cut back that routed through a far-tier candidate, two routed through the SECOND, none
+// through a later one. Pinned here, both: existing ways meeting at the junction W; a mandatory open chain A → V → B whose
+// corner V stands beyond √2 · attractCm of W and within the corner bound, the corner acute. The first arm A → V crosses W's
+// way at X (a vertex the chain's own first segment places, 0.1 cm off the arm) and passes within attractCm of W, so the
+// second arm's route re-enters the path; the cut back's far tier holds X (the nearer of V's input point) and then W.
+// Cut back onto X, the chain does not route; onto W, it does: the corner's point lands on W (W_ATTRACTED at V's input
+// point) and the chain commits A – W – B, a simple path, under `invisible` and under a `way` key through M0-a-06's
+// transaction (kernel and kernel-tiny alike). Red under FAR1 (the far tier cut to its nearest candidate). FAR2 (cut to
+// two) holds these two and survives: no case of the regenerated family routes through a third far candidate (stated).
+interface FarCase {
+  readonly seed: number;
+  readonly ways: readonly (readonly (readonly [number, number])[])[];
+  readonly w: readonly [number, number];
+  readonly x: readonly [number, number];
+  readonly chain: readonly (readonly [number, number])[];
+  readonly corner: number;
+}
+const FAR_CASES: readonly FarCase[] = [
+  { seed: 602_957, ways: [[[813, 2273], [1149, 1965], [1853, 2102]], [[1149, 1965], [1217, 2428]]], w: [1149, 1965], x: [1177, 1970], chain: [[1008, 2219], [1207, 1926], [737, 2128]], corner: 33 },
+  { seed: 648_102, ways: [[[508, 1955], [1000, 2360], [1375, 2163]], [[1000, 2360], [718, 3127]]], w: [1000, 2360], x: [1030, 2344], chain: [[987, 2538], [1040, 2300], [523, 2710]], corner: 39 },
+];
+describe('Q142 / FAR1 (round S15): the cut back\'s corner-bound tier tries its candidates in turn — the nearest does not route, the second (the junction W) does', () => {
+  for (const c of FAR_CASES) {
+    const arena = (): Plat => {
+      const p = framed(4000);
+      c.ways.forEach((e, i) => expect(ins(tx(p, 0), e, [{ role: 'way', entity: `way:e${i}` }]).ok).toBe(true));
+      return p;
+    };
+    const [a, v, b] = c.chain;
+    const d2 = (q: readonly [number, number]): number => (q[0] - v[0]) ** 2 + (q[1] - v[1]) ** 2;
+    it(`family T ${c.seed}: the arrangement — W a junction, V ${Math.sqrt(d2(c.w)).toFixed(1)} cm from W, the corner acute (${c.corner}°), the far tier X then W`, () => {
+      const p = arena();
+      // W a junction of the existing ways (degree 3)
+      expect(rowDegrees(p, `way/way:e0`).get(`${c.w[0]},${c.w[1]}`)! + rowDegrees(p, `way/way:e1`).get(`${c.w[0]},${c.w[1]}`)!).toBe(3);
+      // V beyond √2 · attractCm of W, within the corner bound 2 · √2 · attractCm
+      expect(d2(c.w)).toBeGreaterThan(2 * 26 * 26);
+      expect(d2(c.w)).toBeLessThanOrEqual(8 * 26 * 26);
+      // X on the first arm (its crossing of W's way) and on that way, within the same tier and nearer V's point than W
+      expect(Math.abs((v[0] - a[0]) * (c.x[1] - a[1]) - (v[1] - a[1]) * (c.x[0] - a[0])) / Math.hypot(v[0] - a[0], v[1] - a[1])).toBeLessThan(1);
+      expect(d2(c.x)).toBeGreaterThan(2 * 26 * 26);
+      expect(d2(c.x)).toBeLessThan(d2(c.w));
+      // the corner acute
+      const ang = (Math.acos(((a[0] - v[0]) * (b[0] - v[0]) + (a[1] - v[1]) * (b[1] - v[1])) / (Math.hypot(a[0] - v[0], a[1] - v[1]) * Math.hypot(b[0] - v[0], b[1] - v[1]))) * 180) / Math.PI;
+      expect(Math.round(ang)).toBe(c.corner);
+      expect(ang).toBeLessThan(90);
+    });
+    it(`family T ${c.seed}, under \`invisible\`: commits A – W – B through the far tier's SECOND candidate (W), a simple path, W of degree 2`, () => {
+      const p = arena();
+      const r = ins(tx(p, 0), c.chain, [{ role: 'invisible', entity: 'c1' }]);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      if (!r.ok) return;
+      expect(r.value.placed.map((u) => at(p, u))).toEqual([`${a[0]},${a[1]}`, `${c.w[0]},${c.w[1]}`, `${b[0]},${b[1]}`]);
+      expect(r.warnings).toEqual([{ code: 'W_ATTRACTED', count: 1, at: { x: v[0], y: v[1] } }]);
+      const deg = rowDegrees(p, 'invisible/c1');
+      expect(high(deg)).toEqual([]);
+      expect(simpleOpen(deg)).toBe(true);
+      expect(deg.get(`${c.w[0]},${c.w[1]}`)).toBe(2);
+      expect(vertexAtPoint(p, v[0], v[1])).toBe(-1);
+      expect(allProblems(p)).toEqual([]);
+      expect(dissolvableProblems(p)).toEqual([]);
+    });
+    it(`family T ${c.seed}, under a \`way\` key through M0-a-06's transaction: the batch commits, the key a simple run`, () => {
+      const p = arena();
+      const r = throughTx(p, 0, c.chain, 'mandatory', false);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      expect(simpleOpen(rowDegrees(p, 'way/way:c1'))).toBe(true);
+      expect(allProblems(p)).toEqual([]);
+    });
+  }
+});
+
 // Form (1′), kept (C-0456): a corner beyond the corner bound of every vertex of the path it re-enters — W 80 cm from the
 // corner of a narrow V (arms at ±14°, both passing 19.4 cm from W). A cut back there would move the corner beyond the
 // fidelity bound; keeping the corner (the segment routed with the path left out of step 3) measured a census rise at
@@ -455,4 +530,57 @@ describe('notBuilt #3, forms (3) – (5) built (round S12): the constructive fam
       if (!r.ok) expect(`${r.code} ${r.detail}`).toBe(want.tx);
     });
   }
+});
+
+/** R-12's placed points (round S14), as committed on the base and the tree. */
+const R12_PLACED: readonly string[] = ['3640,0', '998,1092', '2968,4000'];
+
+// Q62's R-12 (round S14, LINE 8; checks/M0-a-06-s7.md R-12): M0-a-06's along family (kernel/test/tx/fuzz.test.ts, read
+// only: rng(648 · 104 729), ALONG_MIX, its generator fuzzgen.ts) at seed 648 refused batch 13 — the L1 way:13 — 'E_INVARIANT
+// (way, way:13) branches' on a-06 S7's tree: its route went (1 273, 978)–P (998, 1092)–Q (974, 1102)–P–(1 542, 1 903), Q
+// its own input point 24 cm from P (P of degree 3, Q of degree 1: RQ1's retrace A–P–Q–P–R–B). Re-measured on this round's
+// base and tree (a probe outside the tree replaying the family read-only): the batch commits on both, through the cut
+// back's pass ('back'). The captured chain (3 640, 0) → (974, 1 102) → (2 968, 4 000) (SHA-256 eb34c323… of its JSON)
+// is pinned here in form (1″)'s shape on the arena the family's batches 0 – 12 leave: a simple path under `invisible` and
+// under its `way` key through M0-a-06's transaction.
+describe('Q62\'s R-12 (round S14): the along family\'s seed 648, batch 13 — way:13 retraces at P (998, 1092) and is cut back, a simple path', () => {
+  const chain: readonly (readonly [number, number])[] = [[3640, 0], [974, 1102], [2968, 4000]];
+  /** The arena M0-a-06's along family leaves at seed 648 before its batch 13 (batches 0 – 12 as fuzz.test.ts runs them). */
+  const arena = (): Plat => {
+    const r = rng(648 * 104_729);
+    const p = txFramed();
+    const live: Live = { ways: [], kerbs: [], next: 0 };
+    for (let step = 0; step < 13; step++) {
+      const snapshot: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
+      const b = randomBatch(p, live, r, ALONG_MIX);
+      const res = txn(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn);
+      if (!res.ok) {
+        live.ways = snapshot.ways;
+        live.kerbs = snapshot.kerbs;
+      }
+    }
+    expect(live.next).toBe(13);
+    return p;
+  };
+  it('under `invisible`: commits a simple path, P (998, 1 092) of degree at most 2 in the chain\'s rows', () => {
+    const p = arena();
+    const r = ins(tx(p, 1), chain, [{ role: 'invisible', entity: 'c1' }]);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    const deg = rowDegrees(p, 'invisible/c1');
+    expect(high(deg)).toEqual([]);
+    expect(simpleOpen(deg)).toBe(true);
+    expect(deg.get('998,1092') ?? 0).toBeLessThanOrEqual(2);
+    expect(r.value.placed.map((v) => at(p, v)), 'Q (974, 1 102) cut back onto P').toEqual(R12_PLACED);
+    expect(r.warnings).toEqual([{ code: 'W_ATTRACTED', count: 2, at: { x: 974, y: 1102 } }, { code: 'W_PLACED', count: 1, at: { x: 1543, y: 1928 } }]);
+    expect(allProblems(p)).toEqual([]);
+    expect(dissolvableProblems(p)).toEqual([]);
+  });
+  it('under its `way` key through M0-a-06\'s transaction: the batch commits, the key a simple run (refused \'branches\' on a-06 S7\'s tree)', () => {
+    const p = arena();
+    const r = throughTx(p, 1, chain, 'mandatory', false);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    expect(simpleOpen(rowDegrees(p, 'way/way:c1'))).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+  });
 });

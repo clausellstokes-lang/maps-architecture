@@ -960,3 +960,614 @@ for cell; RELATED@1000's eight reds are the S12 round's declared / foreign set. 
 |---|---|---|---|
 | N-s13c-1 | **FAR1 survives — the corner-bound tier's breadth is unpinned.** This seat's mutant FAR1 (`far … .slice(0, 1)`: only the nearest candidate beyond √2 · `attractCm` tried) changes no pin, no NEAR test at the PR size and no RELATED@1000 test (its reds the known eight); on family T it changes one case, seed 516 267 (an acute 25.5° open chain beside a junction W 59 cm from V: the tree cuts V back through the second far candidate and commits simple; the mutant commits W of degree 3 and the transaction refuses `(way, way:c1) branches` — fail-safe). Not equivalent; it bears on S12's acute-tip tier, not on this round's change. | pin T 516 267's arrangement in `reentry.test.ts` (commit, a simple path, under `invisible` and a `way` key) so the "at most 8 per bound" breadth is held | next a-05 round, else M4 |
 | N-s13c-2 | **LOOSE equivalent.** Gathering cut-back candidates within 4 · `FIDELITY_SQ` changes one T case (506 010) whose moved vertex stays within the fidelity bound (71.2 cm < 73.5 cm): the landing's bound check holds the promise. | none (an equivalent survivor, one line) | — |
+
+## Hardening round S14 (lane `build/M0-a-05-fix-s14`, 2026-11-11 – 2026-11-12; THE ROUTER ROUND — notBuilt #2's classes in a fifth pass (Q83 with Q44 and Q64; RL1), Q77's 2⁵³ tie, MK / ML, Q62's R-12, Q142's FAR1, Q152's group B; J637, J693, J697, J742, J744; C-0489)
+
+Three build seats of one lane in one Claude Code cloud container (linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib,
+Node 24.12.0), two waiter hand-offs (the BEFORE chain `/home/user/maps-scratch/waves/s14-before`, the AFTER chain
+`/home/user/maps-scratch/waves/s14-after`; their HANDOFF.md files name every path). Edited inside the owns only:
+`src/insert/{stretch,snapRound,insertChain}.ts` and `test/insert/step3-5/` (`caps.ts`, `bfuzz.test.ts`,
+`fidelity.test.ts`, `stretch.test.ts`, `crossings.test.ts`, `reentry.test.ts`, `router.test.ts`,
+`register/s14-rescues.json` NEW, `register/s5-register.json`); `crossings.ts`, `wedge.ts`, `rewalk.ts`, `index.ts`
+unchanged; no export of `insert/index.ts` or the barrel added, removed or renamed; ChainCtx gains optional fields only
+(`fifth`, `endStretch`, `fifthPick`); no refusal code or message text changed. Every other file was read and run, never
+edited. THE BASE MIRROR `/home/user/maps-scratch/waves/base-build-M0-a-05-fix-s14/plat` (`cp -a` of the tree at the RESUME
+head before the first edit, never written); the probe copy `/home/user/maps-scratch/waves/s14-probe-base/plat` (its
+`packages/*/src` `diff -r`-identical to the base; only the three instrumented census test files copied in).
+Preconditions: arena/write.ts, tx/frames.ts and kernel/test/tx/write-door.test.ts present, the guard green; the owns are
+the eight entries; `corepack pnpm landed:verify -- flow-7 --item M0-a-05` printed ok.
+
+### THE FIFTH PASS (LINE 1) as built
+
+`insertChain`'s `passes` and its watch / back / null sequence are unchanged. After the sequence, when its final result
+is `boundRefusal` and not `reentered`, ONE `attempt(true, null, true)` runs with `ctx.chainPath = 'back'` and
+`ctx.endRules = true` (pass 3's end rule), `ctx.fifth = { a: null, b: null }` set for its whole run (its a / b set per
+segment by `routeSegment` and restored after, null in step 2), reset by every `attempt`. Its result replaces the base's
+ONLY when `ok` (a retrace is never ok); anything else is discarded and the base's result returned unchanged (code and
+full detail, an E_BELOW_MIN_EDGE's stops suffix included). The four strip-gated sites read `ctx.strip ?? ctx.fifth`:
+`stepTwoStrip`, `readings`' ends, the wedge corner gate, `stripLanding`. Pass 5's readings (stretch.ts `beyondFifth`,
+`endStretchAt`; snapRound.ts `fifthExit`, the D gates and the step-4 landing gate; insertChain.ts r8 / r8-anchored, the
+step-2 landing list with `ctx.fifthPick`, the walk's `turns`, `exactlyCovered` / `exactlyWithin`) read the field and
+nothing else, so passes 1 – 4 are byte-for-byte the base's (LINE 12 (a) below: no committed case moved).
+
+### Row-by-row outcome
+
+| line | outcome | evidence / mutant |
+|---|---|---|
+| LINE 1 (the vessel) | **BUILT** as above | (a) every rescue in `register/s14-rescues.json` judged by `fidelity.ts` `fidelityProblems` = [], `allProblems` = [], `dissolvableProblems` = [] (router.test.ts describe "S14's fifth pass …"); (b) **CODE** (pass 5's own refusal returned) KILLED by the s5 residual register's exact base detail; (c) **P5-INSIDE** (pass 5 inside `passes()` after `inBound(1)`) KILLED by the D rescue −5203 mandatory 7499; and LINE 12 (a)'s per-case diff shows no committed → differently-committed case; (d) E- / S- / DWPV-EARLY NOT RUN as mutants this round (their kill is LINE 12 (a)'s per-case diff; owed to the next round's table) |
+| LINE 2 (class E) | **BUILT** in pass 5: step 2's in-bound landing list (across, nearest, onEdge, free, each vertex within the bound), nearest first ties y then x, ≤ RELAND_MAX, routed from each in turn (`turns`; a two-point chain's ends jointly) | rescue E 5309 constructive 1390 pinned; **E-OFF** KILLED; **E-FIRST** = E-OFF here (the walk's own landing is the nearest, k = 0; "first only" removes `turns`), killed by the same pin; **E-WIDE and the `noSeat` certificate NOT BUILT** (owed; see Open below) |
+| LINE 3 (class S) | **BUILT** r8 in pass 5 (stretch.ts `endStretchAt`: the segment's own ends and provenance 'fallback'; a piece shared INTO x never the piece shared out of x) | rescues S 6907 random 8147 and S5's M0-a-08 overlay case (oob:crossing-fallback, W_STRETCH_SHARED) moved to `s14-rescues.json`; **S-OFF** KILLED; diagnosis: of pass 5's 95 'no route' ends over the 203 counted base refusals most are class S with a crossed run holding no qualifying point within the bound (placeOnRun finds none; the fallback stands far off, e.g. 458 cm) — the count of r1 failures at a pair's end beside a near-parallel incident piece was NOT taken; **S-SEGEND, S-ANGLE, S-FOLD fixtures, `noSeat-S` and the 243 / 310 / 751 / 999 captures NOT BUILT** (owed) |
+| LINE 4 (D / W / P / V / C) | **BUILT** in pass 5: D (a contact or stretch landing beyond the input segment's bound is none), W (`fifthExit`; the wedge corner gate on the field), P (every step-4 landing beyond the bound through `stripLanding`, splits included), V (`exactlyCovered`: the segment-to-route half exact, BigInt, no budget) | D rescues −5203/7499, −6203/5217, −8009/1418 and S5's overlay D case; fidelity 5903 V 3426 and D 4185 rescued; **W-STRIP**, **P-STRIP** KILLED; **V-HALF** KILLED (router.test.ts 'LINE 4 V' 1 cm further: 1 failed); **V-BUDGET / V-2X** EQUIVALENT on lattice input (router.test.ts's comment: an end piece's distance is monotone, a tie only at t = 0 or 1, reached by the halving's degenerate interval within ~1 075 evaluations); **D-OFF SURVIVES** (the D gating moves no census case: the replay of the 202 base-refused cases under D-OFF equals the tree's; a constructed fixture owed); C: no reading beyond r1 – r8 built; **the 73 / 183 / 77 captures and the per-class J238 (1) certificates NOT BUILT** (owed) |
+| LINE 5 (measures) | (i) **MEASURED** — `caps.ts` `recordCounts` gains `classes` and `unclassed` (`ClassTally`, `refusalClassOf`), the per-case log `CaseLog` (PLAT_FUZZ_CASELOG); BEFORE / AFTER below; the table, MEASURED_* and the ratchet lowered; (ii) **MEASURED** — the trio below; (iii) q133.test.ts 7 / 7 green on base and tree (no set input moved its rung); the six flat outlines probe NOT RUN (owed); (iv) the proof per class NOT GIVEN (owed) | figures below |
+| LINE 6 (Q77) | **FIXED** — stretch.ts `squareWithin(o, r2, l2)` (inclusive; past 2⁵³ on the doubles' tie BigInt(o)² ≤ BigInt(r2)·BigInt(l2); a non-integer tie keeps the doubles' answer) used by `withinSegment`, `passesWithin`, `inInputBound` and `inFidelity`'s route-to-segment test; the comment reworded; nearestPiece's rank, crossings.ts :339 and walkRun's band STATED unchanged; crossings.ts :219 keeps a-01's shape (pin only) | **Q77-DBL, Q77-STRICT, Q77-THROW, Q77-HALF** KILLED (stretch.test.ts describe 'Q77 (round S14) …'); the r = 51 pin past 2⁵³ in crossings.test.ts; no tie past 2⁵³ in the census (LINE 12 (a): no committed case moved) |
+| LINE 7 (MK / ML) | **NOT DONE** (owed) — no constructed arena and no proof this round. One gap in N-s8c-4's equivalence reading found for the next seat: `checkEdge`'s attractCm row skips a finer edge SHARING an end with the new edge (`shared === 1` → `continue`, snapRound.ts :327-337), and `recordHolding` (:364) runs before the face-corner rows, so ML's 'the attractCm row refuses first' does not cover a new edge whose midpoint lies in a finer record's route-to-walk strip beside a finer edge incident to its own end — the arena to try for ML | — |
+| LINE 8 (R-12) | **RE-MEASURED AND PINNED** — the along family at seed 648 replayed by a probe outside the tree on base and tree: batch 13 commits on both through the 'back' pass; way:13's input chain (3640, 0) → (974, 1102) → (2968, 4000), SHA-256 of its JSON eb34c32335f36ffe92447aec5224480c23af0c16680ea28df05f537c0d210b95; it RETRACES; pinned in reentry.test.ts describe "Q62's R-12 (round S14) …" (form (1″)'s shape: invisible — placed 3640,0 · 998,1092 · 2968,4000, Q cut back onto P, a simple path; the way key through tx commits a simple run); the 26.000 cm tie pinned in stretch.test.ts | **Z13** (`reentered` → false) KILLED by reentry.test.ts form (1′); the R-12 pin itself stays green under Z13 (pass 5 then commits the chain identically — a statement, not a survivor of the line's promise); a-06's pins at 648 @13 did not move (LINE 12 (e)) |
+| LINE 9 (FAR1) | **NOT DONE** (owed): no constructed arrangement, family T not regenerated | — |
+| LINES 10 – 11 (Q152 group B) | **NOT DONE** (owed): the S8 model mirror, the one-switch isolation and the two-sided judgment were not run this round; the three reds reproduce on base and tree with identical messages (below) | — |
+| LINE 12 (the shift) | **MEASURED AND DECLARED** below — (a) per-case; (b) re-recorded files; (c) the bands gate; (d) roots not run (owed: CITY roots / fusion 3 / integrated 4); (e) other items' tests; (f) work | figures below |
+
+### Figures (BEFORE in the probe copy / base mirror, AFTER on the tree; commands in the two HANDOFF.md files)
+
+- **The census (LINE 5 (i), J264 (4))** — `PLAT_FUZZ_SEED=<s> PLAT_FUZZ_CASELOG=… PLAT_FUZZ_COUNTS=… corepack pnpm exec
+  vitest run --project kernel --maxWorkers=1 packages/kernel/test/insert/step3-5/bfuzz.test.ts
+  packages/kernel/test/insert/step3-5/fidelity.test.ts` and `--project kernel-tiny` over fidelity.test.ts, caps.ts's 31
+  seeds and 20261013, three seeds in parallel. Every seed exit 0 both sides, unclassed 0 both sides. BEFORE = caps.ts cell
+  for cell: random 55 + 48 {E 41, S 42, D 8, W 7, V 4, P 1}, constructive 30 + 13 {S 21, E 9, D 6, W 3, V 3, P 1},
+  mandatory 47 + 2 {S 32, D 7, W 7, E 2, P 1}, fidelity 3 {D, S, V}; AFTER: random 54 + 48 {S 41, …}, constructive
+  27 + 13 {E 8, D 4, …}, mandatory 46 + 2 {D 6, …}, fidelity 1 {S}; 20261013 0 + 2 / 0 + 1 / 2 / 0 both. **Lowered by 7
+  on four families, none raised**: random 6907 2+4 → 1+4 (S); constructive 5309 3 → 2 (E), −6203 3 → 2 (D), −8009 1+1 →
+  0+1 (D); mandatory −5203 1 → 0 (D); fidelity 5903 2 → 0 (V, D); kernel-tiny fidelity 5903 2 → 0 (the same two). Per-case
+  logs: 4 815 156 kernel lines + 1 895 231 kernel-tiny; `sha256sum census/*.tsv | sha256sum` BEFORE 84a3abc1539483b3e80a774397c7b4fd26702c66d2825e7766f6aa759f96ed59, AFTER
+  0d24fe45fee6466124fa7b5916b197b99428b56a0a78d65ec9787551636f46aa.
+- **LINE 12 (a) NO-SHIFT**: base → tree, key (seed, property, case, chain): 4 815 148 identical, 7 refused → committed
+  (the rescues above), 1 changed — −6203 constructive 5217 chain 7, E_KEPT → E_KEPT with another detail ('inside a finer
+  face at (1568, 124)' → 'within attractCm of a finer vertex at (2631, 1909)'), a LATER chain of the rescued sequence;
+  nothing else. No committed → differently-committed case. The N-7 slice's 1 862 per-insertion lines per seed identical;
+  N-7's GOLDEN (045e8cc2…) unchanged and green.
+- **The trio (LINE 5 (ii))** — a-08's harness at 8611 × 1 000 read-only: BEFORE 88 lines, sorted SHA-256
+  897f3852762a86c35c9dbcba9f61e1c4d029b34b454a34a80d8b2190c66883a0 (= a-08's; buffer S 26 D 7 E 7 W 5, offsetFace S 32 E
+  6 D 3 W 1 C 1); AFTER 83 lines, sorted SHA-256 e77dec17ca7eda6affd8243b66b652589eab18152f42be65c9064f5399bb2da3
+  (buffer S 28 D 3 E 6 W 5, offsetFace S 32 E 6 D 1 W 1 C 1); 96 / 96 tests green both sides (every oracle holds on every
+  commit). Leaving: 5 inputs now CLEAN COMMITS (buffer arb-stroke D, arb-thin D ×2, offsetFace arb D ×2) — REPORTED for
+  a-08's re-record (N-s5c-4); 2 inputs (buffer arb-stroke, base E (−55472, 1189)→(−54627, 1202) and D (35699, 3891)→
+  (35872, 5878)) whose refused chain pass 5 now commits and whose LATER chain is refused class S ((−55333, 1151)→(−55331,
+  1234), (37693, 4221)→(37649, 4342)) — a later chain of the same sequence (LINE 12 (a)'s source), DECLARED for a-08's
+  re-record. No oracle failure.
+- **The router's set (LINE 5 (iii))**: layout/test/districts/q133.test.ts 7 / 7 green on base and tree (no set input
+  moved its rung expectation).
+- **The bands gate (LINE 12 (c))** — the folder in the base mirror with PLAT_FUZZ_SEED unset printed seed −906380766; the
+  tree at PLAT_FUZZ_SEED=−906380766 (kernel, JSON reporter): 221 passed / 6 failed both sides, the six = Q152's six,
+  every test's status and failure message identical base → tree (paths normalised); the folder's files' SHA-256 (sorted
+  names, `sha256sum * | sha256sum`) fd4688a450c8f4915d90d6afa29c17a1476ba5d3d42b4f94bb037078cbf069f3 base = tree. No
+  re-pin rehearsal was run (no declared red moved). bfuzz.test.ts at 20261011 / 1012 / 1 / 2 / 3 / 4 (10⁴ chord + 2 000
+  widened, `--silent=false`): widened cells all equal; chord kerb / corridorUnion equal; **chord bandUnion insertChain
+  MOVED**: 20261011 6 → 7, 1012 2 → 3, 1 1 → 1, 2 1 → 4, 3 3 → 5, 4 1 → 1 (+7, 'replays'); seed 2's kerb and corridorUnion
+  cause tallies moved (no-route 2 → 1, displaced 2 → 3; counts equal: the replay on insertChain alone now commits that part
+  through pass 5 and reads 'displaced'). DECLARED (LINE 1 / LINE 2's pass 5, a later chain of the same op): a probe in
+  the lane mirror (pass 5 switched by an env flag in the MIRROR's insertChain only) replayed the 7 new networks — with
+  pass 5 off all 7 bandUnion commit; with it on, pass 5 commits one insertion of bandUnion's that the base refused class E
+  (where the base went on to its retry), and a later insertion of the same op is then refused (base detail class E; pass 5 there ends E_DEGENERATE 'empty' ×4 or E_LEVEL ×3, discarded). The 7 inputs are
+  the REFUSAL lines new in `/home/user/maps-scratch/waves/s14-after/bandsbfuzz-{20261011,1012,2,3}.log`. REPORTED to
+  M0-a-09 (arr/bandUnion.ts: which of its insertions — the along closing :436, the chord :451, the piece :514 / :667 —
+  is the rescued one is to be read by its owner from the 7 inputs; the op could treat a later refusal after a rescued
+  step as it treats the base's refusal of that step). Every bands bfuzz seed exit 0 both sides.
+- **RELATED@1000 (LINE 12, gates)** — `PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1`
+  over stretch.ts, snapRound.ts, insertChain.ts (the three changed sources): exit 1, 7 361 tests, 10 failed, 7 350 passed,
+  1 skipped, 12 100 s. The reds: a-09's six bands pins (Q152, identical messages to the base) and four bench tests —
+  `bench/test/site/compose.test.ts` 'relief-60 default seed 2 (test size) refuses at S5 …' and
+  `bench/test/site/spike.test.ts` ×3 (the river fixture's water gates; the strip receipt; containment at relief-60 seed
+  2) — **red on the BASE mirror alike with identical messages** (`/home/user/maps-scratch/waves/s14-fin/bench-base.json`:
+  4 failed | 18 passed): not this round's; a note for the session (they were not in a-06 S9's RELATED reds). The item's
+  own folder, kernel/test/tx/cost.test.ts, door.test.ts and write-door.test.ts green in it.
+- **NEAR** (step3-5, kernel + kernel-tiny, PR size, W = 1): exit 0, 28 files, 694 / 694, 766 s (before this seat's caps /
+  ratchet edit; the ratchet describe re-run green after it).
+- **PLAT_UNDO_ORACLE=1** over step3-5 + kernel/test/tx/write-door.test.ts + door.test.ts (kernel): exit 0, 16 files,
+  360 / 360, 392 s. write-door.test.ts and door.test.ts untouched, no allowlist entry.
+- **LINE 12 (f) work**: E_WORK_LIMIT in the census per-case logs 0 → 0; cost.test.ts green in RELATED; no limits table
+  edited. Pass 5's charge per segment is bounded by its readings: r1 – r8 (+ r8-anchored) per landing pair, at most
+  RELAND_MAX² landing pairs at a segment's two ends (the run's first) or RELAND_MAX at one end, each route charged as any
+  pass's — a bound, not a measurement (the measured worst per segment is owed).
+- **LINE 12 (b) this item's re-recorded files**: caps.ts (table, MEASURED_PER_1E4, MEASURED_COUNT: 102 / 40 / 48 / 1;
+  caps 12 / 7 / 8 / 2 at 10⁴, 3 / 2 / 3 / 1 at 10³, 492 / 234 / 269 / 25 at 10⁶), router.test.ts's ratchet (103 / 43 / 49 /
+  3 → 102 / 40 / 48 / 1), `register/s14-rescues.json` (5 census cases + 2 overlay cases moved from s5-register.json, each
+  with `refusedOnBase`), s5-register.json (the two cases removed, its `source` names the move). The N-7 golden unchanged.
+
+### The round's mutant table (lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-05-fix-s14/plat`, isolation proven; `s14-tools/runmut.sh`, `vitest run --project kernel --maxWorkers=1 --bail=1 <file>`, restored and `cmp`-equal after each)
+
+| id | fault | result |
+|---|---|---|
+| Q77-DBL / Q77-STRICT / Q77-THROW / Q77-HALF | squareWithin doubles only / BigInt strict / non-integer guard removed / inInputBound and inFidelity back to doubles | KILLED (stretch.test.ts Q77) |
+| Z13 | `reentered` → false | KILLED (reentry.test.ts form (1′)) |
+| CODE | pass 5's refusal returned | KILLED (s5 residual register's exact detail) |
+| P5-INSIDE | pass 5 inside `passes()` after inBound(1) | KILLED (s14 rescue D −5203 / 7499) |
+| E-OFF (= E-FIRST) | the walk's `turns` gate false | KILLED (s14 rescue E 5309 / 1390) |
+| S-OFF | r8's `endStretch` off | KILLED (s14 rescue, overlay class S) |
+| W-STRIP | wedge gate on ctx.strip alone + fifthExit off | KILLED (s14 rescues) |
+| P-STRIP | step-4 landing gate on ctx.strip alone | KILLED (s14 rescues) |
+| V-HALF | pass 5 skips the segment-to-route half (`return true`) | KILLED (router.test.ts 'LINE 4 V', 1 cm further) |
+| V-BUDGET / V-2X | the bisection restored / doubled in pass 5 | EQUIVALENT on lattice input (argued in router.test.ts) |
+| D-OFF | the D gates off | SURVIVES (no census case moves; constructed fixture owed) |
+| E-WIDE, S-SEGEND, S-ANGLE, S-FOLD, E- / S- / DWPV-EARLY, MK, ML, FAR1, FAR2 | — | NOT RUN (their pins are owed) |
+
+### Refusal verdicts (J290 / N-58; BEFORE → AFTER)
+
+| class | input | verdict | count |
+|---|---|---|---|
+| notBuilt #2 classes E, S, D, W, P, V (census) | LAWFUL | MAKE-IT-SUCCEED: built in pass 5; residual KEPT as '(notBuilt #2, M4)' WITHOUT the per-class J238 (1) certificates this round (owed — a failing state of LINES 2 – 5 until given) | 198 → 191 (kernel), tiny fidelity 3 → 1 |
+| the trio's notBuilt #2 refusals | LAWFUL | as above | 88 → 83 |
+| a-09's bandUnion after a pass-5 along closing | LAWFUL networks | DECLARED shift, REPORTED to M0-a-09 | chord bandUnion insertChain 14 → 21 over the six seeds |
+
+### Open (owed to the next round of this item; nothing here is claimed done)
+
+E-WIDE with the test-side `noSeat` certificate; S-SEGEND / S-ANGLE / S-FOLD fixtures, `noSeat-S` and the class-S
+diagnosis count; D-OFF's constructed fixture; the router set's chain captures (73, 243, 310, 751, 999, relief-60 183,
+relief-3000 77) and the six flat outlines at 180 m; the per-class certificates (LINE 5 (iv)); E- / S- / DWPV-EARLY as
+mutants; LINE 7 (MK / ML: arenas or proofs — the shared-end gap above); LINE 9 (FAR1 / FAR2); LINES 10 – 11 (the S8
+model, the one-switch isolation, the two-sided judgment); LINE 12 (d) the roots and (f)'s measured worst charge.
+
+## Closing check of S14 (lane `check/M0-a-05-close-s14`, 2026-11-12; verdict FAIL in `checks/M0-a-05-s14.md` — the fifth pass (LINE 1), Q77's fix (LINE 6) and R-12 (LINE 8) confirmed; LINES 2 – 5, 6's r = 51 pin, 7, 9, 10, 11 and 12 still failing; gates green, the census lowered by 7 and nowhere raised)
+
+Two sittings of one lane with one waiter hand-off (J714); the checker's own base, mirrors, mutants (52: 29 killed, 23
+survive — the table in the verdict's §3) and the measuring chain under `/home/user/maps-scratch/waves/check-M0-a-05/`.
+Re-measured on that base and on the tree, equal to the round's own figures: the census (BEFORE log hash 84a3abc1…
+recomputed, four seeds of the checker's reproduced byte for byte; AFTER 32 seeds, 64 runs exit 0: 7 refused →
+committed, 1 later chain, no committed case moved, E_WORK_LIMIT 0), the trio (88 → 83, 897f3852… → e77dec17…), q133
+(7 / 7 both), the bands folder (six reds, identical messages, at the base's printed seed −1 872 225 363), the bands
+bfuzz cells at six seeds (chord `bandUnion` 14 → 21), the undo oracle (360 / 360), NEAR (694 / 694) and RELATED@1000
+(7 361 tests, 10 red: Q152's six and four bench/test/site reds red on the base alike). The failing lines and their
+required changes are in the verdict's §1 and §6; the rows below are notes, none a blocker:
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s14c-1 | **FOR THE SESSION (ZERO REFUSALS, J264).** a-09's bands bfuzz, chord family: `bandUnion` insertChain refusals rose 14 → 21 over the six seeds (20261011 6 → 7, 1012 2 → 3, 2 1 → 4, 3 3 → 5; seeds 1 and 4 equal; each new line 'no route … class E', cause 'replays'; committed networks equal) — the checker's figures from `chain/bbf-{base,tree}-<seed>.log` equal the round's. Pass 5 commits an insertion the base refused, bandUnion goes on where the base took its retry, and a later insertion of the op is refused: seven lawful networks whose `bandUnion` committed on the base are refused on the tree (typed, fail-safe). This item's census fell by 7 while another item's registered family rose by 7. Also at seed 2 one network's kerb / corridorUnion CAUSE tally moved (no-route → displaced 25 cm), refused on both sides with the same code. | the session rules whether S14 may land with this rise (a-09's op adapting in its own round), or whether the fifth pass must not change what a retrying caller sees (a contract question, not a-05's alone); the next a-05 round names, per network, the chain pass 5 commits and the chain refused after it | the next a-05 round / M0-a-09's round |
+| N-s14c-2 | **P5-INSIDE survives; the round's table says KILLED.** The checker's form — the same block (chainPath 'back', endRules, `attempt(true, null, true)`) run inside `passes()` after `inBound(1)`, the outer block off — survives the twelve pin files (331 / 331), bfuzz + fidelity at 10³ and the per-case census on six seeds (−5203, 5309, 6907, −6203, −8009, 5903: 903 599 lines, none differing from the tree's). LINE 1 (c) allows a survivor with the search made; pass 5 is called only after the sequence (read). | correct the notes' table and C-0489's last cell to 'survivor, the search made', the mutant's exact text recorded; or pin it with a constructed form (1′) / (2) case whose 'back' refuses for the bound and whose `passes(null)` commits | the next a-05 round |
+| N-s14c-3 | **The R-12 pins are green under Z13.** With `reentered` → false the watch pass's retrace refusal is an E_INVARIANT, `boundRefusal` holds and the fifth pass (run as 'back') cuts the chain back to the same simple path. Z13 is killed by 28 other pins; the R-12 pins are killed by CUT-OFF (`tryCuts` trying no candidate, 46 reds). LINE 8's letter 'red under Z13' cannot hold beside LINE 1; judged met. | none (a statement); the next spec names CUT-OFF as R-12's mutant | — |
+| N-s14c-4 | **V-BUDGET / V-2X are not equivalent** (with LINE 4, failing there). A route parallel to the input segment whose start stands exactly √5 408 from the input point (offset (52, 52)), the segment along (−3, 4), (−10, 11), (−100, 101) or (−1 000, 1 001): `inFidelity` reads true with `ctx.fifth` (the exact half) and false without it (the bisection: at a tie d0 + d1 + Δ · len ≤ 2 · FIDELITY never holds); under either mutant all four read false while the item's 331 tests stay green. The scratch probe `probes/zz-vprobe.test.ts` is kept in the checker's scratch. | the fixture goes into router.test.ts 'LINE 4 V' (the line asked for a segment-to-route distance equal to the bound at a rational breakpoint); the 'equivalent' argument is withdrawn from the test's comment | the next a-05 round |
+| N-s14c-5 | **`fifthExit` (W's twin exit) has no pin**: W-EXIT (`fifthExit` → `exitTowards` at both sites) survives the pins, bfuzz + fidelity at 10³ and the per-case census on six seeds. | a constructed twin-exit fixture, or the reading removed if no case reaches it | the next a-05 round |
+| N-s14c-6 | **The r = 51 pin does not reach `stripPartner`** (with LINE 6, failing there): crossings.test.ts's new test calls num/exact.ts's `segmentCloserThan` (re-exported by placement.js) directly; Q77-219 (crossings.ts :219 back to a doubles' strict test) survives every pin and bfuzz at 10³. | an arrangement whose far sub-edge is longer than 18.6 km and whose crossing is the lattice tie, run through `stripPartner` | the next a-05 round |
+| N-s14c-7 | **A comment names a function that does not exist**: insertChain.ts's fifth-pass comment ('its own readings … run (`fifthReadings`)') and stretch.ts's `fifth` doc; the readings are r8 in `readings`, the walk's `turns`, `stepTwoStrip`'s list and `exactlyCovered`. | reword (comment-only) | M4 |
+| N-s14c-8 | **FAR1 is killed only by accident**: by the s14 rescue D −5203 mandatory 7499 (pass 5's cut back takes its second far candidate), not by LINE 9's constructed arrangement; FAR2 (`.slice(0, 2)`) survives the pins and bfuzz at 10³ and is unstated. | LINE 9 as specced (still failing) | the next a-05 round |
+| N-s14c-9 | **The two fidelity-family rescues are in no register** (5903: V 3426 chain 6, D 4185 chain 6): the only V commit the round makes is unpinned as a fixture — `LINE 4 V` tests `inFidelity` on a synthetic route. | capture 5903 / 3426 as a step3-5 fixture in `s14-rescues.json` | the next a-05 round |
+| N-s14c-10 | **FOR THE SESSION.** RELATED@1000 over the three changed insert/ sources shows four bench reds — bench/test/site/compose.test.ts 'relief-60 default seed 2 (test size) refuses at S5 …' (expected +0 to be 1) and spike.test.ts ×3 (containment at relief-60 seed 2; the river fixture's water gates 4 vs 2; the strip receipt 466 vs 138) — red on the checker's base alike with identical messages (`PLAT_FUZZ_RUNS=1000` over the two files in the base copy: 18 passed / 4 failed). Not this round's; in no known set. | an owner and a queue row | the session |
+| N-s14c-11 | **'extended true … endRules as pass 3's' has no pin**: P5-ENDRULES (`ctx.endRules = false` in pass 5), P5-NOEXT (`attempt(false, null, true)`) and DEPTH (the router's depth limit on `ctx.strip` alone) each survive the pins and bfuzz + fidelity at 10³. | hardening pins, or each stated equivalent with its reasoning | M4 |
+| N-s14c-12 | **Four stated clauses of LINE 2 are unpinned**: E-JOINT (a two-point chain's ends jointly), E-VERT (the existing vertices within the bound), E-ORDER (nearest first) and E-TIES (ties y then x) survive the pins and bfuzz + fidelity at 10³ — the one E pin (5309 constructive 1390) holds none of them. | with LINE 2's fixtures (E-FIRST's 'a later candidate routes' fixture pins the order) | the next a-05 round |
+| N-s14c-13 | **D and S per site**: of the six D gates only D-V (stretch.ts's vertex contact) and D-RS (snapRound's stretch landing) are pinned — D-SJ, D-SC, D-RC, D-RL survive; D-OFF as a whole IS killed by two s14 rescues (the round's 'D-OFF SURVIVES' does not reproduce for the whole gate). S-ANCH and S-PLAIN both survive (either r8 reading alone commits the one S pin); S-OWN is killed. | with LINE 3's and LINE 4's fixtures | the next a-05 round |
+
+## Hardening round S15 (lane `build/M0-a-05-fix-s15`, 2026-11-12; the S14 closing check's failing lines — LINES 2 – 5, 6's r = 51 pin, 7, 9, 10, 11, 12; C-0490)
+
+One build seat in a Claude Code cloud container (linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, Node 24.12.0).
+**No `insert/` source was edited this round**: every change is test-side (`test/insert/step3-5/`), so S14's sources — the
+ones the S14 closing check re-measured (census 203 → 196, none raised; RELATED@1000's known set; the undo oracle) — stand
+unchanged, and so do those figures. Edited: `router.test.ts`, `snapRound.test.ts`, `stretch.test.ts`,
+`crossings.test.ts`, `reentry.test.ts`, `register/s14-rescues.json` (+3 cases), `register/s15-routerset.json` (NEW),
+`noseat.ts` (NEW, the test-side certificates). Base = the S14 build seat's never-written base mirror
+`/home/user/maps-scratch/waves/base-build-M0-a-05-fix-s14/plat` (the RESUME head of S14); probes in copies of it and of
+the tree (`s15-probe-base`, `-base2`, `-tree`, `-tree2`, `-T`, `s15-s8m`: src identical, or instrumented with logging
+only, named per figure); mutants in the lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-05-fix-s15/plat`
+(isolation proven: no link into the tree, `@plat/kernel` resolving inside it), tools `/home/user/maps-scratch/waves/s15-tools`
+(`mut.py` = the S14 checker's 52 mutants + S-ANGLE, `run.sh`).
+
+### Row-by-row outcome
+
+| line | outcome | evidence / mutant |
+|---|---|---|
+| LINE 2 (class E) | **PINNED in part; residual REPORTED with the certificate's measure** | (a) the trio's class-E case captured (a-08's buffer arb-stroke at 8611, its overlay's 102nd chain, base 'class E … (−54627, 1202), 704.2 cm off') as `s14-rescues.json`'s segments-form case: it COMMITS on the tree (W_PLACED ×2, W_ATTRACTED ×2) judged by `fidelityProblems` / `allProblems` / `dissolvableProblems` = []; **E-OFF** KILLED (2), **E-FIRST** KILLED (3), **E-VERT** KILLED (1), **E-ORDER** KILLED (1) by it. (b) `noseat.ts` `seatsOf` / `noSeat` BUILT (test-side, seatsNear's form: (a) split seats on level-≤ n edges keeping (ii) / (iii), (b) free spots, (c) vertices of level ≤ n or finer on a route); **measured FALSE at both input points of every router-set refusal** (14 cases, flat-16's class E included: 125 seats, 3 952 free spots at its fallback end) — no class-E residual is certified. (c) **E-WIDE: no fixture** — a noSeat-true class-E end does not exist under noSeat's definition in a valid arena: class E fires where step 2 attracts the point to a level-n piece within attractCm, so the piece's chord through the 73.5 cm disc is ≥ 137 cm; §3.10 keeps every vertex and every non-incident edge ≥ minEdge from the piece, so every lattice point of that chord ≥ minEdge from its sub-edge ends (> 87 cm of it) keeps (ii) / (iii) as noSeat reads them — noSeat is false wherever class E fires; the line's fixture cannot be built, stated (not a survivor of a built pin). **E-JOINT, E-TIES SURVIVE** (no constructed case found; the trio case and 5309 / 1390 route on the first pair and break no tie) |
+| LINE 3 (class S) | **DIAGNOSED; PINNED in part; residual REPORTED** | DIAGNOSIS (the base probe `s15-probe-base`, src identical to the base; the 202 base-refused census cases replayed, each refused chain's landed ends read before the refusal's undo): **0 of 82** class-S 'no route' refusals have a level-≤ n piece within minFaceAngle (5°) incident at an end of the refused pair (E: 2 of 9; D 0 / 13, W 0 / 16, P 0 / 3, V 0 / 1); the router set's 8 class-S refusals likewise 0 (least incident angles 78° – 179°: the ring's own previous segment, not a near-parallel piece). The hypothesis is FALSE on every measured case: the S residual's mechanism is the crossing placement (S14's pass-5 diagnosis: a crossed run with no qualifying point within the bound, `placeOnRun` none, the fallback far off), not the end sharing. FIXTURES (stretch.test.ts 'S15: step 3's fifth-pass gates', `attractStretch` on constructed arenas): a provenance-'fallback' end shares a 3.8° piece — **S-SEGEND** KILLED; the piece already shared into the end is never shared out — **S-FOLD** KILLED; a 30° piece at the end is no stretch (the corner kept) — **S-ANGLE** (the near-parallel test skipped for end forms) KILLED. `noSeatS` (`seatsOfSegment`) BUILT: true on **integrated-751** (S: one crossed run, spanning the bound region, no seat on it within the bound, no route vertex) and **flat-16** (E), false on the other 12 (pinned in router.test.ts). THE SET: 243, 310, 751, 999 captured (below), each REFUSED on the tree with the base's exact detail — pinned and REPORTED (J697 (4)); 751's refusal carries noSeatS's proof |
+| LINE 4 (D / W / P / V / C) | **PINNED in part; residual REPORTED** | V: router.test.ts 'LINE 4 V (round S15)' — the route parallel to the input segment, its start (52, 52) off the input point, the segment along (−k, k + 1), k = 30, 100, 300, 1 000: the bisection (passes 1 – 4) reads FALSE, the exact half TRUE — **V-BUDGET** and **V-2X** KILLED (5 each, with the V commit below); the V commit captured: the fidelity family's 5903 / 3426 (class V, base 'farthest vertex (2244, 1681), 31.3 cm off') and 5903 / 4185 (class D) in `s14-rescues.json` (log form, role `invisible`), both committing, judged as LINE 1 (a). W: snapRound.test.ts 'LINE 4 W (round S15)' — V's twin T 14 cm off, exits E1 on the input segment and E2 nearer the target: pass 5 leaves by E1, passes 1 – 4 by E2 — **W-EXIT** KILLED. D: stretch.test.ts — a crossing piece's stretch whose leave lies beyond the bound (**D-SJ** KILLED), a contact point beyond (**D-SC** KILLED); snapRound.test.ts 'LINE 4 D (round S15)' — a contact within the bound whose landing (the piece's end W, the endpoint fallback) lies beyond: pass 5 routes straight, passes 1 – 4 through W (**D-RC** KILLED). **D-RL SURVIVES**: no constructed case; a differential harness (snapRound with the field on 35 680 random arenas, `s15-diff`) moved nothing under it (nor under D-RC / D-RS / D-SJ / D-SC — the harness is weak, stated). THE SET: 73 (W), relief-60 183 ×2 (W), relief-3000 77 (D), flat 10 (W) captured and REFUSED as on the base — pinned and REPORTED (J697 (4)); the router set's 73 / 183 / 77 have the near-parallel incident piece at the start (183: 1.0°, 77: 1.6°) that their W / D class reads. C: no reading after r1 – r8 built and no certificate — C's trio case (offsetFace, 1) stays REPORTED |
+| LINE 5 (measures) | (i), (ii) as S14 (CONFIRMED by the S14 check; no source changed); **(iii) MEASURED**; **(iv) GIVEN** in C-0490 | (iii) the six flat outlines at 180 m (`flatFixture(s)` → `s3Slice` → `settlementPerimeterRung(outline, kernel(), { offsetCm: 18 000, frame })`, and `cityRun(s)`), base probe and tree probe: outlines 3, 8, 9, 10, 11, 16 each on the **buffer** rung (W_PERIMETER_BUFFER 1), `cityRun` ok, BEFORE = AFTER (summary lines identical); the overlay refusal of each (3, 8, 9, 11 S; 10 W; 16 E) identical; every router-set input's overlay insert log byte-identical base → tree (`sha256sum *.jsonl | sha256sum` 9c818f83…981d2fa both sides, 14 runs, 33 000+ insertions). Each set input left refused is pinned refused (register/s15-routerset.json, frame + the chains within 2 000 cm of the refused one, replaying to the base's exact detail on base and tree, kernel and kernel-tiny) and REPORTED |
+| LINE 6 (r = 51 pin) | **PINNED through `stripPartner`** | crossings.test.ts 'through stripPartner': A – B a 30 km L0 edge, the near piece u – w crossed at its midpoint P (t = ½ exactly, a lattice point), P a hair inside 51 cm (o² = 51² · \|AB\|² − 2, the doubles tied) — `stripPartner` returns A – B's sub-edge; **Q77-219** KILLED (1) |
+| LINE 7 (MK / ML) | **NOT DONE** — no constructed arena, no proof (owed; the S14 notes' shared-end gap stands as the arena to try) | — |
+| LINE 8 | unchanged (S14, confirmed) | — |
+| LINE 9 (FAR1) | **PINNED; Q142 CLOSED** | family T regenerated in `s15-probe-T` after the S12 check's recipe (88 787 lawful cases, case seeds 500 001 – 700 000; a hook in that copy's `tryCuts` only): 2 cut backs routed through the SECOND far-tier candidate, none through a later one. Both pinned in reentry.test.ts 'Q142 / FAR1 (round S15)': 602 957 (W (1 149, 1 965) a junction, V 69.9 cm from it, the corner 33°; far tier X (1 177, 1 970) — the first arm's crossing of W's way — then W) and 648 102 (V 72.1 cm, 39°): the arrangement asserted (junction degree 3, distances in (√2 · attractCm, 2 · √2 · attractCm], X before W, X on the first arm, the corner acute), A – W – B committed a simple path under `invisible` (W_ATTRACTED at V) and through tx under a `way` key, kernel and kernel-tiny — **FAR1** KILLED (4); **FAR2 SURVIVES** with its reason: no case of the family routes through a third far candidate |
+| LINE 10 (Q152 B, the cause) | **DONE** | the S8 MODEL in `s15-s8m` (a copy of the tree, env switches only): S9's in-segment retrace cut (snapRound `reenters`), r0 / `nearestOwn`, r2b; S10 – S11's watch / back / null (and with it S12's cut-back forms and S13's corner bound, reachable only there); S12's end rule; S14's pass 5 — ALL OFF turns all SIX bands reds green. ONE SWITCH: closing "shrunk counterexample of 20261011" ← the in-segment retrace cut (off alone restores it, on alone from the S8 model breaks it); hardening-s15 'network 561' ← S10 – S11's chainPath (the cut back); restage 'N1' ← r2b; (group A, for the record: closing 1109 and dryrun 389 / 1109 ← S12's end rule; restage N2 ← S10's cut back). THE CHAINS (a trace probe logging every `insertChain` call of the read, tree vs the switch off, the first differing call): closing — call 46, the L2 mandatory open chain [(2 546, 3 998), (2 545, 3 971), (4 000, 3 933), (4 000, 3 960)], placed alike, routed otherwise (tree W_ATTRACTED 14, W_STRETCH_SHARED 23, W_ACUTE_CORNER 4; off W_ATTRACTED 17, W_STRETCH_SHARED 28, W_WEDGE_ROUTED 1); 561 — call 20, the L2 closed ring [(741, 1 615), (741, 1 879), (741, 2 143), (700, 2 143), (700, 1 879), (700, 1 615)] committed through the 'back' pass with (741, 2 143) cut back onto (730, 2 119) (off: kept, pass 1); N1 — call 12, the L2 open chain [(449, 0), (450, 10), (51, 0)] committed in pass 3 by r2b at (448, 15) (off: refused). The bands folder's 27 files SHA-256 base = tree (S14's figure; no file edited) |
+| LINE 11 (the judgment) | **DONE**: closing (b), 561 (b), N1 (c) | the oracle: a-09 S18's exact kerb `exactRegionOfFace` (kerbExact.ts; the definition oracle's differential pin in derived.test.ts) — F minus its spines' buffers — and the two-sided Hausdorff distance of the read's outlines to it (each outline sampled every 0.25 cm, each sample's exact distance to the other's segments; error e ≤ 0.125 cm) against DRY_MOVE_CM 75.54; the pinned read measured the same way (the control). (i) every law before the exact line holds (soft runs of the four files, base and tree: every assertion's status and message identical, 36 tests); (ii) each chain reports its moves (above). (iii): closing face 1 after-read 8.93 / 9.82 cm (control, the before-read: 8.93 / 9.82) — the after-read drops two near-collinear vertices (2 732, 3 967), (2 630, 3 969): **(b) LAWFUL**, declared for a-09's re-pin; 561 face 1: 28.99 / 73.76 cm (control 28.99 / 42.01) — the 1 436 cm² island VANISHED (area difference 5 405 → 6 841 cm²), within DRY_MOVE_CM − e: **(b) LAWFUL by the gate**, declared with the island's loss named; N1 face 2: 8.25 / 7.89 cm (control 32.30 / 32.29 — the new read is nearer the exact kerb): the read is lawful, BUT the test's own S8 ≡ S9 law (restage.test.ts `s8s9`, after the exact line) breaks on base and tree alike — face 2's committed block '448,0 2390,92 … 447,69' against the read '… 447,69 448,15 2390,92 …' (the dry-run's chain committed at (448, 15) by r2b where corridorUnion's commit keeps (448, 0)): **(c) REPORTED to M0-a-09** (the dry-run's read and corridorUnion's commit route one part differently on two arenas; minimal reproduction: restage.test.ts N1's three chords; the S8 model reads both alike) |
+| LINE 12 (the shift) | **MEASURED** | (c) THE RE-PIN REHEARSAL in the lane mirror (`s15-tools/mk-rehearsal.py`: scratch copies of the four files, each declared red's assertions set to the tree's read — closing :134, :225; dryrun :314; hardening-s15 :65, :66, :71; restage :104, :107, :108, :134, :135, :136): **35 / 36 green to their ends**; the one red is N1's S8 ≡ S9 law (a law, not a literal: LINE 11 (c)). The masked assertions of the six (soft runs): hardening-s15 network 561 :66, :71 and restage N1 :107, :108, N2 :135, :136 also differ from their pins — identical base → tree. THE BANDUNION RISE, per network (`s15-band/declare.txt`, `insertChain` logged in probe copies): in each of the seven networks pass 5 COMMITS one of bandUnion's frame-closing two-point insertions that the base refused class E (net 0: insertion 11 [(2 579, 4 000), (2 538, 3 982)] placed (2 538, 3 957); net 1: 8 [(3 642, 4 000), (3 619, 3 978)]; net 2: 5 [(3 189, 4 000), (3 125, 3 977)]; nets 3 – 6: insertion 6 at x = 3 156, 3 140, 3 425, 3 281), and the later symmetric insertion ([(x − 20 ± 3, 3 978 – 3 984), (x, 4 000)]) is refused class E; the base, refusing the first, went on and committed. REPORTED to M0-a-09 for the re-pin. (d) THE ROOTS (`corepack pnpm bench -- profile --seed N --run R --mode plain`, base probe and tree probe): fusion 3 db72c0bf…, integrated 4 e9e96e0e…, fusion 1 ee1e0f22…, integrated 1 be9e88bf… — **equal base = tree** (blocks, lanes equal). (f) WORK (`insertChain` instrumented in probe copies to log each call's work delta and pass 5's spend): the 202 base-refused census cases replayed — 987 calls each side, pass 5 ran **203** times (7 commits), its spend **1 292 837** of the tree's 5 743 554 (base 4 450 719), worst **16 891 a segment** (a one-segment chain, refused), median 196; **E_WORK_LIMIT 0 / 0**; cost.test.ts's families: 11 867 calls identical base = tree, work 267 161 both, no pass 5 run; fusion 3's derivation: 118 248 calls identical, work 2 550 600 both, no pass 5 run. Stage fixtures beyond the CITY derivations: not run |
+
+### The round's mutant table (lane mirror; `s15-tools/run.sh <mutant> <file> -t <describe>`, restored and `cmp`-equal after each)
+
+| mutant | fault | result |
+|---|---|---|
+| V-BUDGET / V-2X | the bisection restored / doubled in pass 5 | KILLED (5 / 5: router.test.ts 'LINE 4 V (round S15)' ×4, the 5903 / 3426 V rescue) |
+| V-HALF | pass 5 skips the segment-to-route half | KILLED (1) |
+| W-EXIT | `fifthExit` → `exitTowards` | KILLED (1: snapRound.test.ts 'LINE 4 W') |
+| Q77-219 | crossings.ts :219 in doubles | KILLED (1: crossings.test.ts 'through stripPartner') |
+| FAR1 / FAR2 | the far tier cut to 1 / 2 | KILLED (4) / SURVIVES (no third-candidate case in 88 787) |
+| E-OFF / E-FIRST / E-VERT / E-ORDER | pass 5's step-2 list off / `turns` off / no vertices within / unsorted | KILLED (2 / 3 / 1 / 1: the trio class-E case, 5309 / 1390) |
+| E-JOINT / E-TIES | joint ends off / ties reversed | SURVIVE (no case found) |
+| D-SJ / D-SC / S-SEGEND / S-FOLD / S-ANGLE | the gates in `attractStretch` | KILLED (1 each: stretch.test.ts 'S15') |
+| D-RC | snapRound's contact landing gate off | KILLED (1: snapRound.test.ts 'LINE 4 D (round S15)') |
+| D-OFF | all six D gates off | KILLED (3 in snapRound.test.ts / stretch.test.ts's S15 fixtures; 2 S14 rescues besides) |
+| D-RL | the leave-after-join gate off | SURVIVES (no case; harness 35 680 cases unchanged) |
+| MK / ML | — | NOT RUN (LINE 7 not done) |
+
+### Open (owed; nothing here is claimed done)
+
+LINE 7 (MK / ML); E-JOINT, E-TIES and D-RL fixtures; E-WIDE (no fixture can exist under noSeat's definition — stated
+above for the checker to re-read); C's readings or certificate; the census residual of classes E, S, D, W, P, V carried
+WITHOUT J238 (1)'s proof except where noSeatS certifies (751, flat-16) — RL1's failing state for those classes stands
+and is routed to the session (C-0490 (4)); the stage fixtures' work (LINE 12 (f)).
+
+### Gates (the tree, this seat's final files)
+
+`corepack pnpm install --frozen-lockfile` 0; `corepack pnpm lint` 0 (eslint 1 305 files, 0 errors, the probe-red check,
+licences ok); `corepack pnpm build` 0 (after typing the S15 attractStretch arena's levels as `Level`); NEAR —
+`vitest run --project kernel --project kernel-tiny --maxWorkers=1 packages/kernel/test/insert/step3-5` — exit 0, 28 files,
+**772 / 772** (S14: 694), 919 s, the run's seed −1608047415; `PLAT_UNDO_ORACLE=1` over step3-5 + kernel/test/tx/write-door.test.ts
++ door.test.ts (kernel) exit 0, 16 files, **399 / 399**, 456 s (write-door.test.ts and door.test.ts untouched, no allowlist
+entry). RELATED@1000 — `PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1 packages/kernel/src/insert/{stretch,snapRound,insertChain}.ts`
+(the three insert/ sources the item's build changed in S14; no packages/*/src file changed in S15), run on the tree by the
+chain `/home/user/maps-scratch/waves/s15-related` (log, JSON reporter, exit file there; the src tree-hash 515c817b… equal at
+its start and end): exit 1 by the known-set rule, **532 files (526 passed, 6 failed), 7 439 tests (7 428 passed, 10 failed,
+1 skipped)**, 12 481 s. The 10 reds are EXACTLY the known set: a-09's six Q152 bands reds (closing.test.ts 'seed 20261011
+draw 1109' and "fast-check's shrunk counterexample of seed 20261011", dryrun.test.ts 'draws 389 and 1109',
+hardening-s15.test.ts 'network 561', restage.test.ts 'N1' and 'N2'; messages as S14's and the base's) and the four
+bench/test/site reds red on the base alike (compose.test.ts 'relief-60 default seed 2 (test size) refuses at S5 …';
+spike.test.ts ×3: 'relief-60, seed 2: two water gates …', 'the strip receipt is not blind …', 'relief-60, seed 2 (S5
+refused, S6 not reached) …'); no red outside the known set, no finding; none of J176's five Mac-reference files was selected. The census was not
+re-run for the same reason (S14's AFTER, re-measured by the S14 check: 203 → 196 over 32 seeds, none raised).
+
+
+## Hardening round S16 (lane `build/M0-a-05-fix-s16`, 2026-11-12; the S15 closing check's failing lines — LINES 2, 3, 4, 5 (iv), 7, 12 (f); C-0491)
+
+One build seat in a Claude Code cloud container (linux:Intel(R) Xeon(R) Processor @ 2.10GHz:4cpu:16gib, Node 24.12.0).
+The pins are test-side (`test/insert/step3-5/`: `router.test.ts`, `snapRound.test.ts`, `rewalk.test.ts`); ONE `insert/`
+line changed, by the round's second seat after the waiter (below, 'The source fix'): the first seat's NEAR on the tree
+turned D-RL's fifth-pass test red in kernel-tiny, exposing a re-read-rule breach in S14's pass-5 code. So NEAR, RELATED@1000,
+the undo oracle, the census, the trio, the bands folder and its bfuzz cells and the stage fixtures' work were re-run on the
+final sources (chain `/home/user/maps-scratch/waves/s16-fix`, below). Base = the S14 build seat's
+never-written base mirror `/home/user/maps-scratch/waves/base-build-M0-a-05-fix-s14/plat`; its copy
+`/home/user/maps-scratch/waves/s16-basepins/plat` (`diff -rq` of `packages/kernel/src`: empty) runs the new pins on the
+base. Mutants in the lane mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-a-05-fix-s16/plat` (isolation proven:
+no link into the tree, `@plat/kernel` resolving inside it), tools `/home/user/maps-scratch/waves/s16-tools` (`mut.py` =
+the S15 checker's mutant table, its exact replacements; `run.sh <mutant> <files> -t <describe>` restores and `cmp`s).
+
+### Row-by-row outcome
+
+| line | outcome | evidence / mutant |
+|---|---|---|
+| LINE 2 (class E) — E-JOINT | **PINNED** | router.test.ts 'LINE 2 E (round S16): a two-point chain's ends jointly …': the two segments-form cases of `s14-rescues.json` (the M0-a-08 overlay's class-S case, the trio's class-E case) with their LAST segment REVERSED. The base copy refuses both for the bound (overlay: class S, "the design route's farthest vertex (-51876, -21450), 97.5 cm off"; trio: class E, "(-54627, 1202), 704.2 cm off"); on the tree pass 5 commits each ONLY through `turns`' joint branch — a probe in the lane mirror logged the committing pair (k0, k1) = (1, 0) of 2 × 1 landings (overlay) and (2, 0) of 3 × 4 (trio): the start landed again on a later landing of its list. Judged as LINE 1 (a) (`fidelityProblems` = [], `allProblems` = [], `dissolvableProblems` = []), warnings and placed points pinned. **E-JOINT** KILLED (2) |
+| LINE 2 — E-TIES | **PINNED** | router.test.ts 'LINE 2 E (round S16): pass 5's step-2 landings in turn …': `land` in pass 5's step 2 (the field set, `fifthPick` k = 0 … 3) on an L0 edge s (1 000, 2 000) – t (1 200, 2 000) that cannot be split at all (s's other edge s – u, u (1 400, 1 960), passes 19.9 cm from t: (iii) at the split's own ends), the point (1 100, 2 012) falling back on s 100.7 cm off: the list is the free spot (1 100, 2 025), then V1 (1 055, 2 052) and V2 (1 145, 2 052) at the SAME distance √3 625 (the tie broken by y, equal, then x), count 3; k = 3 keeps the fallback. **E-TIES** KILLED (2) (E-WIDE also reds it: t enters the widened list, count 4) |
+| LINE 2 — E-WIDE | **PINNED on the checker's construction** | router.test.ts 'LINE 2 E (round S16): a noSeat-certified class-E end with a seat in (bound, √2 · bound] …': the S15 check's arena (`s15/probe/ewide.py`: the L0 piece (1 000, 1 900) – (3 000, 1 910), twelve L1 edges 25.0047 cm apart) plus one L0 vertex V (969, 1 920) on an L0 edge to (500, 1 920); c (1 071, 1 920): `allProblems` = []; **noSeat TRUE at c** (no seat, no free spot, no vertex within the bound), **FALSE at the control** (the chain's other end (2 600, 1 922), its seat (2 600, 1 908)); within 2 · FIDELITY_SQ the piece's end (1 000, 1 900) and V (102.0 cm, in (bound, √2 · bound]); the chain c → (2 600, 1 922) and its reverse refused E_INVARIANT class E with the base's exact detail ("… the design route's farthest vertex (1000, 1900), 73.8 cm off" — the same on the base copy), writing nothing; pass 5's step-2 list at c empty (count 0, the fallback kept). **E-WIDE** (the S15 check's three replacements) KILLED (5): V enters the widened list and c lands on it. WHAT THE FIXTURE ADDS to the checker's construction (`s15/probe/ewide.py`, read in the fixture's frame, translated by (1 000, 1 900): its chain point c′ (1 100, 1 920)): c moved to (1 071, 1 920) (19.6 cm off the piece, the fallback (1 000, 1 900) 73.8 cm off) and the L0 vertex V (969, 1 920) on its L0 edge to (500, 1 920). WHY THE CONSTRUCTION ALONE DOES NOT KILL E-WIDE: at c′ the only seat in (bound, √2 · bound] is the on-line split (1 200, 1 901), 101.8 cm off, which `placeOnRun`'s own admit (FIDELITY_SQ, which the mutant does not widen) excludes, and the only vertex there is the endpoint fallback (1 000, 1 900) itself, 102.0 cm off c′, which the list skips (u = v): the widened list stays empty and the mutant passes. V is the vertex seat the mutant reads (from c: 102.0 cm, in (73.54, 104.0]; the split (1 200, 1 901) is 130.4 cm off c, beyond √2 · bound). The same is stated in router.test.ts's comment above `stripedE`. C-0490 (2)'s sentence "noSeat is false wherever class E fires" is WITHDRAWN (C-0491 (1)) |
+| LINE 2 — the residual | **MEASURED; OPEN IN M0 (J796 R-1)** | the certificate over the census residual (below, 'THE CERTIFICATES PER CASE'; on the final sources, LINE 5 (d)'s file): noSeat holds at NO input point of any class-E refusal — no J238 (1) proof holds for class E. Each class-E refusal is refused today with its typed code; a seat, a free spot or a route vertex stands within the bound, so no J238 (1) proof holds; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1); '(notBuilt #2, M4)' in the registers and details is the class's NAME (J697), not a carry |
+| LINE 3 (class S) | **MEASURED; OPEN IN M0 (J796 R-1)** | noSeatS holds on the refused segment of NONE of the census's class-S refusals (on no segment of the chain at all), so no J238 (1) proof holds for class S; the r1 – r8 out-of-bound record is moot for the census; each class-S refusal is refused today with its typed code; a seat, a free spot or a route vertex stands within the bound, so no J238 (1) proof holds; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1). The router set's S cases as S15 pinned them (751 the one noSeatS-certified, REPORTED under C-0490 (2) — the router set, not the census) |
+| LINE 4 — D-RL | **PINNED** | snapRound.test.ts 'LINE 4 D (round S16): … (D-RL)': the L0 run U (1 197, 2 056) – S (1 621, 2 030) – W (2 821, 1 944), S an L1 Steiner vertex off its chord, `allProblems` = []; the routed segment (1 000, 2 000) → (3 000, 2 000) shares a stretch joined at S (promoted) and left near (2 385.1, 1 974.1): planned before the join the leave is the split (2 385, 1 974), landed after it (the run now S – W, its chord tilted) (2 385, 1 975). The input segment (1 466, 1 968) → (2 529, 1 890) holds S, the planned leave and the exact join and leave within its bound, (2 385, 1 975) 74.2 cm off: pass 5 refuses "a stretch's leave at (2385, 1975) lands beyond the fidelity bound"; passes 1 – 4 share the stretch (new edges (1 000, 2 000) – S and (2 385, 1 975) – (3 000, 2 000), W_PROMOTED, W_ATTRACTED, W_PLACED, W_STRETCH_SHARED — the same on the base copy). Found by a probe in the lane mirror (a hook at the gate logging the planned and the landed leave over 20 000 random runs with a Steiner vertex at the join: 206 differ by one lattice step), the input segment then chosen to separate the two. **D-RL** KILLED (1) |
+| LINE 4 — C | **NOT BUILT; OPEN IN M0 (J796 R-1)** | no census refusal of class C exists on the tree (the census's classes: below); C's one case is the trio's (offsetFace, M0-a-08's harness) — no reading after r1 built for it, no certificate: refused today with its typed code, no J238 (1) proof; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1; C-0491 (3)) |
+| LINE 4 — the D / W / P / V residual | **MEASURED; ONE CASE CARRIED WITH ITS CERTIFICATE; the rest OPEN IN M0 (J796 R-1)** | noSeatS holds on the refused segment of ONE census refusal: seed −6803, random case 1707, way:b1, class D (the input segment (1 504, 2 188) → (1 463, 2 201), refused '… (1508, 2188) to (1463, 2201) …'): one crossed run spanning the bound region, no seat on it within the bound of the segment, no route vertex within it — CARRIED with that certificate (C-0491 (2); §3.6 'no existing vertex moves'; M4's rounding move of committed geometry the later material); noSeat at no input point of any D / W / P / V refusal; every other D, W, P and V refusal is refused today with its typed code; a seat, a free spot or a route vertex stands within the bound, so no J238 (1) proof holds; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1) |
+| LINE 5 (iv) | **GIVEN per class, in C-0456 (3)'s form, in C-0491 (2)** — taken on the FINAL sources from LINE 5 (d)'s file `checks/M0-a-05-s16-evidence/residual-cases.tsv` (below, 'LINE 5: the census residual as ruled') | the one certified D case carried with its certificate; every other counted refusal refused today with its typed code; a seat, a free spot or a route vertex stands within the bound, so no J238 (1) proof holds; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1) |
+| LINE 7 — MK | **PINNED** | rewalk.test.ts 'LINE 7 (round S16): … (MK)': a hand-built arena no lawful input reaches (N-s8-3's kind): the frame's bottom L0 run through an L2 Steiner vertex z (2 000, −6), an L1 chord (4 000, 3 000) – (3 000, 4 000) (L1 records: the square, walked through z, and the corner); an L1 triangle of new edges alone (1 900, −4) (2 100, −4) (2 000, −2) linked by the raw primitives inside the 6 cm dip and re-walked: three L1 records (the square with the triangle as its hole, rings 6 / 3; the corner; the triangle, created; none materialised), every one under the L0 face. Under MK (both `segmentBox(…, REACH)` back to 1 cm) the square is missed at (2) and `recordUnder` finds nothing under the frame face round the new edge: a phantom L1 record is materialised — four L1 records. **MK** KILLED (1); green on the base copy and the tree. N-s8c-4's MK reading ("a record whose old ring bounds a cycle passes through one of the new edge's endpoints … a floating new edge lies ≥ minEdge from the record's boundary by §3.10") holds on lawful arenas only; the pin is the hardening pin N-s8c-4 asked for |
+| LINE 7 — ML | **PINNED** | snapRound.test.ts 'LINE 7 (round S16): … (ML)': the same dip arena; `recordHolding(ctx, 1, 1 900, −5)` (the point (950, −2.5), strictly inside the L1 square's walk, 2.5 cm below its route's box) = the square; the new L0 edge (0, 0) → b (1 900, −5): snapRound refuses E_KEPT "the chain would split a finer face at (950, -2.5) (kept content)", nothing written. N-s8c-4's ML reading ("such a midpoint passes within 2.84 cm of a finer edge, which checkEdge's attractCm row refuses first") fails here: the dip's edges are L0 (not finer) and the one beside a is incident to a (the row skips a shared end — the S14 notes' gap). Under ML (reach 1 cm) `recordHolding` returns −1 and snapRound commits the edge with W_ACUTE_CORNER. **ML** KILLED (2); green on the base copy and the tree |
+| LINE 4 D — the source fix (found by D-RL) | **FIXED; PINNED** | snapRound.ts's pass-5 gate on a stretch's leave landed after the join (S14's) read k's point from `route`'s X / Y, cached at its entry; `planLandingAfter` / `applyLanding` may allocate k, and an allocation that grows the vertex table replaces `p.vertices` (C-0286 (4), arena/plat.ts's re-read rule) — the cached columns are dead copies, k's point read (undefined, undefined), `inInputBound` false, the gate refused. In kernel-tiny (every allocation a growth) D-RL's fifth-pass test received "a stretch's leave at (undefined, undefined) lands beyond the fidelity bound" (NEAR of the first seat, `s16-chain/near.json`: kernel 402 / 402, kernel-tiny 1 red); in the kernel the same refusal fires when the landing doubles the table. Fail-safe (pass 5's refusal is discarded, the base's code and detail returned) but capacity-dependent, so a lawful chain's outcome depended on when the table grew. Fixed: k's point re-read from `p.vertices` after the landing (one gate, its message the same text). **STALE-K** (the S14 line restored) KILLED (1: D-RL's fifth-pass test, kernel-tiny) — the first seat's NEAR on the unfixed tree is that run; green after the fix in both projects (`snapRound.test.ts`, kernel + kernel-tiny, 50 / 50). The two other cached reads S14 added in `route` (`fifthExit(ctx, a, X[b], Y[b])`, `fifthExit(ctx, b, X[a], Y[a])`) precede every allocation of the call; stretch.ts's and insertChain.ts's (`attractStretch`, `verticesWithin`, `exactlyCovered`) are in functions that allocate nothing — audited, unchanged |
+| LINE 12 (f) | **MEASURED** (the chain below) | the stage fixtures' work base → tree on the final sources: below, 'LINE 12 (f): the stage fixtures' work' (chain `/home/user/maps-scratch/waves/s16-fix`, steps `work/chunk-NN` and `an-work-final.txt`) |
+
+### THE CERTIFICATES PER CASE (LINES 2 – 5 (iv); the census residual on the tree)
+
+Probe copy `/home/user/maps-scratch/waves/s16-cert/plat` (a `cp -a` of the tree; its `zzreplay.test.ts` — S15's replay
+of the base-refused cases, from `s15-probe-tree2`, never in the tree — evaluates at every counted refusal, on the arena as
+it stands after the op's rollback, `noseat.ts`'s `noSeat` at every input point of the refused chain (rounded to the
+lattice) and `noSeatS` on every input segment): `ZZCERT=… PLAT_REPLAY=/home/user/maps-scratch/waves/s14-work/refused-kernel.tsv
+corepack pnpm exec vitest run --project kernel --maxWorkers=1 packages/kernel/test/insert/step3-5/zzreplay.test.ts -t 'zz replay'`
+(the S14 base's 202 refused census cases over the 32 seeds; the 7 the fifth pass rescues commit and log nothing): **196
+counted refusals** (= the S14 AFTER census's 196), `cert-kernel.tsv` + `cert-fid-kernel.tsv`. By class:
+
+| class | refusals | noSeat at any input point | noSeatS on the refused segment | carriable (J238 (1)) |
+|---|---|---|---|---|
+| E | 51 | 0 | 0 | 0 |
+| S | 98 (97 + fidelity 7507 / 837) | 0 | 0 | 0 |
+| D | 18 | 0 | 1 (−6803 random 1707) | 1 |
+| W | 17 | 0 | 0 | 0 |
+| V | 8 | 0 | 0 | 0 |
+| P | 4 | 0 | 0 (6301 mandatory 4014's noSeatS holds on another segment, not the refused one) | 0 |
+| C, A | 0 | — | — | — |
+
+So no J238 (1) proof holds for 195 of the 196 counted refusals: at each a seat, a free spot or a route vertex stands
+within the bound of an input point, or the crossed run has a seat within the bound of the segment. Under the session's
+ruling J796 R-1 (binding on this round): each of the 195 is refused today with its typed code, NOT carried to M4 and NOT
+closed — OPEN IN M0 on the session's queue row opened at this round's landing, owed to this item's RESIDUAL ROUND (a
+source round the session specs from LINE 5 (d)'s per-case file). The one certified case (−6803 random 1707, class D) is
+carried with its certificate (C-0491 (2)). The certificates are sufficient conditions only (no seat ⇒ no in-bound
+route); their falsity shows a seat, not a route. Kernel-tiny's one counted refusal (7507 / 837, class S) is likewise
+not certified and OPEN IN M0. This table is the first seat's, taken on the pre-fix sources; the table on the FINAL
+sources is LINE 5 (a) below.
+
+### The round's mutant table (lane mirror; `s16-tools/run.sh`, restored and `cmp`-equal after each)
+
+| mutant | fault | result |
+|---|---|---|
+| MK | rewalk.ts's two `segmentBox(…, REACH)` at 1 cm | KILLED (1: rewalk.test.ts 'LINE 7 (round S16)') |
+| ML | recordHolding's reach at 1 cm | KILLED (2: snapRound.test.ts 'LINE 7 (round S16)') |
+| D-RL | the leave-after-join gate off | KILLED (1: snapRound.test.ts 'LINE 4 D (round S16)') |
+| E-WIDE | pass 5's list, `verticesWithin` and its query at 2 · FIDELITY_SQ / √2 · bound | KILLED (5: router.test.ts E-WIDE's land test, E-TIES's four) |
+| E-TIES | ties reversed (y then x descending) | KILLED (2: router.test.ts E-TIES k = 1, 2) |
+| E-JOINT | `joint` false | KILLED (2: router.test.ts E-JOINT, both reversed cases) |
+| STALE-K | snapRound.ts's leave gate reading k from `route`'s cached X / Y (the S14 line, before the source fix) | KILLED (1: snapRound.test.ts 'LINE 4 D (round S16)' fifth pass, kernel-tiny — the first seat's NEAR on the unfixed tree, `s16-chain/near.json`) |
+| NONE (control) | — | the S16 describes 16 / 16 (kernel) |
+
+The new pins on the base copy (`s16-basepins`, kernel, `-t S16`): MK, ML, E-WIDE (arena, the two refusals with the base's
+detail, the empty list) and D-RL's passes-1 – 4 test GREEN; D-RL's fifth-pass test, E-TIES and E-JOINT red there (pass 5
+does not exist on the base: they pin S14's pass 5).
+
+### Open (owed; nothing here is claimed done)
+
+The census residual of notBuilt #2 but its one certified case — every other counted refusal of the final census (LINE 5
+(a)) and the trio's one class-C case: refused today with its typed code, no J238 (1) proof, NOT carried to M4, NOT closed —
+OPEN IN M0 on the session's queue row, owed to this item's RESIDUAL ROUND (J796 R-1; its per-case evidence LINE 5 (d)'s
+file). FAR2 (stated in S15). The surviving mutants S-ANCH, S-PLAIN, P5-INSIDE, P5-ENDRULES, P5-NOEXT, DEPTH and FAR2 of
+the S15 verdict's table: queued by the session at the landing (no line of this round).
+
+### THE RESUME (seat 3, 2026-11-13; J796 R-1)
+
+The container restarted at about 00:29Z with the chain `s16-fix` running; its finished steps (`near.rc` 0, `undo.rc` 0,
+eighteen census seeds with their `.done`) stand, its partial ones (RELATED's single run, the stage-work run) were set
+aside (`related-partial-run1.log`, `work-tree2-partial-run1.log`) and re-run re-entrantly: `s16-fix/chain.sh` (run 2) —
+RELATED@1000 in chunks of 12 files under ONE recorded seed (PLAT_FUZZ_SEED=20261113; the file list from `vitest related
+--run -t '^__no_such_test__$'` with the JSON reporter, `related/list.json`, `related/chunk-NN.{files,json,log,rc}`), the
+census's remaining seeds (`census/<seed>{,.tiny}.{tsv,counts.jsonl,rc,done}`), LINE 5 (d)'s replay (`resid/`), the stage
+work PER FIXTURE on both sides in 18 chunks (`work/{base,tree}-chunk-NN.{jsonl,json,log,rc}` in the probe copies
+`s16-work/{base,tree}/plat`, each insertChain record carrying its test file; `an-work3.py` → `an-work-final.txt`), the
+trio, the bands folder and its bfuzz seeds — every step skipped when its exit-code file exists. The session's ruling J796 R-1 (THE CENSUS
+RESIDUAL OF notBuilt #2 IS SPLIT FROM THIS ROUND) governs every row above that names the residual.
+
+### LINE 2 (b): the source change, alone
+
+`diff -rq` of `packages/<p>/src` for every package between the S15 re-check's tree mirror
+`/home/user/maps-scratch/waves/check-M0-a-05/mirror/plat` (a `cp -a` of the S15 tree = the S14 sources, its `insert/`
+sources restored and `cmp`-equal after its sweep) and the final tree prints ONE line (`s16-fix/line2b-diff.txt`):
+`Files …/mirror/plat/packages/kernel/src/insert/snapRound.ts and …/plat/packages/kernel/src/insert/snapRound.ts differ`;
+and within it the gate alone:
+
+```
+670,671c670,675
+<     // The leave landed after the join (r8's 'start' form among them) stays within the bound in the fifth pass.
+<     if (beyondFifth(ctx, X[k], Y[k])) return err('E_INVARIANT', `a stretch's leave at (${X[k]}, ${Y[k]}) lands beyond the fidelity bound`);
+---
+>     // The leave landed after the join (r8's 'start' form among them) stays within the bound in the fifth pass. k may be
+>     // a vertex the landing just allocated, so its point is read from the tables as they stand now (C-0286 (4)'s re-read
+>     // rule: X / Y above are dead copies once a landing grows the vertex table; round S16).
+>     const kx = p.vertices.x[k];
+>     const ky = p.vertices.y[k];
+>     if (beyondFifth(ctx, kx, ky)) return err('E_INVARIANT', `a stretch's leave at (${kx}, ${ky}) lands beyond the fidelity bound`);
+```
+
+The message text is the same template (`a stretch's leave at (x, y) lands beyond the fidelity bound`).
+
+### LINE 2 (c): the audit of the fifth pass's reads from cached columns (the final tree, file:line)
+
+The vertex table grows only in `allocVertex` (arena/plat.ts:487, `growVertices` :402, C-0286 (4)); in `insert/` it is
+reached through `applyLanding` (stretch.ts:731), `planLandingAfter` (snapRound.ts:774, which ends in `applyLanding`) and
+`land` (insertChain.ts:160: `allocVertex` :172, :261; `applyLanding` :181, :208, :245, :257). crossings.ts, wedge.ts and
+placement.ts call none of them (their imports: no allocating function). Per site:
+
+| site | the cached columns | what may allocate before the read | verdict |
+|---|---|---|---|
+| snapRound.ts:596 `fifthExit(ctx, a, X[b], Y[b])` | `route`'s X / Y, :547 – :548 | nothing: the frame's only call before it is `routeBetween` (:582, a walk of existing edges); its `share` branch returns (:585) | precedes every allocation of the call |
+| snapRound.ts:602 `fifthExit(ctx, b, X[a], Y[a])` | the same | the same (:596's branch returns at :599) | precedes every allocation |
+| snapRound.ts:943 – :956 `fifthExit` / :239 `exitTowards` | none: `ctx.p.vertices` and `nearerVertex(p, …)` read per access | — | no cached column |
+| snapRound.ts:630 – :631 contact landing (`landingPoint(p, l.value)`, `beyondFifth`) | none (`landingPoint` reads `p.vertices`) | — | fresh; before :636's `applyLanding` |
+| snapRound.ts:657 – :659 the stretch's join and leave planned | none (`landingPoint`) | — | fresh; before :663's `applyLanding` |
+| snapRound.ts:673 – :675 the leave landed after the join | none since round S16 (`p.vertices.x[k]`) | :663 `applyLanding` (j), :668 `planLandingAfter` (k) | FIXED (LINE 2 (b)); STALE-K pins it |
+| snapRound.ts:776 – :794 `planLandingAfter` | its own X / Y, :776 – :777, taken after j's allocation | `applyLanding` only at :794, its last statement | every read precedes the call's allocation |
+| snapRound.ts:703 – :704 the wedge corner's bound (`inInputBound(st.a, st.b, X[k], Y[k])`, `ctx.fifth` read as `st`) | `route`'s X / Y | nothing: every allocating branch above it returns (:636 → :639, :663 → :689); `resolveCrossings`, `cornerMove`, `wedgeOutcome` (crossings.ts, wedge.ts) allocate nothing | precedes every allocation of the call |
+| snapRound.ts:899 – :937 `stripLanding` (`P = ctx.p.vertices`, :906; reads :933, :936) | `P`, its entry | `sliverPartner`, `stripPartner`, `placeOnRun` (crossings.ts), `nearestVertexWithin` (stretch.ts:965) — none allocates | a function that allocates nothing |
+| stretch.ts:864 – :954 `attractStretch` (X / Y :866 – :867; `beyondFifth` :904, :941, :946) | its entry | its calls (`query`, `charge`, `pieceOf`, `passesWithin`, `withinSegment`, `bandInterval`, `footOnSegment`, `endStretchAt`, `firstFrom`, `onRouteOfLevel`, `nearParallel`) — none allocates | a function that allocates nothing |
+| stretch.ts:965 – :986 `nearestVertexWithin` | its entry | `charge`, `query` | allocates nothing |
+| stretch.ts:415 / :430 `inInputBound` / `beyondFifth` | none (arguments only) | — | — |
+| insertChain.ts:489 – :617 `stepTwoStrip`, the fifth pass's landing list :584 – :610 (X / Y :493 – :494; `all`, its `at` points, the sort :604, `fifthPick` :606 – :608) | its entry | `across` / `nearest` / `onEdge` / `free` (`placeOnRun`, `nearestVertexWithin`, `endLanding`, `freeSpot` :416), `verticesWithin` — none allocates ("Nothing written; refuses only E_WORK_LIMIT") | a function that allocates nothing; the landing it returns is written by `land` after it returns |
+| insertChain.ts:625 – :638 `verticesWithin` (X / Y :627 – :628) | its entry | `charge`, `query` | allocates nothing |
+| insertChain.ts:160 – :262 `land` (`landInBound` :168 – :184) | none: `p` is the Plat, every read `p.vertices.x[…]` per access (:162, :192, :209) | its allocations :172, :181, :208, :245, :257, :261 | no cached column |
+| insertChain.ts:1628 – :1675 `turns`, :1727 – :1745 the walk's joint branch, `fifthPick` :1638 – :1654, :1711 – :1714 | none: points by `pointOf(p, …)` and `dec.points` (the input) | `land`, `routeSegment` | no cached column |
+| insertChain.ts:914 – :… `inFidelity` (X / Y :916 – :917) and :1024 – :1081 `exactlyCovered` (X / Y :1025 – :1026) | their entries | nothing (pure arithmetic; `exactlyCovered` reads `p` afresh at its own entry) | allocate nothing |
+| insertChain.ts:1301 – :1311 r8 (`routed`, then `kept` → `wholeProblem` :881 / `inFidelity` :914) | each judge caches at its own entry, after the route | `routed` (the route's writes) | the reads follow the allocation and are taken after it |
+
+No other stale read in the fifth pass's code. The mechanical half — NEAR's kernel-tiny project, where every allocation
+is a growth — is the chain's `near.json` (below, 'Re-runs on the final sources'). Noted, not of the fifth pass (every
+pass): `route`'s `cutTo` (snapRound.ts:573) reads `X[x]`, `Y[x]` into a refusal's detail after :663's `applyLanding`
+(`reenters(j)` → `cutTo(j)`); j is a vertex on the segment's trail (`trail.marks`), so it stood before the frame's entry,
+and a growth copies the old rows unchanged — listed for the checker, not judged here.
+
+### LINE 3 (the S15 check's LINE 7): N-s8c-4 corrected (append-only) and FOR THE SESSION
+
+N-s8c-4 (the S8 closing check's row, above, unchanged) read MK and ML as "equivalent on lawful input". What the S16
+arenas show (measured in the probe copy `s16-cert/plat`, `zzreach.test.ts`, never in the tree — `allProblems` on each):
+
+- **MK's reading is CORRECTED** to: the + 0 / + 1 cm box misses a record only where its route and its walk part by more
+  than the box — here 6 cm (z (2 000, −6), an L2 vertex on the L0 route (0, 0) – (4 000, 0)) — and a floating cycle of
+  new edges sits inside that strip: the triangle's vertices stand 2 – 4 cm from the frame's edges, which `allProblems`
+  names ("vertex (1900, -4) stands within minEdge of edge (0, 0)–(2000, -6)" and three more). The reading's two
+  premises — §3.10's clearance row and a route-versus-walk strip ≤ 2.84 cm — are exactly what the arena breaks; on an
+  arena keeping both, the reading is an argument this round neither shows nor refutes. MK is KILLED off them only.
+- **ML's reading is CORRECTED** to: "such a midpoint passes within 2.84 cm of a finer edge, which `checkEdge`'s attractCm
+  row refuses first" does not hold as stated — the strip's edges here are L0 (the record is L1, walked through z on the
+  L0 run), not finer than the new L0 edge, and the edge beside a is incident to a (the row skips a shared end). The dip
+  arena alone passes `allProblems` ([]; the validator reads no route-to-walk offset); with b (1 900, −5) — ML's
+  refusal test — it breaks §3.10 ("vertex (1900, -5) stands within minEdge of edge (0, 0)–(2000, -6)"). ML is KILLED
+  on the dip (`recordHolding`'s test, a validator-clean arena whose z stands 6 cm off its route).
+
+FOR THE SESSION: neither arena is reachable by lawful input as built — both stand on a finer vertex 6 cm off its coarser
+route, beyond the hot-pixel bound every kernel write keeps (§3.6's placement moves a route by at most 0.71 cm per finer
+level; N-s8c-4's ≤ 2.84 cm strip), and MK's triangle and ML's b also break §3.10; no lawful input on which the kernel's
+outcome hangs on either reach is known to this round (none was searched beyond the families' differential N-s8c-4
+records: 0 differences over 470 794 insertions), so this round opens no queue row for it.
+
+### LINE 5: the census residual as ruled (J796 R-1)
+
+(d) THE FILE: `checks/M0-a-05-s16-evidence/residual-cases.tsv` (claimed by this round's notes record), one line per
+counted refusal of the FINAL census (`s16-fix/census`, both projects): project, seed, property, case, way, r1's class
+letter, the returned code and detail, the fifth pass's own discarded end for that chain, noSeat's and noSeatS's
+outcomes; a field longer than 2 000 characters cut at 2 000 with its length noted. The fifth pass's end is logged by a
+hook in the probe copy `/home/user/maps-scratch/waves/s16-cert/plat`, whose sources are the final tree's but for the
+hook (`diff -r` of every package's `src`: insertChain.ts alone — two lines setting `globalThis.__zzP5` after pass 5's
+`attempt` (its code and detail, 'commit' or 'retrace') and, where pass 5 does not run, the reason — never in the tree);
+its `zzreplay.test.ts` (S15's replay, extended: the code, the hook's reading, the project) replays each counted case of
+the final census (`s16-fix/resid/list-<project>.tsv`, from `mk-resid-list.py`) and evaluates `noSeat` at every input
+point and `noSeatS` on every input segment on the arena as the op's rollback leaves it; `s16-fix/mk-resid.py` joins the
+census's k-th counted refusal of a case with the replay's k-th (the census's detail, code and class equal to the
+replay's, every mismatch printed). The replay (`resid/replay-kernel.rc` 0, `resid/replay-tiny.rc` 0, `resid/replay.rc` 0;
+seat 4, after the restart of ~03:08Z, read them): 197 lines below the header — the kernel's 196 counted refusals (random
+104, constructive 41, mandatory-only 50, fidelity 1) and kernel-tiny's 1 (the fidelity property's 7507 / 837, the same
+input and the same detail as the kernel's fidelity row) — 0 mismatches (every census detail, code and class equal to the
+replay's); no field over 2 000 characters (the longest line 711); SHA-256
+56969110a86719f3072443f40bb53b25dc9cf0e65becd3ad590d629e57474792. THE TALLY, class × the fifth pass's end (both projects,
+from the file; 'retrace' = pass 5's attempt retraced, and no row ends in a pass-5 commit, as a counted refusal cannot):
+
+| class | E_BELOW_MIN_ANGLE | E_BELOW_MIN_EDGE | E_INVARIANT | E_LEVEL | retrace | total |
+|---|---|---|---|---|---|---|
+| D | 1 | 6 | 3 | 4 | 4 | 18 |
+| E | 6 | 4 | 6 | 1 | 34 | 51 |
+| P | 0 | 0 | 2 | 0 | 2 | 4 |
+| S | 1 | 7 | 68 | 11 | 12 | 99 (kernel 98 + kernel-tiny 1) |
+| V | 3 | 2 | 0 | 0 | 3 | 8 |
+| W | 0 | 1 | 11 | 2 | 3 | 17 |
+| total | 11 | 20 | 90 | 18 | 58 | 197 |
+
+No row's fifth-pass end is E_WORK_LIMIT and none is 'not run' (pass 5 ran on every counted refusal of the census: each
+is a refusal for the bound).
+
+(a) THE TABLE on the final sources (from the file; C-0491 (2)) — refusals / noSeat at any input point / noSeatS on the
+refused segment / carriable, the kernel's census (kernel-tiny's one row, S, adds 1 / 0 / 0 / 0 to S):
+
+| class | refusals | noSeat at an input point | noSeatS on the refused segment | carriable |
+|---|---|---|---|---|
+| E | 51 | 0 | 0 | 0 |
+| S | 98 | 0 | 0 | 0 |
+| D | 18 | 0 | 1 | 1 |
+| W | 17 | 0 | 0 | 0 |
+| V | 8 | 0 | 0 | 0 |
+| P | 4 | 0 | 0 | 0 |
+| C, A | 0 | — | — | — |
+| total | 196 | 0 | 1 | 1 |
+
+The file reproduces C-0491 (2)'s counts cell for cell (`awk -F'\t' 'NR>1 && $1=="kernel"{print $6}' … | sort | uniq -c`).
+
+(b) THE ONE CERTIFIED CASE (C-0491 (2)): −6803, random 1707, way:b1 (level 1), class D; the input segment (1 504, 2 188)
+→ (1 463, 2 201) crosses ONE level-≤ 1 edge, the L1 run (1 486, 2 309) – (1 537, 1 535) (probe `zzcross.test.ts` in
+`s16-cert`, `s16-tools/out/cross.txt`): `seatsOfSegment` = {crossed 1, notSpanning [], seats [], vertices []} — carried
+with that certificate (§3.6 'no existing vertex moves'; M4's rounding move of committed geometry the later material).
+
+(c) THE REST: every other counted refusal of the final census, and the trio's one class-C case — refused today with its
+typed code; no J238 (1) proof; NOT carried to M4, NOT closed; OPEN IN M0 on the session's queue row, owed to this item's
+RESIDUAL ROUND (C-0491 (3)). '(notBuilt #2, M4)' in the registers and details is the class's NAME (J697), not a carry.
+
+### Re-runs on the final sources (chain `s16-fix`; seats 3 – 4)
+
+All on the final sources (the tree after the leave gate's re-read; `packages/*/src` byte-identical to the tree in every
+copy named, but the probes' stated hooks). Seat 4 re-started the chain after the container restart of ~03:08Z (every
+finished step kept by its exit-code file).
+
+- NEAR (`near.json`, `near.rc` 0): `corepack pnpm exec vitest run --project kernel --project kernel-tiny --maxWorkers=1
+  packages/kernel/test/insert/step3-5` — 28 files, **804 / 804** green (kernel 402, kernel-tiny 402).
+- THE UNDO ORACLE (`undo.log`, `undo.rc` 0): `PLAT_UNDO_ORACLE=1 corepack pnpm exec vitest run --project kernel
+  --maxWorkers=1 packages/kernel/test/insert/step3-5 packages/kernel/test/tx/write-door.test.ts
+  packages/kernel/test/tx/door.test.ts` — 16 files, **415 / 415** green, 419 s.
+- THE AFTER CENSUS IN FULL (LINE 4 (d); `s16-fix/seed.sh <seed>` per seed — kernel bfuzz.test.ts + fidelity.test.ts,
+  kernel-tiny fidelity.test.ts, PLAT_FUZZ_SEED = the seed, 10⁴ each, per-case log PLAT_FUZZ_CASELOG and counts
+  PLAT_FUZZ_COUNTS; `census/<seed>{,.tiny}.{tsv,counts.jsonl,rc}`): the 32 seeds (caps.ts's 31 and 20261013), all 64 runs
+  rc 0. Against S14's AFTER (`s14-after/census`, the pre-fix sources; `s16-tools/cmp-census.sh`, `s16-fix/cmp-census.txt`):
+  **every per-case line byte-identical on all 64 logs** (no line moved, so none to declare: no chain the stale read made
+  the fifth pass refuse commits on the census — a table growth inside pass 5's leave landing never decided a census
+  case); the counts files differ only in the `cap` field (caps.ts's ratchet re-recorded by S14 after the S14-AFTER run;
+  96 cap fields, every other field equal). Counted refusals: kernel random 104, constructive 41, mandatory-only 50,
+  fidelity 1 (= 196: E 51, S 98, D 18, W 17, V 8, P 4; C, A 0); kernel-tiny fidelity 1 (S) — equal to S14's AFTER in
+  every cell, never above it. SHA-256 of `cat census/*.tsv`:
+  dc85cce38b58eac3ba8713b1df0db5c29319b41fab7ee4ff3b509675ef1a81d3.
+- LINE 5 (d): above ('LINE 5: the census residual as ruled').
+- M0-a-08's TRIO at seed 8611 × 1 000 (`trio.log`, `trio.rc` 0; PLAT_FUZZ_SEED=8611 PLAT_FUZZ_RUNS=1000
+  PLAT_REFUSALS_OUT / PLAT_FUZZ_COUNTS, the five files of testkit/test/kernel/arr-booleans-buffers/ as S14 ran them): 5
+  files, 96 / 96 green; **83 refused lines, all E_INVARIANT of insertChain**, sorted SHA-256
+  e77dec17ca7eda6affd8243b66b652589eab18152f42be65c9064f5399bb2da3 — **byte-identical to S14's AFTER**
+  (`s14-after/trio-refused.jsonl`, the same sorted SHA-256; `trio-counts.jsonl` equal). Its one class-C case: offsetFace,
+  source arb, seed 8611, "no route from (9637, -10510) to (10952, -12837) … class C … the vertex (10937, -12804) stands
+  within minEdge of the edge (10952, -12837)–(10866, -12801)" — OPEN IN M0 (above).
+- THE STAGE ROOTS (`corepack pnpm bench -- profile --seed N --run R --mode plain --load-max 99 --load-wait 0`, in a
+  `cp -a` of the final tree, `/home/user/maps-scratch/waves/s16-roots/tree/plat` — `diff -rq` of every `packages/*/src`
+  against the tree: empty, `s16-roots/src-diff.txt` — logs `s16-roots/tree-<run>-<seed>.log`; the base side S15's
+  `s15-roots/base-*`, the base being unchanged): fusion 3 db72c0bf0fa021ca873fd7f5f6f30d7b (lanes 1 207, blocks 1 057),
+  integrated 4 e9e96e0e6a2e88e587c968796e0ef03e (1 373 / 1 310), fusion 1 ee1e0f22ad1ee1e6d4464f6e4fa571fb (1 194 / 1 058),
+  integrated 1 be9e88bfa1be0d8d4e207ed36502744f (1 376 / 1 299) — **base = S15's tree = the final tree**.
+- RELATED@1000 (LINE 4 (b); `related/`, PLAT_FUZZ_RUNS=1000 PLAT_FUZZ_SEED=20261113, W=1; the file list from `vitest
+  related --run -t '^__no_such_test__$'` over insert/{stretch,snapRound,insertChain}.ts: 496 files in 42 chunks of 12;
+  totals by `s16-fix/sum-related.py`): all 42 chunks run (`related/all.rc` 0; chunk rc 1 for chunks 04, 06, 07, 08 only —
+  the reds below), **7 471 tests: 7 459 passed, 11 failed, 1 skipped / todo**; no file registers no test at 1 000 runs
+  (s5seeds.test.ts, chunk 19, registers its 3 tests at that size and is green; its seven 'later rungs' cases register only
+  at full strength, Q202); J176's five bench Mac-reference files are not in the selection; Q153's dilation.test.ts
+  (chunk 33) green; kernel/test/tx/cost.test.ts (chunk 15, kernel and kernel-tiny) green, 6 / 6 each. THE 11 REDS — every
+  one named — are S14's and S15's RELATED set exactly (`s14-after/related.json`, `s15-related/related.json`: bands
+  closing.test.ts ×2, dryrun.test.ts 'draws 389 and 1109', hardening-s15.test.ts B-NEST 'network 561', restage.test.ts N1
+  and N2 — Q152's six; bench site compose.test.ts Q122 relief-60 seed 2 and spike.test.ts ×3 — S14's declared bench / site
+  reds) plus ONE: kernel/test/arr/bands/derived.test.ts 'line 9 … straight lanes on B-FUZZ's chord networks' — "expected
+  92 to be greater than or equal to 96" (the floor 'faces judged ≥ 12 per kept network' at 10 networks drawn, 8 kept).
+  NOT this round's: M0-a-09's file, a floor of a seeded random family at the reduced size; the same test at the same seed
+  and size in the base probe (`s16-work/base/plat`, the base's sources but insertChain.ts's inert counter, unset here) is
+  red with the SAME figures (`s16-fix/derived/base.log`: "networks drawn 10 kept 8 … cuts 24 … faces judged 92", every
+  count of its DERIVED line equal to the tree's but the timings) — S14 / S15 ran RELATED with PLAT_FUZZ_SEED unset and
+  met another draw. A NOTE FOR THE SESSION (seed 20261113, PLAT_FUZZ_RUNS=1000; replay `PLAT_FUZZ_RUNS=1000
+  PLAT_FUZZ_SEED=20261113 corepack pnpm exec vitest run --project kernel packages/kernel/test/arr/bands/derived.test.ts
+  -t 'straight lanes on B-FUZZ'`), no failing line here. Chunks 21 – 41 (3 406 tests) add no red: the red set is S14's / S15's
+  ten and the base-red derived.test.ts line, nothing else.
+- THE BANDS FOLDER at the base's recorded seed (PLAT_FUZZ_SEED=-906380766, kernel, `bands.json`) and bfuzz.test.ts at
+  20261011, 1012, 1, 2, 3, 4 (`bandsbfuzz-<s>.log`), against S14's AFTER (`s14-after/bands-tree.json`,
+  `s14-after/bandsbfuzz-<s>.log`): `bands.rc` 1 — 227 tests, **6 failed: Q152's six** (closing.test.ts ×2, dryrun.test.ts
+  'draws 389 and 1109', hardening-s15.test.ts B-NEST, restage.test.ts N1 and N2), the same 227 tests with the same status
+  each as S14's AFTER and **every failure message byte-identical** to it (ANSI codes and `at` stack lines stripped; seat 5's
+  comparison, the JSON reporters' `assertionResults`); `bandsbfuzz-<s>.rc` 0 at all six seeds (3 / 3 green each) and
+  **every line of each log — the REFUSAL lines, the 'B-FUZZ bands: … refusals per operation … by cause … closings' cell
+  lines — identical to S14's AFTER** but the timings (`diff` after stripping ANSI codes and the lines carrying a duration).
+  No test and no cell moved, so none to declare; the six declared reds stay red with their messages unchanged.
+
+### LINE 12 (f): the stage fixtures' work (seat 5; chain `s16-fix`, steps `work/{base,tree}-chunk-NN`, `an-work-final.txt`)
+
+- THE PROBES: `/home/user/maps-scratch/waves/s16-work/base/plat` (a copy of THE BASE) and
+  `/home/user/maps-scratch/waves/s16-work/tree/plat` (a copy of the FINAL tree, its snapRound.ts `cmp`-equal to the tree's),
+  each with ONE file instrumented — `packages/kernel/src/insert/insertChain.ts`, a counter appending one JSON line per
+  `insertChain` call (its test file, level, class, points, the result's code and detail, the placed points, the call's
+  work `tx.work.total` delta, and on the tree pass 5's own spend, segment count and end) to `ZZINS`, and on the tree the
+  marker of a pass-5 commit; nothing else differs: `diff -r` of each probe's `packages/*/src` against its side,
+  `s16-fix/work/probe-src-diff.txt` (SHA-256 c8667312e4b05ac5df34c3b9422a69f4d662dd1bb09439bde2b6f76244d8db24; insertChain.ts
+  alone on both sides, the lines quoted there).
+- THE RUNS: the layout and site suites — 145 test files in 18 lists `work/list-NN.files` — per list and side
+  `ZZINS=<side>-chunk-NN.jsonl PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest run --project layout --project site
+  --maxWorkers=1 --reporter=default --reporter=json` (logs, JSON reports and rc beside each); PLAT_FUZZ_SEED unset — the
+  stage fixtures' own seeds; base and tree draw the same calls up to the first moved outcome (below). Read by
+  `s16-fix/an-work3.py` → `s16-fix/an-work-final.txt` (SHA-256 5bd92020a58e69a98813590ccdf7b48395709a60dcca62f921e4a16d42e43093).
+  Tests: 1 503 / 1 503 passed on each side; the one failed FILE on each side is layout/test/enceinte/s5seeds.test.ts
+  ('No test found' at 1 000 runs; Q202, declared, red on both).
+- TOTALS base → tree: calls **6 438 327 → 6 459 464** (+21 137); refused **1 364 → 1 381** (+17); work **89 444 550 →
+  89 864 517** (+419 967); **E_WORK_LIMIT 3 → 3** (all three in layout/test/pipeline/core/runner.test.ts on both sides — its
+  pinned work-limit case, the same three records base = tree); pass 5 on the tree: **14 runs, 1 commit, spend 172 517**,
+  worst 26 645 a segment (a one-segment chain, refused, discarded). Record digests (an-work2.py's rule): base 586b5a8b…0755f,
+  tree adc3cd58…9c18e — BOTH equal to the first chain's reading (`an-work-firstchain.txt`, taken before the leave gate's
+  re-read): the re-read moved no stage fixture's call. **No NEW E_WORK_LIMIT on any fixture**, so nothing to declare or
+  report to M0-f-03b; cost.test.ts green (RELATED, chunk 15).
+- PER FIXTURE: 78 of the 82 fixtures that call insertChain are equal base = tree in calls, refused, E_WORK_LIMIT and work
+  (the full table in `an-work-final.txt`). The four that differ (base calls / refused / E_WORK_LIMIT / work → tree; tree
+  pass 5 runs / commits / spend):
+  | fixture | base | tree | pass 5 |
+  |---|---|---|---|
+  | layout/test/districts/q133.test.ts | 428 003 / 52 / 0 / 5 850 535 | 428 003 / 52 / 0 / 5 961 103 | 9 / 0 / 110 568 |
+  | layout/test/enceinte/s3seeds.test.ts | 429 496 / 135 / 0 / 5 248 128 | 429 496 / 135 / 0 / 5 292 181 | 3 / 0 / 44 053 |
+  | layout/test/growth/s5ab/held-coarse.test.ts | 677 056 / 139 / 0 / 8 571 876 | 677 056 / 139 / 0 / 8 589 496 | 1 / 0 / 17 620 |
+  | layout/test/growth/s5ab/held.test.ts | 571 006 / 146 / 0 / 7 311 254 | 592 143 / 163 / 0 / 7 558 980 | 1 / 1 / 276 |
+- THE RECORDS ON ONE SIDE ONLY (14 base, 21 151 tree): 13 are the 13 discarded pass-5 runs (q133 9, s3seeds 3,
+  held-coarse 1) — the same chain, the same refusal code and detail byte for byte, its work raised by pass 5's spend (the
+  shift WORK IS A NAMED SHIFT SOURCE names; spent work is not rolled back); 1 is THE PASS-5 COMMIT: held.test.ts, a
+  two-point MANDATORY chain (−76 136, −2 715) → (−72 167, −3 211), refused on the base class W ('no route from (−76 136,
+  −2 715) to (−72 184, −3 202) keeps clearance … class W'), committed on the tree by pass 5 (spend 276). DECLARED (LINE 1's
+  shift, the S14 clause's 'a lawful input that was refused now commits'): from that call on the fixture's sequence
+  continues where the base's fell back — the base's remaining 494 598 calls all recur on the tree, which makes **21 137
+  more calls (a later chain of the same sequence, LINE 12's named source)**, among them 18 refusals, every one
+  E_DEGENERATE 'empty' (step 1's code for a chain empty after snapping — the stage's own probe chains, no bound refusal);
+  held.test.ts's bound refusals 1 → 0, its E_DEGENERATE 'empty' 145 → 163; the test green on both sides. No chain that
+  committed on the base commits otherwise on the tree in any fixture.
+- THE CENSUS, THE TRIO, THE BANDS AND THE ROOTS on these sources: above ('Re-runs on the final sources').
+
+### Gates (the tree, this round's final files; seat 5, after the container restart of ~05:07Z, chain `s16-fix` re-started and ended: `chain.done`)
+
+- `corepack pnpm install --frozen-lockfile` **0**; `corepack pnpm lint` **0** (its probe-red check red on the probe file
+  as it must be: `tools/lint/fixtures/probe/zz-probe.ts` Math.pow, Math.random, Math.sin, Date.now, performance.now …);
+  `corepack pnpm build` **0** — after the round's last edit (`/home/user/maps-scratch/waves/s16-gates/{install7,lint7,build7}.{log,rc}`).
+- NEAR (kernel + kernel-tiny, `packages/kernel/test/insert/step3-5`, full strength, W = 1): **804 / 804** (`s16-fix/near.rc` 0).
+- RELATED@1000 (PLAT_FUZZ_SEED=20261113, 42 chunks, W = 1): 7 471 tests, 11 red — exactly the declared set above (S14's /
+  S15's ten and derived.test.ts line 9, red on the base at the same seed and size); no red of this round.
+- THE UNDO ORACLE (PLAT_UNDO_ORACLE=1 over the folder with the door's two tests): **415 / 415** (`s16-fix/undo.rc` 0).
+- The census (32 seeds, both projects), the trio, the bands folder and its six bfuzz seeds, the stage roots and the stage
+  fixtures' work: above — equal to S14's AFTER in every count and per-case line (the census, the trio, the bands), base =
+  tree (the roots), no NEW E_WORK_LIMIT (the stage fixtures; one declared pass-5 commit).

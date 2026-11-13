@@ -10,11 +10,13 @@
 //
 // The wedge cap (C-0202 (3)) is step 4's wedge routing at its far end: its section follows.
 import { describe, expect, it } from 'vitest';
-import { outgoing, roleIdOf, rowsOn, type Plat } from '../../../src/arena/index.js';
-import { INSERT_CROSSINGS, placeOnRun } from '../../../src/insert/crossings.js';
+import { LATTICE, orient2d } from '../../../src/num/index.js';
+import { segmentCloserThan } from '../../../src/insert/placement.js';
+import { allocVertex, outgoing, roleIdOf, rowsOn, type Plat } from '../../../src/arena/index.js';
+import { exactCrossings, INSERT_CROSSINGS, placeOnRun, stripPartner } from '../../../src/insert/crossings.js';
 import { chainJournal, type ChainCtx } from '../../../src/insert/stretch.js';
 import { WEDGE_CAP_SQ, wedgeBound, wedgeOutcome } from '../../../src/insert/wedge.js';
-import { allProblems, buildArena, contentPrint, edgeRows, framed, halfEdgeBetween, indexed, ins, liveEdges, liveVertices, pt, segDist, tx, vertexAtPoint } from './support.js';
+import { allProblems, buildArena, contentPrint, edgeRows, framed, halfEdgeBetween, indexed, ins, liveEdges, liveVertices, pt, segDist, tx, vertexAtPoint, wideArena } from './support.js';
 
 const SQ = (x: number): number => x * x;
 
@@ -494,5 +496,61 @@ describe('N-c2-3 PO1: placeOnRun at an unsplittable sub-edge — null without pa
     expect(over.ok).toBe(true);
     if (!over.ok || over.value === null || over.value.kind !== 'split') throw new Error('a split on t – u');
     expect(over.value.plan.at).toEqual({ x: 2025, y: 2000 });
+  });
+});
+
+// Q77 (round S14, LINE 6), stated and pinned only: crossings.ts `stripPartner` asks whether a crossing (a lattice point
+// here) stands within `minEdge` + `attractCm` = 51 cm of a far sub-edge through num/exact.ts `segmentCloserThan` (a-01's
+// shape: strict, the tie past 2⁵³ decided in BigInt). Beyond 18.6 km at r = 51 the doubles' products can round to one
+// value; a lattice crossing exactly 2 inside reads closer, as the exact integers say (J697 (6): fail-safe as it stands).
+describe('Q77 (round S14): stripPartner\'s 51 cm test past 2⁵³ on a lattice crossing (pinned, a-01\'s shape)', () => {
+  it('a lattice point with o² = 51² · |ab|² − 2 beside a 30 km sub-edge, the doubles tied: closer than 51 cm', () => {
+    const [ax, ay, bx, by, px, py] = [-1400667, -539244, 1400668, 539245, -579725, -223134];
+    const o = orient2d(ax, ay, bx, by, px, py);
+    const l2 = (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
+    expect(Math.sqrt(l2)).toBeGreaterThan(1_860_000);
+    expect(o * o === 2601 * l2, 'one double for both products').toBe(true);
+    expect(BigInt(o) * BigInt(o)).toBe(2601n * BigInt(l2) - 2n);
+    expect(segmentCloserThan(px, py, ax, ay, bx, by, LATTICE.minEdgeCm + LATTICE.attractCm)).toBe(true);
+    expect(segmentCloserThan(px, py, bx, by, ax, ay, 51)).toBe(true);
+  });
+
+  // Round S15 (LINE 6; the closing check of S14's N-s14c-6): the same tie THROUGH crossings.ts `stripPartner` (its call
+  // of `segmentCloserThan`, the step across a strip's 51 cm test). The arrangement, every coordinate shifted by
+  // (2 000 000, 1 000 000) into a 2²⁴ cm arena: the far piece A (599 333, 460 756) – B (3 400 668, 1 539 245), one
+  // L0 edge 30 km long; the near piece u (1 420 145, 776 816) – w (1 420 405, 776 916), an L0 edge 279 cm long nearly parallel to A – B (its ends 51.0 cm and 51.0 cm off it, P a hair inside 51); the
+  // segment a (1 420 203, 777 052) → b (1 420 347, 776 680) crosses u – w at its midpoint P (1 420 275, 776 866) — a
+  // lattice point, t = ½ exactly — then A – B. P stands a hair inside 51 cm of A – B: o² = 51² · |AB|² − 2, both
+  // doubles' products one value. stripPartner returns A – B's sub-edge (the strip's far side within 51 cm of the
+  // crossing); were :219's test the doubles' strict one (Q77-219), the hair inside would read clear and it would return
+  // null.
+  it('through stripPartner: a lattice crossing a hair inside 51 cm of a 30 km far sub-edge, the doubles tied — the far side found (Q77-219)', () => {
+    const p = wideArena(512);
+    const t = tx(p, 0);
+    const [X0, Y0] = [2_000_000, 1_000_000];
+    const A: [number, number] = [-1400667 + X0, -539244 + Y0];
+    const B: [number, number] = [1400668 + X0, 539245 + Y0];
+    const P: [number, number] = [-579725 + X0, -223134 + Y0];
+    const rf = ins(t, [A, B], [{ role: 'way', entity: 'way:far' }]);
+    expect(rf.ok, rf.ok ? '' : `${rf.code} ${rf.detail}`).toBe(true);
+    expect(ins(t, [[P[0] - 130, P[1] - 50], [P[0] + 130, P[1] + 50]], [{ role: 'way', entity: 'way:near' }]).ok).toBe(true);
+    const a = allocVertex(p, pt(P[0] - 72, P[1] + 186), 0, 0);
+    const b = allocVertex(p, pt(P[0] + 72, P[1] - 186), 0, 0);
+    const ctx = { tx: t, p, n: 0, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: 0, txPairsFrom: 0, maxPass: 0, strict: false, undo: [] } as unknown as ChainCtx;
+    const cs = exactCrossings(ctx, a, b);
+    expect(cs.ok).toBe(true);
+    if (!cs.ok) return;
+    expect(cs.value.length).toBe(2);
+    const c = cs.value[0];
+    expect([c.t, c.x, c.y]).toEqual([0.5, P[0], P[1]]);
+    const l2 = (B[0] - A[0]) ** 2 + (B[1] - A[1]) ** 2;
+    const o = orient2d(A[0], A[1], B[0], B[1], P[0], P[1]);
+    expect(Math.sqrt(l2)).toBeGreaterThan(1_860_000);
+    expect(o * o === 2601 * l2, 'one double for both products').toBe(true);
+    expect(BigInt(o) * BigInt(o)).toBe(2601n * BigInt(l2) - 2n);
+    const sp = stripPartner(ctx, a, b, c);
+    expect(sp.ok).toBe(true);
+    if (!sp.ok || sp.value === null) throw new Error('the far side within 51 cm');
+    expect(sp.value.map((v) => [p.vertices.x[v], p.vertices.y[v]]).sort((u, w) => u[0] - w[0])).toEqual([A, B]);
   });
 });

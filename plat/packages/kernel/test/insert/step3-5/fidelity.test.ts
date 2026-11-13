@@ -10,7 +10,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Level } from '../../../src/types/index.js';
-import { countedRefusal, FUZZ_PARAMS, recordCounts, refusalCap } from './caps.js';
+import { CaseLog, ClassTally, countedRefusal, FUZZ_PARAMS, recordCounts, refusalCap, refusalClassOf } from './caps.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
@@ -23,8 +23,14 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
     let commits = 0;
     let invariant = 0;
     const other = new Map<string, number>();
+    // Round S14, LINE 5 (i): the counted refusals by class; the per-case log with PLAT_FUZZ_CASELOG set.
+    const classes = new ClassTally();
+    const caseLog = new CaseLog();
+    caseLog.begin('fidelity');
+    try {
     fc.assert(
       fc.property(fc.integer({ min: 1, max: 0x7fffffff }), (seed) => {
+        caseLog.nextCase();
         const rnd = generator(seed);
         const p = framed(4000);
         const level = intIn(rnd, 0, 2) as Level;
@@ -40,11 +46,18 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
           const t = tx(p, level);
           const before = contentPrint(p);
           const r = ins(t, c, [{ role: 'invisible', entity }]);
+          if (caseLog.logging) {
+            const outcome = r.ok ? `ok ${JSON.stringify(r.warnings)} ${r.value.placed.map((v) => `${p.vertices.x[v]},${p.vertices.y[v]}`).join(' ')}` : `${r.code} ${r.detail}`;
+            caseLog.add(r.ok ? 'ok' : r.code, !r.ok && countedRefusal(r.code, r.detail) ? refusalClassOf(r.detail) : '-', outcome, contentPrint(p), r.ok ? '' : r.detail);
+          }
           if (r.ok) {
             commits += 1;
             expect(fidelityProblems(p, level, 'mandatory', c, {}, r.value.placed, entity)).toEqual([]);
           } else {
-            if (countedRefusal(r.code, r.detail)) invariant += 1;
+            if (countedRefusal(r.code, r.detail)) {
+              invariant += 1;
+              classes.add(r.detail);
+            }
             else other.set(r.code, (other.get(r.code) ?? 0) + 1);
             expect(['E_INVARIANT', 'E_DEGENERATE', 'E_KEPT']).toContain(r.code);
             expect(contentPrint(p)).toBe(before);
@@ -55,8 +68,11 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
       }),
       FUZZ_PARAMS,
     );
+    } finally {
+      caseLog.end();
+    }
     console.log(`fidelity property: ${commits} committed; E_INVARIANT ${invariant} (cap ${CAP}); ${[...other].map(([c, n]) => `${c} ${n}`).join(', ')}`);
-    recordCounts('fidelity', RUNS, invariant, 0, CAP);
+    recordCounts('fidelity', RUNS, invariant, 0, CAP, classes);
     expect(commits).toBeGreaterThan(0);
     expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the property\'s cap, caps.ts)').toBeLessThanOrEqual(CAP);
   }, Math.max(TIMEOUT, RUNS * 40));
