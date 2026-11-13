@@ -1090,7 +1090,7 @@ describe('tributaries, by the same rule from secondary inlets', () => {
     // Tributary 0 fits and leaves by the frame; tributary 1 fits and ends on tributary 0's corridor (outfall join): its
     // joined cell is on tributary 0's course, not the river's. Were it read from the river's chain, tributary 1 would
     // end below tributary 0's bed there (3 436 against 3 442 cm on seed 1, 3 408 against 3 440 with hydroCoarsen).
-    // (That its flowTo names the river is the older note N-s3c-4, the session's routing: not read here.)
+    // (Its flowTo — tributary 0 since round S5, N-s3c-4 — is read by the title after this one.)
     const cases: [number, boolean][] = [
       [1, false],
       [1, true],
@@ -1120,6 +1120,136 @@ describe('tributaries, by the same rule from secondary inlets', () => {
         expect(r.report.rivers[k].maxCarveCm).toBe(deepestAlong(r.before, r.terrain, courseOf(b)));
       });
     }
+  });
+
+  it('a tributary received by another tributary flows to that tributary: its flowTo names the course whose corridor it ends on, never the river it does not meet; a tributary leaving by the frame carries none — eastward, river 160°, tributaries 250° and 70°, seeds 1 – 3, both cells (hardening round S5, N-s3c-4)', () => {
+    // Before round S5 every joining tributary's flowTo was the river's id: here tributary 1 read 'water:river:0', a course
+    // its end lies hundreds of metres from. The receiving course is the test's own reading: the cell nearest tributary
+    // 1's end over both earlier courses' raster paths lies on tributary 0's path, not the river's.
+    for (const seed of [1, 2, 3]) {
+      for (const coarse of [false, true]) {
+        const r = run(eastward, { inflowBearingCdeg: 16000, tributaries: [{ inflowBearingCdeg: 25000 }, { inflowBearingCdeg: 7000 }] }, seed, { hydroCoarsen: coarse });
+        expect([seed, coarse, r.report.rivers.map((o) => [o.id, o.fits, o.outfall])]).toEqual([
+          seed,
+          coarse,
+          [
+            ['water:river:0', true, 'frame'],
+            ['water:tributary:0', true, 'frame'],
+            ['water:tributary:1', true, 'join'],
+          ],
+        ]);
+        const [river, t0, t1] = r.bodies;
+        expect([seed, coarse, river.flowTo, t0.flowTo, t1.flowTo]).toEqual([seed, coarse, undefined, undefined, 'water:tributary:0']);
+        const g = rasterGeom(r.terrain);
+        const joined = joinedCellOf(r.terrain, [river, t0], courseOf(t1));
+        expect([seed, coarse, rasterise(g, courseOf(t0), true).cells.includes(joined), rasterise(g, courseOf(river), true).cells.includes(joined)]).toEqual([seed, coarse, true, false]);
+      }
+    }
+  });
+
+  it('a tributary received by the river flows to the river — alone, or the second of two both received by the river — valleyWithSide, river 90°, tributary 180°, seeds 1 – 2, both cells; river 80°, tributaries 170° and 350°, seed 1, both cells (hardening round S5, N-s3c-4)', () => {
+    for (const coarse of [false, true]) {
+      for (const seed of [1, 2]) {
+        const r = run(valleyWithSide, { inflowBearingCdeg: 9000, tributaries: [{ inflowBearingCdeg: 18000 }] }, seed, { hydroCoarsen: coarse });
+        expect([seed, coarse, r.report.rivers.map((o) => [o.id, o.fits, o.outfall])]).toEqual([
+          seed,
+          coarse,
+          [
+            ['water:river:0', true, 'frame'],
+            ['water:tributary:0', true, 'join'],
+          ],
+        ]);
+        expect([seed, coarse, r.bodies[0].flowTo, r.bodies[1].flowTo]).toEqual([seed, coarse, undefined, 'water:river:0']);
+      }
+      // Two tributaries, each ending on the river's corridor: the second flows to the river, never to the one before it.
+      const r = run(valleyWithSide, { inflowBearingCdeg: 8000, tributaries: [{ inflowBearingCdeg: 17000 }, { inflowBearingCdeg: 35000 }] }, 1, { hydroCoarsen: coarse });
+      expect([coarse, r.report.rivers.map((o) => [o.id, o.fits, o.outfall])]).toEqual([
+        coarse,
+        [
+          ['water:river:0', true, 'frame'],
+          ['water:tributary:0', true, 'join'],
+          ['water:tributary:1', true, 'join'],
+        ],
+      ]);
+      expect([coarse, r.bodies.map((b) => b.flowTo)]).toEqual([coarse, [undefined, 'water:river:0', 'water:river:0']]);
+      const g = rasterGeom(r.terrain);
+      const [river, t0, t1] = r.bodies;
+      expect([coarse, rasterise(g, courseOf(river), true).cells.includes(joinedCellOf(r.terrain, [river, t0], courseOf(t1)))]).toEqual([coarse, true]);
+    }
+  });
+
+  it('a joining tributary’s centreline cells inside the receiving channel keep the joint bed: never below it, never above the raster before any carve; their step above the receiving channel’s floor is at most the receiving course’s cut there, within the cap; both beds non-increasing — valleyFallingEast, river 80°, tributary 170°, seed 3, hydroCoarsen (hardening round S5, N-s3c-6)', () => {
+    // Round S3's rule: no channel lowers a course's centreline. So where the tributary arrives inside the river's channel
+    // its last cell keeps its own bed — here 724 cm, uncarved — 40 cm above the floor the river's channel lays there
+    // (684 cm, the cut the river's channel would make at that cell). The step is the designed outcome at M0 (N-s3c-6,
+    // the session's ruling J808): measured and pinned, never lowered.
+    const r = run(valleyFallingEast, { inflowBearingCdeg: 8000, tributaries: [{ inflowBearingCdeg: 17000 }] }, 3, { hydroCoarsen: true });
+    expect(r.report.rivers.map((o) => [o.kind, o.fits, o.outfall])).toEqual([
+      ['river', true, 'frame'],
+      ['tributary', true, 'join'],
+    ]);
+    expectCarveBars(r);
+    const [river, trib] = r.bodies;
+    const t = r.terrain;
+    const h = t.heightCm;
+    const g = rasterGeom(t);
+    const cap = CITY.carveMaxCm;
+    // The joint bed, the test's own reading: the running minimum of the raster before any carve along the river's path
+    // and along the tributary's path followed by its joined cell, repeated until nothing changes.
+    const rc = rasterise(g, courseOf(river), true);
+    const tc = rasterise(g, courseOf(trib), true).cells;
+    const joined = joinedCellOf(t, [river], courseOf(trib));
+    const chains = [rc.cells, tc[tc.length - 1] === joined ? tc : [...tc, joined]];
+    const bed = new Map<number, number>();
+    for (let changed = true; changed; ) {
+      changed = false;
+      for (const ch of chains) {
+        let low = Infinity;
+        for (const c of ch) {
+          low = Math.min(low, bed.get(c) ?? r.before[c]);
+          if (bed.get(c) !== low) {
+            if (bed.has(c)) changed = true;
+            bed.set(c, low);
+          }
+        }
+      }
+    }
+    // The river's channel floor at a cell (carveJoint's rule, the test's own reading): over the river's segments whose
+    // half-width covers the cell's centre, the least of max(the bed at the segment's upstream vertex, the raster before
+    // any carve less the cap); null where no segment covers it.
+    const course = courseOf(river);
+    const w = river.widthProfile ?? new Int32Array(0);
+    const floorAt = (c: number): number | null => {
+      const p = { x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm };
+      let best: number | null = null;
+      for (let v = 0; v + 1 < course.length; v += 1) {
+        const half = Math.max(w[v], w[v + 1]) * 0.5;
+        if (pointSegDist2(p, course[v], course[v + 1]) > half * half) continue;
+        const level = Math.max(h[rc.cells[rc.at[v]]], r.before[c] - cap);
+        if (best === null || level < best) best = level;
+      }
+      return best;
+    };
+    const onRiver = new Set(rc.cells);
+    const inside: [number, number, number, number, number][] = [];
+    for (const c of tc) {
+      if (onRiver.has(c)) continue;
+      const floor = floorAt(c);
+      if (floor === null) continue;
+      // never below the joint bed, never above the raster before any carve
+      expect([c, h[c]]).toEqual([c, bed.get(c)]);
+      expect(h[c]).toBeLessThanOrEqual(r.before[c]);
+      // the step above the receiving channel's floor is at most that channel's cut there (h ≤ the raster before), ≤ the cap
+      const step = h[c] - floor;
+      const cut = r.before[c] - floor;
+      expect(step).toBeLessThanOrEqual(cut);
+      expect(cut).toBeLessThanOrEqual(cap);
+      inside.push([tc.length - 1 - tc.indexOf(c), h[c], floor, step, cut]);
+    }
+    // The case the note names: the tributary's last cell, 40 cm above the river's channel floor there.
+    expect(inside).toEqual([[0, 724, 684, 40, 40]]);
+    expect(nonIncreasing(bedAlong(t, courseOf(river)))).toBe(true);
+    expect(nonIncreasing(bedAlong(t, courseOf(trib)))).toBe(true);
   });
 
   it('the reported deepest cut is read on the joint bed: where the re-level below a confluence is a course’s deepest cut, its maxCarveCm is that cut on the raster, deeper than its own planCarve cut — valley, river 80° / tributary 170° and river 200° / tributary 290°, seed 1 (hardening round S4, N-s3c-3)', () => {

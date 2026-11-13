@@ -85,6 +85,12 @@ export interface RiverOutcome {
   reachesCore: boolean;
   /** Where it ends: the frame edge, a joined river, or (degraded) the sink it could not cross. */
   outfall: 'frame' | 'join' | 'sink';
+  /**
+   * The deepest cut along the course's raster path (cm), read on the run's JOINT bed against the raster before any carve
+   * (hardening round S3, C-0510), shared cells included: where the course shares cells with another course — a
+   * confluence, the receiving course re-levelled below it — the other course's cut there counts, so it can exceed the
+   * course's own carve (hardening round S5, N-s3c-5).
+   */
   maxCarveCm: number;
   /** The corridor's D8 was set along the course (a fitting course; C-0173 (9)). */
   corridor: boolean;

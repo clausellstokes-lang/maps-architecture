@@ -707,3 +707,231 @@ replay, identical in what they read:
 No other red: none of the J176 reference-machine files, Q152's bands tests or Q153's flake failed on this run; every
 test of `packages/site/test/hydro` passed. The refusal census stands 0 → 0. `landed:verify -- flow-7 --item M0-e-02`
 after both records of this lane were written: exit 0; `lint` re-run after it: exit 0.
+
+## Hardening round S5 (lane `build/M0-e-02-fix-s5`, 2026-11-13; leg 1 of the merged round M0-e-02 S5 → M0-c-05 S6 → M0-t-00 S2 → M0-e-04 S6, J443, J808; queue row Q208; J237 (2), J238, J263 Q1, J264, J290, N-45, N-58) — the builder's row-by-row outcome
+
+The session's hardening round S5 of M0-e-02 on the three closing notes of round S3 (N-s3c-4, N-s3c-5, N-s3c-6 above;
+queue row Q208 and the records J800, J805, J808 read whole by their own greps). LINE 1 is the round's one source
+change and a DECLARED SHIFT of one field; LINE 2 is a doc sentence; LINE 3 is a pin and a statement — NO change to the
+carve (the session's ruling J808 (3)(a)). LINE 4 was ADDED BY THE SESSION at 08:32Z (J812, queue row Q210) while the
+build was in its RELATED chain: a second source change, no shift (the corridor owner map's container, for the head's red
+of `terrain/range.test.ts`'s one-door scan). Files changed: `packages/site/src/hydro/strategy.ts` (LINE 1, LINE 4),
+`packages/site/src/hydro/types.ts` (LINE 2, a comment), `packages/site/test/hydro/river.test.ts` (three titles added, one
+comment line of the S4 title N-s3c-2 updated). No index or barrel export added, removed or renamed (J263 Q1); no message
+text changed; no fixture or support helper changed.
+
+### LINE 1 (N-s3c-4) — FIXED (declared shift of `flowTo` for a tributary received by a tributary)
+
+*The change.* `strategy.ts` (`runRivers`, the tributary loop): a joining, fitting tributary's `flowTo` is the id of the
+plan that owns the corridor its trace ends on — `corridorOwner[best.trace.end.cell]`, the receiving course the joint bed
+already reads in `joinedCell` — the river's id where it joins the river (as before), the earlier tributary's where it
+joins that tributary (was the river's). A tributary that leaves by the frame or does not fit carries none (as before).
+The trace's join cell is always a stop cell (`trace.ts` `joinBeside` returns a cell with `stop[m] === 1`) and every stop
+cell's owner is written in the same loop as the stop mask, so a join always names an owner; were it ever absent the field
+is left out rather than guessed (no such run met).
+
+*The census (J264 (4)), the lane's probe in the lane's mirror* (a vitest file never in the tree;
+`maps-scratch/waves/build-M0-e-02-fix-s5/zz-census-s5.test.ts`): the item's ten fixtures (`valley`, `valleyWithSink`,
+`valleyWithCrater`, `valleyWithRidge`, `valleyFallingEast`, `eastward`, `valleyWithSide`, `gully`, `basin`,
+`valleyWithGully`) × nine river bearings 0°, 40°, … 320° × {no tributary, one at +90°, one at −90°, two at +90° and
+−90°} × default and `hydroCoarsen` × seeds 1 – 3, plus the no-bearing request with two tributaries — 2 220 `runRivers`
+runs (1 680 with a tributary, 2 280 tributaries, 541 joining); before = the mirror on the round's start sources
+(`strategy.ts` a4c1e0b8…, `types.ts` f48b0aa8…), after = the mirror on the tree's sources (`cmp`-equal):
+
+| measure (2 220 runs) | before → after |
+|---|---|
+| refusals / throws | 0 → 0 / 0 → 0 |
+| raster digest identical | 2 220 / 2 220 |
+| flow arrays (flowDir, flatRank, flowAccum, hydro grid) identical | 2 220 / 2 220 |
+| report identical (ladder uses, requested tiers, outcomes with every `maxCarveCm`, fits, outfalls) | 2 220 / 2 220 |
+| bodies identical with `flowTo` removed | 2 220 / 2 220 |
+| bodies identical | 2 115 / 2 220 — the 105 others differ in exactly one field |
+| tributaries received by a tributary (the probe's own reading: the course whose raster path holds the cell nearest the tributary's end is an earlier tributary) | 105, in 105 runs |
+| `flowTo` moved | 105 tributaries, every one `water:river:0` → `water:tributary:0`, every one a tributary received by a tributary |
+| `flowTo` after ≠ the probe's nearest-course reading | 0 of 541 joins |
+| `flowTo` after ≠ where D8 drains the tributary (the probe's second reading: the first cell of its drain off its own path lies on, or beside, that earlier course's hydrology path) | 0 of 541 joins |
+
+The 105, by fixture: `eastward` 24, `valley` 12, `valleyWithSink` 12, `valleyWithCrater` 12, `valleyFallingEast` 12,
+`valleyWithSide` 12, `valleyWithGully` 12, `gully` 6, `valleyWithRidge` 2, `basin` 1 — every one a two-tributary run
+(`t2@0`, `t2@16000`, `t2@28000`, `t2@32000` and the no-bearing request), tributary 1 received by tributary 0. The census
+reproduces the S3 closing check's count (105 such joins) on this seat's own sweep.
+
+*Every reader of the field, named and read* (none edited — each is another item's file):
+- `packages/model/src/records/site.ts` (M0-m-01), `WaterBody.flowTo?: Id`: an optional id with no constraint on the
+  kind it names — a tributary's id is a lawful value.
+- `packages/model/src/schema/order.ts` (M0-m-01), `waterBody`'s field order (`'flowFrom', 'flowTo', …`): orders the field
+  for the record's form; value-agnostic.
+- `packages/site/src/water/polygons.ts` (M0-e-03): `splitEstuary` splits the first `river` body only — a tributary
+  passes through unchanged, its `flowTo` copied as it is; `chainOf` (`else if (body.flowTo !== undefined)`) reads the
+  field for its PRESENCE only — the joined body is prolonged to the nearest course point over ALL earlier bodies within
+  JOIN_REACH_CM, whatever id it names; `estuaryPair` copies the ESTUARY's `flowTo` into the joined river; the
+  `waterPolygons` loop pairs a body with the next only when `next.kind === 'estuary'` and `body.flowTo === next.id`, and
+  `fastRings` looks up `b.id === body.flowTo && b.kind === 'estuary'` — a tributary's `flowTo` names an estuary neither
+  before (the river's id) nor after (a tributary's id). The other water files (`crossings.ts`, `faces.ts`, `outfalls.ts`,
+  `stage.ts`) do not read the field (grep). The session's reading CONFIRMED by reading: no polygon should move.
+- RUN — the water stage's own path (`runS1` on a fresh ground arena, `mouth: 'none'`) on every census run with a
+  tributary received by a tributary (105, the pinned runs among them), before and after: 105 / 105 ok both sides
+  (refusals 0 → 0); `dropped`, `fallbacks`, `retried`, `versions`, `stageEnd`, the crossing sites, the land components'
+  count, the warnings' count and `terrain.outfalls` identical on all 105; the output bodies identical with `flowTo`
+  removed on all 105; the output `flowTo` differs on 102 (tributary 1's, carried through: river → tributary 0) and is
+  identical on 3 (tributary 1 dropped `empty` on both sides: `valleyWithGully`, `valleyFallingEast` and
+  `valleyWithSide`, the no-bearing request, seed 1, `hydroCoarsen`). So the shift reaches S1's water set as the one field
+  and no polygon, fallback or refusal of the water stage moves.
+- `bench/src/site/receipts.ts` reads the bodies by kind only. THE BENCH'S SITE SUMMARY: its registered families
+  (`bench/src/site/fixtures.ts` `riverOn` over RELIEF_60 and RELIEF_3000) take `RIVER_BLUEPRINT`'s river
+  (`packages/layout/src/pipeline/base.ts`: `{ inflowBearingCdeg: 27000, mouth: 'none' }`, no tributaries), as does the
+  determinism spike, and testkit's edge rows request none: no registered family holds a tributary, let alone one received
+  by a tributary — the committed summary does not move by this line. The only tributary requests outside the item's
+  folder (`site/test/water` exit-bar, hardening-s4, references-row, stage; `layout/test/fields/support.ts`) ask ONE
+  tributary, which can only be received by the river: no test outside the folder reads the shift.
+
+*A note met, not this round's* (identical before and after; the water stage's, M0-e-03): on `eastward`, river 320°,
+tributaries 50° and 230°, seed 3, `hydroCoarsen`, `runS1` drops `water:tributary:0` with reason `refused` (fallbacks:
+tributary 0 "meets an earlier body; the kernel's ring: not clear (meets an earlier body)", tributary 1 "mouth: no
+mouth"); `valleyWithRidge` the no-bearing request, seed 3, `hydroCoarsen`, falls back on the river ("not simple") and on
+tributary 1 ("empty"). Both are the water stage's outcomes on S1 (3)'s lawful output, unmoved by this round — routed to
+the session as notes, with their runs.
+
+*Pins* (`river.test.ts`): "a tributary received by another tributary flows to that tributary: its flowTo names the course
+whose corridor it ends on …" — `eastward`, river 16000, tributaries 25000 and 7000, seeds 1 – 3 × default and
+`hydroCoarsen`: outcomes `[river fits frame, tributary 0 fits frame, tributary 1 fits join]`, `flowTo` `[undefined,
+undefined, 'water:tributary:0']`, and the test's own reading of the receiver (the cell nearest tributary 1's end over both
+earlier courses' raster paths is on tributary 0's path, not the river's). "a tributary received by the river flows to the
+river — alone, or the second of two both received by the river …" — `valleyWithSide`, river 9000 / tributary 18000, seeds
+1 – 2 × both cells (round S3's case): `flowTo` `'water:river:0'`; and `valleyWithSide`, river 8000, tributaries 17000 and
+35000, seed 1 × both cells: both join the river, `flowTo` `[undefined, 'water:river:0', 'water:river:0']`.
+
+### LINE 2 (N-s3c-5) — TEXT (comment only)
+
+`types.ts`, `RiverOutcome.maxCarveCm`: a doc comment — the deepest cut along the course's raster path, read on the run's
+joint bed against the raster before any carve, shared cells included, so it can exceed the course's own carve. The same
+sentence is in this round's choices row. COMMENT ONLY: `corepack pnpm build` before the line and after it (LINE 1 not yet
+applied) — `packages/site/dist/index.js` SHA-256 `001a22dab7a3d4659745d346c6ddfefa83b483bf6f6d792c3b1bbc4e0fdbc6a8` both
+times (158 633 bytes). (With LINE 1 the bundle is `13f0382c…cddd629f`, 158 725 bytes.) No second field: no M0 reader needs
+a course's own carve apart.
+
+### LINE 3 (N-s3c-6) — PINNED and STATED (no change to the carve; the session's ruling J808 (3)(a))
+
+*(a) The pin* — "a joining tributary's centreline cells inside the receiving channel keep the joint bed: never below it,
+never above the raster before any carve; their step above the receiving channel's floor is at most the receiving
+course's cut there, within the cap; both beds non-increasing — valleyFallingEast, river 80°, tributary 170°, seed 3,
+hydroCoarsen": the joint bed by the test's own fixpoint (the running minimum of the raster before any carve along the
+river's path and along the tributary's path followed by its joined cell, repeated until nothing changes); the river's
+channel floor at a cell by the test's own reading of `carveJoint`'s rule (over the river's segments whose half-width
+covers the cell's centre, the least of max(the bed at the segment's upstream vertex, the raster before less the cap));
+for every tributary path cell inside the river's channel and off the river's path: its height on the final raster EQUALS
+its joint bed, is ≤ the raster before, and its step above the floor ≤ the river's cut there ≤ carveMaxCm; the one such
+cell is the tributary's last, `[724, 684, 40, 40]` (height, floor, step, cut); `carveBars` and both beds non-increasing
+on the final raster.
+
+*The bound, proved from `carveJoint`:* a centreline cell c takes its joint bed `bed(c)` (the first loop) and no channel
+writes it (`if (beds.has(c)) continue`); `bed(c)` is a running minimum that starts from the raster before, so
+`bed(c) ≤ before(c)`. The receiving channel's floor at c is `L(c) = min over the covering segments of max(bedSeg,
+before(c) − cap)` (the level that loop would lay there). So the step `bed(c) − L(c) ≤ before(c) − L(c)` — the receiving
+course's cut there — `≤ cap`. The step is not bounded below by 0 in general (a receiving segment's upstream bed can lie
+above the joining cell), and it is never negative on the census (it is counted only where positive).
+
+*(a2) The census of the step, on LINE 1's census runs* (no new run; identical before and after — the raster did not
+move): a course's centreline cell inside another course's channel standing above that channel's floor —
+
+| relation | runs | cells | largest step | where |
+|---|---|---|---|---|
+| a joining course inside its RECEIVING course's channel (the note's case) | 34 | 34 (one per run: the joining course's last cell) | 246 cm | `valley`, `valleyWithSink`, `valleyWithCrater`, `valleyWithRidge` — t2@16000 (river 160°, tributaries 250° and 70°), seed 3, default: tributary 1's last cell 3 504 cm over the river's floor 3 258 cm |
+| the receiving course's centreline inside the JOINING course's channel | 9 | 11 | 128 cm | `gully` t1m@28000 (river 280°, tributary 190°), seed 2, default |
+| two courses not joined to each other | 3 | 3 | 200 cm | `basin` t2@0 seed 3 `hydroCoarsen` (the river inside a degraded tributary's channel; PLAUSIBLE — the probe reads a channel from the body's course and widths and cannot see whether `settled` left a degraded course uncarved, and no neighbour of the cell was lowered) |
+
+46 runs carry a step of any relation. The note's case, by fixture: `eastward` 15, `valleyFallingEast` 8, `gully` 3,
+`valleyWithGully` 2, `valleyWithSide` 2, `valley` 1, `valleyWithCrater` 1, `valleyWithRidge` 1, `valleyWithSink` 1;
+its steps in 25 cm bins 0 – 24: 8, 25 – 49: 8, 50 – 74: 4, 75 – 99: 5, 125 – 149: 3, 150 – 174: 2, 225 – 249: 4. In
+33 of the 34 the cell is uncarved (step = the receiving course's cut there); the step to an 8-neighbour inside the
+channel on no centreline, where one was lowered (26 of 34), is at most 246 cm. The bound holds on all 48 cells. The
+S3 closing check's figure (36 runs that moved by this alone, one dumped at 40 cm) counted runs that MOVED in round S3;
+this census counts the step as it stands — the note's 40 cm case is among the 34 (`valleyFallingEast` t1p@8000 s3C).
+
+*(b) The statement* (in this round's choices row): the step is the designed outcome of round S3's rule (no channel
+lowers another course's centreline); it is not made flush at M0 by the session's ruling (no bar and no M0 reader reads
+the channel's floor, and a lowering would re-open the joint bed rounds S3 and S4 closed — the unconditional form is the
+S3 check's mutant M1e: beds rise, a tributary ends below its receiver); the rule a later reader would take: a joining
+course's centreline cells inside the receiving channel lowered toward that channel's level, never below the receiving
+bed at the joined cell, never past the cap against the raster before any carve, the joining bed still non-increasing.
+
+*NO-SHIFT of the round's raster:* the census of LINE 1 — every raster digest before = after (2 220 / 2 220).
+
+### LINE 4 (Q210, J812; added by the session) — FIXED (no shift)
+
+*The red.* `packages/site/test/terrain/range.test.ts` 'the one door (the checker's source facts) › no source of
+@plat/site writes an Int32Array's cells but range.ts (a type-checked scan)' — M0-e-01's source fact: in @plat/site an
+Int32Array is a HEIGHT raster and its cells are written through `terrain/range.ts`'s `heightWriter` alone. Round S3's
+`corridorOwner` (the plan whose corridor holds each hydrology cell; the joint bed's `joinedCell` and LINE 1's
+`receiver` read it) was `new Int32Array(cellCount(field.grid)).fill(-1)` written in place — three findings of the scan.
+`vitest related` cannot select the test (it reads the sources from disk, it does not import them), so round S3's NEAR
+(over `test/hydro`) and its landing's gate never ran it. Read on this lane's tree before the line: the mutant ML4 below
+IS that tree's strategy.ts (sha256 `d1e79ee0…f0094` — lines 1 – 3 applied), and the scan reports exactly
+`hydro/strategy.ts: new Int32Array(cellCount(field.grid)).fill()` and `hydro/strategy.ts: corridorOwner[c]` twice.
+(The session's log of its head run, under docs/validation/, is not opened: CLEAN ROOM; the queue row Q210 and the ledger
+row J812 were not yet in `docs/M0-FIX-QUEUE.md` / `docs/PROGRESS.md` at 08:40Z by their own greps — the brief's text of
+the line is the source read.)
+
+*The fix (in strategy.ts, never in the scan).* `const corridorOwner = new Float64Array(cellCount(field.grid)).fill(-1);`
+with a comment saying why: an index into `plans`, not a height, so not the height type. WHICH AND WHY — a Float64Array
+rather than a narrower typed array or a plain array: it holds every integer to 2⁵³ exactly, past any count of plans an
+array can hold (< 2³²), so the "plan count checked against the type's range before the first write" holds by the type
+for every lawful request (the request schema bounds no tributary count; an Int16Array would need a runtime check whose
+failure on a lawful request of 32 767 or more tributaries is either a refusal of lawful input or an untested second
+container); the −1 sentinel is kept and every read (`owner < 0`, `chains[owner]`, `plans[receiver].id`) is the same
+number the Int32Array gave, cell for cell; a typed array keeps the packed, fixed-size layout a plain array would give up.
+No cast, no `any`, no union: the receiver is typed Float64Array and the scan's diagnostics-clean precondition holds.
+MEMORY (lane probe `zz-mem-s5.test.ts`, mirror only): 8 B per hydrology cell for 4 B before, transient, one map per run;
+at the largest registered grid — the bench's site size (900 ha, `bench/src/site/fixtures.ts` TEST_SIZE) at TOWN's 16 m
+cell, 300 × 300 = 90 000 cells — 360 000 B → 720 000 B (+ 352 KiB); at the item's census frame (100 ha) CITY 25 m,
+64 × 64 = 4 096 cells: 16 384 B → 32 768 B.
+
+*NO SHIFT.* LINE 1's census (the probe `zz-census-s5.test.ts`, 2 220 runs) before = this lane's tree with lines 1 – 3
+(`census-after/`, strategy.ts `d1e79ee0…`), after = with LINE 4 (`line4/census-l4/`, strategy.ts `11da3ee6…`): identical
+row for row, 2 220 / 2 220 — raster, flow, report, bodies with and without `flowTo`, outcomes, each tributary's `flowTo`
+(the 105 received by a tributary among them), the LINE 3 steps and the water stage's path on the 105 runs; the ten
+per-fixture files byte-identical (concatenated sha256 `cf3b9915…acca0b7` both sides); refusals 0 → 0, throws 0 → 0. The
+site bundle moves by the one declaration: `packages/site/dist/index.js` 158 725 bytes, SHA-256
+`13f0382c5c6d04213244e7857fb0c304a1a64b2c69bf7631d6184272cddd629f` (lines 1 – 3, rebuilt in the mirror) → 158 727 bytes,
+`55516ea9ad898c33bdd13cf461dcde8ecd08815d9d2e9f8c9daef0d99af23e2f` (with LINE 4; the tree's build and the mirror's agree)
+— the two bytes of `Int32Array` → `Float64Array` (the comment is stripped).
+
+*PINS.* `range.test.ts` in the tree, `vitest run --reporter=verbose`: 8 of 8 passed (the one-door scan among them). LINE 1's
+two `flowTo` pins and round S4's joint-bed pins read the owner map: green in NEAR below. *MUTANT ML4* (the container an
+Int32Array again — the pre-line strategy.ts): `range.test.ts` 1 failed | 7 passed (8), the scan's diff exactly the three
+lines of the evidence. *THE SCAN TESTS* (J812: `grep -rlE 'createProgram|readdirSync|readFileSync' --include='*.test.ts'
+packages/site/test` — `terrain/range.test.ts`, `water/one-door.test.ts`, `water/stage.test.ts`, `water/slow-rings.test.ts`),
+`PLAT_FUZZ_RUNS=1000`, one run, W = 1: 4 files, 39 / 39, exit 0 (seed 1244704082). No other disk-reading test of
+`packages/site/test` is red on this tree (nothing to report to another owner).
+
+### The mutant table (the lane's mirror `maps-scratch/waves/selfcheck-build-M0-e-02-fix-s5/plat`, isolation proved — no link into the tree, `@plat/kernel` and `@plat/model` resolving inside the mirror; each mutant alone, `vitest run --maxWorkers=1 --bail=1 packages/site/test/hydro`, the file restored by copy from the tree and `cmp`-checked after)
+
+| mutant | change | result |
+|---|---|---|
+| MA | `flowTo: mainId` restored (`...(joined && fits ? { flowTo: mainId } : {})`) | **red** on the S5 title "a tributary received by another tributary flows to that tributary …" (seed 1 default: `'water:river:0'` received against `'water:tributary:0'`); the S5 title "a tributary received by the river flows to the river …" run alone under it: **green** (1 passed) — the first pin red, the second green, as the line asks |
+| MB | the receiver taken as the previous plan (`plans[plans.length - 1].id`) | **red** on "a tributary received by the river flows to the river …" (the two-tributary `valleyWithSide` run: tributary 1 would name tributary 0) |
+| M1e | `carveJoint`'s channel skipping only its own cells (`if (cells.includes(c)) continue;`) — the S3 check's mutant, the unconditional lowering | **red** — the folder `--bail=1` at S4's unit title "carveJoint: … never on a centreline …"; run by title: S4's "no course's channel lowers another course's centreline …" (N-s3c-1) red and the S5 LINE 3 title red ("expected [1394, 684] to deeply equal [1394, 724]") |
+| ML4 | LINE 4: `corridorOwner` an `Int32Array` again (the tree's strategy.ts before the line, sha256 `d1e79ee0…`) — run `vitest run --maxWorkers=1 packages/site/test/terrain/range.test.ts` (the pin is M0-e-01's scan, outside the item's folder) | **red** — 'no source of @plat/site writes an Int32Array's cells but range.ts' fails with exactly `hydro/strategy.ts: new Int32Array(cellCount(field.grid)).fill()` and `hydro/strategy.ts: corridorOwner[c]` ×2; 1 failed, 7 passed (8); restored, `cmp` clean |
+
+The clean mirror after the mutants: 5 files, 80 / 80. LINE 2 is comment-only (no mutant owed); LINE 3 (b) is text.
+
+### Refusals (rule (4), J264 / N-58)
+
+The item's registered family as this round reads it — the census above (2 220 runs): refusals 0 → 0, throws 0 → 0;
+the water stage's path on the 105 shifted runs: refusals 0 → 0; after LINE 4, the same census: refusals 0 → 0, throws 0 → 0. No refusal to class.
+
+### Gates (M0.md §3 step 3; W = 1)
+
+`install --frozen-lockfile` 0 ("Already up to date"); `lint` 0 (eslint 1 324 files, 0 errors, 0 warnings; `lint:
+probe-red ok`, the ten planted lines of `zz-probe.ts` reported; 9 whole-tree checks); `build` 0 (the site bundle
+158 725 bytes); NEAR at full strength `vitest run --maxWorkers=1 packages/site/test/hydro`: 5 files, 80 / 80 (77
+before the round; + 3 titles), fast-check seed 417752367. AFTER LINE 4 (the tree with all four lines, 08:36 – 08:42):
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1 324 files, 0 errors, 0 warnings; probe-red ok; 9 whole-tree checks);
+`build` 0 (the site bundle 158 727 bytes, `55516ea9…`); NEAR `vitest run --maxWorkers=1 packages/site/test/hydro`: 5
+files, 80 / 80, seed 282202412; THE SCAN TESTS at `PLAT_FUZZ_RUNS=1000`: 4 files, 39 / 39 (LINE 4 above). The first
+RELATED chain (`maps-scratch/waves/build-M0-e-02-fix-s5/related/`, started 07:07 on the tree before LINE 4) is VOID —
+its chunks are kept, never summed (its process could not be stopped: the kill was refused by the platform's permission
+system, so the new chain waits for it to end, one test process of the lane at a time). RELATED@1000: PENDING — the
+lane's chain `maps-scratch/waves/build-M0-e-02-fix-s5/related2/`, AGAIN FROM CHUNK 0 on the tree with LINE 4 (RELATED's
+own list over `hydro/strategy.ts` and `hydro/types.ts`, kept from the void chain: 295 files in 25 chunks of 12 — LINE 4
+changes no import; `PLAT_FUZZ_RUNS=1000`, `PLAT_FUZZ_SEED=1113202605`, W = 1).

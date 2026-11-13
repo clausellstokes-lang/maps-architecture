@@ -453,7 +453,12 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
     const before = Int32Array.from(terrain.heightCm);
     const joint = new JointBed(before, params.carveMaxCm);
     const chains: { chain: number[]; laid: boolean }[] = [];
-    const corridorOwner = new Int32Array(cellCount(field.grid)).fill(-1);
+    // The corridor's owner per hydrology cell: an index into `plans`, −1 where no corridor lies — an index, not a height,
+    // so not the height type (an Int32Array cell of @plat/site is written through terrain/range.ts alone: M0-e-01's one
+    // door; hardening round S5, Q210). A Float64Array holds every integer to 2⁵³ exactly, past any count of plans an
+    // array can hold (< 2³²), so no plan index can leave its range and the −1 sentinel stays; its reads are the numbers
+    // the Int32Array gave, cell for cell.
+    const corridorOwner = new Float64Array(cellCount(field.grid)).fill(-1);
     /** The joined cell of a joining trace: the receiving course's chain cell nearest its end (the confluence), else −1. */
     const joinedCell = (trace: RiverTrace): number => {
       if (trace.end.kind !== 'join') return -1;
@@ -576,7 +581,12 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
           }
         }
       }
-      plans.push({ id, kind: 'tributary', trace: best.trace, course, corridor, band: params.tributaryBandCm, mouth: false, ...(joined && fits ? { flowTo: mainId } : {}), ordinal: t });
+      // A joining tributary flows to the course that RECEIVES it (hardening round S5, N-s3c-4): the owner of the corridor
+      // its trace ends on — the receiving course the joint bed reads (`joinedCell`) — the river or an earlier
+      // tributary. Every stop cell has its owner (both are written in one loop), so a join always names one; were it
+      // ever absent, the field is left out rather than guessed.
+      const receiver = joined && fits ? corridorOwner[best.trace.end.cell] : -1;
+      plans.push({ id, kind: 'tributary', trace: best.trace, course, corridor, band: params.tributaryBandCm, mouth: false, ...(receiver >= 0 ? { flowTo: plans[receiver].id } : {}), ordinal: t });
       requested.push({ feature: `river.tributary.${String(t)}`, delivered: fits ? 'full' : 'degraded', tier: fits ? tierOf(best.trace, best.attempt) : 4, entity: id, ...(fits ? {} : { cause: 'F-RIVER' }) });
       outcomes.push({ id, kind: 'tributary', attempt: best.attempt, fits, reachesCore: true, outfall: fits ? (joined ? 'join' : 'frame') : 'sink', maxCarveCm: planCarve(terrain, course, params.carveMaxCm).maxCarveCm, corridor: corridor !== null });
     }
