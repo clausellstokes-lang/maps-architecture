@@ -53,3 +53,12 @@ Nothing was left unfolded. The entries carry no `[SESSION: …]` marker: every v
 Two points are folded with a condition the seat must state:
 - **The suite-row case of E1 P3.** The merge/absorption row may not fire alone under any lawful batch, because `mergeFaces` refuses a shared structural edge with E_STRUCTURAL first (faces/merge.ts :61). If no lawful batch does it, the seat plants that row's text through `TxEnv.invariants` and says so.
 - **R12.** It is folded with its STOP-and-REPORT clause. My reading of facade/kernel.ts and facade/stamp.ts is that it CAN be done in the two files: `stampOf` reads the side-table stamp before an inline one, and every service is defined in `createKernel`.
+
+## Added by the session after the fold (J805, 2026-11-13)
+
+`spec-M0-e-03-S6.json` gains **LINE 2** — the two surviving mutants of this item's round S5 (the boundary of the sliver
+measure, K8; the winding read from the made ring, K9), accepted by the session as the closing checker's vetoable
+judgments at the eighty-fifth landing and bound here as test lines, so that the item's next round carries them. Tests
+only; no source line; it comes last in the leg's order of work. It was not part of the reviewed spec and changes
+nothing the review judged.
+
