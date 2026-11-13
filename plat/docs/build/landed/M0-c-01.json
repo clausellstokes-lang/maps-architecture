@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-01",
-  "lane": "build/M0-c-01-fix-s5",
-  "lanes": ["build/M0-c-01", "build/M0-c-01-fix1", "build/M0-c-01-int-g12-fix1", "build/M0-c-01-fix-s1", "build/M0-c-01-consolidate-1", "build/M0-c-01-fix-s2", "build/M0-c-01-fix-s3", "build/M0-c-01-fix-s4", "build/M0-c-01-fix-s5"],
+  "lane": "build/M0-c-01-fix-s6",
+  "lanes": ["build/M0-c-01", "build/M0-c-01-fix1", "build/M0-c-01-int-g12-fix1", "build/M0-c-01-fix-s1", "build/M0-c-01-consolidate-1", "build/M0-c-01-fix-s2", "build/M0-c-01-fix-s3", "build/M0-c-01-fix-s4", "build/M0-c-01-fix-s5", "build/M0-c-01-fix-s6"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-11-12T06:04:22.122Z",
+  "date": "2026-11-13T08:02:12.371Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/fixtures/", "plat/packages/layout/src/siting/", "plat/packages/layout/test/siting/"],
   "counts": { "created": 21, "changed": 2, "unchanged": 0, "deleted": 0 },
@@ -20,9 +20,9 @@
     { "path": "plat/packages/layout/src/siting/levelset.ts", "status": "created", "sha256": "1aa0f6537b4ba8bf6e1742c660097b2b30e7c29803923526409acffc78a9b756", "size": 17435 },
     { "path": "plat/packages/layout/src/siting/plaza.ts", "status": "created", "sha256": "bd2accf1db1ff90bb2a08af51eccea07525ba898bc197e3183ab826818e37c44", "size": 3921 },
     { "path": "plat/packages/layout/src/siting/routes.ts", "status": "created", "sha256": "8da711fcbf1443c942ff31e6dd622877bae60ba4e090b1bb9ecc0f926ea2cd85", "size": 11998 },
-    { "path": "plat/packages/layout/src/siting/slice.ts", "status": "created", "sha256": "b6975ca5c03fd15735219160acb17f649d6b7b4b36c284dd19a4b819ec82903e", "size": 14138 },
+    { "path": "plat/packages/layout/src/siting/slice.ts", "status": "created", "sha256": "74a5b00bebaf85e7ed7cba429c1716a9b0b29934cd8a2361ff4c3896770de2f3", "size": 14753 },
     { "path": "plat/packages/layout/src/siting/types.ts", "status": "created", "sha256": "e1e85448f048d32400136e68136591a83a80fbcaac8b09fdafe4b1f6e259ea2d", "size": 10672 },
-    { "path": "plat/packages/layout/test/siting/clear.test.ts", "status": "created", "sha256": "a603c690eb579d491464500ed3be67177daf05288d365bc8de725215cce8341e", "size": 19474 },
+    { "path": "plat/packages/layout/test/siting/clear.test.ts", "status": "created", "sha256": "bc226d212999e121f4671277a09ab8fd7ffa73d09093856e471439e98ee76f5e", "size": 22396 },
     { "path": "plat/packages/layout/test/siting/decks.test.ts", "status": "created", "sha256": "0bd764e0863870763b3fa98945e4365fb57297e124aaee730b700ca7b152cb0a", "size": 7281 },
     { "path": "plat/packages/layout/test/siting/field.test.ts", "status": "created", "sha256": "11ba8dd710b0a3c24ebb1f3d17bd4ba7e7a6896440fa0d211858ff7e6624d7de", "size": 5466 },
     { "path": "plat/packages/layout/test/siting/fixture.test.ts", "status": "created", "sha256": "583685314bab51a03e84753dfbcf0bf678fabed0d24dab012115a825fd83b940", "size": 5450 },
@@ -37,14 +37,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0167", "L-0172", "L-0280", "L-0364", "L-0460", "L-0601", "L-0603", "L-0816", "L-0818"],
-      "lines": ["968044e6dfb821bb", "be3531ff3491a3d9", "154307bb36f1c98f", "70ca29aa331d1345", "85273013a94471ad", "b71384e936169233", "3b4d5451faa95234", "3544546819aa6e1c", "a5619ab4d2a1be43"],
+      "ids": ["L-0167", "L-0172", "L-0280", "L-0364", "L-0460", "L-0601", "L-0603", "L-0816", "L-0818", "L-0827"],
+      "lines": ["968044e6dfb821bb", "be3531ff3491a3d9", "154307bb36f1c98f", "70ca29aa331d1345", "85273013a94471ad", "b71384e936169233", "3b4d5451faa95234", "3544546819aa6e1c", "a5619ab4d2a1be43", "3401a8496b77d4ae"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0201", "C-0204", "C-0249", "C-0289", "C-0332", "C-0397", "C-0398", "C-0496", "C-0497"],
-      "lines": ["47c1a613fc572824", "774ae6e1854c3938", "6737bce98d79d19c", "7b2684dc3d64fedc", "e7e6bc7141860d7f", "caebeab6578b3061", "853ba4d8d309895d", "72e3f25085a704c9", "dc3e0f5e6f8b4c39"],
+      "ids": ["C-0201", "C-0204", "C-0249", "C-0289", "C-0332", "C-0397", "C-0398", "C-0496", "C-0497", "C-0500"],
+      "lines": ["47c1a613fc572824", "774ae6e1854c3938", "6737bce98d79d19c", "7b2684dc3d64fedc", "e7e6bc7141860d7f", "caebeab6578b3061", "853ba4d8d309895d", "72e3f25085a704c9", "dc3e0f5e6f8b4c39", "e7d04d26a745db6b"],
       "removed": []
     }
   ]

@@ -18,7 +18,8 @@
 // loop ends because every round re-draws, drops, re-solves or reroutes within those caps. C-0397.
 // The stage-1 boundary keeps the main plaza inside and clear (`keepClear`, Q122; C-0496): the lattice triangles within
 // the attraction distance of the reservation are selected whole, so the boundary S3's trace pins never crosses the core
-// it must enclose (§4.2 S3 (9), F-WALL) — where T alone already holds them (every flat CITY seed), nothing moves.
+// it must enclose (§4.2 S3 (9), F-WALL) — where T alone already holds them (every flat CITY seed), nothing moves. The
+// gates and the committed outline read that set from one derivation (`stageOneSet`; round S6, N-s4c-1).
 import { CONCERNS, STAGES, type LatticePoint } from '@plat/kernel';
 import type { Destination, GateSite } from '@plat/model';
 import { workLimitOf, loadWorkLimits } from '@plat/tables';
@@ -29,7 +30,7 @@ import { buildLattice, inWater, siteCosts } from './lattice.js';
 import { levelSet } from './levelset.js';
 import { plaza as drawPlaza } from './plaza.js';
 import { gateRoutes, plazaTree, rerouteOutside, resolveOffDecks } from './routes.js';
-import type { Gate, GatePick, GateRoute, GateRung, Lattice, LevelSet, S3Slice, Site, Threshold, UnservedRoute } from './types.js';
+import type { Field, Gate, GatePick, GateRoute, GateRung, Lattice, LevelSet, S3Slice, Site, Threshold, UnservedRoute } from './types.js';
 
 /** The slice's options: a requested N₁, requested bearings, the water pull, route.nodes' limit, F-WALL's attempts. */
 export interface SliceOptions {
@@ -49,7 +50,7 @@ export const GATE_REDRAWS = 3;
 function boundaryOf(lattice: Lattice, fieldRoutes: GateRoute[], routes: GateRoute[], a1: number, areaCm2: number, pull: FieldOptions['pull']): { field: ReturnType<typeof fieldT>; threshold: Threshold; set: LevelSet; gates: (Gate | null)[] } {
   const field = fieldT(lattice, fieldRoutes, a1, pull === undefined ? {} : { pull });
   const threshold = stageThreshold(field, areaCm2);
-  const set = levelSet(field, threshold.t, { keepClear: reservedRings(lattice) });
+  const set = stageOneSet(lattice, field, threshold.t);
   const gates = gatesOnBoundary(routes, threshold.t, set);
   return { field, threshold, set, gates };
 }
@@ -60,6 +61,15 @@ function boundaryOf(lattice: Lattice, fieldRoutes: GateRoute[], routes: GateRout
  */
 function reservedRings(lattice: Lattice): LatticePoint[][] {
   return lattice.costs.reservations.map((r) => r.ring);
+}
+
+/**
+ * The stage-1 level set of `field` at `t` — the one derivation of it (round S6, N-s4c-1): `boundaryOf` (the gates, the
+ * deck rule's and the reroute's selection) and `finish` (the committed outline, the gates its pins) both read it, so the
+ * two always carry the rings kept clear (`reservedRings`) and never read two selections. No pins is the pins absent.
+ */
+function stageOneSet(lattice: Lattice, field: Field, t: number, pins: readonly LatticePoint[] = []): LevelSet {
+  return levelSet(field, t, { pins, keepClear: reservedRings(lattice) });
 }
 
 /** The first pair of gates at one point, as [earlier, later] route positions, or null. */
@@ -227,7 +237,7 @@ function finish(
   const gates: Gate[] = [];
   for (const g of b.gates) if (g !== null) gates.push(g);
   // The boundary's outline keeps the gates as its vertices (the trace pins them, M0-c-02).
-  const set = levelSet(b.field, b.threshold.t, { pins: gates.map((g) => g.at), keepClear: reservedRings(lattice) });
+  const set = stageOneSet(lattice, b.field, b.threshold.t, gates.map((g) => g.at));
   const gateSites: GateSite[] = gates.map((g) => ({ ordinal: g.ordinal, at: g.at, bearingCdeg: g.bearingCdeg as GateSite['bearingCdeg'], kind: 'main', forced: false }));
   const destinations: Destination[] = [];
   thePlaza.ring.forEach((p: LatticePoint, i: number) => destinations.push({ id: `plaza:0/attach:${String(i)}`, kind: 'plaza_attach', at: p }));

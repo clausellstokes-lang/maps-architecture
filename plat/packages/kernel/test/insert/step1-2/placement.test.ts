@@ -6,7 +6,7 @@
 // (iii) at the split's own ends (C-0284; its describe moved here from splitThrough.test.ts beside the (iii) cases).
 import { describe, expect, it } from 'vitest';
 import { addRole, allocEdgePair, allocVertex, createPlat, VERTEX_SPLIT, VERTEX_STEINER, type Plat } from '../../../src/arena/index.js';
-import { attachIndex } from '../../../src/index/index.js';
+import { attachIndex, routeRun } from '../../../src/index/index.js';
 import { attractVertex } from '../../../src/insert/attractVertex.js';
 import { INSERT_PLACEMENT_CANDIDATES, insertTx } from '../../../src/insert/classes.js';
 import { inSweptWedge, nearestLatticePoint, placementCandidates, placePoint, splitEndsBreachClearance } from '../../../src/insert/placement.js';
@@ -32,6 +32,7 @@ import {
   problems,
   pt,
   splitEndsBreach,
+  WEDGE_M,
   WEDGE_S,
   type ArenaSpec,
 } from './support.js';
@@ -481,6 +482,34 @@ describe('the rule, test by test', () => {
       const r = placePoint(insertTx(p, 2), h, exact);
       expect(r.ok && r.value).toMatchObject({ kind: 'endpoint', vertex: b.v[6] });
       expect(r.ok && r.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 723, y: 3092 } }]);
+      expect(r.ok && r.value.tried).toBeGreaterThan(40);
+    }
+  });
+
+  it('N-c6-1: WEDGE_S reflected in y, the handle end now (0, 718) — an exact position on the run’s SECOND sub-edge falls back onto that sub-edge’s near end (723, 908), not S, the nearer end of the sub-edge before it', () => {
+    const b = indexed(WEDGE_M);
+    const p = b.plat;
+    expect(problems(p)).toEqual([]);
+    // the run from its handle end: (0, 718) → S → (723, 908), whichever half-edge names it — so the sub-edge S–(723, 908)
+    // is its second (index 1), and the neighbour j − 1 is (0, 718)–S, whose nearer end to the position is S
+    for (const h of [b.he[8], b.he[8] ^ 1, b.he[9], b.he[9] ^ 1]) {
+      const run = routeRun(p, h).halfEdges;
+      expect(run.map((g) => pos(p, p.halfEdges.origin[g]))).toEqual([[0, 718], [181, 766]]);
+      expect(pos(p, p.halfEdges.origin[run[1] ^ 1])).toEqual([723, 908]);
+    }
+    // (626, 883)'s foot on the run's own-level route (723, 908) → (0, 718): on the sub-edge S–(723, 908) (560 cm long),
+    // ≈ 100 cm from (723, 908) and ≈ 460 cm from S (N-c5-1's position reflected)
+    const ux = -723;
+    const uy = -190;
+    const s = ((626 - 723) * ux + (883 - 908) * uy) / (ux * ux + uy * uy);
+    const exact = { x: 723 + s * ux, y: 908 + s * uy };
+    expect(d2(exact, { x: 723, y: 908 })).toBeLessThan(101 * 101);
+    expect(d2(exact, { x: 181, y: 766 })).toBeGreaterThan(450 * 450);
+    // the run named by any of its half-edges, either way round: one answer
+    for (const h of [b.he[8], b.he[8] ^ 1, b.he[9], b.he[9] ^ 1]) {
+      const r = placePoint(insertTx(p, 2), h, exact);
+      expect(r.ok && r.value).toMatchObject({ kind: 'endpoint', vertex: b.v[6] });
+      expect(r.ok && r.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 723, y: 908 } }]);
       expect(r.ok && r.value.tried).toBeGreaterThan(40);
     }
   });

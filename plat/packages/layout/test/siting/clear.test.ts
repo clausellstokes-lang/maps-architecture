@@ -376,3 +376,47 @@ describe("the clearing on the registered family's slices (C-0496's declared +1 n
     expect(againstPlaza(s)).toEqual(CLEAR);
   });
 });
+
+// Round S6 (N-s4c-3; the s4 closing check's notes): the 30 ha / 6 ha flat frame's seeds of 1 – 4 000 on which T's own
+// contour met the plaza before round S4, beyond 81 and 136 (above) — each a fixed case, since the property's 40 random
+// seeds rarely meet one (the clearing acts on about 0.45 % of them). On 2402 and 2643 T's own outline meets it too; on
+// 2643 the clearing adds TWO nodes (N-s4c-2: the stage-1 land is t₁'s plus the added cells, C-0017 / C-0496 refined).
+describe("the clearing on the small flat frame's fixed seeds (round S6's pins of N-s4c-3; 30 ha, 6 ha walled)", () => {
+  const CASES: readonly (readonly [seed: number, added: number, outlineToo: boolean])[] = [
+    [1229, 1, false],
+    [1484, 1, false],
+    [1902, 1, false],
+    [2402, 1, true],
+    [2466, 1, false],
+    [2643, 2, true],
+    [3529, 1, false],
+    [3716, 1, false],
+  ];
+  for (const [seed, want, outlineToo] of CASES) {
+    it(`seed ${String(seed)}: T's own ${outlineToo ? 'contour and outline meet' : 'contour meets'} the plaza; the committed boundary keeps it clear, T's selection plus exactly ${want === 1 ? 'one node' : 'two nodes'}`, () => {
+      const s = s3Slice(smallSite(seed, { frameAreaHa: 30, walledHa: 6 }));
+      // T's selection at t₁ alone: its exact contour (and on 2402, 2643 its outline) meets the plaza
+      const tOnly = levelSet(s.field, s.threshold.t);
+      const before = againstPlaza({ ...s, levelSet: tOnly });
+      expect(before.contourIn).toBeGreaterThan(0);
+      if (outlineToo) expect(before).toMatchObject({ clear: false });
+      if (outlineToo) expect(before.inside).toBeGreaterThan(0);
+      // the committed boundary: no outline, contour or gate point in the plaza; every plaza vertex strictly inside, 26 cm
+      expect(againstPlaza(s)).toEqual(CLEAR);
+      for (const q of s.plaza.ring) expect(insideRing(s.levelSet.outline, q)).toBe(true);
+      // the selection is T's (never lost) plus exactly the nodes the clearing adds, and the land t₁'s plus those cells
+      let added = 0;
+      for (let i = 0; i < tOnly.selected.length; i += 1) {
+        expect(tOnly.selected[i] === 1 && s.levelSet.selected[i] === 0).toBe(false);
+        if (s.levelSet.selected[i] === 1 && tOnly.selected[i] === 0) added += 1;
+      }
+      expect(added).toBe(want);
+      expect((s.levelSet.landCm2 - s.threshold.landCm2) / s.lattice.cellAreaCm2).toBeCloseTo(want, 6);
+      // every added node is the clearing's own (in its selection of the plaza's triangles alone, nothing by T), none the
+      // pocket fill's: on 2643 the second node is not a pocket left by the first
+      expect(s.levelSet.filled).toBe(tOnly.filled);
+      const byClearing = selectNodes(s.field, -1, [s.plaza.ring]).selected;
+      for (let i = 0; i < tOnly.selected.length; i += 1) if (s.levelSet.selected[i] === 1 && tOnly.selected[i] === 0) expect(byClearing[i], `node ${String(i)}`).toBe(1);
+    });
+  }
+});

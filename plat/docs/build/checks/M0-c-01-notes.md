@@ -584,3 +584,92 @@ Every restore `cmp`-equal (six restores). Without a mutant (the tree): `clear.te
 reported; 9 whole-tree checks); `build` 0. NEAR `packages/layout/test/siting`, full strength: 10 files, 124/124 (171 s,
 seed −1936390103). RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=1` over round S4's sources
 `src/siting/levelset.ts`, `src/siting/slice.ts`, `src/fixtures/flat.ts` — this round changed none): started 2026-11-12 00:40 (W = 1), 268 files, 3408/3408 passed, exit 0 (9005 s, seed 1574139750); no red (round S4's 3401 plus this round's 7 tests in `clear.test.ts`).
+
+## Hardening round S6 (lane `build/M0-c-01-fix-s6`, 2026-11-13) — the builder's row-by-row outcome
+
+The session's hardening round S6 of the item (J237 (2), J238, J567; queue row Q190; leg 3 of the merged round M0-a-04 S7
+→ M0-a-13 S3 → M0-c-01 S6, J443) on the three rows the closing check of round S4 wrote: N-s4c-1, N-s4c-3, N-s4c-2.
+Choices row C-0500 names all three; ledger row L-0827 in `CLEAN-ROOM.md` §2. Probes and mutants ran only in the lane
+mirror `/home/user/maps-scratch/waves/selfcheck-build-M0-c-01-fix-s6/` (a `cp -a` of `plat/`; isolation proved before
+the first one: no link into `/home/user/maps-architecture`, `@plat/kernel`'s realpath inside the mirror); each mutated
+file was restored from the tree and `cmp`-checked (every restore 0); the mirror is deleted at the end, its logs kept
+under `/home/user/maps-scratch/waves/build-M0-c-01-s6/evidence/`.
+
+### N-s4c-1 (Q190 (a); the check's mutant K4): FIXED (one source change, NO SHIFT), PINNED
+
+* **The defect.** `boundaryOf` (the gates, and the selection the deck rule and the reroute read) and `finish` (the
+  committed outline, the gates its pins) each called `levelSet` with its own options, so one call site could drop
+  `keepClear` while the other kept it (K4) and the gates and the outline would read two selections. No honest slice
+  showed it (the check's 30 903 slices), but the two call sites held one rule.
+* **The fix (`siting/slice.ts` only).** One file-local helper, `stageOneSet(lattice, field, t, pins = [])` →
+  `levelSet(field, t, { pins, keepClear: reservedRings(lattice) })`, is the only derivation of the stage-1 set; both
+  `boundaryOf` and `finish` call it (`finish` with the gates as pins). `levelSet` reads absent pins as `[]`, so
+  `boundaryOf`'s call is unchanged in effect. K4 can no longer be written as one call site's slip: dropping the rings
+  for one reader means calling something other than the helper. No export of `siting/index.ts` changes (the helper is
+  not exported; API frozen, J263 Q1).
+* **The pin.** Round S4's cell test (`clear.test.ts`, "Q52 E's cell 1918289972 …": S3 commits, the plaza clear). The one
+  mutant left of the class, **S6H** — the helper without the rings (`levelSet(field, t, { pins })`) — is red there: S3
+  refuses `E_SELF_INTERSECT` ("expected [ { cls: 'E_SELF_INTERSECT', … } ] to deeply equal []"), as round S4's MK1.
+* **NO-SHIFT shown (the mirror; BEFORE = the tree's `slice.ts` before this round, kept beside it as
+  `slice-before.ts` for the probe only; digests of the outline, the gates, the selection and the rest of the slice —
+  contour, land, passes, filled, threshold, gate sites, destinations, routes, picks, report):**
+  | family | slices | BEFORE → AFTER |
+  |---|---|---|
+  | the 30 ha / 6 ha flat frame (`flatFixture(seed, { frameAreaHa: 30, walledHa: 6 })`), seeds 1 – 4 000 | 4 000 | identical (0 differ, 0 throw) |
+  | the 400 ha / 30 ha site, seeds 1 – 500 | 500 | identical |
+  | the flat CITY fixture, seeds 1 – 40 | 40 | identical |
+  | `cell/bridge×frame` on the small river frame (testkit's `SMALL_RIVER`), indices 0 – 399 (`edgeSeed`; `edgeChain` to S3, the pipeline's own slice; two runs, `slice.ts` swapped between them) | 400 | identical (0 differ; 0 S3 refusals either side) |
+  The flat families ran both versions on the one site; the cell family ran twice because the pipeline's site carries
+  the runner's streams (a second `s3Slice` on it draws other values). No golden, digest or summary of any item moves.
+
+### N-s4c-3 (Q190 (b); tests only): PINNED
+
+* **The pins** (`clear.test.ts`, describe "the clearing on the small flat frame's fixed seeds (round S6's pins of
+  N-s4c-3; 30 ha, 6 ha walled)", one test per seed): seeds 1229, 1484, 1902, 2402, 2466, 2643, 3529, 3716 of the small
+  flat frame. Each: T's own selection at t₁ (`levelSet(field, t₁)`) has a contour point in the plaza, and on 2402 and
+  2643 its outline too (points inside, `keepsClear` false); the committed boundary has no outline, contour or gate point
+  in the plaza and keeps every plaza vertex strictly inside, 26 cm clear; the selection is T's (none lost) plus exactly
+  the nodes the clearing adds — one, two on 2643 — and the land t₁'s plus those cells; the pocket fill adds none
+  (`filled` equal to T's own) and every added node lies in the clearing's own selection of the plaza
+  (`selectNodes(field, −1, [plaza])`).
+* **Mutants (mirror; `clear.test.ts` whole without `--bail`, then the folder with `--bail=1`):** round S4's **MK1**
+  (`reservedRings` returns [], no ring kept clear): red on each of the eight (13 of 20 red: the cell, 81/136, indices 39
+  and 72, 19818 and the eight). **S6C1** (the clearing capped at one node per `clearNodes` call): red on 2643 —
+  `filled` 1, expected 0 — and on the other seven and the four interface pins (13 of 20). Its first run, before the
+  test carried the `filled` and clearing-own assertions, was green on 2643: under the cap the clearing adds node 230
+  and the pocket fill then takes node 251, so the count alone came out two; the assertions were added for that
+  reason (a pin made stronger, recorded here). Without a mutant: 20 / 20.
+
+### N-s4c-2 (Q190 (c); text only): the choices row
+
+* **The text.** Choices row C-0500 states the stage-1 boundary's land as measured: T's selection at t₁ plus the cells
+  the clearing adds — one on most seeds where it acts, two on the seeds named (2643; `cell/bridge×frame` index 256) —
+  and names C-0017 and C-0496 as the sentences it refines. The ledgers are append-only; no old row is edited.
+* **As measured here** (selection-based: the stage-1 selection less T's own at t₁): the 30 ha / 6 ha frame, seeds
+  1 – 4 000: 17 seeds add one node, one seed (2643) adds two (its land 1.718 cells over the stage-1 share, T's own
+  0.718), the rest none; the 400 ha / 30 ha site 1 – 500 and flat CITY 1 – 40: none; `cell/bridge×frame` 0 – 399:
+  indices 39, 59, 72, 157 and 333 (= 1918289972) add one node, index 256 (3745180060) adds two (1.718 cells over the share), the rest none. No selection lost a node of T's. The closing check's own sweep (31 494 slices) found never more than two.
+  No pin of its own (LINE 2's case on 2643 holds the figure).
+
+### The round's mutant table (the lane mirror; each restored from the tree, `cmp` 0)
+
+| id | file | the fault | `test/siting --bail=1` | `clear.test.ts` whole | result |
+|---|---|---|---|---|---|
+| S6H | siting/slice.ts | `stageOneSet` without the rings (`{ pins }` only) — the one mutant left of K4's class | rc 1 (the Q52 E cell: S3 `E_SELF_INTERSECT`; 117 s) | 13 / 20 red | **KILLED** |
+| MK1 | siting/slice.ts | `reservedRings` returns [] (round S4's) | rc 1 (the Q52 E cell) | 13 / 20 red, each of the eight seeds | **KILLED** |
+| S6C1 | siting/levelset.ts | `clearNodes` adds at most one node | rc 1 (the up-triangle ring) | 13 / 20 red, 2643 among them | **KILLED** (after the pin's strengthening, above) |
+
+### Census, behaviour, notes
+
+* **Refusal census (J264 (4), N-58), before → after:** the item's own families (`test/siting`) 0 → 0;
+  `cell/bridge×frame` 0 – 399 through S3, 0 → 0 (both sides committed every slice); Q52 E's cell 1918289972 committed at
+  S3 before and after. The census does not rise.
+* **Behaviour:** NO SHIFT (above); no export added, removed or renamed; no message text changed.
+* Not this round's (the brief): cell 1918289972's refusal at S5 (N-s4c-4) and the stale census lists (N-s4c-5).
+
+### The round's gates (this machine, W = 1; after the last source edit)
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1311 files, 0 errors, 0 warnings; probe-red ok, every planted line
+reported; 9 whole-tree checks); `build` 0. NEAR `packages/layout/test/siting`, full strength: 10 files, 132 / 132
+(121 s, seed 539026010; round S5's 124 plus the eight). RELATED@1000 (`PLAT_FUZZ_RUNS=1000 vitest related --run
+--maxWorkers=1 packages/layout/src/siting/slice.ts`): started 2026-11-13 04:57 (W = 1), 275 files, 3 477 / 3 478 passed, exit 1 (10 831 s, seed -1110696821); the one red is bench/test/site/summary.test.ts's canary ('the canary CITY record re-derived on this tree is the run's', relief-60 coarse seed 46: `4c9647bf…` vs the summary's `eb2046dd…`) — a declared red of the head (J772 (7)), not this round's: no test of the item's own and no other test failed. After the RELATED run (a fresh seat of the lane, the tree unchanged since 04:55): install --frozen-lockfile 0, lint 0 (probe-red ok, 9 whole-tree checks), build 0, NEAR `packages/layout/test/siting` re-run at full strength: 10 files, 132 / 132, exit 0 (132 s, seed -1641821302).
