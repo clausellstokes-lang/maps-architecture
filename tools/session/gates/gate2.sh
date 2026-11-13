@@ -53,11 +53,11 @@ PY
   python3 - $G.rel $TOTAL "$W" "$PLAT_FUZZ_SEED" "$SRCS" >> $G.sum <<'PY'
 import json,glob,sys,os
 d,total,w,seed,src=sys.argv[1:6]
-files=fp=ff=tests=tp=tf=0; reds=[]; bad=[]
+files=fp=ff=tests=tp=tf=0; reds=[]; bad=[]; names=set()   # a file is counted once by NAME (it may run in two projects)
 for j in sorted(glob.glob(d+'/???.json')):
     r=json.load(open(j))
     for t in r['testResults']:
-        files+=1
+        files+=1; names.add(t['name'])
         if t['status']=='passed': fp+=1
         else:
             ff+=1
@@ -68,8 +68,8 @@ for j in sorted(glob.glob(d+'/???.json')):
 for c in sorted(glob.glob(d+'/chunk.???')):
     i=c.rsplit('.',1)[1]
     if not os.path.exists(d+'/'+i+'.json'): bad.append(i)
-rc=0 if (ff==0 and not bad and files==int(total)) else 1
-print(f"related@1000 (workers={w}, in chunks of 12 files, seed {seed}: {src}) rc={rc} Test Files {ff} failed | {fp} passed ({files} of {total} listed); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
+rc=0 if (ff==0 and not bad and len(names)==int(total)) else 1
+print(f"related@1000 (workers={w}, in chunks of 12 files, seed {seed}: {src}) rc={rc} Test Files {ff} failed | {fp} passed ({files} results for {len(names)} of {total} listed files); Tests {tf} failed | {tp} passed ({tests});"+(f" chunks without a report: {bad};" if bad else ''))
 for x in reds[:20]: print('  related red: '+x)
 PY
 fi
